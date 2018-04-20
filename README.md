@@ -5,6 +5,6 @@
 
 > npm install
 
-### Run
+#### Run
 
-> ng serve
+> ng serve -open
