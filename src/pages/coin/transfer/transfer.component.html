@@ -1,3 +1,22 @@
-<p>
-  transfer works!
-</p>
+<app-header [header]="header"   ></app-header>
+
+<div>
+
+  <div class="weui-cells">
+    <div class="weui-cell">
+        <input class="weui-input" type="text" placeholder="收款人钱包地址" [(ngModel)]="transfer.toAdd" />
+    </div>
+      <div class="weui-cell">
+        <input class="weui-input" type="text" placeholder="转账金额" [(ngModel)]="transfer.amount" />
+    </div>
+    <div class="weui-cell">
+      <textarea class="weui-textarea" placeholder="备注" rows="3" [(ngModel)]="transfer.remark"
+                weui-textarea weui-cn="2" maxlength="20"></textarea>
+    </div>
+
+  </div>
+  <div class="weui-cells__tips">手续费：0.001ELA</div>
+
+
+  <button class="button-default bottom transfer-button">{{ 'confirm' | translate }}</button>
+</div>
