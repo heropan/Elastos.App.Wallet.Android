@@ -1,0 +1,19 @@
+<app-header [header]="header"   ></app-header>
+
+<div>
+
+  <ul class="mnemonic-list-write">
+    <li *ngFor="let item of selectList ; let i=index" (click)="onItem(0,i)">{{item.text}}</li>
+  </ul>
+
+
+
+  <ul class="mnemonic-list-read">
+    <li *ngFor="let item of mnemonicList ; let i=index" (click)="onItem(1,i)">{{item.text}}</li>
+  </ul>
+
+
+
+
+  <button class="button-default center" style="margin-top: 40px" (click)="onNext()">{{ 'confirm' | translate }}</button>
+</div>

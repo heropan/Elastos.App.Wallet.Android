@@ -1,0 +1,26 @@
+{
+  "welcome":"欢迎使用本应用",
+  "hello":"你好",
+  "get-lang":"获取语言类型",
+
+
+
+  "tab-home":"首页",
+  "tab-my":"我的",
+
+  "launcher-create-wallet":"创建钱包",
+  "launcher-backup-import":"从备份中导入",
+
+
+  "coin-recent-transfer":"最近转账记录",
+
+  "text-receive":"接收",
+  "text-transfer":"发送",
+
+  "text-memory":"已经记下了",
+  "text-mnemonic":"助记词",
+  "text-mnemonic-check":"验证助记词",
+
+  "confirm":"确认",
+  "cancel":"取消"
+}

@@ -1,0 +1,12 @@
+<!--
+<app-tabs>
+
+</app-tabs>-->
+
+<div class="nav-bar-box" >
+  <img src="{{ header.backIcon }}" class="nav-bar-back" (click) = "header.backCLick()"/>
+  <span class="title">{{header.title}}</span>
+  <img src="{{ header.rightIcon }}" [hidden]="header.rightIcon == ''" class="nav-bar-right" (click) = "header.rightClick()"/>
+</div>
+
+

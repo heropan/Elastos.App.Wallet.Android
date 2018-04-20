@@ -1,0 +1,138 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~weui/src/style/weui.less';
+@import '~ngx-weui/index';
+
+@color-main: #0070C9;
+@color-background:#fff;
+@color-back: #fff;
+@color-font-default:#030303;
+@size-font:1em;
+@size-radius:5px;
+@size-radius:5px;
+
+@header-height : 48px;
+
+
+@weuiBtnPrimaryActiveBg:@color-main;
+
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+  margin: 0;
+  padding: 0
+}
+
+html, body, app-root, example-tarbar, example-layout {
+  height: 100%;
+  display: block;
+  font-size: @size-font;
+  color: @color-font-default;
+}
+
+body, input, textarea {
+  //font-family: 微软雅黑, Arial, Helvetica, sans-serif;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-appearance: none;
+  border: none;
+}
+
+//html, body {
+//  width: 100%;
+//  height: 100%;
+//  overflow: hidden;
+//  background-color: @color-background;
+//  top: 0px;
+//  right: 0px;
+//  bottom: 0px;
+//  left: 0px;
+//  position: absolute;
+//
+//}
+
+
+ul, ol, dl, dd, dt {
+  list-style: none;
+  margin: 0;
+  padding: 0
+}
+
+em, i, s {
+  font-style: normal;
+  text-decoration: none
+}
+
+img {
+  border: 0;
+  margin: 0
+}
+
+sup {
+  vertical-align: text-top
+}
+
+sub {
+  vertical-align: text-bottom
+}
+
+small {
+  font-size: 12px
+}
+
+a ,a:hover{
+  text-decoration: none
+}
+
+.w100 {
+  width: 100%;
+}
+
+.wh100 {
+  width: 100%;
+  height: 100%;
+}
+
+
+.f_l {
+  float: left;
+}
+
+.f_r {
+  float: right;
+}
+
+
+.header-height{
+  // margin-top: 45px;
+  //overflow: hidden;
+  height: @header-height;
+  display: block;
+}
+
+app-header{
+  .header-height;
+}
+
+
+.button-default{
+  border-top-style: none;
+  border-right-style: none;
+  border-bottom-style: none;
+  border-left-style: none;
+  background-color: @color-main;
+  color: #fff;
+  text-align: center;
+  border-radius: @size-radius;
+  height: 40px;
+  line-height: 40px;
+  width: 60%;
+}
+
+.center{
+  display: block;
+  margin: 0px auto;
+}
+
+
+
+

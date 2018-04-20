@@ -1,0 +1,12 @@
+<app-header [header]="header"   ></app-header>
+
+<div>
+
+  <ul class="mnemonic-list-read">
+      <li *ngFor="let item of mnemonicList">{{item.text}}</li>
+  </ul>
+
+  <div>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
+
+  <button class="button-default center" style="margin-top: 40px" (click)="onNext()">{{ 'text-memory' | translate }}</button>
+</div>
