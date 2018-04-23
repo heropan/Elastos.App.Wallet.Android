@@ -48,6 +48,8 @@ import {Native} from '../providers/Native';
 import {Logger} from '../providers/Logger';
 import {Validators} from '../providers/Validators';
 import {BaseComponent} from './BaseComponent';
+import { RecordinfoComponent } from '../pages/coin/recordinfo/recordinfo.component';
+import {Utils} from '../providers/Utils';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -83,7 +85,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ContactCreateComponent,
     CoinListComponent,
     WalletCreateComponent,
-    WalletInfoComponent
+    WalletInfoComponent,
+    RecordinfoComponent
   ],
   imports: [
     AppRoutingModule,
@@ -109,7 +112,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     Native,
     Logger,
     Validators,
-    HeaderComponent
+    HeaderComponent,
+    Utils
   ],
   bootstrap: [AppComponent]
 })

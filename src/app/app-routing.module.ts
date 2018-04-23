@@ -28,6 +28,7 @@ import { ContactCreateComponent } from '../pages/contacts/contact-create/contact
 import { CoinListComponent } from '../pages/coin/coin-list/coin-list.component';
 import { WalletCreateComponent } from '../pages/wallet/wallet-create/wallet-create.component';
 import { WalletInfoComponent } from '../pages/wallet/wallet-info/wallet-info.component';
+import {RecordinfoComponent} from '../pages/coin/recordinfo/recordinfo.component';
 
 
 
@@ -35,8 +36,7 @@ import { WalletInfoComponent } from '../pages/wallet/wallet-info/wallet-info.com
 const routes: Routes = [
   {path: '', component: TabsComponent},  // 根目录和默认目录
   {path: 'home', component: TabsComponent},  // 根目录和默认目录
-
-  {path: 'launcher', component: LauncherComponent}, // 启动页面
+  {path: 'launcher', component: LauncherComponent}, // 启动页面gi
 
 
   // 钱包
@@ -52,6 +52,7 @@ const routes: Routes = [
   {path: 'coinlist', component: CoinListComponent}, // 币种列表
   {path: 'coin/:id/receive', component: ReceiveComponent}, // 收账
   {path: 'coin/:id/record', component: RecordComponent}, // 交易记录
+  {path: 'coin/:id/record/:id', component: RecordinfoComponent}, // 交易记录详情
   {path: 'coin/:id/transfer', component: TransferComponent}, // 转账
 
   // 联系人

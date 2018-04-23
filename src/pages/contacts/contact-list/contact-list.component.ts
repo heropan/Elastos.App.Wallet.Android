@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {BaseComponent} from '../../../app/BaseComponent';
+import {RouterUtil} from '../../../providers/RouterUtil' ;
 
 @Component({
   selector: 'app-contact-list',
@@ -8,8 +9,11 @@ import {BaseComponent} from '../../../app/BaseComponent';
 })
 export class ContactListComponent  extends BaseComponent implements OnInit  {
 
-
   ngOnInit() {
+  }
+
+  onclick(): void {
+   // this.router.getRouteInstance().go();
   }
 
 }
