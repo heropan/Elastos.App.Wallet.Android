@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../../app/BaseComponent';
 
 @Component({
@@ -6,10 +6,22 @@ import {BaseComponent} from '../../../app/BaseComponent';
   templateUrl: './wallet-create.component.html',
   styleUrls: ['./wallet-create.component.less']
 })
-export class WalletCreateComponent  extends BaseComponent implements OnInit  {
+export class WalletCreateComponent extends BaseComponent implements OnInit {
+
+
+  wallet = {
+    name: '',
+    pwd: '',
+    rePwd: ''
+  };
 
 
   ngOnInit() {
+    this.setTitleByAssets('launcher-create-wallet');
+  }
+
+  onCreate() {
+
   }
 
 }

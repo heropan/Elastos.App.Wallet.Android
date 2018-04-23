@@ -1,3 +1,16 @@
-<p>
-  address works!
-</p>
+<app-header [header]="header"   ></app-header>
+
+<div>
+
+  <div class="weui-cells" *ngFor="let item of addrList" (click)="onItem(item)">
+    <div class="weui-cell">
+      <div class="weui-cell__bd">
+        <p>{{item.address}}</p>
+      </div>
+    </div>
+
+  </div>
+
+
+
+</div>

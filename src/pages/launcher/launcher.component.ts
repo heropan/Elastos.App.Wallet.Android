@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../app/BaseComponent';
 
 @Component({
@@ -6,10 +6,18 @@ import {BaseComponent} from '../../app/BaseComponent';
   templateUrl: './launcher.component.html',
   styleUrls: ['./launcher.component.less']
 })
-export class LauncherComponent  extends BaseComponent implements OnInit  {
+export class LauncherComponent extends BaseComponent implements OnInit {
 
 
   ngOnInit() {
+  }
+
+  onNext(type) {
+    if (type === 1) {
+      this.router.Go('/wallet/create');
+    } else {
+      this.router.Go('/wallet/import');
+    }
   }
 
 }

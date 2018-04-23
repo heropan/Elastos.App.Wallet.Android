@@ -17,10 +17,16 @@ export class TransferComponent extends BaseComponent implements OnInit {
     payfees: 2
   };
 
+  balance = 1.0;
+
   toAdd: string;
 
   ngOnInit() {
     this.setTitleByAssets('text-transfer');
+
+    this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
+      this.log.info('扫码');
+    });
   }
 
   onTransfer() {

@@ -14,7 +14,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   next() {
-    this.router.Go('launcher');
+    this.router.Go('/coin/0');
   }
 
 }

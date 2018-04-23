@@ -8,6 +8,8 @@
     </div>
       <div class="weui-cell">
         <input class="weui-input" type="text" placeholder="{{ 'text-price' | translate}}" [(ngModel)]="transfer.amount" />
+
+        <span class="transfer-balance">{{'text-balance' | translate}}：{{balance}}</span>
     </div>
     <div class="weui-cell">
       <textarea class="weui-textarea" placeholder="{{ 'text-remark' | translate}}" rows="3" [(ngModel)]="transfer.remark"
@@ -16,6 +18,7 @@
 
   </div>
   <div class="weui-cells__tips">{{ 'text-fees' | translate}}：0.001ELA</div>
+  <div class="weui-cells__title">{{'text-fees-pay' | translate}}</div>
 
   <div class="weui-cells weui-cells_radio">
     <label class="weui-cell weui-check__label" >

@@ -1,3 +1,42 @@
-<p>
-  import works!
-</p>
+<app-header [header]="header"   ></app-header>
+
+
+<div>
+
+  <div class="import-type" (click)="onChange()" [hidden]="wallet.type == 2"> {{ 'text-from-mnemonic' | translate }}<span  style="margin-left: 20px;"> > </span></div>
+  <div  class="import-type" (click)="onChange()"  [hidden]="wallet.type == 1"> <span style="margin-right: 20px;"  > < </span>{{ 'text-from-key' | translate }}</div>
+
+
+  <div class="weui-cells">
+
+
+
+      <div class="weui-cell" [hidden]="wallet.type == 2">
+      <textarea class="weui-textarea"  placeholder="{{ 'text-mnemonic' | translate}}" rows="3" [(ngModel)]="wallet.mnemonic"
+                weui-textarea weui-cn="2" maxlength="35"></textarea>
+      </div>
+
+
+
+   <div  [hidden]="wallet.type == 1">
+      <p>{{'text-select-file | translate}}</p>
+   </div>
+
+
+    <div class="weui-cell">
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="text" placeholder="{{ 'text-pwd' | translate }}" [(ngModel)]="wallet.pwd">
+      </div>
+
+    </div>
+
+    <div class="weui-cell">
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="password" placeholder="{{ 'text-pwd-repeat' | translate }}" [(ngModel)]="wallet.rePwd">
+      </div>
+    </div>
+  </div>
+
+  <button class="button-default bottom wallet-button" (click)="onImport()">{{ 'confirm' | translate }}</button>
+
+</div>

@@ -19,7 +19,7 @@ export class RecordComponent extends BaseComponent implements OnInit {
   }
 
   onItem() {
-
+    this.router.Go('coin/0/record/0');
   }
 
 }
