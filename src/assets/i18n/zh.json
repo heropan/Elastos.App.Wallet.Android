@@ -21,6 +21,24 @@
   "text-mnemonic":"助记词",
   "text-mnemonic-check":"验证助记词",
 
+  "text-coin-list":"币种列表",
+  "text-fees-pay":"手续费支付方",
+  "text-fees-pay-sender":"我来支付",
+  "text-fees-receiver":"对方支付",
+  "text-fees":"手续费",
+  "text-price":"金额",
+
+  "text-receiver-address":"收款人钱包地址",
+
+  "text-contacts":"联系人",
+  "text-contacts-add":"添加联系人",
+  "text-contacts-name":"姓名",
+  "text-contacts-phone":"手机",
+  "text-contacts-email":"邮箱",
+  "text-contacts-address":"钱包地址",
+  "text-remark":"备注",
+  "text-add":"添加",
+
   "confirm":"确认",
   "cancel":"取消"
 }

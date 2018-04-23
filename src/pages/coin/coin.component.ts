@@ -19,8 +19,26 @@ export class CoinComponent extends BaseComponent implements OnInit {
 
   coinCount = 1.2;
 
+  coinId = 0;
+
+
   ngOnInit() {
     this.setTitle('ELA');
+  }
+
+  onItem(item) {
+    this.router.Go('/coin/' + this.coinId + '/record');
+  }
+
+  onNext(type) {
+    switch (type) {
+      case 1:
+        this.router.Go('/coin/' + this.coinId + '/receive');
+        break;
+      case 2:
+        this.router.Go('/coin/' + this.coinId + '/transfer');
+        break;
+    }
   }
 
 

@@ -13,7 +13,8 @@ export class TransferComponent extends BaseComponent implements OnInit {
     toAdd: '',
     amount: '',
     remark: '',
-    fees: ''
+    fees: '',
+    payfees: 2
   };
 
   toAdd: string;

@@ -19,6 +19,7 @@ export class CoinListComponent extends BaseComponent implements OnInit {
 
 
   ngOnInit() {
+    this.setTitleByAssets('text-coin-list');
   }
 
 }

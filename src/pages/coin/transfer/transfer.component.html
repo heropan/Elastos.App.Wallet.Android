@@ -4,18 +4,39 @@
 
   <div class="weui-cells">
     <div class="weui-cell">
-        <input class="weui-input" type="text" placeholder="收款人钱包地址" [(ngModel)]="transfer.toAdd" />
+        <input class="weui-input" type="text" placeholder="{{ 'text-receiver-address' | translate}}" [(ngModel)]="transfer.toAdd" />
     </div>
       <div class="weui-cell">
-        <input class="weui-input" type="text" placeholder="转账金额" [(ngModel)]="transfer.amount" />
+        <input class="weui-input" type="text" placeholder="{{ 'text-price' | translate}}" [(ngModel)]="transfer.amount" />
     </div>
     <div class="weui-cell">
-      <textarea class="weui-textarea" placeholder="备注" rows="3" [(ngModel)]="transfer.remark"
+      <textarea class="weui-textarea" placeholder="{{ 'text-remark' | translate}}" rows="3" [(ngModel)]="transfer.remark"
                 weui-textarea weui-cn="2" maxlength="20"></textarea>
     </div>
 
   </div>
-  <div class="weui-cells__tips">手续费：0.001ELA</div>
+  <div class="weui-cells__tips">{{ 'text-fees' | translate}}：0.001ELA</div>
+
+  <div class="weui-cells weui-cells_radio">
+    <label class="weui-cell weui-check__label" >
+      <div class="weui-cell__bd">
+        <p>{{'text-fees-pay-sender' | translate}}</p>
+      </div>
+      <div class="weui-cell__ft">
+        <input type="radio" class="weui-check" [(ngModel)]="transfer.payfees" name="radio1" [value]="1">
+        <span class="weui-icon-checked"></span>
+      </div>
+    </label>
+    <label class="weui-cell weui-check__label" >
+      <div class="weui-cell__bd">
+        <p>{{'text-fees-receiver' | translate}}</p>
+      </div>
+      <div class="weui-cell__ft">
+        <input type="radio" class="weui-check" [(ngModel)]="transfer.payfees" name="radio1" [value]="2">
+        <span class="weui-icon-checked"></span>
+      </div>
+    </label>
+  </div>
 
 
   <button class="button-default bottom transfer-button">{{ 'confirm' | translate }}</button>

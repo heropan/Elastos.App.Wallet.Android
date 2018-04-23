@@ -1,7 +1,33 @@
 <app-header [header]="header"   ></app-header>
 <div class="receive-box">
-  <qr-code class="receive-qrocde" [value]="code" [size] = '200'></qr-code>
+  <qr-code class="receive-qrocde" [value]="code.qrcode" [size] = '200'></qr-code>
+  <input class="weui-input receive-input" type="text"
+         placeholder="{{'text-price' | translate}}"
+         [(ngModel)]="code.amount" name="txt">
+  <p class="receive-address">EehM1A6MnVZxs6qH8AEA1pSLeW4RxmqhuU</p>
 
+
+  <div class="weui-cells__title">{{'text-fees-pay' | translate}}</div>
+  <div class="weui-cells weui-cells_radio">
+    <label class="weui-cell weui-check__label" >
+      <div class="weui-cell__bd">
+        <p>{{'text-fees-pay-sender' | translate}}</p>
+      </div>
+      <div class="weui-cell__ft">
+        <input type="radio" class="weui-check" [(ngModel)]="code.payfees" name="radio1" [value]="1">
+        <span class="weui-icon-checked"></span>
+      </div>
+    </label>
+    <label class="weui-cell weui-check__label" >
+      <div class="weui-cell__bd">
+        <p>{{'text-fees-receiver' | translate}}</p>
+      </div>
+      <div class="weui-cell__ft">
+        <input type="radio" class="weui-check" [(ngModel)]="code.payfees" name="radio1" [value]="2">
+        <span class="weui-icon-checked"></span>
+      </div>
+    </label>
+  </div>
 </div>
 
 
