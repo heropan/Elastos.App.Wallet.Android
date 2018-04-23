@@ -1,5 +1,6 @@
 import {Component, OnInit, Injectable} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
+import {Utils} from './Utils';
 
 
 /**
@@ -9,7 +10,6 @@ import {Router, ActivatedRoute} from '@angular/router';
 export class RouterUtil {
 
   public constructor(public router: Router) {
-
   }
 
 
@@ -26,6 +26,57 @@ export class RouterUtil {
    */
   Go(path: string, options: any = {}, id: any = {}) {
     this.router.navigate([path, id], {queryParams: options});
+  }
+
+  /**
+   * 路由跳转
+   * @params:
+   * {
+   *   path:string  // 路径
+   *   ids:any      // id
+   *   qParams:any  // 查询参数
+   * }
+   */
+  Go_v2(params) {
+    if (Utils.isNull(params.path)) {
+          return;
+    }
+   let isShow1 = false;
+   let isShow2 = false;
+   let ids = {};
+   if (Utils.isNull(params.ids)) {
+     ids = {};
+     isShow1 = true;
+   } else {
+     ids  = params.qParams;
+   }
+    let qParams = {};
+    if (Utils.isNull(params.qParams)) {
+       qParams = {};
+       isShow2 = true;
+    } else {
+      qParams = params.qParams;
+    }
+
+    if (isShow2 && isShow1) {
+      this.router.navigateByUrl(params.path);
+      return;
+    }
+
+    if (!isShow2 && !isShow1) {
+      this.router.navigate([params.path, ids], {queryParams: qParams});
+      return;
+    }
+
+    if (!isShow1) {
+      this.router.navigate([params.path, ids]);
+      return;
+    }
+
+    if (!isShow2) {
+      this.router.navigate([params.path], {queryParams: qParams});
+      return;
+    }
   }
 
   /**

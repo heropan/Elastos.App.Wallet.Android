@@ -48,7 +48,7 @@ import {Native} from '../providers/Native';
 import {Logger} from '../providers/Logger';
 import {Validators} from '../providers/Validators';
 import {BaseComponent} from './BaseComponent';
-
+import {Utils} from '../providers/Utils';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -109,7 +109,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     Native,
     Logger,
     Validators,
-    HeaderComponent
+    HeaderComponent,
+    Utils
   ],
   bootstrap: [AppComponent]
 })

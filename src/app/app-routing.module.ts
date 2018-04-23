@@ -35,8 +35,7 @@ import { WalletInfoComponent } from '../pages/wallet/wallet-info/wallet-info.com
 const routes: Routes = [
   {path: '', component: TabsComponent},  // 根目录和默认目录
   {path: 'home', component: TabsComponent},  // 根目录和默认目录
-
-  {path: 'launcher', component: LauncherComponent}, // 启动页面
+  {path: 'launcher', component: LauncherComponent}, // 启动页面gi
 
 
   // 钱包

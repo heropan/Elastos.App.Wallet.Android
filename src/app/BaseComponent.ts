@@ -7,6 +7,8 @@ import {Config} from '../providers/Config';
 import {TranslateService} from '@ngx-translate/core';
 import {HeaderComponent, Header} from './header/app.header';
 import {AppComponent} from './app.component';
+import {Utils} from '../providers/Utils';
+
 
 
 @Component({
