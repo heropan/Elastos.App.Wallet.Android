@@ -52,6 +52,7 @@ import { RecordinfoComponent } from '../pages/coin/recordinfo/recordinfo.compone
 import {Utils} from '../providers/Utils';
 
 
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
