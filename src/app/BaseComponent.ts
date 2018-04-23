@@ -55,6 +55,10 @@ export class BaseComponent {
 
   }
 
+  public setRightIcon(rightIcon: string, rightClick: any) {
+    this.header.setRightIcon(rightIcon, rightClick);
+  }
+
   public getText(key) {
     return this.translate.get(key);
   }

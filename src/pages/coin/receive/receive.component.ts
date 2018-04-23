@@ -19,11 +19,10 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
     this.code = new QrcodeModel();
     this.code.qrcode = 'EehM1A6MnVZxs6qH8AEA1pSLeW4RxmqhuU';
 
-    this.header.rightIcon = './assets/images/icon/icon-share.svg';
-   // this.header.backIcon = './assets/images/icon/icon-share.svg';
-    this.header.rightClick = () => {
+    this.setRightIcon('./assets/images/icon/icon-share.svg', () => {
       this.log.info('分享');
-    };
+    });
+
 
 
   }

@@ -24,7 +24,6 @@ export class HeaderComponent {
   header: Header;
 
 
-
   public constructor(public location: Location) {
     this.header = new Header(location);
   }
@@ -45,7 +44,7 @@ export class Header {
               title: string = '',
               show: boolean = true,
               backIcon: string = './assets/images/icon/icon-back-arrow.svg',
-              rightIcon: string = '',
+              rightIcon: string = './assets/images/icon/icon-back-arrow.svg',
               backClick: any = () => location.back(),
               rightClick: any = '') {
     this.location = location;
@@ -74,5 +73,16 @@ export class Header {
 
   public setTile(title: string) {
     this.title = title;
+  }
+
+  /***
+   * 设置右侧图标与点击事件
+   * @param {string} rightIcon
+   * @param rightClick
+   */
+  public setRightIcon(rightIcon: string, rightClick: any) {
+    this.rightIcon = rightIcon;
+    this.rightClick = rightClick;
+    console.log('header中更改了');
   }
 }
