@@ -44,7 +44,7 @@ export class Header {
               title: string = '',
               show: boolean = true,
               backIcon: string = './assets/images/icon/icon-back-arrow.svg',
-              rightIcon: string = './assets/images/icon/icon-back-arrow.svg',
+              rightIcon: string = '',
               backClick: any = () => location.back(),
               rightClick: any = '') {
     this.location = location;
@@ -83,6 +83,5 @@ export class Header {
   public setRightIcon(rightIcon: string, rightClick: any) {
     this.rightIcon = rightIcon;
     this.rightClick = rightClick;
-    console.log('header中更改了');
   }
 }
