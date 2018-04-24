@@ -1,3 +1,35 @@
-<p>
-  contact-create works!
-</p>
+<div class="contact-create">
+    <div class="weui-cells">
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <input class="weui-input contact-create-font-size-14" type="text" placeholder="请输入名称">
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <input class="weui-input contact-create-font-size-14" type="text" placeholder="请输入地址">
+            </div>
+        </div>
+
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <input class="weui-input contact-create-font-size-14" type="text" placeholder="请输入手机">
+            </div>
+        </div>
+
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <input class="weui-input contact-create-font-size-14" type="text" placeholder="请输入邮箱">
+            </div>
+        </div>
+
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <input class="weui-input contact-create-font-size-14" type="text" placeholder="请输入备注">
+            </div>
+        </div>
+    </div>
+    <div class="contact-create-row contact-create-row-top-30">
+        <button weui-button [weui-mini]="'mini'" (click)="mini=!mini">添加</button>
+    </div>
+</div>

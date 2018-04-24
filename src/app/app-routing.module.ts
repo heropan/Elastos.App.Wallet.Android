@@ -56,9 +56,9 @@ const routes: Routes = [
   {path: 'coin/:id/transfer', component: TransferComponent}, // 转账
 
   // 联系人
-  {path: 'contacts/list', component: ContactListComponent}, // 联系人列表
+  {path: 'contactsList', component: ContactListComponent}, // 联系人列表
   {path: 'contacts/:id', component: ContactsComponent}, // 联系人详情
-  {path: 'contacts/create', component: ContactCreateComponent}, // 联系人创建
+  {path: 'contactCreate', component: ContactCreateComponent}, // 联系人创建
 
   // 助记词
   {path: 'mnemonic', component: MnemonicComponent}, // 生成助记词
