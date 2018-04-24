@@ -10,7 +10,6 @@ import {AppComponent} from './app.component';
 import {Utils} from '../providers/Utils';
 
 
-
 @Component({
   selector: 'app-base',
   template: '',
@@ -55,6 +54,14 @@ export class BaseComponent {
       this.header.setTile(title);
     });
 
+  }
+
+  /***
+   * 设置标题栏  替换为自己的参数对象
+   * @param {Header} head
+   */
+  public setHeader(head: Header) {
+    this.header = head;
   }
 
   public setRightIcon(rightIcon: string, rightClick: any) {
