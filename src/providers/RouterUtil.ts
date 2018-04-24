@@ -33,7 +33,7 @@ export class RouterUtil {
    * @params:
    * {
    *   path:string  // 路径
-   *   ids:any      // id
+   *   id:string     // id
    *   qParams:any  // 查询参数
    * }
    */
@@ -43,12 +43,12 @@ export class RouterUtil {
     }
    let isShow1 = false;
    let isShow2 = false;
-   let ids = {};
-   if (Utils.isNull(params.ids)) {
-     ids = {};
+   let id = '';
+   if (Utils.isNull(params.id)) {
+     id = '';
      isShow1 = true;
    } else {
-     ids  = params.qParams;
+     id  = params.id;
    }
     let qParams = {};
     if (Utils.isNull(params.qParams)) {
@@ -64,12 +64,12 @@ export class RouterUtil {
     }
 
     if (!isShow2 && !isShow1) {
-      this.router.navigate([params.path, ids], {queryParams: qParams});
+      this.router.navigate([params.path, id], {queryParams: qParams});
       return;
     }
 
     if (!isShow1) {
-      this.router.navigate([params.path, ids]);
+      this.router.navigate([params.path, id]);
       return;
     }
 

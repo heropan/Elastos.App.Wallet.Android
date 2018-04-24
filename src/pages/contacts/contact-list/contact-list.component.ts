@@ -13,7 +13,7 @@ export class ContactListComponent  extends BaseComponent implements OnInit  {
   }
 
   onclick(): void {
-   // this.router.getRouteInstance().go();
+    this.router.Go_v2({'path': '/contacts', 'id': 1});
   }
 
 }
