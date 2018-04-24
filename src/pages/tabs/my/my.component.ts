@@ -18,6 +18,6 @@ export class MyComponent  extends BaseComponent implements OnInit  {
         return;
     }
     this.router.Go_v2({'path': path});
-  }
+   }
 
 }
