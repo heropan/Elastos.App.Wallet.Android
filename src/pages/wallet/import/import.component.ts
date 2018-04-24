@@ -21,14 +21,13 @@ export class ImportComponent extends BaseComponent implements OnInit {
   }
 
 
-
-  onTest(obj) {
-    this.log.info(obj.text);
-    this.log.info(obj.a);
-  }
-
   onImport() {
 
+  }
+
+  onChange() {
+    this.wallet.type = (this.wallet.type === 1 ? 2 : 1);
+    console.log(this.wallet.type);
   }
 
 }

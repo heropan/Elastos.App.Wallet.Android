@@ -5,6 +5,7 @@
   <div class="weui-cells">
     <div class="weui-cell">
         <input class="weui-input" type="text" placeholder="{{ 'text-receiver-address' | translate}}" [(ngModel)]="transfer.toAdd" />
+        <img  (click)="onClick(1)" class="transfer-account" src="./../../../assets/images/icon/icon-account.svg">
     </div>
       <div class="weui-cell">
         <input class="weui-input" type="text" placeholder="{{ 'text-price' | translate}}" [(ngModel)]="transfer.amount" />
@@ -42,5 +43,5 @@
   </div>
 
 
-  <button class="button-default bottom transfer-button">{{ 'confirm' | translate }}</button>
+  <button class="button-default bottom transfer-button" (click)="onClick(2)">{{ 'confirm' | translate }}</button>
 </div>

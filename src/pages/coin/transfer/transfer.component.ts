@@ -29,8 +29,16 @@ export class TransferComponent extends BaseComponent implements OnInit {
     });
   }
 
-  onTransfer() {
-    // 转账
+  onClick(type) {
+    switch (type) {
+      case 1:
+        this.router.Go_v2({path: 'contacts/list'});
+        break;
+      case 2:   // 转账
+
+        break;
+    }
+
   }
 
 }

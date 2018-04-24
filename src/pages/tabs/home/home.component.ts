@@ -8,13 +8,29 @@ import {BaseComponent} from '../../../app/BaseComponent';
 })
 export class HomeComponent extends BaseComponent implements OnInit {
 
+  wallet = {
+    name: '我的大钱包',
+    showBalance: true
+  };
+
+  coinList = [
+    {id: 0, name: 'ELA', balance: 20.2}
+  ];
 
   ngOnInit() {
 
   }
 
-  next() {
-    this.router.Go('/coin/0');
+  onOpen() {
+    this.wallet.showBalance = !this.wallet.showBalance;
+  }
+
+  onWallet() {
+    this.router.Go_v2({path: '/wallet/manager'});
+  }
+
+  onItem(item) {
+    this.router.Go_v2({path: 'coin', id: item.id});
   }
 
 }
