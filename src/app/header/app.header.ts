@@ -36,7 +36,7 @@ export class Header {
   show: boolean;
   rightIcon: string;
   backIcon: string;
-  backCLick: any;
+  backClick: any;
   rightClick: any;
   location: Location;
   display: {
@@ -52,12 +52,12 @@ export class Header {
               rightIcon: string = '',
               backClick: any = () => location.back(),
               rightClick: any = '',
-              display: any = {left: true, right: true, title: true}) {
+              display: any = {left: true, right: false, title: true}) {
     this.location = location;
     this.title = title;
     this.backIcon = backIcon;
     this.rightIcon = rightIcon;
-    this.backCLick = backClick;
+    this.backClick = backClick;
     this.rightClick = rightClick;
     this.show = show;
     this.display = display;

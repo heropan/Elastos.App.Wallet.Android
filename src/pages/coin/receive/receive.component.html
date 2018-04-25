@@ -1,6 +1,9 @@
 <app-header [header]="header"   ></app-header>
 <div class="receive-box">
-  <qr-code class="receive-qrocde" [value]="code.qrcode" [size] = '200'></qr-code>
+  <!--<qr-code [value]="code.qrcode" [size] = '200'></qr-code>-->
+
+  <qrcode class="receive-qrocde" [qrdata]="code.qrcode" [size]="200" [level]="'M'"></qrcode>
+
   <input class="weui-input receive-input" type="text"
          placeholder="{{'text-price' | translate}}"
          [(ngModel)]="code.amount" name="txt">

@@ -75,6 +75,16 @@ export class BaseComponent {
   }
 
   /***
+   * 设置左侧按钮
+   * @param {string} leftIcon
+   * @param leftClick
+   */
+  public setLeftIcon(leftIcon: string, leftClick: any) {
+    this.header.backIcon = leftIcon;
+    this.header.backClick = leftClick;
+  }
+
+  /***
    * 设置标题内容显示状态
    * @param display
    * {  左右图标和标题的显示状态

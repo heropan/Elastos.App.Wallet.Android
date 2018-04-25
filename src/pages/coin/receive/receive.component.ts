@@ -17,7 +17,8 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.setTitleByAssets('text-receive');
     this.code = new QrcodeModel();
-    this.code.qrcode = 'EehM1A6MnVZxs6qH8AEA1pSLeW4RxmqhuU';
+    this.code.qrcode = '测试文字';
+    // 'EehM1A6MnVZxs6qH8AEA1pSLeW4RxmqhuU'
 
     this.setRightIcon('./assets/images/icon/icon-s.svg', () => {
       this.log.info('分享');
