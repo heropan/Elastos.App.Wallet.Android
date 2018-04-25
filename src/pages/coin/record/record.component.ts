@@ -14,6 +14,8 @@ export class RecordComponent extends BaseComponent implements OnInit {
     {}
   ];
 
+
+
   ngOnInit() {
     this.setTitleByAssets('coin-recent-transfer');
   }

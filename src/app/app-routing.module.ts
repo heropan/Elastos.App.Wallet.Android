@@ -56,7 +56,7 @@ const routes: Routes = [
   {path: 'coinlist', component: CoinListComponent}, // 币种列表
   {path: 'coin/:id/receive', component: ReceiveComponent}, // 收账
   {path: 'coin/:id/record', component: RecordComponent}, // 交易记录
-  {path: 'coin/:id/record/:id', component: RecordinfoComponent}, // 交易记录详情
+  {path: 'coin/:id/record/:rid', component: RecordinfoComponent}, // 交易记录详情
   {path: 'coin/:id/transfer', component: TransferComponent}, // 转账
 
   // 联系人
@@ -70,7 +70,7 @@ const routes: Routes = [
 
   // 其他
   {path: 'settings', component: SettingsComponent}, // 设置页面
-  {path: 'result', component: ResultComponent}, // 处理结果页面，成功/失败
+  {path: 'result/:type', component: ResultComponent}, // 处理结果页面，type = 0成功  1失败
 
   {path: 'about', component: AboutComponent}, // 关于我们
   {path: 'change/name', component: ChangeNameComponent}, // 改变钱包名
