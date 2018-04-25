@@ -43,6 +43,9 @@
   "text-wallet-name": "钱包名",
   "text-pwd": "输入密码",
   "text-pwd-repeat": "再次输入密码",
+  "text-pay-failure": "支付失败",
+  "text-pwd-success": "支付成功",
+  "text-back-home": "返回首页",
   "confirm": "确认",
   "cancel": "取消"
 }
