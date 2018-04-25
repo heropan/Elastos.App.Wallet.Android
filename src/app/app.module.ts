@@ -50,6 +50,11 @@ import {Validators} from '../providers/Validators';
 import {BaseComponent} from './BaseComponent';
 import { RecordinfoComponent } from '../pages/coin/recordinfo/recordinfo.component';
 import {Utils} from '../providers/Utils';
+import { AboutComponent } from '../pages/other/about/about.component';
+import { HelpComponent } from '../pages/other/help/help.component';
+import { NoticeComponent } from '../pages/other/notice/notice.component';
+import { ChangePwdComponent } from '../pages/other/change-pwd/change-pwd.component';
+import { ChangeNameComponent } from '../pages/other/change-name/change-name.component';
 
 
 
@@ -87,7 +92,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     CoinListComponent,
     WalletCreateComponent,
     WalletInfoComponent,
-    RecordinfoComponent
+    RecordinfoComponent,
+    AboutComponent,
+    HelpComponent,
+    NoticeComponent,
+    ChangePwdComponent,
+    ChangeNameComponent
   ],
   imports: [
     AppRoutingModule,

@@ -8,28 +8,32 @@ import {TabsComponent} from './../pages/tabs/tabs.component';
 import {HomeComponent} from './../pages/tabs/home/home.component';
 import {MyComponent} from './../pages/tabs/my/my.component';
 import {LauncherComponent} from '../pages/launcher/launcher.component';
-import { ManagerComponent } from '../pages/wallet/manager/manager.component';
-import { ImportComponent } from '../pages/wallet/import/import.component';
-import { ExprotPrikeyComponent } from '../pages/wallet/exprot-prikey/exprot-prikey.component';
-import { MnemonicComponent } from '../pages/mnemonic/mnemonic.component';
-import { WriteComponent } from '../pages/mnemonic/write/write.component';
-import { AddressComponent } from '../pages/wallet/address/address.component';
-import { MultiSignedComponent } from '../pages/multi-signed/multi-signed.component';
-import { JoinComponent } from '../pages/multi-signed/join/join.component';
-import { ContactsComponent } from '../pages/contacts/contacts.component';
-import { SettingsComponent } from '../pages/universal/settings/settings.component';
-import { ResultComponent } from '../pages/universal/result/result.component';
-import { CoinComponent } from '../pages/coin/coin.component';
-import { RecordComponent } from '../pages/coin/record/record.component';
-import { TransferComponent } from '../pages/coin/transfer/transfer.component';
-import { ReceiveComponent } from '../pages/coin/receive/receive.component';
-import { ContactListComponent } from '../pages/contacts/contact-list/contact-list.component';
-import { ContactCreateComponent } from '../pages/contacts/contact-create/contact-create.component';
-import { CoinListComponent } from '../pages/coin/coin-list/coin-list.component';
-import { WalletCreateComponent } from '../pages/wallet/wallet-create/wallet-create.component';
-import { WalletInfoComponent } from '../pages/wallet/wallet-info/wallet-info.component';
+import {ManagerComponent} from '../pages/wallet/manager/manager.component';
+import {ImportComponent} from '../pages/wallet/import/import.component';
+import {ExprotPrikeyComponent} from '../pages/wallet/exprot-prikey/exprot-prikey.component';
+import {MnemonicComponent} from '../pages/mnemonic/mnemonic.component';
+import {WriteComponent} from '../pages/mnemonic/write/write.component';
+import {AddressComponent} from '../pages/wallet/address/address.component';
+import {MultiSignedComponent} from '../pages/multi-signed/multi-signed.component';
+import {JoinComponent} from '../pages/multi-signed/join/join.component';
+import {ContactsComponent} from '../pages/contacts/contacts.component';
+import {SettingsComponent} from '../pages/universal/settings/settings.component';
+import {ResultComponent} from '../pages/universal/result/result.component';
+import {CoinComponent} from '../pages/coin/coin.component';
+import {RecordComponent} from '../pages/coin/record/record.component';
+import {TransferComponent} from '../pages/coin/transfer/transfer.component';
+import {ReceiveComponent} from '../pages/coin/receive/receive.component';
+import {ContactListComponent} from '../pages/contacts/contact-list/contact-list.component';
+import {ContactCreateComponent} from '../pages/contacts/contact-create/contact-create.component';
+import {CoinListComponent} from '../pages/coin/coin-list/coin-list.component';
+import {WalletCreateComponent} from '../pages/wallet/wallet-create/wallet-create.component';
+import {WalletInfoComponent} from '../pages/wallet/wallet-info/wallet-info.component';
 import {RecordinfoComponent} from '../pages/coin/recordinfo/recordinfo.component';
-
+import {AboutComponent} from '../pages/other/about/about.component';
+import {ChangeNameComponent} from '../pages/other/change-name/change-name.component';
+import {ChangePwdComponent} from '../pages/other/change-pwd/change-pwd.component';
+import {HelpComponent} from '../pages/other/help/help.component';
+import {NoticeComponent} from '../pages/other/notice/notice.component';
 
 
 /**Route Config*/
@@ -64,9 +68,15 @@ const routes: Routes = [
   {path: 'mnemonic', component: MnemonicComponent}, // 生成助记词
   {path: 'mnemonic/write', component: WriteComponent}, // 填写助记词
 
-
+  // 其他
   {path: 'settings', component: SettingsComponent}, // 设置页面
   {path: 'result', component: ResultComponent}, // 处理结果页面，成功/失败
+
+  {path: 'about', component: AboutComponent}, // 关于我们
+  {path: 'change/name', component: ChangeNameComponent}, // 改变钱包名
+  {path: 'change/pwd', component: ChangePwdComponent}, // 改变密码
+  {path: 'help', component: HelpComponent}, // 帮助
+  {path: 'notice', component: NoticeComponent}, // 消息通知
 
   {path: '**', component: TabsComponent},
 
