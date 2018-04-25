@@ -7,9 +7,13 @@ import {BaseComponent} from '../../../app/BaseComponent';
   styleUrls: ['./result.component.less']
 })
 export class ResultComponent  extends BaseComponent implements OnInit  {
-
-
+  private type: Number;
   ngOnInit() {
+    this.type = this.activateRoute.snapshot.params['type'];
+  }
+
+  back(): void {
+    this.router.Go_v2({'path': '/home'});
   }
 
 }
