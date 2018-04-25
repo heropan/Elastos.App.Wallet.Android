@@ -10,6 +10,11 @@ export class ContactCreateComponent  extends BaseComponent implements OnInit  {
 
 
   ngOnInit() {
+    this.setTitleByAssets('text-contacts-add');
+  }
+
+  add(): void {
+    this.router.Go_v2({'path': '/contactsList'});
   }
 
 }

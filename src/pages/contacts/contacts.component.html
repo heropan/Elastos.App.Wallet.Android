@@ -1,44 +1,45 @@
+<app-header [header]="header"></app-header>
 <div class="conttacts">
     <div class="weui-cells">
         <div class="weui-cell">
             <div class="weui-cell__bd conttacts-font-size-13">
-                <p>名字</p>
+                <p>{{'text-contacts-name' | translate }}</p>
             </div>
             <div class="weui-cell__ft conttacts-font-size-12">张三</div>
         </div>
 
         <div class="weui-cell">
             <div class="weui-cell__bd conttacts-font-size-13">
-                <p>地址</p>
+                <p>{{'text-contacts-address' | translate }}</p>
             </div>
             <div class="weui-cell__ft conttacts-font-size-12">EfEnR2ZQqHLTThkcR8C1cFY9DdKJXQu3Ea</div>
         </div>
 
         <div class="weui-cell">
             <div class="weui-cell__bd conttacts-font-size-13">
-                <p>手机</p>
+                <p>{{'text-contacts-phone' | translate}}</p>
             </div>
             <div class="weui-cell__ft conttacts-font-size-12">18210230496</div>
         </div>
 
         <div class="weui-cell">
             <div class="weui-cell__bd conttacts-font-size-13">
-                <p>邮箱</p>
+                <p>{{'text-contacts-email' | translate}}</p>
             </div>
             <div class="weui-cell__ft conttacts-font-size-12">869077613@qq.com</div>
         </div>
 
         <div class="weui-cell">
             <div class="weui-cell__bd conttacts-font-size-13">
-                <p>备注</p>
+                <p>{{'text-remark' | translate}}</p>
             </div>
             <div class="weui-cell__ft conttacts-font-size-12">欢迎你</div>
         </div>
     </div>
     <div class="conttacts-row conttacts-row-top-30">
-      <qrcode  [qrdata]="'xxxxx'" [size]="200" [level]="'M'"></qrcode>
+        <qrcode class="conttacts-inline-block" [qrdata]="'xxxxx'" [size]="200" [level]="'M'"></qrcode>
     </div>
-    <div class="conttacts-row conttacts-row-top-30">
-        <button weui-button [weui-mini]="'mini'" (click)="mini=!mini">支付</button>
+    <div class="conttacts-row conttacts-row-top-30 conttacts-row-bottom-20">
+        <button weui-button [weui-mini]="'mini'" (click)="zhifu()">{{'text-transfer' | translate}}</button>
     </div>
 </div>

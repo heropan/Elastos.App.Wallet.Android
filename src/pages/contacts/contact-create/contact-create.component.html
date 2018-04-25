@@ -1,35 +1,36 @@
+<app-header [header]="header"></app-header>
 <div class="contact-create">
     <div class="weui-cells">
         <div class="weui-cell">
             <div class="weui-cell__bd">
-                <input class="weui-input contact-create-font-size-14" type="text" placeholder="请输入名称">
+                <input class="weui-input contact-create-font-size-14" type="text" placeholder="{{'text-contacts-name' | translate }}">
             </div>
         </div>
         <div class="weui-cell">
             <div class="weui-cell__bd">
-                <input class="weui-input contact-create-font-size-14" type="text" placeholder="请输入地址">
-            </div>
-        </div>
-
-        <div class="weui-cell">
-            <div class="weui-cell__bd">
-                <input class="weui-input contact-create-font-size-14" type="text" placeholder="请输入手机">
+                <input class="weui-input contact-create-font-size-14" type="text" placeholder="{{'text-contacts-address' | translate }}">
             </div>
         </div>
 
         <div class="weui-cell">
             <div class="weui-cell__bd">
-                <input class="weui-input contact-create-font-size-14" type="text" placeholder="请输入邮箱">
+                <input class="weui-input contact-create-font-size-14" type="text" placeholder="{{'text-contacts-phone' | translate }}">
             </div>
         </div>
 
         <div class="weui-cell">
             <div class="weui-cell__bd">
-                <input class="weui-input contact-create-font-size-14" type="text" placeholder="请输入备注">
+                <input class="weui-input contact-create-font-size-14" type="text" placeholder="{{'text-contacts-email' | translate }}">
+            </div>
+        </div>
+
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <input class="weui-input contact-create-font-size-14" type="text" placeholder="{{'text-remark' | translate }}">
             </div>
         </div>
     </div>
     <div class="contact-create-row contact-create-row-top-30">
-        <button weui-button [weui-mini]="'mini'" (click)="mini=!mini">添加</button>
+        <button weui-button [weui-mini]="'mini'" (click)="add()">{{'text-add' | translate}}</button>
     </div>
 </div>

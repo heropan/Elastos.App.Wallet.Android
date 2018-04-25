@@ -9,7 +9,17 @@ import {RouterUtil} from '../../../providers/RouterUtil' ;
 })
 export class ContactListComponent  extends BaseComponent implements OnInit  {
 
+
   ngOnInit() {
+    this.setTitleByAssets('text-contacts');
+    this.setRightIcon('../../assets/images/icon/icon-add.svg', () => {
+    this.rightHeader();
+    });
+    this.setHeadDisPlay({right: true});
+  }
+
+  rightHeader(): void {
+    this.router.Go_v2({'path': '/contactCreate'});
   }
 
   onclick(): void {
