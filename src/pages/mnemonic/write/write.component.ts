@@ -42,7 +42,7 @@ export class WriteComponent extends BaseComponent implements OnInit {
 
 
   onNext() {
-    this.router.Go('/home');
+    this.router.Go_v2({path: '/home'});
   }
 
 }

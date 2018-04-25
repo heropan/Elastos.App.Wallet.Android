@@ -14,9 +14,9 @@ export class LauncherComponent extends BaseComponent implements OnInit {
 
   onNext(type) {
     if (type === 1) {
-      this.router.Go('/wallet/create');
+      this.router.Go_v2({path: '/wallet/create'});
     } else {
-      this.router.Go('/wallet/import');
+      this.router.Go_v2({path: '/wallet/import'});
     }
   }
 

@@ -27,6 +27,6 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
   }
 
   onNext() {
-    this.router.Go('/mnemonic/write');
+    this.router.Go_v2({path: '/mnemonic/write'});
   }
 }

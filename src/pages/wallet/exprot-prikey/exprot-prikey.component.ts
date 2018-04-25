@@ -19,7 +19,7 @@ export class ExprotPrikeyComponent extends BaseComponent implements OnInit {
     this.setTitleByAssets('text-wallet-export');
   }
 
-  onDown(){
+  onDown() {
 
   }
 

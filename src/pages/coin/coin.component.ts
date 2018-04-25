@@ -27,16 +27,16 @@ export class CoinComponent extends BaseComponent implements OnInit {
   }
 
   onItem(item) {
-    this.router.Go('/coin/' + this.coinId + '/record');
+    this.router.Go_v2({path: '/coin/' + this.coinId + '/record'});
   }
 
   onNext(type) {
     switch (type) {
       case 1:
-        this.router.Go('/coin/' + this.coinId + '/receive');
+        this.router.Go_v2({path: '/coin/' + this.coinId + '/receive'});
         break;
       case 2:
-        this.router.Go('/coin/' + this.coinId + '/transfer');
+        this.router.Go_v2({path: '/coin/' + this.coinId + '/transfer'});
         break;
     }
   }

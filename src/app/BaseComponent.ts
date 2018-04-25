@@ -32,7 +32,7 @@ export class BaseComponent {
     const broswerLang = this.translate.getBrowserLang();
     this.translate.use(broswerLang.match(/en|zh/) ? broswerLang : 'zh');
 
-    this.header = new Header(location, 'app');
+    this.header = new Header(location, '');
   }
 
 
@@ -64,13 +64,37 @@ export class BaseComponent {
     this.header = head;
   }
 
+  /***
+   * 设置右侧按钮
+   * @param {string} rightIcon
+   * @param rightClick
+   */
   public setRightIcon(rightIcon: string, rightClick: any) {
-    this.header.setRightIcon(rightIcon, rightClick);
+    this.header.rightIcon = rightIcon;
+    this.header.rightClick = rightClick;
+  }
+
+  /***
+   * 设置标题内容显示状态
+   * @param display
+   * {  左右图标和标题的显示状态
+   *    left:boolean,
+   *    title:boolean,
+   *    right:boolean
+   * }
+   */
+  public setHeadDisPlay(display: any) {
+    this.header.display = {
+      left: Utils.isNull(display.left) ? this.header.display.left : display.left,
+      title: Utils.isNull(display.title) ? this.header.display.title : display.title,
+      right: Utils.isNull(display.right) ? this.header.display.right : display.right
+    };
   }
 
   public getText(key) {
     return this.translate.get(key);
   }
+
 
   /**改变当前语言*/
   changeLang(lang) {

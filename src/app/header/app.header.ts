@@ -39,6 +39,11 @@ export class Header {
   backCLick: any;
   rightClick: any;
   location: Location;
+  display: {
+    left: boolean,
+    right: boolean,
+    title: boolean
+  };
 
   constructor(location: Location,
               title: string = '',
@@ -46,7 +51,8 @@ export class Header {
               backIcon: string = './assets/images/icon/icon-back-arrow.svg',
               rightIcon: string = '',
               backClick: any = () => location.back(),
-              rightClick: any = '') {
+              rightClick: any = '',
+              display: any = {left: true, right: true, title: true}) {
     this.location = location;
     this.title = title;
     this.backIcon = backIcon;
@@ -54,6 +60,7 @@ export class Header {
     this.backCLick = backClick;
     this.rightClick = rightClick;
     this.show = show;
+    this.display = display;
   }
 
 
@@ -75,13 +82,5 @@ export class Header {
     this.title = title;
   }
 
-  /***
-   * 设置右侧图标与点击事件
-   * @param {string} rightIcon
-   * @param rightClick
-   */
-  public setRightIcon(rightIcon: string, rightClick: any) {
-    this.rightIcon = rightIcon;
-    this.rightClick = rightClick;
-  }
+
 }
