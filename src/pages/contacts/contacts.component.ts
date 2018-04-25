@@ -22,7 +22,7 @@ export class ContactsComponent  extends BaseComponent implements OnInit {
   }
 
   zhifu(): void {
-    this.router.Go_v2({'path': '/coin/0/receive'});
+    this.router.Go_v2({'path': '/coin/:id/transfer'});
   }
 
 }
