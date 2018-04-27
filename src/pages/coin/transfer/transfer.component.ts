@@ -25,13 +25,12 @@ export class TransferComponent extends BaseComponent implements OnInit, OnDestro
   constructor(public router: RouterUtil,
               public log: Logger,
               public activateRoute: ActivatedRoute,
-              public config: Config,
               public translate: TranslateService,
               public location: Location,
               public changeDetectorRef: ChangeDetectorRef,
               private srv: DialogService,
               private toastService: ToastService) {
-    super(router, log, activateRoute, config, translate, location, changeDetectorRef);
+    super(router, log, activateRoute, translate, location, changeDetectorRef);
   }
 
   con: DialogConfig = {};

@@ -22,7 +22,6 @@ export class BaseComponent {
   public constructor(public router: RouterUtil,
                      public log: Logger,
                      public activateRoute: ActivatedRoute,
-                     public config: Config,
                      public translate: TranslateService,
                      public location: Location,
                      public changeDetectorRef: ChangeDetectorRef) {
