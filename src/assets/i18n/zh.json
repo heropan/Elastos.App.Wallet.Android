@@ -46,6 +46,8 @@
   "text-pay-failure": "支付失败",
   "text-pwd-success": "支付成功",
   "text-back-home": "返回首页",
+  "text-gesture-pwd": "手势密码",
+  "text-language": "语言",
   "confirm": "确认",
   "cancel": "取消"
 }

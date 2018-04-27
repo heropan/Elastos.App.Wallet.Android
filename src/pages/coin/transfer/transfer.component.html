@@ -19,28 +19,28 @@
 
   </div>
   <div class="weui-cells__tips">{{ 'text-fees' | translate}}：0.001ELA</div>
-  <div class="weui-cells__title">{{'text-fees-pay' | translate}}</div>
+  <!--<div class="weui-cells__title">{{'text-fees-pay' | translate}}</div>-->
 
-  <div class="weui-cells weui-cells_radio">
-    <label class="weui-cell weui-check__label" >
-      <div class="weui-cell__bd">
-        <p>{{'text-fees-pay-sender' | translate}}</p>
-      </div>
-      <div class="weui-cell__ft">
-        <input type="radio" class="weui-check" [(ngModel)]="transfer.payfees" name="radio1" [value]="1">
-        <span class="weui-icon-checked"></span>
-      </div>
-    </label>
-    <label class="weui-cell weui-check__label" >
-      <div class="weui-cell__bd">
-        <p>{{'text-fees-receiver' | translate}}</p>
-      </div>
-      <div class="weui-cell__ft">
-        <input type="radio" class="weui-check" [(ngModel)]="transfer.payfees" name="radio1" [value]="2">
-        <span class="weui-icon-checked"></span>
-      </div>
-    </label>
-  </div>
+  <!--<div class="weui-cells weui-cells_radio">-->
+    <!--<label class="weui-cell weui-check__label" >-->
+      <!--<div class="weui-cell__bd">-->
+        <!--<p>{{'text-fees-pay-sender' | translate}}</p>-->
+      <!--</div>-->
+      <!--<div class="weui-cell__ft">-->
+        <!--<input type="radio" class="weui-check" [(ngModel)]="transfer.payfees" name="radio1" [value]="1">-->
+        <!--<span class="weui-icon-checked"></span>-->
+      <!--</div>-->
+    <!--</label>-->
+    <!--<label class="weui-cell weui-check__label" >-->
+      <!--<div class="weui-cell__bd">-->
+        <!--<p>{{'text-fees-receiver' | translate}}</p>-->
+      <!--</div>-->
+      <!--<div class="weui-cell__ft">-->
+        <!--<input type="radio" class="weui-check" [(ngModel)]="transfer.payfees" name="radio1" [value]="2">-->
+        <!--<span class="weui-icon-checked"></span>-->
+      <!--</div>-->
+    <!--</label>-->
+  <!--</div>-->
 
 
   <button class="button-default bottom transfer-button" (click)="onClick(2)">{{ 'confirm' | translate }}</button>
