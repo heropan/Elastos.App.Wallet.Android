@@ -1,14 +1,14 @@
 import {Component, OnInit, ViewEncapsulation, ViewChild, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import {BaseComponent} from '../../../app/BaseComponent';
 import {SkinType, InputType} from 'ngx-weui';
-import {DialogService, DialogConfig, DialogComponent} from 'ngx-weui';
-import {ToastService} from 'ngx-weui';
+import {DialogService, DialogConfig, DialogComponent, ToastService, ToptipsComponent, ToptipsService } from 'ngx-weui';
 import {RouterUtil} from '../../../providers/RouterUtil';
 import {Logger} from '../../../providers/Logger';
 import {Config} from '../../../providers/Config';
 import {ActivatedRoute} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {Location} from '@angular/common';
+
 
 
 @Component({
@@ -20,6 +20,7 @@ import {Location} from '@angular/common';
 export class TransferComponent extends BaseComponent implements OnInit, OnDestroy {
 
 
+  @ViewChild('toptips') toptips: ToptipsComponent;
   @ViewChild('auto') autoAS: DialogComponent;
 
   constructor(public router: RouterUtil,
@@ -82,11 +83,29 @@ export class TransferComponent extends BaseComponent implements OnInit, OnDestro
         this.router.Go_v2({path: 'contacts/list'});
         break;
       case 2:   // 转账
-        this.onShowPrompt();
+        this.checkValue();
         break;
     }
 
   }
+
+  checkValue() {
+    this.toptips.type = 'warn';
+    if (this.checkNull(this.transfer.toAdd)) {
+      this.toptips.text = '请输入正确的地址';
+      this.toptips.onShow();
+      return ;
+    }
+
+    if (this.checkNull(this.transfer.amount)) {
+      this.toptips.text = '请输入正确的金额';
+      this.toptips.onShow();
+      return ;
+    }
+
+    this.onShowPrompt();
+  }
+
 
 
   onShowPrompt() {
