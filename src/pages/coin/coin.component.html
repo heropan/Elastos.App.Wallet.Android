@@ -1,33 +1,33 @@
-<app-header [header]="header"   ></app-header>
+<app-header [header]="header"></app-header>
 
 <div>
-  <div  class="coin-info-top-box" >
-    <img src="./../../assets/images/logo-maincolor.svg">
-    <div>{{coinCount}}&nbsp; {{config.COIN_LIST[0].name}}</div>
+    <div class="coin-info-top-box">
+        <img src="./../../assets/images/logo-maincolor.svg">
+        <div>{{coinCount}}&nbsp; {{ coinName }}</div>
 
-  </div>
-
-
-
-  <div class="weui-cells__title">{{ 'coin-recent-transfer' | translate }}</div>
-  <ul class="weui-cells transfer-list">
-    <li class="weui-cell weui-cell_access" *ngFor="let item of transferList" (click)="onItem(item)">
-      <div class="weui-cell__hd">
-        <img src="./../../assets/images/tx-state/icon-tx-moved.svg" alt="" class="transfer-list-img"></div>
-      <div class="weui-cell__bd">
-        <p>Exbwononlxnknwlnblnwb<br/> <span class="transfer-list-date">1日前</span></p>
-      </div>
-      <div class="weui-cell__ft">1 ELA</div>
-    </li>
-
-  </ul>
-
-  <div class="coin-bottom">
-    <div (click)="onNext(1)">
-      {{ 'text-receive' | translate }}
     </div>
-    <div (click)="onNext(2)">
-      {{ 'text-transfer' | translate }}
+
+
+
+    <div class="weui-cells__title">{{ 'coin-recent-transfer' | translate }}</div>
+    <ul class="weui-cells transfer-list">
+        <li class="weui-cell weui-cell_access" *ngFor="let item of transferList" (click)="onItem(item)">
+            <div class="weui-cell__hd">
+                <img src="./../../assets/images/tx-state/icon-tx-moved.svg" alt="" class="transfer-list-img"></div>
+            <div class="weui-cell__bd">
+                <p>Exbwononlxnknwlnblnwb<br/> <span class="transfer-list-date">1日前</span></p>
+            </div>
+            <div class="weui-cell__ft">1 ELA</div>
+        </li>
+
+    </ul>
+
+    <div class="coin-bottom">
+        <div (click)="onNext(1)">
+            {{ 'text-receive' | translate }}
+        </div>
+        <div (click)="onNext(2)">
+            {{ 'text-transfer' | translate }}
+        </div>
     </div>
-  </div>
 </div>

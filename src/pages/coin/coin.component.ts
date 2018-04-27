@@ -1,5 +1,6 @@
 import {BaseComponent} from '../../app/BaseComponent';
 import {Component, ViewEncapsulation, OnInit} from '@angular/core';
+import { Config } from '../../providers/Config';
 
 
 @Component({
@@ -20,6 +21,8 @@ export class CoinComponent extends BaseComponent implements OnInit {
   coinCount = 1.2;
 
   coinId = 0;
+
+  coinName = Config.COIN_LIST[0].name;
 
 
   ngOnInit() {

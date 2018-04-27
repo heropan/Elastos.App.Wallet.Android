@@ -7,7 +7,7 @@ import {BaseComponent} from '../../../app/BaseComponent';
   styleUrls: ['./result.component.less']
 })
 export class ResultComponent  extends BaseComponent implements OnInit  {
-  private type: Number;
+  type: string;
   ngOnInit() {
     this.type = this.activateRoute.snapshot.params['type'];
   }

@@ -10,6 +10,7 @@ import {AppComponent} from './app.component';
 import {Utils} from '../providers/Utils';
 
 
+
 @Component({
   selector: 'app-base',
   template: '',

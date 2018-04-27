@@ -7,8 +7,8 @@ import {BaseComponent} from '../../../app/BaseComponent';
   styleUrls: ['./settings.component.less']
 })
 export class SettingsComponent  extends BaseComponent implements OnInit {
-
-
+  cho1: string;
+  country: string;
   ngOnInit() {
   }
 
