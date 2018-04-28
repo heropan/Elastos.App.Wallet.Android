@@ -11,7 +11,7 @@ export class ContactsComponent  extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.setTitleByAssets('text-contacts-info');
-    this.setRightIcon('../../assets/images/icon/icon-delete.svg', () => {
+    this.setRightIcon('./assets/images/icon/icon-delete.svg', () => {
         this.rightHeader();
     });
     this.setHeadDisPlay({'right': true});

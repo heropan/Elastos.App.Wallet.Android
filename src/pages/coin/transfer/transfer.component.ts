@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewEncapsulation, ViewChild, OnDestroy, ChangeDetectorRef} from '@angular/core';
-import {BaseComponent} from '../../../app/BaseComponent';
+import {BaseComponent} from './../../../app/BaseComponent';
 import {SkinType, InputType} from 'ngx-weui';
 import {DialogService, DialogConfig, DialogComponent, ToastService, ToptipsComponent, ToptipsService } from 'ngx-weui';
-import {RouterUtil} from '../../../providers/RouterUtil';
-import {Logger} from '../../../providers/Logger';
-import {Config} from '../../../providers/Config';
+import {RouterUtil} from './../../../providers/RouterUtil';
+import {Logger} from './../../../providers/Logger';
+import {Config} from './../../../providers/Config';
 import {ActivatedRoute} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {Location} from '@angular/common';

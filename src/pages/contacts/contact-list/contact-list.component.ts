@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {BaseComponent} from '../../../app/BaseComponent';
-import {RouterUtil} from '../../../providers/RouterUtil' ;
+import {BaseComponent} from './../../../app/BaseComponent';
+import {RouterUtil} from './../../../providers/RouterUtil' ;
 
 @Component({
   selector: 'app-contact-list',
@@ -12,7 +12,7 @@ export class ContactListComponent  extends BaseComponent implements OnInit  {
 
   ngOnInit() {
     this.setTitleByAssets('text-contacts');
-    this.setRightIcon('../../assets/images/icon/icon-add.svg', () => {
+    this.setRightIcon('./assets/images/icon/icon-add.svg', () => {
     this.rightHeader();
     });
     this.setHeadDisPlay({right: true});

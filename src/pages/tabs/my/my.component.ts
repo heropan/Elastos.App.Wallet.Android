@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {BaseComponent} from '../../../app/BaseComponent';
-import { Utils } from '../../../providers/Utils';
+import {BaseComponent} from './../../../app/BaseComponent';
+import { Utils } from './../../../providers/Utils';
 
 @Component({
   selector: 'app-my',

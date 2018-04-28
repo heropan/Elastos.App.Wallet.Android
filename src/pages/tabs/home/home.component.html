@@ -1,6 +1,6 @@
 <div>
   <div class="home-top-box">
-    <img (click)="onWallet()" src="./../../../assets/images/icon/icon-wallet.svg">
+    <img (click)="onWallet()" src="./assets/images/icon/icon-wallet.svg">
     <div>{{wallet.name}}</div>
 
   </div>
@@ -16,7 +16,7 @@
   <ul class="weui-cells">
     <li class="weui-cell weui-cell_access" *ngFor="let item of coinList" (click)="onItem(item)">
       <div class="weui-cell__hd">
-        <img src="./../../../assets/images/logo-maincolor.svg" alt="" class="home-list-img"></div>
+        <img src="./assets/images/logo-maincolor.svg" alt="" class="home-list-img"></div>
       <div class="weui-cell__bd home-list-title">
         {{item.name}}
       </div>
