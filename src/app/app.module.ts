@@ -1,11 +1,12 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-
+import { BrowserModule } from '@angular/platform-browser';
+import { ErrorHandler, NgModule } from '@angular/core';
+import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
 import {AppRoutingModule} from './app-routing.module';
-import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {WeUiModule} from 'ngx-weui';
-import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 // import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 // import fs = require('fs');
 import {Observable} from 'rxjs/Observable';
@@ -22,7 +23,6 @@ import {FormsModule} from '@angular/forms';
 
 
 /**provider*/
-import {LoDashStatic as _} from 'lodash';
 import {RouterUtil} from './../providers/RouterUtil';
 import {Config} from './../providers/Config';
 import {LocalStorage} from './../providers/Localstorage';
@@ -65,6 +65,7 @@ import {HelpComponent} from '../pages/other/help/help.component';
 import {NoticeComponent} from '../pages/other/notice/notice.component';
 import {ChangePwdComponent} from '../pages/other/change-pwd/change-pwd.component';
 import {ChangeNameComponent} from '../pages/other/change-name/change-name.component';
+import {RootComponent} from "./app.root";
 
 
 /** 通过类引用方式解析国家化文件 */
@@ -117,13 +118,14 @@ export function TranslateLoaderFactory() {
 
 @NgModule({
   declarations: [
+    AppComponent,
+    RootComponent,
     HeaderComponent,
     BaseComponent,
-    AppComponent,
     TabsComponent,
     HomeComponent,
     MyComponent,
-    LauncherComponent,
+     LauncherComponent,
     ManagerComponent,
     ImportComponent,
     ExprotPrikeyComponent,
@@ -155,7 +157,6 @@ export function TranslateLoaderFactory() {
     AppRoutingModule,
     BrowserModule,
     HttpClientModule,
-    WeUiModule.forRoot(),
     FormsModule,
     TranslateModule.forRoot({
       loader: {
@@ -164,9 +165,50 @@ export function TranslateLoaderFactory() {
         deps: [HttpClient]
       }
     }),
-    QRCodeModule
+    QRCodeModule,
+     IonicModule.forRoot(AppComponent),
+    WeUiModule.forRoot()
+  ],
+  bootstrap: [IonicApp],
+  entryComponents: [
+    AppComponent,
+    RootComponent,
+    HeaderComponent,
+    BaseComponent,
+    TabsComponent,
+    HomeComponent,
+    MyComponent,
+     LauncherComponent,
+    ManagerComponent,
+    ImportComponent,
+    ExprotPrikeyComponent,
+    MnemonicComponent,
+    WriteComponent,
+    AddressComponent,
+    MultiSignedComponent,
+    JoinComponent,
+    ContactsComponent,
+    SettingsComponent,
+    ResultComponent,
+    CoinComponent,
+    RecordComponent,
+    TransferComponent,
+    ReceiveComponent,
+    ContactListComponent,
+    ContactCreateComponent,
+    CoinListComponent,
+    WalletCreateComponent,
+    WalletInfoComponent,
+    RecordinfoComponent,
+    AboutComponent,
+    HelpComponent,
+    NoticeComponent,
+    ChangePwdComponent,
+    ChangeNameComponent
   ],
   providers: [
+    StatusBar,
+    SplashScreen,
     HttpClientModule,
     HttpClient,
     RouterUtil,
@@ -176,9 +218,8 @@ export function TranslateLoaderFactory() {
     Logger,
     Validators,
     HeaderComponent,
-    Utils
-  ],
-  bootstrap: [AppComponent]
+    Utils,
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
+  ]
 })
-export class AppModule {
-}
+export class AppModule {}

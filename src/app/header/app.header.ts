@@ -12,7 +12,7 @@ import {Location} from '@angular/common';
 @Component({
   selector: 'app-header',
   templateUrl: './app.header.html',
-  styleUrls: ['./app.header.less']
+  // styleUrls: ['./app.header.scss']
 })
 export class HeaderComponent {
 

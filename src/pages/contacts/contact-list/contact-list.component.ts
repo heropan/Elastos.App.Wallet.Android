@@ -5,7 +5,7 @@ import {RouterUtil} from './../../../providers/RouterUtil' ;
 @Component({
   selector: 'app-contact-list',
   templateUrl: './contact-list.component.html',
-  styleUrls: ['./contact-list.component.less']
+  // styleUrls: ['./contact-list.component.scss']
 })
 export class ContactListComponent  extends BaseComponent implements OnInit  {
 

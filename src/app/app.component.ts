@@ -1,20 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-
-import {BaseComponent} from './BaseComponent';
-import {HeaderComponent, Header} from './header/app.header';
-
-
-
+import {Component} from '@angular/core';
+import {Platform} from 'ionic-angular';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
+import {RootComponent} from './app.root';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less'],
+  // styleUrls: ['./app.component.scss'],
 
 })
-export class AppComponent extends BaseComponent {
+export class AppComponent {
+  // rootPage: any = RootComponent;
 
-
-
-
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+    platform.ready().then(() => {
+      // Okay, so the platform is ready and our plugins are available.
+      // Here you can do any higher level native things you might need.
+      statusBar.styleDefault();
+      splashScreen.hide();
+    });
+  }
 }
+

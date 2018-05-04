@@ -4,7 +4,7 @@ import {BaseComponent} from './../../../app/BaseComponent';
 @Component({
   selector: 'app-manager',
   templateUrl: './manager.component.html',
-  styleUrls: ['./manager.component.less']
+  // styleUrls: ['./manager.component.scss']
 })
 export class ManagerComponent extends BaseComponent implements OnInit {
 

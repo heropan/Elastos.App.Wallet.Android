@@ -18,7 +18,7 @@ export class Utils {
   }
 
   public static isEmptyObject(obj): boolean {
-    for ( const key of obj ) {
+    for (let key of obj ) {
       return false;
     }
     return true;

@@ -4,7 +4,7 @@ import {BaseComponent} from './../../../app/BaseComponent';
 @Component({
   selector: 'app-result',
   templateUrl: './result.component.html',
-  styleUrls: ['./result.component.less']
+  // styleUrls: ['./result.component.scss']
 })
 export class ResultComponent  extends BaseComponent implements OnInit  {
   type: string;

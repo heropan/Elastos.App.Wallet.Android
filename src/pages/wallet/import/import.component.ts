@@ -4,7 +4,7 @@ import {BaseComponent} from './../../../app/BaseComponent';
 @Component({
   selector: 'app-import',
   templateUrl: './import.component.html',
-  styleUrls: ['./import.component.less']
+  // styleUrls: ['./import.component.scss']
 })
 export class ImportComponent extends BaseComponent implements OnInit {
 

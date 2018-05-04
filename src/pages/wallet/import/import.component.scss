@@ -1,0 +1,25 @@
+@import "./../../../theme/variables";
+
+.import-type {
+  text-align: center;
+  margin: 20px 0px;
+  font-size: 1.2em;
+}
+
+.wallet-button {
+  width: 80%;
+  margin: 30px 10%;
+}
+
+.import-file {
+  width: 80%;
+  margin: 20px auto;
+  border: solid 1px $color-gray-light;
+  text-align: center;
+  color: $color-gray-dark;
+  img{
+    width: 100px;
+    margin: 10px auto;
+    display: block;
+  }
+}

@@ -6,7 +6,7 @@ import { Config } from '../../providers/Config';
 @Component({
   selector: 'app-coin',
   templateUrl: './coin.component.html',
-  styleUrls: ['./coin.component.less'],
+  // styleUrls: ['./coin.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class CoinComponent extends BaseComponent implements OnInit {

@@ -5,7 +5,7 @@ import { Utils } from './../../../providers/Utils';
 @Component({
   selector: 'app-my',
   templateUrl: './my.component.html',
-  styleUrls: ['./my.component.less']
+  // styleUrls: ['./my.component.scss']
 })
 export class MyComponent  extends BaseComponent implements OnInit  {
 

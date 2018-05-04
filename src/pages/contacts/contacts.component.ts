@@ -4,7 +4,7 @@ import {BaseComponent} from '../../app/BaseComponent';
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
-  styleUrls: ['./contacts.component.less']
+  // styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent  extends BaseComponent implements OnInit {
 

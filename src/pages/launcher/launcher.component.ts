@@ -4,7 +4,7 @@ import {BaseComponent} from '../../app/BaseComponent';
 @Component({
   selector: 'app-launcher',
   templateUrl: './launcher.component.html',
-  styleUrls: ['./launcher.component.less']
+  // styleUrls: ['./launcher.component.scss']
 })
 export class LauncherComponent extends BaseComponent implements OnInit {
 

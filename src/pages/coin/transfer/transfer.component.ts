@@ -14,7 +14,7 @@ import {Location} from '@angular/common';
 @Component({
   selector: 'app-transfer',
   templateUrl: './transfer.component.html',
-  styleUrls: ['./transfer.component.less'],
+  // styleUrls: ['./transfer.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class TransferComponent extends BaseComponent implements OnInit, OnDestroy {

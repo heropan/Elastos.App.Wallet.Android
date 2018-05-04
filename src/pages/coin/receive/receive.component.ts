@@ -7,7 +7,7 @@ import {HeaderComponent, Header} from './../../../app/header/app.header';
 @Component({
   selector: 'app-receive',
   templateUrl: './receive.component.html',
-  styleUrls: ['./receive.component.less']
+  // styleUrls: ['./receive.component.scss']
 })
 export class ReceiveComponent extends BaseComponent implements OnInit {
 

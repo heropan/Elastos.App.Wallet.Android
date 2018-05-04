@@ -10,4 +10,4 @@
 
 #### Run
 
-> npm run start
+> ionic serve
