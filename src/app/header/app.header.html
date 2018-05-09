@@ -4,8 +4,9 @@
 </app-tabs>-->
 
 <div class="nav-bar-box" >
-  <img [ngStyle]="{'display': header.display.left ? 'block' : 'none'}"  src="{{ header.backIcon }}" class="nav-bar-back" (click) = "header.backClick()"/>
   <span [ngStyle]="{'display': header.display.title ? 'block' : 'none'}"  class="title">{{header.title}}</span>
+
+  <img [ngStyle]="{'display': header.display.left ? 'block' : 'none'}"  src="{{ header.backIcon }}" class="nav-bar-back" (click) = "header.backClick()"/>
   <img [ngStyle]="{'display': header.display.right ? 'block' : 'none'}"   src="{{ header.rightIcon }}" class="nav-bar-right" (click) = "header.rightClick()"/>
 
 </div>
