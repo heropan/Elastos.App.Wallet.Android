@@ -11,4 +11,5 @@
 #### Run
 
 > Web:ionic serve 
+---
 > Android:ionic cordova run android -l -c -s
