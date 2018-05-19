@@ -8,13 +8,13 @@ import * as _ from 'lodash';
 @Injectable()
 export class Logger {
   /* tslint:disable */
-  public levels: any;
-  public weight: any;
-  public logs: any[];
+  public static levels: any;
+  public static weight: any;
+  public static logs: any[];
 
   constructor() {
-    this.logs = [];
-    this.levels = [
+    Logger.logs = [];
+    Logger.levels = [
       { level: 'error', weight: 1, label: 'Error' },
       { level: 'warn', weight: 2, label: 'Warning' },
       { level: 'info', weight: 3, label: 'Info', default: true },
@@ -22,60 +22,60 @@ export class Logger {
     ];
 
     // Create an array of level weights for performant filtering.
-    this.weight = {};
-    for (let i = 0; i < this.levels.length; i++) {
-      this.weight[this.levels[i].level] = this.levels[i].weight;
+    Logger.weight = {};
+    for (let i = 0; i < Logger.levels.length; i++) {
+      Logger.weight[Logger.levels[i].level] = Logger.levels[i].weight;
     }
   }
 
-  public error(message?: any, ...optionalParams: any[]): void {
+  public static error(message?: any, ...optionalParams: any[]): void {
     let msg = '[error] ' + (_.isString(message) ? message : JSON.stringify(message));
     console.log(msg, ...optionalParams);
-    let args = this.processingArgs(arguments);
-    this.add('error', args);
+    let args = Logger.processingArgs(arguments);
+    Logger.add('error', args);
   }
 
-  public debug(message?: any, ...optionalParams: any[]): void {
+  public static debug(message?: any, ...optionalParams: any[]): void {
     let msg = '[debug] ' + (_.isString(message) ? message : JSON.stringify(message));
     if (isDevMode()) console.log(msg, ...optionalParams);
-    let args = this.processingArgs(arguments);
-    this.add('debug', args);
+    let args = Logger.processingArgs(arguments);
+    Logger.add('debug', args);
   }
 
-  public info(message?: any, ...optionalParams: any[]): void {
+  public static info(message?: any, ...optionalParams: any[]): void {
     let msg = '[info] ' + (_.isString(message) ? message : JSON.stringify(message));
     if (isDevMode()) console.log(msg, ...optionalParams);
-    let args = this.processingArgs(arguments);
-    this.add('info', args);
+    let args = Logger.processingArgs(arguments);
+    Logger.add('info', args);
   }
 
-  public warn(message?: any, ...optionalParams: any[]): void {
+  public static warn(message?: any, ...optionalParams: any[]): void {
     let msg = '[warn] ' + (_.isString(message) ? message : JSON.stringify(message));
     if (isDevMode()) console.log(msg, ...optionalParams);
-    let args = this.processingArgs(arguments);
-    this.add('warn', args);
+    let args = Logger.processingArgs(arguments);
+    Logger.add('warn', args);
   }
 
-  public getLevels(): any {
-    return this.levels;
+  public static getLevels(): any {
+    return Logger.levels;
   }
 
-  public getWeight(weight): any {
-    return _.find(this.levels, l => {
+  public static getWeight(weight): any {
+    return _.find(Logger.levels, l => {
       return l.weight == weight;
     });
   }
 
-  public getDefaultWeight(): any {
-    return _.find(this.levels, l => {
+  public static getDefaultWeight(): any {
+    return _.find(Logger.levels, l => {
       return l.default;
     });
   }
 
-  public add(level, msg): any {
+  public static add(level, msg): any {
     msg = msg.replace('/xpriv.*/', '[...]');
     msg = msg.replace('/walletPrivKey.*/', 'walletPrivKey:[...]');
-    this.logs.push({
+    Logger.logs.push({
       timestamp: new Date().toISOString(),
       level,
       msg
@@ -86,17 +86,17 @@ export class Logger {
    * Returns logs of <= to filteredWeight
    * @param {number} filteredWeight Weight (1-4) to use when filtering logs. optional
    */
-  public get(filterWeight?: number): any {
-    let filteredLogs = this.logs;
+  public static get(filterWeight?: number): any {
+    let filteredLogs = Logger.logs;
     if (filterWeight != undefined) {
-      filteredLogs = _.filter(this.logs, l => {
-        return this.weight[l.level] <= filterWeight;
+      filteredLogs = _.filter(Logger.logs, l => {
+        return Logger.weight[l.level] <= filterWeight;
       });
     }
     return filteredLogs;
   }
 
-  public processingArgs(argsValues: any) {
+  public static processingArgs(argsValues: any) {
     var args = Array.prototype.slice.call(argsValues);
     args = args.map(v => {
       try {

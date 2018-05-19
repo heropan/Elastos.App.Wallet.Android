@@ -26,6 +26,10 @@ export class Native {
   }
 
 
+  static toast(text){
+    alert(text);
+  }
+
   /***
    * 获取网络状态
    * @returns {{ConnectionType: string}}
@@ -105,6 +109,10 @@ export class Native {
    */
   key(options) {
 
+  }
+
+  static getLanguage(){
+    return "english";
   }
 }
 

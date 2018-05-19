@@ -20,12 +20,16 @@ import {en} from './../assets/i18n/en';
 import {QRCodeModule} from 'angularx-qrcode';
 
 import {FormsModule} from '@angular/forms';
+import { IonicStorageModule } from '@ionic/storage';
+
 
 
 /**provider*/
 import {RouterUtil} from './../providers/RouterUtil';
 import {Config} from './../providers/Config';
 import {LocalStorage} from './../providers/Localstorage';
+import {StorageUtil} from './../providers/StorageUtil';
+import {AuthManager} from './../providers/AuthManager';
 
 /**pages*/
 import {AppComponent} from './app.component';
@@ -66,6 +70,7 @@ import {NoticeComponent} from '../pages/other/notice/notice.component';
 import {ChangePwdComponent} from '../pages/other/change-pwd/change-pwd.component';
 import {ChangeNameComponent} from '../pages/other/change-name/change-name.component';
 import {RootComponent} from "./app.root";
+import {WalletManager} from "../providers/WalletManager";
 
 
 /** 通过类引用方式解析国家化文件 */
@@ -166,7 +171,11 @@ export function TranslateLoaderFactory() {
       }
     }),
     QRCodeModule,
-     IonicModule.forRoot(AppComponent),
+    IonicModule.forRoot(AppComponent),
+    IonicStorageModule.forRoot({
+      name: '__walletdb',
+      driverOrder: ['indexeddb', 'sqlite', 'websql']
+    }),
     WeUiModule.forRoot()
   ],
   bootstrap: [IonicApp],
@@ -219,6 +228,9 @@ export function TranslateLoaderFactory() {
     Validators,
     HeaderComponent,
     Utils,
+    WalletManager,
+    StorageUtil,
+    AuthManager,,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

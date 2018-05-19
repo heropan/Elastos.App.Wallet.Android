@@ -25,9 +25,8 @@ export class HttpProvider {
 
   headers:HttpHeaders;
 
-  constructor(private http: HttpClient,
-              private logger: Logger) {
-    this.logger.info('Http initialized.');
+  constructor(private http: HttpClient) {
+    Logger.info('Http initialized.');
     //统一设置响应头
     this.headers = new HttpHeaders();
     this.headers.set('Access-Control-Allow-Origin','*');
@@ -74,7 +73,7 @@ export class HttpProvider {
     // if(Validators.checkNull(res)){    //没有实体信息
     //     return {data:{},code:500};
     // }
-    this.logger.info(res);
+    Logger.info(res);
     switch (res.status){
       case 200:
       default:
@@ -96,10 +95,10 @@ export class HttpProvider {
    * @returns {void|Promise<string>|Promise<T>|any}
    */
   private  handleError(res:any) {
-    this.logger.info(res);
+    Logger.info(res);
     switch (res.status){
       case 0:
-        this.logger.error(res.message);
+        Logger.error(res.message);
         //网络错误，统一提示
         break;
     }

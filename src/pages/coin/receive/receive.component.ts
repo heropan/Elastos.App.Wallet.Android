@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
 import {QrcodeModel} from './../../../models/qrcode.model';
 import {HeaderComponent, Header} from './../../../app/header/app.header';
+import {Logger} from "../../../providers/Logger";
 
 
 @Component({
@@ -21,7 +22,7 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
     // 'EehM1A6MnVZxs6qH8AEA1pSLeW4RxmqhuU'
 
     this.setRightIcon('./assets/images/icon/icon-s.svg', () => {
-      this.log.info('分享');
+      Logger.info('分享');
     });
 
 

@@ -2,7 +2,7 @@
 
 ###  Clone
 
-> git clone git@github.com:elastos/Elastos.ORG.Wallet.Mobile.git
+> git clone git@github.com:fatasia/Wallet.JNI.Simple.git
 
 ###  Install
 
@@ -10,4 +10,5 @@
 
 #### Run
 
-> ionic serve
+> Web:ionic serve 
+> Android:ionic cordova run android -l -c -s

@@ -8,6 +8,8 @@ import {Config} from './../../../providers/Config';
 import {ActivatedRoute} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {Location} from '@angular/common';
+import {StorageUtil} from "../../../providers/StorageUtil";
+import {WalletManager} from "../../../providers/WalletManager";
 
 
 
@@ -30,8 +32,10 @@ export class TransferComponent extends BaseComponent implements OnInit, OnDestro
               public location: Location,
               public changeDetectorRef: ChangeDetectorRef,
               private srv: DialogService,
+              public storage:StorageUtil,
+              public walletManager:WalletManager,
               private toastService: ToastService) {
-    super(router, log, activateRoute, translate, location, changeDetectorRef);
+    super(router, log, activateRoute, translate, location, changeDetectorRef,storage,walletManager);
   }
 
   con: DialogConfig = {};
@@ -67,12 +71,12 @@ export class TransferComponent extends BaseComponent implements OnInit, OnDestro
     this.setTitleByAssets('text-transfer');
 
     this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
-      this.log.info('扫码');
+      Logger.info('扫码');
     });
 
     this.setHeadDisPlay({right: true});
 
-    this.log.info(this.autoAS);
+    Logger.info(this.autoAS);
 
 
   }

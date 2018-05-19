@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
 
+declare var cordova:any;
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -18,6 +20,12 @@ export class HomeComponent extends BaseComponent implements OnInit {
   ];
 
   ngOnInit() {
+    this.walletManager.importMnemonic("wallet abc", ()=> {
+      alert("成功啦");
+    });
+    // this.walletManager.print("123",function () {
+    //     alert("成功啦");
+    // })
 
   }
 

@@ -23,6 +23,8 @@ export class Config {
   ];
 
   public  static test: any = '';
+
+  public static  WalletKey = "wallet";
 }
 
 

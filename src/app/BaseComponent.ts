@@ -1,6 +1,8 @@
 import {Component, OnInit, ChangeDetectorRef, ViewChild, AfterViewInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {RouterUtil} from '../providers/RouterUtil';
+import {StorageUtil} from '../providers/StorageUtil';
+import {WalletManager} from '../providers/WalletManager';
 import {Logger} from '../providers/Logger';
 import {Location} from '@angular/common';
 import {Config} from '../providers/Config';
@@ -20,12 +22,16 @@ export class BaseComponent {
 
   header: Header;
 
+  public static walletData;
+
   public constructor(public router: RouterUtil,
                      public log: Logger,
                      public activateRoute: ActivatedRoute,
                      public translate: TranslateService,
                      public location: Location,
-                     public changeDetectorRef: ChangeDetectorRef) {
+                     public changeDetectorRef: ChangeDetectorRef,
+                     public storage:StorageUtil,
+                     public walletManager:WalletManager) {
     this.translate.addLangs(['zh', 'en']);
     this.translate.setDefaultLang('zh');
 
