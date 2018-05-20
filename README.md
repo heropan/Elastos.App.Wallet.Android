@@ -3,7 +3,11 @@
 
 ###  安装相关库
 
+##### 安装 ionic|cordova
+> npm install -g ionic cordova 
+##### 安装 依赖包
 > npm install
+
 
 ### 运行
 
