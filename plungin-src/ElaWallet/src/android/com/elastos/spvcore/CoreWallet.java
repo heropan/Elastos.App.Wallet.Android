@@ -38,7 +38,7 @@ public class CoreWallet extends JniReference
         void balanceChanged(long balance);
 
         // func txAdded(_ tx: BRTxRef)
-        void onTxAdded(CoreTransaction transaction);
+        void onTxAdded(Transaction transaction);
 
         // func txUpdated(_ txHashes: [UInt256], blockHeight: UInt32, timestamp: UInt32)
         void onTxUpdated(String hash, int blockHeight, int timeStamp);
@@ -60,7 +60,7 @@ public class CoreWallet extends JniReference
     //
     //
     //
-    public CoreWallet(CoreTransaction[] transactions,
+    public CoreWallet(Transaction[] transactions,
                       CoreMasterPubKey masterPubKey,
                       Listener listener)
         throws WalletExecption
@@ -77,11 +77,11 @@ public class CoreWallet extends JniReference
         installListener (listener);
 
         // All `transactions` are effectively registered - now 'owned' by wallet
-        for (CoreTransaction transaction : transactions)
+        for (Transaction transaction : transactions)
             transaction.isRegistered = true;
     }
 
-    protected static native long createJniCoreWallet (CoreTransaction[] transactions,
+    protected static native long createJniCoreWallet (Transaction[] transactions,
                                                       CoreMasterPubKey masterPubKey);
 
     protected native void installListener (Listener listener);
@@ -103,13 +103,13 @@ public class CoreWallet extends JniReference
     public native boolean addressIsUsed (CoreAddress address);
 
     // TODO: Holding these transactions when the wallet is GCed.... boom!?
-    public CoreTransaction[] getTransactions () {
-        CoreTransaction[] transactions = jniGetTransactions();
+    public Transaction[] getTransactions () {
+        Transaction[] transactions = jniGetTransactions();
 
         // Mark as 'registered' if not a copy.
-        for (CoreTransaction transaction : transactions) {
+        for (Transaction transaction : transactions) {
             assert (transaction.isSigned());
-            transaction.isRegistered = !CoreTransaction.JNI_COPIES_TRANSACTIONS;
+            transaction.isRegistered = !Transaction.JNI_COPIES_TRANSACTIONS;
         }
 
         return transactions;
@@ -120,9 +120,9 @@ public class CoreWallet extends JniReference
      * Therefore they *must* be marked 'isRegistered = true'
      * @return
      */
-    private native CoreTransaction[] jniGetTransactions ();
+    private native Transaction[] jniGetTransactions ();
 
-    public native CoreTransaction[] getTransactionsConfirmedBefore (long blockHeight);
+    public native Transaction[] getTransactionsConfirmedBefore (long blockHeight);
 
     public native long getBalance ();
 
@@ -154,7 +154,7 @@ public class CoreWallet extends JniReference
      * @param address the address to send to
      * @return a consistently constructed transaction.
      */
-    public native CoreTransaction createTransaction (long amount, CoreAddress address);
+    public native Transaction createTransaction (long amount, CoreAddress address);
 
     /**
      * Create a BRCoreTransaction with the provided outputs
@@ -162,7 +162,7 @@ public class CoreWallet extends JniReference
      * @param outputs the outputs to include
      * @return a consistently constructed transaction (input selected, fees handled, etc)
      */
-    public native CoreTransaction createTransactionForOutputs (CoreTransactionOutput[] outputs);
+    public native Transaction createTransactionForOutputs (CoreTransactionOutput[] outputs);
 
     // Need to remove 'forkId' - should be derived from the chainParams leading to this wallet.
 
@@ -175,11 +175,11 @@ public class CoreWallet extends JniReference
      * @param phrase
      * @return
      */
-    public native boolean signTransaction (CoreTransaction transaction, int forkId, byte[] phrase);
+    public native boolean signTransaction (Transaction transaction, int forkId, byte[] phrase);
 
-    public native boolean containsTransaction (CoreTransaction transaction);
+    public native boolean containsTransaction (Transaction transaction);
 
-    public boolean registerTransaction (CoreTransaction transaction) {
+    public boolean registerTransaction (Transaction transaction) {
         // Try to register; this might fail on a 're-register' attempt.
         boolean registered = jniRegisterTransaction(transaction);
 
@@ -190,7 +190,7 @@ public class CoreWallet extends JniReference
         return registered;
     }
 
-    private native boolean jniRegisterTransaction (CoreTransaction transaction);
+    private native boolean jniRegisterTransaction (Transaction transaction);
 
     public native void removeTransaction (byte[] transactionHash);
 
@@ -206,18 +206,18 @@ public class CoreWallet extends JniReference
      * @param transactionHash
      * @return
      */
-    public CoreTransaction transactionForHash (byte[] transactionHash) {
-        CoreTransaction transaction = jniTransactionForHash(transactionHash);
+    public Transaction transactionForHash (byte[] transactionHash) {
+        Transaction transaction = jniTransactionForHash(transactionHash);
 
         // We mark as 'registered' if not a copy.
         if (null != transaction)
             transaction.isRegistered = transaction.isRegistered
-                || !CoreTransaction.JNI_COPIES_TRANSACTIONS;
+                || !Transaction.JNI_COPIES_TRANSACTIONS;
 
         return transaction;
     }
 
-    private native CoreTransaction jniTransactionForHash (byte[] transactionHash);
+    private native Transaction jniTransactionForHash (byte[] transactionHash);
 
     /**
      * Check if a transaction is valid - THIS METHOD WILL FATAL if the transaction is not signed.
@@ -226,11 +226,11 @@ public class CoreWallet extends JniReference
      * @param transaction
      * @return
      */
-    public native boolean transactionIsValid (CoreTransaction transaction);
+    public native boolean transactionIsValid (Transaction transaction);
 
-    public native boolean transactionIsPending (CoreTransaction transaction);
+    public native boolean transactionIsPending (Transaction transaction);
 
-    public native boolean transactionIsVerified (CoreTransaction transaction);
+    public native boolean transactionIsVerified (Transaction transaction);
 
 
     // set TX Unconfirmed After
@@ -243,7 +243,7 @@ public class CoreWallet extends JniReference
      * @param tx
      * @return
      */
-    public long getTransactionAmount (CoreTransaction tx)
+    public long getTransactionAmount (Transaction tx)
     {
         long amountSent = getTransactionAmountSent(tx);
         long amountReceived = getTransactionAmountReceived(tx);
@@ -253,13 +253,13 @@ public class CoreWallet extends JniReference
                 : -1 * (amountSent - amountReceived - getTransactionFee(tx));
     }
 
-    public native long getTransactionFee (CoreTransaction tx);
+    public native long getTransactionFee (Transaction tx);
 
-    public native long getTransactionAmountSent (CoreTransaction tx);
+    public native long getTransactionAmountSent (Transaction tx);
 
-    public native long getTransactionAmountReceived (CoreTransaction tx);
+    public native long getTransactionAmountReceived (Transaction tx);
 
-    public native long getBalanceAfterTransaction (CoreTransaction transaction);
+    public native long getBalanceAfterTransaction (Transaction transaction);
 
     /**
      * Return a BRCoreAddress for a) the receiver (if we sent an amount) or b) the sender (if
@@ -269,7 +269,7 @@ public class CoreWallet extends JniReference
      * @param transaction
      * @return
      */
-    public CoreAddress getTransactionAddress (CoreTransaction transaction){
+    public CoreAddress getTransactionAddress (Transaction transaction){
         return getTransactionAmount(transaction) > 0
                 ? getTransactionAddressInputs(transaction)   // we received -> from inputs
                 : getTransactionAddressOutputs(transaction); // we sent     -> to outputs
@@ -282,7 +282,7 @@ public class CoreWallet extends JniReference
      * @param transaction
      * @return The/A BRCoreAddress that received an amount from us (that we sent to)
      */
-    public CoreAddress getTransactionAddressInputs(CoreTransaction transaction) {
+    public CoreAddress getTransactionAddressInputs(Transaction transaction) {
         for (CoreTransactionInput input : transaction.getInputs()) {
             CoreAddress address = new CoreAddress(input.getAddress());
             if (!containsAddress(address))
@@ -298,7 +298,7 @@ public class CoreWallet extends JniReference
      * @param transaction
      * @return The/A BRCoreAddress that sent to us.
      */
-    public CoreAddress getTransactionAddressOutputs(CoreTransaction transaction) {
+    public CoreAddress getTransactionAddressOutputs(Transaction transaction) {
         for (CoreTransactionOutput output : transaction.getOutputs()) {
             CoreAddress address = new CoreAddress(output.getAddress());
             if (!containsAddress (address))

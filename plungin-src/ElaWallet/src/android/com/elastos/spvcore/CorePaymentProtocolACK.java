@@ -37,7 +37,7 @@ public class CorePaymentProtocolACK extends JniReference {
 
     public native byte[] getMerchantData ();
 
-    public native CoreTransaction[] getTransactions ();
+    public native Transaction[] getTransactions ();
 
     public native CoreTransactionOutput[] getRefundTo ();
 

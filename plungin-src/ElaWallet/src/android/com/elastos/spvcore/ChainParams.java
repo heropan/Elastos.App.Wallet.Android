@@ -1,11 +1,8 @@
 package com.elastos.spvcore;
 
-public class ChainParams  extends JniReference{
+public class ChainParams extends JniReference {
 
 
-    protected ChainParams(long jniReferenceAddress) {
-        super(jniReferenceAddress);
-    }
 
     public ChainParams(){
         super(createJniMainnetChainParams());
@@ -13,4 +10,12 @@ public class ChainParams  extends JniReference{
 
     public native static  long createJniMainnetChainParams();
     public native  static long createJniTestnetChainParams();
-}
+
+    public native void disposeNative ();
+
+    protected void finalize () throws Throwable {
+        disposeNative();
+    }
+
+
+    }

@@ -33,7 +33,7 @@ import java.util.concurrent.Executor;
  *
  */
 public class CoreWalletManager implements
-        CorePeerManager.Listener,
+        PeerManager.Listener,
         CoreWallet.Listener {
 
     protected static boolean SHOW_CALLBACK = true;
@@ -50,8 +50,8 @@ public class CoreWalletManager implements
 
     CoreWallet wallet; // Optional<BRCoreWallet>
 
-    CorePeerManager peerManager; // Optional<BRCorePeerManager>
-    
+    PeerManager peerManager; // Optional<BRCorePeerManager>
+
     //
     //
     //
@@ -124,7 +124,7 @@ public class CoreWalletManager implements
     //        }
     //        return peerManager;
     //    }
-    public synchronized CorePeerManager getPeerManager () {
+    public synchronized PeerManager getPeerManager () {
         if (null == peerManager) {
             CoreWallet wallet = getWallet();
             if (null != wallet) {
@@ -140,8 +140,8 @@ public class CoreWalletManager implements
      * @param wallet The wallet
      * @return A BRCorePeerManager for the provided wallet.
      */
-    protected CorePeerManager createPeerManager (CoreWallet wallet) {
-        return new CorePeerManager(chainParams, wallet, earliestPeerTime, loadBlocks(), loadPeers(),
+    protected PeerManager createPeerManager (CoreWallet wallet) {
+        return new PeerManager(chainParams, wallet, earliestPeerTime, loadBlocks(), loadPeers(),
                 createPeerManagerListener());
     }
 
@@ -150,14 +150,14 @@ public class CoreWalletManager implements
      *
      * @return A BRCorePeerManager.Listener, like `this` or a `wrapped this`
      */
-    protected CorePeerManager.Listener createPeerManagerListener () {
+    protected PeerManager.Listener createPeerManagerListener () {
         return new WrappedExceptionPeerManagerListener (this);
     }
 
     //
     //
     //
-    public byte[] signAndPublishTransaction (CoreTransaction transaction, CoreMasterPubKey masterPubKey) {
+    public byte[] signAndPublishTransaction (Transaction transaction, CoreMasterPubKey masterPubKey) {
         assert (false);
         return null;
     }
@@ -169,7 +169,7 @@ public class CoreWalletManager implements
      * @param phrase the result of BRCoreMasterPubKey.generatePaperKey()
      * @return the transaction hash
      */
-    public byte[] signAndPublishTransaction (CoreTransaction transaction, byte[] phrase) {
+    public byte[] signAndPublishTransaction (Transaction transaction, byte[] phrase) {
         getWallet().signTransaction(transaction, getForkId(), phrase);
         getPeerManager().publishTransaction(transaction);
         return transaction.getHash();
@@ -189,9 +189,9 @@ public class CoreWalletManager implements
     // Support
     //
 
-    protected CoreTransaction[] loadTransactions ()
+    protected Transaction[] loadTransactions ()
     {
-        return new CoreTransaction[0];
+        return new Transaction[0];
     }
 
     protected CoreMerkleBlock[] loadBlocks ()
@@ -207,9 +207,9 @@ public class CoreWalletManager implements
     private void showTxDetail (String label) {
         CoreWallet wallet = getWallet();
 
-        CoreTransaction transactions[] = wallet.getTransactions();
+        Transaction transactions[] = wallet.getTransactions();
         System.out.println (getChainDescriptiveName() + " " + label + " txCount: " + transactions.length);
-        for (CoreTransaction transaction : wallet.getTransactions()) {
+        for (Transaction transaction : wallet.getTransactions()) {
             System.out.println("    tx: " + transaction.toString());
             System.out.println("        : " +
                     (transaction.isSigned() ? "SIGNED" : "NOT-SIGNED") + " " +
@@ -299,7 +299,7 @@ public class CoreWalletManager implements
     }
 
     @Override
-    public void onTxAdded(CoreTransaction transaction) {
+    public void onTxAdded(Transaction transaction) {
         if (!SHOW_CALLBACK) return;
         System.out.println (getChainDescriptiveName() + ": onTxAdded: " + bytesToHex(transaction.getHash()));
 
@@ -360,10 +360,10 @@ public class CoreWalletManager implements
     //
     // Exception Wrapped PeerManagerListener
     //
-    static public class WrappedExceptionPeerManagerListener implements CorePeerManager.Listener {
-        private CorePeerManager.Listener listener;
+    static public class WrappedExceptionPeerManagerListener implements PeerManager.Listener {
+        private PeerManager.Listener listener;
 
-        public WrappedExceptionPeerManagerListener(CorePeerManager.Listener listener) {
+        public WrappedExceptionPeerManagerListener(PeerManager.Listener listener) {
             this.listener = listener;
         }
 
@@ -441,11 +441,11 @@ public class CoreWalletManager implements
     // Executor Wrapped PeerManagerListener
     //
 
-    static public class WrappedExecutorPeerManagerListener implements CorePeerManager.Listener {
-        CorePeerManager.Listener listener;
+    static public class WrappedExecutorPeerManagerListener implements PeerManager.Listener {
+        PeerManager.Listener listener;
         Executor executor;
 
-        public WrappedExecutorPeerManagerListener(CorePeerManager.Listener listener, Executor executor) {
+        public WrappedExecutorPeerManagerListener(PeerManager.Listener listener, Executor executor) {
             this.listener = listener;
             this.executor = executor;
         }
@@ -537,7 +537,7 @@ public class CoreWalletManager implements
         }
 
         @Override
-        public void onTxAdded(CoreTransaction transaction) {
+        public void onTxAdded(Transaction transaction) {
             try { listener.onTxAdded(transaction); }
             catch (Exception ex) {
                 ex.printStackTrace(System.err);
@@ -587,7 +587,7 @@ public class CoreWalletManager implements
         }
 
         @Override
-        public void onTxAdded(final CoreTransaction transaction) {
+        public void onTxAdded(final Transaction transaction) {
             executor.execute(new Runnable() {
                 @Override
                 public void run() {

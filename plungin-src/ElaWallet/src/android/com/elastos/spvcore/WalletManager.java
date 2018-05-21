@@ -1,92 +1,93 @@
 
 package com.elastos.spvcore;
 
+import java.util.List;
+
 /**
  * WalletManager jni
  */
 public class WalletManager extends JniReference {
 
-
-    public native static long createJniWalletManager(String stringPhrase, String stringLanguage, ChainParams objChainParams);
-    public native static long createJniWalletManager(ChainParams objChainParams);
-
-    public native void disposeNative ();
-
-    protected WalletManager(long jniReferenceAddress) {
-        super(jniReferenceAddress);
-    }
-
-    public WalletManager(String stringPhrase, String stringLanguage, ChainParams objChainParams){
-        super( createJniWalletManager(stringPhrase,stringLanguage, objChainParams));
-
-    }
+  public static class WalletExecption extends Exception {
+  }
 
 
+  public interface Listener {
+    // func balanceChanged(_ balance: UInt64)
+    void balanceChanged(long balance);
+
+    // func txAdded(_ tx: BRTxRef)
+    void onTxAdded(Transaction transaction);
+
+    // func txUpdated(_ txHashes: [UInt256], blockHeight: UInt32, timestamp: UInt32)
+    void onTxUpdated(String hash, int blockHeight, int timeStamp);
+
+    // func txDeleted(_ txHash: UInt256, notifyUser: Bool, recommendRescan: Bool)
+    void onTxDeleted(String hash, int notifyUser, final int recommendRescan);
+  }
+
+  public native static long recoverJniWalletManager(String stringPhrase, String stringLanguage, ChainParams objChainParams);
+
+  public native static long createJniWalletManager(ChainParams objChainParams);
 
 
-    //    public WalletManager(ChainParams chainParams);
-//
-//    public WalletManager(String phrase, String language,ChainParams chainParams );
-//
-//    public WalletManager();
-//
-//
-//    protected  native void start ();
-//
-//    protected  native void stop();
-//
-//    protected native int signAndPublishTransaction(TransactionPtr);
-//
-//
-//    protected native Object getTransactions();
+  /**
+   * 创建钱包
+   *
+   * @param objChainParams
+   */
+  public WalletManager(ChainParams objChainParams) {
+    super(createJniWalletManager(objChainParams));
 
-//    protected native  void registerWalletListener(Listener listener);
-//
-//    protected native void registerPeerManagerListener(Listener listener);
-//
-//    // func balanceChanged(_ balance: UInt64)
-//    protected native void balanceChanged(long balance);
-//
-//    // func txAdded(_ tx: BRTxRef)
-//    protected native  void onTxAdded(Transaction tx);
-//
-//    // func txUpdated(_ txHashes: [UInt256], blockHeight: UInt32, timestamp: UInt32)
-//    protected native  void onTxUpdated(String hash, int blockHeight, int timeStamp);
-//
-//    // func txDeleted(_ txHash: UInt256, notifyUser: Bool, recommendRescan: Bool)
-//    protected native  void onTxDeleted(String hash, boolean notifyUser, boolean recommendRescan);
-//
-//    // func syncStarted()
-//    protected native  void syncStarted();
-//
-//    // func syncStopped(_ error: BRPeerManagerError?)
-//    protected native  void syncStopped(String error);
-//
-//    // func txStatusUpdate()
-//    protected native  void txStatusUpdate();
-//
-//    // func saveBlocks(_ replace: Bool, _ blocks: [BRBlockRef?])
-//    protected native  void saveBlocks(boolean replace,Object blocks);
-//
-//    // func savePeers(_ replace: Bool, _ peers: [BRPeer])
-//    protected native  void savePeers(boolean replace,Object peers);
-//
-//    // func networkIsReachable() -> Bool
-//    protected native  boolean networkIsReachable();
-//
-//    // Called on publishTransaction
-//    protected native  void txPublished(String  error);
-//
-//    protected native  Object loadTransactions();
-//
-//    protected native Object loadBlocks();
-//
-//    protected native  Object loadPeers();
-//
-//    protected native  int getForkId();
-//
-//    protected native  PeerManagerListenerPtr createPeerManagerListener();
-//
-//    protected native  WalletListenerPtr createWalletListener();
+  }
+
+  /***
+   * 从助记词创建钱包
+   * @param stringPhrase 助记词
+   * @param stringLanguage
+   * @param objChainParams
+   */
+  public WalletManager(String stringPhrase, String stringLanguage, ChainParams objChainParams) {
+    super(recoverJniWalletManager(stringPhrase, stringLanguage, objChainParams));
+
+  }
+
+
+  public native void start();
+
+  public native void stop();
+
+  public native void exportKey(String path, String password);
+
+  public native void importKey(String path, String password);
+
+
+  public native String getMnemonic();
+
+  public native byte[] getIdData();
+
+  public native byte[] signData(byte[] data);
+
+
+  public native long createTransaction(WalletManager objectWalletManager, TxParam objectTxParam);
+
+
+  public native byte[] signAndPublishTransaction(WalletManager objectWalletManager, TransactionPtr objectTransaction);
+
+
+  public native Transaction[] getTransactions();
+
+  public native void registerWalletListener(Listener listener);
+
+
+  public native void registerPeerManagerListener(PeerManager.Listener listener);
+
+
+  public native void disposeNative();
+
+  public void finalize() {
+    disposeNative();
+  }
+
 
 }

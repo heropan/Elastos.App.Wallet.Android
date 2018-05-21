@@ -45,19 +45,15 @@ public abstract class JniReference {
         this.jniReferenceAddress = jniReferenceAddress;
     }
 
-    //
-    //
-    //
-    protected void finalize () throws Throwable {
-        if (SHOW_FINALIZE) System.err.println("Finalize: " + toString());
-        dispose ();
-    }
 
-    public void dispose () {
-        disposeNative ();
-    }
+    //
+    //
+    //
+//    protected void finalize () throws Throwable {
+//        if (SHOW_FINALIZE) System.err.println("Finalize: " + toString());
+//    }
 
-    public native void disposeNative ();
+
 
     public String toString() {
         return getClass().getName() + "@" + Integer.toHexString(hashCode()) + " JNI=" + Long.toHexString(jniReferenceAddress);
