@@ -50,7 +50,7 @@
   "ElaWallet": {
     "source": {
       "type": "local",
-      "path": "F:\\elast\\cordova\\Elastos.ORG.Wallet.Mobile\\node_modules\\ElaWallet"
+      "path": "F:\\elast\\cordova\\jni\\Elastos.ORG.Wallet.Mobile\\node_modules\\ElaWallet"
     },
     "is_top_level": true,
     "variables": {}

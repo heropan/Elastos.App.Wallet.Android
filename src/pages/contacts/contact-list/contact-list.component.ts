@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
 import {RouterUtil} from './../../../providers/RouterUtil' ;
+import {ContactCreateComponent} from "../contact-create/contact-create.component";
 
 @Component({
   selector: 'app-contact-list',
@@ -19,11 +20,11 @@ export class ContactListComponent  extends BaseComponent implements OnInit  {
   }
 
   rightHeader(): void {
-    this.router.Go_v2({'path': '/contactCreate'});
+    this.Go(ContactCreateComponent);
   }
 
   onclick(): void {
-    this.router.Go_v2({'path': '/contacts', 'id': 1});
+    this.Go(ContactListComponent,{id:1});
   }
 
 }

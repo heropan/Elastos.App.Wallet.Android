@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
+import {HomeComponent} from "../../tabs/home/home.component";
 
 @Component({
   selector: 'app-write',
@@ -42,7 +43,7 @@ export class WriteComponent extends BaseComponent implements OnInit {
 
 
   onNext() {
-    this.router.Go_v2({path: '/home'});
+    this.Go(HomeComponent)
   }
 
 }

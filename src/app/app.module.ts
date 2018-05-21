@@ -3,7 +3,6 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {WeUiModule} from 'ngx-weui';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
@@ -30,6 +29,7 @@ import {Config} from './../providers/Config';
 import {LocalStorage} from './../providers/Localstorage';
 import {StorageUtil} from './../providers/StorageUtil';
 import {AuthManager} from './../providers/AuthManager';
+import {NavController} from "ionic-angular";
 
 /**pages*/
 import {AppComponent} from './app.component';
@@ -130,7 +130,7 @@ export function TranslateLoaderFactory() {
     TabsComponent,
     HomeComponent,
     MyComponent,
-     LauncherComponent,
+    LauncherComponent,
     ManagerComponent,
     ImportComponent,
     ExprotPrikeyComponent,
@@ -159,7 +159,6 @@ export function TranslateLoaderFactory() {
     ChangeNameComponent
   ],
   imports: [
-    AppRoutingModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,
@@ -171,7 +170,7 @@ export function TranslateLoaderFactory() {
       }
     }),
     QRCodeModule,
-    IonicModule.forRoot(AppComponent),
+    IonicModule.forRoot(AppComponent,{tabsHideOnSubPages: 'true'}),
     IonicStorageModule.forRoot({
       name: '__walletdb',
       driverOrder: ['indexeddb', 'sqlite', 'websql']
@@ -187,7 +186,7 @@ export function TranslateLoaderFactory() {
     TabsComponent,
     HomeComponent,
     MyComponent,
-     LauncherComponent,
+    LauncherComponent,
     ManagerComponent,
     ImportComponent,
     ExprotPrikeyComponent,
@@ -228,9 +227,8 @@ export function TranslateLoaderFactory() {
     Validators,
     HeaderComponent,
     Utils,
-    WalletManager,
     StorageUtil,
-    AuthManager,,
+    AuthManager,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

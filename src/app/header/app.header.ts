@@ -50,7 +50,7 @@ export class Header {
               show: boolean = true,
               backIcon: string = './assets/images/icon/icon-back-arrow.svg',
               rightIcon: string = '',
-              backClick: any = () => location.back(),
+              backClick: any = '',
               rightClick: any = '',
               display: any = {left: true, right: false, title: true}) {
     this.location = location;

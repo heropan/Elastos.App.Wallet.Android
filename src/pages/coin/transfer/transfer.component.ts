@@ -10,6 +10,8 @@ import {TranslateService} from '@ngx-translate/core';
 import {Location} from '@angular/common';
 import {StorageUtil} from "../../../providers/StorageUtil";
 import {WalletManager} from "../../../providers/WalletManager";
+import {NavController} from "ionic-angular";
+import {ContactListComponent} from "../../contacts/contact-list/contact-list.component";
 
 
 
@@ -25,17 +27,17 @@ export class TransferComponent extends BaseComponent implements OnInit, OnDestro
   @ViewChild('toptips') toptips: ToptipsComponent;
   @ViewChild('auto') autoAS: DialogComponent;
 
-  constructor(public router: RouterUtil,
+  constructor(
               public log: Logger,
-              public activateRoute: ActivatedRoute,
               public translate: TranslateService,
               public location: Location,
               public changeDetectorRef: ChangeDetectorRef,
               private srv: DialogService,
               public storage:StorageUtil,
-              public walletManager:WalletManager,
-              private toastService: ToastService) {
-    super(router, log, activateRoute, translate, location, changeDetectorRef,storage,walletManager);
+              private toastService: ToastService,
+              @ViewChild('myNav')nav:NavController
+              ) {
+    super( log, translate, location, changeDetectorRef,storage,nav);
   }
 
   con: DialogConfig = {};
@@ -76,7 +78,7 @@ export class TransferComponent extends BaseComponent implements OnInit, OnDestro
 
     this.setHeadDisPlay({right: true});
 
-    Logger.info(this.autoAS);
+    //Logger.info(this.autoAS);
 
 
   }
@@ -84,7 +86,7 @@ export class TransferComponent extends BaseComponent implements OnInit, OnDestro
   onClick(type) {
     switch (type) {
       case 1:
-        this.router.Go_v2({path: 'contacts/list'});
+        this.Go(ContactListComponent);
         break;
       case 2:   // 转账
         this.checkValue();
@@ -94,20 +96,20 @@ export class TransferComponent extends BaseComponent implements OnInit, OnDestro
   }
 
   checkValue() {
-    this.toptips.type = 'warn';
-    if (this.checkNull(this.transfer.toAdd)) {
-      this.toptips.text = '请输入正确的地址';
-      this.toptips.onShow();
-      return ;
-    }
+    // this.toptips.type = 'warn';
+    // if (this.checkNull(this.transfer.toAdd)) {
+    //   this.toptips.text = '请输入正确的地址';
+    //   this.toptips.onShow();
+    //   return ;
+    // }
+    //
+    // if (this.checkNull(this.transfer.amount)) {
+    //   this.toptips.text = '请输入正确的金额';
+    //   this.toptips.onShow();
+    //   return ;
+    // }
 
-    if (this.checkNull(this.transfer.amount)) {
-      this.toptips.text = '请输入正确的金额';
-      this.toptips.onShow();
-      return ;
-    }
-
-    this.onShowPrompt();
+    //this.onShowPrompt();
   }
 
 

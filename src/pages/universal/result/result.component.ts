@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
+import {HomeComponent} from "../../tabs/home/home.component";
 
 @Component({
   selector: 'app-result',
@@ -9,11 +10,11 @@ import {BaseComponent} from './../../../app/BaseComponent';
 export class ResultComponent  extends BaseComponent implements OnInit  {
   type: string;
   ngOnInit() {
-    this.type = this.activateRoute.snapshot.params['type'];
+    // this.type = this.activateRoute.snapshot.params['type'];
   }
 
   back(): void {
-    this.router.Go_v2({'path': '/home'});
+    this.Go(HomeComponent);
   }
 
 }

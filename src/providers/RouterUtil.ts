@@ -1,6 +1,7 @@
 import {Component, OnInit, Injectable} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+// import {Router, ActivatedRoute} from '@angular/router';
 import {Utils} from './Utils';
+import {NavController} from "ionic-angular";
 
 
 /**
@@ -9,12 +10,15 @@ import {Utils} from './Utils';
 @Injectable()
 export class RouterUtil {
 
-  public constructor(public router: Router) {
+  public nav:NavController
+
+  public constructor(public navCtrl:NavController) {
+    this.nav = navCtrl;
   }
 
 
   getRouteInstance() {
-    return this.router;
+    //return this.router;
   }
 
   /***
@@ -24,8 +28,13 @@ export class RouterUtil {
    * @param id      id   /:id
    * @constructor
    */
-  Go(path: string, options: any = {}, id: any = {}) {
-    this.router.navigate([path, id], {queryParams: options});
+  Go(page: any, options: {}) {
+    this.nav.push(page,options);
+    //this.router.navigate([path, id], {queryParams: options});
+  }
+
+  Back(){
+    this.nav.pop();
   }
 
   /**
@@ -59,22 +68,22 @@ export class RouterUtil {
     }
 
     if (isShow2 && isShow1) {
-      this.router.navigateByUrl(params.path);
+      //this.router.navigateByUrl(params.path);
       return;
     }
 
     if (!isShow2 && !isShow1) {
-      this.router.navigate([params.path, id], {queryParams: qParams});
+      //this.router.navigate([params.path, id], {queryParams: qParams});
       return;
     }
 
     if (!isShow1) {
-      this.router.navigate([params.path, id]);
+     // this.router.navigate([params.path, id]);
       return;
     }
 
     if (!isShow2) {
-      this.router.navigate([params.path], {queryParams: qParams});
+     // this.router.navigate([params.path], {queryParams: qParams});
       return;
     }
   }
@@ -85,6 +94,8 @@ export class RouterUtil {
    * @constructor
    */
   GoByUrl(path: string) {
-    this.router.navigateByUrl(path);
+   // this.router.navigateByUrl(path);
   }
+
+
 }

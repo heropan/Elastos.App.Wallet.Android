@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../app/BaseComponent';
+import {WriteComponent} from "./write/write.component";
 
 @Component({
   selector: 'app-mnemonic',
@@ -27,6 +28,6 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
   }
 
   onNext() {
-    this.router.Go_v2({path: '/mnemonic/write'});
+    this.Go(WriteComponent);
   }
 }

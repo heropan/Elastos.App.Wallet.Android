@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
+import {ExprotPrikeyComponent} from "../exprot-prikey/exprot-prikey.component";
+import {ImportComponent} from "../import/import.component";
+import {WalletInfoComponent} from "../wallet-info/wallet-info.component";
 
 @Component({
   selector: 'app-manager',
@@ -20,8 +23,22 @@ export class ManagerComponent extends BaseComponent implements OnInit {
     this.setTitleByAssets('text-wallet-manager');
   }
 
-  onItem(item) {
-    this.router.Go_v2({path: item.path});
+  onItem(item,i) {
+    switch (i){
+      case 0:
+
+        break;
+      case 1:
+        this.Go(ExprotPrikeyComponent);
+        break;
+      case 2:
+        this.Go(ImportComponent);
+        break;
+      case 3:
+        this.Go(WalletInfoComponent);
+        break;
+    }
+
   }
 
 }

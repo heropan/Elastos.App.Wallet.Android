@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {BaseComponent} from '../../app/BaseComponent';
+import {TransferComponent} from "../coin/transfer/transfer.component";
 
 @Component({
   selector: 'app-contacts',
@@ -22,6 +23,6 @@ export class ContactsComponent  extends BaseComponent implements OnInit {
   }
 
   zhifu(): void {
-    this.router.Go_v2({'path': 'coin/:id/transfer'});
+    this.Go(TransferComponent,{id:1});
   }
 }

@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../app/BaseComponent';
+import {WalletCreateComponent} from "../wallet/wallet-create/wallet-create.component";
+import {ImportComponent} from "../wallet/import/import.component";
 
 @Component({
   selector: 'app-launcher',
@@ -14,9 +16,9 @@ export class LauncherComponent extends BaseComponent implements OnInit {
 
   onNext(type) {
     if (type === 1) {
-      this.router.Go_v2({path: '/wallet/create'});
+      this.Go(WalletCreateComponent);
     } else {
-      this.router.Go_v2({path: '/wallet/import'});
+      this.Go(ImportComponent);
     }
   }
 

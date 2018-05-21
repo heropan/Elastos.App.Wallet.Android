@@ -1,12 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
+import {CoinComponent} from "../../coin/coin.component";
+import {ManagerComponent} from "../../wallet/manager/manager.component";
 
 declare var cordova:any;
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  // styleUrls: ['./home.component.scss']
+   //styleUrls: ['./home.component.scss']
 })
 export class HomeComponent extends BaseComponent implements OnInit {
 
@@ -20,9 +22,9 @@ export class HomeComponent extends BaseComponent implements OnInit {
   ];
 
   ngOnInit() {
-    this.walletManager.importMnemonic("wallet abc", ()=> {
-      alert("成功啦");
-    });
+    // this.walletManager.importMnemonic("wallet abc", ()=> {
+    //   alert("成功啦");
+    // });
     // this.walletManager.print("123",function () {
     //     alert("成功啦");
     // })
@@ -34,11 +36,12 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   onWallet() {
-    this.router.Go_v2({path: '/wallet/manager'});
+    this.Go(ManagerComponent);
   }
 
   onItem(item) {
-    this.router.Go_v2({path: 'coin', id: item.id});
+    this.Go(CoinComponent,{id:0});
+    //this.router.Go_v2({path: 'coin', id: item.id});
   }
 
 }

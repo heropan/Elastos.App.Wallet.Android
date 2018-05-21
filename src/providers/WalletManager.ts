@@ -19,7 +19,6 @@ export class WalletManager {
 
   constructor() {
     this.wallet = cordova.plugins.Wallet;
-    alert(this.wallet);
 
     // this.wallet.test2(["123"], function () {
     //   alert("成功啦");

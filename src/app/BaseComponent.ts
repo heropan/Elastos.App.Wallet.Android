@@ -10,7 +10,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {HeaderComponent, Header} from './header/app.header';
 import {AppComponent} from './app.component';
 import {Utils} from '../providers/Utils';
-
+import {IonicPage, NavController} from 'ionic-angular';
 
 
 @Component({
@@ -24,14 +24,13 @@ export class BaseComponent {
 
   public static walletData;
 
-  public constructor(public router: RouterUtil,
+  public constructor(
                      public log: Logger,
-                     public activateRoute: ActivatedRoute,
                      public translate: TranslateService,
                      public location: Location,
                      public changeDetectorRef: ChangeDetectorRef,
                      public storage:StorageUtil,
-                     public walletManager:WalletManager) {
+                     @ViewChild('myNav')public nav:NavController) {
     this.translate.addLangs(['zh', 'en']);
     this.translate.setDefaultLang('zh');
 
@@ -39,8 +38,27 @@ export class BaseComponent {
     this.translate.use(broswerLang.match(/en|zh/) ? broswerLang : 'zh');
 
     this.header = new Header(location, '');
+    this.header.backClick = ()=> {
+      this.Back();
+    }
   }
 
+
+  /***
+   * 路由跳转
+   * @param {string} path
+   * @param options 参数 ?key=value
+   * @param id      id   /:id
+   * @constructor
+   */
+  Go(page: any, options: any = {}) {
+    this.nav.push(page,options);
+    //this.router.navigate([path, id], {queryParams: options});
+  }
+
+  Back(){
+    this.nav.pop();
+  }
 
   /**强制刷新页面*/
   public updateValue() {
@@ -124,10 +142,10 @@ export class BaseComponent {
     console.log(this.translate.getBrowserCultureLang());
   }
 
-  /**获取参数id*/
-  public getId() {
-    return this.activateRoute.snapshot.params['id'];
-  }
+  // /**获取参数id*/
+  // public getId() {
+  //   return this.activateRoute.snapshot.params['id'];
+  // }
 
 
   public checkNull(text) {

@@ -17,7 +17,8 @@ export class MyComponent  extends BaseComponent implements OnInit  {
     if (Utils.isNull(path)) {
         return;
     }
-    this.router.Go_v2({'path': path});
+
+    //this.router.Go_v2({'path': path});
    }
 
 }

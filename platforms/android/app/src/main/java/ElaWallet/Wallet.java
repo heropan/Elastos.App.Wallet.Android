@@ -3,6 +3,10 @@ package ElaWallet;
 import android.util.JsonReader;
 
 import com.elastos.spvcore.ChainParams;
+import com.elastos.spvcore.IMasterWallet;
+import com.elastos.spvcore.ISubWallet;
+import com.elastos.spvcore.ISubWalletCallback;
+import com.elastos.spvcore.IWalletFactory;
 import com.elastos.spvcore.Transaction;
 import com.elastos.spvcore.TransactionPtr;
 import com.elastos.spvcore.TxParam;
@@ -11,9 +15,11 @@ import com.elastos.wallet.util.LogUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 
+import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 
+import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,8 +35,20 @@ public class Wallet extends CordovaPlugin {
   private static final String TAG = "Wallet.JNI";
 
   private WalletManager manager;
+  private IMasterWallet masterWallet;
+  private IWalletFactory walletFactory;
+  private ISubWallet subWallet;
 
   private Gson gson = new Gson();
+
+
+  @Override
+  public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+    super.initialize(cordova, webView);
+    masterWallet = new IMasterWallet();
+    walletFactory = new IWalletFactory();
+    subWallet = new ISubWallet();
+  }
 
 
   @Override
@@ -56,23 +74,29 @@ public class Wallet extends CordovaPlugin {
         case "stop":
           this.stop(callbackContext);
           return true;
-        case "exportKey":
-          this.exportKey(args, callbackContext);
+        case "createSubWallet":
+          this.createSubWallet(args, callbackContext);
           return true;
-        case "importKey":
-          this.importKey(args, callbackContext);
+        case "getPublicKey":
+          this.getPublicKey(args, callbackContext);
           return true;
-        case "createTransaction":
-          this.createTransaction(args, callbackContext);
+        case "createMasterWallet":
+          this.createMasterWallet(args, callbackContext);
           return true;
-        case "getMnemonic":
-          this.getMnemonic(callbackContext);
+        case "importWalletWithKeystore":
+          this.importWalletWithKeystore(args, callbackContext);
           return true;
-        case "getTransactions":
-          this.getTransactions(callbackContext);
+        case "importWalletWithMnemonic":
+          this.importWalletWithMnemonic(args, callbackContext);
           return true;
-        case "registerWalletListener":
-          this.registerWalletListener(callbackContext);
+        case "exportWalletWithKeystore":
+          this.exportWalletWithKeystore(args, callbackContext);
+          return true;
+        case "exportWalletWithMnemonic":
+          this.exportWalletWithMnemonic(args, callbackContext);
+          return true;
+        case "getBalanceInfo":
+          this.getBalanceInfo(callbackContext);
           return true;
         case "getBalance":
           this.getBalance(args, callbackContext);
@@ -80,14 +104,26 @@ public class Wallet extends CordovaPlugin {
         case "createAddress":
           this.createAddress(callbackContext);
           return true;
-        case "getAddressList":
-          this.getAddressList(callbackContext);
+        case "getTheLastAddress":
+          this.getTheLastAddress(callbackContext);
+          return true;
+        case "getAllAddress":
+          this.getAllAddress(callbackContext);
+          return true;
+        case "getBalanceWithAddress":
+          this.getBalanceWithAddress(callbackContext);
+          return true;
+        case "sendTransaction":
+          this.sendTransaction(args, callbackContext);
+          return true;
+        case "getAllTransaction":
+          this.getAllTransaction(args, callbackContext);
           return true;
         case "sign":
           this.sign(args, callbackContext);
           return true;
-        case "getPubKey":
-          this.getPubKey(args, callbackContext);
+        case "checkSign":
+          this.checkSign(args, callbackContext);
           return true;
 
       }
@@ -124,55 +160,70 @@ public class Wallet extends CordovaPlugin {
     callbackContext.success();
   }
 
-  public void exportKey(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    manager.exportKey(args.getString(0), args.getString(1));
+  public void createSubWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    masterWallet.createSubWallet(args.getString(0), args.getString(1), args.getBoolean(2));
     callbackContext.success();
   }
 
-  public void importKey(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    manager.importKey(args.getString(0), args.getString(1));
+  public void getPublicKey(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    masterWallet.getPublicKey(args.getString(0));
     callbackContext.success();
   }
 
-  public void createTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    long txId = manager.createTransaction(manager, new TxParam(args.getString(0), args.getLong(1)));
-    manager.signAndPublishTransaction(manager, new TransactionPtr(txId));
-    callbackContext.success(parseOneParam("txId", txId));
+  public void createMasterWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    walletFactory.CreateMasterWallet(args.getString(0), args.getString(1), args.getString(2));
+    callbackContext.success();
   }
 
-  public void getMnemonic(CallbackContext callbackContext) throws JSONException {
-
-    callbackContext.success(parseOneParam("mnemonic", manager.getMnemonic()));
+  public void importWalletWithKeystore(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    walletFactory.ImportWalletWithKeystore(args.getString(0), args.getString(1), args.getString(2));
+    callbackContext.success();
   }
 
-  public void getTransactions(CallbackContext callbackContext) {
+  public void importWalletWithMnemonic(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    walletFactory.ImportWalletWithMnemonic(args.getString(0), args.getString(1), args.getString(2));
+    callbackContext.success();
+  }
+
+  public void exportWalletWithKeystore(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    walletFactory.ExportWalletWithKeystore(masterWallet, args.getString(0), args.getString(1));
+    callbackContext.success();
+  }
+
+  public void exportWalletWithMnemonic(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    walletFactory.ExportWalletWithMnemonic(masterWallet, args.getString(0));
+    callbackContext.success();
+  }
+
+
+  public void sendTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
+
+    // long txId = manager.createTransaction(manager, new TxParam(args.getString(0), args.getLong(1)));
+    // manager.signAndPublishTransaction(manager, new TransactionPtr(txId));
+    callbackContext.success(parseOneParam("txId", ""));
+  }
+
+
+  public void getAllTransaction(JSONArray args, CallbackContext callbackContext) {
     callbackContext.success(gson.toJson(manager.getTransactions()));
   }
 
   public void registerWalletListener(CallbackContext callbackContext) {
-    manager.registerWalletListener(new WalletManager.Listener() {
+    new ISubWalletCallback() {
       @Override
-      public void balanceChanged(long balance) {
-        callbackContext.success();
-      }
-
-      @Override
-      public void onTxAdded(Transaction transaction) {
-        callbackContext.success();
+      public void OnBalanceChanged(String address, double oldAmount, double newAmount) {
 
       }
 
       @Override
-      public void onTxUpdated(String hash, int blockHeight, int timeStamp) {
-        callbackContext.success();
-      }
-
-      @Override
-      public void onTxDeleted(String hash, int notifyUser, int recommendRescan) {
-        callbackContext.success();
+      public void OnTransactionStatusChanged(String txId, String status, int error, String desc, int confirms) {
 
       }
-    });
+    };
+  }
+
+  public void getBalanceInfo(CallbackContext callbackContext) throws JSONException {
+    callbackContext.success(parseOneParam("balance", 1));
   }
 
 
@@ -185,11 +236,19 @@ public class Wallet extends CordovaPlugin {
     callbackContext.success(parseOneParam("address", "EciyeLa45qX8AwVWuekEweCsfb676LdRNe"));
   }
 
-  public void getAddressList(CallbackContext callbackContext) throws JSONException {
+  public void getTheLastAddress(CallbackContext callbackContext) throws JSONException {
+    callbackContext.success(parseOneParam("address", "EciyeLa45qX8AwVWuekEweCsfb676LdRNe"));
+  }
+
+  public void getAllAddress(CallbackContext callbackContext) throws JSONException {
     List<String> addressList = new ArrayList<String>();
     addressList.add("EciyeLa45qX8AwVWuekEweCsfb676LdRNe");
     addressList.add("EciyeLa45qX8AwVWuekEweCsfb676LdRNe");
     callbackContext.success(gson.toJson(addressList));
+  }
+
+  public void getBalanceWithAddress(CallbackContext callbackContext) throws JSONException {
+    callbackContext.success(parseOneParam("balance", 1));
   }
 
   public void sign(JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -197,10 +256,11 @@ public class Wallet extends CordovaPlugin {
     callbackContext.success(parseOneParam("signData", data));
   }
 
-  public void getPubKey(JSONArray args, CallbackContext callbackContext) throws JSONException {
+  public void checkSign(JSONArray args, CallbackContext callbackContext) throws JSONException {
     String data = args.getString(0);
-    callbackContext.success(parseOneParam("pubKey", data));
+    callbackContext.success(parseOneParam("signData", data));
   }
+
 
   private JSONObject parseOneParam(String key, Object value) throws JSONException {
     JSONObject jsonObject = new JSONObject();
@@ -227,13 +287,13 @@ public class Wallet extends CordovaPlugin {
     }
   }
 
-  public void print(String text, CallbackContext callbackContext) throws JSONException{
+  public void print(String text, CallbackContext callbackContext) throws JSONException {
     if (text == null) {
       callbackContext.error("text not can null");
 
     } else {
       LogUtil.i(TAG, text);
-      callbackContext.success(parseOneParam("text",text));
+      callbackContext.success(parseOneParam("text", text));
     }
   }
 
