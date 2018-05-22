@@ -41,7 +41,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
     switch (type){
       case 0:
         this.native.scan().then((q)=>{
-          this.Go(TransferComponent,{address:q.qrcode});
+         //this.Go(TransferComponent,{address:q.qrcode});
         }).catch(err=>{
           this.toast('error-address');
         });
