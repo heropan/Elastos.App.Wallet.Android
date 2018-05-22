@@ -6,7 +6,7 @@
       <li *ngFor="let item of mnemonicList">{{item.text}}</li>
   </ul>
 
-  <div>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
+  <div class="mnemonic-prompt">{{ 'text-mnemonic-prompt' | translate}}</div>
 
-  <button class="button-default center" style="margin-top: 40px" (click)="onNext()">{{ 'text-memory' | translate }}</button>
+  <button class="button-default bottom" style="margin-top: 40px" (click)="onNext()">{{ 'text-memory' | translate }}</button>
 </div>

@@ -1,13 +1,19 @@
 <app-header [header]="header"></app-header>
 
 
+<div class="import-tabs">
+  <div [ngClass]="{'select-tab':wallet.type == 1}" (click)="onChange()">{{ 'text-mnemonic' | translate }}</div>
+  <span></span>
+  <div [ngClass]="{'select-tab':wallet.type == 2}" (click)="onChange()">{{ 'text-key-file' | translate }}</div>
+</div>
+
 <div>
 
-  <div class="import-type" (click)="onChange()" [hidden]="wallet.type == 2"> {{ 'text-from-mnemonic' | translate }}<span
-    style="margin-left: 20px;"> > </span></div>
-  <div class="import-type" (click)="onChange()" [hidden]="wallet.type == 1"><span style="margin-right: 20px;"> < </span>{{
-    'text-from-key' | translate }}
-  </div>
+  <!--<div class="import-type" (click)="onChange()" [hidden]="wallet.type == 2"> {{ 'text-from-mnemonic' | translate }}<span-->
+    <!--style="margin-left: 20px;"> > </span></div>-->
+  <!--<div class="import-type" (click)="onChange()" [hidden]="wallet.type == 1"><span style="margin-right: 20px;"> < </span>-->
+    <!--{{ 'text-from-key' | translate }}-->
+  <!--</div>-->
 
 
   <div class="weui-cells">
@@ -20,23 +26,31 @@
     </div>
 
 
-    <div [hidden]="wallet.type != 1" class="import-file">
+    <div [hidden]="wallet.type != 1" (click)="selectFile()" class="import-file">
       <img src="./../assets/images/icon/icon-add.svg">
-      <p>{{'text-select-file' | translate}}</p>
+      <p [hidden]="wallet.keystore !='' ">{{'text-select-file' | translate}}</p>
+      <p [hidden]="wallet.keystore == ''">{{'text-reselect-file' | translate}}</p>
+      <p [hidden]="wallet.keystore == ''">{{wallet.keystore}}</p>
     </div>
 
 
     <div class="weui-cell">
       <div class="weui-cell__bd">
-        <input class="weui-input" type="text" placeholder="{{ 'text-pwd' | translate }}" [(ngModel)]="wallet.pwd">
+        <input class="weui-input" type="text" placeholder="{{ 'text-wallet-pwd' | translate }}" [(ngModel)]="wallet.pwd">
       </div>
 
     </div>
 
     <div class="weui-cell">
       <div class="weui-cell__bd">
-        <input class="weui-input" type="password" placeholder="{{ 'text-pwd-repeat' | translate }}"
-               [(ngModel)]="wallet.rePwd">
+        <input class="weui-input" type="password" placeholder="{{ 'text-pay-password' | translate }}"
+               [(ngModel)]="wallet.payPwd">
+      </div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="password" placeholder="{{ 'text-pay-repassword' | translate }}"
+               [(ngModel)]="wallet.rePayPwd">
       </div>
     </div>
   </div>

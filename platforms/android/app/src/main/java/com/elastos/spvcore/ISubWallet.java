@@ -29,6 +29,12 @@ public class ISubWallet extends JniReference {
 
   public native void GetAllTransaction(int start, int count, String addressOrTxId);
 
+  /***
+   *  签名
+   * @param message 签名的信息
+   * @param payPassword 支付密码
+   * @return
+   */
   public native String Sign(String message, String payPassword);
 
   public native boolean CheckSign(String address, String message, String signature);

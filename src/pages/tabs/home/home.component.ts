@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
 import {CoinComponent} from "../../coin/coin.component";
 import {ManagerComponent} from "../../wallet/manager/manager.component";
+import {CoinListComponent} from "../../coin/coin-list/coin-list.component";
+import {TransferComponent} from "../../coin/transfer/transfer.component";
 
 declare var cordova:any;
 
@@ -35,9 +37,23 @@ export class HomeComponent extends BaseComponent implements OnInit {
     this.wallet.showBalance = !this.wallet.showBalance;
   }
 
-  onWallet() {
-    this.Go(ManagerComponent);
+  onClick(type){
+    switch (type){
+      case 0:
+        this.native.scan().then((q)=>{
+          this.Go(TransferComponent,{address:q.qrcode});
+        }).catch(err=>{
+          this.toast('error-address');
+        });
+        break;
+      case 1:
+        this.Go(CoinListComponent);
+        break;
+
+    }
   }
+
+
 
   onItem(item) {
     this.Go(CoinComponent,{id:0});

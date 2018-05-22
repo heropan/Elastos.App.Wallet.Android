@@ -2,12 +2,13 @@
 <div class="receive-box">
   <!--<qr-code [value]="code.qrcode" [size] = '200'></qr-code>-->
 
-  <qrcode class="receive-qrocde" [qrdata]="code.qrcode" [size]="200" [level]="'M'"></qrcode>
+  <qrcode class="receive-qrocde" [qrdata]="code.qrcode" [size]="200" [level]="'M'" ></qrcode>
 
   <input class="weui-input receive-input" type="text"
          placeholder="{{'text-price' | translate}}"
-         [(ngModel)]="code.amount" name="txt">
-  <p class="receive-address">EehM1A6MnVZxs6qH8AEA1pSLeW4RxmqhuU</p>
+         [(ngModel)]="code.amount" name="txt" type="number" (ngModelChange)="onChange()">
+  <p class="receive-address" (click)="onNext(0)">EehM1A6MnVZxs6qH8AEA1pSLeW4RxmqhuU <img src="./assets/images/icon/icon-copy.svg"></p>
+  <p class="receive-address-create" (click)="onNext(1)">{{ 'text-create-address' | translate }}</p>
 
 
   <!--<div class="weui-cells__title">{{'text-fees-pay' | translate}}</div>-->
@@ -31,6 +32,11 @@
       <!--</div>-->
     <!--</label>-->
   <!--</div>-->
+
+  <div class="recevie-bottom" (click)="onNext(2)">
+    <p>{{ 'text-manager-address' | translate }}</p>
+  </div>
+
 </div>
 
 

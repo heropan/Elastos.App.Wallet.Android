@@ -43,9 +43,36 @@
   <!--</div>-->
 
 
-  <button class="button-default bottom transfer-button" (click)="onClick(2)">{{ 'confirm' | translate }}</button>
+  <button class="button-default bottom transfer-button" (click)="onClick(2)">{{ 'text-transfer' | translate }}</button>
+</div>
+<weui-popup #subscribe>
+<div class="pop-box" >
+  <div class="weui-cells" style="margin: 0px;padding: 0px">
+
+    <div class="pop-title">{{'transfer-info' | translate}}<img class="close" src="./assets/images/icon/icon-close.svg" (click)="onClick(3)"></div>
+    <div class="weui-cell">
+      <p><span>{{'transfer-address' | translate}}</span><span>{{transfer.toAdd}}</span></p>
+
+    </div>
+    <div class="weui-cell">
+
+    <p><span>{{'text-price' | translate}}</span><span>{{transfer.amount}}</span></p>
+    </div>
+    <div class="weui-cell">
+
+      <p><span>{{'text-fees' | translate}}</span><span>{{transfer.fees}}</span></p>
+    </div>
+
+  </div>
+
+  <div class="weui-cell">
+      <input class="weui-input" type="password" placeholder="{{ 'text-pay-password' | translate }}" [(ngModel)]="transfer.payPassword">
+  </div>
+  <div class="button-default " style="margin: 20px auto"  (click)="onClick(4)">{{ 'confirm' | translate }}</div>
+
 </div>
 
+</weui-popup>
 <!--<weui-dialog #auto [config]="con"></weui-dialog>-->
 <!--<weui-toptips #toptips></weui-toptips>-->
 

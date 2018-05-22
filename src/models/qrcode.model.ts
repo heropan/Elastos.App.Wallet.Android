@@ -8,6 +8,7 @@ export class QrcodeModel {
   public amount: number;    // 交易数额
   public orderId: number;   // 订单号
   public payfees: number;   // 1 sender 2 receiver
+  public coinID:string;
 
 
   constructor() {

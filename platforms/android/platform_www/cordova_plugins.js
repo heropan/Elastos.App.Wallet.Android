@@ -39,6 +39,30 @@ module.exports = [
     "clobbers": [
       "cordova.plugins.Wallet"
     ]
+  },
+  {
+    "id": "phonegap-plugin-barcodescanner.BarcodeScanner",
+    "file": "plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
+    "pluginId": "phonegap-plugin-barcodescanner",
+    "clobbers": [
+      "cordova.plugins.barcodeScanner"
+    ]
+  },
+  {
+    "id": "cordova-plugin-filechooser.FileChooser",
+    "file": "plugins/cordova-plugin-filechooser/www/fileChooser.js",
+    "pluginId": "cordova-plugin-filechooser",
+    "clobbers": [
+      "fileChooser"
+    ]
+  },
+  {
+    "id": "cordova-clipboard.Clipboard",
+    "file": "plugins/cordova-clipboard/www/clipboard.js",
+    "pluginId": "cordova-clipboard",
+    "clobbers": [
+      "cordova.plugins.clipboard"
+    ]
   }
 ];
 module.exports.metadata = 
@@ -50,7 +74,10 @@ module.exports.metadata =
   "cordova-plugin-splashscreen": "5.0.2",
   "cordova-plugin-whitelist": "1.3.3",
   "cordova-sqlite-storage": "2.3.1",
-  "ElaWallet": "1.0.0"
+  "ElaWallet": "1.0.0",
+  "phonegap-plugin-barcodescanner": "7.1.2",
+  "cordova-plugin-filechooser": "1.0.1",
+  "cordova-clipboard": "1.2.1"
 };
 // BOTTOM OF METADATA
 });

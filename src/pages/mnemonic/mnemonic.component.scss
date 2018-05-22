@@ -2,11 +2,22 @@
 
 
 .mnemonic-list-read{
-  margin: 40px 20px;
+  margin: 10% auto;
   &>li{
     display: inline-block;
-    margin: 5px 20px;
+    width: 25%;
+    margin: 20px 0px;
+    text-align: center;
     color: $color-main;
-    font-size: 1.25em;
+    font-size: 1.4em;
   }
+}
+.mnemonic-prompt{
+  color: $color-gray-dark;
+  text-align: center;
+  margin: 20px auto;
+  position: absolute;
+  bottom: 80px;
+  width: 100%;
+  left: 0px;
 }

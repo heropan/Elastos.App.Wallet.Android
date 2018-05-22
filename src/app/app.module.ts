@@ -4,7 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
-import {WeUiModule} from 'ngx-weui';
+import {PopupComponent, ToptipsService, WeUiModule} from 'ngx-weui';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 // import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 // import fs = require('fs');
@@ -30,6 +30,8 @@ import {LocalStorage} from './../providers/Localstorage';
 import {StorageUtil} from './../providers/StorageUtil';
 import {AuthManager} from './../providers/AuthManager';
 import {NavController} from "ionic-angular";
+import { Clipboard } from '@ionic-native/clipboard';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 /**pages*/
 import {AppComponent} from './app.component';
@@ -71,6 +73,8 @@ import {ChangePwdComponent} from '../pages/other/change-pwd/change-pwd.component
 import {ChangeNameComponent} from '../pages/other/change-name/change-name.component';
 import {RootComponent} from "./app.root";
 import {WalletManager} from "../providers/WalletManager";
+import {BarcodeScanner} from "@ionic-native/barcode-scanner";
+import {FileChooser} from "@ionic-native/file-chooser";
 
 
 /** 通过类引用方式解析国家化文件 */
@@ -156,7 +160,8 @@ export function TranslateLoaderFactory() {
     HelpComponent,
     NoticeComponent,
     ChangePwdComponent,
-    ChangeNameComponent
+    ChangeNameComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -170,10 +175,11 @@ export function TranslateLoaderFactory() {
       }
     }),
     QRCodeModule,
+    BrowserAnimationsModule,
     IonicModule.forRoot(AppComponent,{tabsHideOnSubPages: 'true'}),
     IonicStorageModule.forRoot({
       name: '__walletdb',
-      driverOrder: ['indexeddb', 'sqlite', 'websql']
+      driverOrder: ['localstorage','indexeddb', 'sqlite', 'websql']
     }),
     WeUiModule.forRoot()
   ],
@@ -212,13 +218,18 @@ export function TranslateLoaderFactory() {
     HelpComponent,
     NoticeComponent,
     ChangePwdComponent,
-    ChangeNameComponent
+    ChangeNameComponent,
+
   ],
   providers: [
     StatusBar,
     SplashScreen,
     HttpClientModule,
     HttpClient,
+    BarcodeScanner,
+    FileChooser,
+    ToptipsService,
+    Clipboard,
     RouterUtil,
     Config,
     LocalStorage,
@@ -229,6 +240,8 @@ export function TranslateLoaderFactory() {
     Utils,
     StorageUtil,
     AuthManager,
+    WalletManager,
+
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

@@ -1,5 +1,29 @@
 @import "./../../../theme/variables";
 
+.import-tabs {
+  border-bottom: solid 1px $color-gray-light;
+  height: 40px;
+  line-height: 40px;
+  display: -webkit-box;
+  color: $color-gray-dark;
+  font-size: 1em;
+  &>div{
+    -webkit-box-flex: 1;
+    text-align: center;
+  }
+  &>span{
+    height: 40px;
+    width: 1px;
+    background-color: $color-gray-light;
+    display: block;
+  }
+}
+
+.select-tab{
+  color: $color-main;
+  font-size: 1.1em;
+}
+
 .import-type {
   text-align: center;
   margin: 20px 0px;
@@ -17,9 +41,10 @@
   border: solid 1px $color-gray-light;
   text-align: center;
   color: $color-gray-dark;
-  img{
-    width: 100px;
-    margin: 10px auto;
+  padding-bottom: 30px;
+  img {
+    width: 60px;
+    margin: 20px auto;
     display: block;
   }
 }

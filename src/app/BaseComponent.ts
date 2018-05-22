@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectorRef, ViewChild, AfterViewInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef, ViewChild, AfterViewInit,ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {RouterUtil} from '../providers/RouterUtil';
 import {StorageUtil} from '../providers/StorageUtil';
@@ -11,38 +11,57 @@ import {HeaderComponent, Header} from './header/app.header';
 import {AppComponent} from './app.component';
 import {Utils} from '../providers/Utils';
 import {IonicPage, NavController} from 'ionic-angular';
+import {Native} from "../providers/Native";
+import {DialogService, DialogConfig, DialogComponent, ToastComponent, ToastService, MaskComponent} from 'ngx-weui';
 
+import {zh} from "../assets/i18n/zh";
+import {WalletModel} from "../models/wallet.model";
 
 @Component({
   selector: 'app-base',
   template: '',
+  encapsulation: ViewEncapsulation.None
+
 })
 export class BaseComponent {
 
 
   header: Header;
 
-  public static walletData;
+  public walletData: WalletModel;
 
-  public constructor(
-                     public log: Logger,
+
+  public constructor(public log: Logger,
                      public translate: TranslateService,
                      public location: Location,
                      public changeDetectorRef: ChangeDetectorRef,
-                     public storage:StorageUtil,
-                     @ViewChild('myNav')public nav:NavController) {
+                     public storage: StorageUtil,
+                     public native: Native,
+                     @ViewChild('myNav') public nav: NavController,
+                     public dialogService: DialogService,
+                     public walletManager: WalletManager,
+                     public toastService: ToastService) {
     this.translate.addLangs(['zh', 'en']);
     this.translate.setDefaultLang('zh');
-
     const broswerLang = this.translate.getBrowserLang();
     this.translate.use(broswerLang.match(/en|zh/) ? broswerLang : 'zh');
 
     this.header = new Header(location, '');
-    this.header.backClick = ()=> {
+    this.header.backClick = () => {
       this.Back();
-    }
+    };
+
+    this.storage.getWallet((data) => {
+      this.walletData = data;
+      Logger.info(this.walletData);
+      this.onWalletDatainit();
+    });
   }
 
+
+  onWalletDatainit(){
+
+  }
 
   /***
    * 路由跳转
@@ -52,11 +71,11 @@ export class BaseComponent {
    * @constructor
    */
   Go(page: any, options: any = {}) {
-    this.nav.push(page,options);
+    this.nav.push(page, options);
     //this.router.navigate([path, id], {queryParams: options});
   }
 
-  Back(){
+  Back() {
     this.nav.pop();
   }
 
@@ -129,6 +148,9 @@ export class BaseComponent {
     return this.translate.get(key);
   }
 
+  public getLanguageInstance() {
+    return zh;
+  }
 
   /**改变当前语言*/
   changeLang(lang) {
@@ -152,4 +174,10 @@ export class BaseComponent {
     return text == null || text === undefined || text === {} || text === '';
   }
 
+
+  public toast(res) {
+    this.getText(res).subscribe((text) => {
+      this.native.toast(text);
+    });
+  }
 }

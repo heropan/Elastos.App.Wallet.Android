@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
 import {HomeComponent} from "../../tabs/home/home.component";
+import {TabsComponent} from "../../tabs/tabs.component";
+import {Logger} from "../../../providers/Logger";
+import {ValidatorsUtil} from "../../../providers/ValidatorsUtil";
 
 @Component({
   selector: 'app-write',
@@ -20,6 +23,8 @@ export class WriteComponent extends BaseComponent implements OnInit {
     {text: '几', select: true},
     {text: '和', select: true},
     {text: '哎', select: true},
+    {text: '呦', select: true},
+    {text: '呦', select: true},
     {text: '呦', select: true},
   ];
 
@@ -43,7 +48,16 @@ export class WriteComponent extends BaseComponent implements OnInit {
 
 
   onNext() {
-    this.Go(HomeComponent)
+    let mn = "";
+    for(let i =0;i<this.selectList.length;i++){
+      mn += this.selectList[i].text;
+    }
+    if( !ValidatorsUtil.isNull(mn) && mn == this.walletData.mnemonic){
+      this.toast('text-mnemonic-ok');
+      this.Go(TabsComponent)
+    }else{
+      this.toast('text-mnemonic-prompt3');
+    }
   }
 
 }

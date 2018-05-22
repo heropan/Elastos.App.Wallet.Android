@@ -1,23 +1,45 @@
 <app-header [header]="header"   ></app-header>
 
+<div class="recordinfo-top">
+  <img src="./assets/images/tx-state/icon-tx-moved.svg"/>
+  <p>{{'transaction-ok'| translate }}</p>
+</div>
+
+
 <div class="weui-form-preview">
   <div class="weui-form-preview__hd">
-    <div class="weui-form-preview__item">
-      <label class="weui-form-preview__label">交易金额</label>
+    <div class="weui-form-preview__item" >
+      <label class="weui-form-preview__label" style="line-height: 40px">{{'transaction-price' | translate}}</label>
       <em class="weui-form-preview__value">1.0 ELA</em>
     </div>
   </div>
   <div class="weui-form-preview__bd">
     <div class="weui-form-preview__item">
-      <label class="weui-form-preview__label">发款方</label>
+      <label class="weui-form-preview__label">{{'transaction-id' | translate}}</label>
+      <span class="weui-form-preview__value">xxxxxxxxxxxxxxxxxxxxxxxxx</span>
+    </div>
+    <div class="weui-form-preview__item">
+      <label class="weui-form-preview__label">{{'send-info' | translate}}</label>
       <span class="weui-form-preview__value">xxxxxxxxxxxxxxxxxx</span>
     </div>
     <div class="weui-form-preview__item">
-      <label class="weui-form-preview__label">付款方</label>
+      <label class="weui-form-preview__label">{{'record-info' | translate}}</label>
       <span class="weui-form-preview__value">xxxxxxxxxxxxxxxxxxxxxx</span>
     </div>
     <div class="weui-form-preview__item">
-      <label class="weui-form-preview__label">交易时间</label>
+      <label class="weui-form-preview__label">{{'transaction-time' | translate}}</label>
+      <span class="weui-form-preview__value">xxxxxxxxxxxxxxxxxxxxxxxxx</span>
+    </div>
+    <div class="weui-form-preview__item">
+      <label class="weui-form-preview__label">{{'text-fees' | translate}}</label>
+      <span class="weui-form-preview__value">xxxxxxxxxxxxxxxxxxxxxxxxx</span>
+    </div>
+    <div class="weui-form-preview__item">
+      <label class="weui-form-preview__label">{{'confirm-count' | translate}}</label>
+      <span class="weui-form-preview__value">xxxxxxxxxxxxxxxxxxxxxxxxx</span>
+    </div>
+    <div class="weui-form-preview__item">
+      <label class="weui-form-preview__label">{{'text-remark' | translate}}</label>
       <span class="weui-form-preview__value">xxxxxxxxxxxxxxxxxxxxxxxxx</span>
     </div>
   </div>

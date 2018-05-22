@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import { Storage } from '@ionic/storage';
 import {Config} from "./Config";
 import {Utils} from "./Utils";
+import {WalletModel} from "../models/wallet.model";
+import {Logger} from "./Logger";
 
 
 /***
@@ -47,8 +49,13 @@ export class StorageUtil {
   public getWallet(Fun){
     this.getObject(Config.WalletKey, (val)=> {
       if(Utils.isNull(val)){
-        this.setObject(Config.WalletKey,{});
-        Fun({});
+        let walletModel = new WalletModel();
+        this.setObject(Config.WalletKey,walletModel);
+
+        Fun(walletModel);
+      }else{
+
+        Fun(val);
       }
     });
   }

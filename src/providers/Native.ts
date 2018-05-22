@@ -1,4 +1,10 @@
 import {Injectable} from '@angular/core';
+import { ToastController } from 'ionic-angular';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import {browserDetection} from "@angular/platform-browser/testing/src/browser_util";
+import { FileChooser } from '@ionic-native/file-chooser';
+import { Clipboard } from '@ionic-native/clipboard';
+import { ToptipsComponent, ToptipsService } from "ngx-weui";
 
 
 /***
@@ -7,7 +13,11 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class Native {
 
-  constructor() {
+  constructor(public toastCtrl:ToastController,
+              private barcodeScanner: BarcodeScanner,
+              private fileChooser: FileChooser,
+              private clipboard: Clipboard,
+              private toastWeixin: ToptipsService) {
 
   }
 
@@ -25,10 +35,20 @@ export class Native {
     };
   }
 
+  //
+  // toast(text){
+  //   let t = this.toastCtrl.create({
+  //     message: text,
+  //     duration: 3000
+  //   });
+  //   t.present();
+  // }
 
-  static toast(text){
-    alert(text);
+  toast(text:string,type: 'warn' | 'info' | 'primary' | 'success' | 'default' = 'info'){
+    this.toastWeixin[type](text);
   }
+
+
 
   /***
    * 获取网络状态
@@ -45,9 +65,15 @@ export class Native {
    * @returns {{codeData: string}}
    */
   scan() {
-    return {
-      codeData: 'EehM1A6MnVZxs6qH8AEA1pSLeW4RxmqhuU'
-    };
+    return this.barcodeScanner.scan();
+    // this.barcodeScanner.scan().then(barcodeData => {
+    //   Fun(browserDetection);
+    // }).catch(err => {
+    //    errorFun(err);
+    // });
+    // return {
+    //   codeData: 'EehM1A6MnVZxs6qH8AEA1pSLeW4RxmqhuU'
+    // };
   }
 
   /***
@@ -55,11 +81,12 @@ export class Native {
    * @returns {{file: {}; path: string; fileType: string}}
    */
   openFile() {
-    return {
-      file: {},
-      path: 'xxx',
-      fileType: 'jpg'
-    };
+    return this.fileChooser.open();
+    // return {
+    //   file: {},
+    //   path: 'xxx',
+    //   fileType: 'jpg'
+    // };
   }
 
   /**
@@ -83,8 +110,8 @@ export class Native {
    * @param options
    * @constructor
    */
-  CopyClipboard(options) {
-
+  copyClipboard(text) {
+    this.clipboard.copy(text);
   }
 
   /**
@@ -92,7 +119,7 @@ export class Native {
    * @returns {string}
    * @constructor
    */
-  PasteClipboard() {
+  pasteClipboard() {
     return 'xxxxxx';
   }
 

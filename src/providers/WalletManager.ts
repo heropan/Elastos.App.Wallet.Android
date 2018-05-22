@@ -17,8 +17,13 @@ export class WalletManager {
 
   private wallet;
 
+  public static COINTYPE_ELA = 0;
+  public static COINTYPE_ID = 1;
+  public static LIMITGAP = 500;
+
   constructor() {
-    this.wallet = cordova.plugins.Wallet;
+   // this.wallet = cordova.plugins.Wallet;
+    this.wallet = {};
 
     // this.wallet.test2(["123"], function () {
     //   alert("成功啦");
@@ -28,85 +33,149 @@ export class WalletManager {
   }
 
   /**通过android log 打印数据*/
-  print(text:string,Fun): void {
-    this.wallet.print(text,Fun,this.errorFun);
+  print(text: string, Fun): void {
+    this.wallet.print(text, Fun, this.errorFun);
   }
 
-  createWallet(Fun){
-    this.wallet.createWallet([],() => {
+  createWallet(Fun) {
+    this.wallet.createWallet([], () => {
       Fun();
-    },this.errorFun);
+    }, this.errorFun);
   }
 
 
-  start(){
-    this.wallet.start([],()=>{},this.errorFun);
+  start() {
+    this.wallet.start([], () => {
+    }, this.errorFun);
   }
 
-  stop(){
-    this.wallet.start([],()=>{},this.errorFun);
-  }
-
-  exportKey(path,Fun){
-    this.wallet.export([path],Fun,this.errorFun);
-  }
-
-  importKey(path,Fun){
-    this.wallet.importKey([path],Fun,this.errorFun);
-  }
-
-  importMnemonic(mnemonic,Fun){
-    this.wallet.recoverWallet([mnemonic,Native.getLanguage()],Fun,this.errorFun);
-  }
-
-  createTransaction(address,amount,fee,remark,Fun){
-    this.wallet.createTransaction([address,amount],Fun,this.errorFun);
-  }
-
-  getTransactions(Fun){
-    this.wallet.getTransactions([],Fun,this.errorFun);
-  }
-
-  registerWalletListener(Fun){
-    this.wallet.registerWalletListener([],Fun,this.errorFun);
-  }
-
-  getBalance(address,Fun){
-    this.wallet.getBalance([address],Fun,this.errorFun);
-  }
-
-  createAddress(Fun){
-    this.wallet.createAddress([],Fun,this.errorFun);
-  }
-
-  getAddressList(Fun){
-    this.wallet.getAddressList([],Fun,this.errorFun);
-  }
-
-  sign(data,Fun){
-    this.wallet.sign([data],Fun,this.errorFun);
+  stop() {
+    this.wallet.start([], () => {
+    }, this.errorFun);
   }
 
 
+  //--------------------------------------------------------------------------------子钱包操作
 
-  getPubKey(Fun){
-    this.wallet.getPubKey([],Fun,this.errorFun);
+
+  /***
+   * 创建子钱包
+   * @param {number} type
+   * @param {string} payPassword
+   * @param {boolean} singleAddress
+   */
+  createSubWallet(type: number, payPassword: string, singleAddress: boolean, Fun) {
+    if (type == WalletManager.COINTYPE_ELA) {
+      this.wallet.createSubWallet([0, 0, payPassword, singleAddress], Fun, this.errorFun);
+    }
   }
 
-  getAllBalance(Fun){
+  /***
+   * 恢复子钱包
+   * @param {number} type
+   * @param {string} payPassword
+   * @param {boolean} singleAddress
+   */
+  recoverSubWallet(type: number, payPassword: string, singleAddress: boolean, Fun) {
+    if (type == WalletManager.COINTYPE_ELA) {
+      this.wallet.createSubWallet([0, 0, payPassword, singleAddress, WalletManager.LIMITGAP], Fun, this.errorFun);
+    }
+  }
 
+  /***
+   * 获取子钱包公钥
+   * @param Fun
+   */
+  getPubKey(Fun) {
+    this.wallet.getPubKey([], Fun, this.errorFun);
   }
 
 
-  getMnemonic(Fun){
-    this.wallet.getMnemonic([],(data)=>{
-      Fun(data.mnemonic);
-    },this.errorFun);
+  //----------------------------------------------------------------------- 主钱包操作
+
+
+  /**
+   * 创建主钱包
+   * @param {string} name
+   * @param {string} backupPassword
+   * @param payPasswordm
+   * @param Fun
+   */
+  createMasterWallet(name: string, backupPassword: string, payPassword, Fun) {
+    this.wallet.createMasterWallet([name, backupPassword, payPassword], Fun, this.errorFun);
   }
 
-  errorFun(error){
+
+  importWalletWithKeystore(keystorePath: string, backupPassword: string, payPassword, Fun) {
+    this.wallet.impo([keystorePath, backupPassword, payPassword], Fun, this.errorFun);
+  }
+
+  importWalletWithMnemonic(mnemonic: string, backupPassword: string, payPassword, Fun) {
+    this.wallet.createMasterWallet([mnemonic, backupPassword, payPassword], Fun, this.errorFun);
+  }
+
+  exportWalletWithKeystore(keystorePath, backupPassword: string, Fun) {
+    this.wallet.createMasterWallet([keystorePath, backupPassword], Fun, this.errorFun);
+  }
+
+  exportWalletWithMnemonic( backupPassword: string, Fun) {
+    this.wallet.createMasterWallet([ backupPassword], Fun, this.errorFun);
+  }
+
+  getBalanceFun(Fun) {
+    this.wallet.getBalance([], Fun, this.errorFun);
+  }
+
+  createAddress(Fun) {
+    this.wallet.createAddress([], Fun, this.errorFun);
+  }
+
+  getTheLastAddress(Fun) {
+    this.wallet.getTheLastAddress([], Fun, this.errorFun);
+
+  }
+
+  getAllAddress(path, Fun) {
+    this.wallet.getAllAddress([path], Fun, this.errorFun);
+  }
+
+  getBalanceWithAddress(address, Fun) {
+    this.wallet.getBalanceWithAddress([address], Fun, this.errorFun);
+  }
+
+  sendTransaction(fromAddress, toAddress, amount, fee, payPassword, memo, Fun) {
+    this.wallet.sendTransaction([fromAddress, toAddress, amount, fee, payPassword, memo], Fun, this.errorFun);
+  }
+
+  getAllTransaction(start, count, addressOrTxId, Fun) {
+    this.wallet.getAllTransaction([start, count, addressOrTxId], Fun, this.errorFun);
+  }
+
+  addWalletListener(Fun) {
+    this.wallet.addCallback([], Fun, this.errorFun);
+  }
+
+
+  sign(message, payPassword, Fun) {
+    this.wallet.sign([message, payPassword], Fun, this.errorFun);
+  }
+
+  checkSign(address, message, signature, payPassword, Fun) {
+    this.wallet.checkSign([address, message, signature], Fun, this.errorFun);
+  }
+
+  destroyWallet(Fun){
+    this.wallet.destroyWallet([],Fun,this.errorFun);
+  }
+
+
+  getFee(Fun){
+    Fun(0.01);
+  }
+
+  errorFun(error) {
     Logger.info(error);
-    Native.toast(error);
+    //Native.toast(error);
   }
 
 

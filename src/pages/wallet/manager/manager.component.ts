@@ -12,11 +12,11 @@ import {WalletInfoComponent} from "../wallet-info/wallet-info.component";
 export class ManagerComponent extends BaseComponent implements OnInit {
 
   list = [
-    {name: '钱包名', path: ''},
-    {name: '备份钱包', path: '/wallet/exprot-prikey'},
-    {name: '导入钱包', path: '/wallet/import'},
-    {name: '钱包详情', path: '/wallet/info'},
-    {name: '退出钱包', path: ''}
+    {name: '钱包名'},
+    {name: '备份钱包'},
+    {name: '导入钱包'},
+    {name: '钱包详情'},
+    {name: '退出钱包'}
   ];
 
   ngOnInit() {
@@ -36,6 +36,12 @@ export class ManagerComponent extends BaseComponent implements OnInit {
         break;
       case 3:
         this.Go(WalletInfoComponent);
+        break;
+      case 4:
+        this.storage.clear();
+        this.walletManager.destroyWallet(function () {
+
+        });
         break;
     }
 

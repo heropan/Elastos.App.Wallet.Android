@@ -1,15 +1,17 @@
 <app-header [header]="header"   ></app-header>
 
-<div>
-  <ul class="weui-cells transfer-list">
-    <li class="weui-cell weui-cell_access" *ngFor="let item of transferList" (click)="onItem(item)">
-      <div class="weui-cell__hd">
-        <img src="./assets/images/tx-state/icon-tx-moved.svg" alt="" class="transfer-list-img"></div>
-      <div class="weui-cell__bd">
-        <p>Exbwononlxnknwlnblnwb<br/> <span class="transfer-list-date">1日前</span></p>
-      </div>
-      <div class="weui-cell__ft">1 ELA</div>
-    </li>
 
-  </ul>
-</div>
+<weui-ptr (refresh)="onRefresh($event)" style="text-align: center">
+    <ul class="weui-cells transfer-list" style="text-align: left">
+      <li class="weui-cell weui-cell_access" *ngFor="let item of transferList" (click)="onItem(item)">
+        <div class="weui-cell__hd">
+          <img src="./assets/images/tx-state/icon-tx-moved.svg" alt="" class="transfer-list-img"></div>
+        <div class="weui-cell__bd">
+          <p>Exbwononlxnknwlnblnwb<br/> <span class="transfer-list-date">1日前</span></p>
+        </div>
+        <div class="weui-cell__ft">1 ELA</div>
+      </li>
+
+    </ul>
+  <div class="coin-outher" (click)="updateData(1)">{{'loader-more' | translate }}</div>
+</weui-ptr>

@@ -25,6 +25,8 @@ export class Config {
   public  static test: any = '';
 
   public static  WalletKey = "wallet";
+
+  public static LIST_COUNT = 20;
 }
 
 

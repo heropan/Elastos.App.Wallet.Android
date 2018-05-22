@@ -10,20 +10,20 @@
 
   <div class="weui-cell">
     <div class="weui-cell__bd">
-      <input class="weui-input" type="text" placeholder="{{ 'text-pwd' | translate }}" [(ngModel)]="wallet.pwd">
+      <input class="weui-input" type="text" placeholder="{{ 'text-wallet-pwd' | translate }}" [(ngModel)]="wallet.pwd">
     </div>
 
   </div>
 
   <div class="weui-cell">
     <div class="weui-cell__bd">
-      <input class="weui-input" type="password" placeholder="{{ 'text-pwd-repeat' | translate }}"
+      <input class="weui-input" type="password" placeholder="{{ 'text-wallet-repwd' | translate }}"
              [(ngModel)]="wallet.rePwd">
     </div>
   </div>
 
 
 </div>
-<button class="button-default bottom" (click)="onDown()">{{ 'confirm' | translate }}</button>
+<button class="button-default bottom" (click)="onDown()">{{ 'text-down' | translate }}</button>
 
 

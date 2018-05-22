@@ -14,20 +14,32 @@
 
     <div class="weui-cell">
       <div class="weui-cell__bd">
-        <input class="weui-input" type="text" placeholder="{{ 'text-pwd' | translate }}" [(ngModel)]="wallet.pwd">
+        <input class="weui-input" type="password" placeholder="{{ 'text-wallet-pwd' | translate }}" [(ngModel)]="wallet.pwd">
       </div>
 
     </div>
 
     <div class="weui-cell">
       <div class="weui-cell__bd">
-        <input class="weui-input" type="password" placeholder="{{ 'text-pwd-repeat' | translate }}" [(ngModel)]="wallet.rePwd">
+        <input class="weui-input" type="password" placeholder="{{ 'text-wallet-repwd' | translate }}" [(ngModel)]="wallet.rePwd">
       </div>
     </div>
+
+
   </div>
+  <label for="weuiAgree" class="weui-agree">
+    <input id="weuiAgree" type="checkbox" class="weui-agree__checkbox" [(ngModel)]="wallet.singleAddress" name="agree">
+    <span class="weui-agree__text">
+               &nbsp;&nbsp;{{'text-signaddress' | translate }}
+            </span>
+  </label>
+
 
   <button class="button-default bottom wallet-button" (click)="onCreate()">{{ 'confirm' | translate }}</button>
 
 </div>
 
+<!--<weui-mask #mask ></weui-mask>-->
+
+<!--<weui-dialog #auto [config]="con"></weui-dialog>-->
 

@@ -54,5 +54,29 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "phonegap-plugin-barcodescanner": {
+    "source": {
+      "type": "registry",
+      "id": "phonegap-plugin-barcodescanner@7.1.2"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-filechooser": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-filechooser"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-clipboard": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-clipboard"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }
