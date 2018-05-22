@@ -20,7 +20,11 @@
 package io.ionic.starter;
 
 import android.os.Bundle;
+import android.util.Log;
+
 import org.apache.cordova.*;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends CordovaActivity
 {
@@ -41,5 +45,30 @@ public class MainActivity extends CordovaActivity
 
         // Set by <content src="index.html" /> in config.xml
         loadUrl(launchUrl);
+
+        initJG();
+    }
+
+
+    private void initJG(){
+
+        String udid =  MyUtil.getImei(getApplicationContext(), "");
+        if (null != udid) Log.w("xxl-jg","Imei uuid is " + udid);
+
+        String appKey = MyUtil.getAppKey(getApplicationContext());
+        if (null == appKey) appKey = "AppKey异常";
+        Log.w("xxl-jg","AppKey " + appKey);
+
+        String packageName =  getPackageName();
+        Log.w("xxl-jg","PackageName " + packageName);
+
+        String deviceId = MyUtil.getDeviceId(getApplicationContext());
+        Log.w("xxl-jg","deviceId " + deviceId);
+
+        String versionName =  MyUtil.GetVersion(getApplicationContext());
+        Log.w("xxl-jg","versionName " + versionName);
+
+        //
+        JPushInterface.init(getApplicationContext());
     }
 }
