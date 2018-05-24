@@ -42,9 +42,9 @@ export class CoinComponent extends BaseComponent implements OnInit {
     this.walletManager.getBalanceFun((data)=>{
       this.coinCount = data.balance;
     });
-    this.walletManager.getAllTransaction(this.start,this.count,'',(data)=>{
-
-    });
+    // this.walletManager.getAllTransaction(this.start,this.count,'',(data)=>{
+    //
+    // });
   }
 
   onItem(item) {
