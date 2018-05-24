@@ -34,6 +34,10 @@ walletFunc.prototype.createSubWallet = function (arg0, success, error) {
   exec(success, error, "Wallet", "createSubWallet", arg0);
 };
 
+walletFunc.prototype.recoverSubWallet = function (arg0, success, error) {
+  exec(success, error, "Wallet", "createSubWallet", arg0);
+};
+
 walletFunc.prototype.getPublicKey = function (arg0, success, error) {
   exec(success, error, "Wallet", "getPublicKey", arg0);
 };
@@ -70,9 +74,9 @@ walletFunc.prototype.createAddress = function (arg0, success, error) {
 };
 
 
-walletFunc.prototype.getTheLastAddress = function (arg0, success, error) {
-  exec(success, error, "Wallet", "getTheLastAddress", arg0);
-};
+// walletFunc.prototype.getTheLastAddress = function (arg0, success, error) {
+//   exec(success, error, "Wallet", "getTheLastAddress", arg0);
+// };
 walletFunc.prototype.getAllAddress = function (arg0, success, error) {
   exec(success, error, "Wallet", "getAllAddress", arg0);
 };
@@ -81,6 +85,12 @@ walletFunc.prototype.getBalanceWithAddress = function (arg0, success, error) {
 };
 walletFunc.prototype.sendTransaction = function (arg0, success, error) {
   exec(success, error, "Wallet", "sendTransaction", arg0);
+};
+walletFunc.prototype.generateMultiSignTransaction = function (arg0, success, error) {
+  exec(success, error, "Wallet", "generateMultiSignTransaction", arg0);
+};
+walletFunc.prototype.createMultiSignAddress = function (arg0, success, error) {
+  exec(success, error, "Wallet", "createMultiSignAddress", arg0);
 };
 walletFunc.prototype.getAllTransaction = function (arg0, success, error) {
   exec(success, error, "Wallet", "getAllTransaction", arg0);

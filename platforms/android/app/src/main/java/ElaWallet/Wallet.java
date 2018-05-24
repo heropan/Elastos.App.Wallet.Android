@@ -83,6 +83,9 @@ public class Wallet extends CordovaPlugin {
         case "createMasterWallet":
           this.createMasterWallet(args, callbackContext);
           return true;
+        case "recoverSubWallet":
+          this.recoverSubWallet(args, callbackContext);
+          return true;
         case "importWalletWithKeystore":
           this.importWalletWithKeystore(args, callbackContext);
           return true;
@@ -104,17 +107,23 @@ public class Wallet extends CordovaPlugin {
         case "createAddress":
           this.createAddress(callbackContext);
           return true;
-        case "getTheLastAddress":
-          this.getTheLastAddress(callbackContext);
-          return true;
+//        case "getTheLastAddress":
+//          this.getTheLastAddress(callbackContext);
+//          return true;
         case "getAllAddress":
-          this.getAllAddress(callbackContext);
+          this.getAllAddress(args, callbackContext);
           return true;
         case "getBalanceWithAddress":
-          this.getBalanceWithAddress(callbackContext);
+          this.getBalanceWithAddress(args, callbackContext);
           return true;
         case "sendTransaction":
           this.sendTransaction(args, callbackContext);
+          return true;
+        case "generateMultiSignTransaction":
+          this.generateMultiSignTransaction(args, callbackContext);
+          return true;
+        case "createMultiSignAddress":
+          this.createMultiSignAddress(args, callbackContext);
           return true;
         case "getAllTransaction":
           this.getAllTransaction(args, callbackContext);
@@ -161,12 +170,17 @@ public class Wallet extends CordovaPlugin {
   }
 
   public void createSubWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    masterWallet.createSubWallet(args.getString(0), args.getString(1), args.getBoolean(2));
+    masterWallet.CreateSubWallet(args.getString(0), args.getInt(1), args.getString(2), args.getBoolean(3), args.getInt(4));
+    callbackContext.success();
+  }
+
+  public void recoverSubWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    masterWallet.RecoverSubWallet(args.getString(0), args.getInt(1), args.getString(2), args.getBoolean(3), args.getInt(4), args.getInt(5));
     callbackContext.success();
   }
 
   public void getPublicKey(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    masterWallet.getPublicKey(args.getString(0));
+    masterWallet.GetPublicKey();
     callbackContext.success();
   }
 
@@ -200,20 +214,58 @@ public class Wallet extends CordovaPlugin {
 
     // long txId = manager.createTransaction(manager, new TxParam(args.getString(0), args.getLong(1)));
     // manager.signAndPublishTransaction(manager, new TransactionPtr(txId));
-    callbackContext.success(parseOneParam("txId", ""));
+    //callbackContext.success(parseOneParam("txId", ""));
+    callbackContext.success(subWallet.SendTransaction(
+      args.getString(0),
+      args.getString(1),
+      args.getDouble(2),
+      args.getDouble(3),
+      args.getString(4),
+      args.getString(5)
+    ));
+  }
+
+  public void createMultiSignAddress(JSONArray args, CallbackContext callbackContext) throws JSONException {
+
+    // long txId = manager.createTransaction(manager, new TxParam(args.getString(0), args.getLong(1)));
+    // manager.signAndPublishTransaction(manager, new TransactionPtr(txId));
+    //callbackContext.success(parseOneParam("txId", ""));
+    callbackContext.success(subWallet.CreateMultiSignAddress(
+      args.getString(0),
+      args.getInt(1),
+      args.getInt(2)
+    ));
+  }
+
+  public void generateMultiSignTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
+
+    // long txId = manager.createTransaction(manager, new TxParam(args.getString(0), args.getLong(1)));
+    // manager.signAndPublishTransaction(manager, new TransactionPtr(txId));
+    //callbackContext.success(parseOneParam("txId", ""));
+    callbackContext.success(subWallet.GenerateMultiSignTransaction(
+      args.getString(0),
+      args.getString(1),
+      args.getDouble(2),
+      args.getDouble(3),
+      args.getString(4),
+      args.getString(5)
+    ));
   }
 
 
-  public void getAllTransaction(JSONArray args, CallbackContext callbackContext) {
-    callbackContext.success(gson.toJson(manager.getTransactions()));
+  public void getAllTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    callbackContext.success(subWallet.GetAllTransaction(
+      args.getInt(0),
+      args.getInt(1),
+      args.getString(3)));
   }
 
   public void registerWalletListener(CallbackContext callbackContext) {
     new ISubWalletCallback() {
-      @Override
-      public void OnBalanceChanged(String address, double oldAmount, double newAmount) {
-
-      }
+//      @Override
+//      public void OnBalanceChanged(String address, double oldAmount, double newAmount) {
+//
+//      }
 
       @Override
       public void OnTransactionStatusChanged(String txId, String status, int error, String desc, int confirms) {
@@ -223,32 +275,33 @@ public class Wallet extends CordovaPlugin {
   }
 
   public void getBalanceInfo(CallbackContext callbackContext) throws JSONException {
-    callbackContext.success(parseOneParam("balance", 1));
+    callbackContext.success(parseOneParam("balance", subWallet.GetBalanceInfo()));
   }
 
 
   public void getBalance(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    String address = args.getString(0);
-    callbackContext.success(parseOneParam("balance", 1));
+    //String address = args.getString(0);
+    callbackContext.success(parseOneParam("balance", subWallet.GetBalance()));
   }
 
   public void createAddress(CallbackContext callbackContext) throws JSONException {
-    callbackContext.success(parseOneParam("address", "EciyeLa45qX8AwVWuekEweCsfb676LdRNe"));
+    //callbackContext.success(parseOneParam("address", "EciyeLa45qX8AwVWuekEweCsfb676LdRNe"));
+    callbackContext.success(parseOneParam("address", subWallet.CreateAddress()));
   }
 
-  public void getTheLastAddress(CallbackContext callbackContext) throws JSONException {
-    callbackContext.success(parseOneParam("address", "EciyeLa45qX8AwVWuekEweCsfb676LdRNe"));
+//  public void getTheLastAddress(CallbackContext callbackContext) throws JSONException {
+//    callbackContext.success(parseOneParam("address", "EciyeLa45qX8AwVWuekEweCsfb676LdRNe"));
+//  }
+
+  public void getAllAddress(JSONArray args, CallbackContext callbackContext) throws JSONException {
+//    List<String> addressList = new ArrayList<String>();
+//    addressList.add("EciyeLa45qX8AwVWuekEweCsfb676LdRNe");
+//    addressList.add("EciyeLa45qX8AwVWuekEweCsfb676LdRNe");
+    callbackContext.success(subWallet.GetAllAddress(args.getInt(0), args.getInt(1)));
   }
 
-  public void getAllAddress(CallbackContext callbackContext) throws JSONException {
-    List<String> addressList = new ArrayList<String>();
-    addressList.add("EciyeLa45qX8AwVWuekEweCsfb676LdRNe");
-    addressList.add("EciyeLa45qX8AwVWuekEweCsfb676LdRNe");
-    callbackContext.success(gson.toJson(addressList));
-  }
-
-  public void getBalanceWithAddress(CallbackContext callbackContext) throws JSONException {
-    callbackContext.success(parseOneParam("balance", 1));
+  public void getBalanceWithAddress(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    callbackContext.success(parseOneParam("balance", subWallet.GetBalanceWithAddress(args.getString(0))));
   }
 
   public void sign(JSONArray args, CallbackContext callbackContext) throws JSONException {

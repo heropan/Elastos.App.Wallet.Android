@@ -20,9 +20,11 @@ export class WalletManager {
   public static COINTYPE_ELA = 0;
   public static COINTYPE_ID = 1;
   public static LIMITGAP = 500;
+  public static FEEPERKb = 500;
+  public static PAGECOUNT = 20;
 
   constructor() {
-   // this.wallet = cordova.plugins.Wallet;
+    // this.wallet = cordova.plugins.Wallet;
     this.wallet = {};
 
     // this.wallet.test2(["123"], function () {
@@ -66,7 +68,7 @@ export class WalletManager {
    */
   createSubWallet(type: number, payPassword: string, singleAddress: boolean, Fun) {
     if (type == WalletManager.COINTYPE_ELA) {
-      this.wallet.createSubWallet([0, 0, payPassword, singleAddress], Fun, this.errorFun);
+      this.wallet.createSubWallet([0, 0, payPassword, singleAddress, WalletManager.FEEPERKb], Fun, this.errorFun);
     }
   }
 
@@ -78,7 +80,7 @@ export class WalletManager {
    */
   recoverSubWallet(type: number, payPassword: string, singleAddress: boolean, Fun) {
     if (type == WalletManager.COINTYPE_ELA) {
-      this.wallet.createSubWallet([0, 0, payPassword, singleAddress, WalletManager.LIMITGAP], Fun, this.errorFun);
+      this.wallet.recoverSubWallet([0, 0, payPassword, singleAddress, WalletManager.LIMITGAP, WalletManager.FEEPERKb], Fun, this.errorFun);
     }
   }
 
@@ -118,8 +120,8 @@ export class WalletManager {
     this.wallet.createMasterWallet([keystorePath, backupPassword], Fun, this.errorFun);
   }
 
-  exportWalletWithMnemonic( backupPassword: string, Fun) {
-    this.wallet.createMasterWallet([ backupPassword], Fun, this.errorFun);
+  exportWalletWithMnemonic(backupPassword: string, Fun) {
+    this.wallet.createMasterWallet([backupPassword], Fun, this.errorFun);
   }
 
   getBalanceFun(Fun) {
@@ -130,13 +132,13 @@ export class WalletManager {
     this.wallet.createAddress([], Fun, this.errorFun);
   }
 
-  getTheLastAddress(Fun) {
-    this.wallet.getTheLastAddress([], Fun, this.errorFun);
+  // getTheLastAddress(Fun) {
+  //   this.wallet.getTheLastAddress([], Fun, this.errorFun);
+  //
+  // }
 
-  }
-
-  getAllAddress(path, Fun) {
-    this.wallet.getAllAddress([path], Fun, this.errorFun);
+  getAllAddress(start: number, Fun) {
+    this.wallet.getAllAddress([start, WalletManager.PAGECOUNT], Fun, this.errorFun);
   }
 
   getBalanceWithAddress(address, Fun) {
@@ -147,8 +149,16 @@ export class WalletManager {
     this.wallet.sendTransaction([fromAddress, toAddress, amount, fee, payPassword, memo], Fun, this.errorFun);
   }
 
-  getAllTransaction(start, count, addressOrTxId, Fun) {
-    this.wallet.getAllTransaction([start, count, addressOrTxId], Fun, this.errorFun);
+  generateMultiSignTransaction(fromAddress, toAddress, amount, fee, payPassword, memo, Fun) {
+    this.wallet.generateMultiSignTransaction([fromAddress, toAddress, amount, fee, payPassword, memo], Fun, this.errorFun);
+  }
+
+  createMultiSignAddress(multiPublicKeyJson, totalSignNum, requiredSignNum, Fun) {
+    this.wallet.createMultiSignAddress([multiPublicKeyJson, totalSignNum, requiredSignNum], Fun, this.errorFun);
+  }
+
+  getAllTransaction(start, addressOrTxId, Fun) {
+    this.wallet.getAllTransaction([start, WalletManager.PAGECOUNT, addressOrTxId], Fun, this.errorFun);
   }
 
   addWalletListener(Fun) {
@@ -164,12 +174,12 @@ export class WalletManager {
     this.wallet.checkSign([address, message, signature], Fun, this.errorFun);
   }
 
-  destroyWallet(Fun){
-    this.wallet.destroyWallet([],Fun,this.errorFun);
+  destroyWallet(Fun) {
+    this.wallet.destroyWallet([], Fun, this.errorFun);
   }
 
 
-  getFee(Fun){
+  getFee(Fun) {
     Fun(0.01);
   }
 

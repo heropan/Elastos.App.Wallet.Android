@@ -6,12 +6,29 @@ package com.elastos.spvcore;
  */
 public class IMasterWallet {
 
-  public native void createSubWallet(String chainID, String payPassWord, boolean singleAddress);
 
-  public native String getPublicKey(String keystorePath);
+  public native ISubWallet CreateSubWallet(
+    String chainID,
+    int coinTypeIndex,
+    String payPassWord,
+    boolean singleAddress,
+    int feePerKb);
 
+
+  public native ISubWallet RecoverSubWallet(
+    String chainID,
+    int coinTypeIndex,
+    String payPassWord,
+    boolean singleAddress,
+    int limitGap,
+    int feePerKb);
+
+  public native String GetPublicKey();
+
+  public native void DestroyWallet(ISubWallet wallet);
 
   public IMasterWallet() {
+    createJni();
   }
 
   public native static long createJni();
@@ -22,6 +39,11 @@ public class IMasterWallet {
   public void finalize() {
     disposeNative();
   }
+
+
+  public native String Sign(String message, String payPassword);
+
+  public native boolean CheckSign(String address, String message, String signature);
 
 
 }
