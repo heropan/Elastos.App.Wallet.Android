@@ -2,7 +2,7 @@
  * Created by yanxiaojun617@163.com on 3-12.
  */
 import {Injectable} from '@angular/core';
-import {Validators as angularValidators, AbstractControl} from '@angular/forms';
+//import {Validators as angularValidators, AbstractControl} from '@angular/forms';
 
 @Injectable()
 export class ValidatorsUtil {
@@ -39,7 +39,9 @@ export class ValidatorsUtil {
 
   public static isEmptyObject(obj): boolean {
     for (let key of obj ) {
-      return false;
+      if(obj.hasOwnProperty(key)){
+        return false;
+      }
     }
     return true;
   }

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
-import {HomeComponent} from "../../tabs/home/home.component";
+//import {HomeComponent} from "../../tabs/home/home.component";
 import {TabsComponent} from "../../tabs/tabs.component";
-import {Logger} from "../../../providers/Logger";
+//import {Logger} from "../../../providers/Logger";
 import {ValidatorsUtil} from "../../../providers/ValidatorsUtil";
 
 @Component({

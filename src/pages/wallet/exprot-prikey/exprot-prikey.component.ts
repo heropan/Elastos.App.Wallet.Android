@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
-import {ValidatorsUtil} from "../../../providers/ValidatorsUtil";
+//import {ValidatorsUtil} from "../../../providers/ValidatorsUtil";
 import {Logger} from "../../../providers/Logger";
 
 @Component({

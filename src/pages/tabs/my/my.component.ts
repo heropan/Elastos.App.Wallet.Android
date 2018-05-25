@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
-import { Utils } from './../../../providers/Utils';
+//import { Utils } from './../../../providers/Utils';
 import {ManagerComponent} from "../../wallet/manager/manager.component";
 import {ContactListComponent} from "../../contacts/contact-list/contact-list.component";
 import {SettingsComponent} from "../../universal/settings/settings.component";

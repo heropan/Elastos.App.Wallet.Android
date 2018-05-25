@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import { ToastController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-import {browserDetection} from "@angular/platform-browser/testing/src/browser_util";
+//import {browserDetection} from "@angular/platform-browser/testing/src/browser_util";
 import { FileChooser } from '@ionic-native/file-chooser';
 import { Clipboard } from '@ionic-native/clipboard';
-import { ToptipsComponent, ToptipsService } from "ngx-weui";
+import { ToptipsService } from "ngx-weui";
 
 
 /***

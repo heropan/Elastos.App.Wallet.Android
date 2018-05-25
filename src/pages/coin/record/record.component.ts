@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
 import { PTRComponent } from 'ngx-weui';
-import {Config} from "../../../providers/Config";
+//import {Config} from "../../../providers/Config";
 import {RecordinfoComponent} from "../recordinfo/recordinfo.component";
 
 @Component({

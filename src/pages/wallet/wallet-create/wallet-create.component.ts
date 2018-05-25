@@ -1,9 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
 import {ValidatorsUtil} from "../../../providers/ValidatorsUtil";
-import {DialogComponent, DialogConfig, MaskComponent} from "ngx-weui";
+import {DialogConfig} from "ngx-weui";
 import {Logger} from "../../../providers/Logger";
-import {WalletManager} from "../../../providers/WalletManager";
+//import {WalletManager} from "../../../providers/WalletManager";
 import {MnemonicComponent} from "../../mnemonic/mnemonic.component";
 
 @Component({

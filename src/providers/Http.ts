@@ -2,8 +2,8 @@ import {HttpClient,HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Logger} from './Logger';
 import 'rxjs/add/operator/toPromise';
-import {Validators} from "./Validators";
-import {ApiUrl} from "./ApiUrl";
+//import {Validators} from "./Validators";
+//import {ApiUrl} from "./ApiUrl";
 
 
 /***

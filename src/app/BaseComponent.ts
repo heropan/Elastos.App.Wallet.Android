@@ -1,18 +1,16 @@
-import {Component, OnInit, ChangeDetectorRef, ViewChild, AfterViewInit,ViewEncapsulation} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {RouterUtil} from '../providers/RouterUtil';
+import {Component, ChangeDetectorRef, ViewChild, ViewEncapsulation} from '@angular/core';
 import {StorageUtil} from '../providers/StorageUtil';
 import {WalletManager} from '../providers/WalletManager';
 import {Logger} from '../providers/Logger';
 import {Location} from '@angular/common';
-import {Config} from '../providers/Config';
+//import {Config} from '../providers/Config';
 import {TranslateService} from '@ngx-translate/core';
-import {HeaderComponent, Header} from './header/app.header';
-import {AppComponent} from './app.component';
+import {Header} from './header/app.header';
+//import {AppComponent} from './app.component';
 import {Utils} from '../providers/Utils';
-import {IonicPage, NavController} from 'ionic-angular';
+import {NavController} from 'ionic-angular';
 import {Native} from "../providers/Native";
-import {DialogService, DialogConfig, DialogComponent, ToastComponent, ToastService, MaskComponent} from 'ngx-weui';
+import {DialogService, ToastService} from 'ngx-weui';
 
 import {zh} from "../assets/i18n/zh";
 import {WalletModel} from "../models/wallet.model";
