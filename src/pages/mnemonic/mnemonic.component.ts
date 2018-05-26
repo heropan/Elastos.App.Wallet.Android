@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../app/BaseComponent';
 import {WriteComponent} from "./write/write.component";
-import {WalletModel} from "../../models/wallet.model";
+//import {WalletModel} from "../../models/wallet.model";
 
 @Component({
   selector: 'app-mnemonic',

@@ -1,7 +1,7 @@
 import {BaseComponent} from '../../app/BaseComponent';
 import {Component, ViewEncapsulation, OnInit} from '@angular/core';
 import { Config } from '../../providers/Config';
-import {IonicPage} from "ionic-angular";
+//import {IonicPage} from "ionic-angular";
 import {RecordComponent} from "./record/record.component";
 import {TransferComponent} from "./transfer/transfer.component";
 import {ReceiveComponent} from "./receive/receive.component";

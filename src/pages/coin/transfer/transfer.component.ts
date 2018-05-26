@@ -1,10 +1,10 @@
-import {Component, OnInit, ViewEncapsulation, ViewChild, OnDestroy, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
-import {SkinType, InputType} from 'ngx-weui';
-import {DialogService, DialogConfig, DialogComponent, ToastService, ToptipsComponent, ToptipsService } from 'ngx-weui';
+//import {SkinType, InputType} from 'ngx-weui';
+//import {DialogService, DialogConfig, DialogComponent, ToastService, ToptipsComponent, ToptipsService } from 'ngx-weui';
 
 import {ContactListComponent} from "../../contacts/contact-list/contact-list.component";
-import {Native} from "../../../providers/Native";
+//import {Native} from "../../../providers/Native";
 import {ValidatorsUtil} from "../../../providers/ValidatorsUtil";
 import { PopupComponent } from "ngx-weui";
 

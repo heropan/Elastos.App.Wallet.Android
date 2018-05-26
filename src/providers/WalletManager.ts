@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Logger} from "./Logger";
-import {Native} from "./Native";
-import {StorageUtil} from "./StorageUtil";
+//import {Native} from "./Native";
+//import {StorageUtil} from "./StorageUtil";
 
 
-declare var cordova: any;
+//declare var cordova: any;
 
 
 /***

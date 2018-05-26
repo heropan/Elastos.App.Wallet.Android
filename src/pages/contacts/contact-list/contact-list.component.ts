@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
-import {RouterUtil} from './../../../providers/RouterUtil' ;
 import {ContactCreateComponent} from "../contact-create/contact-create.component";
 import {ContactsComponent} from "../contacts.component";
 

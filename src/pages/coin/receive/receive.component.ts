@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
 import {QrcodeModel} from './../../../models/qrcode.model';
-import {HeaderComponent, Header} from './../../../app/header/app.header';
+//import {HeaderComponent, Header} from './../../../app/header/app.header';
 import {Logger} from "../../../providers/Logger";
 import {AddressComponent} from "../../wallet/address/address.component";
 import {ValidatorsUtil} from "../../../providers/ValidatorsUtil";

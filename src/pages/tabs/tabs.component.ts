@@ -1,8 +1,8 @@
 import { Component, OnInit,ViewEncapsulation  } from '@angular/core';
 import 'rxjs/add/observable/timer';
 import {BaseComponent} from './../../app/BaseComponent';
-import { TabModule } from 'ngx-weui';
-import { InfiniteLoaderComponent } from 'ngx-weui';
+//import { TabModule } from 'ngx-weui';
+//import { InfiniteLoaderComponent } from 'ngx-weui';
 
 
 @Component({

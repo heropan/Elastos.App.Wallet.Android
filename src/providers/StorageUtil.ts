@@ -3,7 +3,7 @@ import { Storage } from '@ionic/storage';
 import {Config} from "./Config";
 import {Utils} from "./Utils";
 import {WalletModel} from "../models/wallet.model";
-import {Logger} from "./Logger";
+//import {Logger} from "./Logger";
 
 
 /***

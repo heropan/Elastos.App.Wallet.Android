@@ -4,13 +4,11 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
-import {PopupComponent, ToptipsService, WeUiModule} from 'ngx-weui';
+import {ToptipsService, WeUiModule} from 'ngx-weui';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 // import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 // import fs = require('fs');
 import {Observable} from 'rxjs/Observable';
-
-
 
 import {zh} from './../assets/i18n/zh';
 import {en} from './../assets/i18n/en';
@@ -29,7 +27,6 @@ import {Config} from './../providers/Config';
 import {LocalStorage} from './../providers/Localstorage';
 import {StorageUtil} from './../providers/StorageUtil';
 import {AuthManager} from './../providers/AuthManager';
-import {NavController} from "ionic-angular";
 import { Clipboard } from '@ionic-native/clipboard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 

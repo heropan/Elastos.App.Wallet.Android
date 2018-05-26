@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
 import {CoinComponent} from "../../coin/coin.component";
-import {ManagerComponent} from "../../wallet/manager/manager.component";
+//import {ManagerComponent} from "../../wallet/manager/manager.component";
 import {CoinListComponent} from "../../coin/coin-list/coin-list.component";
-import {TransferComponent} from "../../coin/transfer/transfer.component";
+//import {TransferComponent} from "../../coin/transfer/transfer.component";
 
-declare var cordova:any;
+//declare var cordova:any;
 
 @Component({
   selector: 'app-home',
