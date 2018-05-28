@@ -128,8 +128,11 @@ export class WalletManager {
     this.wallet.getBalance([], Fun, this.errorFun);
   }
 
-  createAddress(Fun) {
-    this.wallet.createAddress([], Fun, this.errorFun);
+  createAddress() {
+    // this.wallet.createAddress([], Fun, this.errorFun);
+    let tempAddr = Math.random();
+    let result = {address: tempAddr};
+    return result;
   }
 
   // getTheLastAddress(Fun) {

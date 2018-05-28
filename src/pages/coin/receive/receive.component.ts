@@ -16,6 +16,7 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
 
 
   code: QrcodeModel;
+  address: Number;
 
   ngOnInit() {
     this.setTitleByAssets('text-receive');
@@ -24,13 +25,11 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
 
     this.code = new QrcodeModel();
     this.code.qrcode = '测试文字';
-    // 'EehM1A6MnVZxs6qH8AEA1pSLeW4RxmqhuU'
+    this.address = 0.1;
 
     this.setRightIcon('./assets/images/icon/icon-s.svg', () => {
       Logger.info('分享');
     });
-
-
   }
 
   onChange(){
@@ -56,9 +55,13 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
   }
 
   createAddress(){
-    this.walletManager.createAddress((data)=>{
-        this.code.qrcode = data.address;
-    });
+    // this.walletManager.createAddress((data)=>{
+    //     this.code.qrcode = data.address;
+    // });
+    let result = this.walletManager.createAddress();
+    this.address = result.address;
+    this.code = new QrcodeModel();
+    this.code.qrcode = result.address.toString();
   }
 
 }
