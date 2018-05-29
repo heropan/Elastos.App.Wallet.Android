@@ -23,9 +23,7 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
 
     this.setHeadDisPlay({left:true,title:true,right:true});
 
-    this.code = new QrcodeModel();
-    this.code.qrcode = '测试文字';
-    this.address = 0.1;
+    this.createAddress();
 
     this.setRightIcon('./assets/images/icon/icon-s.svg', () => {
       Logger.info('分享');

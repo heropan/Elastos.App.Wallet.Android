@@ -8,18 +8,11 @@ import {BaseComponent} from './../../../app/BaseComponent';
 })
 export class AddressComponent extends BaseComponent implements OnInit {
 
-  addrList = [
-    {id: '', address: 'Exbwononlxnknwlnblnwb'},
-    {id: '', address: 'Exbwononlxnknwlnblnwb'},
-    {id: '', address: 'Exbwononlxnknwlnblnwb'},
-    {id: '', address: 'Exbwononlxnknwlnblnwb'},
-    {id: '', address: 'Exbwononlxnknwlnblnwb'},
-    {id: '', address: 'Exbwononlxnknwlnblnwb'},
-    {id: '', address: 'Exbwononlxnknwlnblnwb'}
-  ];
+  addrList = [];
 
   ngOnInit() {
     this.setTitleByAssets('text-contacts-address');
+    this.addrList = this.walletManager.getAllAddress();
   }
 
   onItem() {

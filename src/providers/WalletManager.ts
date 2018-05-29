@@ -140,8 +140,13 @@ export class WalletManager {
   //
   // }
 
-  getAllAddress(start: number, Fun) {
-    this.wallet.getAllAddress([start, WalletManager.PAGECOUNT], Fun, this.errorFun);
+  // getAllAddress(start: number, Fun) {
+  getAllAddress() {
+    // this.wallet.getAllAddress([start, WalletManager.PAGECOUNT], Fun, this.errorFun);
+    let allAddress = [{id: '', address: 'Exbwononlxnknwlnblnwb'},
+        {id: '', address: 'Exbwononlxnknwlnblnwb'},
+        {id: '', address: 'Exbwononlxnknwlnblnwb'}]
+    return allAddress;
   }
 
   getBalanceWithAddress(address, Fun) {
