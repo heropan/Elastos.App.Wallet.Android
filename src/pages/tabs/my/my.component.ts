@@ -6,6 +6,7 @@ import {ContactListComponent} from "../../contacts/contact-list/contact-list.com
 import {SettingsComponent} from "../../universal/settings/settings.component";
 import {AboutComponent} from "../../other/about/about.component";
 import {HelpComponent} from "../../other/help/help.component";
+import {NoticeComponent} from "../../other/notice/notice.component";
 
 @Component({
   selector: 'app-my',
@@ -22,6 +23,9 @@ export class MyComponent  extends BaseComponent implements OnInit  {
      switch (type){
        case 0:
          this.Go(ManagerComponent);
+         break;
+       case 1:
+         this.Go(NoticeComponent);
          break;
        case 2:
          this.Go(ContactListComponent);
