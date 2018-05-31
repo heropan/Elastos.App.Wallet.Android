@@ -9,13 +9,28 @@ import {ContactListComponent} from "../contact-list/contact-list.component";
 })
 export class ContactCreateComponent  extends BaseComponent implements OnInit  {
 
+  name: String;
+  address: String;
+  phone: String;
+  email: String;
+  remark: String;
 
   ngOnInit() {
     this.setTitleByAssets('text-contacts-add');
   }
 
   add(): void {
-    this.Go(ContactListComponent)
+    let contactUsers = {
+      id: this.name,
+      name: this.name,
+      address: this.address,
+      phone: this.phone,
+      email: this.email,
+      remark: this.remark
+    }
+    this.storage.set('contactUsers', contactUsers).then((val)=>{
+      this.Go(ContactListComponent);
+    });
   }
 
 }

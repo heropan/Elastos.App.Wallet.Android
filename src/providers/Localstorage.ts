@@ -10,18 +10,17 @@ export class LocalStorage {
   constructor(private storage: Storage) { }
 
   public set(key: string, value: any): any {
-    
-     return this.get(key).then((val)=>{
-            let id = value['id'];
-           if(val === null){ 
-            let addObj ={};
-            addObj[id] = value;
-            return this.storage.set(key,JSON.stringify(addObj));
-           }
-           let kycObj = JSON.parse(val);
-           kycObj[id] = value;
-           return this.storage.set(key,JSON.stringify(kycObj));
-        });
+    return this.get(key).then((val)=>{
+     let id = value['id'];
+     if(val === null){
+      let initObj = {};
+      initObj[id] = value;
+      return this.storage.set(key, JSON.stringify(initObj));
+     }
+     let addObj = JSON.parse(val);
+     addObj[id] = value;
+     return this.storage.set(key, JSON.stringify(addObj));
+    });
   }
 
   public get(key: string):any {

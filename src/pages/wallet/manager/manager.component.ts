@@ -38,7 +38,7 @@ export class ManagerComponent extends BaseComponent implements OnInit {
         this.Go(WalletInfoComponent);
         break;
       case 4:
-        this.storage.clear();
+        // this.storage.clear();
         this.walletManager.destroyWallet(function () {
 
         });
