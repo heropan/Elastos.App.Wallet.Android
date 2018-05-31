@@ -1,40 +1,55 @@
 import {Injectable} from '@angular/core';
-
+import { Storage } from '@ionic/storage';
 
 /***
  * 封装存储操作
  */
 @Injectable()
 export class LocalStorage {
+  
+  constructor(private storage: Storage) { }
 
-  public localStorage: any;
-
-  constructor() {
-    if (!localStorage) {
-      throw new Error('Current browser does not support Local Storage');
-    }
-    this.localStorage = localStorage;
+  public set(key: string, value: any): any {
+    
+     return this.get(key).then((val)=>{
+            let id = value['id'];
+           if(val === null){ 
+            let addObj ={};
+            addObj[id] = value;
+            return this.storage.set(key,JSON.stringify(addObj));
+           }
+           let kycObj = JSON.parse(val);
+           kycObj[id] = value;
+           return this.storage.set(key,JSON.stringify(kycObj));
+        });
   }
 
-  public set(key: string, value: string): void {
-    this.localStorage[key] = value;
-  }
-
-  public get(key: string): string {
-    return this.localStorage[key] || false;
-  }
-
-  public setObject(key: string, value: any): void {
-    this.localStorage[key] = JSON.stringify(value);
-  }
-
-  public getObject(key: string): any {
-    return JSON.parse(this.localStorage[key] || '{}');
+  public get(key: string):any {
+     return this.storage.get(key);
   }
 
   public remove(key: string): any {
-    this.localStorage.removeItem(key);
+       return this.storage.remove(key);
   }
+
+  public clear(): any {
+    return this.storage.clear();
+  }
+
+  // public getWallet(Fun){
+  //   this.getObject(Config.WalletKey, (val)=> {
+  //     if(Utils.isNull(val)){
+  //       let walletModel = new WalletModel();
+  //       this.setObject(Config.WalletKey,walletModel);
+
+  //       Fun(walletModel);
+  //     }else{
+
+  //       Fun(val);
+  //     }
+  //   });
+  // }
+
 }
 
 

@@ -1,5 +1,5 @@
 import {Component, ChangeDetectorRef, ViewChild, ViewEncapsulation} from '@angular/core';
-import {StorageUtil} from '../providers/StorageUtil';
+// import {StorageUtil} from '../providers/StorageUtil';
 import {WalletManager} from '../providers/WalletManager';
 import {Logger} from '../providers/Logger';
 import {Location} from '@angular/common';
@@ -14,6 +14,7 @@ import {DialogService, ToastService} from 'ngx-weui';
 
 import {zh} from "../assets/i18n/zh";
 import {WalletModel} from "../models/wallet.model";
+import {LocalStorage} from "../providers/Localstorage";
 
 @Component({
   selector: 'app-base',
@@ -33,7 +34,7 @@ export class BaseComponent {
                      public translate: TranslateService,
                      public location: Location,
                      public changeDetectorRef: ChangeDetectorRef,
-                     public storage: StorageUtil,
+                     public storage: LocalStorage,
                      public native: Native,
                      @ViewChild('myNav') public nav: NavController,
                      public dialogService: DialogService,
@@ -49,11 +50,11 @@ export class BaseComponent {
       this.Back();
     };
 
-    this.storage.getWallet((data) => {
-      this.walletData = data;
-      Logger.info(this.walletData);
-      this.onWalletDatainit();
-    });
+    // this.storage.getWallet((data) => {
+    //   this.walletData = data;
+    //   Logger.info(this.walletData);
+    //   this.onWalletDatainit();
+    // });
   }
 
 

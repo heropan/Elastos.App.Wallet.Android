@@ -8,7 +8,7 @@ import {TabsComponent} from "../pages/tabs/tabs.component";
 //import {Location} from "@angular/common";
 //import {TranslateService} from "@ngx-translate/core";
 //import {Logger} from "../providers/Logger";
-import {StorageUtil} from "../providers/StorageUtil";
+// import {StorageUtil} from "../providers/StorageUtil";
 //import {LauncherComponent} from "../pages/launcher/launcher.component";
 //import {Utils} from "../providers/Utils";
 //import {WalletCreateComponent} from "../pages/wallet/wallet-create/wallet-create.component";
@@ -30,7 +30,7 @@ export class RootComponent{
 
   rootPage:any;
 
-  public constructor(public storage:StorageUtil) {
+  public constructor() {
     this.rootPage= TabsComponent;
     return;
 

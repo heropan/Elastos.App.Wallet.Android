@@ -24,8 +24,8 @@ import { IonicStorageModule } from '@ionic/storage';
 /**provider*/
 import {RouterUtil} from './../providers/RouterUtil';
 import {Config} from './../providers/Config';
-import {LocalStorage} from './../providers/Localstorage';
-import {StorageUtil} from './../providers/StorageUtil';
+import {LocalStorage} from '../providers/Localstorage';
+// import {StorageUtil} from './../providers/StorageUtil';
 import {AuthManager} from './../providers/AuthManager';
 import { Clipboard } from '@ionic-native/clipboard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -235,7 +235,7 @@ export function TranslateLoaderFactory() {
     Validators,
     HeaderComponent,
     Utils,
-    StorageUtil,
+    // StorageUtil,
     AuthManager,
     WalletManager,
 
