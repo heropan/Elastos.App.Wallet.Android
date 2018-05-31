@@ -89,5 +89,9 @@ export const zh = {
   'transaction-ok':'交易成功',
   'loader-more':'加载更多',
   'update-ok':'刷新成功',
+  'contact-name-notnull':'联系人姓名不能为空',
+  'contact-address-notnull':'联系人地址不能为空',
+  'contact-address-digits':'联系人地址必须是34位',
+  'contact-phone-check':'无效的手机号'
 
 };

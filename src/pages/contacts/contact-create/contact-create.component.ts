@@ -28,6 +28,22 @@ export class ContactCreateComponent  extends BaseComponent implements OnInit  {
       email: this.email,
       remark: this.remark
     }
+    if (this.isNull(this.name)) {
+      this.messageBox("contact-name-notnull");
+      return;
+    }
+    if (this.isNull(this.address)) {
+      this.messageBox("contact-address-notnull");
+      return;
+    }
+    if (this.address.length != 34) {
+      this.messageBox("contact-address-digits");
+      return;
+    }
+    if (this.phone && this.checkCellphone(this.phone.toString())) {
+      this.messageBox("contact-phone-check");
+      return;
+    }
     this.storage.set('contactUsers', contactUsers).then((val)=>{
       this.Go(ContactListComponent);
     });

@@ -168,11 +168,35 @@ export class BaseComponent {
   //   return this.activateRoute.snapshot.params['id'];
   // }
 
-
   public checkNull(text) {
     return text == null || text === undefined || text === {} || text === '';
   }
 
+  public messageBox(key){    
+    this.getText(key).subscribe((msg) => {          
+      alert(msg);     
+    });  
+  }
+
+  public isNull(data): boolean {    
+    return (data === '' || data === undefined || data === null) ? true : false;  
+  }
+
+  public isEmptyObject(obj): boolean {    
+    for (let key of obj ) {      
+      if(obj.hasOwnProperty(key)){        
+        return false;      
+      }    
+    }    
+    return true;  
+  }
+
+  public checkCellphone(cellphone: string): boolean {  
+    if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(cellphone))){     
+      return true;    
+    }     
+    return false;  
+  }
 
   public toast(res) {
     this.getText(res).subscribe((text) => {
