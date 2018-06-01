@@ -34,7 +34,7 @@ export class BaseComponent {
                      public translate: TranslateService,
                      public location: Location,
                      public changeDetectorRef: ChangeDetectorRef,
-                     public storage: LocalStorage,
+                     public localStorage: LocalStorage,
                      public native: Native,
                      @ViewChild('myNav') public nav: NavController,
                      public dialogService: DialogService,
@@ -196,6 +196,15 @@ export class BaseComponent {
       return true;    
     }     
     return false;  
+  }
+
+  public objtoarr(obj){    
+    console.log(JSON.stringify(obj["__zone_symbol__value"]));
+    let arr = [];
+    for (let key in obj) {
+      arr.push(obj[key]);       
+    }
+    return arr;
   }
 
   public toast(res) {

@@ -10,13 +10,17 @@ import {ContactsComponent} from "../contacts.component";
 })
 export class ContactListComponent  extends BaseComponent implements OnInit  {
 
+  contactUsers = [];
 
   ngOnInit() {
     this.setTitleByAssets('text-contacts');
     this.setRightIcon('./assets/images/icon/icon-add.svg', () => {
-    this.rightHeader();
+      this.rightHeader();
     });
     this.setHeadDisPlay({right: true});
+    this.localStorage.get('contactUsers').then((val)=>{
+      this.contactUsers = this.objtoarr(JSON.parse(val));
+    });
   }
 
   rightHeader(): void {

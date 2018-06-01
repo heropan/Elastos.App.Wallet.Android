@@ -23,12 +23,12 @@ export class LocalStorage {
     });
   }
 
-  public get(key: string):any {
-     return this.storage.get(key);
+  public get(key: string): any {
+    return this.storage.get(key);
   }
 
   public remove(key: string): any {
-       return this.storage.remove(key);
+    return this.storage.remove(key);
   }
 
   public clear(): any {
