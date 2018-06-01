@@ -9,7 +9,7 @@ export class LocalStorage {
   
   constructor(private storage: Storage) { }
 
-  public set(key: string, value: any): any {
+  public add(key: string, value: any): any {
     return this.get(key).then((val)=>{
      let id = value['id'];
      if(val === null){
@@ -21,6 +21,10 @@ export class LocalStorage {
      addObj[id] = value;
      return this.storage.set(key, JSON.stringify(addObj));
     });
+  }
+
+  public set(key: string, value: any): any {
+    return this.storage.set(key, JSON.stringify(value));
   }
 
   public get(key: string): any {

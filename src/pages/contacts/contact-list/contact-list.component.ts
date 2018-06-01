@@ -19,7 +19,9 @@ export class ContactListComponent  extends BaseComponent implements OnInit  {
     });
     this.setHeadDisPlay({right: true});
     this.localStorage.get('contactUsers').then((val)=>{
-      this.contactUsers = this.objtoarr(JSON.parse(val));
+      if (val) {
+        this.contactUsers = this.objtoarr(JSON.parse(val));
+      }
     });
   }
 

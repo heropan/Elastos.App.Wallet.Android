@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {BaseComponent} from '../../app/BaseComponent';
 import {TransferComponent} from "../coin/transfer/transfer.component";
+import {ContactListComponent} from "../contacts/contact-list/contact-list.component";
 // import {QrcodeModel} from './../../models/qrcode.model';
 
 @Component({
@@ -27,7 +28,13 @@ export class ContactsComponent  extends BaseComponent implements OnInit {
   }
 
   rightHeader(): void {
-     alert('删除成功');
+    this.localStorage.get('contactUsers').then((val)=>{
+      let contactUsers = JSON.parse(val);
+      delete(contactUsers[this.contactUser["id"]]);
+      this.localStorage.set('contactUsers', contactUsers);
+      alert('删除成功');
+      this.Go(ContactListComponent);
+    });
   }
 
   pay(): void {

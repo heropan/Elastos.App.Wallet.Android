@@ -44,7 +44,7 @@ export class ContactCreateComponent  extends BaseComponent implements OnInit  {
       this.messageBox("contact-phone-check");
       return;
     }
-    this.localStorage.set('contactUsers', contactUsers).then((val)=>{
+    this.localStorage.add('contactUsers', contactUsers).then((val)=>{
       this.Go(ContactListComponent);
     });
   }
