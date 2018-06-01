@@ -15,6 +15,7 @@ import {DialogService, ToastService} from 'ngx-weui';
 import {zh} from "../assets/i18n/zh";
 import {WalletModel} from "../models/wallet.model";
 import {LocalStorage} from "../providers/Localstorage";
+import { NavParams } from 'ionic-angular';
 
 @Component({
   selector: 'app-base',
@@ -39,6 +40,7 @@ export class BaseComponent {
                      @ViewChild('myNav') public nav: NavController,
                      public dialogService: DialogService,
                      public walletManager: WalletManager,
+                     public navParams: NavParams,
                      public toastService: ToastService) {
     this.translate.addLangs(['zh', 'en']);
     this.translate.setDefaultLang('zh');
@@ -205,6 +207,10 @@ export class BaseComponent {
       arr.push(obj[key]);       
     }
     return arr;
+  }
+
+  public getNavParams(){    
+    return this.navParams;  
   }
 
   public toast(res) {

@@ -27,8 +27,8 @@ export class ContactListComponent  extends BaseComponent implements OnInit  {
     this.Go(ContactCreateComponent);
   }
 
-  onclick(): void {
-    this.Go(ContactsComponent,{id:1});
+  onclick(id): void {
+    this.Go(ContactsComponent,{id: id});
   }
 
 }

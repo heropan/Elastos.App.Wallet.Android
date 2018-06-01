@@ -9,6 +9,7 @@ import {TransferComponent} from "../coin/transfer/transfer.component";
 })
 export class ContactsComponent  extends BaseComponent implements OnInit {
 
+  contactUser = {};
 
   ngOnInit() {
     this.setTitleByAssets('text-contacts-info');
@@ -16,13 +17,17 @@ export class ContactsComponent  extends BaseComponent implements OnInit {
         this.rightHeader();
     });
     this.setHeadDisPlay({'right': true});
+    this.localStorage.get('contactUsers').then((val)=>{
+      let id = this.getNavParams().get("id");
+      this.contactUser = JSON.parse(val)[id];
+    });
   }
 
   rightHeader(): void {
      alert('删除成功');
   }
 
-  zhifu(): void {
+  pay(): void {
     this.Go(TransferComponent,{id:1});
   }
 }
