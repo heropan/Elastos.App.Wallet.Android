@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {BaseComponent} from '../../app/BaseComponent';
 import {TransferComponent} from "../coin/transfer/transfer.component";
-import {QrcodeModel} from './../../models/qrcode.model';
+// import {QrcodeModel} from './../../models/qrcode.model';
 
 @Component({
   selector: 'app-contacts',

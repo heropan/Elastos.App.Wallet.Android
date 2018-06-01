@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
-import {QrcodeModel} from './../../../models/qrcode.model';
+// import {QrcodeModel} from './../../../models/qrcode.model';
 //import {HeaderComponent, Header} from './../../../app/header/app.header';
 import {Logger} from "../../../providers/Logger";
 import {AddressComponent} from "../../wallet/address/address.component";
@@ -14,9 +14,9 @@ import {ValidatorsUtil} from "../../../providers/ValidatorsUtil";
 })
 export class ReceiveComponent extends BaseComponent implements OnInit {
 
-
-  code: QrcodeModel;
+  qrcode: string;
   address: Number;
+  amount: Number;
 
   ngOnInit() {
     this.setTitleByAssets('text-receive');
@@ -31,7 +31,7 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
   }
 
   onChange(){
-    if(!ValidatorsUtil.number(this.code.amount)){
+    if(!ValidatorsUtil.number(this.amount)){
       this.toast('correct-amount');
     }
   }
@@ -40,7 +40,7 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
   onNext(type){
     switch (type){
       case 0:
-        this.native.copyClipboard(this.code.qrcode);
+        this.native.copyClipboard(this.qrcode);
         this.toast('copy-ok');
         break;
       case 1:
@@ -58,8 +58,7 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
     // });
     let result = this.walletManager.createAddress();
     this.address = result.address;
-    this.code = new QrcodeModel();
-    this.code.qrcode = result.address.toString();
+    this.qrcode = result.address.toString();
   }
 
 }
