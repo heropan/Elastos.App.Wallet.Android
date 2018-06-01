@@ -45,9 +45,17 @@ public class Wallet extends CordovaPlugin {
   @Override
   public void initialize(CordovaInterface cordova, CordovaWebView webView) {
     super.initialize(cordova, webView);
-    masterWallet = new IMasterWallet();
     walletFactory = new IWalletFactory();
-    subWallet = new ISubWallet();
+    masterWallet = walletFactory.CreateMasterWallet("", "");
+
+    // String chainID, int coinTypeIndex, String payPassWord, boolean singleAddress, long feePerKb
+    String chainID = "";
+    int coinTypeIndex = 1;
+    String payPassWord = "";
+    boolean singleAddress = true;
+    long feePerKb = 10;
+    subWallet = masterWallet.CreateSubWallet(IMasterWallet.SubWalletType.Mainchain, chainID,
+            coinTypeIndex, payPassWord, singleAddress, feePerKb);
   }
 
 
@@ -262,13 +270,8 @@ public class Wallet extends CordovaPlugin {
 
   public void registerWalletListener(CallbackContext callbackContext) {
     new ISubWalletCallback() {
-//      @Override
-//      public void OnBalanceChanged(String address, double oldAmount, double newAmount) {
-//
-//      }
-
       @Override
-      public void OnTransactionStatusChanged(String txId, String status, int error, String desc, int confirms) {
+      public void OnTransactionStatusChanged(String txId, String status, String desc, int confirms) {
 
       }
     };
