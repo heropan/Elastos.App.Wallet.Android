@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {BaseComponent} from '../../app/BaseComponent';
 import {TransferComponent} from "../coin/transfer/transfer.component";
+import {QrcodeModel} from './../../models/qrcode.model';
 
 @Component({
   selector: 'app-contacts',
@@ -10,6 +11,7 @@ import {TransferComponent} from "../coin/transfer/transfer.component";
 export class ContactsComponent  extends BaseComponent implements OnInit {
 
   contactUser = {};
+  qrcode: string = null;
 
   ngOnInit() {
     this.setTitleByAssets('text-contacts-info');
@@ -20,6 +22,7 @@ export class ContactsComponent  extends BaseComponent implements OnInit {
     this.localStorage.get('contactUsers').then((val)=>{
       let id = this.getNavParams().get("id");
       this.contactUser = JSON.parse(val)[id];
+      this.qrcode = this.contactUser["address"].toString();
     });
   }
 
