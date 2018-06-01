@@ -45,9 +45,19 @@ public class Wallet extends CordovaPlugin {
   @Override
   public void initialize(CordovaInterface cordova, CordovaWebView webView) {
     super.initialize(cordova, webView);
-    masterWallet = new IMasterWallet();
     walletFactory = new IWalletFactory();
-    subWallet = new ISubWallet();
+    // String backupPassword = "backupPassword";
+    // String payPassWord = "payPassWord";
+    // masterWallet = walletFactory.CreateMasterWallet(backupPassword, payPassWord);
+
+    // // String chainID, int coinTypeIndex, String payPassWord, boolean singleAddress, long feePerKb
+    // String chainID = "Ela";
+    // int coinTypeIndex = 1;
+    // String payPassWord = "";
+    // boolean singleAddress = false;
+    // long feePerKb = 0;
+    // subWallet = masterWallet.CreateSubWallet(IMasterWallet.SubWalletType.Mainchain, chainID,
+    //         coinTypeIndex, payPassWord, singleAddress, feePerKb);
   }
 
 
@@ -170,7 +180,7 @@ public class Wallet extends CordovaPlugin {
   }
 
   public void createSubWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    masterWallet.CreateSubWallet(args.getString(0), args.getInt(1), args.getString(2), args.getBoolean(3), args.getInt(4));
+    subWallet = masterWallet.CreateSubWallet(args.getString(0), args.getInt(1), args.getString(2), args.getBoolean(3), args.getInt(4));
     callbackContext.success();
   }
 
@@ -185,7 +195,7 @@ public class Wallet extends CordovaPlugin {
   }
 
   public void createMasterWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    walletFactory.CreateMasterWallet(args.getString(0), args.getString(1), args.getString(2));
+    masterWallet = walletFactory.CreateMasterWallet(args.getString(0), args.getString(1), args.getString(2));
     callbackContext.success();
   }
 
@@ -262,13 +272,8 @@ public class Wallet extends CordovaPlugin {
 
   public void registerWalletListener(CallbackContext callbackContext) {
     new ISubWalletCallback() {
-//      @Override
-//      public void OnBalanceChanged(String address, double oldAmount, double newAmount) {
-//
-//      }
-
       @Override
-      public void OnTransactionStatusChanged(String txId, String status, int error, String desc, int confirms) {
+      public void OnTransactionStatusChanged(String txId, String status, String desc, int confirms) {
 
       }
     };
