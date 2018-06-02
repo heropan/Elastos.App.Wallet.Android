@@ -14,15 +14,15 @@ public class IMasterWallet {
     Idchain
   };
 
-  public ISubWallet CreateSubWallet(SubWalletType type, String chainID, int coinTypeIndex, String payPassWord, boolean singleAddress, long feePerKb)
+  public ISubWallet CreateSubWallet(int type, String chainID, int coinTypeIndex, String payPassWord, boolean singleAddress, long feePerKb)
   {
-    long subProxy = nativeCreateSubWallet(mMasterProxy, type.ordinal(), chainID, coinTypeIndex, payPassWord, singleAddress, feePerKb);
+    long subProxy = nativeCreateSubWallet(mMasterProxy, type, chainID, coinTypeIndex, payPassWord, singleAddress, feePerKb);
     return new ISubWallet(subProxy);
   }
 
-  public ISubWallet RecoverSubWallet(SubWalletType type, String chainID, int coinTypeIndex, String payPassWord, boolean singleAddress, int limitGap, long feePerKb)
+  public ISubWallet RecoverSubWallet(int type, String chainID, int coinTypeIndex, String payPassWord, boolean singleAddress, int limitGap, long feePerKb)
   {
-    long subProxy = nativeRecoverSubWallet(mMasterProxy, type.ordinal(), chainID, coinTypeIndex, payPassWord, singleAddress, limitGap, feePerKb);
+    long subProxy = nativeRecoverSubWallet(mMasterProxy, type, chainID, coinTypeIndex, payPassWord, singleAddress, limitGap, feePerKb);
     return new ISubWallet(subProxy);
   }
 

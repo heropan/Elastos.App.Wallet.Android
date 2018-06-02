@@ -180,12 +180,12 @@ public class Wallet extends CordovaPlugin {
   }
 
   public void createSubWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    subWallet = masterWallet.CreateSubWallet(args.getString(0), args.getInt(1), args.getString(2), args.getBoolean(3), args.getInt(4));
+    subWallet = masterWallet.CreateSubWallet(args.getInt(0), args.getString(1), args.getInt(2), args.getString(3), args.getBoolean(4), args.getInt(5));
     callbackContext.success();
   }
 
   public void recoverSubWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    masterWallet.RecoverSubWallet(args.getString(0), args.getInt(1), args.getString(2), args.getBoolean(3), args.getInt(4), args.getInt(5));
+    // masterWallet.RecoverSubWallet(args.getString(0), args.getInt(1), args.getString(2), args.getBoolean(3), args.getInt(4), args.getInt(5));
     callbackContext.success();
   }
 
@@ -195,7 +195,7 @@ public class Wallet extends CordovaPlugin {
   }
 
   public void createMasterWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    masterWallet = walletFactory.CreateMasterWallet(args.getString(0), args.getString(1), args.getString(2));
+    masterWallet = walletFactory.CreateMasterWallet(args.getString(0), args.getString(1));
     callbackContext.success();
   }
 
@@ -228,8 +228,8 @@ public class Wallet extends CordovaPlugin {
     callbackContext.success(subWallet.SendTransaction(
       args.getString(0),
       args.getString(1),
-      args.getDouble(2),
-      args.getDouble(3),
+      args.getLong(2),
+      args.getLong(3),
       args.getString(4),
       args.getString(5)
     ));
@@ -255,8 +255,8 @@ public class Wallet extends CordovaPlugin {
     callbackContext.success(subWallet.GenerateMultiSignTransaction(
       args.getString(0),
       args.getString(1),
-      args.getDouble(2),
-      args.getDouble(3),
+      args.getLong(2),
+      args.getLong(3),
       args.getString(4),
       args.getString(5)
     ));

@@ -142,7 +142,7 @@ static jstring JNICALL nativeGenerateMultiSignTransaction(JNIEnv *env, jobject c
     env->ReleaseStringUTFChars(jtoAddress, toAddress);
     env->ReleaseStringUTFChars(jpayPassword, payPassword);
     env->ReleaseStringUTFChars(jmemo, memo);
-    return env->NewStringUTF(result);
+    return env->NewStringUTF(result.c_str());
 }
 
 static jstring JNICALL nativeSendRawTransaction(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jtransactionJson, jstring jsignJson)
@@ -164,7 +164,7 @@ static jstring JNICALL nativeGetAllTransaction(JNIEnv *env, jobject clazz, jlong
     const char* addressOrTxid = env->GetStringUTFChars(jaddressOrTxid, NULL);
 
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-    nlohmann::json result = subWallet->GetAllTransaction(start, count, addressOrTxid);
+    std::string result = subWallet->GetAllTransaction(start, count, addressOrTxid);
 
     env->ReleaseStringUTFChars(jaddressOrTxid, addressOrTxid);
     return env->NewStringUTF(result.c_str());
@@ -190,7 +190,7 @@ static jstring JNICALL nativeCheckSign(JNIEnv *env, jobject clazz, jlong jSubPro
     const char* signature = env->GetStringUTFChars(jsignature, NULL);
 
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-    nlohmann::json result = subWallet->CheckSign(address, message, signature);
+    std::string result = subWallet->CheckSign(address, message, signature);
 
     env->ReleaseStringUTFChars(jaddress, address);
     env->ReleaseStringUTFChars(jmessage, message);
@@ -261,7 +261,8 @@ void ElaSubWalletCallback::OnTransactionStatusChanged(const std::string &txid, c
     jmethodID methodId = env->GetMethodID(clazz, "OnTransactionStatusChanged","(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V");
     jstring jtxid = env->NewStringUTF(txid.c_str());
     jstring jstatus = env->NewStringUTF(status.c_str());
-    jstring jdesc = env->NewStringUTF(desc);
+    std::string tmp = desc;
+    jstring jdesc = env->NewStringUTF(tmp.c_str());
 
     env->CallVoidMethod(mObj, methodId, jtxid, jstatus, jdesc, confirms);
 
