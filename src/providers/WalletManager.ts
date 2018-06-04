@@ -4,7 +4,7 @@ import {Logger} from "./Logger";
 //import {StorageUtil} from "./StorageUtil";
 
 
-//declare var cordova: any;
+declare var cordova: any;
 
 
 /***
@@ -24,8 +24,8 @@ export class WalletManager {
   public static PAGECOUNT = 20;
 
   constructor() {
-    // this.wallet = cordova.plugins.Wallet;
-    this.wallet = {};
+    this.wallet = cordova.plugins.Wallet;
+    //this.wallet = {};
 
     // this.wallet.test2(["123"], function () {
     //   alert("成功啦");
@@ -66,9 +66,9 @@ export class WalletManager {
    * @param {string} payPassword
    * @param {boolean} singleAddress
    */
-  createSubWallet(type: number, payPassword: string, singleAddress: boolean, Fun) {
+  createSubWallet(type: number,chainID:string, coinTypeIndex: number, payPassword: string, singleAddress: boolean, feePerKb: number, Fun) {
     if (type == WalletManager.COINTYPE_ELA) {
-      this.wallet.createSubWallet([0, 0, payPassword, singleAddress, WalletManager.FEEPERKb], Fun, this.errorFun);
+      this.wallet.createSubWallet([type,chainID, coinTypeIndex, payPassword, singleAddress, feePerKb], Fun, this.errorFun);
     }
   }
 
@@ -98,13 +98,12 @@ export class WalletManager {
 
   /**
    * 创建主钱包
-   * @param {string} name
    * @param {string} backupPassword
    * @param payPasswordm
    * @param Fun
    */
-  createMasterWallet(name: string, backupPassword: string, payPassword, Fun) {
-    this.wallet.createMasterWallet([name, backupPassword, payPassword], Fun, this.errorFun);
+  createMasterWallet(backupPassword: string, payPassword, Fun) {
+    this.wallet.createMasterWallet([backupPassword, payPassword], Fun, this.errorFun);
   }
 
 

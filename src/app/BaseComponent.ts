@@ -17,6 +17,7 @@ import {WalletModel} from "../models/wallet.model";
 import {LocalStorage} from "../providers/Localstorage";
 import { NavParams } from 'ionic-angular';
 
+
 @Component({
   selector: 'app-base',
   template: '',

@@ -180,7 +180,7 @@ public class Wallet extends CordovaPlugin {
   }
 
   public void createSubWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    subWallet = masterWallet.CreateSubWallet(args.getInt(0), args.getString(1), args.getInt(2), args.getString(3), args.getBoolean(4), args.getInt(5));
+    subWallet = masterWallet.CreateSubWallet(args.getInt(0), args.getString(1), args.getInt(2), args.getString(3), args.getBoolean(4), args.getLong(5));
     callbackContext.success();
   }
 

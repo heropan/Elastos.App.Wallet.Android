@@ -4,7 +4,6 @@ import {CoinComponent} from "../../coin/coin.component";
 //import {ManagerComponent} from "../../wallet/manager/manager.component";
 import {CoinListComponent} from "../../coin/coin-list/coin-list.component";
 //import {TransferComponent} from "../../coin/transfer/transfer.component";
-
 //declare var cordova:any;
 
 @Component({
@@ -47,13 +46,22 @@ export class HomeComponent extends BaseComponent implements OnInit {
         });
         break;
       case 1:
-        this.Go(CoinListComponent);
+        //this.Go(CoinListComponent);
+        this.walletManager.createMasterWallet("11111111111","12345556666666",()=>{
+             alert("主钱包");
+             this.createSubWallet();
+            
+        })
         break;
 
     }
   }
 
-
+  createSubWallet(){
+    this.walletManager.createSubWallet(0,"Ela",0,"12345556666666",false,0,()=>{
+      alert("子钱包");
+    });
+  }
 
   onItem(item) {
     this.Go(CoinComponent,{id:0});
