@@ -32,7 +32,7 @@ static jstring JNICALL nativeSendDepositTransaction(JNIEnv *env, jobject clazz, 
 
 
 static const JNINativeMethod gMethods[] = {
-    {"nativeSendDepositTransaction", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeSendDepositTransaction},
+    {"nativeSendDepositTransaction", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeSendDepositTransaction},
 };
 
 jint register_elastos_spv_IMainchainSubWallet(JNIEnv *env)

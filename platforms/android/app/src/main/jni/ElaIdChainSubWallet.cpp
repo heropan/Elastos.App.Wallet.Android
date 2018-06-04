@@ -32,7 +32,7 @@ static jstring JNICALL nativeSendIdTransaction(JNIEnv *env, jobject clazz, jlong
 
 
 static const JNINativeMethod gMethods[] = {
-    {"nativeSendIdTransaction", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeSendIdTransaction},
+    {"nativeSendIdTransaction", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeSendIdTransaction},
 };
 
 jint register_elastos_spv_IIdChainSubWallet(JNIEnv *env)

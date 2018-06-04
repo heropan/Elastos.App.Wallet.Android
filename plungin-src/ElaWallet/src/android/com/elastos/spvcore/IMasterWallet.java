@@ -14,15 +14,15 @@ public class IMasterWallet {
     Idchain
   };
 
-  public ISubWallet CreateSubWallet(int type, String chainID, int coinTypeIndex, String payPassWord, boolean singleAddress, long feePerKb)
+  public ISubWallet CreateSubWallet(/*SubWalletType*/int type, String chainID, int coinTypeIndex, String payPassWord, boolean singleAddress, long feePerKb)
   {
-    long subProxy = nativeCreateSubWallet(mMasterProxy, type, chainID, coinTypeIndex, payPassWord, singleAddress, feePerKb);
+    long subProxy = nativeCreateSubWallet(mMasterProxy, type/*.ordinal()*/, chainID, coinTypeIndex, payPassWord, singleAddress, feePerKb);
     return new ISubWallet(subProxy);
   }
 
-  public ISubWallet RecoverSubWallet(int type, String chainID, int coinTypeIndex, String payPassWord, boolean singleAddress, int limitGap, long feePerKb)
+  public ISubWallet RecoverSubWallet(/*SubWalletType*/int type, String chainID, int coinTypeIndex, String payPassWord, boolean singleAddress, int limitGap, long feePerKb)
   {
-    long subProxy = nativeRecoverSubWallet(mMasterProxy, type, chainID, coinTypeIndex, payPassWord, singleAddress, limitGap, feePerKb);
+    long subProxy = nativeRecoverSubWallet(mMasterProxy, type/*.ordinal()*/, chainID, coinTypeIndex, payPassWord, singleAddress, limitGap, feePerKb);
     return new ISubWallet(subProxy);
   }
 
@@ -41,7 +41,7 @@ public class IMasterWallet {
     return nativeSign(mMasterProxy, message, payPassword);
   }
 
-  public boolean CheckSign(String address, String message, String signature)
+  public String CheckSign(String address, String message, String signature)
   {
     return nativeCheckSign(mMasterProxy, address, message, signature);
   }
@@ -61,5 +61,5 @@ public class IMasterWallet {
   private native String nativeGetPublicKey(long masterProxy);
   private native void nativeDestroyWallet(long masterProxy, long subWalletProxy);
   private native String nativeSign(long masterProxy, String message, String payPassword);
-  private native boolean nativeCheckSign(long masterProxy, String address, String message, String signature);
+  private native String nativeCheckSign(long masterProxy, String address, String message, String signature);
 }

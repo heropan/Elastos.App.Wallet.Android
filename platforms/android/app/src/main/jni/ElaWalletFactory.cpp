@@ -116,14 +116,14 @@ static jstring JNICALL nativeExportWalletWithMnemonic(JNIEnv *env, jobject clazz
 }
 
 static const JNINativeMethod gMethods[] = {
-    {"nativeCreateMasterWallet", "(Ljava/lang/String;Ljava/lang/String;)J", (void*)nativeCreateMasterWallet},
+    {"nativeCreateMasterWallet", "(JLjava/lang/String;Ljava/lang/String;)J", (void*)nativeCreateMasterWallet},
     {"nativeCreateJni", "()J", (void*)nativeCreateJni},
     {"nativeDisposeNative", "(J)V", (void*)nativeDisposeNative},
     {"nativeDestroyWallet", "(JLcom/elastos/spvcore/IMasterWallet;)V", (void*)nativeDestroyWallet},
-    {"nativeImportWalletWithKeystore", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)J", (void*)nativeImportWalletWithKeystore},
-    {"nativeImportWalletWithMnemonic", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)J", (void*)nativeImportWalletWithMnemonic},
-    {"nativeExportWalletWithKeystore", "(Lcom/elastos/spvcore/IMasterWallet;Ljava/lang/String;Ljava/lang/String;)V", (void*)nativeExportWalletWithKeystore},
-    {"nativeExportWalletWithMnemonic", "(Lcom/elastos/spvcore/IMasterWallet;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeExportWalletWithMnemonic},
+    {"nativeImportWalletWithKeystore", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)J", (void*)nativeImportWalletWithKeystore},
+    {"nativeImportWalletWithMnemonic", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)J", (void*)nativeImportWalletWithMnemonic},
+    {"nativeExportWalletWithKeystore", "(JLcom/elastos/spvcore/IMasterWallet;Ljava/lang/String;Ljava/lang/String;)V", (void*)nativeExportWalletWithKeystore},
+    {"nativeExportWalletWithMnemonic", "(JLcom/elastos/spvcore/IMasterWallet;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeExportWalletWithMnemonic},
 };
 
 int register_elastos_spv_IWalletFactory(JNIEnv *env)

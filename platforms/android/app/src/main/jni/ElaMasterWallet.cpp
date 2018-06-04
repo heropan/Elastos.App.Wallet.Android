@@ -68,7 +68,7 @@ static jstring JNICALL nativeSign(JNIEnv *env, jobject clazz, jlong jMasterProxy
     return env->NewStringUTF(result.c_str());
 }
 
-//"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+//"(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
 static /*nlohmann::json*/jstring JNICALL nativeCheckSign(JNIEnv *env, jobject clazz, jlong jMasterProxy, jstring jaddress, jstring jmessage,
         jstring jsignature)
 {
@@ -89,12 +89,12 @@ static /*nlohmann::json*/jstring JNICALL nativeCheckSign(JNIEnv *env, jobject cl
 
 
 static const JNINativeMethod gMethods[] = {
-    {"nativeCreateSubWallet", "(ILjava/lang/String;ILjava/lang/String;ZJ)J", (void*)nativeCreateSubWallet},
-    {"nativeRecoverSubWallet", "(ILjava/lang/String;ILjava/lang/String;ZIJ)J", (void*)nativeRecoverSubWallet},
-    {"nativeDestroyWallet", "(J)V", (void*)nativeDestroyWallet},
-    {"nativeGetPublicKey", "()Ljava/lang/String;", (void*)nativeGetPublicKey},
-    {"nativeSign", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeSign},
-    {"nativeCheckSign", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeCheckSign},
+    {"nativeCreateSubWallet", "(JILjava/lang/String;ILjava/lang/String;ZJ)J", (void*)nativeCreateSubWallet},
+    {"nativeRecoverSubWallet", "(JILjava/lang/String;ILjava/lang/String;ZIJ)J", (void*)nativeRecoverSubWallet},
+    {"nativeDestroyWallet", "(JJ)V", (void*)nativeDestroyWallet},
+    {"nativeGetPublicKey", "(J)Ljava/lang/String;", (void*)nativeGetPublicKey},
+    {"nativeSign", "(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeSign},
+    {"nativeCheckSign", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeCheckSign},
 };
 
 jint register_elastos_spv_IMasterWallet(JNIEnv *env)

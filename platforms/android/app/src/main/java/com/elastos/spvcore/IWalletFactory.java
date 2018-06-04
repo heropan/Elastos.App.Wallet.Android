@@ -67,10 +67,10 @@ public class IWalletFactory extends JniReference {
   }
 
   public IWalletFactory() {
-    super(createJni());
+    super(nativeCreateJni());
   }
 
-  public native static long createJni();
+  public native static long nativeCreateJni();
 
   public void DestroyWallet(IMasterWallet masterWallet)
   {
