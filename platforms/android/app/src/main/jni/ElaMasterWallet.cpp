@@ -8,7 +8,7 @@
 
 using namespace Elastos::SDK;
 
-//"(ILjava/lang/String;ILjava/lang/String;ZJ)J"
+//"(JILjava/lang/String;ILjava/lang/String;ZJ)J"
 static jlong JNICALL nativeCreateSubWallet(JNIEnv *env, jobject clazz, jlong jMasterProxy, jint jType, jstring jChainID, jint jCoinTypeIndex,
         jstring jpayPassword, jboolean jSingleAddress, jlong jFeePerKb)
 {
@@ -23,7 +23,7 @@ static jlong JNICALL nativeCreateSubWallet(JNIEnv *env, jobject clazz, jlong jMa
     return (jlong)subWallet;
 }
 
-//"(ILjava/lang/String;ILjava/lang/String;ZIJ)J"
+//"(JILjava/lang/String;ILjava/lang/String;ZIJ)J"
 static jlong JNICALL nativeRecoverSubWallet(JNIEnv *env, jobject clazz, jlong jMasterProxy, jint jType, jstring jChainID, jint jCoinTypeIndex,
         jstring jpayPassword, jboolean jSingleAddress, jint limitGap, jlong jFeePerKb)
 {
@@ -38,7 +38,7 @@ static jlong JNICALL nativeRecoverSubWallet(JNIEnv *env, jobject clazz, jlong jM
     return (jlong)subWallet;
 }
 
-//"(J)V"
+//"(JJ)V"
 static void JNICALL nativeDestroyWallet(JNIEnv *env, jobject clazz, jlong jMasterProxy, jlong jsubWalletProxy)
 {
     IMasterWallet* masterWallet = (IMasterWallet*)jMasterProxy;
@@ -46,7 +46,7 @@ static void JNICALL nativeDestroyWallet(JNIEnv *env, jobject clazz, jlong jMaste
     masterWallet->DestroyWallet(subWallet);
 }
 
-//"()Ljava/lang/String;"
+//"(J)Ljava/lang/String;"
 static jstring JNICALL nativeGetPublicKey(JNIEnv *env, jobject clazz, jlong jMasterProxy)
 {
     IMasterWallet* masterWallet = (IMasterWallet*)jMasterProxy;
@@ -54,7 +54,7 @@ static jstring JNICALL nativeGetPublicKey(JNIEnv *env, jobject clazz, jlong jMas
     return env->NewStringUTF(key.c_str());
 }
 
-//"(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+//"(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeSign(JNIEnv *env, jobject clazz, jlong jMasterProxy, jstring jmessage, jstring jpayPassword)
 {
     const char* message = env->GetStringUTFChars(jmessage, NULL);
@@ -87,6 +87,26 @@ static /*nlohmann::json*/jstring JNICALL nativeCheckSign(JNIEnv *env, jobject cl
     return env->NewStringUTF(result.c_str());
 }
 
+//"(JIILjava/lang/String;Ljava/lang/Object;)Z"
+static jboolean JNICALL nativeDeriveIdAndKeyForPurpose(JNIEnv *env, jobject clazz, jlong jMasterProxy,
+        jint purpose, jint index, jstring jpayPassword, jobject jIdKeyObj)
+{
+    const char* payPassword = env->GetStringUTFChars(jpayPassword, NULL);
+
+    std::string key;
+    std::string id;
+    IMasterWallet* masterWallet = (IMasterWallet*)jMasterProxy;
+    bool status = masterWallet->DeriveIdAndKeyForPurpose(purpose, index, payPassword, id, key);
+    jclass idKeyKlass = env->FindClass("com/elastos/spvcore/IMasterWallet$IDKEY");
+    jfieldID idField = env->GetFieldID(idKeyKlass, "id", "Ljava/lang/String;");
+    jfieldID keyField = env->GetFieldID(idKeyKlass, "key", "Ljava/lang/String;");
+    env->SetObjectField(jIdKeyObj, idField, env->NewStringUTF(id.c_str()));
+    env->SetObjectField(jIdKeyObj, keyField, env->NewStringUTF(key.c_str()));
+
+    env->ReleaseStringUTFChars(jpayPassword, payPassword);
+    return (jboolean)status;
+}
+
 
 static const JNINativeMethod gMethods[] = {
     {"nativeCreateSubWallet", "(JILjava/lang/String;ILjava/lang/String;ZJ)J", (void*)nativeCreateSubWallet},
@@ -95,6 +115,7 @@ static const JNINativeMethod gMethods[] = {
     {"nativeGetPublicKey", "(J)Ljava/lang/String;", (void*)nativeGetPublicKey},
     {"nativeSign", "(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeSign},
     {"nativeCheckSign", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeCheckSign},
+    {"nativeDeriveIdAndKeyForPurpose", "(JIILjava/lang/String;Lcom/elastos/spvcore/IMasterWallet$IDKEY;)Z", (void*)nativeDeriveIdAndKeyForPurpose},
 };
 
 jint register_elastos_spv_IMasterWallet(JNIEnv *env)

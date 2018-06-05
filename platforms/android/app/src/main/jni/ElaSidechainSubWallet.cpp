@@ -8,22 +8,24 @@
 
 using namespace Elastos::SDK;
 
-//"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+//"(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeSendWithdrawTransaction(JNIEnv *env, jobject clazz, jlong jSideSubWalletProxy, jstring jfromAddress,
-        jstring jmainchainAccounts, jstring jmainchainAmounts, jlong fee, jstring jpayPassword, jstring jmemo)
+        jstring jmainchainAccounts, jstring jmainchainAmounts, jstring jmainchainIndexs, jlong fee, jstring jpayPassword, jstring jmemo)
 {
     const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
     const char* mainchainAccounts = env->GetStringUTFChars(jmainchainAccounts, NULL);
     const char* mainchainAmounts = env->GetStringUTFChars(jmainchainAmounts, NULL);
+    const char* mainchainIndexs = env->GetStringUTFChars(jmainchainIndexs, NULL);
     const char* payPassword = env->GetStringUTFChars(jpayPassword, NULL);
     const char* memo = env->GetStringUTFChars(jmemo, NULL);
 
     ISidechainSubWallet* wallet = (ISidechainSubWallet*)jSideSubWalletProxy;
-    std::string result = wallet->SendWithdrawTransaction(fromAddress, mainchainAccounts, mainchainAmounts, fee, payPassword, memo);
+    std::string result = wallet->SendWithdrawTransaction(fromAddress, mainchainAccounts, mainchainAmounts, mainchainIndexs, fee, payPassword, memo);
 
     env->ReleaseStringUTFChars(jfromAddress, fromAddress);
     env->ReleaseStringUTFChars(jmainchainAccounts, mainchainAccounts);
     env->ReleaseStringUTFChars(jmainchainAmounts, mainchainAmounts);
+    env->ReleaseStringUTFChars(jmainchainIndexs, mainchainIndexs);
     env->ReleaseStringUTFChars(jpayPassword, payPassword);
     env->ReleaseStringUTFChars(jmemo, memo);
 
@@ -32,7 +34,8 @@ static jstring JNICALL nativeSendWithdrawTransaction(JNIEnv *env, jobject clazz,
 
 
 static const JNINativeMethod gMethods[] = {
-    {"nativeSendWithdrawTransaction", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeSendWithdrawTransaction},
+    {"nativeSendWithdrawTransaction", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+            , (void*)nativeSendWithdrawTransaction},
 };
 
 jint register_elastos_spv_ISidechainSubWallet(JNIEnv *env)

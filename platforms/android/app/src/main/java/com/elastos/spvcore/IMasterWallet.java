@@ -14,6 +14,14 @@ public class IMasterWallet {
     Idchain
   };
 
+  private class IDKEY {
+    public IDKEY() {
+
+    }
+    String id = "";
+    String key = "";
+  }
+
   public ISubWallet CreateSubWallet(/*SubWalletType*/int type, String chainID, int coinTypeIndex, String payPassWord, boolean singleAddress, long feePerKb)
   {
     long subProxy = nativeCreateSubWallet(mMasterProxy, type/*.ordinal()*/, chainID, coinTypeIndex, payPassWord, singleAddress, feePerKb);
@@ -46,6 +54,11 @@ public class IMasterWallet {
     return nativeCheckSign(mMasterProxy, address, message, signature);
   }
 
+  public boolean DeriveIdAndKeyForPurpose(int purpose, int index, String payPassword, IDKEY outObj)
+  {
+    return nativeDeriveIdAndKeyForPurpose(mMasterProxy, purpose, index, payPassword, outObj);
+  }
+
   public IMasterWallet(long proxy) {
     mMasterProxy = proxy;
   }
@@ -62,4 +75,5 @@ public class IMasterWallet {
   private native void nativeDestroyWallet(long masterProxy, long subWalletProxy);
   private native String nativeSign(long masterProxy, String message, String payPassword);
   private native String nativeCheckSign(long masterProxy, String address, String message, String signature);
+  private native boolean nativeDeriveIdAndKeyForPurpose(long masterProxy, int purpose, int index, String payPassword, IDKEY outObj);
 }

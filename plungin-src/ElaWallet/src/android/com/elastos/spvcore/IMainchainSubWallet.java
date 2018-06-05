@@ -6,9 +6,9 @@ package com.elastos.spvcore;
 public class IMainchainSubWallet {
     private long mMainchainProxy;
 
-    public String SendDepositTransaction(String fromAddress, String sidechainAccounts, String sidechainAmounts, long fee, String payPassword, String memo)
+    public String SendDepositTransaction(String fromAddress, String sidechainAccounts, String sidechainAmounts, String sidechainIndexs, long fee, String payPassword, String memo)
     {
-        return nativeSendDepositTransaction(mMainchainProxy, fromAddress, sidechainAccounts, sidechainAmounts, fee, payPassword, memo);
+        return nativeSendDepositTransaction(mMainchainProxy, fromAddress, sidechainAccounts, sidechainAmounts, sidechainIndexs, fee, payPassword, memo);
     }
 
     public IMainchainSubWallet(long proxy) {
@@ -16,6 +16,6 @@ public class IMainchainSubWallet {
     }
 
     private native String nativeSendDepositTransaction(long proxy, String fromAddress, String sidechainAccounts,
-                                                       String sidechainAmounts, long fee, String payPassword, String memo);
+                                                       String sidechainAmounts, String sidechainIndexs, long fee, String payPassword, String memo);
 
 }

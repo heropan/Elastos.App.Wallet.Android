@@ -195,7 +195,7 @@ public class Wallet extends CordovaPlugin {
   }
 
   public void createMasterWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    masterWallet = walletFactory.CreateMasterWallet(args.getString(0), args.getString(1));
+    masterWallet = walletFactory.CreateMasterWallet(args.getString(0), args.getString(1), args.getString(2));
     callbackContext.success();
   }
 
@@ -205,7 +205,7 @@ public class Wallet extends CordovaPlugin {
   }
 
   public void importWalletWithMnemonic(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    walletFactory.ImportWalletWithMnemonic(args.getString(0), args.getString(1), args.getString(2));
+    walletFactory.ImportWalletWithMnemonic(args.getString(0), args.getString(1), args.getString(2), args.getString(2));
     callbackContext.success();
   }
 
