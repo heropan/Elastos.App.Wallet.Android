@@ -91,24 +91,24 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
   createWallet(){
     this.toastService.loading(this.getLanguageInstance()["text-wait"],0);
     this.toast('text-wallet-create-ok');
-    //主钱包
+    // Master Wallet
     this.walletManager.createMasterWallet(this.wallet.pwd, this.payPasswordType, (val) => {
       let data = [this.wallet.name, this.wallet.pwd, this.wallet.payPassword]
       this.localStorage.set('myWallet', data).then((val)=>{
         this.createSubWallet();
-        this.Go(MnemonicComponent);
       });
     });
   }
 
   createSubWallet(){
-    // ELA 子钱包
-    // this.walletManager.createSubWallet(0, "Ela", 0, this.wallet.payPassword, false, 0, ()=>{
-    //   this.walletManager.getPubKey( (data) => {
-    //     this.storage.setWallet({'name':this.wallet.name,'payPassword':this.wallet.payPassword,'backupPassword':this.wallet.pwd,
-    //     'pubKey':data.pubKey});
-    //   });
-    // });
+    // Sub Wallet
+    this.walletManager.createSubWallet(0, "Ela", 0, this.wallet.payPassword, false, 0, ()=>{
+      this.walletManager.getPubKey( (data) => {
+        this.localStorage.set("mySubWallet", {'name':this.wallet.name,'payPassword':this.wallet.payPassword,'backupPassword':this.wallet.pwd,
+        'pubKey':data.pubKey});
+        this.Go(MnemonicComponent);
+      });
+    });
   }
 
 
