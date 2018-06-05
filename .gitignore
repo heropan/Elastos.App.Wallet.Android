@@ -3,3 +3,4 @@ package-lock.json
 .sourcemaps/main.js.map
 www/build
 platforms/android/.gradle/
+.idea/
