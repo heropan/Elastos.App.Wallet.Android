@@ -4,3 +4,14 @@ package-lock.json
 www/build
 platforms/android/.gradle/
 .idea/
+plugins/ElaWallet
+platforms/android/CordovaLib/build/
+platforms/android/app/.externalNativeBuild/
+platforms/android/app/build/
+platforms/android/app/src/main/assets/www/build/
+platforms/android/build/
+platforms/android/gradle/
+platforms/android/gradlew
+platforms/android/gradlew.bat
+
+
