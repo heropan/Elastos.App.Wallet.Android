@@ -21,7 +21,7 @@ import {MnemonicComponent} from "../pages/mnemonic/mnemonic.component";
 //import {CoinComponent} from "../pages/coin/coin.component";
 //import {RecordinfoComponent} from "../pages/coin/recordinfo/recordinfo.component";
 //import {RecordComponent} from "../pages/coin/record/record.component";
-
+//import {TestJniComponent} from '../pages/testjni/testjni.component';
 @Component({
   selector: 'root',
   templateUrl: './app.root.html'
@@ -31,8 +31,8 @@ export class RootComponent{
   rootPage:any;
 
   public constructor() {
-    this.rootPage= MnemonicComponent;
-    return;
+    this.rootPage= TabsComponent;
+    //this.rootPage = TestJniComponent;
 
     //
     // this.storage.get("isWalletOpen", (data) => {

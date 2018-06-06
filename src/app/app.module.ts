@@ -73,6 +73,8 @@ import {WalletManager} from "../providers/WalletManager";
 import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 import {FileChooser} from "@ionic-native/file-chooser";
 
+import {TestJniComponent} from '../pages/testjni/testjni.component';
+
 
 /** 通过类引用方式解析国家化文件 */
 export class CustomTranslateLoader implements TranslateLoader {
@@ -158,7 +160,7 @@ export function TranslateLoaderFactory() {
     NoticeComponent,
     ChangePwdComponent,
     ChangeNameComponent,
-
+    TestJniComponent
   ],
   imports: [
     BrowserModule,
@@ -216,7 +218,7 @@ export function TranslateLoaderFactory() {
     NoticeComponent,
     ChangePwdComponent,
     ChangeNameComponent,
-
+    TestJniComponent
   ],
   providers: [
     StatusBar,

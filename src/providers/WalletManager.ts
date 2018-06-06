@@ -3,7 +3,6 @@ import {Logger} from "./Logger";
 //import {Native} from "./Native";
 //import {StorageUtil} from "./StorageUtil";
 
-
 // declare var cordova: any;
 
 
@@ -39,13 +38,6 @@ export class WalletManager {
     this.wallet.print(text, Fun, this.errorFun);
   }
 
-  createWallet(Fun) {
-    this.wallet.createWallet([], () => {
-      Fun();
-    }, this.errorFun);
-  }
-
-
   start() {
     this.wallet.start([], () => {
     }, this.errorFun);
@@ -78,9 +70,9 @@ export class WalletManager {
    * @param {string} payPassword
    * @param {boolean} singleAddress
    */
-  recoverSubWallet(type: number, payPassword: string, singleAddress: boolean, Fun) {
+  recoverSubWallet(type: number,chainID:string,coinTypeIndex: number, payPassword: string, singleAddress: boolean,limitGap: number,feePerKb: number, Fun) {
     if (type == WalletManager.COINTYPE_ELA) {
-      this.wallet.recoverSubWallet([0, 0, payPassword, singleAddress, WalletManager.LIMITGAP, WalletManager.FEEPERKb], Fun, this.errorFun);
+      this.wallet.recoverSubWallet([type,chainID,coinTypeIndex,payPassword,singleAddress,limitGap, feePerKb], Fun, this.errorFun);
     }
   }
 
@@ -89,7 +81,7 @@ export class WalletManager {
    * @param Fun
    */
   getPubKey(Fun) {
-    this.wallet.getPubKey([], Fun, this.errorFun);
+    this.wallet.getPublicKey([], Fun, this.errorFun);
   }
 
 
@@ -108,11 +100,11 @@ export class WalletManager {
   }
 
   importWalletWithKeystore(keystorePath: string, backupPassword: string, payPassword, Fun) {
-    this.wallet.impo([keystorePath, backupPassword, payPassword], Fun, this.errorFun);
+    this.wallet.importWalletWithKeystore([keystorePath, backupPassword, payPassword], Fun, this.errorFun);
   }
 
-  importWalletWithMnemonic(mnemonic: string, backupPassword: string, payPassword, Fun) {
-    this.wallet.createMasterWallet([mnemonic, backupPassword, payPassword], Fun, this.errorFun);
+  importWalletWithMnemonic(mnemonic: string, backupPassword: string, payPassword,language:string, Fun) {
+    this.wallet.createMasterWallet([mnemonic, backupPassword, payPassword,language], Fun, this.errorFun);
   }
 
   exportWalletWithKeystore(keystorePath, backupPassword: string, Fun) {
