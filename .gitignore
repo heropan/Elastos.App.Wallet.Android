@@ -13,5 +13,6 @@ platforms/android/build/
 platforms/android/gradle/
 platforms/android/gradlew
 platforms/android/gradlew.bat
-
+.vscode/
+platforms/android/.idea/
 
