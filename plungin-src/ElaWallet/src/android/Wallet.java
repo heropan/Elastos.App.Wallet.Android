@@ -46,18 +46,6 @@ public class Wallet extends CordovaPlugin {
   public void initialize(CordovaInterface cordova, CordovaWebView webView) {
     super.initialize(cordova, webView);
     walletFactory = new IWalletFactory();
-    // String backupPassword = "backupPassword";
-    // String payPassWord = "payPassWord";
-    // masterWallet = walletFactory.CreateMasterWallet(backupPassword, payPassWord);
-
-    // // String chainID, int coinTypeIndex, String payPassWord, boolean singleAddress, long feePerKb
-    // String chainID = "Ela";
-    // int coinTypeIndex = 1;
-    // String payPassWord = "";
-    // boolean singleAddress = false;
-    // long feePerKb = 0;
-    // subWallet = masterWallet.CreateSubWallet(IMasterWallet.SubWalletType.Mainchain, chainID,
-    //         coinTypeIndex, payPassWord, singleAddress, feePerKb);
   }
 
 
