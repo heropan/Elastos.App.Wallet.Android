@@ -39,19 +39,15 @@ export class LocalStorage {
     return this.storage.clear();
   }
 
-  // public getWallet(Fun){
-  //   this.getObject(Config.WalletKey, (val)=> {
-  //     if(Utils.isNull(val)){
-  //       let walletModel = new WalletModel();
-  //       this.setObject(Config.WalletKey,walletModel);
+  public setWallet(key: string, value: any): any {
+    // TODO password加密等
+    return this.storage.set(key, JSON.stringify(value));
+  }
 
-  //       Fun(walletModel);
-  //     }else{
-
-  //       Fun(val);
-  //     }
-  //   });
-  // }
+  public getWallet(key: string): any {
+    // TODO password解密等
+    return this.storage.get(key);
+  }
 
 }
 

@@ -94,7 +94,7 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
     // Master Wallet
     this.walletManager.createMasterWallet(this.wallet.pwd, this.payPasswordType, (val) => {
       let data = [this.wallet.name, this.wallet.pwd, this.wallet.payPassword]
-      this.localStorage.set('myWallet', data).then((val)=>{
+      this.localStorage.setWallet('myWallet', data).then((val)=>{
         this.createSubWallet();
       });
     });
@@ -104,7 +104,7 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
     // Sub Wallet
     this.walletManager.createSubWallet(0, "Ela", 0, this.wallet.payPassword, false, 0, ()=>{
       this.walletManager.getPubKey( (data) => {
-        this.localStorage.set("mySubWallet", {'name':this.wallet.name,'payPassword':this.wallet.payPassword,'backupPassword':this.wallet.pwd,
+        this.localStorage.setWallet("mySubWallet", {'name':this.wallet.name,'payPassword':this.wallet.payPassword,'backupPassword':this.wallet.pwd,
         'pubKey':data.pubKey});
         this.Go(MnemonicComponent);
       });
