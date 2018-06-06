@@ -144,6 +144,9 @@ public class Wallet extends CordovaPlugin {
         case "checkSign":
           this.checkSign(args, callbackContext);
           return true;
+        case "deriveIdAndKeyForPurpose":
+          this.deriveIdAndKeyForPurpose(args, callbackContext);
+          return true;
 
       }
 
@@ -343,6 +346,17 @@ public class Wallet extends CordovaPlugin {
     } else {
       callbackContext.error("Expected one non-empty string argument.");
     }
+  }
+
+  public void deriveIdAndKeyForPurpose(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    IMasterWallet.IDKEY idkey = new IMasterWallet.IDKEY();
+    masterWallet.DeriveIdAndKeyForPurpose(args.getInt(0), args.getInt(1), args.getString(2), idkey);
+
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("id", idkey.id);
+    jsonObject.put("key", idkey.key);
+
+    callbackContext.success(jsonObject);
   }
 
   public void print(String text, CallbackContext callbackContext) throws JSONException {

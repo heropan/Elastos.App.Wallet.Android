@@ -14,7 +14,7 @@ public class IMasterWallet {
     Idchain
   };
 
-  private class IDKEY {
+  public class IDKEY {
     public IDKEY() {
 
     }

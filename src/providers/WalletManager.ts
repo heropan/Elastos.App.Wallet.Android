@@ -190,6 +190,10 @@ export class WalletManager {
     Fun(0.01);
   }
 
+  deriveIdAndKeyForPurpose(purpose:number,index:number,payPassword:string,Fun){
+    this.wallet.deriveIdAndKeyForPurpose([purpose,index,payPassword], Fun, this.errorFun);
+  }
+
   errorFun(error) {
     Logger.info(error);
     //Native.toast(error);
