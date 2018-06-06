@@ -72,7 +72,7 @@ export class ImportComponent extends BaseComponent implements OnInit {
 
       });
     }else{
-      this.walletManager.importWalletWithMnemonic(this.wallet.mnemonic,this.wallet.pwd,this.wallet.payPwd,(data)=>{
+      this.walletManager.importWalletWithMnemonic(this.wallet.mnemonic,this.wallet.pwd,this.wallet.payPwd,"english",(data)=>{
 
       });
     }

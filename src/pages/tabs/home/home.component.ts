@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {BaseComponent} from './../../../app/BaseComponent';
+import {BaseComponent} from '../../../app/BaseComponent';
 import {CoinComponent} from "../../coin/coin.component";
 //import {ManagerComponent} from "../../wallet/manager/manager.component";
 import {CoinListComponent} from "../../coin/coin-list/coin-list.component";
@@ -46,12 +46,11 @@ export class HomeComponent extends BaseComponent implements OnInit {
         });
         break;
       case 1:
-        //this.Go(CoinListComponent);
-        this.walletManager.createMasterWallet("11111111111","12345556666666",()=>{
-             alert("主钱包");
-             this.createSubWallet();
-            
-        })
+        this.Go(CoinListComponent);
+        // this.walletManager.createMasterWallet("11111111111","12345556666666",(result)=>{
+        //      alert("主钱包");
+        //      this.createSubWallet();
+        // })
         break;
 
     }
