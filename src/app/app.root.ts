@@ -31,7 +31,7 @@ export class RootComponent{
   rootPage:any;
 
   public constructor() {
-    this.rootPage= TabsComponent;
+    this.rootPage= LauncherComponent;
     //this.rootPage = TestJniComponent;
 
     //

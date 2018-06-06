@@ -47,14 +47,6 @@
     "is_top_level": true,
     "variables": {}
   },
-  "ElaWallet": {
-    "source": {
-      "type": "local",
-      "path": "F:\\elast\\cordova\\jni\\Elastos.ORG.Wallet.Mobile\\node_modules\\ElaWallet"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "phonegap-plugin-barcodescanner": {
     "source": {
       "type": "registry",
@@ -75,6 +67,14 @@
     "source": {
       "type": "registry",
       "id": "cordova-clipboard"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "ElaWallet": {
+    "source": {
+      "type": "local",
+      "path": "/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/node_modules/ElaWallet"
     },
     "is_top_level": true,
     "variables": {}

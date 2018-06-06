@@ -25,15 +25,15 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"Wallet\"><param name=\"android-package\" value=\"ElaWallet.Wallet\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"BarcodeScanner\"><param name=\"android-package\" value=\"com.phonegap.plugins.barcodescanner.BarcodeScanner\" /></feature>",
               "count": 1
             },
             {
               "xml": "<feature name=\"Clipboard\"><param name=\"android-package\" value=\"com.verso.cordova.clipboard.Clipboard\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Wallet\"><param name=\"android-package\" value=\"ElaWallet.Wallet\" /></feature>",
               "count": 1
             }
           ],
@@ -104,9 +104,6 @@
     "cordova-sqlite-storage": {
       "PACKAGE_NAME": "io.ionic.starter"
     },
-    "ElaWallet": {
-      "PACKAGE_NAME": "io.ionic.starter"
-    },
     "phonegap-plugin-barcodescanner": {
       "ANDROID_SUPPORT_V4_VERSION": "27.+",
       "PACKAGE_NAME": "io.ionic.starter"
@@ -115,6 +112,9 @@
       "PACKAGE_NAME": "io.ionic.starter"
     },
     "cordova-clipboard": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "ElaWallet": {
       "PACKAGE_NAME": "io.ionic.starter"
     }
   },
@@ -153,14 +153,6 @@
       ]
     },
     {
-      "id": "ElaWallet.Wallet",
-      "file": "plugins/ElaWallet/www/Wallet.js",
-      "pluginId": "ElaWallet",
-      "clobbers": [
-        "cordova.plugins.Wallet"
-      ]
-    },
-    {
       "id": "phonegap-plugin-barcodescanner.BarcodeScanner",
       "file": "plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
       "pluginId": "phonegap-plugin-barcodescanner",
@@ -183,6 +175,14 @@
       "clobbers": [
         "cordova.plugins.clipboard"
       ]
+    },
+    {
+      "id": "ElaWallet.Wallet",
+      "file": "plugins/ElaWallet/www/Wallet.js",
+      "pluginId": "ElaWallet",
+      "clobbers": [
+        "cordova.plugins.Wallet"
+      ]
     }
   ],
   "plugin_metadata": {
@@ -192,9 +192,9 @@
     "cordova-plugin-splashscreen": "5.0.2",
     "cordova-plugin-whitelist": "1.3.3",
     "cordova-sqlite-storage": "2.3.1",
-    "ElaWallet": "1.0.0",
     "phonegap-plugin-barcodescanner": "7.1.2",
     "cordova-plugin-filechooser": "1.0.1",
-    "cordova-clipboard": "1.2.1"
+    "cordova-clipboard": "1.2.1",
+    "ElaWallet": "1.0.0"
   }
 }
