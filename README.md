@@ -51,9 +51,10 @@
 
 
 ### 基础命令
-* 打包钱包插件: `ionic cordova build android`
-* 增加钱包插件: `cd plungin-src && ionic cordova plugin add  ElaWallet`
 * 删除钱包插件: `ionic cordova plugin remove ElaWallet`
+* 增加钱包插件: `cd plungin-src && ionic cordova plugin add  ElaWallet`
+* 打包钱包插件: `cd .. && ionic cordova build android`
+
 
 ### NDK使用版本
 * android-ndk-r16b
