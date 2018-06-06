@@ -93,7 +93,7 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
     this.toast('text-wallet-create-ok');  
     // Master Wallet
     alert("-----------createWallet: func-----")
-    this.walletManager.createMasterWallet(this.wallet.pwd, this.payPasswordType, (val) => {
+    this.walletManager.createMasterWallet(this.wallet.pwd, this.wallet.payPassword,"english", (val) => {
       alert("-----------createWallet-----")
       this.createSubWallet();
     });

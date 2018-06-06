@@ -94,9 +94,9 @@ export class WalletManager {
    * @param payPasswordm
    * @param Fun
    */
-  createMasterWallet(backupPassword: string, payPassword, Fun) {
-    // this.wallet.createMasterWallet([backupPassword, payPassword], Fun, this.errorFun);
-    return {};
+  createMasterWallet(backupPassword: string, payPassword:string,language:string, Fun) {
+    this.wallet.createMasterWallet([backupPassword, payPassword,language], Fun, this.errorFun);
+    //return {};
   }
 
   importWalletWithKeystore(keystorePath: string, backupPassword: string, payPassword, Fun) {
@@ -119,11 +119,11 @@ export class WalletManager {
     this.wallet.getBalance([], Fun, this.errorFun);
   }
 
-  createAddress() {
-    // this.wallet.createAddress([], Fun, this.errorFun);
-    let tempAddr = Math.random();
-    let result = {address: tempAddr};
-    return result;
+  createAddress(Fun) {
+       this.wallet.createAddress([], Fun, this.errorFun);
+    // let tempAddr = Math.random();
+    // let result = {address: tempAddr};
+    // return result;
   }
 
   // getTheLastAddress(Fun) {
@@ -132,12 +132,12 @@ export class WalletManager {
   // }
 
   // getAllAddress(start: number, Fun) {
-  getAllAddress() {
-    // this.wallet.getAllAddress([start, WalletManager.PAGECOUNT], Fun, this.errorFun);
-    let allAddress = [{id: '', address: 'Exbwononlxnknwlnblnwb'},
-        {id: '', address: 'Exbwononlxnknwlnblnwb'},
-        {id: '', address: 'Exbwononlxnknwlnblnwb'}]
-    return allAddress;
+  getAllAddress(start:number,Fun) {
+    this.wallet.getAllAddress([start, WalletManager.PAGECOUNT], Fun, this.errorFun);
+    // let allAddress = [{id: '', address: 'Exbwononlxnknwlnblnwb'},
+    //     {id: '', address: 'Exbwononlxnknwlnblnwb'},
+    //     {id: '', address: 'Exbwononlxnknwlnblnwb'}]
+    // return allAddress;
   }
 
   getBalanceWithAddress(address, Fun) {

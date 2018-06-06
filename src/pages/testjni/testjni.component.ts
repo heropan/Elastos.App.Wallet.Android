@@ -12,6 +12,9 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
   keystorePath:string ="ssssss";
   mnemonic:string ="sssssss";
   language:string ="english";
+  singMessage:string;
+  fromAddress:string="sssss";
+  toAddress:string="sssss";
   interfaces = [{id:0,name:"createSubWallet"},
                 {id:1,name:"recoverSubWallet"},
                 {id:2,name:"getPubKey"},
@@ -46,7 +49,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
          this.getPubKey();
          break;
        case 3:
-          this.createMasterWallet(this.backupPassword,this.payPassword);
+          this.createMasterWallet(this.backupPassword,this.payPassword,this.language);
          break;
        case 4:
           this.importWalletWithKeystore(this.keystorePath,this.backupPassword,this.payPassword);
@@ -73,7 +76,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
             this.getBalanceWithAddress();
          break; 
       case 12:
-            this.sendTransaction();
+            this.sendTransaction(this.fromAddress,this.toAddress,1,1,this.payPassword,"ssss");
          break;
       case 13:
            this.generateMultiSignTransaction();
@@ -85,10 +88,10 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
         this.addWalletListener();
         break;
       case 16:
-          this.checkSign();
+          this.checkSign("ssssss",this.singMessage,"sssss",this.payPassword);
         break;
       case 17:
-           this.sign();
+           this.sign("1111111111111",this.payPassword);
        break;
       case 18:
          this.deriveIdAndKeyForPurpose(1,1,this.payPassword);   
@@ -114,8 +117,8 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
      })
    }
 
-   createMasterWallet(backupPassword,payPassword){
-    this.walletManager.createMasterWallet(this.backupPassword,this.payPassword,()=>{
+   createMasterWallet(backupPassword,payPassword,language){
+    this.walletManager.createMasterWallet(backupPassword,payPassword,language,()=>{
       alert("创建主钱包成功");
      });
    }
@@ -145,39 +148,56 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    createAddress(){
-
+         this.walletManager.createAddress((result)=>{
+                alert(JSON.stringify(result));
+         });
    }
 
    getAllAddress(){
-
+        this.walletManager.getAllAddress(0,(result)=>{
+            alert(JSON.stringify(result));
+        });
    }
 
    getBalanceWithAddress(){
-
+        this.walletManager.getBalanceWithAddress("eeeeeeee",(result)=>{
+            alert(JSON.stringify(result));
+        });
    }
 
-   sendTransaction(){
-
+   sendTransaction(fromAddress:string, toAddress:string, amount:number, fee:number, payPassword:string, memo:string){
+       this.walletManager.sendTransaction(fromAddress,toAddress,amount,fee,payPassword,memo,(result)=>{
+                alert(JSON.stringify(result));
+       });
    }
 
    generateMultiSignTransaction(){
-
+      this.walletManager.generateMultiSignTransaction(this.fromAddress,this.toAddress,1,1,this.payPassword,"sssss",(result)=>{
+        alert(JSON.stringify(result));
+      });
    }
 
    getAllTransaction(){
-
+      this.walletManager.getAllTransaction(0,"123455",(result)=>{
+      alert(JSON.stringify(result));
+     });
    }
 
    addWalletListener(){
 
    }
 
-   checkSign(){
-
+   checkSign(address:string, message:string, signature:string, payPassword:string){
+         this.walletManager.checkSign(address,message,signature,payPassword,(result)=>{
+          alert(JSON.stringify(result));
+         });
    }
 
-   sign(){
-
+   sign(message:string,payPassword:string){
+    this.walletManager.sign(message, payPassword,(result)=>{
+         alert(JSON.stringify(result));
+         this.singMessage = result;
+    })
    }
 
    getBalanceFun(){
