@@ -58,7 +58,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
           this.exportWalletWithKeystore(this.keystorePath,this.backupPassword);
          break;
        case 7:
-          this.exportWalletWithMnemonic();
+          this.exportWalletWithMnemonic(this.backupPassword);
          break;
        case 8:
             this.getBalanceFun();
@@ -138,8 +138,10 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
        });
    }
 
-   exportWalletWithMnemonic(){
-
+   exportWalletWithMnemonic(backupPassWord:string ){
+          this.walletManager.exportWalletWithMnemonic(backupPassWord,(result)=>{
+                   alert(JSON.stringify(result));
+          });
    }
 
    createAddress(){
