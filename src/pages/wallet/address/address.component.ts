@@ -12,7 +12,7 @@ export class AddressComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.setTitleByAssets('text-contacts-address');
-    this.addrList = this.walletManager.getAllAddress();
+    //this.addrList = this.walletManager.getAllAddress();
   }
 
   onItem() {
