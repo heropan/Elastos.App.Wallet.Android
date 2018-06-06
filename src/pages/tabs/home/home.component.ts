@@ -46,12 +46,12 @@ export class HomeComponent extends BaseComponent implements OnInit {
         });
         break;
       case 1:
-        //this.Go(CoinListComponent);
-        this.walletManager.createMasterWallet("11111111111","12345556666666",()=>{
-             alert("主钱包");
-             this.createSubWallet();
+        this.Go(CoinListComponent);
+        // this.walletManager.createMasterWallet("11111111111","12345556666666",()=>{
+        //      alert("主钱包");
+        //      this.createSubWallet();
             
-        })
+        // })
         break;
 
     }

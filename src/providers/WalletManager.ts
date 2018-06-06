@@ -4,7 +4,7 @@ import {Logger} from "./Logger";
 //import {StorageUtil} from "./StorageUtil";
 
 
-declare var cordova: any;
+// declare var cordova: any;
 
 
 /***
@@ -24,7 +24,7 @@ export class WalletManager {
   public static PAGECOUNT = 20;
 
   constructor() {
-    this.wallet = cordova.plugins.Wallet;
+    // this.wallet = cordova.plugins.Wallet;
     //this.wallet = {};
 
     // this.wallet.test2(["123"], function () {
@@ -103,9 +103,9 @@ export class WalletManager {
    * @param Fun
    */
   createMasterWallet(backupPassword: string, payPassword, Fun) {
-    this.wallet.createMasterWallet([backupPassword, payPassword], Fun, this.errorFun);
+    // this.wallet.createMasterWallet([backupPassword, payPassword], Fun, this.errorFun);
+    return {};
   }
-
 
   importWalletWithKeystore(keystorePath: string, backupPassword: string, payPassword, Fun) {
     this.wallet.impo([keystorePath, backupPassword, payPassword], Fun, this.errorFun);

@@ -28,14 +28,11 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.setTitleByAssets('text-mnemonic');
-    //this.storage.getWallet((data: WalletModel) => {
-
-      // this.walletManager.exportWalletWithMnemonic(this.walletData.backupPassword, (res) => {
-      //   this.walletData.mnemonic = res.mnemonic;
-      //
-      // });
-
-   // });
+    // this.storage.getWallet((data: WalletModel) => {
+    //   this.walletManager.exportWalletWithMnemonic(this.walletData.backupPassword, (res) => {
+    //     this.walletData.mnemonic = res.mnemonic;
+    //   });
+    // });
   }
 
   onNext() {
