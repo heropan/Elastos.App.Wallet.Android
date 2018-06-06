@@ -18,8 +18,8 @@ public class IMasterWallet {
     public IDKEY() {
 
     }
-    String id = "";
-    String key = "";
+    public String id = "";
+    public String key = "";
   }
 
   public ISubWallet CreateSubWallet(/*SubWalletType*/int type, String chainID, int coinTypeIndex, String payPassWord, boolean singleAddress, long feePerKb)
