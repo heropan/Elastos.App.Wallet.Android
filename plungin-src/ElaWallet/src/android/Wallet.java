@@ -72,18 +72,6 @@ public class Wallet extends CordovaPlugin {
         case "print":
           this.print(args.getString(0), callbackContext);
           return true;
-        case "recoverWallet":
-          this.recoverWallet(args, callbackContext);
-          return true;
-        case "createWallet":
-          this.createWallet(callbackContext);
-          return true;
-        case "start":
-          this.start(callbackContext);
-          return true;
-        case "stop":
-          this.stop(callbackContext);
-          return true;
         case "createSubWallet":
           this.createSubWallet(args, callbackContext);
           return true;
@@ -160,41 +148,18 @@ public class Wallet extends CordovaPlugin {
   }
 
 
-  public void recoverWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    // manager = new WalletManager("wallet abc", "english", new ChainParams());
-    manager = new WalletManager(args.getString(0), args.getString(1), new ChainParams());
-    callbackContext.success();
-    //manager.createJniWalletManager();
-  }
-
-  public void createWallet(CallbackContext callbackContext) throws JSONException {
-    manager = new WalletManager(new ChainParams());
-    callbackContext.success();
-  }
-
-  public void start(CallbackContext callbackContext) throws JSONException {
-    manager.start();
-    callbackContext.success();
-  }
-
-  public void stop(CallbackContext callbackContext) throws JSONException {
-    manager.stop();
-    callbackContext.success();
-  }
-
   public void createSubWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
     subWallet = masterWallet.CreateSubWallet(args.getInt(0), args.getString(1), args.getInt(2), args.getString(3), args.getBoolean(4), args.getLong(5));
     callbackContext.success();
   }
 
   public void recoverSubWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    // masterWallet.RecoverSubWallet(args.getString(0), args.getInt(1), args.getString(2), args.getBoolean(3), args.getInt(4), args.getInt(5));
+    subWallet = masterWallet.RecoverSubWallet(args.getInt(0), args.getString(1), args.getInt(2), args.getString(3), args.getBoolean(4), args.getInt(5), args.getLong(6));
     callbackContext.success();
   }
 
   public void getPublicKey(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    masterWallet.GetPublicKey();
-    callbackContext.success();
+    callbackContext.success(parseOneParam("publickey", masterWallet.GetPublicKey()));
   }
 
   public void createMasterWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -203,12 +168,12 @@ public class Wallet extends CordovaPlugin {
   }
 
   public void importWalletWithKeystore(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    walletFactory.ImportWalletWithKeystore(args.getString(0), args.getString(1), args.getString(2));
+    masterWallet = walletFactory.ImportWalletWithKeystore(args.getString(0), args.getString(1), args.getString(2));
     callbackContext.success();
   }
 
   public void importWalletWithMnemonic(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    walletFactory.ImportWalletWithMnemonic(args.getString(0), args.getString(1), args.getString(2), args.getString(2));
+    masterWallet = walletFactory.ImportWalletWithMnemonic(args.getString(0), args.getString(1), args.getString(2), args.getString(2));
     callbackContext.success();
   }
 
@@ -218,8 +183,7 @@ public class Wallet extends CordovaPlugin {
   }
 
   public void exportWalletWithMnemonic(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    walletFactory.ExportWalletWithMnemonic(masterWallet, args.getString(0));
-    callbackContext.success();
+    callbackContext.success(parseOneParam("mnemonic", walletFactory.ExportWalletWithMnemonic(masterWallet, args.getString(0))));
   }
 
 
@@ -277,7 +241,18 @@ public class Wallet extends CordovaPlugin {
     new ISubWalletCallback() {
       @Override
       public void OnTransactionStatusChanged(String txId, String status, String desc, int confirms) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+          jsonObject.put("txId", txId);
+          jsonObject.put("status", status);
+          jsonObject.put("desc", desc);
+          jsonObject.put("confirms", confirms);
+        }
+        catch (JSONException e) {
+          e.printStackTrace();;
+        }
 
+        callbackContext.success(jsonObject);
       }
     };
   }
