@@ -18,7 +18,7 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
     this.localStorage.getWallet().then((val)=>{
       this.walletManager.exportWalletWithMnemonic(val.backupPassword, (data) => {
       this.mnemonicStr = data.toString();
-      let mnemonicArr = this.mnemonicStr.split(" ");
+      let mnemonicArr = this.mnemonicStr.split(/[\u3000\s]+/);
       for (var i = 0; i < mnemonicArr.length; i++) {
         this.mnemonicList.push({text: mnemonicArr[i], select: true});
       }

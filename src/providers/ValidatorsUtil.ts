@@ -38,7 +38,7 @@ export class ValidatorsUtil {
   }
 
   public static isMnemonicValid(mnemonicStr): boolean {
-    return mnemonicStr.split(" ").length == 12 ? true : false
+    return mnemonicStr.split(/[\u3000\s]+/).length == 12 ? true : false
   }
 
   public static isEmptyObject(obj): boolean {
