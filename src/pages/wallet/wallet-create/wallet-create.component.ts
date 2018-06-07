@@ -37,6 +37,7 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
     rePayPassword:''
   };
 
+  defaultCointype = "ELA"
 
   ngOnInit() {
     this.setTitleByAssets('launcher-create-wallet');
@@ -92,25 +93,21 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
     this.toastService.loading(this.getLanguageInstance()["text-wait"],0);
     this.toast('text-wallet-create-ok');  
     // Master Wallet
-    alert("-----------createWallet: func1-----")
     this.walletManager.createMasterWallet(this.wallet.pwd, this.wallet.payPassword, "english", (val) => {
-      alert("-----------createWallet-----")
       this.createSubWallet();
     });
   }
 
   createSubWallet(){
     // Sub Wallet
-    alert("-----------createSubWallet: func-----")
-    this.walletManager.createSubWallet(0, "Ela", 0, this.wallet.payPassword, false, 0, (val)=>{
-      alert("-----------createSubWallet: -----")
+    this.walletManager.createSubWallet(0, this.defaultCointype, 0, this.wallet.payPassword, false, 0, (val)=>{
       this.walletManager.getPubKey((data) => {
-        alert("-----------getPubKey: -----")
         this.localStorage.setWallet({
           'name': this.wallet.name,
           'payPassword': this.wallet.payPassword,
           'backupPassword': this.wallet.pwd,
-          'pubKey': data.pubKey});
+          'pubKey': data.pubKey
+        });
         this.Go(MnemonicComponent);
       });
     });

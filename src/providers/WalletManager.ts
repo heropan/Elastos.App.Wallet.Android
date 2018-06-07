@@ -3,7 +3,7 @@ import {Logger} from "./Logger";
 //import {Native} from "./Native";
 //import {StorageUtil} from "./StorageUtil";
 
-declare var cordova: any;
+// declare var cordova: any;
 
 
 /***
@@ -23,7 +23,7 @@ export class WalletManager {
   public static PAGECOUNT = 20;
 
   constructor() {
-    this.wallet = cordova.plugins.Wallet;
+    // this.wallet = cordova.plugins.Wallet;
     //this.wallet = {};
 
     // this.wallet.test2(["123"], function () {

@@ -13,20 +13,7 @@ import {ValidatorsUtil} from "../../../providers/ValidatorsUtil";
 export class WriteComponent extends BaseComponent implements OnInit {
 
 
-  mnemonicList: Array<any> = [
-    {text: '醉', select: true},
-    {text: '酒', select: true},
-    {text: '当', select: true},
-    {text: '歌', select: true},
-    {text: '人', select: true},
-    {text: '生', select: true},
-    {text: '几', select: true},
-    {text: '和', select: true},
-    {text: '哎', select: true},
-    {text: '呦', select: true},
-    {text: '呦', select: true},
-    {text: '呦', select: true},
-  ];
+  mnemonicList: Array<any> = []
 
   selectList: Array<any> = [];
 
@@ -44,6 +31,8 @@ export class WriteComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.setTitleByAssets('text-mnemonic-check');
+    this.mnemonicList = this.getNavParams().get("mnemonicList");
+    console.log(this.mnemonicList)
   }
 
 
