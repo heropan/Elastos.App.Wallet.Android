@@ -18,6 +18,7 @@ export const zh = {
   'text-mnemonic-prompt2': '请按照顺序点击您的助记词',
   'text-mnemonic-ok': '助记词验证成功',
   'text-mnemonic-prompt3': '助记词错误，请重新录入助记词',
+  'text-mnemonic-format': '助记词之间使用空格隔开',
   'text-from-mnemonic': '来自助记词',
   'text-from-key': '来自私钥',
   'text-key-file': '私钥文件',
