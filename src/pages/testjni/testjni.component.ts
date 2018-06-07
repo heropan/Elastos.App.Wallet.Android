@@ -7,9 +7,9 @@ import {BaseComponent} from '../../app/BaseComponent';
   templateUrl: './testjni.component.html',
 })
 export class TestJniComponent  extends BaseComponent implements OnInit  {
-  phrasePassword:string ="666666";
-  payPassword:string ="666666";
-  backupPassword:string="666666";
+  phrasePassword:string ="66666666";
+  payPassword:string ="66666666";
+  backupPassword:string="66666666";
   keystorePath:string ="ssssss";
   mnemonic:string ="sssssss";
   language:string ="english";
