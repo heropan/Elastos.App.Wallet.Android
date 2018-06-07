@@ -9,12 +9,12 @@ public class IWalletFactory extends JniReference {
   /***
    * 创建主私钥
    * @param name 钱包名
-   * @param backupPassword 备份密码
+   * @param phrasePassword 助记词密码
    * @param payPassWord  支付密码
    */
-  public IMasterWallet CreateMasterWallet(String backupPassword,String payPassWord, String language, String rootPath)
+  public IMasterWallet CreateMasterWallet(String phrasePassword,String payPassWord, String language, String rootPath)
   {
-    long masterProxy = nativeCreateMasterWallet(jniReferenceAddress, backupPassword, payPassWord, language, rootPath);
+    long masterProxy = nativeCreateMasterWallet(jniReferenceAddress, phrasePassword, payPassWord, language, rootPath);
     return new IMasterWallet(masterProxy);
   }
 
@@ -81,7 +81,7 @@ public class IWalletFactory extends JniReference {
     nativeDisposeNative(jniReferenceAddress);
   }
 
-  private native long nativeCreateMasterWallet(long jniReferenceAddress, String backupPassword, String payPassWord,String language, String rootPath);
+  private native long nativeCreateMasterWallet(long jniReferenceAddress, String phrasePassword, String payPassWord,String language, String rootPath);
   private native long nativeImportWalletWithKeystore(long jniReferenceAddress, String keystorePath,String backupPassWord
           ,String payPassWord, String phrasePassword, String rootPath);
   private native long nativeImportWalletWithMnemonic(long jniReferenceAddress, String mnemonic,String backupPassWord,String payPassWord,String language, String rootPath);

@@ -7,8 +7,9 @@ import {BaseComponent} from '../../app/BaseComponent';
   templateUrl: './testjni.component.html',
 })
 export class TestJniComponent  extends BaseComponent implements OnInit  {
-  backupPassword:string ="666666";
+  phrasePassword:string ="666666";
   payPassword:string ="666666";
+  backupPassword:string="666666";
   keystorePath:string ="ssssss";
   mnemonic:string ="sssssss";
   language:string ="english";
@@ -49,7 +50,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
          this.getPubKey();
          break;
        case 3:
-          this.createMasterWallet(this.backupPassword,this.payPassword,this.language);
+          this.createMasterWallet(this.phrasePassword,this.payPassword,this.language);
          break;
        case 4:
           this.importWalletWithKeystore(this.keystorePath,this.backupPassword,this.payPassword);
@@ -119,8 +120,8 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
      })
    }
 
-   createMasterWallet(backupPassword,payPassword,language){
-    this.walletManager.createMasterWallet(backupPassword,payPassword,language,()=>{
+   createMasterWallet(phrasePassword,payPassword,language){
+    this.walletManager.createMasterWallet(phrasePassword,payPassword,language,()=>{
       alert("创建主钱包成功");
      });
    }

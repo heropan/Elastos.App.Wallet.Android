@@ -90,12 +90,12 @@ export class WalletManager {
 
   /**
    * 创建主钱包
-   * @param {string} backupPassword
+   * @param {string} phrasePassword
    * @param payPasswordm
    * @param Fun
    */
-  createMasterWallet(backupPassword: string, payPassword:string,language:string, Fun) {
-    this.wallet.createMasterWallet([backupPassword, payPassword,language], Fun, this.errorFun);
+  createMasterWallet(phrasePassword: string, payPassword:string,language:string, Fun) {
+    this.wallet.createMasterWallet([phrasePassword, payPassword,language], Fun, this.errorFun);
     //return {};
   }
 
