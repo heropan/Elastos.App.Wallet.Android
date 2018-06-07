@@ -9,7 +9,7 @@ import {Component} from '@angular/core';
 //import {TranslateService} from "@ngx-translate/core";
 //import {Logger} from "../providers/Logger";
 // import {StorageUtil} from "../providers/StorageUtil";
-//import {LauncherComponent} from "../pages/launcher/launcher.component";
+import {LauncherComponent} from "../pages/launcher/launcher.component";
 //import {Utils} from "../providers/Utils";
 //import {WalletCreateComponent} from "../pages/wallet/wallet-create/wallet-create.component";
 //import {MnemonicComponent} from "../pages/mnemonic/mnemonic.component";
@@ -21,18 +21,19 @@ import {Component} from '@angular/core';
 //import {CoinComponent} from "../pages/coin/coin.component";
 //import {RecordinfoComponent} from "../pages/coin/recordinfo/recordinfo.component";
 //import {RecordComponent} from "../pages/coin/record/record.component";
-import {TestJniComponent} from '../pages/testjni/testjni.component';
+//import {TestJniComponent} from '../pages/testjni/testjni.component';
+
 @Component({
   selector: 'root',
   templateUrl: './app.root.html'
 })
 export class RootComponent{
 
-  rootPage:any;
+  rootPage: any;
 
   public constructor() {
-    //this.rootPage= LauncherComponent;
-    this.rootPage = TestJniComponent;
+    this.rootPage = LauncherComponent;
+    // this.rootPage = TestJniComponent;
 
     //
     // this.storage.get("isWalletOpen", (data) => {

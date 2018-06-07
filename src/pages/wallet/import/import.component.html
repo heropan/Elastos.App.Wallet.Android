@@ -2,9 +2,9 @@
 
 
 <div class="import-tabs">
-  <div [ngClass]="{'select-tab':wallet.type == 1}" (click)="onChange()">{{ 'text-mnemonic' | translate }}</div>
+  <div [ngClass]="{'select-tab':wallet.type == 1}" (click)="onChange()">{{ 'text-key-file' | translate }}</div>
   <span></span>
-  <div [ngClass]="{'select-tab':wallet.type == 2}" (click)="onChange()">{{ 'text-key-file' | translate }}</div>
+  <div [ngClass]="{'select-tab':wallet.type == 2}" (click)="onChange()">{{ 'text-mnemonic' | translate }}</div>
 </div>
 
 <div>
