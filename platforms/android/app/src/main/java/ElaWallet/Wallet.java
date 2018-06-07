@@ -2,15 +2,10 @@ package ElaWallet;
 
 import android.util.JsonReader;
 
-import com.elastos.spvcore.ChainParams;
 import com.elastos.spvcore.IMasterWallet;
 import com.elastos.spvcore.ISubWallet;
 import com.elastos.spvcore.ISubWalletCallback;
 import com.elastos.spvcore.IWalletFactory;
-import com.elastos.spvcore.Transaction;
-import com.elastos.spvcore.TransactionPtr;
-import com.elastos.spvcore.TxParam;
-import com.elastos.spvcore.WalletManager;
 import com.elastos.wallet.util.LogUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -27,6 +22,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.ionic.starter.MyUtil;
+
 /**
  * wallet webview jni
  */
@@ -34,7 +31,6 @@ public class Wallet extends CordovaPlugin {
 
   private static final String TAG = "Wallet.JNI";
 
-  private WalletManager manager;
   private IMasterWallet masterWallet;
   private IWalletFactory walletFactory;
   private ISubWallet subWallet;
@@ -151,17 +147,17 @@ public class Wallet extends CordovaPlugin {
   }
 
   public void createMasterWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    masterWallet = walletFactory.CreateMasterWallet(args.getString(0), args.getString(1), args.getString(2));
+    masterWallet = walletFactory.CreateMasterWallet(args.getString(0), args.getString(1), args.getString(2), MyUtil.getRootPath());
     callbackContext.success();
   }
 
   public void importWalletWithKeystore(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    masterWallet = walletFactory.ImportWalletWithKeystore(args.getString(0), args.getString(1), args.getString(2));
+    masterWallet = walletFactory.ImportWalletWithKeystore(args.getString(0), args.getString(1), args.getString(2), args.getString(3), MyUtil.getRootPath());
     callbackContext.success();
   }
 
   public void importWalletWithMnemonic(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    masterWallet = walletFactory.ImportWalletWithMnemonic(args.getString(0), args.getString(1), args.getString(2), args.getString(2));
+    masterWallet = walletFactory.ImportWalletWithMnemonic(args.getString(0), args.getString(1), args.getString(2), args.getString(2), MyUtil.getRootPath());
     callbackContext.success();
   }
 
@@ -176,10 +172,6 @@ public class Wallet extends CordovaPlugin {
 
 
   public void sendTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
-
-    // long txId = manager.createTransaction(manager, new TxParam(args.getString(0), args.getLong(1)));
-    // manager.signAndPublishTransaction(manager, new TransactionPtr(txId));
-    //callbackContext.success(parseOneParam("txId", ""));
     callbackContext.success(subWallet.SendTransaction(
       args.getString(0),
       args.getString(1),
@@ -191,10 +183,6 @@ public class Wallet extends CordovaPlugin {
   }
 
   public void createMultiSignAddress(JSONArray args, CallbackContext callbackContext) throws JSONException {
-
-    // long txId = manager.createTransaction(manager, new TxParam(args.getString(0), args.getLong(1)));
-    // manager.signAndPublishTransaction(manager, new TransactionPtr(txId));
-    //callbackContext.success(parseOneParam("txId", ""));
     callbackContext.success(subWallet.CreateMultiSignAddress(
       args.getString(0),
       args.getInt(1),
@@ -203,10 +191,6 @@ public class Wallet extends CordovaPlugin {
   }
 
   public void generateMultiSignTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
-
-    // long txId = manager.createTransaction(manager, new TxParam(args.getString(0), args.getLong(1)));
-    // manager.signAndPublishTransaction(manager, new TransactionPtr(txId));
-    //callbackContext.success(parseOneParam("txId", ""));
     callbackContext.success(subWallet.GenerateMultiSignTransaction(
       args.getString(0),
       args.getString(1),
@@ -334,7 +318,6 @@ public class Wallet extends CordovaPlugin {
 
   @Override
   public void onDestroy() {
-    manager.finalize();
     super.onDestroy();
   }
 }

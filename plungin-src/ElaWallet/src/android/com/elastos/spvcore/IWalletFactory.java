@@ -12,9 +12,9 @@ public class IWalletFactory extends JniReference {
    * @param backupPassword 备份密码
    * @param payPassWord  支付密码
    */
-  public IMasterWallet CreateMasterWallet(String backupPassword,String payPassWord, String language)
+  public IMasterWallet CreateMasterWallet(String backupPassword,String payPassWord, String language, String rootPath)
   {
-    long masterProxy = nativeCreateMasterWallet(jniReferenceAddress, backupPassword, payPassWord, language);
+    long masterProxy = nativeCreateMasterWallet(jniReferenceAddress, backupPassword, payPassWord, language, rootPath);
     return new IMasterWallet(masterProxy);
   }
 
@@ -25,9 +25,9 @@ public class IWalletFactory extends JniReference {
    * @param payPassWord       支付密码
    * @return
    */
-  public IMasterWallet ImportWalletWithKeystore(String keystorePath,String backupPassWord,String payPassWord)
+  public IMasterWallet ImportWalletWithKeystore(String keystorePath,String backupPassWord,String payPassWord, String phrasePassword, String rootPath)
   {
-    long masterProxy = nativeImportWalletWithKeystore(jniReferenceAddress, keystorePath, backupPassWord, payPassWord);
+    long masterProxy = nativeImportWalletWithKeystore(jniReferenceAddress, keystorePath, backupPassWord, payPassWord, phrasePassword, rootPath);
     return new IMasterWallet(masterProxy);
   }
 
@@ -38,9 +38,9 @@ public class IWalletFactory extends JniReference {
    * @param payPassWord
    * @return
    */
-  public IMasterWallet ImportWalletWithMnemonic(String mnemonic,String backupPassWord,String payPassWord, String language)
+  public IMasterWallet ImportWalletWithMnemonic(String mnemonic,String backupPassWord,String payPassWord, String language, String rootPath)
   {
-    long masterProxy = nativeImportWalletWithMnemonic(jniReferenceAddress, mnemonic, backupPassWord, payPassWord, language);
+    long masterProxy = nativeImportWalletWithMnemonic(jniReferenceAddress, mnemonic, backupPassWord, payPassWord, language, rootPath);
     return new IMasterWallet(masterProxy);
   }
 
@@ -81,9 +81,10 @@ public class IWalletFactory extends JniReference {
     nativeDisposeNative(jniReferenceAddress);
   }
 
-  private native long nativeCreateMasterWallet(long jniReferenceAddress, String backupPassword, String payPassWord,String language);
-  private native long nativeImportWalletWithKeystore(long jniReferenceAddress, String keystorePath,String backupPassWord,String payPassWord);
-  private native long nativeImportWalletWithMnemonic(long jniReferenceAddress, String mnemonic,String backupPassWord,String payPassWord,String language);
+  private native long nativeCreateMasterWallet(long jniReferenceAddress, String backupPassword, String payPassWord,String language, String rootPath);
+  private native long nativeImportWalletWithKeystore(long jniReferenceAddress, String keystorePath,String backupPassWord
+          ,String payPassWord, String phrasePassword, String rootPath);
+  private native long nativeImportWalletWithMnemonic(long jniReferenceAddress, String mnemonic,String backupPassWord,String payPassWord,String language, String rootPath);
   private native void nativeExportWalletWithKeystore(long jniReferenceAddress, IMasterWallet masterWallet,String backupPassWord,String keystorePath);
   private native String nativeExportWalletWithMnemonic(long jniReferenceAddress, IMasterWallet masterWallet,String backupPassWord);
   private native void nativeDestroyWallet(long jniReferenceAddress, IMasterWallet masterWallet);

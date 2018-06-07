@@ -52,6 +52,7 @@ public class MainActivity extends CordovaActivity
 
 
     private void initJG(){
+        MyUtil.setApplicationContext(getApplicationContext());
 
         String udid =  MyUtil.getImei(getApplicationContext(), "");
         if (null != udid) Log.w("xxl-jg","Imei uuid is " + udid);
