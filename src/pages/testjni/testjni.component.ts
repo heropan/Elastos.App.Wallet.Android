@@ -100,8 +100,9 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    createSubWallet(){
-      this.walletManager.createSubWallet(0,"Ela",0,this.payPassword,false,0,()=>{
+      this.walletManager.createSubWallet(0,"Ela",0,this.payPassword,false,0,(result)=>{
         alert("子钱包");
+        alert(JSON.stringify(result));
       });
    }
 
@@ -112,8 +113,9 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    getPubKey(){
-     this.walletManager.getPubKey(()=>{
+     this.walletManager.getPubKey((result)=>{
        alert("获取公钥成功");
+       alert(JSON.stringify(result));
      })
    }
 
