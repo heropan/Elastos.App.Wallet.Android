@@ -25,7 +25,7 @@ export class ImportComponent extends BaseComponent implements OnInit {
 
 
   onImport() {
-    if (this.wallet.type == 1) {   // 私钥
+    if (this.wallet.type == 1) {   // 文件
       if (ValidatorsUtil.isNull(this.wallet.keystore)) {
         this.toast('text-select-key');
         return;
@@ -36,7 +36,10 @@ export class ImportComponent extends BaseComponent implements OnInit {
         return;
       }
     }
-
+    if (!ValidatorsUtil.isMnemonicValid(this.wallet.mnemonic)) {
+      this.toast("text-mnemonic-validator");
+      return;
+    }
     if (!ValidatorsUtil.password(this.wallet.pwd)) {
       this.toast("text-pwd-validator");
       return;
@@ -45,14 +48,14 @@ export class ImportComponent extends BaseComponent implements OnInit {
       this.toast("text-wallet-repwd");
       return;
     }
-
+    
     this.importWallet();
   }
 
 
   onChange() {
     this.wallet.type = (this.wallet.type === 1 ? 2 : 1);
-    console.log(this.wallet.type);
+    // console.log(this.wallet.type);
   }
 
   selectFile() {
@@ -69,7 +72,7 @@ export class ImportComponent extends BaseComponent implements OnInit {
   importWallet(){
     if(this.wallet.type == 1){
       this.walletManager.importWalletWithKeystore(this.wallet.keystore,this.wallet.pwd,this.wallet.payPwd,(data)=>{
-
+        
       });
     }else{
       this.walletManager.importWalletWithMnemonic(this.wallet.mnemonic,this.wallet.pwd,this.wallet.payPwd,"english",(data)=>{

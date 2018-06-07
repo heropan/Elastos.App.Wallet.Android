@@ -37,6 +37,10 @@ export class ValidatorsUtil {
     return (data === '' || data === undefined || data === null) ? true : false;
   }
 
+  public static isMnemonicValid(mnemonicStr): boolean {
+    return mnemonicStr.split(" ").length == 12 ? true : false
+  }
+
   public static isEmptyObject(obj): boolean {
     for (let key of obj ) {
       if(obj.hasOwnProperty(key)){
