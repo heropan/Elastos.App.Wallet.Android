@@ -13,22 +13,9 @@ import {ValidatorsUtil} from "../../../providers/ValidatorsUtil";
 export class WriteComponent extends BaseComponent implements OnInit {
 
 
-  mnemonicList: Array<any> = [
-    {text: '醉', select: true},
-    {text: '酒', select: true},
-    {text: '当', select: true},
-    {text: '歌', select: true},
-    {text: '人', select: true},
-    {text: '生', select: true},
-    {text: '几', select: true},
-    {text: '和', select: true},
-    {text: '哎', select: true},
-    {text: '呦', select: true},
-    {text: '呦', select: true},
-    {text: '呦', select: true},
-  ];
-
+  mnemonicList: Array<any> = []
   selectList: Array<any> = [];
+  mnemonicStr: string;
 
   onItem(type, index) {
 
@@ -36,23 +23,25 @@ export class WriteComponent extends BaseComponent implements OnInit {
       this.mnemonicList.push(this.selectList.splice(index, 1)[0]);
     } else {          // 添加
       this.selectList.push(this.mnemonicList.splice(index, 1)[0]);
-      console.log(this.selectList);
+      // console.log(this.selectList);
     }
 
   }
 
-
   ngOnInit() {
     this.setTitleByAssets('text-mnemonic-check');
-  }
+    this.mnemonicStr = this.getNavParams().get("mnemonicStr");
 
+    this.mnemonicList = this.getNavParams().get("mnemonicList").sort(function(){ return 0.5 - Math.random() });
+    // console.log(this.mnemonicList)
+  }
 
   onNext() {
     let mn = "";
     for(let i =0;i<this.selectList.length;i++){
       mn += this.selectList[i].text;
     }
-    if( !ValidatorsUtil.isNull(mn) && mn == this.walletData.mnemonic){
+    if(!ValidatorsUtil.isNull(mn) && mn == this.mnemonicStr.replace(/\s+/g,"")){
       this.toast('text-mnemonic-ok');
       this.Go(TabsComponent)
     }else{
