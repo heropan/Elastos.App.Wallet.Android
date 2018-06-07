@@ -74,7 +74,7 @@ public class MyUtil {
         }
         return appKey;
     }
-    
+
     // 取得版本号
     public static String GetVersion(Context context) {
 		try {
@@ -89,7 +89,7 @@ public class MyUtil {
     public static void showToast(final String toast, final Context context)
     {
     	new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				Looper.prepare();
@@ -98,13 +98,13 @@ public class MyUtil {
 			}
 		}).start();
     }
-    
+
     public static boolean isConnected(Context context) {
         ConnectivityManager conn = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = conn.getActiveNetworkInfo();
         return (info != null && info.isConnected());
     }
-    
+
 	public static String getImei(Context context, String imei) {
         String ret = null;
 		try {
@@ -141,5 +141,14 @@ public class MyUtil {
 
     public static String getDeviceId(Context context) {
         return JPushInterface.getUdid(context);
+    }
+
+    private static Context sApplicationContext = null;
+    public static void setApplicationContext(Context context) {
+        sApplicationContext = context;
+    }
+
+    public static String getRootPath() {
+        return sApplicationContext.getFilesDir().getParent();
     }
 }
