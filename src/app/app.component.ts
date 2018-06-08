@@ -15,6 +15,8 @@ import {LauncherComponent} from "../pages/launcher/launcher.component";
 //import {RecordinfoComponent} from "../pages/coin/recordinfo/recordinfo.component";
 //import {RecordComponent} from "../pages/coin/record/record.component";
 //import {TestJniComponent} from '../pages/testjni/testjni.component';
+import {TabsComponent} from '../pages/tabs/tabs.component';
+import {LocalStorage} from "../providers/Localstorage";
 
 @Component({
   selector: 'app',
@@ -23,13 +25,20 @@ import {LauncherComponent} from "../pages/launcher/launcher.component";
 export class AppComponent {
   rootPage: any;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, localStorage: LocalStorage) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
-      this.rootPage = LauncherComponent;
+
+      localStorage.getWallet().then((val) => {
+        if (val) {
+          this.rootPage = TabsComponent;
+        } else {
+          this.rootPage = LauncherComponent;
+        }
+      });
     });
   }
 }

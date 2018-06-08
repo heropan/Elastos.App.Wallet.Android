@@ -93,9 +93,13 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
     this.toastService.loading(this.getLanguageInstance()["text-wait"],0);
     this.toast('text-wallet-create-ok');  
     // Master Wallet
-    this.walletManager.createMasterWallet(this.wallet.pwd, this.wallet.payPassword, this.getMnemonicLang(), (val) => {
-      this.createSubWallet();
-    });
+    this.localStorage.setWallet({
+        'name': this.wallet.name
+      });
+
+    // this.walletManager.createMasterWallet(this.wallet.pwd, this.wallet.payPassword, this.getMnemonicLang(), (val) => {
+    //   this.createSubWallet();
+    // });
   }
 
   createSubWallet(){
