@@ -19,6 +19,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,6 +140,8 @@ public class Wallet extends CordovaPlugin {
 
 
   public void createSubWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    //First, create the chain's config file.
+    createConfigFile(args.getString(1));
     subWallet = masterWallet.CreateSubWallet(args.getInt(0), args.getString(1), args.getInt(2), args.getString(3), args.getBoolean(4), args.getLong(5));
     callbackContext.success();
   }
@@ -319,5 +328,46 @@ public class Wallet extends CordovaPlugin {
   @Override
   public void onDestroy() {
     super.onDestroy();
+  }
+
+  private void createConfigFile(String chainID) {
+      String configName = chainID+"_PeerConnection.json";
+
+      String content = "{\n" +
+              "    \"MagicNumber\": 7630401,\n" +
+              "    \"KnowingPeers\":\n" +
+              "    [\n" +
+              "        {\n" +
+              "            \"Address\": \"127.0.0.1\",\n" +
+              "            \"Port\": 20866,\n" +
+              "            \"Timestamp\": 0,\n" +
+              "            \"Services\": 1,\n" +
+              "            \"Flags\": 0\n" +
+              "        }\n" +
+              "    ]\n" +
+              "}\n";
+
+      File config = new File(new File(MyUtil.getRootPath()), configName);
+      try {
+          FileOutputStream fos= new FileOutputStream(config);
+          OutputStreamWriter osw=new OutputStreamWriter(fos,"UTF-8");
+          osw.write(content);
+          //flush
+          osw.flush();
+          fos.flush();
+
+          //close
+          fos.close();
+          osw.close();
+      }
+      catch (FileNotFoundException e) {
+          e.printStackTrace();
+      }
+      catch (UnsupportedEncodingException e) {
+          e.printStackTrace();
+      }
+      catch (IOException e) {
+          e.printStackTrace();
+      }
   }
 }
