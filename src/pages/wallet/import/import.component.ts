@@ -36,6 +36,7 @@ export class ImportComponent extends BaseComponent implements OnInit {
         return;
       }
     }
+    console.log(this.wallet.mnemonic)
     if (!ValidatorsUtil.isMnemonicValid(this.wallet.mnemonic)) {
       this.toast("text-mnemonic-validator");
       return;
@@ -55,28 +56,29 @@ export class ImportComponent extends BaseComponent implements OnInit {
 
   onChange() {
     this.wallet.type = (this.wallet.type === 1 ? 2 : 1);
-    // console.log(this.wallet.type);
   }
 
   selectFile() {
-    this.wallet.keystore = 'xxx.jpg';
-      // this.native.openFile().then(data => {
-      //   this.wallet.keystore = data;
-      //   Logger.info(data);
-      // }).catch(err => {
-      //  this.toast('text-select-file-error');
-      //   Logger.info(err);
-      // });
+    // this.wallet.keystore = 'xxx.jpg';
+      this.native.openFile().then(data => {
+        this.wallet.keystore = data;
+        console.log(data);
+      }).catch(err => {
+        this.toast('text-select-file-error');
+        console.log(err);
+      });
   }
 
   importWallet(){
     if(this.wallet.type == 1){
-      this.walletManager.importWalletWithKeystore(this.wallet.keystore,this.wallet.pwd,this.wallet.payPwd,(data)=>{
-        
+      this.walletManager.importWalletWithKeystore(this.wallet.keystore, this.wallet.pwd, this.wallet.payPwd,(data)=>{
+
       });
     }else{
-      this.walletManager.importWalletWithMnemonic(this.wallet.mnemonic,this.wallet.pwd,this.wallet.payPwd,"english",(data)=>{
-
+      this.walletManager.importWalletWithMnemonic(this.wallet.mnemonic, this.wallet.pwd, this.wallet.payPwd, this.getMnemonicLang(), (data)=>{
+        this.localStorage.setWallet({
+          'name': "myWallet"
+        });
       });
     }
 

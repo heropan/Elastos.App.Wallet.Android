@@ -101,15 +101,10 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
   createSubWallet(){
     // Sub Wallet
     this.walletManager.createSubWallet(0, this.defaultCointype, 0, this.wallet.payPassword, false, 0, (val)=>{
-      this.walletManager.getPubKey((data) => {
-        this.localStorage.setWallet({
-          'name': this.wallet.name,
-          'payPassword': this.wallet.payPassword,
-          'backupPassword': this.wallet.pwd,
-          'pubKey': data.pubKey
-        });
-        this.Go(MnemonicComponent);
+      this.localStorage.setWallet({
+        'name': this.wallet.name
       });
+      this.Go(MnemonicComponent);
     });
   }
 
