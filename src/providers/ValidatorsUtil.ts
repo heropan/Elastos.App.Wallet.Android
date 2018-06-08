@@ -24,7 +24,6 @@ export class ValidatorsUtil {
   };
 
   static password = function (text) {
-    //var pPattern = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/;
     var pPattern = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/;
     return pPattern.test(text);
   };

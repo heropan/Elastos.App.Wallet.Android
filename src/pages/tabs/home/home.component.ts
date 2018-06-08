@@ -14,22 +14,21 @@ import {CoinListComponent} from "../../coin/coin-list/coin-list.component";
 export class HomeComponent extends BaseComponent implements OnInit {
 
   wallet = {
-    name: '我的大钱包',
+    name: 'myWallet',
     showBalance: true
   };
 
   coinList = [
-    {id: 0, name: 'ELA', balance: 20.2}
+    {id: 0, name: 'ELA', balance: 0}
   ];
 
   ngOnInit() {
-    // this.walletManager.importMnemonic("wallet abc", ()=> {
-    //   alert("成功啦");
-    // });
-    // this.walletManager.print("123",function () {
-    //     alert("成功啦");
-    // })
-
+    this.localStorage.getWallet().then((val) => {
+      if (val) {
+        this.wallet.name = JSON.parse(val).name;
+      }
+    });
+    
   }
 
   onOpen() {
