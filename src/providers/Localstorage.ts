@@ -40,13 +40,13 @@ export class LocalStorage {
   }
 
   public setWallet(value: any): any {
-    // TODO password加密等
+    // TODO
     let key = "myWallet";
     return this.storage.set(key, JSON.stringify(value));
   }
 
   public getWallet(): any {
-    // TODO password解密等
+    // TODO
     let key = "myWallet";
     return this.storage.get(key);
   }
