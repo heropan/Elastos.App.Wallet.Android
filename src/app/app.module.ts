@@ -68,7 +68,6 @@ import {HelpComponent} from '../pages/other/help/help.component';
 import {NoticeComponent} from '../pages/other/notice/notice.component';
 import {ChangePwdComponent} from '../pages/other/change-pwd/change-pwd.component';
 import {ChangeNameComponent} from '../pages/other/change-name/change-name.component';
-import {RootComponent} from "./app.root";
 import {WalletManager} from "../providers/WalletManager";
 import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 import {FileChooser} from "@ionic-native/file-chooser";
@@ -98,36 +97,10 @@ export function TranslateLoaderFactory() {
   return new CustomTranslateLoader();
 }
 
-/**fs加载*/
-// export class TranslateUniversalLoader implements TranslateLoader {
-//   constructor(private prefix: string = './assets/i18n/', private suffix: string = '.json') {
-//   }
-//
-//   /**
-//    * Gets the translations from the server
-//    * @param lang
-//    * @returns {any}
-//    */
-//   public getTranslation(lang: string): Observable<any> {
-//     return Observable.create(observer => {
-//       observer.next(JSON.parse(fs.readFileSync(`${this.prefix}/${lang}${this.suffix}`, 'utf8')));
-//       observer.complete();
-//     });
-//   }
-// }
-
-
-//
-// /**http加载*/
-// export function HttpLoaderFactory(http: HttpClient) {
-//   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-// }
-
 
 @NgModule({
   declarations: [
     AppComponent,
-    RootComponent,
     HeaderComponent,
     BaseComponent,
     TabsComponent,
@@ -185,7 +158,6 @@ export function TranslateLoaderFactory() {
   bootstrap: [IonicApp],
   entryComponents: [
     AppComponent,
-    RootComponent,
     HeaderComponent,
     BaseComponent,
     TabsComponent,

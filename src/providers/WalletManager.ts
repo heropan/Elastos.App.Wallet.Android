@@ -22,7 +22,7 @@ export class WalletManager {
   public static PAGECOUNT = 20;
 
   constructor() {
-     this.wallet = cordova.plugins.Wallet;
+    this.wallet = cordova.plugins.Wallet;
     //this.wallet = {};
 
     // this.wallet.test2(["123"], function () {
