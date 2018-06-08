@@ -111,8 +111,8 @@ export class WalletManager {
     this.wallet.createMasterWallet([keystorePath, backupPassword], Fun, this.errorFun);
   }
 
-  exportWalletWithMnemonic(backupPassword: string, Fun) {
-    this.wallet.createMasterWallet([backupPassword], Fun, this.errorFun);
+  exportWalletWithMnemonic(payPassword: string, Fun) {
+    this.wallet.exportWalletWithMnemonic([payPassword], Fun, this.errorFun);
   }
 
   getBalanceFun(Fun) {
