@@ -214,6 +214,10 @@ export class BaseComponent {
     return this.navParams;  
   }
 
+  public getMnemonicLang(): string {
+    return "english";
+  }
+
   public toast(res) {
     this.getText(res).subscribe((text) => {
       this.native.toast(text);
