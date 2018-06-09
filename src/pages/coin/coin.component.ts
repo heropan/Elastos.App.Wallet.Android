@@ -17,12 +17,9 @@ import {RecordinfoComponent} from "./recordinfo/recordinfo.component";
 export class CoinComponent extends BaseComponent implements OnInit {
 
 
-  transferList = [
-    {},
-    {}
-  ];
+  transferList = [];
 
-  coinCount = 1.2;
+  coinCount = 0;
 
   coinId = 0;
 
@@ -36,19 +33,21 @@ export class CoinComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.setTitle('ELA');
     this.coinName = this.getNavParams().get("name");
+    this.initData();
   }
 
   initData(){
-    this.walletManager.getBalanceFun((data)=>{
-      this.coinCount = data.balance;
-    });
+    // this.walletManager.getBalanceFun((data)=>{
+    //   this.coinCount = data.balance;
+    // });
+    this.transferList = [{"name": "ELA", "address": "Exbwononlxnknwlnblnwb", "balance": 0, "datetime": 1234567890}];
     // this.walletManager.getAllTransaction(this.start,this.count,'',(data)=>{
     //
     // });
   }
 
   onItem(item) {
-    this.Go(RecordinfoComponent,{id:this.coinId,txId:item.txId});
+    this.Go(RecordinfoComponent,{id: this.coinId, txId: item.txId});
 
     // this.navCtrl.push('coin', {
     //   'id':0
@@ -59,13 +58,13 @@ export class CoinComponent extends BaseComponent implements OnInit {
   onNext(type) {
     switch (type) {
       case 1:
-        this.Go(ReceiveComponent,{id:this.coinId});
+        this.Go(ReceiveComponent, {id: this.coinId});
         break;
       case 2:
-        this.Go(TransferComponent,{id:this.coinId});
+        this.Go(TransferComponent, {id: this.coinId});
         break;
       case 3:
-        this.Go(RecordComponent,{id:this.coinId});
+        this.Go(RecordComponent, {id: this.coinId});
         break;
     }
   }
