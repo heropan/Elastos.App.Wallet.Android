@@ -6,8 +6,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {ToptipsService, WeUiModule} from 'ngx-weui';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-// import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-// import fs = require('fs');
 import {Observable} from 'rxjs/Observable';
 
 import {zh} from './../assets/i18n/zh';
@@ -22,11 +20,8 @@ import { IonicStorageModule } from '@ionic/storage';
 
 
 /**provider*/
-import {RouterUtil} from './../providers/RouterUtil';
 import {Config} from './../providers/Config';
 import {LocalStorage} from '../providers/Localstorage';
-// import {StorageUtil} from './../providers/StorageUtil';
-import {AuthManager} from './../providers/AuthManager';
 import { Clipboard } from '@ionic-native/clipboard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -59,10 +54,8 @@ import {WalletCreateComponent} from '../pages/wallet/wallet-create/wallet-create
 import {WalletInfoComponent} from '../pages/wallet/wallet-info/wallet-info.component';
 import {Native} from '../providers/Native';
 import {Logger} from '../providers/Logger';
-import {Validators} from '../providers/Validators';
 import {BaseComponent} from './BaseComponent';
 import {RecordinfoComponent} from '../pages/coin/recordinfo/recordinfo.component';
-import {Utils} from '../providers/Utils';
 import {AboutComponent} from '../pages/other/about/about.component';
 import {HelpComponent} from '../pages/other/help/help.component';
 import {NoticeComponent} from '../pages/other/notice/notice.component';
@@ -201,16 +194,11 @@ export function TranslateLoaderFactory() {
     FileChooser,
     ToptipsService,
     Clipboard,
-    RouterUtil,
     Config,
     LocalStorage,
     Native,
     Logger,
-    Validators,
     HeaderComponent,
-    Utils,
-    // StorageUtil,
-    AuthManager,
     WalletManager,
 
     {provide: ErrorHandler, useClass: IonicErrorHandler}

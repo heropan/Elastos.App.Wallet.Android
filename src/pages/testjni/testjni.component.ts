@@ -62,7 +62,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
           this.exportWalletWithKeystore(this.keystorePath,this.backupPassword);
          break;
        case 7:
-          this.exportWalletWithMnemonic(this.backupPassword);
+          this.exportWalletWithMnemonic(this.payPassword);
          break;
        case 8:
             this.getBalanceFun();
@@ -75,7 +75,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
          break;
        case 11:
             this.getBalanceWithAddress();
-         break; 
+         break;
       case 12:
             this.sendTransaction(this.fromAddress,this.toAddress,1,1,this.payPassword,"ssss");
          break;
@@ -84,7 +84,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
          break;
       case 14:
           this.getAllTransaction();
-        break; 
+        break;
         case 15:
         this.addWalletListener();
         break;
@@ -95,7 +95,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
            this.sign("1111111111111",this.payPassword);
        break;
       case 18:
-         this.deriveIdAndKeyForPurpose(1,1,this.payPassword);   
+         this.deriveIdAndKeyForPurpose(1,1,this.payPassword);
       break;
      }
    }
@@ -144,8 +144,8 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
        });
    }
 
-   exportWalletWithMnemonic(backupPassWord:string ){
-          this.walletManager.exportWalletWithMnemonic(backupPassWord,(result)=>{
+   exportWalletWithMnemonic(payPassword:string ){
+          this.walletManager.exportWalletWithMnemonic(payPassword,(result)=>{
                    alert(JSON.stringify(result));
           });
    }

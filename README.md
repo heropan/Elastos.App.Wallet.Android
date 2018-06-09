@@ -59,3 +59,6 @@
 ### NDK使用版本
 * android-ndk-r16b
 
+### 打正式包指令
+ionic cordova build android --release --prod
+
