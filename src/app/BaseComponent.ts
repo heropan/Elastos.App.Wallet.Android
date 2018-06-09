@@ -1,13 +1,11 @@
 import {Component, ChangeDetectorRef, ViewChild, ViewEncapsulation} from '@angular/core';
-// import {StorageUtil} from '../providers/StorageUtil';
 import {WalletManager} from '../providers/WalletManager';
 import {Logger} from '../providers/Logger';
 import {Location} from '@angular/common';
 //import {Config} from '../providers/Config';
 import {TranslateService} from '@ngx-translate/core';
 import {Header} from './header/app.header';
-//import {AppComponent} from './app.component';
-import {Utils} from '../providers/Utils';
+import {ValidatorsUtil} from '../providers/ValidatorsUtil';
 import {NavController} from 'ionic-angular';
 import {Native} from "../providers/Native";
 import {DialogService, ToastService} from 'ngx-weui';
@@ -140,9 +138,9 @@ export class BaseComponent {
    */
   public setHeadDisPlay(display: any) {
     this.header.display = {
-      left: Utils.isNull(display.left) ? this.header.display.left : display.left,
-      title: Utils.isNull(display.title) ? this.header.display.title : display.title,
-      right: Utils.isNull(display.right) ? this.header.display.right : display.right
+      left:  ValidatorsUtil.isNull(display.left) ? this.header.display.left : display.left,
+      title: ValidatorsUtil.isNull(display.title) ? this.header.display.title : display.title,
+      right: ValidatorsUtil.isNull(display.right) ? this.header.display.right : display.right
     };
   }
 
@@ -175,43 +173,43 @@ export class BaseComponent {
     return text == null || text === undefined || text === {} || text === '';
   }
 
-  public messageBox(key){    
-    this.getText(key).subscribe((msg) => {          
-      alert(msg);     
-    });  
+  public messageBox(key){
+    this.getText(key).subscribe((msg) => {
+      alert(msg);
+    });
   }
 
-  public isNull(data): boolean {    
-    return (data === '' || data === undefined || data === null) ? true : false;  
+  public isNull(data): boolean {
+    return (data === '' || data === undefined || data === null) ? true : false;
   }
 
-  public isEmptyObject(obj): boolean {    
-    for (let key of obj ) {      
-      if(obj.hasOwnProperty(key)){        
-        return false;      
-      }    
-    }    
-    return true;  
+  public isEmptyObject(obj): boolean {
+    for (let key of obj ) {
+      if(obj.hasOwnProperty(key)){
+        return false;
+      }
+    }
+    return true;
   }
 
-  public checkCellphone(cellphone: string): boolean {  
-    if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(cellphone))){     
-      return true;    
-    }     
-    return false;  
+  public checkCellphone(cellphone: string): boolean {
+    if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(cellphone))){
+      return true;
+    }
+    return false;
   }
 
-  public objtoarr(obj){    
+  public objtoarr(obj){
     console.log(JSON.stringify(obj["__zone_symbol__value"]));
     let arr = [];
     for (let key in obj) {
-      arr.push(obj[key]);       
+      arr.push(obj[key]);
     }
     return arr;
   }
 
-  public getNavParams(){    
-    return this.navParams;  
+  public getNavParams(){
+    return this.navParams;
   }
 
   public getMnemonicLang(): string {
