@@ -14,15 +14,9 @@ export class Config {
 
   }
 
-  /**
-   * 币种列表
-   * @type {{id: string; name: string}[]}
-   */
-  public static  COIN_LIST = [
-    {id: '0', name: 'ELA'}
-  ];
+  public static  COIN_LIST = {"ELA": {id: 0, name: 'ELA', balance: 0}};
 
-  public  static test: any = '';
+  public static test: any = '';
 
   public static  WalletKey = "wallet";
 

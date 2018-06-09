@@ -17,12 +17,13 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
     this.setTitleByAssets('text-mnemonic');
     this.localStorage.getWallet().then((val)=>{
       this.walletManager.exportWalletWithMnemonic(val.backupPassword, (data) => {
-      this.mnemonicStr = data.toString();
-      let mnemonicArr = this.mnemonicStr.split(/[\u3000\s]+/);
-      for (var i = 0; i < mnemonicArr.length; i++) {
-        this.mnemonicList.push({text: mnemonicArr[i], select: true});
-      }
-      // console.log(this.mnemonicList);
+        alert("exportWalletWithMnemonic: " + data);
+        this.mnemonicStr = data.mnemonic.toString();
+        let mnemonicArr = this.mnemonicStr.split(/[\u3000\s]+/);
+        for (var i = 0; i < mnemonicArr.length; i++) {
+          this.mnemonicList.push({text: mnemonicArr[i], select: true});
+        }
+        // console.log(this.mnemonicList);
       });
     });
   }

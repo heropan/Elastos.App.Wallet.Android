@@ -4,6 +4,7 @@ import {CoinComponent} from "../../coin/coin.component";
 //import {ManagerComponent} from "../../wallet/manager/manager.component";
 import {CoinListComponent} from "../../coin/coin-list/coin-list.component";
 //import {TransferComponent} from "../../coin/transfer/transfer.component";
+import {Config} from "../../../providers/Config";
 //declare var cordova:any;
 
 @Component({
@@ -18,17 +19,23 @@ export class HomeComponent extends BaseComponent implements OnInit {
     showBalance: true
   };
 
-  coinList = [
-    {id: 0, name: 'ELA', balance: 0}
-  ];
+  coinList = []
 
   ngOnInit() {
+    // wallet name
     this.localStorage.getWallet().then((val) => {
       if (val) {
         this.wallet.name = JSON.parse(val).name;
       }
     });
-    
+    // wallet balance
+    for (let coin in Config.COIN_LIST) {
+      // console.log("=====", Config.COIN_LIST[coin]);
+      // this.walletManager.getBalanceFun((data) => {
+      //   Config.COIN_LIST[coin].balance = data
+      // })
+      this.coinList.push(Config.COIN_LIST[coin]);
+    }
   }
 
   onOpen() {

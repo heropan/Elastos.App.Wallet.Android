@@ -31,7 +31,6 @@ export class WriteComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.setTitleByAssets('text-mnemonic-check');
     this.mnemonicStr = this.getNavParams().get("mnemonicStr");
-
     this.mnemonicList = this.getNavParams().get("mnemonicList").sort(function(){ return 0.5 - Math.random() });
     // console.log(this.mnemonicList)
   }

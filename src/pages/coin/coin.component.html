@@ -7,8 +7,6 @@
 
     </div>
 
-
-
     <div class="weui-cells__title">{{ 'coin-recent-transfer' | translate }}</div>
     <ul class="weui-cells transfer-list">
         <li class="weui-cell weui-cell_access" *ngFor="let item of transferList" (click)="onItem(item)">
@@ -19,9 +17,9 @@
             </div>
             <div class="weui-cell__ft">1 ELA</div>
         </li>
-
     </ul>
-  <div class="coin-outher" (click)="onNext(3)">  {{ 'transfer-more' | translate }} </div>
+
+    <div class="coin-outher" (click)="onNext(3)">  {{ 'transfer-more' | translate }} </div>
 
     <div class="coin-bottom">
         <div (click)="onNext(1)">

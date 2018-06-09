@@ -19,7 +19,6 @@ export class CoinComponent extends BaseComponent implements OnInit {
 
   transferList = [
     {},
-    {},
     {}
   ];
 
