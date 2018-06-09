@@ -26,15 +26,16 @@ export class CoinComponent extends BaseComponent implements OnInit {
 
   coinId = 0;
 
-  coinName = Config.COIN_LIST[0].name;
+  coinName = "";
 
   start = 0;
 
-  count = 20;
+  count = Config.LIST_COUNT;
 
 
   ngOnInit() {
     this.setTitle('ELA');
+    this.coinName = this.getNavParams().get("name");
   }
 
   initData(){

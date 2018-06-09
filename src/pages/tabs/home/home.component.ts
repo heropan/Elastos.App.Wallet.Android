@@ -58,8 +58,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
   
   onItem(item) {
-    this.Go(CoinComponent,{id:0});
-    //this.router.Go_v2({path: 'coin', id: item.id});
+    this.Go(CoinComponent, {name: item.name});
   }
 
 }
