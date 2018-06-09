@@ -48,11 +48,6 @@ export class CoinComponent extends BaseComponent implements OnInit {
 
   onItem(item) {
     this.Go(RecordinfoComponent,{id: this.coinId, txId: item.txId});
-
-    // this.navCtrl.push('coin', {
-    //   'id':0
-    // });
-    //this.router.Go_v2({path: '/coin/' + this.coinId + '/record'});
   }
 
   onNext(type) {

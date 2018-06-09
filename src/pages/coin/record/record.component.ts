@@ -42,7 +42,6 @@ export class RecordComponent extends BaseComponent implements OnInit {
 
   onItem() {
     this.Go(RecordinfoComponent,{id:0,txId:0});
-    //this.router.Go_v2({path: 'coin/0/record/0'});
   }
 
 }
