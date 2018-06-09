@@ -16,11 +16,10 @@ export class Config {
 
   public static  COIN_LIST = {"ELA": {id: 0, name: 'ELA', balance: 0}};
 
-  public static test: any = '';
-
   public static  WalletKey = "wallet";
 
   public static LIST_COUNT = 20;
+
 }
 
 
