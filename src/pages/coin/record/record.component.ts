@@ -11,12 +11,8 @@ import {RecordinfoComponent} from "../recordinfo/recordinfo.component";
 })
 export class RecordComponent extends BaseComponent implements OnInit {
 
-  transferList = [
-    {},
-    {},
-    {}
-  ];
-
+  transferList = [];
+  newTransferList = [];
 
   onRefresh(ptr: PTRComponent) {
       this.updateData(0);
@@ -31,17 +27,29 @@ export class RecordComponent extends BaseComponent implements OnInit {
     }
 
     // this.walletManager.getAllTransaction(this.transferList.length - 1,Config.COIN_LIST,0,(list)=>{
-    //
+    //    this.newTransferList = list
     // });
   }
 
-
   ngOnInit() {
     this.setTitleByAssets('coin-recent-transfer');
+    this.initData();
   }
+
+  initData(){
+    // console.log(this.transferList)
+    this.transferList = [{"name": "ELA", "address": "Exbwononlxnknwlnblnwb", "balance": 0, "datetime": 1234567890}];
+    // console.log(this.transferList)
+    // this.walletManager.getAllTransaction(this.start,this.count,'',(data)=>{
+    //   this.newTransferList = list
+    // });
+  }
+
 
   onItem() {
     this.Go(RecordinfoComponent,{id:0,txId:0});
   }
 
 }
+
+
