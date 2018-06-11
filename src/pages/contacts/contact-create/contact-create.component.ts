@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
 import {ContactListComponent} from "../contact-list/contact-list.component";
+import {ValidatorsUtil} from "../../../providers/ValidatorsUtil";
 
 @Component({
   selector: 'app-contact-create',
@@ -36,7 +37,7 @@ export class ContactCreateComponent  extends BaseComponent implements OnInit  {
       this.messageBox("contact-address-notnull");
       return;
     }
-    if (this.address.length != 34) {
+    if (!ValidatorsUtil.isAddressValid(this.address)) {
       this.messageBox("contact-address-digits");
       return;
     }
