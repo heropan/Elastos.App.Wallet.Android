@@ -25,13 +25,10 @@ export class TransferComponent extends BaseComponent implements OnInit {
     amount: '',
     remark: '',
     fees: '',
-    payfees: 2,
     payPassword:'',
   };
 
   balance = 1.0;
-
-
 
   ngOnInit() {
     this.setTitleByAssets('text-transfer');
@@ -50,8 +47,10 @@ export class TransferComponent extends BaseComponent implements OnInit {
     this.subPopup.config = {cancel:'',confirm:'',backdrop:false,is_full:false};
   }
 
-  onWalletDatainit(){
-    this.balance = this.walletData.balance;
+  initData(){
+    // this.walletManager.getBalanceFun((data)=>{
+    //   this.balance = data.balance;
+    // });
   }
 
 
