@@ -1,79 +1,76 @@
 
 package com.elastos.spvcore;
 
+import java.util.ArrayList;
+
 /**
- * WalletManager jni
+ * IMasterWallet
  */
 public class IMasterWallet {
-  private long mMasterProxy;
+    private long mMasterProxy;
 
-  public enum SubWalletType{
-    Normal,
-    Mainchain,
-    Sidechain,
-    Idchain
-  };
+    public static class IDKEY {
+        public IDKEY() {
 
-  public static class IDKEY {
-    public IDKEY() {
-
+        }
+        public String id = "";
+        public String key = "";
     }
-    public String id = "";
-    public String key = "";
-  }
 
-  public ISubWallet CreateSubWallet(/*SubWalletType*/int type, String chainID, int coinTypeIndex, String payPassWord, boolean singleAddress, long feePerKb)
-  {
-    long subProxy = nativeCreateSubWallet(mMasterProxy, type/*.ordinal()*/, chainID, coinTypeIndex, payPassWord, singleAddress, feePerKb);
-    return new ISubWallet(subProxy);
-  }
+    public String GetId() {
+        return nativeGetId(mMasterProxy);
+    }
 
-  public ISubWallet RecoverSubWallet(/*SubWalletType*/int type, String chainID, int coinTypeIndex, String payPassWord, boolean singleAddress, int limitGap, long feePerKb)
-  {
-    long subProxy = nativeRecoverSubWallet(mMasterProxy, type/*.ordinal()*/, chainID, coinTypeIndex, payPassWord, singleAddress, limitGap, feePerKb);
-    return new ISubWallet(subProxy);
-  }
+    public ArrayList<ISubWallet> GetAllSubWallets() {
+        long[] subWalletProxies = nativeGetAllSubWallets(mMasterProxy);
+        ArrayList<ISubWallet> list = new ArrayList<ISubWallet>();
+        for (int i = 0; i < subWalletProxies.length; i++) {
+            list.add(new ISubWallet(subWalletProxies[i]));
+        }
+        return list;
+    }
 
-  public String GetPublicKey()
-  {
-    return nativeGetPublicKey(mMasterProxy);
-  }
+    public ISubWallet CreateSubWallet(String chainID, String payPassword, boolean singleAddress, long feePerKb) {
+        long subProxy = nativeCreateSubWallet(mMasterProxy, chainID, payPassword, singleAddress, feePerKb);
+        return new ISubWallet(subProxy);
+    }
 
-  public void DestroyWallet(ISubWallet wallet)
-  {
-    nativeDestroyWallet(mMasterProxy, wallet.getProxy());
-  }
+    public ISubWallet RecoverSubWallet(String chainID, String payPassword, boolean singleAddress, int limitGap, long feePerKb) {
+        long subProxy = nativeRecoverSubWallet(mMasterProxy, chainID, payPassword, singleAddress, limitGap, feePerKb);
+        return new ISubWallet(subProxy);
+    }
 
-  public String Sign(String message, String payPassword)
-  {
-    return nativeSign(mMasterProxy, message, payPassword);
-  }
+    public void DestroyWallet(ISubWallet wallet)
+    {
+        nativeDestroyWallet(mMasterProxy, wallet.getProxy());
+    }
 
-  public String CheckSign(String address, String message, String signature)
-  {
-    return nativeCheckSign(mMasterProxy, address, message, signature);
-  }
+    public String GetPublicKey()
+    {
+        return nativeGetPublicKey(mMasterProxy);
+    }
 
-  public boolean DeriveIdAndKeyForPurpose(int purpose, int index, String payPassword, IDKEY outObj)
-  {
-    return nativeDeriveIdAndKeyForPurpose(mMasterProxy, purpose, index, payPassword, outObj);
-  }
+    public String Sign(String message, String payPassword)
+    {
+        return nativeSign(mMasterProxy, message, payPassword);
+    }
 
-  public IMasterWallet(long proxy) {
-    mMasterProxy = proxy;
-  }
+    public String CheckSign(String publicKey, String message, String signature)
+    {
+        return nativeCheckSign(mMasterProxy, publicKey, message, signature);
+    }
 
-  // public native void disposeNative();
+    public IMasterWallet(long proxy) {
+        mMasterProxy = proxy;
+    }
 
-  public void finalize() {
-    // disposeNative();
-  }
 
-  private native long nativeCreateSubWallet(long masterProxy, int type, String chainID, int coinTypeIndex, String payPassWord, boolean singleAddress, long feePerKb);
-  private native long nativeRecoverSubWallet(long masterProxy, int type, String chainID, int coinTypeIndex, String payPassWord, boolean singleAddress, int limitGap, long feePerKb);
-  private native String nativeGetPublicKey(long masterProxy);
-  private native void nativeDestroyWallet(long masterProxy, long subWalletProxy);
-  private native String nativeSign(long masterProxy, String message, String payPassword);
-  private native String nativeCheckSign(long masterProxy, String address, String message, String signature);
-  private native boolean nativeDeriveIdAndKeyForPurpose(long masterProxy, int purpose, int index, String payPassword, IDKEY outObj);
+    private native String nativeGetId(long masterProxy);
+    private native long[] nativeGetAllSubWallets(long masterProxy);
+    private native long nativeCreateSubWallet(long masterProxy, String chainID, String payPassword, boolean singleAddress, long feePerKb);
+    private native long nativeRecoverSubWallet(long masterProxy, String chainID, String payPassword, boolean singleAddress, int limitGap, long feePerKb);
+    private native String nativeGetPublicKey(long masterProxy);
+    private native void nativeDestroyWallet(long masterProxy, long subWalletProxy);
+    private native String nativeSign(long masterProxy, String message, String payPassword);
+    private native String nativeCheckSign(long masterProxy, String publicKey, String message, String signature);
 }

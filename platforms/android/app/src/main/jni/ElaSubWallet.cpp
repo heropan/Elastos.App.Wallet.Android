@@ -2,6 +2,7 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include <sstream>
 #include "ElaUtils.h"
 #include "ISubWallet.h"
 #include "nlohmann/json.hpp"
@@ -11,11 +12,25 @@ using namespace Elastos::SDK;
 #define  CLASS_SUBWALLET   "com/elastos/spvcore/ISubWallet"
 #define  FIELD_SUBWALLET   "mSubProxy"
 
+const char* ToStringFromJson(nlohmann::json jsonValue)
+{
+    std::stringstream ss;
+    ss << jsonValue;
+    return ss.str().c_str();
+}
+
+static jstring JNICALL nativeGetChainId(JNIEnv *env, jobject clazz, jlong jSubProxy)
+{
+    ISubWallet* subWallet = (ISubWallet*)jSubProxy;
+    std::string result = subWallet->GetChainId();
+    return env->NewStringUTF(result.c_str());
+}
+
 static jstring JNICALL nativeGetBalanceInfo(JNIEnv *env, jobject clazz, jlong jSubProxy)
 {
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-    std::string result = subWallet->GetBalanceInfo();
-    return env->NewStringUTF(result.c_str());
+    nlohmann::json result = subWallet->GetBalanceInfo();
+    return env->NewStringUTF(ToStringFromJson(result));
 }
 
 static jlong JNICALL nativeGetBalance(JNIEnv *env, jobject clazz, jlong jSubProxy)
@@ -34,8 +49,8 @@ static jstring JNICALL nativeCreateAddress(JNIEnv *env, jobject clazz, jlong jSu
 static jstring JNICALL nativeGetAllAddress(JNIEnv *env, jobject clazz, jlong jSubProxy, jint jStart, jint jCount)
 {
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-    std::string result = subWallet->GetAllAddress(jStart, jCount);
-    return env->NewStringUTF(result.c_str());
+    nlohmann::json addresses = subWallet->GetAllAddress(jStart, jCount);
+    return env->NewStringUTF(ToStringFromJson(addresses));
 }
 
 static jlong JNICALL nativeGetBalanceWithAddress(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jaddress)
@@ -127,6 +142,7 @@ static jstring JNICALL nativeCreateMultiSignAddress(JNIEnv *env, jobject clazz, 
     return env->NewStringUTF(result.c_str());
 }
 
+//"(JLjava/lang/String;Ljava/lang/String;JJLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeGenerateMultiSignTransaction(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jfromAddress,
         jstring jtoAddress, jlong amount, jlong fee, jstring jpayPassword, jstring jmemo)
 {
@@ -136,13 +152,13 @@ static jstring JNICALL nativeGenerateMultiSignTransaction(JNIEnv *env, jobject c
     const char* memo = env->GetStringUTFChars(jmemo, NULL);
 
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-    std::string result = subWallet->GenerateMultiSignTransaction(fromAddress, toAddress, amount, fee, payPassword, memo);
+    nlohmann::json result = subWallet->GenerateMultiSignTransaction(fromAddress, toAddress, amount, fee, payPassword, memo);
 
     env->ReleaseStringUTFChars(jfromAddress, fromAddress);
     env->ReleaseStringUTFChars(jtoAddress, toAddress);
     env->ReleaseStringUTFChars(jpayPassword, payPassword);
     env->ReleaseStringUTFChars(jmemo, memo);
-    return env->NewStringUTF(result.c_str());
+    return env->NewStringUTF(ToStringFromJson(result));
 }
 
 static jstring JNICALL nativeSendRawTransaction(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jtransactionJson, jstring jsignJson)
@@ -164,11 +180,12 @@ static jstring JNICALL nativeGetAllTransaction(JNIEnv *env, jobject clazz, jlong
     const char* addressOrTxid = env->GetStringUTFChars(jaddressOrTxid, NULL);
 
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-    std::string result = subWallet->GetAllTransaction(start, count, addressOrTxid);
+    nlohmann::json result = subWallet->GetAllTransaction(start, count, addressOrTxid);
 
     env->ReleaseStringUTFChars(jaddressOrTxid, addressOrTxid);
-    return env->NewStringUTF(result.c_str());
+    return env->NewStringUTF(ToStringFromJson(result));
 }
+
 
 static jstring JNICALL nativeSign(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jmessage, jstring jpayPassword)
 {
@@ -190,16 +207,17 @@ static jstring JNICALL nativeCheckSign(JNIEnv *env, jobject clazz, jlong jSubPro
     const char* signature = env->GetStringUTFChars(jsignature, NULL);
 
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-    std::string result = subWallet->CheckSign(address, message, signature);
+    nlohmann::json result = subWallet->CheckSign(address, message, signature);
 
     env->ReleaseStringUTFChars(jaddress, address);
     env->ReleaseStringUTFChars(jmessage, message);
     env->ReleaseStringUTFChars(jsignature, signature);
-    return env->NewStringUTF(result.c_str());
+    return env->NewStringUTF(ToStringFromJson(result));
 }
 
 
 static const JNINativeMethod gMethods[] = {
+    {"nativeGetChainId", "(J)Ljava/lang/String;", (void*)nativeGetChainId},
     {"nativeGetBalanceInfo", "(J)Ljava/lang/String;", (void*)nativeGetBalanceInfo},
     {"nativeGetBalance", "(J)J", (void*)nativeGetBalance},
     {"nativeCreateAddress", "(J)Ljava/lang/String;", (void*)nativeCreateAddress},

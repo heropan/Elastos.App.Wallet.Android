@@ -21,7 +21,8 @@ add_library( # Sets the name of the library.
 
              # Provides a relative path to your source file(s).
              src/main/jni/ElaSpv.cpp
-             src/main/jni/ElaWalletFactory.cpp
+             src/main/jni/ElaEnviroment.cpp
+             src/main/jni/ElaMasterWalletManager.cpp
              src/main/jni/ElaMasterWallet.cpp
              src/main/jni/ElaSubWallet.cpp
              src/main/jni/ElaMainchainSubWallet.cpp

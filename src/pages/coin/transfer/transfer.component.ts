@@ -82,12 +82,16 @@ export class TransferComponent extends BaseComponent implements OnInit {
       this.toast('correct-address');
       return;
     }
+    if (!ValidatorsUtil.isAddressValid(this.transfer.address)) {
+      this.messageBox("contact-address-digits");
+      return;
+    }
     if(ValidatorsUtil.number(this.transfer.amount)){
       this.toast('correct-amount');
       return;
     }
 
-    if(this.transfer.amount > this.walletData.balance){
+    if(this.transfer.amount > this.balance){
       this.toast('error-amount');
       return;
     }

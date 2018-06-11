@@ -40,6 +40,11 @@ export class ValidatorsUtil {
     return mnemonicStr.split(/[\u3000\s]+/).length == 12 ? true : false
   }
 
+  public static isAddressValid(address): boolean {
+    return address.length == 34 ? true : false
+  }
+
+
   public static isEmptyObject(obj): boolean {
     for (let key of obj ) {
       if(obj.hasOwnProperty(key)){

@@ -1,0 +1,116 @@
+
+package com.elastos.spvcore;
+
+import java.util.ArrayList;
+
+/**
+ * IMasterWalletManager jni
+ */
+public class IMasterWalletManager {
+    private long mManagerProxy = 0;
+
+
+    /***
+     * 创建主私钥
+     * @param masterWalletId
+     * @param phrasePassword
+     * @param payPassWord
+     * @param language
+     */
+    public IMasterWallet CreateMasterWallet(String masterWalletId, String phrasePassword,String payPassWord, String language)
+    {
+        long masterProxy = nativeCreateMasterWallet(mManagerProxy, masterWalletId, phrasePassword, payPassWord, language);
+        return new IMasterWallet(masterProxy);
+    }
+
+    public ArrayList<IMasterWallet> GetAllMasterWallets() {
+        long[] masterWalletProxies = nativeGetAllMasterWallets(mManagerProxy);
+        ArrayList<IMasterWallet> list = new ArrayList<IMasterWallet>();
+        for (int i = 0; i < masterWalletProxies.length; i++) {
+            list.add(new IMasterWallet(masterWalletProxies[i]));
+        }
+        return list;
+    }
+
+    public void DestroyWallet(IMasterWallet masterWallet)
+    {
+        nativeDestroyWallet(mManagerProxy, masterWallet);
+    }
+
+    /***
+     * 导入私钥
+     * @param keystorePath      文件路径
+     * @param backupPassWord    备份密码
+     * @param payPassWord       支付密码
+     * @return
+     */
+    public IMasterWallet ImportWalletWithKeystore(String masterWalletId, String keystorePath,String backupPassWord
+                    ,String payPassWord, String phrasePassword)
+    {
+        long masterProxy = nativeImportWalletWithKeystore(mManagerProxy, masterWalletId, keystorePath, backupPassWord, payPassWord, phrasePassword);
+        return new IMasterWallet(masterProxy);
+    }
+
+    /***
+     * 导入助记词
+     * @param masterWalletId
+     * @param mnemonic
+     * @param phrasePassword
+     * @param payPassWord
+     * @return
+     */
+    public IMasterWallet ImportWalletWithMnemonic(String masterWalletId, String mnemonic, String phrasePassword
+                    ,String payPassWord, String language)
+    {
+        long masterProxy = nativeImportWalletWithMnemonic(mManagerProxy, masterWalletId, mnemonic, phrasePassword, payPassWord, language);
+        return new IMasterWallet(masterProxy);
+    }
+
+    /***
+     * 导出私钥
+     * @param masterWallet
+     * @param backupPassWord
+     * @param keystorePath
+     */
+    public void ExportWalletWithKeystore(IMasterWallet masterWallet, String backupPassWord, String payPassword, String keystorePath)
+    {
+        nativeExportWalletWithKeystore(mManagerProxy, masterWallet, backupPassWord, payPassword, keystorePath);
+    }
+
+    /***
+     * 导出助记词
+     * @param masterWallet
+     * @param backupPassWord
+     * @return
+     */
+    public String ExportWalletWithMnemonic(IMasterWallet masterWallet,String backupPassWord)
+    {
+        return nativeExportWalletWithMnemonic(mManagerProxy, masterWallet, backupPassWord);
+    }
+
+    public IMasterWalletManager(long proxy) {
+        mManagerProxy = proxy;
+    }
+
+    public void finalize() {
+        nativeDisposeNative(mManagerProxy);
+    }
+
+
+    private native long nativeCreateMasterWallet(long proxy, String masterWalletId,
+                    String phrasePassword, String payPassWord,String language);
+
+    private native long nativeImportWalletWithKeystore(long proxy, String masterWalletId,
+                    String keystorePath,String backupPassWord ,String payPassWord, String phrasePassword);
+
+    private native long nativeImportWalletWithMnemonic(long proxy, String masterWalletId, String mnemonic,
+                    String phrasePassword,String payPassWord,String language);
+
+    private native void nativeExportWalletWithKeystore(long proxy, IMasterWallet masterWallet,
+                    String backupPassWord,String payPassword,String keystorePath);
+
+    private native String nativeExportWalletWithMnemonic(long proxy, IMasterWallet masterWallet,String backupPassWord);
+    private native void nativeDestroyWallet(long proxy, IMasterWallet masterWallet);
+    private native void nativeDisposeNative(long proxy);
+    private native long[] nativeGetAllMasterWallets(long proxy);
+}
