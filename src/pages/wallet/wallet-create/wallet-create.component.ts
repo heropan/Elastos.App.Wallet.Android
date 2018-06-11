@@ -57,6 +57,7 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
       return;
     }
     // this.onShowPassword();
+    this.createWallet();
   }
 
   onShowPassword() {
