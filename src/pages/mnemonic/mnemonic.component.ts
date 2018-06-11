@@ -15,7 +15,7 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.setTitleByAssets('text-mnemonic');
-    this.walletManager.exportWalletWithMnemonic("", (data) => {
+    this.walletManager.exportWalletWithMnemonic("s12345678", (data) => {
       alert("exportWalletWithMnemonic: " + data);
       this.mnemonicStr = data.mnemonic.toString();
       let mnemonicArr = this.mnemonicStr.split(/[\u3000\s]+/);
