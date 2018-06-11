@@ -37,7 +37,7 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
     rePayPassword:''
   };
 
-  defaultCointype = "ELA"
+  defaultCointype = "Ela"
 
   ngOnInit() {
     this.setTitleByAssets('launcher-create-wallet');
