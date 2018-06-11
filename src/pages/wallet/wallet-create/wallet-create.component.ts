@@ -101,7 +101,7 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
 
   createSubWallet(){
     // Sub Wallet
-    this.walletManager.createSubWallet(0, this.defaultCointype, 0, this.wallet.payPassword, false, 0, (val)=>{
+    this.walletManager.createSubWallet(0, this.defaultCointype, 0, this.wallet.pwd, false, 0, (val)=>{
       this.localStorage.setWallet({
         'name': this.wallet.name
       });
