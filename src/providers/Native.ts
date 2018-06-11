@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import { ToastController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-//import {browserDetection} from "@angular/platform-browser/testing/src/browser_util";
 import { FileChooser } from '@ionic-native/file-chooser';
 import { Clipboard } from '@ionic-native/clipboard';
 import { ToptipsService } from "ngx-weui";
@@ -16,8 +15,7 @@ export class Native {
   constructor(public toastCtrl:ToastController,
               private barcodeScanner: BarcodeScanner,
               private fileChooser: FileChooser,
-              private clipboard: Clipboard,
-              private toastWeixin: ToptipsService) {
+              private clipboard: Clipboard) {
 
   }
 
@@ -35,20 +33,15 @@ export class Native {
     };
   }
 
-  //
-  // toast(text){
-  //   let t = this.toastCtrl.create({
-  //     message: text,
-  //     duration: 3000
-  //   });
-  //   t.present();
-  // }
 
-  toast(text:string,type: 'warn' | 'info' | 'primary' | 'success' | 'default' = 'info'){
-    this.toastWeixin[type](text);
+  toast(_message: string = '操作完成', duration: number = 2000): void {
+    //this.toast.show(message, String(duration), 'bottom').subscribe();
+    this.toastCtrl.create({
+      message: _message,
+      duration: 2000,
+      position: 'top'
+    }).present();
   }
-
-
 
   /***
    * 获取网络状态
