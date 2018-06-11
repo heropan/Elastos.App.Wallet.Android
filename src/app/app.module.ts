@@ -4,7 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
-import {ToptipsService, WeUiModule} from 'ngx-weui';
+import {WeUiModule} from 'ngx-weui';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {Observable} from 'rxjs/Observable';
 
@@ -192,7 +192,6 @@ export function TranslateLoaderFactory() {
     HttpClient,
     BarcodeScanner,
     FileChooser,
-    ToptipsService,
     Clipboard,
     Config,
     LocalStorage,
