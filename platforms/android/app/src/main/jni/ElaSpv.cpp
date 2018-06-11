@@ -5,7 +5,8 @@
 #include "ElaUtils.h"
 #include <unistd.h>
 
-extern int register_elastos_spv_IWalletFactory(JNIEnv* env);
+extern int register_elastos_spv_Enviroment(JNIEnv* env);
+extern int register_elastos_spv_IMasterWalletManager(JNIEnv* env);
 extern int register_elastos_spv_IMasterWallet(JNIEnv* env);
 extern int register_elastos_spv_ISubWallet(JNIEnv* env);
 extern int register_elastos_spv_IMainchainSubWallet(JNIEnv* env);
@@ -20,7 +21,8 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved){
         return JNI_ERR;
     }
 
-    register_elastos_spv_IWalletFactory(env);
+    register_elastos_spv_Enviroment(env);
+    register_elastos_spv_IMasterWalletManager(env);
     register_elastos_spv_IMasterWallet(env);
     register_elastos_spv_ISubWallet(env);
     register_elastos_spv_IMainchainSubWallet(env);

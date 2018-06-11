@@ -8,11 +8,14 @@
 
 using namespace Elastos::SDK;
 
-//"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
-static jstring JNICALL nativeSendDepositTransaction(JNIEnv *env, jobject clazz, jlong jMainSubWalletProxy, jstring jfromAddress,
-        jstring jsidechainAccounts, jstring jsidechainAmounts, jstring jsidechainIndexs, jlong fee, jstring jpayPassword, jstring jmemo)
+
+//"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+static jstring JNICALL nativeSendDepositTransaction(JNIEnv *env, jobject clazz, jlong jMainSubWalletProxy,
+        jstring jfromAddress, jstring jtoAddress, jlong amount, jstring jsidechainAccounts, jstring jsidechainAmounts
+        , jstring jsidechainIndexs, jlong fee, jstring jpayPassword, jstring jmemo)
 {
     const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
+    const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
     const char* sidechainAccounts = env->GetStringUTFChars(jsidechainAccounts, NULL);
     const char* sidechainAmounts = env->GetStringUTFChars(jsidechainAmounts, NULL);
     const char* sidechainIndexs = env->GetStringUTFChars(jsidechainIndexs, NULL);
@@ -20,9 +23,11 @@ static jstring JNICALL nativeSendDepositTransaction(JNIEnv *env, jobject clazz, 
     const char* memo = env->GetStringUTFChars(jmemo, NULL);
 
     IMainchainSubWallet* wallet = (IMainchainSubWallet*)jMainSubWalletProxy;
-    std::string result = wallet->SendDepositTransaction(fromAddress, sidechainAccounts, sidechainAmounts, sidechainIndexs, fee, payPassword, memo);
+    std::string result = wallet->SendDepositTransaction(fromAddress, toAddress, amount, sidechainAccounts,
+                    sidechainAmounts, sidechainIndexs, fee, payPassword, memo);
 
     env->ReleaseStringUTFChars(jfromAddress, fromAddress);
+    env->ReleaseStringUTFChars(jtoAddress, toAddress);
     env->ReleaseStringUTFChars(jsidechainAccounts, sidechainAccounts);
     env->ReleaseStringUTFChars(jsidechainAmounts, sidechainAmounts);
     env->ReleaseStringUTFChars(jsidechainIndexs, sidechainIndexs);
@@ -34,7 +39,8 @@ static jstring JNICALL nativeSendDepositTransaction(JNIEnv *env, jobject clazz, 
 
 
 static const JNINativeMethod gMethods[] = {
-    {"nativeSendDepositTransaction", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+    {"nativeSendDepositTransaction",
+    "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
             , (void*)nativeSendDepositTransaction},
 };
 
