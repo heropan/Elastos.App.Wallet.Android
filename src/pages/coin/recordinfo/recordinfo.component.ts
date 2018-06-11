@@ -11,6 +11,10 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.setTitleByAssets('text-record');
+    let txId = this.getNavParams().get("txId");
+    // this.walletManager.getAllTransaction(this.start,this.count, txId, (data)=>{
+    //   this.transactionRecord = data
+    // });
   }
 
 }

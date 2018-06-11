@@ -36,18 +36,18 @@ export class RecordComponent extends BaseComponent implements OnInit {
     this.initData();
   }
 
-  initData(){
+  initData() {
     // console.log(this.transferList)
     this.transferList = [{"name": "ELA", "address": "Exbwononlxnknwlnblnwb", "balance": 0, "datetime": 1234567890}];
     // console.log(this.transferList)
     // this.walletManager.getAllTransaction(this.start,this.count,'',(data)=>{
-    //   this.newTransferList = list
+    //   this.newTransferList = data
     // });
   }
 
 
   onItem() {
-    this.Go(RecordinfoComponent,{id:0,txId:0});
+    this.Go(RecordinfoComponent,{id:0, txId:0});
   }
 
 }
