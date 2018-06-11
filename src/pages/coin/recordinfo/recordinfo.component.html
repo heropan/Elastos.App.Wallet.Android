@@ -10,37 +10,37 @@
   <div class="weui-form-preview__hd">
     <div class="weui-form-preview__item" >
       <label class="weui-form-preview__label" style="line-height: 40px">{{'transaction-price' | translate}}</label>
-      <em class="weui-form-preview__value">1.0 ELA</em>
+      <em class="weui-form-preview__value">{{balance}} ELA</em>
     </div>
   </div>
   <div class="weui-form-preview__bd">
     <div class="weui-form-preview__item">
       <label class="weui-form-preview__label">{{'transaction-id' | translate}}</label>
-      <span class="weui-form-preview__value">xxxxxxxxxxxxxxxxxxxxxxxxx</span>
+      <span class="weui-form-preview__value">{{transactionInfo.txId}}</span>
     </div>
     <div class="weui-form-preview__item">
       <label class="weui-form-preview__label">{{'send-info' | translate}}</label>
-      <span class="weui-form-preview__value">xxxxxxxxxxxxxxxxxx</span>
+      <span class="weui-form-preview__value">{{transactionInfo.sendInfo}}</span>
     </div>
     <div class="weui-form-preview__item">
       <label class="weui-form-preview__label">{{'record-info' | translate}}</label>
-      <span class="weui-form-preview__value">xxxxxxxxxxxxxxxxxxxxxx</span>
+      <span class="weui-form-preview__value">{{transactionInfo.recordInfo}}</span>
     </div>
     <div class="weui-form-preview__item">
       <label class="weui-form-preview__label">{{'transaction-time' | translate}}</label>
-      <span class="weui-form-preview__value">xxxxxxxxxxxxxxxxxxxxxxxxx</span>
+      <span class="weui-form-preview__value">{{transactionInfo.transactionTime}}</span>
     </div>
     <div class="weui-form-preview__item">
       <label class="weui-form-preview__label">{{'text-fees' | translate}}</label>
-      <span class="weui-form-preview__value">xxxxxxxxxxxxxxxxxxxxxxxxx</span>
+      <span class="weui-form-preview__value">{{transactionInfo.payfees}}</span>
     </div>
     <div class="weui-form-preview__item">
       <label class="weui-form-preview__label">{{'confirm-count' | translate}}</label>
-      <span class="weui-form-preview__value">xxxxxxxxxxxxxxxxxxxxxxxxx</span>
+      <span class="weui-form-preview__value">{{transactionInfo.confirmCount}}</span>
     </div>
     <div class="weui-form-preview__item">
       <label class="weui-form-preview__label">{{'text-remark' | translate}}</label>
-      <span class="weui-form-preview__value">xxxxxxxxxxxxxxxxxxxxxxxxx</span>
+      <span class="weui-form-preview__value">{{transactionInfo.remark}}</span>
     </div>
   </div>
   <!--<div class="weui-form-preview__ft">-->

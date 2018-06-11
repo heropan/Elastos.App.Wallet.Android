@@ -8,6 +8,18 @@ import {BaseComponent} from './../../../app/BaseComponent';
 })
 export class RecordinfoComponent extends BaseComponent implements OnInit {
 
+  transactionRecord: any = {
+    txId: 'txId',
+    sendInfo: 'sendInfo',
+    recordInfo: 'recordInfo',
+    transactionTime: '',
+    payfees: 1,
+    confirmCount: 1,
+    remark: 'remark',
+  };
+
+  balance = 1.0;
+
 
   ngOnInit() {
     this.setTitleByAssets('text-record');
@@ -15,6 +27,9 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
     // this.walletManager.getAllTransaction(this.start,this.count, txId, (data)=>{
     //   this.transactionRecord = data
     // });
-  }
+    // this.walletManager.getBalanceFun((data)=>{
+    //   this.balance = data.balance;
+    // });
+  }  
 
 }
