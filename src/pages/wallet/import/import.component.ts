@@ -49,7 +49,7 @@ export class ImportComponent extends BaseComponent implements OnInit {
       this.toast("text-wallet-repwd");
       return;
     }
-    
+
     this.importWallet();
   }
 
@@ -71,15 +71,15 @@ export class ImportComponent extends BaseComponent implements OnInit {
 
   importWallet(){
     if(this.wallet.type == 1){
-      this.walletManager.importWalletWithKeystore(this.wallet.keystore, this.wallet.pwd, this.wallet.payPwd,(data)=>{
+      // this.walletManager.importWalletWithKeystore(this.wallet.keystore, this.wallet.pwd, this.wallet.payPwd,(data)=>{
 
-      });
+      // });
     }else{
-      this.walletManager.importWalletWithMnemonic(this.wallet.mnemonic, this.wallet.pwd, this.wallet.payPwd, this.getMnemonicLang(), (data)=>{
-        this.localStorage.setWallet({
-          'name': "myWallet"
-        });
-      });
+      // this.walletManager.importWalletWithMnemonic(this.wallet.mnemonic, this.wallet.pwd, this.wallet.payPwd, this.getMnemonicLang(), (data)=>{
+      //   this.localStorage.setWallet({
+      //     'name': "myWallet"
+      //   });
+      // });
     }
 
   }
