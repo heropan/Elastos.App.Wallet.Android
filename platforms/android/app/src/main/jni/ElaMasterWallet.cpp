@@ -116,6 +116,19 @@ static /*nlohmann::json*/jstring JNICALL nativeCheckSign(JNIEnv *env, jobject cl
     return env->NewStringUTF(ss.str().c_str());
 }
 
+//"(JLjava/lang/String;)Z"
+static jboolean JNICALL nativeIsAddressValid(JNIEnv *env, jobject clazz, jlong jMasterProxy, jstring jaddress)
+{
+    const char* address = env->GetStringUTFChars(jaddress, NULL);
+
+    IMasterWallet* masterWallet = (IMasterWallet*)jMasterProxy;
+    bool valid = masterWallet->IsAddressValid(address);
+
+    env->ReleaseStringUTFChars(jaddress, address);
+
+    return (jboolean)valid;
+}
+
 static const JNINativeMethod gMethods[] = {
     {"nativeGetId", "(J)Ljava/lang/String;", (void*)nativeGetId},
     {"nativeGetAllSubWallets", "(J)[J", (void*)nativeGetAllSubWallets},
@@ -125,6 +138,7 @@ static const JNINativeMethod gMethods[] = {
     {"nativeGetPublicKey", "(J)Ljava/lang/String;", (void*)nativeGetPublicKey},
     {"nativeSign", "(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeSign},
     {"nativeCheckSign", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeCheckSign},
+    {"nativeIsAddressValid", "(JLjava/lang/String;)Z", (void*)nativeIsAddressValid},
 };
 
 jint register_elastos_spv_IMasterWallet(JNIEnv *env)

@@ -64,6 +64,9 @@ public class IMasterWallet {
         mMasterProxy = proxy;
     }
 
+    public boolean IsAddressValid(String address) {
+        return nativeIsAddressValid(mMasterProxy, address);
+    }
 
     private native String nativeGetId(long masterProxy);
     private native long[] nativeGetAllSubWallets(long masterProxy);
@@ -73,4 +76,5 @@ public class IMasterWallet {
     private native void nativeDestroyWallet(long masterProxy, long subWalletProxy);
     private native String nativeSign(long masterProxy, String message, String payPassword);
     private native String nativeCheckSign(long masterProxy, String publicKey, String message, String signature);
+    private native boolean nativeIsAddressValid(long masterProxy, String address);
 }

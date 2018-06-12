@@ -43,7 +43,6 @@ public class Wallet extends CordovaPlugin {
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-        Log.d("Elastos", "initialize===================================");
         super.initialize(cordova, webView);
         mRootPath = MyUtil.getRootPath();
         Enviroment.InitializeRootPath(mRootPath);
@@ -57,7 +56,6 @@ public class Wallet extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
-      Log.d("Elastos", "execute===================================action="+action);
         try {
           switch (action) {
               case "coolMethod":
@@ -139,6 +137,12 @@ public class Wallet extends CordovaPlugin {
               case "getWalletId":
                   this.getWalletId(args, callbackContext);
                   return true;
+              case "saveConfigs":
+                  this.saveConfigs(args, callbackContext);
+                  return true;
+              case "isAddressValid":
+                  this.isAddressValid(args, callbackContext);
+                  return true;
           }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -175,20 +179,15 @@ public class Wallet extends CordovaPlugin {
     }
 
     public void getAllMasterWallets(JSONArray args, CallbackContext callbackContext) throws JSONException {
-      Log.d("Elastos", "getAllMasterWallets===================================1");
         mMasterWalletList = mWalletManager.GetAllMasterWallets();
-        Log.d("Elastos", "getAllMasterWallets===================================2");
-
         if (mMasterWalletList != null && mMasterWalletList.size() > 0) {
-          Log.d("Elastos", "getAllMasterWallets===================================3");
             //TODO: Now, the first masterWallet is the default.
             mCurrentMasterWallet = mMasterWalletList.get(0);
-            callbackContext.success(parseOneParam("walletid", "mCurrentMasterWallet.GetId()"));
+            callbackContext.success(parseOneParam("walletid",mCurrentMasterWallet.GetId()));
         }
         else {
-          Log.d("Elastos", "getAllMasterWallets===================================4");
             // callbackContext.error("Don't have masterWallet, please create a new one.");
-            callbackContext.success(parseOneParam("walletid", "walletid"));
+            callbackContext.success(parseOneParam("walletid",""));
         }
     }
 
@@ -223,6 +222,19 @@ public class Wallet extends CordovaPlugin {
         else {
             callbackContext.error("Get masterWallet's id failed.");
         }
+    }
+
+    public void saveConfigs(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        Enviroment.SaveConfigs();
+        callbackContext.success();
+    }
+
+    public void isAddressValid(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mCurrentMasterWallet == null) {
+            callbackContext.success(parseOneParam(ERRORCODE, "The masterWallet is null"));
+        }
+        boolean valid = mCurrentMasterWallet.IsAddressValid(args.getString(0));
+        callbackContext.success(parseOneParam("valid", valid));
     }
 
     public void getPublicKey(JSONArray args, CallbackContext callbackContext) throws JSONException {

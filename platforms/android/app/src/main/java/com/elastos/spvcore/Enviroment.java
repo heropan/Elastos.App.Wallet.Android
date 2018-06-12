@@ -3,13 +3,11 @@ package com.elastos.spvcore;
 
 
 /**
- * IIdChainSubWallet jni
+ * Enviroment
  */
 public class Enviroment {
-    private static long mEnviromentProxy;
-
     public static void InitializeRootPath(String rootPath) {
-        nativeInitializeRootPath(mEnviromentProxy, rootPath);
+        nativeInitializeRootPath(rootPath);
     }
 
     /**
@@ -17,15 +15,20 @@ public class Enviroment {
      * @return root path.
      */
     public static String GetRootPath() {
-        return nativeGetRootPath(mEnviromentProxy);
+        return nativeGetRootPath();
     }
 
     public static IMasterWalletManager GetMasterWalletManager() {
-        long proxy = nativeGetMasterWalletManager(mEnviromentProxy);
+        long proxy = nativeGetMasterWalletManager();
         return new IMasterWalletManager(proxy);
     }
 
-    private static native void nativeInitializeRootPath(long proxy, String rootPath);
-    private static native long nativeGetMasterWalletManager(long proxy);
-    private static native String nativeGetRootPath(long proxy);
+    public static void SaveConfigs() {
+        nativeSaveConfigs();
+    }
+
+    private static native void nativeInitializeRootPath(String rootPath);
+    private static native long nativeGetMasterWalletManager();
+    private static native String nativeGetRootPath();
+    private static native void nativeSaveConfigs();
 }
