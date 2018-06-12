@@ -187,7 +187,7 @@ export class WalletManager {
   }
 
   getAllMasterWallets(Fun){
-    this.wallet.getAllMasterWallets(Fun, this.errorFun);
+    this.wallet.getAllMasterWallets([],Fun, this.errorFun);
   }
 
   errorFun(error) {

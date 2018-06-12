@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import android.util.Log;
 
 import io.ionic.starter.MyUtil;
 
@@ -42,12 +43,13 @@ public class Wallet extends CordovaPlugin {
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        Log.d("Elastos", "initialize===================================");
         super.initialize(cordova, webView);
         mRootPath = MyUtil.getRootPath();
         Enviroment.InitializeRootPath(mRootPath);
         mWalletManager = Enviroment.GetMasterWalletManager();
         mMasterWalletList = mWalletManager.GetAllMasterWallets();
-        if (mMasterWalletList != null) {
+        if (mMasterWalletList != null && mMasterWalletList.size() > 0) {
             mCurrentMasterWallet = mMasterWalletList.get(0);
         }
     }
@@ -55,6 +57,7 @@ public class Wallet extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
+      Log.d("Elastos", "execute===================================action="+action);
         try {
           switch (action) {
               case "coolMethod":
@@ -173,15 +176,14 @@ public class Wallet extends CordovaPlugin {
 
     public void getAllMasterWallets(JSONArray args, CallbackContext callbackContext) throws JSONException {
         mMasterWalletList = mWalletManager.GetAllMasterWallets();
-
-        if (mMasterWalletList != null && mMasterWalletList.get(0) != null) {
+        if (mMasterWalletList != null && mMasterWalletList.size() > 0) {
             //TODO: Now, the first masterWallet is the default.
             mCurrentMasterWallet = mMasterWalletList.get(0);
-            callbackContext.success(parseOneParam("walletid", mCurrentMasterWallet.GetId()));
+            callbackContext.success(parseOneParam("walletid",mCurrentMasterWallet.GetId()));
         }
         else {
             // callbackContext.error("Don't have masterWallet, please create a new one.");
-            callbackContext.success(parseOneParam("walletid", null));
+            callbackContext.success(parseOneParam("walletid",""));
         }
     }
 

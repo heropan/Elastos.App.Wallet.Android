@@ -100,6 +100,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
          this.deriveIdAndKeyForPurpose(1,1,this.payPassword);
       break;
       case 19:
+         alert("sssss===1");
          this.getAllMasterWallets();
         break;
      }
