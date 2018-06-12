@@ -53,26 +53,25 @@ export class WalletManager {
 
   /***
    * 创建子钱包
-   * @param {number} type
+   * @param {String} chainID
    * @param {string} payPassword
    * @param {boolean} singleAddress
+   * @param {long} feePerKb
    */
-  createSubWallet(type: number,chainID:string, coinTypeIndex: number, payPassword: string, singleAddress: boolean, feePerKb: number, Fun) {
-    if (type == WalletManager.COINTYPE_ELA) {
-      this.wallet.createSubWallet([type,chainID, coinTypeIndex, payPassword, singleAddress, feePerKb], Fun, this.errorFun);
-    }
+  createSubWallet(chainID:string,payPassword: string, singleAddress: boolean, feePerKb: number, Fun) {
+      this.wallet.createSubWallet([chainID,payPassword, singleAddress,feePerKb], Fun, this.errorFun);
   }
 
   /***
    * 恢复子钱包
-   * @param {number} type
+   * @param {string} chainID
    * @param {string} payPassword
    * @param {boolean} singleAddress
+   * @param {int} limitGap
+   * @param {long} limitGap
    */
-  recoverSubWallet(type: number,chainID:string,coinTypeIndex: number, payPassword: string, singleAddress: boolean,limitGap: number,feePerKb: number, Fun) {
-    if (type == WalletManager.COINTYPE_ELA) {
-      this.wallet.recoverSubWallet([type,chainID,coinTypeIndex,payPassword,singleAddress,limitGap, feePerKb], Fun, this.errorFun);
-    }
+  recoverSubWallet(chainID:string,payPassword: string, singleAddress: boolean,limitGap: number,feePerKb: number, Fun) {
+      this.wallet.recoverSubWallet([chainID,payPassword,singleAddress,limitGap,feePerKb], Fun, this.errorFun);
   }
 
   /***
@@ -94,8 +93,8 @@ export class WalletManager {
    * @param {string} language
    * @param Fun
    */
-  createMasterWallet(phrasePassword: string, payPassword:string,language:string, Fun) {
-    this.wallet.createMasterWallet([phrasePassword, payPassword,language], Fun, this.errorFun);
+  createMasterWallet(masterWalletId: string,phrasePassword: string, payPassword:string,language:string, Fun) {
+    this.wallet.createMasterWallet([masterWalletId, phrasePassword, payPassword,language], Fun, this.errorFun);
     //return {};
   }
 
