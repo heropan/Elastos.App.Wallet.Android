@@ -16,7 +16,9 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
   singMessage:string;
   fromAddress:string="sssss";
   toAddress:string="sssss";
-  interfaces = [{id:0,name:"createSubWallet"},
+  interfaces = [
+                {id:19,name:"getAllMasterWallets"},
+                {id:0,name:"createSubWallet"},
                 {id:1,name:"recoverSubWallet"},
                 {id:2,name:"getPubKey"},
                 {id:3,name:"createMasterWallet"},
@@ -97,6 +99,9 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
       case 18:
          this.deriveIdAndKeyForPurpose(1,1,this.payPassword);
       break;
+      case 19:
+         this.getAllMasterWallets();
+        break;
      }
    }
 
@@ -213,6 +218,12 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
             this.walletManager.deriveIdAndKeyForPurpose(purpose,index,payPassword,(result)=>{
                       alert(JSON.stringify(result));
             });
+   }
+
+   getAllMasterWallets(){
+       this.walletManager.getAllMasterWallets((result)=>{
+            alert("allAllMasterWallets"+JSON.stringify(result));
+       });
    }
 
 }
