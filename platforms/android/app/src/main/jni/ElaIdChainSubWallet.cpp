@@ -8,6 +8,8 @@
 
 using namespace Elastos::SDK;
 
+extern const char* ToStringFromJson(nlohmann::json jsonValue);
+
 //"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeSendIdTransaction(JNIEnv *env, jobject clazz, jlong jIdSubWalletProxy, jstring jfromAddress,
         jstring jtoAddress, jlong amount, jstring jpayloadJson, jstring jprogramJson, jlong fee, jstring jpayPassword, jstring jmemo)
@@ -20,7 +22,7 @@ static jstring JNICALL nativeSendIdTransaction(JNIEnv *env, jobject clazz, jlong
     const char* memo = env->GetStringUTFChars(jmemo, NULL);
 
     IIdChainSubWallet* wallet = (IIdChainSubWallet*)jIdSubWalletProxy;
-    std::string result = wallet->SendIdTransaction(fromAddress, toAddress, amount, payloadJson, programJson, fee, payPassword, memo);
+    nlohmann::json txidJson = wallet->SendIdTransaction(fromAddress, toAddress, amount, payloadJson, programJson, fee, payPassword, memo);
 
     env->ReleaseStringUTFChars(jfromAddress, fromAddress);
     env->ReleaseStringUTFChars(jtoAddress, toAddress);
@@ -29,7 +31,7 @@ static jstring JNICALL nativeSendIdTransaction(JNIEnv *env, jobject clazz, jlong
     env->ReleaseStringUTFChars(jpayPassword, payPassword);
     env->ReleaseStringUTFChars(jmemo, memo);
 
-    return env->NewStringUTF(result.c_str());
+    return env->NewStringUTF(ToStringFromJson(txidJson));
 }
 
 

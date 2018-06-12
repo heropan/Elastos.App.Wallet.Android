@@ -7,6 +7,7 @@ import {BaseComponent} from '../../app/BaseComponent';
   templateUrl: './testjni.component.html',
 })
 export class TestJniComponent  extends BaseComponent implements OnInit  {
+  masterWalletId:string ="1";
   phrasePassword:string ="66666666";
   payPassword:string ="66666666";
   backupPassword:string="66666666";
@@ -16,6 +17,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
   singMessage:string;
   fromAddress:string="sssss";
   toAddress:string="sssss";
+
   interfaces = [
                 {id:19,name:"getAllMasterWallets"},
                 {id:0,name:"createSubWallet"},
@@ -52,7 +54,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
          this.getPubKey();
          break;
        case 3:
-          this.createMasterWallet(this.phrasePassword,this.payPassword,this.language);
+          this.createMasterWallet(this.masterWalletId,this.phrasePassword,this.payPassword,this.language);
          break;
        case 4:
           this.importWalletWithKeystore(this.keystorePath,this.backupPassword,this.payPassword);
@@ -106,14 +108,14 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    createSubWallet(){
-      this.walletManager.createSubWallet(0,"Ela",0,this.payPassword,false,0,(result)=>{
+      this.walletManager.createSubWallet("Ela",this.payPassword,false,0,(result)=>{
         alert("子钱包");
         alert(JSON.stringify(result));
       });
    }
 
    recoverSubWallet(){
-    this.walletManager.recoverSubWallet(0,"Ela",0,this.payPassword,false,0,0,()=>{
+    this.walletManager.recoverSubWallet("Ela",this.payPassword,false,0,0,()=>{
       alert("恢复子钱包");
     });
    }
@@ -125,9 +127,9 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
      })
    }
 
-   createMasterWallet(phrasePassword,payPassword,language){
-    this.walletManager.createMasterWallet(phrasePassword,payPassword,language,()=>{
-      alert("创建主钱包成功");
+   createMasterWallet(masterWalletId,phrasePassword,payPassword,language){
+    this.walletManager.createMasterWallet(masterWalletId,phrasePassword,payPassword,language,(result)=>{
+                   alert("创建主钱包成功");
      });
    }
 

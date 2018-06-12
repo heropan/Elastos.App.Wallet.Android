@@ -8,38 +8,39 @@
 
 using namespace Elastos::SDK;
 
-//"(JLjava/lang/String;)V"
-static void JNICALL nativeInitializeRootPath(JNIEnv *env, jobject clazz, jlong jEnviromentProxy, jstring jRootPath)
+//"(Ljava/lang/String;)V"
+static void JNICALL nativeInitializeRootPath(JNIEnv *env, jobject clazz, jstring jRootPath)
 {
     const char* rootPath = env->GetStringUTFChars(jRootPath, NULL);
-
-    Enviroment* walletEnv = (Enviroment*)jEnviromentProxy;
-    walletEnv->InitializeRootPath(rootPath);
-
+    Enviroment::InitializeRootPath(rootPath);
     env->ReleaseStringUTFChars(jRootPath, rootPath);
 }
 
-//"(J)J"
-static jlong JNICALL nativeGetMasterWalletManager(JNIEnv *env, jobject clazz, jlong jEnviromentProxy)
+//"()J"
+static jlong JNICALL nativeGetMasterWalletManager(JNIEnv *env, jobject clazz)
 {
-    Enviroment* walletEnv = (Enviroment*)jEnviromentProxy;
-    IMasterWalletManager* masterMgr = walletEnv->GetMasterWalletManager();
+    IMasterWalletManager* masterMgr = Enviroment::GetMasterWalletManager();
     return (jlong)masterMgr;
 }
 
-//"(J)Ljava/lang/String;"
-static jstring JNICALL nativeGetRootPath(JNIEnv *env, jobject clazz, jlong jEnviromentProxy)
+//"()Ljava/lang/String;"
+static jstring JNICALL nativeGetRootPath(JNIEnv *env, jobject clazz)
 {
-    Enviroment* walletEnv = (Enviroment*)jEnviromentProxy;
-    std::string rootPath = walletEnv->GetRootPath();
+    std::string rootPath = Enviroment::GetRootPath();
     return env->NewStringUTF(rootPath.c_str());
 }
 
+//"()Ljava/lang/String;"
+static void JNICALL nativeSaveConfigs(JNIEnv *env, jobject clazz)
+{
+    Enviroment::SaveConfigs();
+}
 
 static const JNINativeMethod gMethods[] = {
-    {"nativeInitializeRootPath", "(JLjava/lang/String;)V", (void*)nativeInitializeRootPath},
-    {"nativeGetMasterWalletManager", "(J)J", (void*)nativeGetMasterWalletManager},
-    {"nativeGetRootPath", "(J)Ljava/lang/String;", (void*)nativeGetRootPath},
+    {"nativeInitializeRootPath", "(Ljava/lang/String;)V", (void*)nativeInitializeRootPath},
+    {"nativeGetMasterWalletManager", "()J", (void*)nativeGetMasterWalletManager},
+    {"nativeGetRootPath", "()Ljava/lang/String;", (void*)nativeGetRootPath},
+    {"nativeSaveConfigs", "()V", (void*)nativeSaveConfigs},
 };
 
 jint register_elastos_spv_Enviroment(JNIEnv *env)

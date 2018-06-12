@@ -7,7 +7,7 @@
 #include "nlohmann/json.hpp"
 
 using namespace Elastos::SDK;
-
+extern const char* ToStringFromJson(nlohmann::json jsonValue);
 
 //"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeSendDepositTransaction(JNIEnv *env, jobject clazz, jlong jMainSubWalletProxy,
@@ -23,7 +23,7 @@ static jstring JNICALL nativeSendDepositTransaction(JNIEnv *env, jobject clazz, 
     const char* memo = env->GetStringUTFChars(jmemo, NULL);
 
     IMainchainSubWallet* wallet = (IMainchainSubWallet*)jMainSubWalletProxy;
-    std::string result = wallet->SendDepositTransaction(fromAddress, toAddress, amount, sidechainAccounts,
+    nlohmann::json txidJson = wallet->SendDepositTransaction(fromAddress, toAddress, amount, sidechainAccounts,
                     sidechainAmounts, sidechainIndexs, fee, payPassword, memo);
 
     env->ReleaseStringUTFChars(jfromAddress, fromAddress);
@@ -34,7 +34,7 @@ static jstring JNICALL nativeSendDepositTransaction(JNIEnv *env, jobject clazz, 
     env->ReleaseStringUTFChars(jpayPassword, payPassword);
     env->ReleaseStringUTFChars(jmemo, memo);
 
-    return env->NewStringUTF(result.c_str());
+    return env->NewStringUTF(ToStringFromJson(txidJson));
 }
 
 
