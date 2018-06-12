@@ -103,7 +103,11 @@ walletFunc.prototype.checkSign = function(arg0, success, error) {
 
 walletFunc.prototype.deriveIdAndKeyForPurpose = function(arg0, success, error) {
     exec(success, error, "Wallet", "deriveIdAndKeyForPurpose", arg0);
-}
+};
+
+walletFunc.prototype.getAllMasterWallets = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getAllMasterWallets", arg0);
+};
 
 
 var WALLETFUNC = new walletFunc();

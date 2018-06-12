@@ -186,6 +186,10 @@ export class WalletManager {
     this.wallet.deriveIdAndKeyForPurpose([purpose,index,payPassword], Fun, this.errorFun);
   }
 
+  getAllMasterWallets(Fun){
+    this.wallet.deriveIdAndKeyForPurpose(Fun, this.errorFun);
+  }
+
   errorFun(error) {
     Logger.info(error);
     //Native.toast(error);
