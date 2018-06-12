@@ -143,6 +143,15 @@ public class Wallet extends CordovaPlugin {
               case "isAddressValid":
                   this.isAddressValid(args, callbackContext);
                   return true;
+              case "generateMnemonic":
+                  this.generateMnemonic(args, callbackContext);
+                  return true;
+              case "initializeMasterWallet":
+                  this.initializeMasterWallet(args, callbackContext);
+                  return true;
+              case "destroyWallet":
+                  this.destroyWallet(args, callbackContext);
+                  return true;
           }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -229,6 +238,14 @@ public class Wallet extends CordovaPlugin {
         callbackContext.success();
     }
 
+    public void generateMnemonic(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mCurrentMasterWallet == null) {
+            callbackContext.success(parseOneParam(ERRORCODE, "The masterWallet is null"));
+        }
+        String mnemonic = mCurrentMasterWallet.GenerateMnemonic();
+        callbackContext.success(parseOneParam("mnemonic", mnemonic));
+    }
+
     public void isAddressValid(JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (mCurrentMasterWallet == null) {
             callbackContext.success(parseOneParam(ERRORCODE, "The masterWallet is null"));
@@ -247,9 +264,9 @@ public class Wallet extends CordovaPlugin {
         }
     }
 
-    //CreateMasterWallet(String masterWalletId, String phrasePassword, String payPassWord, String language)
+    //CreateMasterWallet(String masterWalletId, String language)
     public void createMasterWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        mCurrentMasterWallet = mWalletManager.CreateMasterWallet(args.getString(0), args.getString(1), args.getString(2), args.getString(3));
+        mCurrentMasterWallet = mWalletManager.CreateMasterWallet(args.getString(0), args.getString(1));
         if (mCurrentMasterWallet != null) {
             mMasterWalletList.add(mCurrentMasterWallet);
             callbackContext.success();
@@ -257,6 +274,18 @@ public class Wallet extends CordovaPlugin {
         else {
             callbackContext.error("CreateMasterWallet failed.");
         }
+    }
+
+    //DestroyWallet(String masterWalletId)
+    public void destroyWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        mWalletManager.DestroyWallet(args.getString(0));
+        callbackContext.success();
+    }
+
+    //InitializeMasterWallet(String masterWalletId, String mnemonic, String phrasePassword, String payPassword)
+    public void initializeMasterWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        boolean status = mWalletManager.InitializeMasterWallet(args.getString(0), args.getString(1), args.getString(2), args.getString(3));
+        callbackContext.success(parseOneParam("status", status));
     }
 
     //ImportWalletWithKeystore(String masterWalletId, String keystorePath, String backupPassWord ,String payPassWord, String phrasePassword)

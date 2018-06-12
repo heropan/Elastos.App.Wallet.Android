@@ -50,6 +50,11 @@ public class IMasterWallet {
         return nativeGetPublicKey(mMasterProxy);
     }
 
+    public String GenerateMnemonic()
+    {
+        return nativeGenerateMnemonic(mMasterProxy);
+    }
+
     public String Sign(String message, String payPassword)
     {
         return nativeSign(mMasterProxy, message, payPassword);
@@ -77,4 +82,5 @@ public class IMasterWallet {
     private native String nativeSign(long masterProxy, String message, String payPassword);
     private native String nativeCheckSign(long masterProxy, String publicKey, String message, String signature);
     private native boolean nativeIsAddressValid(long masterProxy, String address);
+    private native String nativeGenerateMnemonic(long masterProxy);
 }

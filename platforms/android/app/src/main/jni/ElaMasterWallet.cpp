@@ -129,6 +129,14 @@ static jboolean JNICALL nativeIsAddressValid(JNIEnv *env, jobject clazz, jlong j
     return (jboolean)valid;
 }
 
+//"(J)Ljava/lang/String;"
+static jstring JNICALL nativeGenerateMnemonic(JNIEnv *env, jobject clazz, jlong jMasterProxy)
+{
+    IMasterWallet* masterWallet = (IMasterWallet*)jMasterProxy;
+    std::string mnemonic = masterWallet->GenerateMnemonic();
+    return env->NewStringUTF(mnemonic.c_str());
+}
+
 static const JNINativeMethod gMethods[] = {
     {"nativeGetId", "(J)Ljava/lang/String;", (void*)nativeGetId},
     {"nativeGetAllSubWallets", "(J)[J", (void*)nativeGetAllSubWallets},
@@ -139,6 +147,7 @@ static const JNINativeMethod gMethods[] = {
     {"nativeSign", "(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeSign},
     {"nativeCheckSign", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeCheckSign},
     {"nativeIsAddressValid", "(JLjava/lang/String;)Z", (void*)nativeIsAddressValid},
+    {"nativeGenerateMnemonic", "(J)Ljava/lang/String;", (void*)nativeGenerateMnemonic},
 };
 
 jint register_elastos_spv_IMasterWallet(JNIEnv *env)
