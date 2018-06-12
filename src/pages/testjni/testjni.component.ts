@@ -17,18 +17,18 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
   singMessage:string;
   fromAddress:string="sssss";
   toAddress:string="sssss";
-
+  chinaId:string ="Ela";
   interfaces = [
                 {id:19,name:"getAllMasterWallets"},
                 {id:0,name:"createSubWallet"},
                 {id:1,name:"recoverSubWallet"},
-                {id:2,name:"getPubKey"},
+                {id:2,name:"getPublicKey"},
                 {id:3,name:"createMasterWallet"},
                 {id:4,name:"importWalletWithKeystore"},
                 {id:5,name:"importWalletWithMnemonic"},
                 {id:6,name:"exportWalletWithKeystore"},
                 {id:7,name:"exportWalletWithMnemonic"},
-                {id:8,name:"getBalanceFun"},
+                {id:8,name:"getBalance"},
                 {id:9,name:"createAddress"},
                 {id:10,name:"getAllAddress"},
                 {id:11,name:"getBalanceWithAddress"},
@@ -51,37 +51,37 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
        case 1:
          this.recoverSubWallet();
        case 2:
-         this.getPubKey();
+         this.getPublicKey();
          break;
        case 3:
           this.createMasterWallet(this.masterWalletId,this.phrasePassword,this.payPassword,this.language);
          break;
        case 4:
-          this.importWalletWithKeystore(this.keystorePath,this.backupPassword,this.payPassword);
+          this.importWalletWithKeystore(this.masterWalletId,"sssss",this.backupPassword,this.payPassword,this.phrasePassword);
          break;
        case 5:
-          this.importWalletWithMnemonic(this.mnemonic,this.backupPassword,this.payPassword,this.language);
+          this.importWalletWithMnemonic(this.masterWalletId,this.mnemonic,this.phrasePassword,this.payPassword,this.language);
          break;
        case 6:
-          this.exportWalletWithKeystore(this.keystorePath,this.backupPassword);
+          this.exportWalletWithKeystore(this.backupPassword,this.payPassword,"sssss");
          break;
        case 7:
-          this.exportWalletWithMnemonic(this.payPassword);
+          this.exportWalletWithMnemonic(this.backupPassword);
          break;
        case 8:
-            this.getBalanceFun();
+            this.getBalance();
          break;
        case 9:
-             this.createAddress();
+             this.createAddress(this.chinaId);
          break;
        case 10:
-            this.getAllAddress();
+            this.getAllAddress(this.chinaId);
          break;
        case 11:
-            this.getBalanceWithAddress();
+            this.getBalanceWithAddress(this.chinaId);
          break;
       case 12:
-            this.sendTransaction(this.fromAddress,this.toAddress,1,1,this.payPassword,"ssss");
+            this.sendTransaction(this.chinaId,this.fromAddress,this.toAddress,1,1,this.payPassword,"ssss");
          break;
       case 13:
            this.generateMultiSignTransaction();
@@ -120,8 +120,8 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
     });
    }
 
-   getPubKey(){
-     this.walletManager.getPubKey((result)=>{
+   getPublicKey(){
+     this.walletManager.getPublicKey((result)=>{
        alert("获取公钥成功");
        alert(JSON.stringify(result));
      })
@@ -133,62 +133,62 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
      });
    }
 
-   importWalletWithKeystore(keystorePath:string,backupPassWord:string,payPassWord:string){
-         this.walletManager.importWalletWithKeystore(keystorePath,backupPassWord,payPassWord,()=>{
+   importWalletWithKeystore(masterWalletId:string,keystorePath:string,backupPassWord:string,payPassWord:string,phrasePassword:string){
+         this.walletManager.importWalletWithKeystore(masterWalletId,keystorePath,backupPassWord,payPassWord,phrasePassword,()=>{
                       alert("导入keystore成功");
          })
    }
 
-   importWalletWithMnemonic(mnemonic:string ,backupPassWord:string ,payPassWord:string,language:string){
-       this.walletManager.importWalletWithMnemonic(mnemonic,backupPassWord,payPassWord,language,()=>{
+   importWalletWithMnemonic(masterWalletId:string,mnemonic:string ,phrasePassword:string ,payPassWord:string,language:string){
+       this.walletManager.importWalletWithMnemonic(masterWalletId,mnemonic,phrasePassword,payPassWord,language,()=>{
         alert("导入住记词成功");
        });
    }
 
-   exportWalletWithKeystore(keystorePath:string, backupPassword: string){
-       this.walletManager.exportWalletWithKeystore(keystorePath,backupPassword,(result)=>{
+   exportWalletWithKeystore(backupPassword: string,payPassWord:string,keystorePath:string,){
+       this.walletManager.exportWalletWithKeystore(backupPassword,payPassWord,keystorePath,(result)=>{
         alert("导出keystore成功");
        });
    }
 
-   exportWalletWithMnemonic(payPassword:string ){
-          this.walletManager.exportWalletWithMnemonic(payPassword,(result)=>{
+   exportWalletWithMnemonic(backupPassword:string ){
+          this.walletManager.exportWalletWithMnemonic(backupPassword,(result)=>{
                    alert(JSON.stringify(result));
           });
    }
 
-   createAddress(){
-         this.walletManager.createAddress((result)=>{
+   createAddress(chinaId:string){
+         this.walletManager.createAddress(chinaId,(result)=>{
                 alert(JSON.stringify(result));
          });
    }
 
-   getAllAddress(){
-        this.walletManager.getAllAddress(0,(result)=>{
+   getAllAddress(chinaId:string){
+        this.walletManager.getAllAddress(chinaId,0,(result)=>{
             alert(JSON.stringify(result));
         });
    }
 
-   getBalanceWithAddress(){
-        this.walletManager.getBalanceWithAddress("eeeeeeee",(result)=>{
+   getBalanceWithAddress(chinaId:string){
+        this.walletManager.getBalanceWithAddress(chinaId,"eeeeeeee",(result)=>{
             alert(JSON.stringify(result));
         });
    }
 
-   sendTransaction(fromAddress:string, toAddress:string, amount:number, fee:number, payPassword:string, memo:string){
-       this.walletManager.sendTransaction(fromAddress,toAddress,amount,fee,payPassword,memo,(result)=>{
+   sendTransaction(chinaId:string,fromAddress:string, toAddress:string, amount:number, fee:number, payPassword:string, memo:string){
+       this.walletManager.sendTransaction(chinaId,fromAddress,toAddress,amount,fee,payPassword,memo,(result)=>{
                 alert(JSON.stringify(result));
        });
    }
 
    generateMultiSignTransaction(){
-      this.walletManager.generateMultiSignTransaction(this.fromAddress,this.toAddress,1,1,this.payPassword,"sssss",(result)=>{
+      this.walletManager.generateMultiSignTransaction(this.chinaId,this.fromAddress,this.toAddress,1,1,this.payPassword,"sssss",(result)=>{
         alert(JSON.stringify(result));
       });
    }
 
    getAllTransaction(){
-      this.walletManager.getAllTransaction(0,"123455",(result)=>{
+      this.walletManager.getAllTransaction(this.chinaId,0,"123455",(result)=>{
       alert(JSON.stringify(result));
      });
    }
@@ -198,20 +198,20 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    checkSign(address:string, message:string, signature:string, payPassword:string){
-         this.walletManager.checkSign(address,message,signature,payPassword,(result)=>{
+         this.walletManager.checkSign(this.chinaId,address,message,signature,payPassword,(result)=>{
           alert(JSON.stringify(result));
          });
    }
 
    sign(message:string,payPassword:string){
-    this.walletManager.sign(message, payPassword,(result)=>{
+    this.walletManager.sign(this.chinaId,message, payPassword,(result)=>{
          alert(JSON.stringify(result));
          this.singMessage = result;
     })
    }
 
-   getBalanceFun(){
-     this.walletManager.getBalanceFun(()=>{
+   getBalance(){
+     this.walletManager.getBalance(this.chinaId,()=>{
       alert("获取余额");
      })
    }
