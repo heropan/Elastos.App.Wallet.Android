@@ -17,33 +17,48 @@ static void JNICALL nativeDisposeNative(JNIEnv *env, jobject clazz, jlong jWalle
     delete walletManager;
 }
 
-//"(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)J"
-static jlong JNICALL nativeCreateMasterWallet(JNIEnv *env, jobject clazz, jlong jWalletMgr, jstring jmasterWalletId,
-        jstring jphrasePassword, jstring jpayPassword, jstring jlanguage)
+//"(JLjava/lang/String;Ljava/lang/String;)J"
+static jlong JNICALL nativeCreateMasterWallet(JNIEnv *env, jobject clazz, jlong jWalletMgr, jstring jmasterWalletId, jstring jlanguage)
 {
     const char* masterWalletId = env->GetStringUTFChars(jmasterWalletId, NULL);
-    const char* phrasePassword = env->GetStringUTFChars(jphrasePassword, NULL);
-    const char* payPassword = env->GetStringUTFChars(jpayPassword, NULL);
     const char* language = env->GetStringUTFChars(jlanguage, NULL);
 
     IMasterWalletManager* walletManager = (IMasterWalletManager*)jWalletMgr;
-    IMasterWallet* masterWallet = walletManager->CreateMasterWallet(masterWalletId, phrasePassword, payPassword, language);
+    IMasterWallet* masterWallet = walletManager->CreateMasterWallet(masterWalletId, language);
 
     env->ReleaseStringUTFChars(jmasterWalletId, masterWalletId);
-    env->ReleaseStringUTFChars(jphrasePassword, phrasePassword);
-    env->ReleaseStringUTFChars(jpayPassword, payPassword);
     env->ReleaseStringUTFChars(jlanguage, language);
     return (jlong)masterWallet;
 }
 
-static void JNICALL nativeDestroyWallet(JNIEnv *env, jobject clazz, jlong jWalletMgr, jobject jmasterWallet)
+//"(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z"
+static jboolean JNICALL nativeInitializeMasterWallet(JNIEnv *env, jobject clazz, jlong jWalletMgr, jstring jmasterWalletId,
+        jstring jmnemonic, jstring jphrasePassword, jstring jpayPassword)
 {
-    jclass cls = env->FindClass(CLASS_MASTERWALLET);
-    long masterProxy = GetJavaLongField(env, cls, jmasterWallet, FIELD_MASTERWALLET);
-    CheckErrorAndLog(env, "nativeDestroyWallet", __LINE__);
-    IMasterWallet* masterWallet = (IMasterWallet*)masterProxy;
+    const char* masterWalletId = env->GetStringUTFChars(jmasterWalletId, NULL);
+    const char* phrasePassword = env->GetStringUTFChars(jphrasePassword, NULL);
+    const char* payPassword = env->GetStringUTFChars(jpayPassword, NULL);
+    const char* mnemonic = env->GetStringUTFChars(jmnemonic, NULL);
+
     IMasterWalletManager* walletManager = (IMasterWalletManager*)jWalletMgr;
-    walletManager->DestroyWallet(masterWallet);
+    bool success = walletManager->InitializeMasterWallet(masterWalletId, mnemonic, phrasePassword, payPassword);
+
+    env->ReleaseStringUTFChars(jmasterWalletId, masterWalletId);
+    env->ReleaseStringUTFChars(jphrasePassword, phrasePassword);
+    env->ReleaseStringUTFChars(jpayPassword, payPassword);
+    env->ReleaseStringUTFChars(jmnemonic, mnemonic);
+    return (jboolean)success;
+}
+
+
+static void JNICALL nativeDestroyWallet(JNIEnv *env, jobject clazz, jlong jWalletMgr, jstring jmasterWalletId)
+{
+    const char* masterWalletId = env->GetStringUTFChars(jmasterWalletId, NULL);
+
+    IMasterWalletManager* walletManager = (IMasterWalletManager*)jWalletMgr;
+    walletManager->DestroyWallet(masterWalletId);
+
+    env->ReleaseStringUTFChars(jmasterWalletId, masterWalletId);
 }
 
 static jlong JNICALL nativeImportWalletWithKeystore(JNIEnv *env, jobject clazz, jlong jWalletMgr, jstring jmasterWalletId, jstring jkeystorePath,
@@ -143,9 +158,9 @@ static jlongArray JNICALL nativeGetAllMasterWallets(JNIEnv *env, jobject clazz, 
 
 
 static const JNINativeMethod gMethods[] = {
-    {"nativeCreateMasterWallet", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)J", (void*)nativeCreateMasterWallet},
+    {"nativeCreateMasterWallet", "(JLjava/lang/String;Ljava/lang/String;)J", (void*)nativeCreateMasterWallet},
     {"nativeDisposeNative", "(J)V", (void*)nativeDisposeNative},
-    {"nativeDestroyWallet", "(JLcom/elastos/spvcore/IMasterWallet;)V", (void*)nativeDestroyWallet},
+    {"nativeDestroyWallet", "(JLjava/lang/String;)V", (void*)nativeDestroyWallet},
     {"nativeImportWalletWithKeystore", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)J", (void*)nativeImportWalletWithKeystore},
     {"nativeImportWalletWithMnemonic", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)J", (void*)nativeImportWalletWithMnemonic},
     {"nativeExportWalletWithKeystore", "(JLcom/elastos/spvcore/IMasterWallet;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", (void*)nativeExportWalletWithKeystore},
