@@ -8,8 +8,15 @@ import {BaseComponent} from './../../../app/BaseComponent';
 })
 export class WalletInfoComponent  extends BaseComponent implements OnInit  {
 
+  walletName = ""
 
   ngOnInit() {
+    this.setTitleByAssets('text-wallet-info');
+    this.localStorage.getWallet().then((val) => {
+      if (val) {
+        this.walletName = JSON.parse(val).name;
+      }
+    });
   }
 
 }
