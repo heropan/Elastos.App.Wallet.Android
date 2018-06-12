@@ -21,7 +21,7 @@ export class ManagerComponent extends BaseComponent implements OnInit {
   onItem(item, i) {
     switch (i){
       case 0:
-      
+
         break;
       case 1:
         this.Go(ExprotPrikeyComponent);
@@ -33,10 +33,10 @@ export class ManagerComponent extends BaseComponent implements OnInit {
         this.Go(WalletInfoComponent);
         break;
       case 4:
-        // this.storage.clear();
-        this.walletManager.destroyWallet(function () {
+        // this.localStorage.clear();
+        // this.walletManager.destroyWallet(function () {
           
-        });
+        // });
         break;
     }
 
