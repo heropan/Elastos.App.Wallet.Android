@@ -13,29 +13,34 @@ import {Config} from "../../../providers/Config";
 export class ManagerComponent extends BaseComponent implements OnInit {
 
   list = Config.MANAGER_LIST;
+  walletName = ""
 
   ngOnInit() {
     this.setTitleByAssets('text-wallet-manager');
+    // wallet name
+    this.localStorage.getWallet().then((val) => {
+      if (val) {
+        this.walletName = JSON.parse(val).name;
+      }
+    });
   }
 
   onItem(item, i) {
+    // console.log(i)
     switch (i){
       case 0:
-
-        break;
-      case 1:
         this.Go(ExprotPrikeyComponent);
         break;
-      case 2:
+      case 1:
         this.Go(ImportComponent);
         break;
-      case 3:
+      case 2:
         this.Go(WalletInfoComponent);
         break;
-      case 4:
+      case 3:
         // this.localStorage.clear();
         // this.walletManager.destroyWallet(function () {
-          
+
         // });
         break;
     }

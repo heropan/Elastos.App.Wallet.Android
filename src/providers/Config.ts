@@ -16,7 +16,7 @@ export class Config {
 
   public static COIN_LIST = {"ELA": {id: 0, name: 'ELA', balance: 0}};
 
-  public static MANAGER_LIST = [{name: '钱包名'}, {name: '备份钱包'}, {name: '导入钱包'}, {name: '钱包详情'}, {name: '退出钱包'}]
+  public static MANAGER_LIST = [{name: '备份钱包'}, {name: '导入钱包'}, {name: '钱包详情'}, {name: '退出钱包'}]
 
   public static WalletKey = "wallet";
 
