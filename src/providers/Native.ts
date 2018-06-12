@@ -3,7 +3,6 @@ import { ToastController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { Clipboard } from '@ionic-native/clipboard';
-import { ToptipsService } from "ngx-weui";
 
 
 /***
