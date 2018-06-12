@@ -3,6 +3,7 @@ import {BaseComponent} from './../../../app/BaseComponent';
 import {ExprotPrikeyComponent} from "../exprot-prikey/exprot-prikey.component";
 import {ImportComponent} from "../import/import.component";
 import {WalletInfoComponent} from "../wallet-info/wallet-info.component";
+import {Config} from "../../../providers/Config";
 
 @Component({
   selector: 'app-manager',
@@ -11,22 +12,16 @@ import {WalletInfoComponent} from "../wallet-info/wallet-info.component";
 })
 export class ManagerComponent extends BaseComponent implements OnInit {
 
-  list = [
-    {name: '钱包名'},
-    {name: '备份钱包'},
-    {name: '导入钱包'},
-    {name: '钱包详情'},
-    {name: '退出钱包'}
-  ];
+  list = Config.MANAGER_LIST;
 
   ngOnInit() {
     this.setTitleByAssets('text-wallet-manager');
   }
 
-  onItem(item,i) {
+  onItem(item, i) {
     switch (i){
       case 0:
-
+      
         break;
       case 1:
         this.Go(ExprotPrikeyComponent);
@@ -40,7 +35,7 @@ export class ManagerComponent extends BaseComponent implements OnInit {
       case 4:
         // this.storage.clear();
         this.walletManager.destroyWallet(function () {
-
+          
         });
         break;
     }
