@@ -43,7 +43,7 @@ public class Wallet extends CordovaPlugin {
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-        Log.d("Elastos", "initialize===================================");
+        Log.d("Elastos", "initialize=================================== ");
         super.initialize(cordova, webView);
         mRootPath = MyUtil.getRootPath();
         Enviroment.InitializeRootPath(mRootPath);
