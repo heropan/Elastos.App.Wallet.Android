@@ -131,8 +131,8 @@ public class Wallet extends CordovaPlugin {
               case "getAllSubWallets":
                   this.getAllSubWallets(args, callbackContext);
                   return true;
-              case "getChainId":
-                  this.getChainId(args, callbackContext);
+              case "getAllChainIds":
+                  this.getAllChainIds(args, callbackContext);
                   return true;
               case "getWalletId":
                   this.getWalletId(args, callbackContext);
@@ -151,6 +151,9 @@ public class Wallet extends CordovaPlugin {
                   return true;
               case "destroyWallet":
                   this.destroyWallet(args, callbackContext);
+                  return true;
+              case "getSupportedChains":
+                  this.getSupportedChains(args, callbackContext);
                   return true;
           }
         } catch (JSONException e) {
@@ -515,23 +518,34 @@ public class Wallet extends CordovaPlugin {
         callbackContext.success(parseOneParam("status", status));
     }
 
-    public void getChainId(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        //The first parameter is [chainID]
-        ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
-        if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet, please check.");
+    public void getAllChainIds(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mSubWalletMap.size() < 1) {
+            callbackContext.success(parseOneParam("chainId", null));
+            return;
+        }
+        JSONObject jsonObject = new JSONObject();
+        for (String key : mSubWalletMap.keySet()) {
+            jsonObject.put(key, key);
+        }
+        callbackContext.success(jsonObject);
+    }
+
+    public void getSupportedChains(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mCurrentMasterWallet != null) {
+            String[] supportedChains = mCurrentMasterWallet.GetSupportedChains();
+            JSONObject jsonObject = new JSONObject();
+            if (supportedChains != null) {
+                for (int i = 0; i < supportedChains.length; i++) {
+                    jsonObject.put(supportedChains[i], supportedChains[i]);
+                }
+            }
+
+            callbackContext.success(jsonObject);
             return;
         }
 
-        String chainId = subWallet.GetChainId();
-        if (chainId != null) {
-            callbackContext.success(parseOneParam("chainId", chainId));
-        }
-        else {
-            callbackContext.error("GetChainId failed.");
-        }
+        callbackContext.success(parseOneParam("supportedChains", null));
     }
-
 
     private JSONObject parseOneParam(String key, Object value) throws JSONException {
         JSONObject jsonObject = new JSONObject();
