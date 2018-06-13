@@ -13,14 +13,17 @@ public class IMasterWalletManager {
     /***
      * 创建主私钥
      * @param masterWalletId
-     * @param phrasePassword
-     * @param payPassWord
      * @param language
      */
-    public IMasterWallet CreateMasterWallet(String masterWalletId, String phrasePassword,String payPassWord, String language)
+    public IMasterWallet CreateMasterWallet(String masterWalletId, String language)
     {
-        long masterProxy = nativeCreateMasterWallet(mManagerProxy, masterWalletId, phrasePassword, payPassWord, language);
+        long masterProxy = nativeCreateMasterWallet(mManagerProxy, masterWalletId, language);
         return new IMasterWallet(masterProxy);
+    }
+
+    public boolean InitializeMasterWallet(String masterWalletId, String mnemonic,String phrasePassword, String payPassword)
+    {
+        return nativeInitializeMasterWallet(mManagerProxy, masterWalletId, mnemonic, phrasePassword, payPassword);
     }
 
     public ArrayList<IMasterWallet> GetAllMasterWallets() {
@@ -32,9 +35,9 @@ public class IMasterWalletManager {
         return list;
     }
 
-    public void DestroyWallet(IMasterWallet masterWallet)
+    public void DestroyWallet(String masterWalletId)
     {
-        nativeDestroyWallet(mManagerProxy, masterWallet);
+        nativeDestroyWallet(mManagerProxy, masterWalletId);
     }
 
     /***
@@ -97,8 +100,7 @@ public class IMasterWalletManager {
     }
 
 
-    private native long nativeCreateMasterWallet(long proxy, String masterWalletId,
-                    String phrasePassword, String payPassWord,String language);
+    private native long nativeCreateMasterWallet(long proxy, String masterWalletId ,String language);
 
     private native long nativeImportWalletWithKeystore(long proxy, String masterWalletId,
                     String keystorePath,String backupPassWord ,String payPassWord, String phrasePassword);
@@ -110,7 +112,9 @@ public class IMasterWalletManager {
                     String backupPassWord,String payPassword,String keystorePath);
 
     private native String nativeExportWalletWithMnemonic(long proxy, IMasterWallet masterWallet,String backupPassWord);
-    private native void nativeDestroyWallet(long proxy, IMasterWallet masterWallet);
+    private native void nativeDestroyWallet(long proxy, String masterWalletId);
     private native void nativeDisposeNative(long proxy);
     private native long[] nativeGetAllMasterWallets(long proxy);
+    private native boolean nativeInitializeMasterWallet(long proxy, String masterWalletId, String mnemonic
+                    ,String phrasePassword, String payPassword);
 }

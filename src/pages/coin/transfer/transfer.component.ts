@@ -99,15 +99,15 @@ export class TransferComponent extends BaseComponent implements OnInit {
   }
 
   createTransaction(){
-    this.walletManager.sendTransaction(this.walletData.lastAddress,
-      this.transfer.toAdd,
-      this.transfer.amount,
-      this.transfer.fees,
-      this.transfer.payPassword,
-      this.transfer.remark,
-      ()=>{
+    // this.walletManager.sendTransaction(this.walletData.lastAddress,
+    //   this.transfer.toAdd,
+    //   this.transfer.amount,
+    //   this.transfer.fees,
+    //   this.transfer.payPassword,
+    //   this.transfer.remark,
+    //   ()=>{
 
-      });
+    //   });
   }
 
   getFee(){

@@ -46,9 +46,9 @@ export class ExprotPrikeyComponent extends BaseComponent implements OnInit {
   }
 
   onExport() {
-    this.walletManager.exportWalletWithKeystore(this.wallet.keystore, this.wallet.pwd, (data) => {
+    // this.walletManager.exportWalletWithKeystore(this.wallet.keystore, this.wallet.pwd, (data) => {
 
-    });
+    // });
   }
 
 }

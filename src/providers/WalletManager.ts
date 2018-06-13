@@ -24,12 +24,6 @@ export class WalletManager {
   constructor() {
     this.wallet = cordova.plugins.Wallet;
     //this.wallet = {};
-
-    // this.wallet.test2(["123"], function () {
-    //   alert("成功啦");
-    // }, function () {
-    //   alert("失败啦");
-    // })
   }
 
   /**通过android log 打印数据*/
@@ -78,7 +72,7 @@ export class WalletManager {
    * 获取子钱包公钥
    * @param Fun
    */
-  getPubKey(Fun) {
+  getPublicKey(Fun) {
     this.wallet.getPublicKey([], Fun, this.errorFun);
   }
 
@@ -88,6 +82,7 @@ export class WalletManager {
 
   /**
    * 创建主钱包
+   * @param {string} masterWalletId
    * @param {string} phrasePassword
    * @param {string} payPassword
    * @param {string} language
@@ -95,31 +90,54 @@ export class WalletManager {
    */
   createMasterWallet(masterWalletId: string,phrasePassword: string, payPassword:string,language:string, Fun) {
     this.wallet.createMasterWallet([masterWalletId, phrasePassword, payPassword,language], Fun, this.errorFun);
-    //return {};
+  }
+  /**
+   * @param {string} masterWalletId
+   * @param {string} keystorePath
+   * @param {string} backupPassword
+   * @param {string} payPassword
+   * @param {string} phrasePassword
+   * @param Fun
+   */
+  importWalletWithKeystore(masterWalletId:string,keystorePath: string, backupPassword: string, payPassword: string,phrasePassword:string, Fun) {
+    this.wallet.importWalletWithKeystore([masterWalletId,keystorePath, backupPassword, payPassword,phrasePassword], Fun, this.errorFun);
   }
 
-  importWalletWithKeystore(keystorePath: string, backupPassword: string, payPassword, Fun) {
-    this.wallet.importWalletWithKeystore([keystorePath, backupPassword, payPassword], Fun, this.errorFun);
+    /**
+   * @param {string} masterWalletId
+   * @param {string} mnemonic
+   * @param {string} phrasePassword
+   * @param {string} payPassword
+   * @param {string} language
+   * @param Fun
+   */
+  importWalletWithMnemonic(masterWalletId:string,mnemonic: string, phrasePassword: string, payPassword,language:string, Fun) {
+    this.wallet.createMasterWallet([masterWalletId,mnemonic,phrasePassword, payPassword,language], Fun, this.errorFun);
   }
 
-  importWalletWithMnemonic(mnemonic: string, backupPassword: string, payPassword,language:string, Fun) {
-    this.wallet.createMasterWallet([mnemonic, backupPassword, payPassword,language], Fun, this.errorFun);
+  /**
+   * @param {string} backupPassWord
+   * @param {string} payPassword
+   * @param {string} keystorePath
+   * @param Fun
+   */
+  exportWalletWithKeystore(backupPassWord:string, payPassword: string,  keystorePath: string,Fun) {
+    this.wallet.createMasterWallet([backupPassWord,payPassword,keystorePath,], Fun, this.errorFun);
+  }
+  /**
+   * @param {string} backupPassWord
+   * @param Fun
+   */
+  exportWalletWithMnemonic(backupPassWord: string, Fun) {
+    this.wallet.exportWalletWithMnemonic([backupPassWord], Fun, this.errorFun);
   }
 
-  exportWalletWithKeystore(keystorePath, backupPassword: string, Fun) {
-    this.wallet.createMasterWallet([keystorePath, backupPassword], Fun, this.errorFun);
+  getBalance(chainId:string,Fun) {
+    this.wallet.getBalance([chainId], Fun, this.errorFun);
   }
 
-  exportWalletWithMnemonic(payPassword: string, Fun) {
-    this.wallet.exportWalletWithMnemonic([payPassword], Fun, this.errorFun);
-  }
-
-  getBalanceFun(Fun) {
-    this.wallet.getBalance([], Fun, this.errorFun);
-  }
-
-  createAddress(Fun) {
-       this.wallet.createAddress([], Fun, this.errorFun);
+  createAddress(chainId:string,Fun) {
+       this.wallet.createAddress([chainId], Fun, this.errorFun);
     // let tempAddr = Math.random();
     // let result = {address: tempAddr};
     // return result;
@@ -131,7 +149,7 @@ export class WalletManager {
   // }
 
   // getAllAddress(start: number, Fun) {
-  getAllAddress(start:number,Fun) {
+  getAllAddress(chainId:string,start:number,Fun) {
     this.wallet.getAllAddress([start, WalletManager.PAGECOUNT], Fun, this.errorFun);
     // let allAddress = [{id: '', address: 'Exbwononlxnknwlnblnwb'},
     //     {id: '', address: 'Exbwononlxnknwlnblnwb'},
@@ -139,36 +157,36 @@ export class WalletManager {
     // return allAddress;
   }
 
-  getBalanceWithAddress(address, Fun) {
+  getBalanceWithAddress(chainId:string,address, Fun) {
     this.wallet.getBalanceWithAddress([address], Fun, this.errorFun);
   }
 
-  sendTransaction(fromAddress, toAddress, amount, fee, payPassword, memo, Fun) {
+  sendTransaction(chainId:string,fromAddress, toAddress, amount, fee, payPassword, memo, Fun) {
     this.wallet.sendTransaction([fromAddress, toAddress, amount, fee, payPassword, memo], Fun, this.errorFun);
   }
 
-  generateMultiSignTransaction(fromAddress, toAddress, amount, fee, payPassword, memo, Fun) {
+  generateMultiSignTransaction(chainId:string,fromAddress, toAddress, amount, fee, payPassword, memo, Fun) {
     this.wallet.generateMultiSignTransaction([fromAddress, toAddress, amount, fee, payPassword, memo], Fun, this.errorFun);
   }
 
-  createMultiSignAddress(multiPublicKeyJson, totalSignNum, requiredSignNum, Fun) {
+  createMultiSignAddress(chainId:string,multiPublicKeyJson, totalSignNum, requiredSignNum, Fun) {
     this.wallet.createMultiSignAddress([multiPublicKeyJson, totalSignNum, requiredSignNum], Fun, this.errorFun);
   }
 
-  getAllTransaction(start, addressOrTxId, Fun) {
+  getAllTransaction(chainId:string,start, addressOrTxId, Fun) {
     this.wallet.getAllTransaction([start, WalletManager.PAGECOUNT, addressOrTxId], Fun, this.errorFun);
   }
 
-  addWalletListener(Fun) {
-    this.wallet.addCallback([], Fun, this.errorFun);
+  registerWalletListener(chainId:string,Fun) {
+    this.wallet.addCallback([chainId], Fun, this.errorFun);
   }
 
 
-  sign(message, payPassword, Fun) {
+  sign(chainId:string,message, payPassword, Fun) {
     this.wallet.sign([message, payPassword], Fun, this.errorFun);
   }
 
-  checkSign(address, message, signature, payPassword, Fun) {
+  checkSign(chainId:string,address, message, signature, payPassword, Fun) {
     this.wallet.checkSign([address, message, signature], Fun, this.errorFun);
   }
 
@@ -187,6 +205,10 @@ export class WalletManager {
 
   getAllMasterWallets(Fun){
     this.wallet.getAllMasterWallets([], Fun, this.errorFun);
+  }
+
+  getBalanceInfo(chainId:string,Fun){
+    this.wallet.getBalanceInfo([chainId], Fun, this.errorFun);
   }
 
   errorFun(error) {

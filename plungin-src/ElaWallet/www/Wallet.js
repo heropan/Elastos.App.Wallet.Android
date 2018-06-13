@@ -72,10 +72,6 @@ walletFunc.prototype.createAddress = function(arg0, success, error) {
     exec(success, error, "Wallet", "createAddress", arg0);
 };
 
-
-// walletFunc.prototype.getTheLastAddress = function (arg0, success, error) {
-//   exec(success, error, "Wallet", "getTheLastAddress", arg0);
-// };
 walletFunc.prototype.getAllAddress = function(arg0, success, error) {
     exec(success, error, "Wallet", "getAllAddress", arg0);
 };
@@ -107,6 +103,16 @@ walletFunc.prototype.deriveIdAndKeyForPurpose = function(arg0, success, error) {
 
 walletFunc.prototype.getAllMasterWallets = function(arg0, success, error) {
     exec(success, error, "Wallet", "getAllMasterWallets", arg0);
+
+};
+
+walletFunc.prototype.getBalanceInfo = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getBalanceInfo", arg0);
+
+};
+
+walletFunc.prototype.registerWalletListener = function(arg0, success, error) {
+    exec(success, error, "Wallet", "registerWalletListener", arg0);
 
 };
 
