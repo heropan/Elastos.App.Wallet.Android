@@ -33,12 +33,13 @@
       <p [hidden]="wallet.keystore == ''">{{wallet.keystore}}</p>
     </div>
 
-
-    <div class="weui-cell">
-      <div class="weui-cell__bd">
-        <input class="weui-input" type="password" placeholder="{{ 'text-wallet-pwd' | translate }}" [(ngModel)]="wallet.pwd">
+    
+    <div [hidden]="wallet.type != 1">
+      <div class="weui-cell">
+        <div class="weui-cell__bd">
+          <input class="weui-input" type="password" placeholder="{{ 'text-keystore-pwd' | translate }}" [(ngModel)]="wallet.pwd">
+        </div>
       </div>
-
     </div>
 
     <div class="weui-cell">

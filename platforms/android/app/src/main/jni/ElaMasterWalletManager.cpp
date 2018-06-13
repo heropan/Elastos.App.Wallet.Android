@@ -166,6 +166,7 @@ static const JNINativeMethod gMethods[] = {
     {"nativeExportWalletWithKeystore", "(JLcom/elastos/spvcore/IMasterWallet;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", (void*)nativeExportWalletWithKeystore},
     {"nativeExportWalletWithMnemonic", "(JLcom/elastos/spvcore/IMasterWallet;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeExportWalletWithMnemonic},
     {"nativeGetAllMasterWallets", "(J)[J", (void*)nativeGetAllMasterWallets},
+    {"nativeInitializeMasterWallet", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z", (void*)nativeInitializeMasterWallet},
 };
 
 int register_elastos_spv_IMasterWalletManager(JNIEnv *env)
