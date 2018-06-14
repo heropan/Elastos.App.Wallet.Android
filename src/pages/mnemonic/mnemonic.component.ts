@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../app/BaseComponent';
 import {WriteComponent} from "./write/write.component";
 //import {WalletModel} from "../../models/wallet.model";
-import {ValidatorsUtil} from "../../providers/ValidatorsUtil";
+import {Util} from "../../providers/Util";
 
 @Component({
   selector: 'app-mnemonic',
@@ -32,7 +32,7 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
 
   onNext() {
     this.setTitleByAssets('text-mnemonic');
-    if (!ValidatorsUtil.password(this.mnemonicPassword)) {
+    if (!Util.password(this.mnemonicPassword)) {
       this.toast("text-pwd-validator");
       return;
     }
