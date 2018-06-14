@@ -73,6 +73,10 @@ public class IMasterWallet {
         return nativeIsAddressValid(mMasterProxy, address);
     }
 
+    public String[] GetSupportedChains() {
+        return nativeGetSupportedChains(mMasterProxy);
+    }
+
     private native String nativeGetId(long masterProxy);
     private native long[] nativeGetAllSubWallets(long masterProxy);
     private native long nativeCreateSubWallet(long masterProxy, String chainID, String payPassword, boolean singleAddress, long feePerKb);
@@ -83,4 +87,5 @@ public class IMasterWallet {
     private native String nativeCheckSign(long masterProxy, String publicKey, String message, String signature);
     private native boolean nativeIsAddressValid(long masterProxy, String address);
     private native String nativeGenerateMnemonic(long masterProxy);
+    private native String[] nativeGetSupportedChains(long masterProxy);
 }
