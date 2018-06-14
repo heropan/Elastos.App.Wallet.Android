@@ -67,6 +67,9 @@ import {FileChooser} from "@ionic-native/file-chooser";
 
 import {TestJniComponent} from '../pages/testjni/testjni.component';
 
+/*id相关页面*/
+import {IdLauncherComponent} from '../pages/id/launcher/launcher';
+/*id相关页面*/
 
 /** 通过类引用方式解析国家化文件 */
 export class CustomTranslateLoader implements TranslateLoader {
@@ -126,7 +129,8 @@ export function TranslateLoaderFactory() {
     NoticeComponent,
     ChangePwdComponent,
     ChangeNameComponent,
-    TestJniComponent
+    TestJniComponent,
+    IdLauncherComponent
   ],
   imports: [
     BrowserModule,
@@ -183,7 +187,8 @@ export function TranslateLoaderFactory() {
     NoticeComponent,
     ChangePwdComponent,
     ChangeNameComponent,
-    TestJniComponent
+    TestJniComponent,
+    IdLauncherComponent
   ],
   providers: [
     StatusBar,

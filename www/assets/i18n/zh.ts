@@ -97,5 +97,9 @@ export const zh = {
   'contact-phone-check':'无效的手机号',
   'text-mnemonic-validator':'助记词必须是12个',
   'wallet-name':'钱包名',
-  'text-wallet-info':'钱包详情'
+  'text-wallet-info':'钱包详情',
+  'text-id-name':"我的ID",
+  'text-id-create':'创建ID',
+  'text-id-import':'导入ID',
+  'text-id-not':'您还没有ID，请先新建ID或者导入ID',
 };
