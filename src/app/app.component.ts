@@ -34,7 +34,7 @@ export class AppComponent {
 
       localStorage.getWallet().then((val) => {
         if (val) {
-          this.rootPage = TabsComponent;
+          this.rootPage = LauncherComponent;
         } else {
           this.rootPage = TabsComponent;
         }
