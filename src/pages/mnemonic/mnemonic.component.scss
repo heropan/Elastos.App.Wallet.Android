@@ -1,27 +1,24 @@
 @import './../../theme/variables';
 
-
-.mnemonic-show {
-  .mnemonic-list-read{
-    margin: 8% auto;
-    &>li{
-      display: inline-block;
-      width: 25%;
-      margin: 20px 0px;
-      text-align: center;
-      color: $color-main;
-      font-size: 1.4em;
-    }
-  }
-  .mnemonic-prompt{
-    color: $color-gray-dark;
+.mnemonic-list-read{
+  margin: 3% auto;
+  &>li{
+    display: inline-block;
+    width: 25%;
+    margin: 20px 0px;
     text-align: center;
-    margin: 20px auto;
-    position: absolute;
-    bottom: 80px;
-    width: 100%;
-    left: 0px;
+    color: $color-main;
+    font-size: 1.4em;
   }
+}
+.mnemonic-prompt{
+  color: $color-gray-dark;
+  text-align: center;
+  margin: 20px auto;
+  position: absolute;
+  bottom: 80px;
+  width: 100%;
+  left: 0px;
 }
 
 
