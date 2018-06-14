@@ -48,11 +48,11 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
       this.toast("text-wallet-name-validator");
       return;
     }
-    if (!ValidatorsUtil.password(this.wallet.pwd)) {
+    if (!ValidatorsUtil.password(this.wallet.payPassword)) {
       this.toast("text-pwd-validator");
       return;
     }
-    if (this.wallet.pwd != this.wallet.rePwd) {
+    if (this.wallet.payPassword != this.wallet.rePayPassword) {
       this.toast("text-wallet-repwd");
       return;
     }
@@ -60,35 +60,35 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
     this.createWallet();
   }
 
-  onShowPassword() {
-    this.dialogService.show(this.DEFCONFIG).subscribe((res)=>{this.onPayPassword(res,this)});
-  }
+  // onShowPassword() {
+  //   this.dialogService.show(this.DEFCONFIG).subscribe((res)=>{this.onPayPassword(res,this)});
+  // }
 
-  onPayPassword(res:any,tath:any){
-      Logger.info(res.result);
-      if(res.type == 'primary'){
-        if(this.payPasswordType == 1){   //再次输入
-          this.wallet.rePayPassword = res.result;
-          if (this.wallet.payPassword != this.wallet.rePayPassword) {
-            this.toast("text-wallet-repwd");
-            this.dialogService.show(this.DEFCONFIG).subscribe((res)=>{this.onPayPassword(res,tath)});
-          }else{
-            this.payPasswordType = 0;
-            this.createWallet();
-          }
-        }else{
-          if(!ValidatorsUtil.password(res.result)){
-            this.toast("text-pwd-validator");
-            this.dialogService.show(this.DEFCONFIG).subscribe((res)=>{this.onPayPassword(res,tath)});
-          }else{
-            this.wallet.payPassword = res.result;
-            this.payPasswordType = 1;
-            this.DEFCONFIG.title = this.getLanguageInstance()["text-pay-repassword"];
-            this.dialogService.show(this.DEFCONFIG).subscribe((res)=>{this.onPayPassword(res,tath)});
-          }
-        }
-      }
-  }
+  // onPayPassword(res:any,tath:any){
+  //     Logger.info(res.result);
+  //     if(res.type == 'primary'){
+  //       if(this.payPasswordType == 1){   //再次输入
+  //         this.wallet.rePayPassword = res.result;
+  //         if (this.wallet.payPassword != this.wallet.rePayPassword) {
+  //           this.toast("text-wallet-repwd");
+  //           this.dialogService.show(this.DEFCONFIG).subscribe((res)=>{this.onPayPassword(res,tath)});
+  //         }else{
+  //           this.payPasswordType = 0;
+  //           this.createWallet();
+  //         }
+  //       }else{
+  //         if(!ValidatorsUtil.password(res.result)){
+  //           this.toast("text-pwd-validator");
+  //           this.dialogService.show(this.DEFCONFIG).subscribe((res)=>{this.onPayPassword(res,tath)});
+  //         }else{
+  //           this.wallet.payPassword = res.result;
+  //           this.payPasswordType = 1;
+  //           this.DEFCONFIG.title = this.getLanguageInstance()["text-pay-repassword"];
+  //           this.dialogService.show(this.DEFCONFIG).subscribe((res)=>{this.onPayPassword(res,tath)});
+  //         }
+  //       }
+  //     }
+  // }
 
   createWallet(){
     this.toastService.loading(this.getLanguageInstance()["text-wait"],0);
@@ -105,7 +105,7 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
       this.localStorage.setWallet({
         'name': this.wallet.name
       });
-      this.Go(MnemonicComponent);
+      this.Go(MnemonicComponent, {payPassword: this.wallet.payPassword});
     });
   }
 
