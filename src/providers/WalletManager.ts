@@ -231,6 +231,15 @@ export class WalletManager {
     this.wallet.getWalletId([],Fun,this.errorFun);
   }
 
+  getAllChainIds(Fun){
+    this.wallet.getSupportedChains([],Fun,this.errorFun);
+  }
+
+
+  getSupportedChains(Fun){
+    this.wallet.getSupportedChains([],Fun,this.errorFun);
+  }
+
   errorFun(error) {
     Logger.info(error);
     //Native.toast(error);

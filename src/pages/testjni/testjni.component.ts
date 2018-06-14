@@ -45,7 +45,10 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
                 {id:22,name:"getBalanceInfo"},
                 {id:23,name:"initializeMasterWallet"},
                 {id:24,name:"generateMnemonic"},
-                {id:25,name:"saveConfigs"}
+                {id:25,name:"saveConfigs"},
+                {id:26,name:"getWalletId"},
+                {id:27,name:"getAllChainIds"},
+                {id:28,name:"getSupportedChains"}
               ];
   ngOnInit() {
   }
@@ -132,6 +135,12 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
       case 26:
         this.getWalletId();
         break;
+      case 27:
+         this.getAllChainIds();
+         break;
+      case 28:
+         this.getSupportedChains();
+         break;
      }
    }
 
@@ -299,6 +308,18 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    getWalletId(){
      this.walletManager.getWalletId((result)=>{
          alert("主钱包id=="+JSON.stringify(result));
+     });
+   }
+
+   getAllChainIds(){
+    this.walletManager.getAllChainIds((result)=>{
+      alert("所有子钱包=="+JSON.stringify(result));
+     });
+   }
+
+   getSupportedChains(){
+    this.walletManager.getSupportedChains((result)=>{
+      alert("已经支持的所有子钱包=="+JSON.stringify(result));
      });
    }
 
