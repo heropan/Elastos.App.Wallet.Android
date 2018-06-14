@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Logger} from './Logger';
 import 'rxjs/add/operator/toPromise';
 import {Observable} from "rxjs";
 import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
@@ -24,8 +23,7 @@ import {Util} from "./Util";
 @Injectable()
 export class HttpService {
 
-  constructor(private http: Http,
-              private logger: Logger) {
+  constructor(private http: Http) {
 
 
   }

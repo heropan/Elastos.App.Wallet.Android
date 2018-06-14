@@ -4,8 +4,7 @@ import {Config} from '../../../providers/Config';
 import {IdCreateComponent} from "../../../pages/id/create/create";
 import {IdImportComponent} from "../../../pages/id/import/import";
 import {IdManagerComponent} from "../../../pages/id/manager/manager";
-import {IdKycPersonComponent} from "../../../pages/id/kyc/person/person";
-import {IdKycCompanyComponent} from "../../../pages/id/kyc/company/company";
+import {IdAppListComponent} from "../../../pages/id/app-list/app-list";
 
 
 @Component({
@@ -48,11 +47,6 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
   }
 
   onItem(item){
-    let id = item.id;
-    if(item.createType === 1){
-      this.Go(IdKycPersonComponent,{'id':id});
-    }else if(item.createType === 2){
-      this.Go(IdKycCompanyComponent,{'id':id});
-    }
+    this.Go(IdAppListComponent,{"idObj":item});
   }
 }
