@@ -1,17 +1,12 @@
 import { Component,OnInit } from '@angular/core';
 import {BaseComponent} from "./../../../app/BaseComponent";
 import {Config} from '../../../providers/Config';
-// import {CreateComponent} from "../../../pages/id/create/create";
-// import {ImportComponent} from "../../../pages/id/import/import";
-// import {ManagerComponent} from "../../../pages/id/manager/manager";
+import {IdCreateComponent} from "../../../pages/id/create/create";
+import {IdImportComponent} from "../../../pages/id/import/import";
+import {IdManagerComponent} from "../../../pages/id/manager/manager";
 // import {PersonComponent} from "../../../pages/kyc/person/person";
 // import {CompanyComponent} from "../../../pages/kyc/company/company";
-/**
- * Generated class for the LauncherPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+
 
 @Component({
   selector: 'id-home',
@@ -41,13 +36,13 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
   onNext(type){
     switch (type){
       case 0:
-        //this.Go(CreateComponent);
+        this.Go(IdCreateComponent);
         break;
       case 1:
-        //this.Go(ImportComponent);
+        this.Go(IdImportComponent);
         break;
       case 2:
-        //this.Go(ManagerComponent);
+        this.Go(IdManagerComponent);
         break;
     }
   }

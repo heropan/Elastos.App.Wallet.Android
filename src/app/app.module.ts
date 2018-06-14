@@ -24,6 +24,7 @@ import {Config} from './../providers/Config';
 import {LocalStorage} from '../providers/Localstorage';
 import { Clipboard } from '@ionic-native/clipboard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BackupProvider } from '../providers/backup';
 
 /**pages*/
 import {AppComponent} from './app.component';
@@ -72,6 +73,8 @@ import {IdLauncherComponent} from '../pages/id/launcher/launcher';
 import {IdHomeComponent} from '../pages/id/home/home';
 import {IdCreateComponent} from '../pages/id/create/create';
 import {IdImportComponent} from '../pages/id/import/import';
+import {IdManagerComponent} from '../pages/id/manager/manager';
+
 
 /*id相关页面*/
 
@@ -137,7 +140,8 @@ export function TranslateLoaderFactory() {
     IdLauncherComponent,
     IdHomeComponent,
     IdCreateComponent,
-    IdImportComponent
+    IdImportComponent,
+    IdManagerComponent
   ],
   imports: [
     BrowserModule,
@@ -198,7 +202,8 @@ export function TranslateLoaderFactory() {
     IdLauncherComponent,
     IdHomeComponent,
     IdCreateComponent,
-    IdImportComponent
+    IdImportComponent,
+    IdManagerComponent
   ],
   providers: [
     StatusBar,
@@ -214,7 +219,7 @@ export function TranslateLoaderFactory() {
     Logger,
     HeaderComponent,
     WalletManager,
-
+    BackupProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

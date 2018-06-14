@@ -14,7 +14,7 @@ import {zh} from "../assets/i18n/zh";
 import {WalletModel} from "../models/wallet.model";
 import {LocalStorage} from "../providers/Localstorage";
 import { NavParams } from 'ionic-angular';
-
+import {BackupProvider} from "../providers/backup";
 
 @Component({
   selector: 'app-base',
@@ -40,7 +40,8 @@ export class BaseComponent {
                      public dialogService: DialogService,
                      public walletManager: WalletManager,
                      public navParams: NavParams,
-                     public toastService: ToastService) {
+                     public toastService: ToastService,
+                     public backupProvider:BackupProvider) {
     this.translate.addLangs(['zh', 'en']);
     this.translate.setDefaultLang('zh');
     const broswerLang = this.translate.getBrowserLang();

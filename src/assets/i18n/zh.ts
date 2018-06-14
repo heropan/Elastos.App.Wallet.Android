@@ -117,4 +117,7 @@ export const zh = {
   'text-browsing':'浏览',
   'text-id-manager':'ID管理',
   'text-update-time':'更新时间',
+  'text-export':'导出',
+  'text-delete':'删除',
+  'text-select-all':'全选',
 };

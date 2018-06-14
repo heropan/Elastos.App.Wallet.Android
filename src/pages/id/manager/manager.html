@@ -1,0 +1,28 @@
+<app-header [header]="header"></app-header>
+<div class="per-certified">
+    <ul class="idList">
+        <li class="item" *ngFor="let item of kycIdArr" (click)="onItem(item.id)">
+            <a class="tiaozhuan">
+                <div [ngClass]="{'radio':true,'per-select':isSelectObj[item.id]}"></div>
+                <div class="item-text">
+                    <span class="item-text-title">ID:{{item.id}}</span>
+                    <p>{{ 'text-update-time' | translate }}：{{item.updateTiem}}&nbsp;&nbsp;{{item.finshNumber}}/{{item.maxNumber}}&nbsp;&nbsp;{{ 'text-person' | translate }}
+                    </p>
+                </div>
+            </a>
+        </li>
+    </ul>
+
+    <div class="chooseAll" style="background: white;">
+
+        <div [ngClass]="{'radio':true,'per-select':selectAll}" style="margin: 0px 16px;" (click)="onNext(3)"></div>
+        <span (click)="onNext(3)">{{ 'text-select-all' | translate }}</span>
+
+        <div class="btns">
+            <a class="importBtn" (click)="onNext(1)">{{ 'text-export' | translate }}</a>
+            <a class="delBtn" (click)="onNext(2)">{{ 'text-delete' | translate }}</a>
+        </div>
+    </div>
+
+
+</div>
