@@ -69,6 +69,10 @@ import {TestJniComponent} from '../pages/testjni/testjni.component';
 
 /*id相关页面*/
 import {IdLauncherComponent} from '../pages/id/launcher/launcher';
+import {IdHomeComponent} from '../pages/id/home/home';
+import {IdCreateComponent} from '../pages/id/create/create';
+import {IdImportComponent} from '../pages/id/import/import';
+
 /*id相关页面*/
 
 /** 通过类引用方式解析国家化文件 */
@@ -130,7 +134,10 @@ export function TranslateLoaderFactory() {
     ChangePwdComponent,
     ChangeNameComponent,
     TestJniComponent,
-    IdLauncherComponent
+    IdLauncherComponent,
+    IdHomeComponent,
+    IdCreateComponent,
+    IdImportComponent
   ],
   imports: [
     BrowserModule,
@@ -188,7 +195,10 @@ export function TranslateLoaderFactory() {
     ChangePwdComponent,
     ChangeNameComponent,
     TestJniComponent,
-    IdLauncherComponent
+    IdLauncherComponent,
+    IdHomeComponent,
+    IdCreateComponent,
+    IdImportComponent
   ],
   providers: [
     StatusBar,
