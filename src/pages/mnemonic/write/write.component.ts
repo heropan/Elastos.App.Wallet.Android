@@ -3,7 +3,7 @@ import {BaseComponent} from './../../../app/BaseComponent';
 //import {HomeComponent} from "../../tabs/home/home.component";
 import {TabsComponent} from "../../tabs/tabs.component";
 //import {Logger} from "../../../providers/Logger";
-import {ValidatorsUtil} from "../../../providers/ValidatorsUtil";
+import {Util} from "../../../providers/Util";
 
 @Component({
   selector: 'app-write',
@@ -40,7 +40,7 @@ export class WriteComponent extends BaseComponent implements OnInit {
     for(let i =0;i<this.selectList.length;i++){
       mn += this.selectList[i].text;
     }
-    if(!ValidatorsUtil.isNull(mn) && mn == this.mnemonicStr.replace(/\s+/g,"")){
+    if(!Util.isNull(mn) && mn == this.mnemonicStr.replace(/\s+/g,"")){
       this.toast('text-mnemonic-ok');
       this.Go(TabsComponent)
     }else{

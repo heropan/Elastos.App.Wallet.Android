@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
-import {ValidatorsUtil} from "../../../providers/ValidatorsUtil";
+import {Util} from "../../../providers/Util";
 //import {Logger} from "../../../providers/Logger";
 
 @Component({
@@ -26,22 +26,22 @@ export class ImportComponent extends BaseComponent implements OnInit {
 
   onImport() {
     if (this.wallet.type == 1) {   // 文件
-      if (ValidatorsUtil.isNull(this.wallet.keystore)) {
+      if (Util.isNull(this.wallet.keystore)) {
         this.toast('text-select-key');
         return;
       }
     } else {
-      if (ValidatorsUtil.isNull(this.wallet.mnemonic)) {
+      if (Util.isNull(this.wallet.mnemonic)) {
         this.toast('text-input-mnemonic');
         return;
       }
     }
     console.log(this.wallet.mnemonic)
-    if (!ValidatorsUtil.isMnemonicValid(this.wallet.mnemonic)) {
+    if (!Util.isMnemonicValid(this.wallet.mnemonic)) {
       this.toast("text-mnemonic-validator");
       return;
     }
-    if (!ValidatorsUtil.password(this.wallet.pwd)) {
+    if (!Util.password(this.wallet.pwd)) {
       this.toast("text-pwd-validator");
       return;
     }

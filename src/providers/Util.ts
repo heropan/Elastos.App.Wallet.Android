@@ -5,7 +5,7 @@ import {Injectable} from '@angular/core';
 //import {Validators as angularValidators, AbstractControl} from '@angular/forms';
 
 @Injectable()
-export class ValidatorsUtil {
+export class Util {
 
   /*E-mail*/
   static email = function (text) {
