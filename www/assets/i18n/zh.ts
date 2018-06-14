@@ -23,6 +23,8 @@ export const zh = {
   'text-from-key': '来自私钥',
   'text-key-file': '私钥文件',
   'text-mnemonic-check': '验证助记词',
+  'text-mnemonic-pwd': '助记词密码',
+  'text-mnemonic-repwd': '重复助记词密码',
   'text-coin-list': '币种列表',
   'text-fees-pay': '手续费支付方',
   'text-fees-pay-sender': '我来支付',
