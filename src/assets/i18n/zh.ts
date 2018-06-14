@@ -115,4 +115,6 @@ export const zh = {
   'text-id-type':'选择ID类型',
   'text-id-import-file':'导入ID文件',
   'text-browsing':'浏览',
+  'text-id-manager':'ID管理',
+  'text-update-time':'更新时间',
 };
