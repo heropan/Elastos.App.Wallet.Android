@@ -5,7 +5,7 @@ import {BaseComponent} from './../../../app/BaseComponent';
 
 import {ContactListComponent} from "../../contacts/contact-list/contact-list.component";
 //import {Native} from "../../../providers/Native";
-import {ValidatorsUtil} from "../../../providers/ValidatorsUtil";
+import {Util} from "../../../providers/Util";
 import { PopupComponent } from "ngx-weui";
 
 
@@ -78,15 +78,15 @@ export class TransferComponent extends BaseComponent implements OnInit {
 
     });
 
-    if(ValidatorsUtil.isNull(this.transfer.address)){
+    if(Util.isNull(this.transfer.address)){
       this.toast('correct-address');
       return;
     }
-    if (!ValidatorsUtil.isAddressValid(this.transfer.address)) {
+    if (!Util.isAddressValid(this.transfer.address)) {
       this.messageBox("contact-address-digits");
       return;
     }
-    if(ValidatorsUtil.number(this.transfer.amount)){
+    if(Util.number(this.transfer.amount)){
       this.toast('correct-amount');
       return;
     }

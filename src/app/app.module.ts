@@ -3,7 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-import {HttpClientModule, HttpClient} from '@angular/common/http';
+import {HttpModule} from '@angular/http';
 import {WeUiModule} from 'ngx-weui';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {Observable} from 'rxjs/Observable';
@@ -24,6 +24,8 @@ import {Config} from './../providers/Config';
 import {LocalStorage} from '../providers/Localstorage';
 import { Clipboard } from '@ionic-native/clipboard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BackupProvider } from '../providers/backup';
+import { HttpService } from '../providers/HttpService';
 
 /**pages*/
 import {AppComponent} from './app.component';
@@ -67,6 +69,16 @@ import {FileChooser} from "@ionic-native/file-chooser";
 
 import {TestJniComponent} from '../pages/testjni/testjni.component';
 
+/*id相关页面*/
+import {IdLauncherComponent} from '../pages/id/launcher/launcher';
+import {IdHomeComponent} from '../pages/id/home/home';
+import {IdCreateComponent} from '../pages/id/create/create';
+import {IdImportComponent} from '../pages/id/import/import';
+import {IdManagerComponent} from '../pages/id/manager/manager';
+import {IdKycPersonComponent} from '../pages/id/kyc/person/person';
+import {IdKycCompanyComponent} from '../pages/id/kyc/company/company';
+import {IdKycResultComponent} from '../pages/id/kyc/result/result';
+/*id相关页面*/
 
 /** 通过类引用方式解析国家化文件 */
 export class CustomTranslateLoader implements TranslateLoader {
@@ -126,17 +138,24 @@ export function TranslateLoaderFactory() {
     NoticeComponent,
     ChangePwdComponent,
     ChangeNameComponent,
-    TestJniComponent
+    TestJniComponent,
+    IdLauncherComponent,
+    IdHomeComponent,
+    IdCreateComponent,
+    IdImportComponent,
+    IdManagerComponent,
+    IdKycPersonComponent,
+    IdKycCompanyComponent,
+    IdKycResultComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
+    HttpModule,
     FormsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: (TranslateLoaderFactory),
-        deps: [HttpClient]
+        useFactory: (TranslateLoaderFactory)
       }
     }),
     QRCodeModule,
@@ -183,13 +202,19 @@ export function TranslateLoaderFactory() {
     NoticeComponent,
     ChangePwdComponent,
     ChangeNameComponent,
-    TestJniComponent
+    TestJniComponent,
+    IdLauncherComponent,
+    IdHomeComponent,
+    IdCreateComponent,
+    IdImportComponent,
+    IdManagerComponent,
+    IdKycPersonComponent,
+    IdKycCompanyComponent,
+    IdKycResultComponent
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    HttpClientModule,
-    HttpClient,
     BarcodeScanner,
     FileChooser,
     Clipboard,
@@ -199,7 +224,8 @@ export function TranslateLoaderFactory() {
     Logger,
     HeaderComponent,
     WalletManager,
-
+    BackupProvider,
+    HttpService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

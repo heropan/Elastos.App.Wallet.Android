@@ -3,7 +3,7 @@ import { ToastController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { Clipboard } from '@ionic-native/clipboard';
-
+import { UUID } from 'angular2-uuid';
 
 /***
  * APP底层交互
@@ -132,6 +132,22 @@ export class Native {
 
   static getLanguage(){
     return "english";
+  }
+
+    /**
+   * 创建ID
+   */
+  public static createId(){
+    let id = UUID.UUID();
+    let backParms={"id":id,"priKey":'1111111'};
+    return backParms;
+  }
+  /**
+   * 调用钱包
+   * @param amount
+   */
+  public static payMoney(amount){
+       return ;
   }
 }
 

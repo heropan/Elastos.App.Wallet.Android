@@ -135,7 +135,17 @@ walletFunc.prototype.saveConfigs = function(arg0, success, error) {
 
 walletFunc.prototype.getWalletId = function(arg0, sucess, error) {
     exec(sucess, error, "getWalletId", arg0);
-}
+};
+
+walletFunc.prototype.getAllChainIds = function(arg0, sucess, error) {
+    exec(sucess, error, "getAllChainIds", arg0);
+};
+
+walletFunc.prototype.getSupportedChains = function(arg0, sucess, error) {
+    exec(sucess, error, "getAllChainIds", arg0);
+};
+
+
 
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;

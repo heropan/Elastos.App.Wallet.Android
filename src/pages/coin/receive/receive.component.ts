@@ -4,7 +4,7 @@ import {BaseComponent} from './../../../app/BaseComponent';
 //import {HeaderComponent, Header} from './../../../app/header/app.header';
 import {Logger} from "../../../providers/Logger";
 import {AddressComponent} from "../../wallet/address/address.component";
-import {ValidatorsUtil} from "../../../providers/ValidatorsUtil";
+import {Util} from "../../../providers/Util";
 
 
 @Component({
@@ -31,7 +31,7 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
   }
 
   onChange(){
-    if(!ValidatorsUtil.number(this.amount)){
+    if(!Util.number(this.amount)){
       this.toast('correct-amount');
     }
   }

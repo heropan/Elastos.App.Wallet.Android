@@ -137,6 +137,27 @@ static jstring JNICALL nativeGenerateMnemonic(JNIEnv *env, jobject clazz, jlong 
     return env->NewStringUTF(mnemonic.c_str());
 }
 
+//"(J)[Ljava/lang/String;"
+static jobjectArray JNICALL nativeGetSupportedChains(JNIEnv *env, jobject clazz, jlong jMasterProxy)
+{
+    IMasterWallet* masterWallet = (IMasterWallet*)jMasterProxy;
+    std::vector<std::string> chains = masterWallet->GetSupportedChains();
+
+    const int length = chains.size();
+    if (length < 1) {
+        return NULL;
+    }
+
+    jclass objClass = env->FindClass("java/lang/String");
+    jobjectArray objArray = env->NewObjectArray(length, objClass, 0);
+    for (int i = 0; i < length; ++i) {
+        env->SetObjectArrayElement(objArray, i, env->NewStringUTF(chains[i].c_str()));
+    }
+
+    return objArray;
+}
+
+
 static const JNINativeMethod gMethods[] = {
     {"nativeGetId", "(J)Ljava/lang/String;", (void*)nativeGetId},
     {"nativeGetAllSubWallets", "(J)[J", (void*)nativeGetAllSubWallets},
@@ -148,6 +169,7 @@ static const JNINativeMethod gMethods[] = {
     {"nativeCheckSign", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeCheckSign},
     {"nativeIsAddressValid", "(JLjava/lang/String;)Z", (void*)nativeIsAddressValid},
     {"nativeGenerateMnemonic", "(J)Ljava/lang/String;", (void*)nativeGenerateMnemonic},
+    {"nativeGetSupportedChains", "(J)[Ljava/lang/String;", (void*)nativeGetSupportedChains},
 };
 
 jint register_elastos_spv_IMasterWallet(JNIEnv *env)

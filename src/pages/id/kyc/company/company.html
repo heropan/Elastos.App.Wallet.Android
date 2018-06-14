@@ -1,0 +1,30 @@
+<app-header [header]="header"></app-header>
+<div class="company">
+    <div class="weui-cells">
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="" class="weui-label">{{'text-company-name' | translate }}</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="{{'text-input-please' | translate }}" [(ngModel)]="businessObj.word">
+            </div>
+        </div>
+
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="" class="weui-label">{{'text-company-legal' | translate }}</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="{{'text-input-please' | translate }}" [(ngModel)]="businessObj.legalPerson">
+            </div>
+        </div>
+
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label for="" class="weui-label">{{'text-company-code' | translate }}</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" placeholder="{{'text-input-please' | translate }}" [(ngModel)]="businessObj.registrationN">
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-commit" (click)="onCommit()">
+        {{'text-pay' | translate}}{{payMoney}}{{unit}}
+    </div>
+
+</div>
