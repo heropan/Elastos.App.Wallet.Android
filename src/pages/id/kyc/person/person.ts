@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from "../../../../app/BaseComponent";
 import {Observable} from 'rxjs';
 import 'rxjs/add/observable/timer';
-//import {ResultComponent} from "../../../pages/universal/result/result";
+import {IdResultComponent} from "../../../../pages/id/result/result";
 import {IDManager} from "../../../../providers/IDManager"
 import {ApiUrl} from "../../../../providers/ApiUrl"
 
@@ -211,12 +211,12 @@ if(this.checkCellphone(phone)){
         console.log("====parms===="+JSON.stringify(parms));
         this.getHttp().postByAuth(ApiUrl.AUTH,parms).toPromise().then(data=>{
           if(data["status"] === 200){
-            //this.Go(ResultComponent,{'status':'0'});
+            this.Go(IdResultComponent,{'status':'0'});
            }
         }).catch(error => {
 
         });
-        //this.Go(ResultComponent,{'status':'0'});
+        this.Go(IdResultComponent,{'status':'0'});
   }
 
 }
