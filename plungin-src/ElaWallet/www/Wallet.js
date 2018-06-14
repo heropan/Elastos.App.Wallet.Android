@@ -116,6 +116,26 @@ walletFunc.prototype.registerWalletListener = function(arg0, success, error) {
 
 };
 
+walletFunc.prototype.isAddressValid = function(arg0, success, error) {
+    exec(success, error, "Wallet", "isAddressValid", arg0);
+};
+
+walletFunc.prototype.initializeMasterWallet = function(arg0, success, error) {
+    exec(success, error, "Wallet", "initializeMasterWallet", arg0);
+};
+
+
+walletFunc.prototype.generateMnemonic = function(arg0, success, error) {
+    exec(success, error, "Wallet", "generateMnemonic", arg0);
+};
+
+walletFunc.prototype.saveConfigs = function(arg0, success, error) {
+    exec(success, error, "Wallet", "saveConfigs", arg0);
+};
+
+walletFunc.prototype.getWalletId = function(arg0, sucess, error) {
+    exec(sucess, error, "getWalletId", arg0);
+}
 
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;

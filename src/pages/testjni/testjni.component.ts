@@ -18,6 +18,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
   fromAddress:string="sssss";
   toAddress:string="sssss";
   chinaId:string ="Ela";
+  adress:string;
   interfaces = [
                 {id:19,name:"getAllMasterWallets"},
                 {id:0,name:"createSubWallet"},
@@ -35,10 +36,16 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
                 {id:12,name:"sendTransaction"},
                 {id:13,name:"generateMultiSignTransaction"},
                 {id:14,name:"getAllTransaction"},
-                {id:15,name:"addWalletListener"},
+                {id:15,name:"registerWalletListener"},
                 {id:16,name:"checkSign"},
                 {id:17,name:"sing"},
-                {id:18,name:"deriveIdAndKeyForPurpose"}
+                {id:18,name:"deriveIdAndKeyForPurpose"},
+                {id:20,name:"destroyWallet"},
+                {id:21,name:"isAddressValid"},
+                {id:22,name:"getBalanceInfo"},
+                {id:23,name:"initializeMasterWallet"},
+                {id:24,name:"generateMnemonic"},
+                {id:25,name:"saveConfigs"}
               ];
   ngOnInit() {
   }
@@ -54,7 +61,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
          this.getPublicKey();
          break;
        case 3:
-          this.createMasterWallet(this.masterWalletId,this.phrasePassword,this.payPassword,this.language);
+          this.createMasterWallet(this.masterWalletId,this.language);
          break;
        case 4:
           this.importWalletWithKeystore(this.masterWalletId,"sssss",this.backupPassword,this.payPassword,this.phrasePassword);
@@ -90,7 +97,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
           this.getAllTransaction();
         break;
         case 15:
-        this.addWalletListener();
+        this.registerWalletListener(this.chinaId);
         break;
       case 16:
           this.checkSign("ssssss",this.singMessage,"sssss",this.payPassword);
@@ -104,7 +111,41 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
       case 19:
          this.getAllMasterWallets();
         break;
+      case 20:
+         this.destroyWallet(this.masterWalletId);
+        break;
+      case 21:
+         this.isAddressValid(this.adress);
+         break;
+      case 22:
+        this.getBalanceInfo(this.chinaId);
+         break;
+      case 23:
+        this.initializeMasterWallet(this.masterWalletId,this.mnemonic,this.payPassword,this.payPassword);
+        break;
+      case 24:
+         this.generateMnemonic();
+        break;
+      case 25:
+        this.saveConfigs();
+        break;
+      case 26:
+        this.getWalletId();
+        break;
      }
+   }
+
+   generateMnemonic(){
+     this.walletManager.generateMnemonic((result)=>{
+          this.mnemonic = result;
+          alert("住记词"+JSON.stringify(result));
+     });
+   }
+
+   destroyWallet(masterWalletId:string){
+       this.walletManager.destroyWallet(masterWalletId,(result)=>{
+              alert("删除主钱包成功")
+       });
    }
 
    createSubWallet(){
@@ -127,8 +168,8 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
      })
    }
 
-   createMasterWallet(masterWalletId,phrasePassword,payPassword,language){
-    this.walletManager.createMasterWallet(masterWalletId,phrasePassword,payPassword,language,(result)=>{
+   createMasterWallet(masterWalletId,language){
+    this.walletManager.createMasterWallet(masterWalletId,language,(result)=>{
                    alert("创建主钱包成功");
      });
    }
@@ -159,6 +200,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
 
    createAddress(chinaId:string){
          this.walletManager.createAddress(chinaId,(result)=>{
+                this.adress = result;
                 alert(JSON.stringify(result));
          });
    }
@@ -193,8 +235,10 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
      });
    }
 
-   addWalletListener(){
-
+   registerWalletListener(chinaId:string){
+     this.walletManager.registerWalletListener(chinaId,(resust)=>{
+             alert("监听注册成功");
+     });
    }
 
    checkSign(address:string, message:string, signature:string, payPassword:string){
@@ -226,6 +270,36 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
        this.walletManager.getAllMasterWallets((result)=>{
             alert("allAllMasterWallets"+JSON.stringify(result));
        });
+   }
+
+   isAddressValid(address:string){
+     this.walletManager.isAddressValid(address,(result)=>{
+        alert("isAddressValid===="+JSON.stringify(result));
+     });
+   }
+
+   getBalanceInfo(chinaId:string){
+     this.walletManager.getBalanceInfo(chinaId,(result)=>{
+        alert("余额信息："+JSON.stringify(result));
+     });
+   }
+
+   initializeMasterWallet(masterWalletId,mnemonic,phrasePassword,payPassWord){
+     this.walletManager.initializeMasterWallet(masterWalletId,mnemonic,phrasePassword,this.payPassword,(result)=>{
+             alert("主钱包初始化成功");
+     });
+   }
+
+   saveConfigs(){
+     this.walletManager.saveConfigs((resust)=>{
+         alert("保存配置成功");
+     })
+   }
+
+   getWalletId(){
+     this.walletManager.getWalletId((result)=>{
+         alert("主钱包id=="+JSON.stringify(result));
+     });
    }
 
 }
