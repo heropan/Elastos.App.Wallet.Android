@@ -15,4 +15,5 @@ platforms/android/gradlew
 platforms/android/gradlew.bat
 .vscode/
 platforms/android/.idea/
+www/assets/
 

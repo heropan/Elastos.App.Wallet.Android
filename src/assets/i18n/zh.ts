@@ -23,6 +23,9 @@ export const zh = {
   'text-from-key': '来自私钥',
   'text-key-file': '私钥文件',
   'text-mnemonic-check': '验证助记词',
+  'text-mnemonic-label': '助记词密码',
+  'text-mnemonic-pwd': '请设置助记词密码',
+  'text-mnemonic-repwd': '请再次设置助记词密码',
   'text-coin-list': '币种列表',
   'text-fees-pay': '手续费支付方',
   'text-fees-pay-sender': '我来支付',
@@ -97,5 +100,9 @@ export const zh = {
   'contact-phone-check':'无效的手机号',
   'text-mnemonic-validator':'助记词必须是12个',
   'wallet-name':'钱包名',
-  'text-wallet-info':'钱包详情'
+  'text-wallet-info':'钱包详情',
+  'text-id-name':"我的ID",
+  'text-id-create':'创建ID',
+  'text-id-import':'导入ID',
+  'text-id-not':'您还没有ID，请先新建ID或者导入ID',
 };

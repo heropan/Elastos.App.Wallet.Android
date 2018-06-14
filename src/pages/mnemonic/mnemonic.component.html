@@ -1,12 +1,36 @@
 <app-header [header]="header"   ></app-header>
 
-<div>
+<div class="mnemonic-show">
 
-  <ul class="mnemonic-list-read">
+  <div>
+    <ul class="mnemonic-list-read">
       <li *ngFor="let item of mnemonicList">{{item.text}}</li>
-  </ul>
+    </ul>
+  </div>
 
   <div class="mnemonic-prompt">{{ 'text-mnemonic-prompt' | translate}}</div>
 
   <button class="button-default bottom" style="margin-top: 40px" (click)="onNext()">{{ 'text-memory' | translate }}</button>
 </div>
+
+
+<div class="mnemonic-password">
+  <div class="weui-cells__title title_h">
+    <span class="float-left">{{'text-mnemonic-label' | translate }}</span>
+    <input class="weui-switch float-right" type="checkbox" [(ngModel)]="isSelect">
+  </div>
+  <div class="weui-cells" *ngIf="isSelect">
+    <div class="weui-cell">
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="password" placeholder="{{ 'text-mnemonic-pwd' | translate }}" [(ngModel)]="mnemonicPassword">
+      </div>
+    </div>
+    <div class="weui-cell">
+      <div class="weui-cell__bd">
+        <input class="weui-input" type="password" placeholder="{{ 'text-mnemonic-repwd' | translate }}" [(ngModel)]="mnemonicRepassword">
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -7,10 +7,10 @@ import {SettingsComponent} from "../../universal/settings/settings.component";
 import {AboutComponent} from "../../other/about/about.component";
 import {HelpComponent} from "../../other/help/help.component";
 import {NoticeComponent} from "../../other/notice/notice.component";
-
+import {IdLauncherComponent} from "../../id/launcher/launcher";
 @Component({
   selector: 'app-my',
-  templateUrl: './my.component.html',
+  templateUrl: 'my.component.html',
   // styleUrls: ['./my.component.scss']
 })
 export class MyComponent  extends BaseComponent implements OnInit  {
@@ -38,6 +38,9 @@ export class MyComponent  extends BaseComponent implements OnInit  {
          break;
        case 5:
          this.Go(HelpComponent);
+         break;
+       case 6:
+         this.Go(IdLauncherComponent);
          break;
      }
    }

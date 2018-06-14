@@ -5,7 +5,7 @@ import {Location} from '@angular/common';
 //import {Config} from '../providers/Config';
 import {TranslateService} from '@ngx-translate/core';
 import {Header} from './header/app.header';
-import {ValidatorsUtil} from '../providers/ValidatorsUtil';
+import {Util} from '../providers/Util';
 import {NavController} from 'ionic-angular';
 import {Native} from "../providers/Native";
 import {DialogService, ToastService} from 'ngx-weui';
@@ -138,9 +138,9 @@ export class BaseComponent {
    */
   public setHeadDisPlay(display: any) {
     this.header.display = {
-      left:  ValidatorsUtil.isNull(display.left) ? this.header.display.left : display.left,
-      title: ValidatorsUtil.isNull(display.title) ? this.header.display.title : display.title,
-      right: ValidatorsUtil.isNull(display.right) ? this.header.display.right : display.right
+      left:  Util.isNull(display.left) ? this.header.display.left : display.left,
+      title: Util.isNull(display.title) ? this.header.display.title : display.title,
+      right: Util.isNull(display.right) ? this.header.display.right : display.right
     };
   }
 

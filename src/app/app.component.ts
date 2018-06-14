@@ -36,7 +36,7 @@ export class AppComponent {
         if (val) {
           this.rootPage = TabsComponent;
         } else {
-          this.rootPage = LauncherComponent;
+          this.rootPage = TabsComponent;
         }
       });
     });

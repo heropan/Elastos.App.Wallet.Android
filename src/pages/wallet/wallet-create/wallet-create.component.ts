@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
-import {ValidatorsUtil} from "../../../providers/ValidatorsUtil";
+import {Util} from "../../../providers/Util";
 import {DialogConfig} from "ngx-weui";
 import {Logger} from "../../../providers/Logger";
 //import {WalletManager} from "../../../providers/WalletManager";
@@ -44,11 +44,11 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
   }
 
   onCreate() {
-    if (ValidatorsUtil.isNull(this.wallet.name)) {
+    if (Util.isNull(this.wallet.name)) {
       this.toast("text-wallet-name-validator");
       return;
     }
-    if (!ValidatorsUtil.password(this.wallet.pwd)) {
+    if (!Util.password(this.wallet.pwd)) {
       this.toast("text-pwd-validator");
       return;
     }
@@ -77,7 +77,7 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
             this.createWallet();
           }
         }else{
-          if(!ValidatorsUtil.password(res.result)){
+          if(!Util.password(res.result)){
             this.toast("text-pwd-validator");
             this.dialogService.show(this.DEFCONFIG).subscribe((res)=>{this.onPayPassword(res,tath)});
           }else{
