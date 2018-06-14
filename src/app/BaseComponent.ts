@@ -15,6 +15,7 @@ import {WalletModel} from "../models/wallet.model";
 import {LocalStorage} from "../providers/Localstorage";
 import { NavParams } from 'ionic-angular';
 import {BackupProvider} from "../providers/backup";
+import {HttpService} from "../providers/HttpService";
 
 @Component({
   selector: 'app-base',
@@ -41,7 +42,8 @@ export class BaseComponent {
                      public walletManager: WalletManager,
                      public navParams: NavParams,
                      public toastService: ToastService,
-                     public backupProvider:BackupProvider) {
+                     public backupProvider:BackupProvider,
+                     public http:HttpService) {
     this.translate.addLangs(['zh', 'en']);
     this.translate.setDefaultLang('zh');
     const broswerLang = this.translate.getBrowserLang();
@@ -221,5 +223,28 @@ export class BaseComponent {
     this.getText(res).subscribe((text) => {
       this.native.toast(text);
     });
+  }
+
+  public isCardNo(card:string): boolean{
+    if(!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(card))){
+      return true;
+    }
+    return false;
+  }
+
+  public isBankCard(bankCard:string): boolean {
+    var regex = /^(998801|998802|622525|622526|435744|435745|483536|528020|526855|622156|622155|356869|531659|622157|627066|627067|627068|627069)\d{10}$/;
+    if(!regex.test(bankCard)) {
+        return true;
+    }
+    return false;
+  }
+
+  public getHttp(){
+    return this.http;
+  }
+
+  public getTimestamp(){
+      return new Date().getTime().toString();
   }
 }
