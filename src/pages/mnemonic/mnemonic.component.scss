@@ -1,23 +1,56 @@
 @import './../../theme/variables';
 
 
-.mnemonic-list-read{
-  margin: 10% auto;
-  &>li{
-    display: inline-block;
-    width: 25%;
-    margin: 20px 0px;
+.mnemonic-show {
+  .mnemonic-list-read{
+    margin: 8% auto;
+    &>li{
+      display: inline-block;
+      width: 25%;
+      margin: 20px 0px;
+      text-align: center;
+      color: $color-main;
+      font-size: 1.4em;
+    }
+  }
+  .mnemonic-prompt{
+    color: $color-gray-dark;
     text-align: center;
-    color: $color-main;
-    font-size: 1.4em;
+    margin: 20px auto;
+    position: absolute;
+    bottom: 80px;
+    width: 100%;
+    left: 0px;
   }
 }
-.mnemonic-prompt{
-  color: $color-gray-dark;
-  text-align: center;
-  margin: 20px auto;
-  position: absolute;
-  bottom: 80px;
-  width: 100%;
-  left: 0px;
+
+
+.mnemonic-password {
+  margin-top: 10%;
+  .text-center {
+      text-align: center;
+  }
+  .person-top {
+      margin-top: 20px;
+  }
+  .person-top1 {
+      margin-top: 30px;
+  }
+  .title_h {
+      height: 35px;
+      line-height: 35px;
+  }
+  .float-left {
+      float: left;
+  }
+  .float-right {
+      float: right;
+      margin-top: 2px;
+  }
+  .text-person-agreement-wenzi {
+      color: $color-gray-dark;
+      font-size: 14px;
+  }
 }
+
+
