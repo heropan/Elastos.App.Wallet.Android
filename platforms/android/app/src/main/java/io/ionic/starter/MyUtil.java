@@ -13,13 +13,13 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.jpush.android.api.JPushInterface;
-
-//import android.support.v4.app.ActivityCompat;
-//import android.support.v4.content.ContextCompat;
 
 public class MyUtil {
     public static final String PREFS_NAME = "JPUSH_EXAMPLE";
@@ -150,5 +150,33 @@ public class MyUtil {
 
     public static String getRootPath() {
         return sApplicationContext.getFilesDir().getParent();
+    }
+
+    public static void moveConfigFiles2RootPath(Context context) {
+        String rootPath = context.getFilesDir().getParent();
+        String[] names={"CoinConfig.json",
+                "mnemonic_chinese.txt",
+                "mnemonic_french.txt",
+                "mnemonic_italian.txt",
+                "mnemonic_japanese.txt",
+                "mnemonic_spanish.txt"};
+
+        for (int i = 0; i < names.length; i++) {
+            InputStream is = context.getClass().getClassLoader().getResourceAsStream("assets/config/" + names[i]);
+            try
+            {
+                OutputStream fosto = new FileOutputStream(rootPath+"/"+names[i]);
+                byte bt[] = new byte[1024];
+                int c = 0;
+                while ((c = is.read(bt)) > 0) {
+                    fosto.write(bt, 0, c);
+                }
+                is.close();
+                fosto.close();
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 }

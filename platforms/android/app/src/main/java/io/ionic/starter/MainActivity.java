@@ -19,6 +19,7 @@
 
 package io.ionic.starter;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -52,25 +53,27 @@ public class MainActivity extends CordovaActivity
 
 
     private void initJG(){
-        MyUtil.setApplicationContext(getApplicationContext());
+        Context applicationContext = getApplicationContext();
+        MyUtil.moveConfigFiles2RootPath(applicationContext);
+        MyUtil.setApplicationContext(applicationContext);
 
-        String udid =  MyUtil.getImei(getApplicationContext(), "");
+        String udid =  MyUtil.getImei(applicationContext, "");
         if (null != udid) Log.w("xxl-jg","Imei uuid is " + udid);
 
-        String appKey = MyUtil.getAppKey(getApplicationContext());
+        String appKey = MyUtil.getAppKey(applicationContext);
         if (null == appKey) appKey = "AppKey异常";
         Log.w("xxl-jg","AppKey " + appKey);
 
         String packageName =  getPackageName();
         Log.w("xxl-jg","PackageName " + packageName);
 
-        String deviceId = MyUtil.getDeviceId(getApplicationContext());
+        String deviceId = MyUtil.getDeviceId(applicationContext);
         Log.w("xxl-jg","deviceId " + deviceId);
 
-        String versionName =  MyUtil.GetVersion(getApplicationContext());
+        String versionName =  MyUtil.GetVersion(applicationContext);
         Log.w("xxl-jg","versionName " + versionName);
 
         //
-        JPushInterface.init(getApplicationContext());
+        JPushInterface.init(applicationContext);
     }
 }
