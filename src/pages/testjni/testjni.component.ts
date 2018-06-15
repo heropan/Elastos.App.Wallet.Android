@@ -20,16 +20,17 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
   chinaId:string ="Ela";
   adress:string;
   interfaces = [
-                {id:19,name:"getAllMasterWallets"},
-                {id:0,name:"createSubWallet"},
-                {id:1,name:"recoverSubWallet"},
-                {id:2,name:"getPublicKey"},
                 {id:3,name:"createMasterWallet"},
+                {id:7,name:"exportWalletWithMnemonic"},
+                {id:23,name:"initializeMasterWallet"},
+                {id:0,name:"createSubWallet"},
+                {id:2,name:"getPublicKey"},
+                {id:8,name:"getBalance"},
+                {id:19,name:"getAllMasterWallets"},
+                {id:1,name:"recoverSubWallet"},
                 {id:4,name:"importWalletWithKeystore"},
                 {id:5,name:"importWalletWithMnemonic"},
                 {id:6,name:"exportWalletWithKeystore"},
-                {id:7,name:"exportWalletWithMnemonic"},
-                {id:8,name:"getBalance"},
                 {id:9,name:"createAddress"},
                 {id:10,name:"getAllAddress"},
                 {id:11,name:"getBalanceWithAddress"},
@@ -43,7 +44,6 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
                 {id:20,name:"destroyWallet"},
                 {id:21,name:"isAddressValid"},
                 {id:22,name:"getBalanceInfo"},
-                {id:23,name:"initializeMasterWallet"},
                 {id:24,name:"generateMnemonic"},
                 {id:25,name:"saveConfigs"},
                 {id:26,name:"getWalletId"},
@@ -63,9 +63,9 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
        case 2:
          this.getPublicKey();
          break;
-       case 3:
-          this.createMasterWallet(this.masterWalletId,this.language);
-         break;
+         case 3:
+         this.createMasterWallet(this.masterWalletId,this.language);
+        break;
        case 4:
           this.importWalletWithKeystore(this.masterWalletId,"sssss",this.backupPassword,this.payPassword,this.phrasePassword);
          break;
