@@ -34,9 +34,9 @@ export class AppComponent {
 
       localStorage.getWallet().then((val) => {
         if (val) {
-          this.rootPage = TabsComponent;
+          this.rootPage = TestJniComponent;
         } else {
-          this.rootPage = LauncherComponent;
+          this.rootPage = TestJniComponent;
         }
       });
     });

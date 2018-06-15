@@ -232,7 +232,7 @@ export class WalletManager {
   }
 
   getAllChainIds(Fun){
-    this.wallet.getSupportedChains([],Fun,this.errorFun);
+    this.wallet.getAllChainIds([],Fun,this.errorFun);
   }
 
 

@@ -17,12 +17,13 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
   singMessage:string;
   fromAddress:string="sssss";
   toAddress:string="sssss";
-  chinaId:string ="Ela";
+  chinaId:string ="ELA";
   adress:string;
   interfaces = [
                 {id:3,name:"createMasterWallet"},
-                {id:7,name:"exportWalletWithMnemonic"},
+                {id:24,name:"generateMnemonic"},
                 {id:23,name:"initializeMasterWallet"},
+                {id:28,name:"getSupportedChains"},
                 {id:0,name:"createSubWallet"},
                 {id:2,name:"getPublicKey"},
                 {id:8,name:"getBalance"},
@@ -44,11 +45,11 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
                 {id:20,name:"destroyWallet"},
                 {id:21,name:"isAddressValid"},
                 {id:22,name:"getBalanceInfo"},
-                {id:24,name:"generateMnemonic"},
                 {id:25,name:"saveConfigs"},
                 {id:26,name:"getWalletId"},
                 {id:27,name:"getAllChainIds"},
-                {id:28,name:"getSupportedChains"}
+                {id:7,name:"exportWalletWithMnemonic"},
+
               ];
   ngOnInit() {
   }
@@ -158,14 +159,14 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    createSubWallet(){
-      this.walletManager.createSubWallet("Ela",this.payPassword,false,0,(result)=>{
+      this.walletManager.createSubWallet(this.chinaId,this.payPassword,false,0,(result)=>{
         alert("子钱包");
         alert(JSON.stringify(result));
       });
    }
 
    recoverSubWallet(){
-    this.walletManager.recoverSubWallet("Ela",this.payPassword,false,0,0,()=>{
+    this.walletManager.recoverSubWallet(this.chinaId,this.payPassword,false,0,0,()=>{
       alert("恢复子钱包");
     });
    }
@@ -264,8 +265,8 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    getBalance(){
-     this.walletManager.getBalance(this.chinaId,()=>{
-      alert("获取余额");
+     this.walletManager.getBalance(this.chinaId,(result)=>{
+      alert("获取余额"+JSON.stringify(result));
      })
    }
 
