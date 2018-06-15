@@ -138,5 +138,13 @@ export const zh = {
   'text-company-name': '企业全称',
   'text-company-legal': '企业法人',
   'text-company-code': '社会信用代码',
-  'text-id-app-list-name': 'ID应用列表'
+  'text-id-app-list-name': 'ID应用列表',
+  'text-commit-result':'提交结果',
+  'text-commit-success':'提交成功',
+  'text-commit-wait':'信息已提交，等待认证',
+  'text-browsing-failure':'提交失败',
+  'text-kyc-result':'认证结果',
+  'text-kyc-success':'认证成功',
+  'text-kyc-failure':'认证失败',
+  'text-kyc-message':'信息如下',
 };

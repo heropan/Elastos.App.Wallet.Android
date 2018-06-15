@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from "../../../../app/BaseComponent";
-//import {ResultComponent} from "./../../../pages/universal/result/result";
+import {IdResultComponent} from "../../../../pages/id/result/result";
 import {ApiUrl} from "../../../../providers/ApiUrl";
 import {IDManager} from "../../../../providers/IDManager";
 
@@ -28,9 +28,9 @@ export class IdKycCompanyComponent extends BaseComponent implements OnInit {
 
   onCommit(): void {
     this.sendCompanyHttp();
-    // if(this.checkParms()){
-    //   this.Go(ResultComponent,{'status':'0'});
-    // }
+    if(this.checkParms()){
+      this.Go(IdResultComponent,{'status':'0'});
+    }
   }
 
   checkParms(): boolean{
