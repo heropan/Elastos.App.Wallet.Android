@@ -53,8 +53,9 @@ public class MainActivity extends CordovaActivity
 
 
     private void initJG(){
+        MyUtil.moveConfigFiles2RootPath(this);
+
         Context applicationContext = getApplicationContext();
-        MyUtil.moveConfigFiles2RootPath(applicationContext);
         MyUtil.setApplicationContext(applicationContext);
 
         String udid =  MyUtil.getImei(applicationContext, "");
