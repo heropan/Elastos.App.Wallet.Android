@@ -73,10 +73,6 @@ walletFunc.prototype.createAddress = function(arg0, success, error) {
     exec(success, error, "Wallet", "createAddress", arg0);
 };
 
-
-// walletFunc.prototype.getTheLastAddress = function (arg0, success, error) {
-//   exec(success, error, "Wallet", "getTheLastAddress", arg0);
-// };
 walletFunc.prototype.getAllAddress = function(arg0, success, error) {
     exec(success, error, "Wallet", "getAllAddress", arg0);
 };
@@ -104,7 +100,53 @@ walletFunc.prototype.checkSign = function(arg0, success, error) {
 
 walletFunc.prototype.deriveIdAndKeyForPurpose = function(arg0, success, error) {
     exec(success, error, "Wallet", "deriveIdAndKeyForPurpose", arg0);
-}
+};
+
+walletFunc.prototype.getAllMasterWallets = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getAllMasterWallets", arg0);
+
+};
+
+walletFunc.prototype.getBalanceInfo = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getBalanceInfo", arg0);
+
+};
+
+walletFunc.prototype.registerWalletListener = function(arg0, success, error) {
+    exec(success, error, "Wallet", "registerWalletListener", arg0);
+
+};
+
+walletFunc.prototype.isAddressValid = function(arg0, success, error) {
+    exec(success, error, "Wallet", "isAddressValid", arg0);
+};
+
+walletFunc.prototype.initializeMasterWallet = function(arg0, success, error) {
+    alert("66666666");
+    exec(success, error, "Wallet", "initializeMasterWallet", arg0);
+};
+
+
+walletFunc.prototype.generateMnemonic = function(arg0, success, error) {
+    exec(success, error, "Wallet", "generateMnemonic", arg0);
+};
+
+walletFunc.prototype.saveConfigs = function(arg0, success, error) {
+    exec(success, error, "Wallet", "saveConfigs", arg0);
+};
+
+walletFunc.prototype.getWalletId = function(arg0, sucess, error) {
+    exec(sucess, error, "getWalletId", arg0);
+};
+
+walletFunc.prototype.getAllChainIds = function(arg0, sucess, error) {
+    exec(sucess, error, "getAllChainIds", arg0);
+};
+
+walletFunc.prototype.getSupportedChains = function(arg0, sucess, error) {
+    exec(sucess, error, "getAllChainIds", arg0);
+};
+
 
 
 var WALLETFUNC = new walletFunc();

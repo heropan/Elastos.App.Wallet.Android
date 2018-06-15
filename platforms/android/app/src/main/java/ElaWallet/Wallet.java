@@ -56,6 +56,7 @@ public class Wallet extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
+        Log.d("JS-Wallet", "execute action======="+action);
         try {
           switch (action) {
               case "coolMethod":
@@ -147,6 +148,7 @@ public class Wallet extends CordovaPlugin {
                   this.generateMnemonic(args, callbackContext);
                   return true;
               case "initializeMasterWallet":
+                  Log.d("JS-Wallet", "execute initializeMasterWallet====================1");
                   this.initializeMasterWallet(args, callbackContext);
                   return true;
               case "destroyWallet":
@@ -287,8 +289,11 @@ public class Wallet extends CordovaPlugin {
 
     //InitializeMasterWallet(String masterWalletId, String mnemonic, String phrasePassword, String payPassword)
     public void initializeMasterWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        Log.d("JAVA-Wallet", "execute initializeMasterWallet====================1");
         boolean status = mWalletManager.InitializeMasterWallet(args.getString(0), args.getString(1), args.getString(2), args.getString(3));
+        Log.d("JAVA-Wallet", "execute initializeMasterWallet====================2, status="+status);
         callbackContext.success(parseOneParam("status", status));
+        Log.d("JAVA-Wallet", "execute initializeMasterWallet====================3");
     }
 
     //ImportWalletWithKeystore(String masterWalletId, String keystorePath, String backupPassWord ,String payPassWord, String phrasePassword)

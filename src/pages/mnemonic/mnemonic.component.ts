@@ -6,20 +6,20 @@ import {Util} from "../../providers/Util";
 
 @Component({
   selector: 'app-mnemonic',
-  templateUrl: './mnemonic.component.html',
-  // styleUrls: ['./mnemonic.component.scss']
+  templateUrl: './mnemonic.component.html'
 })
 export class MnemonicComponent extends BaseComponent implements OnInit {
 
   mnemonicList = [];
   mnemonicStr: string;
-  mnemonicPassword: string;
+  mnemonicPassword: string="";
   mnemonicRepassword: string;
   payPassword: string;
-
+  defaultCointype = "Ela";
+  isSelect:boolean = false;
   ngOnInit() {
+    this.setTitleByAssets('text-mnemonic');
     this.walletManager.generateMnemonic((data) => {
-      alert("exportWalletWithMnemonic: " + data);
       this.mnemonicStr = data.mnemonic.toString();
       let mnemonicArr = this.mnemonicStr.split(/[\u3000\s]+/);
       for (var i = 0; i < mnemonicArr.length; i++) {
@@ -31,18 +31,28 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
   }
 
   onNext() {
-    this.setTitleByAssets('text-mnemonic');
-    if (!Util.password(this.mnemonicPassword)) {
+
+    if (!Util.password(this.mnemonicPassword) && this.isSelect) {
       this.toast("text-pwd-validator");
       return;
     }
-    if (this.mnemonicPassword != this.mnemonicRepassword) {
+
+    if (this.mnemonicPassword != this.mnemonicRepassword && this.isSelect) {
       this.toast("text-repwd-validator");
       return;
     }
-    this.walletManager.initializeMasterWallet("1", this.mnemonicStr, this.mnemonicPassword, this.payPassword, (data) => {
-    
+    this.walletManager.initializeMasterWallet("1", this.mnemonicStr, this.mnemonicPassword, this.payPassword, (data) =>{
+           this.createSubWallet();
     })
-    this.Go(WriteComponent, {mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList});
+  }
+
+  createSubWallet(){
+    // Sub Wallet
+    this.walletManager.createSubWallet(this.defaultCointype,this.payPassword, false, 0, (val)=>{
+      this.localStorage.setWallet({
+        'name': "sss"
+      });
+      this.Go(WriteComponent, {mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList});
+    });
   }
 }

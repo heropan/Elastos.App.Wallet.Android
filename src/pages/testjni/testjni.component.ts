@@ -124,7 +124,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
         this.getBalanceInfo(this.chinaId);
          break;
       case 23:
-        this.initializeMasterWallet(this.masterWalletId,this.mnemonic,this.payPassword,this.payPassword);
+        this.initializeMasterWallet(this.masterWalletId,this.mnemonic,this.phrasePassword,this.payPassword);
         break;
       case 24:
          this.generateMnemonic();
@@ -146,7 +146,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
 
    generateMnemonic(){
      this.walletManager.generateMnemonic((result)=>{
-          this.mnemonic = result;
+          this.mnemonic = result.mnemonic.toString();
           alert("住记词"+JSON.stringify(result));
      });
    }
@@ -294,7 +294,8 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    initializeMasterWallet(masterWalletId,mnemonic,phrasePassword,payPassWord){
-     this.walletManager.initializeMasterWallet(masterWalletId,mnemonic,phrasePassword,this.payPassword,(result)=>{
+     alert("masterWalletId=="+masterWalletId+"mnemonic=="+mnemonic+"phrasePassword=="+phrasePassword+"payPassWord=="+payPassWord);
+     this.walletManager.initializeMasterWallet(masterWalletId,mnemonic,phrasePassword,payPassWord,(result)=>{
              alert("主钱包初始化成功");
      });
    }
