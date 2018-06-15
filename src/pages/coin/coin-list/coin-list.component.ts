@@ -9,23 +9,42 @@ import {BaseComponent} from './../../../app/BaseComponent';
 export class CoinListComponent extends BaseComponent implements OnInit {
 
   coinList = [];
+  coinListCache = {};
 
   onSelect(item) {
     item.open = ! item.open;
+
+    if (item.open) {
+      let coin = {};
+      coin["id"] = item.name;
+      this.localStorage.add('coinListCache', coin);
+    } else {
+      this.localStorage.get('coinListCache').then((val)=>{
+        let coinListCache = JSON.parse(val);
+        delete(coinListCache[item.name]);
+        this.localStorage.set('coinListCache', coinListCache);
+      });
+    }
   }
 
   ngOnInit() {
     this.setTitleByAssets('text-coin-list');
-    this.walletManager.getSupportedChains((allChains) => {
-      // {"ELA": "ELA", "ID": "ID"}
-      for (var i = 0; i < allChains.length; i++) {
-        let isOpen = false;
-        this.walletManager.getAllChainIds((openChains)=>{
-          isOpen = allChains[i] in openChains ? true : false;
-        });
-        this.coinList.push({name: allChains[i], open: isOpen});
-      }
-      // this.coinList = [{name: 'ELA', open: true}, {name: 'BTC', open: false}];
+    this.localStorage.get('coinListCache').then((val)=>{
+      // this.walletManager.getSupportedChains((allChains) => {
+        let allChains = {"ELA": "ELA", "ID": "ID"};
+        for (var chain in allChains) {
+          let isOpen = false;
+          let coinListCache = JSON.parse(val);
+          if (coinListCache) {
+            isOpen = chain in coinListCache ? true : false;
+          }
+          if (chain == "ELA") {
+            isOpen = true;
+          }
+          this.coinList.push({name: chain, open: isOpen});
+        }
+        // this.coinList = [{name: 'ELA', open: true}, {name: 'BTC', open: false}];
+      // });
     });
   }
 
