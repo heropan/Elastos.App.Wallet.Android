@@ -29,13 +29,22 @@ export class HomeComponent extends BaseComponent implements OnInit {
       }
     });
     // wallet balance
-    for (let coin in Config.COIN_LIST) {
-      // console.log("=====", Config.COIN_LIST[coin]);
-      // this.walletManager.getBalanceFun((data) => {
-      //   Config.COIN_LIST[coin].balance = data
-      // })
-      this.coinList.push(Config.COIN_LIST[coin]);
-    }
+    this.localStorage.get('coinListCache').then((val)=>{
+      let coinListCache = JSON.parse(val);
+      for (let coin in coinListCache) {
+        this.walletManager.getBalance(coin, (data)=>{
+          // console.log(coin);
+          this.coinList.push({name: coin, balance: 0});
+        })
+      }
+    });
+    // for (let coin in Config.COIN_LIST) {
+    //   // console.log("=====", Config.COIN_LIST[coin]);
+    //   // this.walletManager.getBalanceFun((data) => {
+    //   //   Config.COIN_LIST[coin].balance = data;
+    //   // })
+    //   this.coinList.push(Config.COIN_LIST[coin]);
+    // }
   }
 
   onOpen() {

@@ -30,8 +30,8 @@ export class CoinListComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.setTitleByAssets('text-coin-list');
     this.localStorage.get('coinListCache').then((val)=>{
-      // this.walletManager.getSupportedChains((allChains) => {
-        let allChains = {"ELA": "ELA", "ID": "ID"};
+      this.walletManager.getSupportedChains((allChains) => {
+        // let allChains = {"ELA": "ELA", "ID": "ID"};
         for (var chain in allChains) {
           let isOpen = false;
           let coinListCache = JSON.parse(val);
@@ -44,7 +44,7 @@ export class CoinListComponent extends BaseComponent implements OnInit {
           this.coinList.push({name: chain, open: isOpen});
         }
         // this.coinList = [{name: 'ELA', open: true}, {name: 'BTC', open: false}];
-      // });
+      });
     });
   }
 
