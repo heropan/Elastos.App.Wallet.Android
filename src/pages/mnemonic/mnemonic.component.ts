@@ -42,17 +42,27 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
       return;
     }
     this.walletManager.initializeMasterWallet("1", this.mnemonicStr, this.mnemonicPassword, this.payPassword, (data) =>{
-           this.createSubWallet();
+           this.getSupportedChains();
+           this.Go(WriteComponent, {mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList});
+           this.localStorage.setWallet({
+            'name': "sss"
+           });
     })
   }
 
-  createSubWallet(){
+  getSupportedChains(){
+    this.walletManager.getSupportedChains((result)=>{
+      for(let key of result){
+         alert("已经支持的所有子钱包=="+key);
+         this.createSubWallet(key);
+      }
+     });
+   }
+
+  createSubWallet(chainId){
     // Sub Wallet
-    this.walletManager.createSubWallet(this.defaultCointype,this.payPassword, false, 0, (val)=>{
-      this.localStorage.setWallet({
-        'name': "sss"
-      });
-      this.Go(WriteComponent, {mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList});
+    this.walletManager.createSubWallet(chainId,this.payPassword, false, 0, (val)=>{
+
     });
   }
 }
