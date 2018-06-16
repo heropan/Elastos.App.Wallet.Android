@@ -3,8 +3,7 @@ import {BaseComponent} from './../../../app/BaseComponent';
 
 @Component({
   selector: 'app-coin-list',
-  templateUrl: './coin-list.component.html',
-  // styleUrls: ['./coin-list.component.scss']
+  templateUrl: './coin-list.component.html'
 })
 export class CoinListComponent extends BaseComponent implements OnInit {
 
@@ -13,7 +12,6 @@ export class CoinListComponent extends BaseComponent implements OnInit {
 
   onSelect(item) {
     item.open = ! item.open;
-
     if (item.open) {
       let coin = {};
       coin["id"] = item.name;
@@ -31,7 +29,6 @@ export class CoinListComponent extends BaseComponent implements OnInit {
     this.setTitleByAssets('text-coin-list');
     this.localStorage.get('coinListCache').then((val)=>{
       this.walletManager.getSupportedChains((allChains) => {
-        // let allChains = {"ELA": "ELA", "ID": "ID"};
         for (var chain in allChains) {
           let isOpen = false;
           let coinListCache = JSON.parse(val);
@@ -43,9 +40,7 @@ export class CoinListComponent extends BaseComponent implements OnInit {
           }
           this.coinList.push({name: chain, open: isOpen});
         }
-        // this.coinList = [{name: 'ELA', open: true}, {name: 'BTC', open: false}];
       });
     });
   }
-
 }

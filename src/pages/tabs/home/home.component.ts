@@ -1,16 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../../app/BaseComponent';
 import {CoinComponent} from "../../coin/coin.component";
-//import {ManagerComponent} from "../../wallet/manager/manager.component";
 import {CoinListComponent} from "../../coin/coin-list/coin-list.component";
-//import {TransferComponent} from "../../coin/transfer/transfer.component";
-import {Config} from "../../../providers/Config";
-//declare var cordova:any;
+
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-   //styleUrls: ['./home.component.scss']
+  templateUrl: './home.component.html'
 })
 export class HomeComponent extends BaseComponent implements OnInit {
 
@@ -38,13 +34,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
         })
       }
     });
-    // for (let coin in Config.COIN_LIST) {
-    //   // console.log("=====", Config.COIN_LIST[coin]);
-    //   // this.walletManager.getBalanceFun((data) => {
-    //   //   Config.COIN_LIST[coin].balance = data;
-    //   // })
-    //   this.coinList.push(Config.COIN_LIST[coin]);
-    // }
+
   }
 
   onOpen() {
@@ -65,7 +55,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
         break;
     }
   }
-  
+
   onItem(item) {
     this.Go(CoinComponent, {name: item.name});
   }
