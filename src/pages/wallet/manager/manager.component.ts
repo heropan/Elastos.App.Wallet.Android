@@ -3,7 +3,6 @@ import {BaseComponent} from './../../../app/BaseComponent';
 import {ExprotPrikeyComponent} from "../exprot-prikey/exprot-prikey.component";
 import {ImportComponent} from "../import/import.component";
 import {WalletInfoComponent} from "../wallet-info/wallet-info.component";
-import {Config} from "../../../providers/Config";
 
 @Component({
   selector: 'app-manager',
@@ -12,7 +11,6 @@ import {Config} from "../../../providers/Config";
 })
 export class ManagerComponent extends BaseComponent implements OnInit {
 
-  list = Config.MANAGER_LIST;
   walletName = ""
 
   ngOnInit() {
@@ -32,13 +30,11 @@ export class ManagerComponent extends BaseComponent implements OnInit {
         this.Go(ExprotPrikeyComponent);
         break;
       case 1:
-        this.Go(ImportComponent);
-        break;
-      case 2:
         this.Go(WalletInfoComponent);
         break;
-      case 3:
+      case 2:
         // this.localStorage.clear();
+        console.log("delete wallet");
         // this.walletManager.destroyWallet(function () {
 
         // });
