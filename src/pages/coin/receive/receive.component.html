@@ -4,9 +4,9 @@
 
   <qrcode class="receive-qrocde" [qrdata]="qrcode" [size]="200" [level]="'M'" ></qrcode>
 
-  <input class="weui-input receive-input" type="text"
+  <!-- <input class="weui-input receive-input" type="text"
          placeholder="{{'text-price' | translate}}"
-         [(ngModel)]="amount" name="txt" type="number" (ngModelChange)="onChange()">
+         [(ngModel)]="amount" name="txt" type="number" (ngModelChange)="onChange()"> -->
   <p class="receive-address" (click)="onNext(0)">{{address}} <img src="./assets/images/icon/icon-copy.svg"></p>
   <p class="receive-address-create" (click)="onNext(1)">{{ 'text-create-address' | translate }}</p>
 
