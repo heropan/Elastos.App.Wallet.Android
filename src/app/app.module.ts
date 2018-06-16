@@ -35,6 +35,7 @@ import {HomeComponent} from './../pages/tabs/home/home.component';
 import {MyComponent} from './../pages/tabs/my/my.component';
 import {LauncherComponent} from '../pages/launcher/launcher.component';
 import {ManagerComponent} from '../pages/wallet/manager/manager.component';
+import {PaypasswordResetComponent} from '../pages/wallet/paypassword-reset/paypassword-reset.component';
 import {ImportComponent} from '../pages/wallet/import/import.component';
 import {ExprotPrikeyComponent} from '../pages/wallet/exprot-prikey/exprot-prikey.component';
 import {MnemonicComponent} from '../pages/mnemonic/mnemonic.component';
@@ -115,6 +116,7 @@ export function TranslateLoaderFactory() {
     MyComponent,
     LauncherComponent,
     ManagerComponent,
+    PaypasswordResetComponent,
     ImportComponent,
     ExprotPrikeyComponent,
     MnemonicComponent,
@@ -181,6 +183,7 @@ export function TranslateLoaderFactory() {
     MyComponent,
     LauncherComponent,
     ManagerComponent,
+    PaypasswordResetComponent,
     ImportComponent,
     ExprotPrikeyComponent,
     MnemonicComponent,

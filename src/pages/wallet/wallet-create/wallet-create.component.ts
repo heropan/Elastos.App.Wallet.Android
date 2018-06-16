@@ -31,7 +31,7 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
       return;
     }
     if (this.wallet.payPassword != this.wallet.rePayPassword) {
-      this.toast("text-wallet-repwd");
+      this.toast("text-repwd-validator");
       return;
     }
     this.createWallet();

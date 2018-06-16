@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
 import {ExprotPrikeyComponent} from "../exprot-prikey/exprot-prikey.component";
 import {ImportComponent} from "../import/import.component";
-import {WalletInfoComponent} from "../wallet-info/wallet-info.component";
+// import {WalletInfoComponent} from "../wallet-info/wallet-info.component";
+import {PaypasswordResetComponent} from "../paypassword-reset/paypassword-reset.component";
 
 @Component({
   selector: 'app-manager',
@@ -30,7 +31,7 @@ export class ManagerComponent extends BaseComponent implements OnInit {
         this.Go(ExprotPrikeyComponent);
         break;
       case 1:
-        this.Go(WalletInfoComponent);
+        this.Go(PaypasswordResetComponent);
         break;
       case 2:
         // this.localStorage.clear();
