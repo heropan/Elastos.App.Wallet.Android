@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Logger} from "./Logger";
-//import {Native} from "./Native";
+import {Native} from "./Native";
 //import {StorageUtil} from "./StorageUtil";
 declare var cordova: any;
 
@@ -21,7 +21,7 @@ export class WalletManager {
   public static FEEPERKb = 500;
   public static PAGECOUNT = 20;
 
-  constructor() {
+  constructor(public native: Native) {
     this.wallet = cordova.plugins.Wallet;
     //this.wallet = {};
   }
@@ -240,9 +240,13 @@ export class WalletManager {
     this.wallet.getSupportedChains([],Fun,this.errorFun);
   }
 
+  getAllSubWallets(Fun){
+    this.wallet.getAllSubWallets([],Fun,this.errorFun);
+  }
+
   errorFun(error) {
-    Logger.info(error);
-    //Native.toast(error);
+    alert("错误信息："+error);
+    //this.native.toast(error);
   }
 
 

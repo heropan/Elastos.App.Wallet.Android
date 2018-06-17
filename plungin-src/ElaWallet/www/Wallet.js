@@ -145,6 +145,9 @@ walletFunc.prototype.getSupportedChains = function(arg0, sucess, error) {
     exec(sucess, error, "Wallet", "getSupportedChains", arg0);
 };
 
+walletFunc.prototype.getAllSubWallets = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "getAllSubWallets", arg0);
+};
 
 
 var WALLETFUNC = new walletFunc();
