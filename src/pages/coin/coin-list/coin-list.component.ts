@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {BaseComponent} from './../../../app/BaseComponent';
-
+import {BaseComponent} from '../../../app/BaseComponent';
+import {HomeComponent} from '../../../pages/tabs/home/home.component';
 @Component({
   selector: 'app-coin-list',
   templateUrl: './coin-list.component.html'
@@ -27,6 +27,10 @@ export class CoinListComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.setTitleByAssets('text-coin-list');
+    this.setLeftIcon("",()=>{
+      this.events.publish("home:update");
+      this.Back();
+    });
     this.localStorage.get('coinListCache').then((val)=>{
       this.walletManager.getSupportedChains((allChains) => {
         for (var chain in allChains) {

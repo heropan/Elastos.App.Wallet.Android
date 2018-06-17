@@ -17,7 +17,6 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     }else{
       this.type = status;
     }
-    this.setHeadDisPlay({left:true});
     this.setLeftIcon('',()=>{
            this.Go(IdHomeComponent);
     });

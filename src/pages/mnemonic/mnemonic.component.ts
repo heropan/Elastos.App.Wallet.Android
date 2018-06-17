@@ -52,10 +52,11 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
 
   getSupportedChains(){
     this.walletManager.getSupportedChains((result)=>{
-      for(let key of result){
-         alert("已经支持的所有子钱包=="+key);
-         this.createSubWallet(key);
-      }
+      //for(let key in result){
+         //alert("222222");
+         //alert("已经支持的所有子钱包=="+key);
+         this.createSubWallet("ELA");
+      //}
      });
    }
 
