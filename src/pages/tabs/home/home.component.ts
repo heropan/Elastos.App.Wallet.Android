@@ -14,28 +14,35 @@ export class HomeComponent extends BaseComponent implements OnInit {
     name: 'myWallet',
     showBalance: true
   };
-
+  ElaObj ={"name":"ELA","balance":0};
   coinList = []
 
   ngOnInit() {
+    //this.events.subscribe('home:init',()=>{
+         this.getAllMasterWallets();
+    //});
+    this.events.subscribe('home:update', () => {
+           this.getElaBalance(this.ElaObj);
+           this.localStorage.get('coinListCache').then((val)=>{
+            let coinListCache = JSON.parse(val);
+            this.coinList = [];
+            for (let coin in coinListCache) {
+              this.walletManager.getBalance(coin,(data)=>{
+                this.coinList.push({name: coin, balance: data.balance});
+              })
+            }
+          });
+    });
+
+
     // wallet name
     this.localStorage.getWallet().then((val) => {
       if (val) {
         this.wallet.name = JSON.parse(val).name;
       }
     });
-    // wallet balance
-    this.localStorage.get('coinListCache').then((val)=>{
-      let coinListCache = JSON.parse(val);
-      for (let coin in coinListCache) {
-        this.walletManager.getBalance(coin, (data)=>{
-          // console.log(coin);
-          this.coinList.push({name: coin, balance: 0});
-        })
-      }
-    });
 
-  }
+   }
 
   onOpen() {
     this.wallet.showBalance = !this.wallet.showBalance;
@@ -60,4 +67,32 @@ export class HomeComponent extends BaseComponent implements OnInit {
     this.Go(CoinComponent, {name: item.name});
   }
 
+  getElaBalance(item){
+    this.walletManager.getBalance(item.name,(data)=>{
+      this.ElaObj.balance = data.balance;
+    })
+  }
+
+  getAllMasterWallets(){
+    this.walletManager.getAllMasterWallets((result)=>{
+      alert("ssss==="+JSON.stringify(result));
+      this.getAllSubWallets();
+    });
+  }
+
+  getAllSubWallets(){
+    this.walletManager.getAllSubWallets(()=>{
+        alert("sssss=====");
+    this.getElaBalance(this.ElaObj);
+         // wallet balance
+    this.localStorage.get('coinListCache').then((val)=>{
+      let coinListCache = JSON.parse(val);
+      for (let coin in coinListCache) {
+        this.walletManager.getBalance(coin, (data)=>{
+          this.coinList.push({name: coin, balance: data.balance});
+        })
+      }
+    });
+    })
+  }
 }

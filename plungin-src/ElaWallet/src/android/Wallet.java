@@ -56,6 +56,7 @@ public class Wallet extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
+        Log.d("JS-Wallet", "execute=============action="+action);
         try {
           switch (action) {
               case "coolMethod":
@@ -439,14 +440,18 @@ public class Wallet extends CordovaPlugin {
 
 
     public void getBalance(JSONArray args, CallbackContext callbackContext) throws JSONException {
+      Log.d("JS-Wallet", "getBalance=============chainID="+args.getString(0));
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
+            Log.d("JS-Wallet", "getBalance=============chainID=null");
             callbackContext.error("Don't have the subWallet, please check.");
             return;
         }
 
+        Log.d("JS-Wallet", "getBalance=============================2");
         callbackContext.success(parseOneParam("balance", subWallet.GetBalance()));
+        Log.d("JS-Wallet", "getBalance=============================3");
     }
 
     public void createAddress(JSONArray args, CallbackContext callbackContext) throws JSONException {

@@ -17,7 +17,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
   singMessage:string;
   fromAddress:string="sssss";
   toAddress:string="sssss";
-  chinaId:string ="ELA";
+  chinaId:string ="Idchain";
   adress:string;
   interfaces = [
                 {id:3,name:"createMasterWallet"},

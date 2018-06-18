@@ -16,7 +16,7 @@ import {LocalStorage} from "../providers/Localstorage";
 import { NavParams } from 'ionic-angular';
 import {BackupProvider} from "../providers/backup";
 import {HttpService} from "../providers/HttpService";
-
+import { Events } from 'ionic-angular';
 @Component({
   selector: 'app-base',
   template: '',
@@ -43,7 +43,8 @@ export class BaseComponent {
                      public navParams: NavParams,
                      public toastService: ToastService,
                      public backupProvider:BackupProvider,
-                     public http:HttpService) {
+                     public http:HttpService,
+                     public events: Events) {
     this.translate.addLangs(['zh', 'en']);
     this.translate.setDefaultLang('zh');
     const broswerLang = this.translate.getBrowserLang();
@@ -126,8 +127,12 @@ export class BaseComponent {
    * @param leftClick
    */
   public setLeftIcon(leftIcon: string, leftClick: any) {
-    this.header.backIcon = leftIcon;
-    this.header.backClick = leftClick;
+    if(this.isNull(leftIcon)){
+      this.header.backClick = leftClick;
+   }else{
+     this.header.backIcon = leftIcon;
+     this.header.backClick = leftClick;
+   }
   }
 
   /***

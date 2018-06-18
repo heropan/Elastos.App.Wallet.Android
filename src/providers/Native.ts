@@ -4,7 +4,6 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { Clipboard } from '@ionic-native/clipboard';
 import { UUID } from 'angular2-uuid';
-
 /***
  * APP底层交互
  */
