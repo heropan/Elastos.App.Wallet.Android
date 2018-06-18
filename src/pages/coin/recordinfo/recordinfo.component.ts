@@ -11,8 +11,7 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
 
   transactionRecord: any = {
     txId: '1c4c4af6a164bf6eb5c17e56d79b0a744865538a7a75d1d61a463728b217cb49',
-    sendInfo: 'sendInfo',
-    recordInfo: 'recordInfo',
+    receiveAddress: 'receiveAddress',
     transactionTime: '',
     payfees: 1,
     confirmCount: 1,
