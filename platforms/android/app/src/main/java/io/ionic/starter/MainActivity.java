@@ -26,6 +26,7 @@ import android.util.Log;
 import org.apache.cordova.*;
 
 import cn.jpush.android.api.JPushInterface;
+import com.elastos.spvcore.Enviroment;
 
 public class MainActivity extends CordovaActivity
 {
@@ -51,6 +52,11 @@ public class MainActivity extends CordovaActivity
         initJG();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Enviroment.SaveConfigs();
+    }
 
     private void initJG(){
         MyUtil.moveConfigFiles2RootPath(this);
