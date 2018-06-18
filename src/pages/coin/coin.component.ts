@@ -31,8 +31,8 @@ export class CoinComponent extends BaseComponent implements OnInit {
 
 
   ngOnInit() {
-    this.setTitle('ELA');
     this.coinName = this.getNavParams().get("name");
+    this.setTitle(this.coinName);
     this.initData();
   }
 
@@ -40,7 +40,7 @@ export class CoinComponent extends BaseComponent implements OnInit {
     // this.walletManager.getBalanceFun((data)=>{
     //   this.coinCount = data.balance;
     // });
-    this.transferList = [{"name": "ELA", "address": "Exbwononlxnknwlnblnwb", "balance": 0, "datetime": 1234567890}];
+    this.transferList = [{"name": "ELA", "status": "complete", "balance": 0, "datetime": 1234567890}];
     // this.walletManager.getAllTransaction(this.start,this.count,'',(data)=>{
     //
     // });
