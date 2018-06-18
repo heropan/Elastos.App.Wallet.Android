@@ -41,7 +41,16 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.wallet.name = JSON.parse(val).name;
       }
     });
-
+    // wallet balance
+    this.localStorage.get('coinListCache').then((val)=>{
+      let coinListCache = JSON.parse(val);
+      for (let coin in coinListCache) {
+        // this.walletManager.getBalance(coin, (data)=>{
+          console.log(coin);
+          this.coinList.push({name: coin, balance: 0});
+        // })
+      }
+    });
    }
 
   onOpen() {

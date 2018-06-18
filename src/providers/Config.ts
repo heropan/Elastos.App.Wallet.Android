@@ -16,12 +16,14 @@ export class Config {
 
   public static LIST_COUNT = 20;
 
+  public static BLOCKCHAIN_URL: String = 'https://blockchain.elastos.org/';
+
   public static appList=[{"id":0,"appkeyName":"KYC"}];
 
   //短信接口签名私钥
   private static smsSecretKey = "fe8a5dfa85a0eb2ae7b29c9e4e5d0774c68302971ca2d96bb9d6dd1375abf41d";
 
-  public  static test: any = '';
+  public static test: any = '';
 
   private static kycObj:any={};
 
