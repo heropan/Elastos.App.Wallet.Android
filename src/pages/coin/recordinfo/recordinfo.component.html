@@ -16,7 +16,9 @@
   <div class="weui-form-preview__bd">
     <div class="weui-form-preview__item">
       <label class="weui-form-preview__label">{{'transaction-id' | translate}}</label>
-      <span class="weui-form-preview__value">{{transactionRecord.txId}}</span>
+      <a href="{{blockchain_url + 'tx/' + transactionRecord.txId}}">
+        <span class="weui-form-preview__value">{{transactionRecord.txId}}</span>
+      </a>
     </div>
     <div class="weui-form-preview__item">
       <label class="weui-form-preview__label">{{'send-info' | translate}}</label>
