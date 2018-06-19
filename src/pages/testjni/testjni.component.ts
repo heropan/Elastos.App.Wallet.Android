@@ -9,6 +9,7 @@ import {BaseComponent} from '../../app/BaseComponent';
 export class TestJniComponent  extends BaseComponent implements OnInit  {
   masterWalletId:string ="1";
   phrasePassword:string ="66666666";
+  newPassword:string ="66666666";
   payPassword:string ="66666666";
   backupPassword:string="66666666";
   keystorePath:string ="ssssss";
@@ -27,6 +28,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
                 {id:0,name:"createSubWallet"},
                 {id:2,name:"getPublicKey"},
                 {id:8,name:"getBalance"},
+                {id:29,name:"changePassword"},
                 {id:19,name:"getAllMasterWallets"},
                 {id:1,name:"recoverSubWallet"},
                 {id:4,name:"importWalletWithKeystore"},
@@ -49,7 +51,6 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
                 {id:26,name:"getWalletId"},
                 {id:27,name:"getAllChainIds"},
                 {id:7,name:"exportWalletWithMnemonic"},
-
               ];
   ngOnInit() {
   }
@@ -142,7 +143,16 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
       case 28:
          this.getSupportedChains();
          break;
+      case 29:
+         this.changePassword();
+         break;
      }
+   }
+
+   changePassword(){
+      this.walletManager.changePassword(this.payPassword,this.newPassword,()=>{
+               alert("修改成功");
+      });
    }
 
    generateMnemonic(){

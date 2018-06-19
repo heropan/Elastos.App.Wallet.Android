@@ -149,6 +149,10 @@ walletFunc.prototype.getAllSubWallets = function(arg0, sucess, error) {
     exec(sucess, error, "Wallet", "getAllSubWallets", arg0);
 };
 
+walletFunc.prototype.changePassword = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "changePassword", arg0);
+};
+
 
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;

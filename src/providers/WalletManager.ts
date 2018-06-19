@@ -244,6 +244,10 @@ export class WalletManager {
     this.wallet.getAllSubWallets([],Fun,this.errorFun);
   }
 
+  changePassword(oldPassword:string , newPassword:string ,Fun){
+     this.wallet.getAllSubWallets([oldPassword,newPassword],Fun,this.errorFun);
+  }
+
   errorFun(error) {
     alert("错误信息："+error);
     //this.native.toast(error);
