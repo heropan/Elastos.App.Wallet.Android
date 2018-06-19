@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
 import {Util} from "../../../providers/Util";
+import {ManagerComponent} from "../../wallet/manager/manager.component";
 
 @Component({
   selector: 'app-paypassword-reset',
@@ -27,7 +28,10 @@ export class PaypasswordResetComponent  extends BaseComponent implements OnInit 
       return;
     }
     // reset pay password
-    
+    this.walletManager.changePassword(this.oldPayPassword, this.payPassword, ()=>{
+      this.toast("reset-pwd-success");
+      this.Go(ManagerComponent);
+    });
   }
 
 }

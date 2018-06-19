@@ -66,6 +66,7 @@ export const zh = {
   'text-pay-password': '请设置钱包支付密码',
   'text-pay-repassword': '请再次设置钱包支付密码',
   'text-old-pay-password': '请输入原支付密码',
+  'reset-pwd-success': '修改密码成功',
   'text-keystore-pwd': '请设置私钥文件密码',
   'text-wallet-create-ok': '钱包创建成功',
   'text-select-key': '请选择私钥文件',
