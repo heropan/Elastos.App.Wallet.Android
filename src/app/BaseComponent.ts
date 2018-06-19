@@ -55,16 +55,6 @@ export class BaseComponent {
       this.Back();
     };
 
-    // this.storage.getWallet((data) => {
-    //   this.walletData = data;
-    //   Logger.info(this.walletData);
-    //   this.onWalletDatainit();
-    // });
-  }
-
-
-  onWalletDatainit(){
-
   }
 
   /***

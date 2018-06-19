@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../../app/BaseComponent';
-import {HomeComponent} from '../../../pages/tabs/home/home.component';
+
 @Component({
   selector: 'app-coin-list',
   templateUrl: './coin-list.component.html'

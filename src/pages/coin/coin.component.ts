@@ -1,17 +1,15 @@
 import {BaseComponent} from '../../app/BaseComponent';
 import {Component, ViewEncapsulation, OnInit} from '@angular/core';
 import { Config } from '../../providers/Config';
-//import {IonicPage} from "ionic-angular";
 import {RecordComponent} from "./record/record.component";
 import {TransferComponent} from "./transfer/transfer.component";
 import {ReceiveComponent} from "./receive/receive.component";
 import {RecordinfoComponent} from "./recordinfo/recordinfo.component";
-//
+
 
 @Component({
   selector: 'coin',
   templateUrl: './coin.component.html',
-  // styleUrls: ['./coin.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class CoinComponent extends BaseComponent implements OnInit {
@@ -37,9 +35,9 @@ export class CoinComponent extends BaseComponent implements OnInit {
   }
 
   initData(){
-    // this.walletManager.getBalanceFun((data)=>{
-    //   this.coinCount = data.balance;
-    // });
+    this.walletManager.getBalance(this.coinName,(data)=>{
+      this.coinCount = data.balance;
+    });
     this.transferList = [{"name": "ELA", "status": "complete", "balance": 0, "datetime": 1234567890}];
     // this.walletManager.getAllTransaction(this.start,this.count,'',(data)=>{
     //
@@ -53,7 +51,7 @@ export class CoinComponent extends BaseComponent implements OnInit {
   onNext(type) {
     switch (type) {
       case 1:
-        this.Go(ReceiveComponent, {id: this.coinId});
+        this.Go(ReceiveComponent, {id: this.coinId,chianId:this.coinName});
         break;
       case 2:
         this.Go(TransferComponent, {id: this.coinId});

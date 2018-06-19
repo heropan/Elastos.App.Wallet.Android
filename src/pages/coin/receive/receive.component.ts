@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
-// import {QrcodeModel} from './../../../models/qrcode.model';
-//import {HeaderComponent, Header} from './../../../app/header/app.header';
 import {Logger} from "../../../providers/Logger";
 import {AddressComponent} from "../../wallet/address/address.component";
 import {Util} from "../../../providers/Util";
@@ -9,22 +7,19 @@ import {Util} from "../../../providers/Util";
 
 @Component({
   selector: 'app-receive',
-  templateUrl: './receive.component.html',
-  // styleUrls: ['./receive.component.scss']
+  templateUrl: './receive.component.html'
 })
 export class ReceiveComponent extends BaseComponent implements OnInit {
 
-  qrcode: string;
+  qrcode: string=null;
   address: Number;
   amount: Number;
-
+  chinaId:string;
   ngOnInit() {
     this.setTitleByAssets('text-receive');
-
-    this.setHeadDisPlay({left:true,title:true,right:true});
-
+    this.chinaId=this.getNavParams().get("chianId");
     this.createAddress();
-
+    this.setHeadDisPlay({left:true,title:true,right:true});
     this.setRightIcon('./assets/images/icon/icon-s.svg', () => {
       Logger.info('分享');
     });
@@ -53,12 +48,9 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
   }
 
   createAddress(){
-    // this.walletManager.createAddress((data)=>{
-    //     this.code.qrcode = data.address;
-    // });
-    // let result = this.walletManager.createAddress();
-    // this.address = result.address;
-    // this.qrcode = result.address.toString();
+    this.walletManager.createAddress(this.chinaId,(data)=>{
+        this.qrcode = data.address;
+    });
   }
 
 }

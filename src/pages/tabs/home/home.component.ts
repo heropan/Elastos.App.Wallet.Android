@@ -18,9 +18,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   coinList = []
 
   ngOnInit() {
-    //this.events.subscribe('home:init',()=>{
-         this.getAllMasterWallets();
-    //});
+    this.getAllMasterWallets();
     this.events.subscribe('home:update', () => {
            this.getElaBalance(this.ElaObj);
            this.localStorage.get('coinListCache').then((val)=>{
@@ -41,16 +39,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.wallet.name = JSON.parse(val).name;
       }
     });
-    // wallet balance
-    this.localStorage.get('coinListCache').then((val)=>{
-      let coinListCache = JSON.parse(val);
-      for (let coin in coinListCache) {
-        // this.walletManager.getBalance(coin, (data)=>{
-          console.log(coin);
-          this.coinList.push({name: coin, balance: 0});
-        // })
-      }
-    });
+
    }
 
   onOpen() {
@@ -84,14 +73,12 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   getAllMasterWallets(){
     this.walletManager.getAllMasterWallets((result)=>{
-      alert("ssss==="+JSON.stringify(result));
       this.getAllSubWallets();
     });
   }
 
   getAllSubWallets(){
     this.walletManager.getAllSubWallets(()=>{
-        alert("sssss=====");
     this.getElaBalance(this.ElaObj);
          // wallet balance
     this.localStorage.get('coinListCache').then((val)=>{
