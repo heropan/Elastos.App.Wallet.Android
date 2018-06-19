@@ -88,6 +88,7 @@ export const zh = {
   'transfer-more': '查看更多交易记录',
   'send-info': '发款方',
   'record-info': '收款方',
+  'receive-address': '收款地址',
   'transaction-price': '交易金额',
   'transaction-time': '交易时间',
   'transaction-id': '交易号',
