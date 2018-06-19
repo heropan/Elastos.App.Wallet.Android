@@ -3,46 +3,26 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "ElaUtils.h"
-#include "IIdChainSubWallet.h"
-#include "nlohmann/json.hpp"
+#include "IdManagerFactory.h"
 
 using namespace Elastos::SDK;
+using namespace Elastos::DID;
 
-extern const char* ToStringFromJson(nlohmann::json jsonValue);
-
-//"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
-static jstring JNICALL nativeSendIdTransaction(JNIEnv *env, jobject clazz, jlong jIdSubWalletProxy, jstring jfromAddress,
-        jstring jtoAddress, jlong amount, jstring jpayloadJson, jstring jprogramJson, jlong fee, jstring jpayPassword, jstring jmemo)
+//"(J)J"
+static jlong JNICALL nativeCreateIdManager(JNIEnv *env, jobject clazz, jlong jmasterWalletProxy)
 {
-    const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
-    const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
-    const char* payloadJson = env->GetStringUTFChars(jpayloadJson, NULL);
-    const char* programJson = env->GetStringUTFChars(jprogramJson, NULL);
-    const char* payPassword = env->GetStringUTFChars(jpayPassword, NULL);
-    const char* memo = env->GetStringUTFChars(jmemo, NULL);
-
-    IIdChainSubWallet* wallet = (IIdChainSubWallet*)jIdSubWalletProxy;
-    nlohmann::json txidJson = wallet->SendIdTransaction(fromAddress, toAddress, amount, payloadJson, programJson, fee, payPassword, memo);
-
-    env->ReleaseStringUTFChars(jfromAddress, fromAddress);
-    env->ReleaseStringUTFChars(jtoAddress, toAddress);
-    env->ReleaseStringUTFChars(jpayloadJson, payloadJson);
-    env->ReleaseStringUTFChars(jprogramJson, programJson);
-    env->ReleaseStringUTFChars(jpayPassword, payPassword);
-    env->ReleaseStringUTFChars(jmemo, memo);
-
-    return env->NewStringUTF(ToStringFromJson(txidJson));
+    IMasterWallet* masterWallet = (IMasterWallet*)jmasterWalletProxy;
+    IdManagerFactory idManagerFactory;
+    IDIDManager *idManager = idManagerFactory.CreateIdManager(masterWallet);
+    return (jlong)idManager;
 }
 
-
 static const JNINativeMethod gMethods[] = {
-    {"nativeSendIdTransaction",
-    "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
-    (void*)nativeSendIdTransaction},
+    {"nativeCreateIdManager", "(J)J", (void*)nativeCreateIdManager},
 };
 
-jint register_elastos_spv_IIdChainSubWallet(JNIEnv *env)
+jint register_elastos_spv_IdManagerFactory(JNIEnv *env)
 {
-    return jniRegisterNativeMethods(env, "com/elastos/spvcore/IIdChainSubWallet",
+    return jniRegisterNativeMethods(env, "com/elastos/spvcore/IdManagerFactory",
         gMethods, NELEM(gMethods));
 }
