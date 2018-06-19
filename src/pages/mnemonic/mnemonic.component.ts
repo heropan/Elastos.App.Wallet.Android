@@ -54,11 +54,9 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
 
   getSupportedChains(){
     this.walletManager.getSupportedChains((result)=>{
-      //for(let key in result){
-         //alert("222222");
-         //alert("已经支持的所有子钱包=="+key);
-         this.createSubWallet("ELA");
-      //}
+      for(let key in result){;
+         this.createSubWallet(key);
+      }
      });
    }
 
@@ -66,7 +64,6 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
     // Sub Wallet
     this.walletManager.createSubWallet(chainId,this.payPassword, false, 0, (val)=>{
              alert("子钱包创建成功");
-             this.saveConfigs();
     });
   }
 
