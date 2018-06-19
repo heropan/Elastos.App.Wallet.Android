@@ -1,20 +1,37 @@
 <app-header [header]="header"></app-header>
-
-<div class="mnemonic-show">
-
-    <div>
-        <ul class="mnemonic-list-read">
-            <li *ngFor="let item of mnemonicList">{{item.text}}</li>
-        </ul>
+<div class="mnemonic">
+    <div class="slide-container">
+        <div class="slide-title">{{ 'text-mnemonic-prompt' | translate}}</div>
+        <div class="slide-body">
+            <div class="phrase-container">
+                <div class="phrase">
+                    <span *ngFor="let item of mnemonicList;let i=index">
+                      <span id="index">{{item.text}}</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-button">
+            <button ion-button class="button-standard" (click)="onNext()">
+                {{ 'text-memory' | translate }}
+            </button>
+        </div>
     </div>
+    <!-- <div class="mnemonic-show">
 
-    <div class="mnemonic-prompt">{{ 'text-mnemonic-prompt' | translate}}</div>
+        <div>
+            <ul class="mnemonic-list-read">
+                <li *ngFor="let item of mnemonicList">{{item.text}}</li>
+            </ul>
+        </div> -->
 
-    <button class="button-default bottom" style="margin-top: 40px" (click)="onNext()">{{ 'text-memory' | translate }}</button>
-</div>
+    <!-- <div class="mnemonic-prompt">{{ 'text-mnemonic-prompt' | translate}}</div>
+
+    <button class="button-default bottom" style="margin-top: 40px" (click)="onNext()">{{ 'text-memory' | translate }}</button> -->
+    <!-- </div> -->
 
 
-<div class="mnemonic-password">
+    <!-- <div class="mnemonic-password">
     <div class="weui-cells__title title_h">
         <span class="float-left">{{'text-mnemonic-label' | translate }}</span>
         <input class="weui-switch float-right" type="checkbox" [(ngModel)]="isSelect">
@@ -31,4 +48,5 @@
             </div>
         </div>
     </div>
+</div> -->
 </div>

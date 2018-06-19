@@ -20,10 +20,11 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.setTitleByAssets('text-mnemonic');
     this.walletManager.generateMnemonic((data) => {
+      //let data ={"mnemonic":"aaa bbb ccc ddd eee  fff ggg  ssss kkk lll zzz hhh"};
       this.mnemonicStr = data.mnemonic.toString();
       let mnemonicArr = this.mnemonicStr.split(/[\u3000\s]+/);
       for (var i = 0; i < mnemonicArr.length; i++) {
-        this.mnemonicList.push({text: mnemonicArr[i], select: true});
+        this.mnemonicList.push({text: mnemonicArr[i], selected: false});
       }
       // console.log(this.mnemonicList);
     });
@@ -65,6 +66,13 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
     // Sub Wallet
     this.walletManager.createSubWallet(chainId,this.payPassword, false, 0, (val)=>{
              alert("子钱包创建成功");
+             this.saveConfigs();
     });
+  }
+
+  saveConfigs(){
+    this.walletManager.saveConfigs((resust)=>{
+        alert("保存配置成功");
+    })
   }
 }
