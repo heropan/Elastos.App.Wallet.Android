@@ -157,6 +157,19 @@ static jobjectArray JNICALL nativeGetSupportedChains(JNIEnv *env, jobject clazz,
     return objArray;
 }
 
+//"(JLjava/lang/String;Ljava/lang/String;)V"
+static void JNICALL nativeChangePassword(JNIEnv *env, jobject clazz, jlong jMasterProxy, jstring joldPassword, jstring jnewPassword)
+{
+    const char* oldPassword = env->GetStringUTFChars(joldPassword, NULL);
+    const char* newPassword = env->GetStringUTFChars(jnewPassword, NULL);
+
+    IMasterWallet* masterWallet = (IMasterWallet*)jMasterProxy;
+    masterWallet->ChangePassword(oldPassword, newPassword);
+
+    env->ReleaseStringUTFChars(joldPassword, oldPassword);
+    env->ReleaseStringUTFChars(jnewPassword, newPassword);
+}
+
 
 static const JNINativeMethod gMethods[] = {
     {"nativeGetId", "(J)Ljava/lang/String;", (void*)nativeGetId},
@@ -170,6 +183,7 @@ static const JNINativeMethod gMethods[] = {
     {"nativeIsAddressValid", "(JLjava/lang/String;)Z", (void*)nativeIsAddressValid},
     {"nativeGenerateMnemonic", "(J)Ljava/lang/String;", (void*)nativeGenerateMnemonic},
     {"nativeGetSupportedChains", "(J)[Ljava/lang/String;", (void*)nativeGetSupportedChains},
+    {"nativeChangePassword", "(JLjava/lang/String;Ljava/lang/String;)V", (void*)nativeChangePassword},
 };
 
 jint register_elastos_spv_IMasterWallet(JNIEnv *env)

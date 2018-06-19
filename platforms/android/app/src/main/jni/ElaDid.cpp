@@ -58,26 +58,26 @@ static /*nlohmann::json*/ jstring JNICALL nativeGetAllKeys(JNIEnv *env, jobject 
     return env->NewStringUTF(ToStringFromJson(jsonValue));
 }
 
-//"(JLjava/lang/String;)Ljava/lang/String;"
-static jstring JNICALL nativeSign(JNIEnv *env, jobject clazz, jlong jDidProxy, jstring jmessage)
+//"(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+static jstring JNICALL nativeSign(JNIEnv *env, jobject clazz, jlong jDidProxy, jstring jmessage, jstring jpassword)
 {
     const char* message = env->GetStringUTFChars(jmessage, NULL);
+    const char* password = env->GetStringUTFChars(jpassword, NULL);
     IDID* did = (IDID*)jDidProxy;
-    std::string value = did->Sign(message);
+    std::string value = did->Sign(message, password);
     env->ReleaseStringUTFChars(jmessage, message);
+    env->ReleaseStringUTFChars(jpassword, password);
     return env->NewStringUTF(value.c_str());
 }
 
-//"(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
-static /*nlohmann::json*/ jstring JNICALL nativeCheckSign(JNIEnv *env, jobject clazz, jlong jDidProxy, jstring jpublicKey
+//"(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+static /*nlohmann::json*/ jstring JNICALL nativeCheckSign(JNIEnv *env, jobject clazz, jlong jDidProxy
                 , jstring jmessage, jstring jsignature)
 {
-    const char* publicKey = env->GetStringUTFChars(jpublicKey, NULL);
     const char* message = env->GetStringUTFChars(jmessage, NULL);
     const char* signature = env->GetStringUTFChars(jsignature, NULL);
     IDID* did = (IDID*)jDidProxy;
-    nlohmann::json jsonValue = did->CheckSign(publicKey, message, signature);
-    env->ReleaseStringUTFChars(jpublicKey, publicKey);
+    nlohmann::json jsonValue = did->CheckSign(message, signature);
     env->ReleaseStringUTFChars(jmessage, message);
     env->ReleaseStringUTFChars(jsignature, signature);
 
@@ -100,8 +100,8 @@ static const JNINativeMethod gMethods[] = {
     {"nativeGetValue", "(JLjava/lang/String;)Ljava/lang/String;", (void*)nativeGetValue},
     {"nativeGetHistoryValue", "(JLjava/lang/String;)Ljava/lang/String;", (void*)nativeGetHistoryValue},
     {"nativeGetAllKeys", "(JII)Ljava/lang/String;", (void*)nativeGetAllKeys},
-    {"nativeSign", "(JLjava/lang/String;)Ljava/lang/String;", (void*)nativeSign},
-    {"nativeCheckSign", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeCheckSign},
+    {"nativeSign", "(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeSign},
+    {"nativeCheckSign", "(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeCheckSign},
     {"nativeGetPublicKey", "(J)Ljava/lang/String;", (void*)nativeGetPublicKey},
 };
 

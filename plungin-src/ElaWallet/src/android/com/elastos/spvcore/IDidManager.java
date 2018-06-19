@@ -28,8 +28,8 @@ public class IDidManager {
         nativeDestoryDID(mDidManagerProxy, didName);
     }
 
-    private native long nativeCreateDID(long proxy, password);
-    private native long nativeGetDID(long proxy, didName);
+    private native long nativeCreateDID(long proxy, String password);
+    private native long nativeGetDID(long proxy, String didName);
     private native String nativeGetDIDList(long proxy);
-    private native void nativeDestoryDID(long proxy, didName);
+    private native void nativeDestoryDID(long proxy, String didName);
 }

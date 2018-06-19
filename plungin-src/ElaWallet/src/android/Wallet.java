@@ -156,6 +156,9 @@ public class Wallet extends CordovaPlugin {
               case "getSupportedChains":
                   this.getSupportedChains(args, callbackContext);
                   return true;
+              case "changePassword":
+                  this.changePassword(args, callbackContext);
+                  return true;
           }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -550,6 +553,16 @@ public class Wallet extends CordovaPlugin {
         }
 
         callbackContext.success(parseOneParam("supportedChains", null));
+    }
+
+    public void changePassword(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mCurrentMasterWallet != null) {
+            mCurrentMasterWallet.ChangePassword(args.getString(0), args.getString(1));
+            callbackContext.success();
+            return;
+        }
+
+        callbackContext.success(parseOneParam("changePassword", null));
     }
 
     private JSONObject parseOneParam(String key, Object value) throws JSONException {

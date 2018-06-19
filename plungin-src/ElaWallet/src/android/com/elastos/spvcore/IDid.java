@@ -29,12 +29,12 @@ public class IDid {
         return nativeGetAllKeys(mDidProxy, start, count);
     }
 
-    public String Sign(String message) {
-        return nativeSign(mDidProxy, message);
+    public String Sign(String message, String password) {
+        return nativeSign(mDidProxy, message, password);
     }
 
-    public /*nlohmann::json*/ String CheckSign(String publicKey, String message, String signature) {
-        return nativeCheckSign(mDidProxy, publicKey, message, signature);
+    public /*nlohmann::json*/ String CheckSign(String message, String signature) {
+        return nativeCheckSign(mDidProxy, message, signature);
     }
 
     public String GetPublicKey() {
@@ -42,11 +42,11 @@ public class IDid {
     }
 
     private native String nativeGetDIDName(long proxy);
-    private native void nativeSetValue(long proxy, keyPath, valueJson);
-    private native String nativeGetValue(long proxy, path);
-    private native String nativeGetHistoryValue(long proxy, keyPath);
-    private native String nativeGetAllKeys(long proxy, start, count);
-    private native String nativeSign(long proxy, message);
-    private native String nativeCheckSign(long proxy, publicKey, message, signature);
+    private native void nativeSetValue(long proxy, String keyPath, String valueJson);
+    private native String nativeGetValue(long proxy, String path);
+    private native String nativeGetHistoryValue(long proxy, String keyPath);
+    private native String nativeGetAllKeys(long proxy, int start, int count);
+    private native String nativeSign(long proxy, String message, String password);
+    private native String nativeCheckSign(long proxy, String message, String signature);
     private native String nativeGetPublicKey(long proxy);
 }

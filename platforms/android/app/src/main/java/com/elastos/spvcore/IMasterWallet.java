@@ -73,6 +73,10 @@ public class IMasterWallet {
         return mMasterProxy;
     }
 
+    public void ChangePassword(String oldPassword, String newPassword) {
+        nativeChangePassword(mMasterProxy, oldPassword, newPassword);
+    }
+
     private native String nativeGetId(long masterProxy);
     private native long[] nativeGetAllSubWallets(long masterProxy);
     private native long nativeCreateSubWallet(long masterProxy, String chainID, String payPassword, boolean singleAddress, long feePerKb);
@@ -84,4 +88,5 @@ public class IMasterWallet {
     private native boolean nativeIsAddressValid(long masterProxy, String address);
     private native String nativeGenerateMnemonic(long masterProxy);
     private native String[] nativeGetSupportedChains(long masterProxy);
+    private native void nativeChangePassword(long proxy, String oldPassword, String newPassword);
 }
