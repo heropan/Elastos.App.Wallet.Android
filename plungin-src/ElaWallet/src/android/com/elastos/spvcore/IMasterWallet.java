@@ -9,14 +9,6 @@ import java.util.ArrayList;
 public class IMasterWallet {
     private long mMasterProxy;
 
-    public static class IDKEY {
-        public IDKEY() {
-
-        }
-        public String id = "";
-        public String key = "";
-    }
-
     public String GetId() {
         return nativeGetId(mMasterProxy);
     }
@@ -75,6 +67,10 @@ public class IMasterWallet {
 
     public String[] GetSupportedChains() {
         return nativeGetSupportedChains(mMasterProxy);
+    }
+
+    public long GetProxy() {
+        return mMasterProxy;
     }
 
     private native String nativeGetId(long masterProxy);
