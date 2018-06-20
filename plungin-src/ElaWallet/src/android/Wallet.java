@@ -31,7 +31,6 @@ import io.ionic.starter.MyUtil;
  */
 public class Wallet extends CordovaPlugin {
     private static final String TAG = "Wallet.JNI";
-    private String mRootPath;
     private IMasterWallet mCurrentMasterWallet;
     private IMasterWalletManager mWalletManager;
     private ArrayList<IMasterWallet> mMasterWalletList;
@@ -44,8 +43,6 @@ public class Wallet extends CordovaPlugin {
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
-        mRootPath = MyUtil.getRootPath();
-        Enviroment.InitializeRootPath(mRootPath);
         mWalletManager = Enviroment.GetMasterWalletManager();
         mMasterWalletList = mWalletManager.GetAllMasterWallets();
         if (mMasterWalletList != null && mMasterWalletList.size() > 0) {
