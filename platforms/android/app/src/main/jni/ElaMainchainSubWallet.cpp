@@ -6,7 +6,7 @@
 #include "IMainchainSubWallet.h"
 #include "nlohmann/json.hpp"
 
-using namespace Elastos::SDK;
+using namespace Elastos::ElaWallet;
 extern const char* ToStringFromJson(nlohmann::json jsonValue);
 
 //"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"

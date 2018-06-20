@@ -8,7 +8,7 @@
 #include "ISubWallet.h"
 
 namespace Elastos {
-	namespace SDK {
+	namespace ElaWallet {
 
 		class IMasterWallet {
 		public:
@@ -108,6 +108,8 @@ namespace Elastos {
 			virtual std::vector<std::string> GetSupportedChains() = 0;
 
 			virtual void ChangePassword(const std::string &oldPassword, const std::string &newPassword) = 0;
+
+			virtual void ResetAddressCache(const std::string &payPassword) = 0;
 		};
 
 	}

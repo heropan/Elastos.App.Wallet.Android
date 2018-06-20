@@ -5,7 +5,7 @@
 #include "ElaUtils.h"
 #include "IdManagerFactory.h"
 
-using namespace Elastos::SDK;
+using namespace Elastos::ElaWallet;
 using namespace Elastos::DID;
 
 //"(J)J"
