@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "ElaUtils.h"
-#include "idid.h.h"
+#include "idid.h"
 #include "nlohmann/json.hpp"
 
 using namespace Elastos::DID;
@@ -87,15 +87,13 @@ static /*nlohmann::json*/ jstring JNICALL nativeCheckSign(JNIEnv *env, jobject c
 //"(J)Ljava/lang/String;"
 static jstring JNICALL nativeGetPublicKey(JNIEnv *env, jobject clazz, jlong jDidProxy)
 {
-    const char* path = env->GetStringUTFChars(jpath, NULL);
     IDID* did = (IDID*)jDidProxy;
     std::string value = did->GetPublicKey();
-    env->ReleaseStringUTFChars(jpath, path);
     return env->NewStringUTF(value.c_str());
 }
 
 static const JNINativeMethod gMethods[] = {
-    {"nativeGetDIDName", "(J)Ljava/lang/String;", (void*)nativeSendIdTransaction},
+    {"nativeGetDIDName", "(J)Ljava/lang/String;", (void*)nativeGetDIDName},
     {"nativeSetValue", "(JLjava/lang/String;Ljava/lang/String;)V", (void*)nativeSetValue},
     {"nativeGetValue", "(JLjava/lang/String;)Ljava/lang/String;", (void*)nativeGetValue},
     {"nativeGetHistoryValue", "(JLjava/lang/String;)Ljava/lang/String;", (void*)nativeGetHistoryValue},

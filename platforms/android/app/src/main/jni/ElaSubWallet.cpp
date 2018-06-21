@@ -112,22 +112,20 @@ static void JNICALL nativeRemoveCallback(JNIEnv *env, jobject clazz, jlong jSubP
     }
 }
 
-static jstring JNICALL nativeSendTransaction(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jfromAddress,
-        jstring jtoAddress, jlong amount, jlong fee, jstring jpayPassword, jstring jmemo)
+static jstring JNICALL nativeCreateTransaction(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jfromAddress,
+        jstring jtoAddress, jlong amount, jlong fee, jstring jmemo)
 {
     const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
     const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
-    const char* payPassword = env->GetStringUTFChars(jpayPassword, NULL);
     const char* memo = env->GetStringUTFChars(jmemo, NULL);
 
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-    std::string result = subWallet->SendTransaction(fromAddress, toAddress, amount, fee, payPassword, memo);
+    nlohmann::json result = subWallet->CreateTransaction(fromAddress, toAddress, amount, fee, memo);
 
     env->ReleaseStringUTFChars(jfromAddress, fromAddress);
     env->ReleaseStringUTFChars(jtoAddress, toAddress);
-    env->ReleaseStringUTFChars(jpayPassword, payPassword);
     env->ReleaseStringUTFChars(jmemo, memo);
-    return env->NewStringUTF(result.c_str());
+    return env->NewStringUTF(ToStringFromJson(result));
 }
 
 static jstring JNICALL nativeCreateMultiSignAddress(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jmultiPublicKeyJson,
@@ -143,35 +141,34 @@ static jstring JNICALL nativeCreateMultiSignAddress(JNIEnv *env, jobject clazz, 
 }
 
 //"(JLjava/lang/String;Ljava/lang/String;JJLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
-static jstring JNICALL nativeGenerateMultiSignTransaction(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jfromAddress,
-        jstring jtoAddress, jlong amount, jlong fee, jstring jpayPassword, jstring jmemo)
+static jstring JNICALL nativeCreateMultiSignTransaction(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jfromAddress,
+        jstring jtoAddress, jlong amount, jlong fee, jstring jmemo)
 {
     const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
     const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
-    const char* payPassword = env->GetStringUTFChars(jpayPassword, NULL);
     const char* memo = env->GetStringUTFChars(jmemo, NULL);
 
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-    nlohmann::json result = subWallet->GenerateMultiSignTransaction(fromAddress, toAddress, amount, fee, payPassword, memo);
+    nlohmann::json result = subWallet->CreateMultiSignTransaction(fromAddress, toAddress, amount, fee, memo);
 
     env->ReleaseStringUTFChars(jfromAddress, fromAddress);
     env->ReleaseStringUTFChars(jtoAddress, toAddress);
-    env->ReleaseStringUTFChars(jpayPassword, payPassword);
     env->ReleaseStringUTFChars(jmemo, memo);
     return env->NewStringUTF(ToStringFromJson(result));
 }
 
-static jstring JNICALL nativeSendRawTransaction(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jtransactionJson, jstring jsignJson)
+static jstring JNICALL nativeSendRawTransaction(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jtransactionJson
+    ,jlong jfee, jstring jsignJson)
 {
     const char* transactionJson = env->GetStringUTFChars(jtransactionJson, NULL);
     const char* signJson = env->GetStringUTFChars(jsignJson, NULL);
 
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-    std::string result = subWallet->SendRawTransaction(transactionJson, signJson);
+    nlohmann::json result = subWallet->SendRawTransaction(transactionJson, jfee, signJson);
 
     env->ReleaseStringUTFChars(jtransactionJson, transactionJson);
     env->ReleaseStringUTFChars(jsignJson, signJson);
-    return env->NewStringUTF(result.c_str());
+    return env->NewStringUTF(ToStringFromJson(result));
 }
 
 static jstring JNICALL nativeGetAllTransaction(JNIEnv *env, jobject clazz, jlong jSubProxy, jint start,
@@ -216,6 +213,15 @@ static jstring JNICALL nativeCheckSign(JNIEnv *env, jobject clazz, jlong jSubPro
 }
 
 
+static jlong JNICALL nativeCalculateTransactionFee(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jrawTransaction, jlong feePerKb)
+{
+    const char* rawTransaction = env->GetStringUTFChars(jrawTransaction, NULL);
+    ISubWallet* subWallet = (ISubWallet*)jSubProxy;
+    long fee = subWallet->CalculateTransactionFee(rawTransaction, feePerKb);
+    env->ReleaseStringUTFChars(jrawTransaction, rawTransaction);
+    return (jlong)fee;
+}
+
 static const JNINativeMethod gMethods[] = {
     {"nativeGetChainId", "(J)Ljava/lang/String;", (void*)nativeGetChainId},
     {"nativeGetBalanceInfo", "(J)Ljava/lang/String;", (void*)nativeGetBalanceInfo},
@@ -225,13 +231,14 @@ static const JNINativeMethod gMethods[] = {
     {"nativeGetBalanceWithAddress", "(JLjava/lang/String;)J", (void*)nativeGetBalanceWithAddress},
     {"nativeAddCallback", "(JLcom/elastos/spvcore/ISubWalletCallback;)V", (void*)nativeAddCallback},
     {"nativeRemoveCallback", "(JLcom/elastos/spvcore/ISubWalletCallback;)V", (void*)nativeRemoveCallback},
-    {"nativeSendTransaction", "(JLjava/lang/String;Ljava/lang/String;JJLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeSendTransaction},
-    {"nativeGenerateMultiSignTransaction", "(JLjava/lang/String;Ljava/lang/String;JJLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeGenerateMultiSignTransaction},
+    {"nativeCreateTransaction", "(JLjava/lang/String;Ljava/lang/String;JJLjava/lang/String;)Ljava/lang/String;", (void*)nativeCreateTransaction},
+    {"nativeCreateMultiSignTransaction", "(JLjava/lang/String;Ljava/lang/String;JJLjava/lang/String;)Ljava/lang/String;", (void*)nativeCreateMultiSignTransaction},
     {"nativeCreateMultiSignAddress", "(JLjava/lang/String;II)Ljava/lang/String;", (void*)nativeCreateMultiSignAddress},
-    {"nativeSendRawTransaction", "(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeSendRawTransaction},
+    {"nativeSendRawTransaction", "(JLjava/lang/String;JLjava/lang/String;)Ljava/lang/String;", (void*)nativeSendRawTransaction},
     {"nativeGetAllTransaction", "(JIILjava/lang/String;)Ljava/lang/String;", (void*)nativeGetAllTransaction},
     {"nativeSign", "(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeSign},
     {"nativeCheckSign", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z", (void*)nativeCheckSign},
+    {"nativeCalculateTransactionFee", "(JLjava/lang/StringJ)J", (void*)nativeCalculateTransactionFee},
 };
 
 jint register_elastos_spv_ISubWallet(JNIEnv *env)
