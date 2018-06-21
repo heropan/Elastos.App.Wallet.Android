@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Logger} from "./Logger";
 import {Native} from "./Native";
 //import {StorageUtil} from "./StorageUtil";
-declare var cordova: any;
+//declare var cordova: any;
 
 
 /***
@@ -22,8 +22,8 @@ export class WalletManager {
   public static PAGECOUNT = 20;
 
   constructor(public native: Native) {
-    this.wallet = cordova.plugins.Wallet;
-    //this.wallet = {};
+    //this.wallet = cordova.plugins.Wallet;
+    this.wallet = {};
   }
 
   /**通过android log 打印数据*/
@@ -91,14 +91,14 @@ export class WalletManager {
   }
   /**
    * @param {string} masterWalletId
-   * @param {string} keystorePath
+   * @param {string} keystoreContent
    * @param {string} backupPassword
    * @param {string} payPassword
    * @param {string} phrasePassword
    * @param Fun
    */
-  importWalletWithKeystore(masterWalletId:string,keystorePath: string, backupPassword: string, payPassword: string,phrasePassword:string, Fun) {
-    this.wallet.importWalletWithKeystore([masterWalletId,keystorePath, backupPassword, payPassword,phrasePassword], Fun, this.errorFun);
+  importWalletWithKeystore(masterWalletId:string,keystoreContent: string, backupPassword: string, payPassword: string,phrasePassword:string, Fun) {
+    this.wallet.importWalletWithKeystore([masterWalletId,keystoreContent, backupPassword, payPassword,phrasePassword], Fun, this.errorFun);
   }
 
     /**
@@ -119,8 +119,8 @@ export class WalletManager {
    * @param {string} keystorePath
    * @param Fun
    */
-  exportWalletWithKeystore(backupPassWord:string, payPassword: string,  keystorePath: string,Fun) {
-    this.wallet.createMasterWallet([backupPassWord,payPassword,keystorePath,], Fun, this.errorFun);
+  exportWalletWithKeystore(backupPassWord:string, payPassword: string,Fun) {
+    this.wallet.exportWalletWithKeystore([backupPassWord,payPassword], Fun, this.errorFun);
   }
   /**
    * @param {string} backupPassWord

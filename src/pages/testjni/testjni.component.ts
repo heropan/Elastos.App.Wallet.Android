@@ -12,7 +12,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
   newPassword:string ="66666666";
   payPassword:string ="66666666";
   backupPassword:string="66666666";
-  keystorePath:string ="ssssss";
+  keystoreContent:string ="ssssss";
   mnemonic:string ="sssssss";
   language:string ="english";
   singMessage:string;
@@ -75,7 +75,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
           this.importWalletWithMnemonic(this.masterWalletId,this.mnemonic,this.phrasePassword,this.payPassword,this.language);
          break;
        case 6:
-          this.exportWalletWithKeystore(this.backupPassword,this.payPassword,"sssss");
+          this.exportWalletWithKeystore(this.backupPassword,this.payPassword);
          break;
        case 7:
           this.exportWalletWithMnemonic(this.backupPassword);
@@ -194,8 +194,8 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
      });
    }
 
-   importWalletWithKeystore(masterWalletId:string,keystorePath:string,backupPassWord:string,payPassWord:string,phrasePassword:string){
-         this.walletManager.importWalletWithKeystore(masterWalletId,keystorePath,backupPassWord,payPassWord,phrasePassword,()=>{
+   importWalletWithKeystore(masterWalletId:string,keystoreContent:string,backupPassWord:string,payPassWord:string,phrasePassword:string){
+         this.walletManager.importWalletWithKeystore(masterWalletId,keystoreContent,backupPassWord,payPassWord,phrasePassword,()=>{
                       alert("导入keystore成功");
          })
    }
@@ -206,9 +206,9 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
        });
    }
 
-   exportWalletWithKeystore(backupPassword: string,payPassWord:string,keystorePath:string,){
-       this.walletManager.exportWalletWithKeystore(backupPassword,payPassWord,keystorePath,(result)=>{
-        alert("导出keystore成功");
+   exportWalletWithKeystore(backupPassword: string,payPassWord:string){
+       this.walletManager.exportWalletWithKeystore(backupPassword,payPassWord,(result)=>{
+        alert("导出keystore成功"+JSON.stringify(result));
        });
    }
 
