@@ -295,7 +295,7 @@ public class Wallet extends CordovaPlugin {
         callbackContext.success(parseOneParam("status", status));
     }
 
-    //ImportWalletWithKeystore(String masterWalletId, String keystorePath, String backupPassWord ,String payPassWord, String phrasePassword)
+    //ImportWalletWithKeystore(String masterWalletId, String keystoreContent, String backupPassWord ,String payPassWord, String phrasePassword)
     public void importWalletWithKeystore(JSONArray args, CallbackContext callbackContext) throws JSONException {
         mCurrentMasterWallet = mWalletManager.ImportWalletWithKeystore(args.getString(0), args.getString(1), args.getString(2), args.getString(3), args.getString(4));
         if (mCurrentMasterWallet != null) {
@@ -321,8 +321,8 @@ public class Wallet extends CordovaPlugin {
 
     //ExportWalletWithKeystore(IMasterWallet masterWallet, String backupPassWord, String payPassword, String keystorePath)
     public void exportWalletWithKeystore(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        mWalletManager.ExportWalletWithKeystore(mCurrentMasterWallet, args.getString(0), args.getString(1), args.getString(2));
-        callbackContext.success();
+        String keystoreContent = mWalletManager.ExportWalletWithKeystore(mCurrentMasterWallet, args.getString(0), args.getString(1));
+        callbackContext.success(parseOneParam("keystoreContent", keystoreContent));
     }
 
     //ExportWalletWithMnemonic(IMasterWallet masterWallet,String backupPassWord)

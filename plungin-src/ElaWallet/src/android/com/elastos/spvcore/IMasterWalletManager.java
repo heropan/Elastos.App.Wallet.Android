@@ -42,15 +42,15 @@ public class IMasterWalletManager {
 
     /***
      * 导入私钥
-     * @param keystorePath      文件路径
+     * @param keystoreContent      文件路径
      * @param backupPassWord    备份密码
      * @param payPassWord       支付密码
      * @return
      */
-    public IMasterWallet ImportWalletWithKeystore(String masterWalletId, String keystorePath,String backupPassWord
+    public IMasterWallet ImportWalletWithKeystore(String masterWalletId, String keystoreContent,String backupPassWord
                     ,String payPassWord, String phrasePassword)
     {
-        long masterProxy = nativeImportWalletWithKeystore(mManagerProxy, masterWalletId, keystorePath, backupPassWord, payPassWord, phrasePassword);
+        long masterProxy = nativeImportWalletWithKeystore(mManagerProxy, masterWalletId, keystoreContent, backupPassWord, payPassWord, phrasePassword);
         return new IMasterWallet(masterProxy);
     }
 
@@ -75,9 +75,9 @@ public class IMasterWalletManager {
      * @param backupPassWord
      * @param keystorePath
      */
-    public void ExportWalletWithKeystore(IMasterWallet masterWallet, String backupPassWord, String payPassword, String keystorePath)
+    public String ExportWalletWithKeystore(IMasterWallet masterWallet, String backupPassWord, String payPassword)
     {
-        nativeExportWalletWithKeystore(mManagerProxy, masterWallet, backupPassWord, payPassword, keystorePath);
+        return nativeExportWalletWithKeystore(mManagerProxy, masterWallet, backupPassWord, payPassword);
     }
 
     /***
@@ -103,13 +103,13 @@ public class IMasterWalletManager {
     private native long nativeCreateMasterWallet(long proxy, String masterWalletId ,String language);
 
     private native long nativeImportWalletWithKeystore(long proxy, String masterWalletId,
-                    String keystorePath,String backupPassWord ,String payPassWord, String phrasePassword);
+                    String keystoreContent,String backupPassWord ,String payPassWord, String phrasePassword);
 
     private native long nativeImportWalletWithMnemonic(long proxy, String masterWalletId, String mnemonic,
                     String phrasePassword,String payPassWord,String language);
 
-    private native void nativeExportWalletWithKeystore(long proxy, IMasterWallet masterWallet,
-                    String backupPassWord,String payPassword,String keystorePath);
+    private native String nativeExportWalletWithKeystore(long proxy, IMasterWallet masterWallet,
+                    String backupPassWord,String payPassword);
 
     private native String nativeExportWalletWithMnemonic(long proxy, IMasterWallet masterWallet,String backupPassWord);
     private native void nativeDestroyWallet(long proxy, String masterWalletId);
