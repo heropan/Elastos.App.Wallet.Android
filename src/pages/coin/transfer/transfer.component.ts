@@ -15,8 +15,6 @@ import { PopupComponent } from "ngx-weui";
   templateUrl: './transfer.component.html'})
 export class TransferComponent extends BaseComponent implements OnInit {
 
-
-
   @ViewChild('subscribe') subPopup: PopupComponent;
 
 
@@ -31,6 +29,8 @@ export class TransferComponent extends BaseComponent implements OnInit {
   balance = 0;
 
   chianId: string;
+
+  feeRate: 0.1;
 
   ngOnInit() {
     this.setTitleByAssets('text-transfer');
@@ -56,7 +56,6 @@ export class TransferComponent extends BaseComponent implements OnInit {
       this.balance = data.balance;
     });
   }
-
 
 
   onClick(type) {
@@ -108,14 +107,20 @@ export class TransferComponent extends BaseComponent implements OnInit {
       this.transfer.payPassword,
       this.transfer.memo,
       ()=>{
-        
+
       });
   }
 
   getFee(){
-    this.walletManager.getFee((data)=>{
-      this.transfer.fee = data.fee;
-    })
+    // this.walletManager.buildTransaction(this.chianId, "",
+    //   this.transfer.toAddress,
+    //   this.transfer.amount,
+    //   this.transfer.fee,
+    //   this.transfer.payPassword,
+    //   this.transfer.memo,
+    //   (data)=>{
+    //     this.transfer.fee = data.fee;
+    //   });
   }
 
 
