@@ -153,6 +153,20 @@ walletFunc.prototype.changePassword = function(arg0, sucess, error) {
     exec(sucess, error, "Wallet", "changePassword", arg0);
 };
 
+walletFunc.prototype.sendRawTransaction = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "sendRawTransaction", arg0);
+};
+
+walletFunc.prototype.calculateTransactionFee = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "sendRawTransaction", arg0);
+};
+
+walletFunc.prototype.createTransaction = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "createTransaction", arg0);
+};
+
+
+
 
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;

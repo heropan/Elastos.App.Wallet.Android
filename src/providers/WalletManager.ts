@@ -248,6 +248,18 @@ export class WalletManager {
      this.wallet.getAllSubWallets([oldPassword,newPassword],Fun,this.errorFun);
   }
 
+  createTransaction(chainId:string,fromAddress:string , toAddress:string ,amount:number,fee:number, memo:string,Fun){
+    this.wallet.createTransaction([chainId,fromAddress,toAddress,amount,fee,memo],Fun,this.errorFun);
+  }
+
+  calculateTransactionFee(chainId:string,rawTransaction:string,feePerKb:number,Fun){
+    this.wallet.calculateTransactionFee([chainId,rawTransaction,feePerKb],Fun,this.errorFun);
+  }
+
+  sendRawTransaction(chainId:string,transactionJson:string ,fee:number, payPassword:string,Fun){
+    this.wallet.sendRawTransaction([chainId,transactionJson,fee,payPassword],Fun,this.errorFun);
+  }
+
   errorFun(error) {
     alert("错误信息："+error);
     //this.native.toast(error);
