@@ -18,14 +18,17 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
   singMessage:string;
   fromAddress:string="sssss";
   toAddress:string="sssss";
-  chinaId:string ="Idchain";
+  chinaId:string ="ELA";
   adress:string;
+  toadress:string="EWs2TgP4Ds3qZcTzWmBZ5hNsx2PaEyxbui";
   interfaces = [
                 {id:3,name:"createMasterWallet"},
                 {id:24,name:"generateMnemonic"},
                 {id:23,name:"initializeMasterWallet"},
                 {id:28,name:"getSupportedChains"},
+                {id:9,name:"createAddress"},
                 {id:0,name:"createSubWallet"},
+                {id:12,name:"sendTransaction"},
                 {id:2,name:"getPublicKey"},
                 {id:8,name:"getBalance"},
                 {id:29,name:"changePassword"},
@@ -34,10 +37,8 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
                 {id:4,name:"importWalletWithKeystore"},
                 {id:5,name:"importWalletWithMnemonic"},
                 {id:6,name:"exportWalletWithKeystore"},
-                {id:9,name:"createAddress"},
                 {id:10,name:"getAllAddress"},
                 {id:11,name:"getBalanceWithAddress"},
-                {id:12,name:"sendTransaction"},
                 {id:13,name:"generateMultiSignTransaction"},
                 {id:14,name:"getAllTransaction"},
                 {id:15,name:"registerWalletListener"},
@@ -58,7 +59,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
   onNext(type): void {
      switch (type){
        case 0:
-         this.createSubWallet();
+         this.createSubWallet(this.chinaId);
          break;
        case 1:
          this.recoverSubWallet();
@@ -168,8 +169,8 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
        });
    }
 
-   createSubWallet(){
-      this.walletManager.createSubWallet(this.chinaId,this.payPassword,false,0,(result)=>{
+   createSubWallet(key){
+      this.walletManager.createSubWallet(key,this.payPassword,false,0,(result)=>{
         alert("子钱包");
         alert(JSON.stringify(result));
       });
@@ -220,8 +221,8 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
 
    createAddress(chinaId:string){
          this.walletManager.createAddress(chinaId,(result)=>{
-                this.adress = result;
-                alert(JSON.stringify(result));
+                this.adress = result.address;
+                alert(this.adress);
          });
    }
 
@@ -238,7 +239,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    sendTransaction(chinaId:string,fromAddress:string, toAddress:string, amount:number, fee:number, payPassword:string, memo:string){
-       this.walletManager.sendTransaction(chinaId,fromAddress,toAddress,amount,fee,payPassword,memo,(result)=>{
+       this.walletManager.sendTransaction(chinaId,"",toAddress,0.01,0.001,payPassword,"",(result)=>{
                 alert(JSON.stringify(result));
        });
    }
@@ -332,6 +333,9 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    getSupportedChains(){
     this.walletManager.getSupportedChains((result)=>{
       alert("已经支持的所有子钱包=="+JSON.stringify(result));
+      for(let key in result){;
+        this.createSubWallet(key);
+     }
      });
    }
 
