@@ -102,7 +102,7 @@ export class Native {
    * @constructor
    */
   copyClipboard(text) {
-    this.clipboard.copy(text);
+    return this.clipboard.copy(text);
   }
 
   /**
