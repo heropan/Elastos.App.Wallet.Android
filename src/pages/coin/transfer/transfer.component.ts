@@ -77,11 +77,11 @@ export class TransferComponent extends BaseComponent implements OnInit {
   }
 
   checkValue() {
-    if(Util.isNull(this.transfer.address)){
+    if(Util.isNull(this.transfer.toAddress)){
       this.toast('correct-address');
       return;
     }
-    if (!Util.isAddressValid(this.transfer.address)) {
+    if (!Util.isAddressValid(this.transfer.toAddress)) {
       this.messageBox("contact-address-digits");
       return;
     }
@@ -100,15 +100,15 @@ export class TransferComponent extends BaseComponent implements OnInit {
   }
 
   createTransaction(){
-    this.walletManager.sendTransaction(this.chianId, "",
-      this.transfer.toAddress,
-      this.transfer.amount,
-      this.transfer.fee,
-      this.transfer.payPassword,
-      this.transfer.memo,
-      ()=>{
+    // this.walletManager.sendTransaction(this.chianId, "",
+    //   this.transfer.toAddress,
+    //   this.transfer.amount,
+    //   this.transfer.fee,
+    //   this.transfer.payPassword,
+    //   this.transfer.memo,
+    //   ()=>{
 
-      });
+    //   });
   }
 
   getFee(){
