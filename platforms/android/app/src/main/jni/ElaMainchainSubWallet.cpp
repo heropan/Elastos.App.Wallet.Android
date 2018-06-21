@@ -9,29 +9,27 @@
 using namespace Elastos::ElaWallet;
 extern const char* ToStringFromJson(nlohmann::json jsonValue);
 
-//"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
-static jstring JNICALL nativeSendDepositTransaction(JNIEnv *env, jobject clazz, jlong jMainSubWalletProxy,
+//"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;)Ljava/lang/String;"
+static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz, jlong jMainSubWalletProxy,
         jstring jfromAddress, jstring jtoAddress, jlong amount, jstring jsidechainAccounts, jstring jsidechainAmounts
-        , jstring jsidechainIndexs, jlong fee, jstring jpayPassword, jstring jmemo)
+        , jstring jsidechainIndexs, jlong fee, jstring jmemo)
 {
     const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
     const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
     const char* sidechainAccounts = env->GetStringUTFChars(jsidechainAccounts, NULL);
     const char* sidechainAmounts = env->GetStringUTFChars(jsidechainAmounts, NULL);
     const char* sidechainIndexs = env->GetStringUTFChars(jsidechainIndexs, NULL);
-    const char* payPassword = env->GetStringUTFChars(jpayPassword, NULL);
     const char* memo = env->GetStringUTFChars(jmemo, NULL);
 
     IMainchainSubWallet* wallet = (IMainchainSubWallet*)jMainSubWalletProxy;
-    nlohmann::json txidJson = wallet->SendDepositTransaction(fromAddress, toAddress, amount, sidechainAccounts,
-                    sidechainAmounts, sidechainIndexs, fee, payPassword, memo);
+    nlohmann::json txidJson = wallet->CreateDepositTransaction(fromAddress, toAddress, amount, sidechainAccounts,
+                    sidechainAmounts, sidechainIndexs, fee, memo);
 
     env->ReleaseStringUTFChars(jfromAddress, fromAddress);
     env->ReleaseStringUTFChars(jtoAddress, toAddress);
     env->ReleaseStringUTFChars(jsidechainAccounts, sidechainAccounts);
     env->ReleaseStringUTFChars(jsidechainAmounts, sidechainAmounts);
     env->ReleaseStringUTFChars(jsidechainIndexs, sidechainIndexs);
-    env->ReleaseStringUTFChars(jpayPassword, payPassword);
     env->ReleaseStringUTFChars(jmemo, memo);
 
     return env->NewStringUTF(ToStringFromJson(txidJson));
@@ -39,9 +37,9 @@ static jstring JNICALL nativeSendDepositTransaction(JNIEnv *env, jobject clazz, 
 
 
 static const JNINativeMethod gMethods[] = {
-    {"nativeSendDepositTransaction",
-    "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
-            , (void*)nativeSendDepositTransaction},
+    {"nativeCreateDepositTransaction",
+    "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;)Ljava/lang/String;"
+            , (void*)nativeCreateDepositTransaction},
 };
 
 jint register_elastos_spv_IMainchainSubWallet(JNIEnv *env)

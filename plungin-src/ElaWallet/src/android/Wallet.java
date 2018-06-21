@@ -7,6 +7,9 @@ import com.elastos.spvcore.ISubWallet;
 import com.elastos.spvcore.ISubWalletCallback;
 import com.elastos.spvcore.Enviroment;
 import com.elastos.spvcore.IMasterWalletManager;
+import com.elastos.spvcore.IdManagerFactory;
+import com.elastos.spvcore.IDidManager;
+import com.elastos.spvcore.IDid;
 import com.elastos.wallet.util.LogUtil;
 
 import org.apache.cordova.CordovaInterface;
@@ -34,6 +37,7 @@ public class Wallet extends CordovaPlugin {
     private IMasterWallet mCurrentMasterWallet;
     private IMasterWalletManager mWalletManager;
     private ArrayList<IMasterWallet> mMasterWalletList;
+    private IDidManager mDidManager = null;
     private Map<String, ISubWallet> mSubWalletMap = new HashMap<String, ISubWallet>();
 
     private final String ERRORCODE = "ERRORCODE";
@@ -47,9 +51,17 @@ public class Wallet extends CordovaPlugin {
         mMasterWalletList = mWalletManager.GetAllMasterWallets();
         if (mMasterWalletList != null && mMasterWalletList.size() > 0) {
             mCurrentMasterWallet = mMasterWalletList.get(0);
+            if (mCurrentMasterWallet != null) {
+                mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet);
+            }
         }
     }
 
+    private void initDidManager() {
+        if (mCurrentMasterWallet != null) {
+            mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet);
+        }
+    }
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
@@ -102,11 +114,11 @@ public class Wallet extends CordovaPlugin {
               case "getBalanceWithAddress":
                   this.getBalanceWithAddress(args, callbackContext);
                   return true;
-              case "sendTransaction":
-                  this.sendTransaction(args, callbackContext);
+              case "createTransaction":
+                  this.createTransaction(args, callbackContext);
                   return true;
-              case "generateMultiSignTransaction":
-                  this.generateMultiSignTransaction(args, callbackContext);
+              case "createMultiSignTransaction":
+                  this.createMultiSignTransaction(args, callbackContext);
                   return true;
               case "createMultiSignAddress":
                   this.createMultiSignAddress(args, callbackContext);
@@ -159,6 +171,27 @@ public class Wallet extends CordovaPlugin {
               case "resetAddressCache":
                   this.resetAddressCache(args, callbackContext);
                   return true;
+              case "sendRawTransaction":
+                  this.sendRawTransaction(args, callbackContext);
+                  return true;
+              case "calculateTransactionFee":
+                  this.calculateTransactionFee(args, callbackContext);
+                  return true;
+              // case "createDID":
+              //     this.createDID(args, callbackContext);
+              //     return true;
+              // case "getDID":
+              //     this.getDID(args, callbackContext);
+              //     return true;
+              // case "getDIDList":
+              //     this.getDIDList(args, callbackContext);
+              //     return true;
+              // case "destoryDID":
+              //     this.destoryDID(args, callbackContext);
+              //     return true;
+              // case "getDID":
+              //     this.getDID(args, callbackContext);
+              //     return true;
           }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -199,6 +232,7 @@ public class Wallet extends CordovaPlugin {
         if (mMasterWalletList != null && mMasterWalletList.size() > 0) {
             //TODO: Now, the first masterWallet is the default.
             mCurrentMasterWallet = mMasterWalletList.get(0);
+            initDidManager();
             callbackContext.success(parseOneParam("walletid",mCurrentMasterWallet.GetId()));
         }
         else {
@@ -276,6 +310,7 @@ public class Wallet extends CordovaPlugin {
         mCurrentMasterWallet = mWalletManager.CreateMasterWallet(args.getString(0), args.getString(1));
         if (mCurrentMasterWallet != null) {
             mMasterWalletList.add(mCurrentMasterWallet);
+            initDidManager();
             callbackContext.success();
         }
         else {
@@ -300,6 +335,7 @@ public class Wallet extends CordovaPlugin {
         mCurrentMasterWallet = mWalletManager.ImportWalletWithKeystore(args.getString(0), args.getString(1), args.getString(2), args.getString(3), args.getString(4));
         if (mCurrentMasterWallet != null) {
             mMasterWalletList.add(mCurrentMasterWallet);
+            initDidManager();
             callbackContext.success();
         }
         else {
@@ -312,6 +348,7 @@ public class Wallet extends CordovaPlugin {
         mCurrentMasterWallet = mWalletManager.ImportWalletWithMnemonic(args.getString(0), args.getString(1), args.getString(2), args.getString(3), args.getString(4));
         if (mCurrentMasterWallet != null) {
             mMasterWalletList.add(mCurrentMasterWallet);
+            initDidManager();
             callbackContext.success();
         }
         else {
@@ -336,8 +373,8 @@ public class Wallet extends CordovaPlugin {
         }
     }
 
-    //SendTransaction(String fromAddress, String toAddress, long amount, long fee, String payPassword, String memo)
-    public void sendTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    // String CreateTransaction(String fromAddress, String toAddress, long amount, long fee, String memo)
+    public void createTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
@@ -345,13 +382,13 @@ public class Wallet extends CordovaPlugin {
             return;
         }
 
-        String transactionId = subWallet.SendTransaction(args.getString(1), args.getString(2), args.getLong(3),
-                                args.getLong(4), args.getString(5), args.getString(6));
+        String transactionId = subWallet.CreateTransaction(args.getString(1), args.getString(2), args.getLong(3),
+                                args.getLong(4), args.getString(5));
         if (transactionId != null) {
             callbackContext.success(parseOneParam("transactionId", transactionId));
         }
         else {
-            callbackContext.error("SendTransaction failed.");
+            callbackContext.error("CreateTransaction failed.");
         }
     }
 
@@ -372,7 +409,7 @@ public class Wallet extends CordovaPlugin {
         }
     }
 
-    public void generateMultiSignTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    public void createMultiSignTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
@@ -380,14 +417,14 @@ public class Wallet extends CordovaPlugin {
             return;
         }
 
-        String result = subWallet.GenerateMultiSignTransaction(args.getString(1), args.getString(2), args.getLong(3),
-                    args.getLong(4), args.getString(5), args.getString(6));
+        String result = subWallet.CreateMultiSignTransaction(args.getString(1), args.getString(2), args.getLong(3),
+                    args.getLong(4), args.getString(5));
 
         if (result != null) {
             callbackContext.success(parseOneParam("result", result));
         }
         else {
-            callbackContext.error("GenerateMultiSignTransaction failed.");
+            callbackContext.error("createMultiSignTransaction failed.");
         }
     }
 
@@ -524,6 +561,32 @@ public class Wallet extends CordovaPlugin {
 
         boolean status = subWallet.CheckSign(args.getString(1), args.getString(2), args.getString(3));
         callbackContext.success(parseOneParam("status", status));
+    }
+
+    //String SendRawTransaction(String transactionJson, long fee, String payPassword)
+    public void sendRawTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        //The first parameter is [chainID]
+        ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
+        if (subWallet == null) {
+            callbackContext.error("Don't have the subWallet, please check.");
+            return;
+        }
+
+        String json = subWallet.SendRawTransaction(args.getString(1), args.getLong(2), args.getString(3));
+        callbackContext.success(parseOneParam("json", json));
+    }
+
+    //long CalculateTransactionFee(String rawTransaction, uint64_t feePerKb)
+    public void calculateTransactionFee(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        //The first parameter is [chainID]
+        ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
+        if (subWallet == null) {
+            callbackContext.error("Don't have the subWallet, please check.");
+            return;
+        }
+
+        long fee = subWallet.CalculateTransactionFee(args.getString(1), args.getLong(2));
+        callbackContext.success(parseOneParam("fee", fee));
     }
 
     public void getAllChainIds(JSONArray args, CallbackContext callbackContext) throws JSONException {
