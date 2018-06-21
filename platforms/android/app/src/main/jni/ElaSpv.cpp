@@ -35,9 +35,9 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved){
     register_elastos_spv_IIdChainSubWallet(env);
 
     //did
-    register_elastos_spv_IDid(env);
-    register_elastos_spv_IDidManager(env);
-    register_elastos_spv_IdManagerFactory(env);
+    // register_elastos_spv_IDid(env);
+    // register_elastos_spv_IDidManager(env);
+    // register_elastos_spv_IdManagerFactory(env);
 
     return JNI_VERSION_1_6;
 }

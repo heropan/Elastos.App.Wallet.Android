@@ -52,14 +52,14 @@ public class Wallet extends CordovaPlugin {
         if (mMasterWalletList != null && mMasterWalletList.size() > 0) {
             mCurrentMasterWallet = mMasterWalletList.get(0);
             if (mCurrentMasterWallet != null) {
-                mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet);
+                // mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet);
             }
         }
     }
 
     private void initDidManager() {
         if (mCurrentMasterWallet != null) {
-            mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet);
+            // mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet);
         }
     }
 
@@ -660,6 +660,17 @@ public class Wallet extends CordovaPlugin {
             callbackContext.success(parseOneParam("text", text));
         }
     }
+
+    //did
+    // public void createDID(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    //     if (mDidManager != null) {
+    //         mDidManager.CreateDID(args.getString(0));
+    //         callbackContext.success();
+    //         return;
+    //     }
+
+    //     callbackContext.success(parseOneParam("didname", null));
+    // }
 
     @Override
     public void onDestroy() {

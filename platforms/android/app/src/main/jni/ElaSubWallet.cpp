@@ -238,7 +238,7 @@ static const JNINativeMethod gMethods[] = {
     {"nativeGetAllTransaction", "(JIILjava/lang/String;)Ljava/lang/String;", (void*)nativeGetAllTransaction},
     {"nativeSign", "(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeSign},
     {"nativeCheckSign", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z", (void*)nativeCheckSign},
-    {"nativeCalculateTransactionFee", "(JLjava/lang/StringJ)J", (void*)nativeCalculateTransactionFee},
+    {"nativeCalculateTransactionFee", "(JLjava/lang/String;J)J", (void*)nativeCalculateTransactionFee},
 };
 
 jint register_elastos_spv_ISubWallet(JNIEnv *env)
