@@ -1,21 +1,20 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
-//import {ValidatorsUtil} from "../../../providers/ValidatorsUtil";
-import {Logger} from "../../../providers/Logger";
+
 
 @Component({
   selector: 'app-exprot-prikey',
-  templateUrl: './exprot-prikey.component.html',
-  // styleUrls: ['./exprot-prikey.component.scss']
+  templateUrl: './exprot-prikey.component.html'
 })
 export class ExprotPrikeyComponent extends BaseComponent implements OnInit {
 
-
-  wallet = {
-    name: '',
-    pwd: '',
-    rePwd: '',
-    keystore: ''
+  public file: File;
+  public backupWalletPlainText:any="zzzzzzzz";
+  exprotObj = {
+    name: 'ss',
+    backupPassWord: '',
+    reBackupPassWord: '',
+    payPassword: ''
   };
 
   ngOnInit() {
@@ -24,31 +23,48 @@ export class ExprotPrikeyComponent extends BaseComponent implements OnInit {
   }
 
   onWalletDatainit(){
-    this.wallet.name = this.walletData.name;
+    this.exprotObj.name = this.walletData.name;
+  }
+
+  checkparms(){
+
+    if(this.isNull(this.exprotObj.backupPassWord)){
+       this.messageBox("text-wallet-pwd");
+       return false;
+    }
+
+    if(this.exprotObj.backupPassWord != this.exprotObj.reBackupPassWord){
+      this.messageBox("text-passworld-compare");
+       return false;
+    }
+
+    if(this.isNull(this.exprotObj.payPassword)){
+      this.messageBox("text-pay-passworld-input");
+      return false;
+    }
+
+     return true;
   }
 
   onDown() {
-    this.native.openFile().then(data=>{
-      Logger.info(data);
-    }).catch(err=>{
-
-    });
-    // if (!ValidatorsUtil.password(this.wallet.pwd)) {
-    //   this.toast("text-pwd-validator");
-    //   return;
-    // }
-    // if (this.wallet.pwd != this.wallet.rePwd) {
-    //   this.toast("text-repwd-validator");
-    //   return;
-    // }
-    //
-    // this.onExport();
+     if(this.checkparms()){
+         this.onExport();
+     }
   }
 
   onExport() {
-    // this.walletManager.exportWalletWithKeystore(this.wallet.keystore, this.wallet.pwd, (data) => {
+    alert("backupPassWord====="+this.exprotObj.backupPassWord+"payPassword=="+this.exprotObj.payPassword);
+    this.walletManager.exportWalletWithKeystore(this.exprotObj.backupPassWord,this.exprotObj.payPassword,(reslut) => {
+                 alert("导出成功"+JSON.stringify(reslut));
+    });
+  }
 
-    // });
+  onCopay(){
+    this.native.copyClipboard(this.backupWalletPlainText).then(()=>{
+             this.toast('text-copied-to-clipboard');
+    }).catch(()=>{
+
+    });
   }
 
 }
