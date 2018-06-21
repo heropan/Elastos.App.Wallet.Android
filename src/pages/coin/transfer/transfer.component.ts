@@ -39,7 +39,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
 
     this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
       this.native.scan().then((q)=>{
-        //this.transfer.toAdd(q.qrcode);
+        this.transfer.toAddress = q.text.split(":")[1];
       }).catch(err=>{
           this.toast('error-address');
       });
