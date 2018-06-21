@@ -99,7 +99,7 @@ export const zh = {
   'update-ok': '刷新成功',
   'contact-name-notnull': '联系人姓名不能为空',
   'contact-address-notnull': '联系人地址不能为空',
-  'contact-address-digits': '联系人地址必须是34位',
+  'contact-address-digits': '地址必须是34位',
   'contact-phone-check': '无效的手机号',
   'text-mnemonic-validator': '助记词必须是12个',
   'wallet-name': '钱包名',
