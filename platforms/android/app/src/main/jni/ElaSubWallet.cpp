@@ -7,7 +7,7 @@
 #include "ISubWallet.h"
 #include "nlohmann/json.hpp"
 
-using namespace Elastos::SDK;
+using namespace Elastos::ElaWallet;
 
 #define  CLASS_SUBWALLET   "com/elastos/spvcore/ISubWallet"
 #define  FIELD_SUBWALLET   "mSubProxy"

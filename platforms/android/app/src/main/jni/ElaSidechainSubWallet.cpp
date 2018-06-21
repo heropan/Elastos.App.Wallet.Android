@@ -6,7 +6,7 @@
 #include "ISidechainSubWallet.h"
 #include "nlohmann/json.hpp"
 
-using namespace Elastos::SDK;
+using namespace Elastos::ElaWallet;
 
 
 //"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"

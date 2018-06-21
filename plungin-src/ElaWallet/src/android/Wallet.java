@@ -31,7 +31,6 @@ import io.ionic.starter.MyUtil;
  */
 public class Wallet extends CordovaPlugin {
     private static final String TAG = "Wallet.JNI";
-    private String mRootPath;
     private IMasterWallet mCurrentMasterWallet;
     private IMasterWalletManager mWalletManager;
     private ArrayList<IMasterWallet> mMasterWalletList;
@@ -44,8 +43,6 @@ public class Wallet extends CordovaPlugin {
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
-        mRootPath = MyUtil.getRootPath();
-        Enviroment.InitializeRootPath(mRootPath);
         mWalletManager = Enviroment.GetMasterWalletManager();
         mMasterWalletList = mWalletManager.GetAllMasterWallets();
         if (mMasterWalletList != null && mMasterWalletList.size() > 0) {
@@ -158,6 +155,9 @@ public class Wallet extends CordovaPlugin {
                   return true;
               case "changePassword":
                   this.changePassword(args, callbackContext);
+                  return true;
+              case "resetAddressCache":
+                  this.resetAddressCache(args, callbackContext);
                   return true;
           }
         } catch (JSONException e) {
@@ -558,6 +558,16 @@ public class Wallet extends CordovaPlugin {
     public void changePassword(JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (mCurrentMasterWallet != null) {
             mCurrentMasterWallet.ChangePassword(args.getString(0), args.getString(1));
+            callbackContext.success();
+            return;
+        }
+
+        callbackContext.success(parseOneParam("changePassword", null));
+    }
+
+    public void resetAddressCache(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mCurrentMasterWallet != null) {
+            mCurrentMasterWallet.ResetAddressCache(args.getString(0));
             callbackContext.success();
             return;
         }

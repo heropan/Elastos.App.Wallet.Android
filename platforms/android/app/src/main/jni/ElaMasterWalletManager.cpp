@@ -5,7 +5,7 @@
 #include "ElaUtils.h"
 #include "IMasterWalletManager.h"
 
-using namespace Elastos::SDK;
+using namespace Elastos::ElaWallet;
 
 #define  CLASS_MASTERWALLET   "com/elastos/spvcore/IMasterWallet"
 #define  FIELD_MASTERWALLET   "mMasterProxy"

@@ -6,7 +6,7 @@
 #include "Enviroment.h"
 #include "nlohmann/json.hpp"
 
-using namespace Elastos::SDK;
+using namespace Elastos::ElaWallet;
 
 //"(Ljava/lang/String;)V"
 static void JNICALL nativeInitializeRootPath(JNIEnv *env, jobject clazz, jstring jRootPath)

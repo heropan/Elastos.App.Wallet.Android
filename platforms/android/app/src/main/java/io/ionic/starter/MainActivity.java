@@ -63,6 +63,8 @@ public class MainActivity extends CordovaActivity
 
         Context applicationContext = getApplicationContext();
         MyUtil.setApplicationContext(applicationContext);
+        String mRootPath = MyUtil.getRootPath();
+        Enviroment.InitializeRootPath(mRootPath);
 
         String udid =  MyUtil.getImei(applicationContext, "");
         if (null != udid) Log.w("xxl-jg","Imei uuid is " + udid);

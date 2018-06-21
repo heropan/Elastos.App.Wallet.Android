@@ -6,7 +6,7 @@
 #include "IMasterWallet.h"
 #include "nlohmann/json.hpp"
 
-using namespace Elastos::SDK;
+using namespace Elastos::ElaWallet;
 
 
 //"(J)Ljava/lang/String;"
@@ -170,6 +170,15 @@ static void JNICALL nativeChangePassword(JNIEnv *env, jobject clazz, jlong jMast
     env->ReleaseStringUTFChars(jnewPassword, newPassword);
 }
 
+static void JNICALL nativeResetAddressCache(JNIEnv *env, jobject clazz, jlong jMasterProxy, jstring jpayPassword)
+{
+    const char* payPassword = env->GetStringUTFChars(jpayPassword, NULL);
+
+    IMasterWallet* masterWallet = (IMasterWallet*)jMasterProxy;
+    masterWallet->ResetAddressCache(payPassword);
+
+    env->ReleaseStringUTFChars(jpayPassword, payPassword);
+}
 
 static const JNINativeMethod gMethods[] = {
     {"nativeGetId", "(J)Ljava/lang/String;", (void*)nativeGetId},
@@ -184,6 +193,7 @@ static const JNINativeMethod gMethods[] = {
     {"nativeGenerateMnemonic", "(J)Ljava/lang/String;", (void*)nativeGenerateMnemonic},
     {"nativeGetSupportedChains", "(J)[Ljava/lang/String;", (void*)nativeGetSupportedChains},
     {"nativeChangePassword", "(JLjava/lang/String;Ljava/lang/String;)V", (void*)nativeChangePassword},
+    {"nativeResetAddressCache", "(JLjava/lang/String;)V", (void*)nativeResetAddressCache},
 };
 
 jint register_elastos_spv_IMasterWallet(JNIEnv *env)
