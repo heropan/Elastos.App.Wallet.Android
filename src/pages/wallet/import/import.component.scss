@@ -1,50 +1,14 @@
-@import "./../../../theme/variables";
-
-.import-tabs {
-  border-bottom: solid 1px $color-gray-light;
-  height: 40px;
-  line-height: 40px;
-  display: -webkit-box;
-  color: $color-gray-dark;
-  font-size: 1em;
-  &>div{
-    -webkit-box-flex: 1;
+.kuangTextArea {
     text-align: center;
-  }
-  &>span{
-    height: 40px;
-    width: 1px;
-    background-color: $color-gray-light;
-    display: block;
-  }
+    padding: 10px
 }
 
-.select-tab{
-  color: $color-main;
-  font-size: 1.1em;
-}
-
-.import-type {
-  text-align: center;
-  margin: 20px 0px;
-  font-size: 1.2em;
-}
-
-.wallet-button {
-  width: 80%;
-  margin: 30px 10%;
-}
-
-.import-file {
-  width: 80%;
-  margin: 20px auto;
-  border: solid 1px $color-gray-light;
-  text-align: center;
-  color: $color-gray-dark;
-  padding-bottom: 30px;
-  img {
-    width: 60px;
-    margin: 20px auto;
-    display: block;
-  }
+.backupWalletTextArea {
+    width: 100%;
+    border: solid 1px #ddd;
+    border-radius: 20px;
+    margin-top: 10px;
+    resize: none;
+    padding-left: 10px;
+    padding-top: 10px;
 }

@@ -8,7 +8,6 @@ import {BaseComponent} from './../../../app/BaseComponent';
 })
 export class ExprotPrikeyComponent extends BaseComponent implements OnInit {
 
-  public file: File;
   public backupWalletPlainText:any;
   exprotObj = {
     name: 'ss',
