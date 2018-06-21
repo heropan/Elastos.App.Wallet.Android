@@ -21,17 +21,21 @@ export class TransferComponent extends BaseComponent implements OnInit {
 
 
   transfer: any = {
-    toAdd: '',
+    toAddress: '',
     amount: '',
-    remark: '',
-    fees: '',
+    memo: '',
+    fee: '',
     payPassword:'',
   };
 
-  balance = 1.0;
+  balance = 0;
+
+  chianId: string;
 
   ngOnInit() {
     this.setTitleByAssets('text-transfer');
+
+    this.chianId = this.getNavParams().get("chianId");
 
     this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
       this.native.scan().then((q)=>{
@@ -48,9 +52,9 @@ export class TransferComponent extends BaseComponent implements OnInit {
   }
 
   initData(){
-    // this.walletManager.getBalanceFun((data)=>{
-    //   this.balance = data.balance;
-    // });
+    this.walletManager.getBalance(this.chianId, (data)=>{
+      this.balance = data.balance;
+    });
   }
 
 
@@ -74,10 +78,6 @@ export class TransferComponent extends BaseComponent implements OnInit {
   }
 
   checkValue() {
-    this.subPopup.show().subscribe((res: boolean) => {
-
-    });
-
     if(Util.isNull(this.transfer.address)){
       this.toast('correct-address');
       return;
@@ -95,24 +95,26 @@ export class TransferComponent extends BaseComponent implements OnInit {
       this.toast('error-amount');
       return;
     }
+    this.subPopup.show().subscribe((res: boolean) => {
 
+    });
   }
 
   createTransaction(){
-    // this.walletManager.sendTransaction(this.walletData.lastAddress,
-    //   this.transfer.toAdd,
-    //   this.transfer.amount,
-    //   this.transfer.fees,
-    //   this.transfer.payPassword,
-    //   this.transfer.remark,
-    //   ()=>{
-
-    //   });
+    this.walletManager.sendTransaction(this.chianId, "",
+      this.transfer.toAddress,
+      this.transfer.amount,
+      this.transfer.fee,
+      this.transfer.payPassword,
+      this.transfer.memo,
+      ()=>{
+        
+      });
   }
 
   getFee(){
     this.walletManager.getFee((data)=>{
-      this.transfer.fees = data.fee;
+      this.transfer.fee = data.fee;
     })
   }
 
