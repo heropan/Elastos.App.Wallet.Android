@@ -11,7 +11,7 @@ using namespace Elastos::ElaWallet;
 #define  FIELD_MASTERWALLET   "mMasterProxy"
 
 extern const char* ToStringFromJson(const nlohmann::json& jsonValue);
-extern const nlohmann::json& ToJosnFromString(const char* str);
+extern nlohmann::json ToJosnFromString(const char* str);
 
 static void JNICALL nativeDisposeNative(JNIEnv *env, jobject clazz, jlong jWalletMgr)
 {

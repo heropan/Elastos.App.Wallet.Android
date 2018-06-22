@@ -19,7 +19,7 @@ const char* ToStringFromJson(const nlohmann::json& jsonValue)
     return ss.str().c_str();
 }
 
-const nlohmann::json& ToJosnFromString(const char* str)
+nlohmann::json ToJosnFromString(const char* str)
 {
     nlohmann::json jsonValue;
     std::stringstream ss;

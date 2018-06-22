@@ -326,7 +326,6 @@ public class Wallet extends CordovaPlugin {
 
     //ImportWalletWithKeystore(String masterWalletId, String keystoreContent, String backupPassWord ,String payPassWord, String phrasePassword)
     public void importWalletWithKeystore(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        Log.d(TAG, "ImportWalletWithKeystore   ===="+args.getString(0)+", "+args.getString(1)+", "+args.getString(2)+", "+args.getString(3)+", "+args.getString(4));
         mCurrentMasterWallet = mWalletManager.ImportWalletWithKeystore(args.getString(0), args.getString(1), args.getString(2), args.getString(3), args.getString(4));
         if (mCurrentMasterWallet != null) {
             mMasterWalletList.add(mCurrentMasterWallet);
@@ -475,18 +474,14 @@ public class Wallet extends CordovaPlugin {
 
 
     public void getBalance(JSONArray args, CallbackContext callbackContext) throws JSONException {
-      Log.d("JS-Wallet", "getBalance=============chainID="+args.getString(0));
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            Log.d("JS-Wallet", "getBalance=============chainID=null");
             callbackContext.error("Don't have the subWallet, please check.");
             return;
         }
 
-        Log.d("JS-Wallet", "getBalance=============================2");
         callbackContext.success(parseOneParam("balance", subWallet.GetBalance()));
-        Log.d("JS-Wallet", "getBalance=============================3");
     }
 
     public void createAddress(JSONArray args, CallbackContext callbackContext) throws JSONException {
