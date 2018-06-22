@@ -9,7 +9,7 @@
 using namespace Elastos::ElaWallet;
 
 extern const char* ToStringFromJson(const nlohmann::json& jsonValue);
-extern const nlohmann::json& ToJosnFromString(const char* str);
+extern nlohmann::json ToJosnFromString(const char* str);
 
 //"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject clazz, jlong jSideSubWalletProxy, jstring jfromAddress
