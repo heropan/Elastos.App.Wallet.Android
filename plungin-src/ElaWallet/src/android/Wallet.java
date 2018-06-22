@@ -52,14 +52,14 @@ public class Wallet extends CordovaPlugin {
         if (mMasterWalletList != null && mMasterWalletList.size() > 0) {
             mCurrentMasterWallet = mMasterWalletList.get(0);
             if (mCurrentMasterWallet != null) {
-                mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet);
+                // mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet);
             }
         }
     }
 
     private void initDidManager() {
         if (mCurrentMasterWallet != null) {
-            mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet);
+            // mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet);
         }
     }
 
