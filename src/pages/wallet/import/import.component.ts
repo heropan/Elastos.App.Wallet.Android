@@ -65,7 +65,12 @@ export class ImportComponent extends BaseComponent implements OnInit {
                       this.importFileObj.payPassword,this.importFileObj.phrasePassword,
                       ()=>{
                           this.messageBox('import-text-keystroe-sucess');
-                          this.Go(HomeComponent);
+                          this.localStorage.setWallet({
+                            'name': "sss"
+                           }).then(()=>{
+                            this.Go(HomeComponent);
+                           });
+
                       });
   }
 
@@ -105,7 +110,12 @@ export class ImportComponent extends BaseComponent implements OnInit {
     let mnemonic = this.normalizeMnemonic(this.normalizeMnemonic(this.mnemonicObj.mnemonic));
     this.walletManager.importWalletWithMnemonic("1",mnemonic,this.mnemonicObj.phrasePassword,this.mnemonicObj.payPassword,this.getMnemonicLang(),()=>{
                  this.messageBox('import-text-world-sucess');
-                 this.Go(HomeComponent);
+                 this.localStorage.setWallet({
+                  'name': "sss"
+                 }).then(()=>{
+                    this.Go(HomeComponent);
+                 });
+
     });
   }
 }
