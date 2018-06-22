@@ -104,7 +104,7 @@ export class ImportComponent extends BaseComponent implements OnInit {
   importWalletWithMnemonic(){
     let mnemonic = this.normalizeMnemonic(this.normalizeMnemonic(this.mnemonicObj.mnemonic));
     this.walletManager.importWalletWithMnemonic("1",mnemonic,this.mnemonicObj.phrasePassword,this.mnemonicObj.payPassword,this.getMnemonicLang(),()=>{
-                 alert("导入助记词成功");
+                 this.messageBox('import-text-world-sucess');
                  this.Go(HomeComponent);
     });
   }
