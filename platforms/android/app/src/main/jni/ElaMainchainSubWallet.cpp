@@ -7,7 +7,8 @@
 #include "nlohmann/json.hpp"
 
 using namespace Elastos::ElaWallet;
-extern const char* ToStringFromJson(nlohmann::json jsonValue);
+extern const char* ToStringFromJson(const nlohmann::json& jsonValue);
+extern const nlohmann::json& ToJosnFromString(const char* str);
 
 //"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz, jlong jMainSubWalletProxy,
@@ -22,8 +23,9 @@ static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz
     const char* memo = env->GetStringUTFChars(jmemo, NULL);
 
     IMainchainSubWallet* wallet = (IMainchainSubWallet*)jMainSubWalletProxy;
-    nlohmann::json txidJson = wallet->CreateDepositTransaction(fromAddress, toAddress, amount, sidechainAccounts,
-                    sidechainAmounts, sidechainIndexs, fee, memo);
+    nlohmann::json txidJson = wallet->CreateDepositTransaction(fromAddress, toAddress, amount
+            , ToJosnFromString(sidechainAccounts), ToJosnFromString(sidechainAmounts)
+            , ToJosnFromString(sidechainIndexs), fee, memo);
 
     env->ReleaseStringUTFChars(jfromAddress, fromAddress);
     env->ReleaseStringUTFChars(jtoAddress, toAddress);

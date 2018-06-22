@@ -24,7 +24,7 @@ public class IDidManager {
         return nativeGetDIDList(mDidManagerProxy);
     }
 
-    public void  DestoryDID(String didName) {
+    public void DestoryDID(String didName) {
         nativeDestoryDID(mDidManagerProxy, didName);
     }
 

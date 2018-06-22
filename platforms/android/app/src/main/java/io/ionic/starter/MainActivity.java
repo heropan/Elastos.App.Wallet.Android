@@ -30,12 +30,12 @@ import com.elastos.spvcore.Enviroment;
 
 public class MainActivity extends CordovaActivity
 {
-  static {
-    System.loadLibrary("spvsdk");
-    // System.loadLibrary("idchain");
-    System.loadLibrary("elastoswallet");
+    static {
+        System.loadLibrary("spvsdk");
+        System.loadLibrary("idchain");
+        System.loadLibrary("elastoswallet");
+    }
 
-  }
     @Override
     public void onCreate(Bundle savedInstanceState)
     {

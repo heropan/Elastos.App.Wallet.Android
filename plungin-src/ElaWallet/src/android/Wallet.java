@@ -52,14 +52,14 @@ public class Wallet extends CordovaPlugin {
         if (mMasterWalletList != null && mMasterWalletList.size() > 0) {
             mCurrentMasterWallet = mMasterWalletList.get(0);
             if (mCurrentMasterWallet != null) {
-                // mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet);
+                mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet);
             }
         }
     }
 
     private void initDidManager() {
         if (mCurrentMasterWallet != null) {
-            // mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet);
+            mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet);
         }
     }
 
@@ -177,21 +177,15 @@ public class Wallet extends CordovaPlugin {
               case "calculateTransactionFee":
                   this.calculateTransactionFee(args, callbackContext);
                   return true;
-              // case "createDID":
-              //     this.createDID(args, callbackContext);
-              //     return true;
-              // case "getDID":
-              //     this.getDID(args, callbackContext);
-              //     return true;
-              // case "getDIDList":
-              //     this.getDIDList(args, callbackContext);
-              //     return true;
-              // case "destoryDID":
-              //     this.destoryDID(args, callbackContext);
-              //     return true;
-              // case "getDID":
-              //     this.getDID(args, callbackContext);
-              //     return true;
+              case "createDID":
+                  this.createDID(args, callbackContext);
+                  return true;
+              case "getDIDList":
+                  this.getDIDList(args, callbackContext);
+                  return true;
+              case "destoryDID":
+                  this.destoryDID(args, callbackContext);
+                  return true;
           }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -662,16 +656,40 @@ public class Wallet extends CordovaPlugin {
         }
     }
 
-    //did
-    // public void createDID(JSONArray args, CallbackContext callbackContext) throws JSONException {
-    //     if (mDidManager != null) {
-    //         mDidManager.CreateDID(args.getString(0));
-    //         callbackContext.success();
-    //         return;
-    //     }
 
-    //     callbackContext.success(parseOneParam("didname", null));
-    // }
+    //did
+    //CreateDID(String password)
+    public void createDID(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mDidManager != null) {
+            IDid did = mDidManager.CreateDID(args.getString(0));
+            callbackContext.success(parseOneParam("didname", did.GetDIDName()));
+            return;
+        }
+
+        callbackContext.success(parseOneParam("didname", null));
+    }
+
+    //String GetDIDList()
+    public void getDIDList(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mDidManager != null) {
+            String list = mDidManager.GetDIDList();
+            callbackContext.success(parseOneParam("list", list));
+            return;
+        }
+
+        callbackContext.success(parseOneParam("list", null));
+    }
+
+    //void DestoryDID(String didName)
+    public void destoryDID(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mDidManager != null) {
+            mDidManager.DestoryDID(args.getString(0));
+            callbackContext.success();
+            return;
+        }
+
+        callbackContext.error("DidManager is null");
+    }
 
     @Override
     public void onDestroy() {

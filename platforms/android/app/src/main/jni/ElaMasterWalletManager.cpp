@@ -10,7 +10,9 @@ using namespace Elastos::ElaWallet;
 #define  CLASS_MASTERWALLET   "com/elastos/spvcore/IMasterWallet"
 #define  FIELD_MASTERWALLET   "mMasterProxy"
 
-extern const char* ToStringFromJson(nlohmann::json jsonValue);
+extern const char* ToStringFromJson(const nlohmann::json& jsonValue);
+extern const nlohmann::json& ToJosnFromString(const char* str);
+
 static void JNICALL nativeDisposeNative(JNIEnv *env, jobject clazz, jlong jWalletMgr)
 {
     IMasterWalletManager* walletManager = (IMasterWalletManager*)jWalletMgr;
@@ -71,7 +73,7 @@ static jlong JNICALL nativeImportWalletWithKeystore(JNIEnv *env, jobject clazz, 
     const char* phrasePassword = env->GetStringUTFChars(jphrasePassword, NULL);
 
     IMasterWalletManager* walletManager = (IMasterWalletManager*)jWalletMgr;
-    IMasterWallet* masterWallet = walletManager->ImportWalletWithKeystore(masterWalletId, keystoreContent, backupPassword, payPassword, phrasePassword);
+    IMasterWallet* masterWallet = walletManager->ImportWalletWithKeystore(masterWalletId, ToJosnFromString(keystoreContent), backupPassword, payPassword, phrasePassword);
 
     env->ReleaseStringUTFChars(jmasterWalletId, masterWalletId);
     env->ReleaseStringUTFChars(jkeystoreContent, keystoreContent);

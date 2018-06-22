@@ -7,7 +7,7 @@
 
 using namespace Elastos::DID;
 
-extern const char* ToStringFromJson(nlohmann::json jsonValue);
+extern const char* ToStringFromJson(const nlohmann::json& jsonValue);
 
 //"(JLjava/lang/String;)J"
 static jlong JNICALL nativeCreateDID(JNIEnv *env, jobject clazz, jlong jDidMgrProxy, jstring jpassword)
