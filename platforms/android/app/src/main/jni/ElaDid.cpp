@@ -8,7 +8,7 @@
 
 using namespace Elastos::DID;
 
-extern const char* ToStringFromJson(nlohmann::json jsonValue);
+extern const char* ToStringFromJson(const nlohmann::json& jsonValue);
 
 //"(J)Ljava/lang/String;"
 static jstring JNICALL nativeGetDIDName(JNIEnv *env, jobject clazz, jlong jDidProxy)

@@ -8,7 +8,8 @@
 
 using namespace Elastos::ElaWallet;
 
-extern const char* ToStringFromJson(nlohmann::json jsonValue);
+extern const char* ToStringFromJson(const nlohmann::json& jsonValue);
+extern const nlohmann::json& ToJosnFromString(const char* str);
 
 //"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeCreateIdTransaction(JNIEnv *env, jobject clazz, jlong jIdSubWalletProxy, jstring jfromAddress,
@@ -21,7 +22,8 @@ static jstring JNICALL nativeCreateIdTransaction(JNIEnv *env, jobject clazz, jlo
     const char* memo = env->GetStringUTFChars(jmemo, NULL);
 
     IIdChainSubWallet* wallet = (IIdChainSubWallet*)jIdSubWalletProxy;
-    nlohmann::json txidJson = wallet->CreateIdTransaction(fromAddress, toAddress, amount, payloadJson, programJson, fee, memo);
+    nlohmann::json txidJson = wallet->CreateIdTransaction(fromAddress, toAddress, amount
+            , ToJosnFromString(payloadJson), ToJosnFromString(programJson), fee, memo);
 
     env->ReleaseStringUTFChars(jfromAddress, fromAddress);
     env->ReleaseStringUTFChars(jtoAddress, toAddress);

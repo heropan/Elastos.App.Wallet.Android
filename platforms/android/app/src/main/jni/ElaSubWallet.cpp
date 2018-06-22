@@ -12,11 +12,20 @@ using namespace Elastos::ElaWallet;
 #define  CLASS_SUBWALLET   "com/elastos/spvcore/ISubWallet"
 #define  FIELD_SUBWALLET   "mSubProxy"
 
-const char* ToStringFromJson(nlohmann::json jsonValue)
+const char* ToStringFromJson(const nlohmann::json& jsonValue)
 {
     std::stringstream ss;
     ss << jsonValue;
     return ss.str().c_str();
+}
+
+const nlohmann::json& ToJosnFromString(const char* str)
+{
+    nlohmann::json jsonValue;
+    std::stringstream ss;
+    ss << str;
+    jsonValue << ss;
+    return jsonValue;
 }
 
 static jstring JNICALL nativeGetChainId(JNIEnv *env, jobject clazz, jlong jSubProxy)
@@ -134,7 +143,7 @@ static jstring JNICALL nativeCreateMultiSignAddress(JNIEnv *env, jobject clazz, 
     const char* multiPublicKeyJson = env->GetStringUTFChars(jmultiPublicKeyJson, NULL);
 
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-    std::string result = subWallet->CreateMultiSignAddress(multiPublicKeyJson, totalSignNum, requiredSignNum);
+    std::string result = subWallet->CreateMultiSignAddress(ToJosnFromString(multiPublicKeyJson), totalSignNum, requiredSignNum);
 
     env->ReleaseStringUTFChars(jmultiPublicKeyJson, multiPublicKeyJson);
     return env->NewStringUTF(result.c_str());
@@ -164,7 +173,7 @@ static jstring JNICALL nativeSendRawTransaction(JNIEnv *env, jobject clazz, jlon
     const char* signJson = env->GetStringUTFChars(jsignJson, NULL);
 
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-    nlohmann::json result = subWallet->SendRawTransaction(transactionJson, jfee, signJson);
+    nlohmann::json result = subWallet->SendRawTransaction(ToJosnFromString(transactionJson), jfee, signJson);
 
     env->ReleaseStringUTFChars(jtransactionJson, transactionJson);
     env->ReleaseStringUTFChars(jsignJson, signJson);
@@ -217,7 +226,7 @@ static jlong JNICALL nativeCalculateTransactionFee(JNIEnv *env, jobject clazz, j
 {
     const char* rawTransaction = env->GetStringUTFChars(jrawTransaction, NULL);
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-    long fee = subWallet->CalculateTransactionFee(rawTransaction, feePerKb);
+    long fee = subWallet->CalculateTransactionFee(ToJosnFromString(rawTransaction), feePerKb);
     env->ReleaseStringUTFChars(jrawTransaction, rawTransaction);
     return (jlong)fee;
 }
@@ -286,8 +295,7 @@ void ElaSubWalletCallback::OnTransactionStatusChanged(const std::string &txid, c
     jmethodID methodId = env->GetMethodID(clazz, "OnTransactionStatusChanged","(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V");
     jstring jtxid = env->NewStringUTF(txid.c_str());
     jstring jstatus = env->NewStringUTF(status.c_str());
-    std::string _desc = desc;
-    jstring jdesc = env->NewStringUTF(_desc.c_str());
+    jstring jdesc = env->NewStringUTF(ToStringFromJson(desc));
 
     env->CallVoidMethod(mObj, methodId, jtxid, jstatus, jdesc, confirms);
 

@@ -8,7 +8,9 @@
 
 using namespace Elastos::ElaWallet;
 
-extern const char* ToStringFromJson(nlohmann::json jsonValue);
+extern const char* ToStringFromJson(const nlohmann::json& jsonValue);
+extern const nlohmann::json& ToJosnFromString(const char* str);
+
 //"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject clazz, jlong jSideSubWalletProxy, jstring jfromAddress
         , jstring jtoAddress, jlong amount, jstring jmainchainAccounts, jstring jmainchainAmounts,
@@ -22,8 +24,9 @@ static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject claz
     const char* memo = env->GetStringUTFChars(jmemo, NULL);
 
     ISidechainSubWallet* wallet = (ISidechainSubWallet*)jSideSubWalletProxy;
-    nlohmann::json result = wallet->CreateWithdrawTransaction(fromAddress, toAddress, amount, mainchainAccounts, mainchainAmounts
-                , mainchainIndexs, fee, memo);
+    nlohmann::json result = wallet->CreateWithdrawTransaction(fromAddress, toAddress, amount
+                , ToJosnFromString(mainchainAccounts), ToJosnFromString(mainchainAmounts)
+                , ToJosnFromString(mainchainIndexs), fee, memo);
 
     env->ReleaseStringUTFChars(jfromAddress, fromAddress);
     env->ReleaseStringUTFChars(jtoAddress, toAddress);
