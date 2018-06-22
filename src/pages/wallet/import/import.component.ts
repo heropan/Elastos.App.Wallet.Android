@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {BaseComponent} from './../../../app/BaseComponent';
-
+import {BaseComponent} from '../../../app/BaseComponent';
+import {HomeComponent} from '../../../pages/tabs/home/home.component';
 
 @Component({
   selector: 'app-import',
@@ -64,7 +64,8 @@ export class ImportComponent extends BaseComponent implements OnInit {
                       this.keyStoreContent,this.importFileObj.backupPassWord,
                       this.importFileObj.payPassword,this.importFileObj.phrasePassword,
                       ()=>{
-                          alert("导入私钥成功");
+                          this.messageBox('import-text-keystroe-sucess');
+                          this.Go(HomeComponent);
                       });
   }
 
@@ -104,6 +105,7 @@ export class ImportComponent extends BaseComponent implements OnInit {
     let mnemonic = this.normalizeMnemonic(this.normalizeMnemonic(this.mnemonicObj.mnemonic));
     this.walletManager.importWalletWithMnemonic("1",mnemonic,this.mnemonicObj.phrasePassword,this.mnemonicObj.payPassword,this.getMnemonicLang(),()=>{
                  alert("导入助记词成功");
+                 this.Go(HomeComponent);
     });
   }
 }

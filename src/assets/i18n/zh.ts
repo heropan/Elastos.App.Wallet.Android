@@ -163,5 +163,6 @@ export const zh = {
   'text-copied-to-clipboard':'已复制到剪贴板',
   'text-backup-passworld-input':'请输入私钥文件密码',
   'text-phrase-passworld-input':'请输入助记词密码',
-  'import-text-keystroe-message':'将密钥文件复制到文本框'
+  'import-text-keystroe-message':'将密钥文件复制到文本框',
+  'import-text-keystroe-sucess':'导入私钥成功'
 };
