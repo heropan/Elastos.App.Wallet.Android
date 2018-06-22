@@ -52,9 +52,8 @@ export class ExprotPrikeyComponent extends BaseComponent implements OnInit {
   }
 
   onExport() {
-    alert("backupPassWord====="+this.exprotObj.backupPassWord+"payPassword=="+this.exprotObj.payPassword);
     this.walletManager.exportWalletWithKeystore(this.exprotObj.backupPassWord,this.exprotObj.payPassword,(reslut) => {
-                 alert("导出成功"+JSON.stringify(reslut));
+                 this.backupWalletPlainText = reslut.keystoreContent;
     });
   }
 

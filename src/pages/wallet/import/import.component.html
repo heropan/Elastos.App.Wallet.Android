@@ -17,7 +17,7 @@
     <div *ngIf="selectedTab == 'file'">
 
         <div class="kuangTextArea">
-            <textarea rows="4" class="backupWalletTextArea" placeholder="{{ 'import-text-keystroe-message' | translate}}">{{keyStoreContent}}</textarea>
+            <textarea rows="4" class="backupWalletTextArea" placeholder="{{ 'import-text-keystroe-message' | translate}}" [(ngModel)]="keyStoreContent"></textarea>
         </div>
 
         <div class="weui-cells">
@@ -26,11 +26,19 @@
                     <input class="weui-input" type="password" placeholder="{{ 'text-backup-passworld-input' | translate }}" [(ngModel)]="importFileObj.backupPassWord" />
                 </div>
             </div>
+
             <div class="weui-cell">
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="password" placeholder="{{ 'text-pay-passworld-input' | translate }}" [(ngModel)]="importFileObj.payPassword">
+                    <input class="weui-input" type="password" placeholder="{{ 'text-pay-password' | translate }}" [(ngModel)]="importFileObj.payPassword" />
                 </div>
             </div>
+
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="password" placeholder="{{ 'text-pay-repassword' | translate }}" [(ngModel)]="importFileObj.rePayPassword" />
+                </div>
+            </div>
+
             <div class="weui-cell">
                 <div class="weui-cell__bd">
                     <input class="weui-input" type="password" placeholder="{{ 'text-phrase-passworld-input' | translate }}" [(ngModel)]="importFileObj.phrasePassword">
@@ -77,60 +85,3 @@
 <ion-footer>
     <button ion-button full class="button-footer" (click)="onImport()" style="width: 100%">{{ 'confirm' | translate }}</button>
 </ion-footer>
-
-
-
-
-
-
-
-<!-- <div class="import-tabs">
-    <div [ngClass]="{'select-tab':wallet.type == 1}" (click)="onChange()">{{ 'text-key-file' | translate }}</div>
-    <span></span>
-    <div [ngClass]="{'select-tab':wallet.type == 2}" (click)="onChange()">{{ 'text-mnemonic' | translate }}</div>
-</div> -->
-
-<!-- <div>
-  <div class="weui-cells">
-
-
-    <div [ngStyle]="{'display':  wallet.type != 2 ? 'none':'flex' }" class="weui-cell" >
-      <textarea class="weui-textarea" placeholder="{{ 'text-mnemonic-format' | translate}}" rows="3"
-                [(ngModel)]="wallet.mnemonic"
-                weui-textarea weui-cn="2" maxlength=""></textarea>
-    </div>
-
-
-    <div [hidden]="wallet.type != 1" (click)="selectFile()" class="import-file">
-      <img src="./../assets/images/icon/icon-add.svg">
-      <p [hidden]="wallet.keystore !='' ">{{'text-select-file' | translate}}</p>
-      <p [hidden]="wallet.keystore == ''">{{'text-reselect-file' | translate}}</p>
-      <p [hidden]="wallet.keystore == ''">{{wallet.keystore}}</p>
-    </div>
-
-
-    <div [hidden]="wallet.type != 1">
-      <div class="weui-cell">
-        <div class="weui-cell__bd">
-          <input class="weui-input" type="password" placeholder="{{ 'text-keystore-pwd' | translate }}" [(ngModel)]="wallet.pwd">
-        </div>
-      </div>
-    </div>
-
-    <div class="weui-cell">
-      <div class="weui-cell__bd">
-        <input class="weui-input" type="password" placeholder="{{ 'text-pay-password' | translate }}"
-               [(ngModel)]="wallet.payPwd">
-      </div>
-    </div>
-    <div class="weui-cell">
-      <div class="weui-cell__bd">
-        <input class="weui-input" type="password" placeholder="{{ 'text-pay-repassword' | translate }}"
-               [(ngModel)]="wallet.rePayPwd">
-      </div>
-    </div>
-  </div>
-
-  <button class="button-default bottom wallet-button" (click)="onImport()">{{ 'confirm' | translate }}</button>
-
-</div> -->

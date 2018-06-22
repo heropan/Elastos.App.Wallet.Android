@@ -332,6 +332,7 @@ public class Wallet extends CordovaPlugin {
 
     //ImportWalletWithKeystore(String masterWalletId, String keystoreContent, String backupPassWord ,String payPassWord, String phrasePassword)
     public void importWalletWithKeystore(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        Log.d(TAG, "ImportWalletWithKeystore   ===="+args.getString(0)+", "+args.getString(1)+", "+args.getString(2)+", "+args.getString(3)+", "+args.getString(4));
         mCurrentMasterWallet = mWalletManager.ImportWalletWithKeystore(args.getString(0), args.getString(1), args.getString(2), args.getString(3), args.getString(4));
         if (mCurrentMasterWallet != null) {
             mMasterWalletList.add(mCurrentMasterWallet);

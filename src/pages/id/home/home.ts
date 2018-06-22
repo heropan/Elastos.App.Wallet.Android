@@ -5,7 +5,7 @@ import {IdCreateComponent} from "../../../pages/id/create/create";
 import {IdImportComponent} from "../../../pages/id/import/import";
 import {IdManagerComponent} from "../../../pages/id/manager/manager";
 import {IdAppListComponent} from "../../../pages/id/app-list/app-list";
-
+import {MyComponent} from "../../../pages/tabs/my/my.component";
 
 @Component({
   selector: 'id-home',
@@ -15,7 +15,9 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
   public kycIdArr:any=[];
   ngOnInit(){
     this.setTitleByAssets('text-id-home');
-    this.setHeadDisPlay({'left': false});
+    this.setLeftIcon("",()=>{
+       this.Go(MyComponent);
+    });
     let kycObj = Config.getKycObj();
     if(this.isEmptyObject(kycObj)){
          this.localStorage.get('kyc').then((val)=>{

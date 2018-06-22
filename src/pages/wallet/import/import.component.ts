@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
-import {Util} from "../../../providers/Util";
+
 
 @Component({
   selector: 'app-import',
@@ -10,7 +10,7 @@ export class ImportComponent extends BaseComponent implements OnInit {
   public selectedTab: string="words";
   public showAdvOpts:boolean;
   public keyStoreContent:any;
-  public importFileObj:any={payPassword: "", backupPassWord: "",phrasePassword:""};
+  public importFileObj:any={payPassword: "",rePayPassword: "", backupPassWord: "",phrasePassword:""};
   public mnemonicObj:any={mnemonic:"",payPassword: "", rePayPassword: "",phrasePassword:""}
   public toggleShowAdvOpts(): void {
     this.showAdvOpts = !this.showAdvOpts;
@@ -26,10 +26,8 @@ export class ImportComponent extends BaseComponent implements OnInit {
   onImport() {
      switch(this.selectedTab){
        case "words":
-            //let wordList: any[] = this.mnemonicObj.mnemonic.split(/[\u3000\s]+/);
-
             if(this.checkWorld()){
-
+               this.importWalletWithMnemonic();
             }
        break;
        case "file":
@@ -51,6 +49,11 @@ export class ImportComponent extends BaseComponent implements OnInit {
     }
     if(this.isNull(this.importFileObj.payPassword)){
       this.messageBox('text-pay-passworld-input');
+      return false;
+    }
+
+    if(this.importFileObj.payPassword!=this.importFileObj.rePayPassword){
+      this.messageBox('text-passworld-compare');
       return false;
     }
     return true;
