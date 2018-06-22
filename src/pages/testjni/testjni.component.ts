@@ -21,10 +21,14 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
   chinaId:string ="ELA";
   adress:string;
   toadress:string="EWs2TgP4Ds3qZcTzWmBZ5hNsx2PaEyxbui";
+  did:string;
   interfaces = [
                 {id:3,name:"createMasterWallet"},
                 {id:24,name:"generateMnemonic"},
                 {id:23,name:"initializeMasterWallet"},
+                {id:30,name:"createDID"},
+                {id:31,name:"getDIDList"},
+                {id:32,name:"destoryDID"},
                 {id:28,name:"getSupportedChains"},
                 {id:9,name:"createAddress"},
                 {id:0,name:"createSubWallet"},
@@ -58,6 +62,15 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
 
   onNext(type): void {
      switch (type){
+      case 30:
+          this.createDID();
+          break;
+      case 31:
+          this.getDIDList();
+        break;
+      case 32:
+          this.destoryDID(this.did);
+        break;
        case 0:
          this.createSubWallet(this.chinaId);
          break;
@@ -337,6 +350,25 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
         this.createSubWallet(key);
      }
      });
+   }
+
+   createDID(){
+     this.walletManager.createDID(this.payPassword,(result)=>{
+             alert("==did=="+JSON.stringify(result));
+             this.did = result.didname;
+     });
+   }
+
+   getDIDList(){
+    this.walletManager.getDIDList((result)=>{
+             alert('==DIDList=='+JSON.stringify(result));
+    });
+   }
+
+   destoryDID(did:string){
+      this.walletManager.destoryDID(did,(result)=>{
+             alert("删除成功："+did);
+      });
    }
 
 }

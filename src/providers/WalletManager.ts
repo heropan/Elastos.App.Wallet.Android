@@ -260,6 +260,18 @@ export class WalletManager {
     this.wallet.sendRawTransaction([chainId,transactionJson,fee,payPassword],Fun,this.errorFun);
   }
 
+  createDID(password:string,Fun){
+    this.wallet.createDID([password],Fun,this.errorFun);
+  }
+
+  getDIDList(Fun){
+    this.wallet.getDIDList([],Fun,this.errorFun);
+  }
+
+  destoryDID(did:string,Fun){
+    this.wallet.destoryDID([did],Fun,this.errorFun);
+  }
+
   errorFun(error) {
     alert("错误信息：" + error);
     //this.native.toast(error);

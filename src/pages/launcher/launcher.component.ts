@@ -6,7 +6,6 @@ import {ImportComponent} from "../wallet/import/import.component";
 @Component({
   selector: 'app-launcher',
   templateUrl: './launcher.component.html',
-  // styleUrls: ['./launcher.component.scss']
 })
 export class LauncherComponent extends BaseComponent implements OnInit {
 
@@ -21,7 +20,4 @@ export class LauncherComponent extends BaseComponent implements OnInit {
       this.Go(ImportComponent);
     }
   }
-
-  this.
-
 }
