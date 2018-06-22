@@ -261,7 +261,7 @@ export class WalletManager {
   }
 
   errorFun(error) {
-    alert("错误信息："+error);
+    alert("错误信息：" + error);
     //this.native.toast(error);
   }
 

@@ -22,7 +22,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
     toAddress: '',
     amount: '',
     memo: '',
-    fee: '',
+    fee: 0,
     payPassword:'',
   };
 
@@ -30,7 +30,9 @@ export class TransferComponent extends BaseComponent implements OnInit {
 
   chianId: string;
 
-  feeRate: 0.1;
+  feePerKb: 0.1;
+
+  rawTransaction: '';
 
   ngOnInit() {
     this.setTitleByAssets('text-transfer');
@@ -70,7 +72,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
         this.subPopup.close();
         break;
       case 4:
-        this.createTransaction();
+        this.sendRawTransaction();
         break;
     }
 
@@ -95,34 +97,32 @@ export class TransferComponent extends BaseComponent implements OnInit {
       return;
     }
     this.subPopup.show().subscribe((res: boolean) => {
-
+      this.createTransaction();
     });
   }
 
   createTransaction(){
-    // this.walletManager.sendTransaction(this.chianId, "",
-    //   this.transfer.toAddress,
-    //   this.transfer.amount,
-    //   this.transfer.fee,
-    //   this.transfer.payPassword,
-    //   this.transfer.memo,
-    //   ()=>{
-
-    //   });
+    this.walletManager.createTransaction(this.chianId, "",
+      this.transfer.toAddress,
+      this.transfer.amount,
+      this.transfer.fee,
+      this.transfer.memo,
+      (data)=>{
+        this.rawTransaction = data;
+        this.getFee();
+      });
   }
 
   getFee(){
-    // this.walletManager.buildTransaction(this.chianId, "",
-    //   this.transfer.toAddress,
-    //   this.transfer.amount,
-    //   this.transfer.fee,
-    //   this.transfer.payPassword,
-    //   this.transfer.memo,
-    //   (data)=>{
-    //     this.transfer.fee = data.fee;
-    //   });
+    this.walletManager.calculateTransactionFee(this.chianId, this.rawTransaction, this.feePerKb, (data) => {
+      this.transfer.fee = data;
+    });
   }
 
-
+  sendRawTransaction(){
+    this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, () => {
+      this.Go(ContactListComponent);
+    });
+  }
 
 }
