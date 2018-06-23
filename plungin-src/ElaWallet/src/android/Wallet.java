@@ -58,7 +58,7 @@ public class Wallet extends CordovaPlugin {
     }
 
     private void initDidManager() {
-        if (mCurrentMasterWallet != null) {
+        if (mDidManager == null && mCurrentMasterWallet != null) {
             mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet);
         }
     }
@@ -327,7 +327,6 @@ public class Wallet extends CordovaPlugin {
         mCurrentMasterWallet = mWalletManager.CreateMasterWallet(args.getString(0), args.getString(1));
         if (mCurrentMasterWallet != null) {
             mMasterWalletList.add(mCurrentMasterWallet);
-            initDidManager();
             callbackContext.success();
         }
         else {
@@ -344,6 +343,7 @@ public class Wallet extends CordovaPlugin {
     //InitializeMasterWallet(String masterWalletId, String mnemonic, String phrasePassword, String payPassword)
     public void initializeMasterWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
         boolean status = mWalletManager.InitializeMasterWallet(args.getString(0), args.getString(1), args.getString(2), args.getString(3));
+        initDidManager();
         callbackContext.success(parseOneParam("status", status));
     }
 
