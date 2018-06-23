@@ -34,6 +34,8 @@ export class TransferComponent extends BaseComponent implements OnInit {
 
   rawTransaction: '';
 
+  sela = 100000000;
+
   ngOnInit() {
     this.setTitleByAssets('text-transfer');
 

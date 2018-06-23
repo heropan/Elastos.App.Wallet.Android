@@ -26,6 +26,7 @@ import { Clipboard } from '@ionic-native/clipboard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BackupProvider } from '../providers/backup';
 import { HttpService } from '../providers/HttpService';
+import { PopupProvider } from '../providers/popup';
 
 /**pages*/
 import {AppComponent} from './app.component';
@@ -235,6 +236,7 @@ export function TranslateLoaderFactory() {
     WalletManager,
     BackupProvider,
     HttpService,
+    PopupProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

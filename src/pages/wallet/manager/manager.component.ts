@@ -4,6 +4,7 @@ import {ExprotPrikeyComponent} from "../exprot-prikey/exprot-prikey.component";
 import {ImportComponent} from "../import/import.component";
 // import {WalletInfoComponent} from "../wallet-info/wallet-info.component";
 import {PaypasswordResetComponent} from "../paypassword-reset/paypassword-reset.component";
+import {PopupProvider} from "../../../providers/popup";
 
 @Component({
   selector: 'app-manager',
@@ -34,11 +35,12 @@ export class ManagerComponent extends BaseComponent implements OnInit {
         this.Go(PaypasswordResetComponent);
         break;
       case 2:
-        // this.localStorage.clear();
-        console.log("delete wallet");
-        // this.walletManager.destroyWallet(function () {
-
-        // });
+        this.popupProvider.ionicConfirm('confirmTitle', 'confirmSubTitle').then(() => {
+          this.localStorage.remove('myWallet');
+          console.log("delete wallet");
+          // this.walletManager.destroyWallet(function () {
+          // });
+        });
         break;
     }
 

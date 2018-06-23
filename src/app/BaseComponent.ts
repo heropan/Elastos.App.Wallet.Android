@@ -16,6 +16,7 @@ import {LocalStorage} from "../providers/Localstorage";
 import { NavParams } from 'ionic-angular';
 import {BackupProvider} from "../providers/backup";
 import {HttpService} from "../providers/HttpService";
+import {PopupProvider} from "../providers/popup";
 import { Events } from 'ionic-angular';
 @Component({
   selector: 'app-base',
@@ -44,6 +45,7 @@ export class BaseComponent {
                      public toastService: ToastService,
                      public backupProvider:BackupProvider,
                      public http:HttpService,
+                     public popupProvider: PopupProvider,
                      public events: Events) {
     this.translate.addLangs(['zh', 'en']);
     this.translate.setDefaultLang('zh');

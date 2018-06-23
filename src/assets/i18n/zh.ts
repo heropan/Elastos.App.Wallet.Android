@@ -78,6 +78,8 @@ export const zh = {
   'text-gesture-pwd': '手势密码',
   'text-language': '语言',
   'confirm': '确认',
+  'confirmTitle': '提示',
+  'confirmSubTitle': '确定要退出钱包吗',
   'cancel': '取消',
   'copy-ok': '复制成功',
   'correct-amount': '请输入正确的金额',
