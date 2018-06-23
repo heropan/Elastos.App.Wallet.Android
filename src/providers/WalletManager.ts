@@ -272,6 +272,34 @@ export class WalletManager {
     this.wallet.destoryDID([did],Fun,this.errorFun);
   }
 
+  didSetValue(did:string,keyPath:string,value:string,Fun){
+    this.wallet.didSetValue([did,keyPath,value],Fun,this.errorFun);
+  }
+
+  didGetValue(did:string,keyPath:string,Fun){
+    this.wallet.didGetValue([did,keyPath],Fun,this.errorFun);
+  }
+
+  didGetHistoryValue(did:string,keyPath:string,Fun){
+    this.wallet.didGetValue([did,keyPath],Fun,this.errorFun);
+  }
+
+  didGetAllKeys(did:string,start:number,count:number,Fun){
+    this.wallet.didGetAllKeys([did,start,count],Fun,this.errorFun);
+  }
+
+  didSign(did:string,message:string,password:string,Fun){
+    this.wallet.didSign([did,message,password],Fun,this.errorFun);
+  }
+
+  didCheckSign(did:string,message:string,signature:string,Fun){
+    this.wallet.didCheckSign([did,message,signature],Fun,this.errorFun);
+  }
+
+  didGetPublicKey(did:string,Fun){
+    this.wallet.didGetPublicKey([did],Fun,this.errorFun)
+  }
+
   errorFun(error) {
     alert("错误信息：" + error);
     //this.native.toast(error);
