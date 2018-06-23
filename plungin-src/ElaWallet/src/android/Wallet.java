@@ -186,6 +186,29 @@ public class Wallet extends CordovaPlugin {
               case "destoryDID":
                   this.destoryDID(args, callbackContext);
                   return true;
+
+              //did
+              case "didSetValue":
+                  this.didSetValue(args, callbackContext);
+                  return true;
+              case "didGetValue":
+                  this.didGetValue(args, callbackContext);
+                  return true;
+              case "didGetHistoryValue":
+                  this.didGetHistoryValue(args, callbackContext);
+                  return true;
+              case "didGetAllKeys":
+                  this.didGetAllKeys(args, callbackContext);
+                  return true;
+              case "didSign":
+                  this.didSign(args, callbackContext);
+                  return true;
+              case "didCheckSign":
+                  this.didCheckSign(args, callbackContext);
+                  return true;
+              case "didGetPublicKey":
+                  this.didGetPublicKey(args, callbackContext);
+                  return true;
           }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -652,7 +675,7 @@ public class Wallet extends CordovaPlugin {
     }
 
 
-    //did
+    //IDIDManager
     //CreateDID(String password)
     public void createDID(JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (mDidManager != null) {
@@ -685,6 +708,105 @@ public class Wallet extends CordovaPlugin {
 
         callbackContext.error("DidManager is null");
     }
+
+    //IDID
+    //SetValue(String keyPath, /*const nlohmann::json*/String valueJson)
+    public void didSetValue(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mDidManager != null) {
+            IDid did = mDidManager.GetDID(args.getString(0));
+            if (did != null) {
+                did.SetValue(args.getString(1), args.getString(2));
+                callbackContext.success();
+                return;
+            }
+        }
+
+        callbackContext.error("didSetValue error.");
+    }
+
+    //String GetValue(String path)
+    public void didGetValue(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mDidManager != null) {
+            IDid did = mDidManager.GetDID(args.getString(0));
+            if (did != null) {
+                String value = did.GetValue(args.getString(1));
+                callbackContext.success(parseOneParam("value", value));
+                return;
+            }
+        }
+
+        callbackContext.error("didGetValue error.");
+    }
+
+    //String GetHistoryValue(String keyPath)
+    public void didGetHistoryValue(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mDidManager != null) {
+            IDid did = mDidManager.GetDID(args.getString(0));
+            if (did != null) {
+                String value = did.GetHistoryValue(args.getString(1));
+                callbackContext.success(parseOneParam("value", value));
+                return;
+            }
+        }
+
+        callbackContext.error("didGetHistoryValue error.");
+    }
+
+    //String GetAllKeys(int start, int count)
+    public void didGetAllKeys(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mDidManager != null) {
+            IDid did = mDidManager.GetDID(args.getString(0));
+            if (did != null) {
+                String value = did.GetAllKeys(args.getInt(1), args.getInt(2));
+                callbackContext.success(parseOneParam("value", value));
+                return;
+            }
+        }
+
+        callbackContext.error("didGetAllKeys error.");
+    }
+
+    //String Sign(String message, String password)
+    public void didSign(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mDidManager != null) {
+            IDid did = mDidManager.GetDID(args.getString(0));
+            if (did != null) {
+                String value = did.Sign(args.getString(1), args.getString(2));
+                callbackContext.success(parseOneParam("value", value));
+                return;
+            }
+        }
+
+        callbackContext.error("didSign error.");
+    }
+
+    //String CheckSign(String message, String signature)
+    public void didCheckSign(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mDidManager != null) {
+            IDid did = mDidManager.GetDID(args.getString(0));
+            if (did != null) {
+                String value = did.CheckSign(args.getString(1), args.getString(2));
+                callbackContext.success(parseOneParam("value", value));
+                return;
+            }
+        }
+
+        callbackContext.error("didSign error.");
+    }
+
+    public void didGetPublicKey(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mDidManager != null) {
+            IDid did = mDidManager.GetDID(args.getString(0));
+            if (did != null) {
+                String value = did.GetPublicKey();
+                callbackContext.success(parseOneParam("value", value));
+                return;
+            }
+        }
+
+        callbackContext.error("didGetPublicKey error.");
+    }
+
 
     @Override
     public void onDestroy() {

@@ -9,6 +9,7 @@
 using namespace Elastos::DID;
 
 extern const char* ToStringFromJson(const nlohmann::json& jsonValue);
+extern nlohmann::json ToJosnFromString(const char* str);
 
 //"(J)Ljava/lang/String;"
 static jstring JNICALL nativeGetDIDName(JNIEnv *env, jobject clazz, jlong jDidProxy)
@@ -24,7 +25,7 @@ static void JNICALL nativeSetValue(JNIEnv *env, jobject clazz, jlong jDidProxy, 
     const char* keyPath = env->GetStringUTFChars(jkeyPath, NULL);
     const char* valueJson = env->GetStringUTFChars(jvalueJson, NULL);
     IDID* did = (IDID*)jDidProxy;
-    did->SetValue(keyPath, valueJson);
+    did->SetValue(keyPath, ToJosnFromString(valueJson));
     env->ReleaseStringUTFChars(jkeyPath, keyPath);
     env->ReleaseStringUTFChars(jvalueJson, valueJson);
 }
