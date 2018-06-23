@@ -178,5 +178,36 @@ walletFunc.prototype.destoryDID = function(arg0, sucess, error) {
     exec(sucess, error, "Wallet", "destoryDID", arg0);
 };
 
+walletFunc.prototype.didSetValue = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "didSetValue", arg0);
+};
+
+walletFunc.prototype.didGetValue = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "didGetValue", arg0);
+};
+
+walletFunc.prototype.didGetHistoryValue = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "didGetHistoryValue", arg0);
+};
+
+
+walletFunc.prototype.didGetAllKeys = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "didGetAllKeys", arg0);
+};
+
+
+walletFunc.prototype.didSign = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "didSign", arg0);
+};
+
+walletFunc.prototype.didCheckSign = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "didCheckSign", arg0);
+};
+
+walletFunc.prototype.didGetPublicKey = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "didCheckSign", arg0);
+};
+
+
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;
