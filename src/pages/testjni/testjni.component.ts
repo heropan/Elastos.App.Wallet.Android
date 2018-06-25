@@ -22,6 +22,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
   adress:string;
   toadress:string="EWs2TgP4Ds3qZcTzWmBZ5hNsx2PaEyxbui";
   did:string;
+  signature:string;
   interfaces = [
                 {id:3,name:"createMasterWallet"},
                 {id:24,name:"generateMnemonic"},
@@ -29,6 +30,13 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
                 {id:30,name:"createDID"},
                 {id:31,name:"getDIDList"},
                 {id:32,name:"destoryDID"},
+                {id:33,name:"didSetValue"},
+                {id:34,name:"didGetValue"},
+                {id:35,name:"didGetHistoryValue"},
+                {id:37,name:"didGetAllKeys"},
+                {id:38,name:"didSign"},
+                {id:39,name:"didCheckSign"},
+                {id:40,name:"didGetPublicKey"},
                 {id:28,name:"getSupportedChains"},
                 {id:9,name:"createAddress"},
                 {id:0,name:"createSubWallet"},
@@ -62,6 +70,26 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
 
   onNext(type): void {
      switch (type){
+      case 40:
+         this.didGetPublicKey();
+         break;
+      case 39:
+          this.didCheckSign();
+           break;
+      case 38:
+          this.didSign();
+          break;
+      case 37:
+        this.didGetAllKeys();
+      break;
+      case 35:
+           this.didGetHistoryValue();
+           break;
+      case 34:
+          this.didGetValue();
+      case 33:
+            this.didSetValue();
+          break;
       case 30:
           this.createDID();
           break;
@@ -369,6 +397,49 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
       this.walletManager.destoryDID(did,(result)=>{
              alert("删除成功："+did);
       });
+   }
+
+   didSetValue(){
+        this.walletManager.didSetValue(this.did,"1","sss",(result)=>{
+                   alert("====="+JSON.stringify(result));
+        });
+   }
+
+   didGetValue(){
+        this.walletManager.didGetValue(this.did,"1",(result)=>{
+             alert("===didGetValue===="+JSON.stringify(result));
+        });
+   }
+
+   didGetHistoryValue(){
+     this.walletManager.didGetHistoryValue(this.did,"1",(result)=>{
+           alert("===didGetHistoryValue===="+JSON.stringify(result));
+     });
+   }
+
+   didGetAllKeys(){
+      this.walletManager.didGetAllKeys(this.did,0,2,(result)=>{
+        alert("===didGetAllKeys===="+JSON.stringify(result));
+      });
+   }
+
+   didSign(){
+     this.walletManager.didSign(this.did,"ssssss",this.payPassword,(result)=>{
+             alert("===didSign==="+JSON.stringify(result));
+             this.signature = "sssss";
+     });
+   }
+
+   didCheckSign(){
+      this.walletManager.didCheckSign(this.did,"ssssss",this.signature,(result)=>{
+                  alert("===didCheckSign==="+JSON.stringify(result));
+      });
+   }
+
+   didGetPublicKey(){
+     this.walletManager.didGetPublicKey(this.did,(result)=>{
+          alert("===didGetPublicKey==="+JSON.stringify(result));
+     });
    }
 
 }
