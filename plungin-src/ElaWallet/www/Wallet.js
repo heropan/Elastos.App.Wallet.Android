@@ -1,10 +1,5 @@
 var exec = require('cordova/exec');
 
-// exports.coolMethod = function (arg0, success, error) {
-//     exec(success, error, 'Wallet', 'coolMethod', [arg0]);
-// };
-
-
 var walletFunc = function() {};
 
 
@@ -78,9 +73,7 @@ walletFunc.prototype.getAllAddress = function(arg0, success, error) {
 walletFunc.prototype.getBalanceWithAddress = function(arg0, success, error) {
     exec(success, error, "Wallet", "getBalanceWithAddress", arg0);
 };
-walletFunc.prototype.sendTransaction = function(arg0, success, error) {
-    exec(success, error, "Wallet", "sendTransaction", arg0);
-};
+
 walletFunc.prototype.generateMultiSignTransaction = function(arg0, success, error) {
     exec(success, error, "Wallet", "generateMultiSignTransaction", arg0);
 };

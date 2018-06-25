@@ -136,31 +136,14 @@ export class WalletManager {
 
   createAddress(chainId:string,Fun) {
        this.wallet.createAddress([chainId], Fun, this.errorFun);
-    // let tempAddr = Math.random();
-    // let result = {address: tempAddr};
-    // return result;
   }
 
-  // getTheLastAddress(Fun) {
-  //   this.wallet.getTheLastAddress([], Fun, this.errorFun);
-  //
-  // }
-
-  // getAllAddress(start: number, Fun) {
   getAllAddress(chainId:string,start:number,Fun) {
     this.wallet.getAllAddress([start, WalletManager.PAGECOUNT], Fun, this.errorFun);
-    // let allAddress = [{id: '', address: 'Exbwononlxnknwlnblnwb'},
-    //     {id: '', address: 'Exbwononlxnknwlnblnwb'},
-    //     {id: '', address: 'Exbwononlxnknwlnblnwb'}]
-    // return allAddress;
   }
 
   getBalanceWithAddress(chainId:string,address, Fun) {
     this.wallet.getBalanceWithAddress([address], Fun, this.errorFun);
-  }
-
-  sendTransaction(chainId:string,fromAddress, toAddress, amount, fee, payPassword, memo, Fun) {
-    this.wallet.sendTransaction([fromAddress, toAddress, amount, fee, payPassword, memo], Fun, this.errorFun);
   }
 
   generateMultiSignTransaction(chainId:string,fromAddress, toAddress, amount, fee, payPassword, memo, Fun) {

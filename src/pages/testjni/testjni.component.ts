@@ -40,7 +40,6 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
                 {id:28,name:"getSupportedChains"},
                 {id:9,name:"createAddress"},
                 {id:0,name:"createSubWallet"},
-                {id:12,name:"sendTransaction"},
                 {id:2,name:"getPublicKey"},
                 {id:8,name:"getBalance"},
                 {id:29,name:"changePassword"},
@@ -133,9 +132,6 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
          break;
        case 11:
             this.getBalanceWithAddress(this.chinaId);
-         break;
-      case 12:
-            this.sendTransaction(this.chinaId,this.fromAddress,this.toAddress,1,1,this.payPassword,"ssss");
          break;
       case 13:
            this.generateMultiSignTransaction();
@@ -277,12 +273,6 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
         this.walletManager.getBalanceWithAddress(chinaId,"eeeeeeee",(result)=>{
             alert(JSON.stringify(result));
         });
-   }
-
-   sendTransaction(chinaId:string,fromAddress:string, toAddress:string, amount:number, fee:number, payPassword:string, memo:string){
-       this.walletManager.sendTransaction(chinaId,"",toAddress,0.01,0.001,payPassword,"",(result)=>{
-                alert(JSON.stringify(result));
-       });
    }
 
    generateMultiSignTransaction(){
