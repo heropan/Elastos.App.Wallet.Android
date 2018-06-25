@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {BaseComponent} from '../../app/BaseComponent';
+import { NumericDictionary } from 'lodash';
 
 
 @Component({
@@ -23,6 +24,10 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
   toadress:string="EWs2TgP4Ds3qZcTzWmBZ5hNsx2PaEyxbui";
   did:string;
   signature:string;
+  unit:number = 100000000;
+  rawTransaction:string="sss";
+  transactionJson:string;
+  fee:number;
   interfaces = [
                 {id:3,name:"createMasterWallet"},
                 {id:24,name:"generateMnemonic"},
@@ -288,7 +293,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    generateMultiSignTransaction(){
-      this.walletManager.generateMultiSignTransaction(this.chinaId,this.fromAddress,this.toAddress,1,1,this.payPassword,"sssss",(result)=>{
+      this.walletManager.generateMultiSignTransaction(this.chinaId,this.fromAddress,this.toAddress,1*100000000,0.01*100000000,this.payPassword,"sssss",(result)=>{
         alert(JSON.stringify(result));
       });
    }
@@ -445,15 +450,21 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    createTransaction(){
-
+      this.walletManager.createTransaction(this.chinaId,"",this.toAddress,1*this.unit,0.01*this.unit,"sssssss",(result)=>{
+                      alert("=====createTransaction======"+JSON.stringify(result));
+      });
    }
 
    calculateTransactionFee(){
-
+     this.walletManager.calculateTransactionFee(this.chinaId,this.rawTransaction,0,(result)=>{
+                    alert("===== calculateTransactionFee ====="+JSON.stringify(result));
+     })
    }
 
    sendRawTransaction(){
-
+      this.walletManager.sendRawTransaction(this.chinaId,this.transactionJson,this.fee,this.payPassword,(result)=>{
+                     alert("===sendRawTransaction==="+JSON.stringify(result));
+      });
    }
 
 }
