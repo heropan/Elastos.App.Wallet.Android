@@ -13,7 +13,7 @@ export class IdKycCompanyComponent extends BaseComponent implements OnInit {
               "type":"1",
               "word":"xxx公司",
               "legalPerson":"张三",
-              "registrationN":"91311117011111111K",
+              "registrationNum":"91311117011111111K",
               "txHash":"59e5347c8cd6ee04c9241d48494bf0182751a071f7fab2ee960b17ab51ff3280",
               };
   priceObj:any={};
@@ -44,7 +44,7 @@ export class IdKycCompanyComponent extends BaseComponent implements OnInit {
       return false;
      }
 
-     if(this.isNull(this.businessObj.registrationN)){
+     if(this.isNull(this.businessObj.registrationNum)){
       this.messageBox('text-registrationN-message');
       return false;
      }
