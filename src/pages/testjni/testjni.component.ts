@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {BaseComponent} from '../../app/BaseComponent';
-import { NumericDictionary } from 'lodash';
 
 
 @Component({
@@ -281,6 +280,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    getAllAddress(chinaId:string){
+        alert("===chinaId===="+chinaId);
         this.walletManager.getAllAddress(chinaId,0,(result)=>{
             alert(JSON.stringify(result));
         });
@@ -407,6 +407,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    didSetValue(){
+         alert("===didSetValue==="+this.did);
         this.walletManager.didSetValue(this.did,"1","sss",(result)=>{
                    alert("====="+JSON.stringify(result));
         });

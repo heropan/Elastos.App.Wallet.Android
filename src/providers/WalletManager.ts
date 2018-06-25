@@ -139,15 +139,15 @@ export class WalletManager {
   }
 
   getAllAddress(chainId:string,start:number,Fun) {
-    this.wallet.getAllAddress([start, WalletManager.PAGECOUNT], Fun, this.errorFun);
+    this.wallet.getAllAddress([chainId,start, WalletManager.PAGECOUNT], Fun, this.errorFun);
   }
 
   getBalanceWithAddress(chainId:string,address, Fun) {
-    this.wallet.getBalanceWithAddress([address], Fun, this.errorFun);
+    this.wallet.getBalanceWithAddress([chainId,address], Fun, this.errorFun);
   }
 
   generateMultiSignTransaction(chainId:string,fromAddress, toAddress, amount, fee, payPassword, memo, Fun) {
-    this.wallet.generateMultiSignTransaction([fromAddress, toAddress, amount, fee, payPassword, memo], Fun, this.errorFun);
+    this.wallet.generateMultiSignTransaction([chainId,fromAddress, toAddress, amount, fee, payPassword, memo], Fun, this.errorFun);
   }
 
   createMultiSignAddress(chainId:string,multiPublicKeyJson, totalSignNum, requiredSignNum, Fun) {
@@ -155,7 +155,7 @@ export class WalletManager {
   }
 
   getAllTransaction(chainId:string,start, addressOrTxId, Fun) {
-    this.wallet.getAllTransaction([start, WalletManager.PAGECOUNT, addressOrTxId], Fun, this.errorFun);
+    this.wallet.getAllTransaction([chainId,start, WalletManager.PAGECOUNT, addressOrTxId], Fun, this.errorFun);
   }
 
   registerWalletListener(chainId:string,Fun) {
@@ -164,11 +164,11 @@ export class WalletManager {
 
 
   sign(chainId:string,message, payPassword, Fun) {
-    this.wallet.sign([message, payPassword], Fun, this.errorFun);
+    this.wallet.sign([chainId,message, payPassword], Fun, this.errorFun);
   }
 
   checkSign(chainId:string,address, message, signature, payPassword, Fun) {
-    this.wallet.checkSign([address, message, signature], Fun, this.errorFun);
+    this.wallet.checkSign([chainId,address, message, signature], Fun, this.errorFun);
   }
   /**
    * @param {string} masterWalletId
