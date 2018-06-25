@@ -16,7 +16,13 @@ const char* ToStringFromJson(const nlohmann::json& jsonValue)
 {
     std::stringstream ss;
     ss << jsonValue;
-    return ss.str().c_str();
+
+    const char* value = ss.str().c_str();
+    if (!strcmp(value, "null")) {
+        return NULL;
+    }
+
+    return value;
 }
 
 nlohmann::json ToJosnFromString(const char* str)
