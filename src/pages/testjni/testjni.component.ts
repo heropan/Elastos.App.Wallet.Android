@@ -27,6 +27,11 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
                 {id:3,name:"createMasterWallet"},
                 {id:24,name:"generateMnemonic"},
                 {id:23,name:"initializeMasterWallet"},
+                {id:0,name:"createSubWallet"},
+                {id:9,name:"createAddress"},
+                {id:41,name:"createTransaction"},
+                {id:42,name:"calculateTransactionFee"},
+                {id:43,name:"sendRawTransaction"},
                 {id:30,name:"createDID"},
                 {id:31,name:"getDIDList"},
                 {id:32,name:"destoryDID"},
@@ -38,8 +43,6 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
                 {id:39,name:"didCheckSign"},
                 {id:40,name:"didGetPublicKey"},
                 {id:28,name:"getSupportedChains"},
-                {id:9,name:"createAddress"},
-                {id:0,name:"createSubWallet"},
                 {id:2,name:"getPublicKey"},
                 {id:8,name:"getBalance"},
                 {id:29,name:"changePassword"},
@@ -69,6 +72,15 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
 
   onNext(type): void {
      switch (type){
+      case 41:
+          this.createTransaction();
+          break;
+      case 42:
+          this.calculateTransactionFee();
+          break;
+      case 43:
+          this.sendRawTransaction();
+          break;
       case 40:
          this.didGetPublicKey();
          break;
@@ -430,6 +442,18 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
      this.walletManager.didGetPublicKey(this.did,(result)=>{
           alert("===didGetPublicKey==="+JSON.stringify(result));
      });
+   }
+
+   createTransaction(){
+
+   }
+
+   calculateTransactionFee(){
+
+   }
+
+   sendRawTransaction(){
+
    }
 
 }

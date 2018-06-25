@@ -151,7 +151,7 @@ walletFunc.prototype.sendRawTransaction = function(arg0, sucess, error) {
 };
 
 walletFunc.prototype.calculateTransactionFee = function(arg0, sucess, error) {
-    exec(sucess, error, "Wallet", "sendRawTransaction", arg0);
+    exec(sucess, error, "Wallet", "calculateTransactionFee", arg0);
 };
 
 walletFunc.prototype.createTransaction = function(arg0, sucess, error) {
