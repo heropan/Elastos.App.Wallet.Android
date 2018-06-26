@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.elastos.spvcore.MasterWalletManager;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -150,6 +151,14 @@ public class MyUtil {
 
     public static String getRootPath() {
         return sApplicationContext.getFilesDir().getParent();
+    }
+
+    private static MasterWalletManager mCurrentMasterWalletManager = null;
+    public static void SetCurrentMasterWalletManager(MasterWalletManager currentMasterWalletManager) {
+        mCurrentMasterWalletManager = currentMasterWalletManager;
+    }
+    public static MasterWalletManager GetCurrentMasterWalletManager() {
+        return mCurrentMasterWalletManager;
     }
 
     public static void moveConfigFiles2RootPath(Context context) {

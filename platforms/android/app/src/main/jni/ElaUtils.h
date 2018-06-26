@@ -31,3 +31,5 @@ void CheckErrorAndLog(
     /* [in] */ int line);
 
 jlong GetJavaLongField(JNIEnv* env, jclass klass, jobject jobj, const char* fieldName);
+
+void ThrowLogicException(JNIEnv* env, const char* errorInfo);

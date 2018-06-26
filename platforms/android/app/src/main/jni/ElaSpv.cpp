@@ -5,7 +5,6 @@
 #include "ElaUtils.h"
 #include <unistd.h>
 
-extern int register_elastos_spv_Enviroment(JNIEnv* env);
 extern int register_elastos_spv_IMasterWalletManager(JNIEnv* env);
 extern int register_elastos_spv_IMasterWallet(JNIEnv* env);
 extern int register_elastos_spv_ISubWallet(JNIEnv* env);
@@ -26,7 +25,6 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved){
         return JNI_ERR;
     }
 
-    register_elastos_spv_Enviroment(env);
     register_elastos_spv_IMasterWalletManager(env);
     register_elastos_spv_IMasterWallet(env);
     register_elastos_spv_ISubWallet(env);
@@ -92,3 +90,13 @@ jlong GetJavaLongField(JNIEnv* env, jclass klass, jobject jobj, const char* fiel
     return value;
 }
 
+const char* WALLETEXCEPTION = "com/elastos/spvcore/WalletException";
+void ThrowLogicException(JNIEnv* env, const char* errorInfo)
+{
+    jclass walletException = env->FindClass(WALLETEXCEPTION);
+    if (walletException == NULL) {
+        /* Unable to find the exception class, give up. */
+        return;
+    }
+    env->ThrowNew(walletException, errorInfo);
+}

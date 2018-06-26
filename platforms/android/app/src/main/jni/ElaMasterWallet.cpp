@@ -129,14 +129,6 @@ static jboolean JNICALL nativeIsAddressValid(JNIEnv *env, jobject clazz, jlong j
     return (jboolean)valid;
 }
 
-//"(J)Ljava/lang/String;"
-static jstring JNICALL nativeGenerateMnemonic(JNIEnv *env, jobject clazz, jlong jMasterProxy)
-{
-    IMasterWallet* masterWallet = (IMasterWallet*)jMasterProxy;
-    std::string mnemonic = masterWallet->GenerateMnemonic();
-    return env->NewStringUTF(mnemonic.c_str());
-}
-
 //"(J)[Ljava/lang/String;"
 static jobjectArray JNICALL nativeGetSupportedChains(JNIEnv *env, jobject clazz, jlong jMasterProxy)
 {
@@ -190,7 +182,6 @@ static const JNINativeMethod gMethods[] = {
     {"nativeSign", "(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeSign},
     {"nativeCheckSign", "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeCheckSign},
     {"nativeIsAddressValid", "(JLjava/lang/String;)Z", (void*)nativeIsAddressValid},
-    {"nativeGenerateMnemonic", "(J)Ljava/lang/String;", (void*)nativeGenerateMnemonic},
     {"nativeGetSupportedChains", "(J)[Ljava/lang/String;", (void*)nativeGetSupportedChains},
     {"nativeChangePassword", "(JLjava/lang/String;Ljava/lang/String;)V", (void*)nativeChangePassword},
     {"nativeResetAddressCache", "(JLjava/lang/String;)V", (void*)nativeResetAddressCache},

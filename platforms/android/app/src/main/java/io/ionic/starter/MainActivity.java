@@ -26,7 +26,7 @@ import android.util.Log;
 import org.apache.cordova.*;
 
 import cn.jpush.android.api.JPushInterface;
-import com.elastos.spvcore.Enviroment;
+import com.elastos.spvcore.MasterWalletManager;
 
 public class MainActivity extends CordovaActivity
 {
@@ -56,7 +56,11 @@ public class MainActivity extends CordovaActivity
     @Override
     protected void onPause() {
         super.onPause();
-        Enviroment.SaveConfigs();
+
+        MasterWalletManager walletManager = MyUtil.GetCurrentMasterWalletManager();
+        if (walletManager != null) {
+            walletManager.SaveConfigs();
+        }
     }
 
     private void initJG(){
@@ -64,8 +68,6 @@ public class MainActivity extends CordovaActivity
 
         Context applicationContext = getApplicationContext();
         MyUtil.setApplicationContext(applicationContext);
-        String mRootPath = MyUtil.getRootPath();
-        Enviroment.InitializeRootPath(mRootPath);
 
         String udid =  MyUtil.getImei(applicationContext, "");
         if (null != udid) Log.w("xxl-jg","Imei uuid is " + udid);

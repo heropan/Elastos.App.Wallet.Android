@@ -10,14 +10,14 @@
 #include "IMasterWallet.h"
 
 namespace Elastos {
-	namespace DID {
+    namespace DID {
 
-		class IdManagerFactory {
-		public:
-			IDIDManager *CreateIdManager( ElaWallet::IMasterWallet* masterWallet);
-		};
+        class IdManagerFactory {
+        public:
+            IDIDManager *CreateIdManager( ElaWallet::IMasterWallet* masterWallet, const std::string &rootPath);
+        };
 
-	}
+    }
 }
 
 #endif //__ELASTOS_SDK_IDMANAGERFACTORY_H__

@@ -9,16 +9,18 @@ using namespace Elastos::ElaWallet;
 using namespace Elastos::DID;
 
 //"(J)J"
-static jlong JNICALL nativeCreateIdManager(JNIEnv *env, jobject clazz, jlong jmasterWalletProxy)
+static jlong JNICALL nativeCreateIdManager(JNIEnv *env, jobject clazz, jlong jmasterWalletProxy, jstring jrootPath)
 {
+    const char* rootPath = env->GetStringUTFChars(jrootPath, NULL);
     IMasterWallet* masterWallet = (IMasterWallet*)jmasterWalletProxy;
     IdManagerFactory idManagerFactory;
-    IDIDManager *idManager = idManagerFactory.CreateIdManager(masterWallet);
+    IDIDManager* idManager = idManagerFactory.CreateIdManager(masterWallet, rootPath);
+    env->ReleaseStringUTFChars(jrootPath, rootPath);
     return (jlong)idManager;
 }
 
 static const JNINativeMethod gMethods[] = {
-    {"nativeCreateIdManager", "(J)J", (void*)nativeCreateIdManager},
+    {"nativeCreateIdManager", "(JLjava/lang/String;)J", (void*)nativeCreateIdManager},
 };
 
 jint register_elastos_spv_IdManagerFactory(JNIEnv *env)

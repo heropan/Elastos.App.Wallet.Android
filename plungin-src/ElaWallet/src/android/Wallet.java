@@ -5,8 +5,7 @@ import android.util.JsonReader;
 import com.elastos.spvcore.IMasterWallet;
 import com.elastos.spvcore.ISubWallet;
 import com.elastos.spvcore.ISubWalletCallback;
-import com.elastos.spvcore.Enviroment;
-import com.elastos.spvcore.IMasterWalletManager;
+import com.elastos.spvcore.MasterWalletManager;
 import com.elastos.spvcore.IdManagerFactory;
 import com.elastos.spvcore.IDidManager;
 import com.elastos.spvcore.IDid;
@@ -35,10 +34,11 @@ import io.ionic.starter.MyUtil;
 public class Wallet extends CordovaPlugin {
     private static final String TAG = "Wallet.JNI";
     private IMasterWallet mCurrentMasterWallet;
-    private IMasterWalletManager mWalletManager;
+    private MasterWalletManager mWalletManager;
     private ArrayList<IMasterWallet> mMasterWalletList;
     private IDidManager mDidManager = null;
     private Map<String, ISubWallet> mSubWalletMap = new HashMap<String, ISubWallet>();
+    private String mRootPath = null;
 
     private final String ERRORCODE = "ERRORCODE";
     private final String ERRORCODE_NODATA = "NODATA";
@@ -47,19 +47,22 @@ public class Wallet extends CordovaPlugin {
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
-        mWalletManager = Enviroment.GetMasterWalletManager();
+
+        mRootPath = MyUtil.getRootPath();
+        mWalletManager = new MasterWalletManager(mRootPath);
+        MyUtil.SetCurrentMasterWalletManager(mWalletManager);
         mMasterWalletList = mWalletManager.GetAllMasterWallets();
         if (mMasterWalletList != null && mMasterWalletList.size() > 0) {
             mCurrentMasterWallet = mMasterWalletList.get(0);
             if (mCurrentMasterWallet != null) {
-                mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet);
+                mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet, mRootPath);
             }
         }
     }
 
     private void initDidManager() {
         if (mDidManager == null && mCurrentMasterWallet != null) {
-            mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet);
+            mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet, mRootPath);
         }
     }
 
@@ -155,9 +158,6 @@ public class Wallet extends CordovaPlugin {
                   return true;
               case "generateMnemonic":
                   this.generateMnemonic(args, callbackContext);
-                  return true;
-              case "initializeMasterWallet":
-                  this.initializeMasterWallet(args, callbackContext);
                   return true;
               case "destroyWallet":
                   this.destroyWallet(args, callbackContext);
@@ -292,15 +292,19 @@ public class Wallet extends CordovaPlugin {
     }
 
     public void saveConfigs(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        Enviroment.SaveConfigs();
+        if (mWalletManager != null) {
+            mWalletManager.SaveConfigs();
+        }
         callbackContext.success();
     }
 
+    // GenerateMnemonic(String language)
     public void generateMnemonic(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if (mCurrentMasterWallet == null) {
-            callbackContext.success(parseOneParam(ERRORCODE, "The masterWallet is null"));
+        if (mWalletManager == null) {
+            callbackContext.success(parseOneParam(ERRORCODE, "The WalletManager is null"));
+            return;
         }
-        String mnemonic = mCurrentMasterWallet.GenerateMnemonic();
+        String mnemonic = mWalletManager.GenerateMnemonic(args.getString(0));
         callbackContext.success(parseOneParam("mnemonic", mnemonic));
     }
 
@@ -322,9 +326,10 @@ public class Wallet extends CordovaPlugin {
         }
     }
 
-    //CreateMasterWallet(String masterWalletId, String language)
+    //IMasterWallet CreateMasterWallet(String masterWalletId, String mnemonic, String phrasePassword, String payPassword, String language)
     public void createMasterWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        mCurrentMasterWallet = mWalletManager.CreateMasterWallet(args.getString(0), args.getString(1));
+        mCurrentMasterWallet = mWalletManager.CreateMasterWallet(args.getString(0), args.getString(1), args.getString(2)
+                , args.getString(3), args.getString(4));
         if (mCurrentMasterWallet != null) {
             mMasterWalletList.add(mCurrentMasterWallet);
             callbackContext.success();
@@ -338,13 +343,6 @@ public class Wallet extends CordovaPlugin {
     public void destroyWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
         mWalletManager.DestroyWallet(args.getString(0));
         callbackContext.success();
-    }
-
-    //InitializeMasterWallet(String masterWalletId, String mnemonic, String phrasePassword, String payPassword)
-    public void initializeMasterWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        boolean status = mWalletManager.InitializeMasterWallet(args.getString(0), args.getString(1), args.getString(2), args.getString(3));
-        initDidManager();
-        callbackContext.success(parseOneParam("status", status));
     }
 
     //ImportWalletWithKeystore(String masterWalletId, String keystoreContent, String backupPassWord ,String payPassWord, String phrasePassword)
@@ -778,6 +776,20 @@ public class Wallet extends CordovaPlugin {
         }
 
         callbackContext.error("didSign error.");
+    }
+
+    //String Sign(String message, String password)
+    public void didGenerateProgram(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mDidManager != null) {
+            IDid did = mDidManager.GetDID(args.getString(0));
+            if (did != null) {
+                String value = did.GenerateProgram(args.getString(1), args.getString(2));
+                callbackContext.success(parseOneParam("value", value));
+                return;
+            }
+        }
+
+        callbackContext.error("didGenerateProgram error.");
     }
 
     //String CheckSign(String message, String signature)

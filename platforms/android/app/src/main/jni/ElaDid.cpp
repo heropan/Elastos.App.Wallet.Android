@@ -93,6 +93,18 @@ static jstring JNICALL nativeGetPublicKey(JNIEnv *env, jobject clazz, jlong jDid
     return env->NewStringUTF(value.c_str());
 }
 
+//"(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+static jstring JNICALL nativeGenerateProgram(JNIEnv *env, jobject clazz, jlong jDidProxy, jstring jmessage, jstring jpassword)
+{
+    const char* message = env->GetStringUTFChars(jmessage, NULL);
+    const char* password = env->GetStringUTFChars(jpassword, NULL);
+    IDID* did = (IDID*)jDidProxy;
+    nlohmann::json jsonValue = did->GenerateProgram(message, password);
+    env->ReleaseStringUTFChars(jmessage, message);
+    env->ReleaseStringUTFChars(jpassword, password);
+    return env->NewStringUTF(ToStringFromJson(jsonValue));
+}
+
 static const JNINativeMethod gMethods[] = {
     {"nativeGetDIDName", "(J)Ljava/lang/String;", (void*)nativeGetDIDName},
     {"nativeSetValue", "(JLjava/lang/String;Ljava/lang/String;)V", (void*)nativeSetValue},
@@ -102,6 +114,7 @@ static const JNINativeMethod gMethods[] = {
     {"nativeSign", "(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeSign},
     {"nativeCheckSign", "(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeCheckSign},
     {"nativeGetPublicKey", "(J)Ljava/lang/String;", (void*)nativeGetPublicKey},
+    {"nativeGenerateProgram", "(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeGenerateProgram},
 };
 
 jint register_elastos_spv_IDid(JNIEnv *env)

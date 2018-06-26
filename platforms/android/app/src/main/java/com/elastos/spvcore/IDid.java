@@ -41,6 +41,10 @@ public class IDid {
         return nativeGetPublicKey(mDidProxy);
     }
 
+    public String GenerateProgram(String message, String password) {
+        return nativeGenerateProgram(mDidProxy, message, password);
+    }
+
     private native String nativeGetDIDName(long proxy);
     private native void nativeSetValue(long proxy, String keyPath, String valueJson);
     private native String nativeGetValue(long proxy, String path);
@@ -49,4 +53,5 @@ public class IDid {
     private native String nativeSign(long proxy, String message, String password);
     private native String nativeCheckSign(long proxy, String message, String signature);
     private native String nativeGetPublicKey(long proxy);
+    private native String nativeGenerateProgram(long proxy, String message, String password);
 }
