@@ -15,6 +15,7 @@ import {LauncherComponent} from "../pages/launcher/launcher.component";
 //import {RecordinfoComponent} from "../pages/coin/recordinfo/recordinfo.component";
 //import {RecordComponent} from "../pages/coin/record/record.component";
 //import {TestJniComponent} from '../pages/testjni/testjni.component';
+//import { AddressComponent } from '../pages/wallet/address/address.component'
 import {TabsComponent} from '../pages/tabs/tabs.component';
 import {LocalStorage} from "../providers/Localstorage";
 
