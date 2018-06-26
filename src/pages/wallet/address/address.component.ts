@@ -9,10 +9,14 @@ import {BaseComponent} from './../../../app/BaseComponent';
 export class AddressComponent extends BaseComponent implements OnInit {
 
   addrList = [];
+  chianId: string;
 
   ngOnInit() {
     this.setTitleByAssets('text-contacts-address');
-    //this.addrList = this.walletManager.getAllAddress();
+    this.chianId = this.getNavParams().get("chianId");
+    this.walletManager.getAllAddress(this.chianId, 0, (data) => {
+      this.addrList = data['Addresses'];
+    });
   }
 
   onItem() {

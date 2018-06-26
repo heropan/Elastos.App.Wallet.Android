@@ -14,10 +14,10 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
   qrcode: string=null;
   address: Number;
   amount: Number;
-  chinaId:string;
+  chinaId: string;
   ngOnInit() {
     this.setTitleByAssets('text-receive');
-    this.chinaId=this.getNavParams().get("chianId");
+    this.chinaId = this.getNavParams().get("chianId");
     this.createAddress();
     this.setHeadDisPlay({left:true,title:true,right:true});
     this.setRightIcon('./assets/images/icon/icon-s.svg', () => {
@@ -42,13 +42,13 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
         this.createAddress();
         break;
       case 2:
-        this.Go(AddressComponent);
+        this.Go(AddressComponent, {chinaId: this.chinaId});
         break;
     }
   }
 
   createAddress(){
-    this.walletManager.createAddress(this.chinaId,(data)=>{
+    this.walletManager.createAddress(this.chinaId, (data)=>{
         this.qrcode = data.address;
         this.address =data.address;
     });
