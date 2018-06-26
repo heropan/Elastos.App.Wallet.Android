@@ -17,7 +17,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
   language:string ="english";
   singMessage:string;
   fromAddress:string="sssss";
-  toAddress:string="sssss";
+  toAddress:string="EWs2TgP4Ds3qZcTzWmBZ5hNsx2PaEyxbui";
   chinaId:string ="ELA";
   adress:string;
   toadress:string="EWs2TgP4Ds3qZcTzWmBZ5hNsx2PaEyxbui";
@@ -408,7 +408,24 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
 
    didSetValue(){
          alert("===didSetValue==="+this.did);
-        this.walletManager.didSetValue(this.did,"1","sss",(result)=>{
+         let obj = {
+          "101": {
+            "datahash": "datahash1",
+            "proof": "hello proof1",
+            "sign": "hello sign1"
+          },
+          "102": {
+            "datahash": "datahash2",
+            "proof": "hello proof2",
+            "sign": "hello sign2"
+          },
+          "103": {
+            "datahash": "datahash3",
+            "proof": "hello proof3",
+            "sign": "hello sign3"
+          }
+        };
+        this.walletManager.didSetValue(this.did,"1",JSON.stringify(obj),(result)=>{
                    alert("====="+JSON.stringify(result));
         });
    }
