@@ -113,11 +113,6 @@ walletFunc.prototype.isAddressValid = function(arg0, success, error) {
     exec(success, error, "Wallet", "isAddressValid", arg0);
 };
 
-walletFunc.prototype.initializeMasterWallet = function(arg0, success, error) {
-    exec(success, error, "Wallet", "initializeMasterWallet", arg0);
-};
-
-
 walletFunc.prototype.generateMnemonic = function(arg0, success, error) {
     exec(success, error, "Wallet", "generateMnemonic", arg0);
 };

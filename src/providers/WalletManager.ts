@@ -86,8 +86,8 @@ export class WalletManager {
    * @param {string} language
    * @param Fun
    */
-  createMasterWallet(masterWalletId: string,language:string, Fun) {
-    this.wallet.createMasterWallet([masterWalletId,language], Fun, this.errorFun);
+  createMasterWallet(masterWalletId: string,mnemonic:string,phrasePassword:string,payPassword:string,language:string, Fun) {
+    this.wallet.createMasterWallet([masterWalletId,mnemonic,phrasePassword,payPassword,language], Fun, this.errorFun);
   }
   /**
    * @param {string} masterWalletId
@@ -196,10 +196,6 @@ export class WalletManager {
 
   isAddressValid(address:string,Fun){
       this.wallet.isAddressValid([address], Fun, this.errorFun);
-  }
-
-  initializeMasterWallet(masterWalletId: string ,mnemonic: string ,phrasePassword:string,payPassword:string,Fun){
-      this.wallet.initializeMasterWallet([masterWalletId,mnemonic,phrasePassword,payPassword],Fun,this.errorFun);
   }
 
   generateMnemonic(Fun){

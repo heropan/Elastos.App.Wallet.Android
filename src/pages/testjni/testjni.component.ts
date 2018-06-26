@@ -28,9 +28,9 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
   transactionJson:string;
   fee:number;
   interfaces = [
-                {id:3,name:"createMasterWallet"},
+
                 {id:24,name:"generateMnemonic"},
-                {id:23,name:"initializeMasterWallet"},
+                {id:3,name:"createMasterWallet"},
                 {id:0,name:"createSubWallet"},
                 {id:9,name:"createAddress"},
                 {id:41,name:"createTransaction"},
@@ -123,7 +123,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
          this.getPublicKey();
          break;
          case 3:
-         this.createMasterWallet(this.masterWalletId,this.language);
+         this.createMasterWallet(this.masterWalletId,this.mnemonic,this.phrasePassword,this.payPassword,this.language);
         break;
        case 4:
           this.importWalletWithKeystore(this.masterWalletId,"sssss",this.backupPassword,this.payPassword,this.phrasePassword);
@@ -179,9 +179,6 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
       case 22:
         this.getBalanceInfo(this.chinaId);
          break;
-      case 23:
-        this.initializeMasterWallet(this.masterWalletId,this.mnemonic,this.phrasePassword,this.payPassword);
-        break;
       case 24:
          this.generateMnemonic();
         break;
@@ -242,8 +239,8 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
      })
    }
 
-   createMasterWallet(masterWalletId,language){
-    this.walletManager.createMasterWallet(masterWalletId,language,(result)=>{
+   createMasterWallet(masterWalletId,mnemonic,phrasePassword,payPassWord,language){
+    this.walletManager.createMasterWallet(masterWalletId,mnemonic,phrasePassword,payPassWord,language,(result)=>{
                    alert("创建主钱包成功");
      });
    }
@@ -350,13 +347,6 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    getBalanceInfo(chinaId:string){
      this.walletManager.getBalanceInfo(chinaId,(result)=>{
         alert("余额信息："+JSON.stringify(result));
-     });
-   }
-
-   initializeMasterWallet(masterWalletId,mnemonic,phrasePassword,payPassWord){
-     alert("masterWalletId=="+masterWalletId+"mnemonic=="+mnemonic+"phrasePassword=="+phrasePassword+"payPassWord=="+payPassWord);
-     this.walletManager.initializeMasterWallet(masterWalletId,mnemonic,phrasePassword,payPassWord,(result)=>{
-             alert("主钱包初始化成功");
      });
    }
 

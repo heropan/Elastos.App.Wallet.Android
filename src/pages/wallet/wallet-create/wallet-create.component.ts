@@ -39,8 +39,6 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
 
   createWallet(){
     // Master Wallet
-    this.walletManager.createMasterWallet("1", this.getMnemonicLang(), (val) => {
       this.Go(MnemonicComponent, {payPassword: this.wallet.payPassword});
-    });
   }
 }

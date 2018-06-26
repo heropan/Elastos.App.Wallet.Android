@@ -42,7 +42,7 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
       this.toast("text-repwd-validator");
       return;
     }
-    this.walletManager.initializeMasterWallet("1", this.mnemonicStr, this.mnemonicPassword, this.payPassword, (data) =>{
+    this.walletManager.createMasterWallet("1", this.mnemonicStr, this.mnemonicPassword, this.payPassword,this.getMnemonicLang(),(data) =>{
            this.getSupportedChains();
            this.Go(WriteComponent, {mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList});
            this.localStorage.setWallet({
