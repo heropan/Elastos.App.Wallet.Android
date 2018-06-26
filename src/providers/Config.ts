@@ -16,6 +16,8 @@ export class Config {
 
   public static LIST_COUNT = 20;
 
+  public static SELA = 100000000;
+
   public static BLOCKCHAIN_URL: String = 'https://blockchain.elastos.org/';
 
   public static appList=[{"id":0,"appkeyName":"KYC"}];
