@@ -30,7 +30,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
 
   chianId: string;
 
-  feePerKb: 0.1;
+  feePerKb = 10000;
 
   rawTransaction: '';
 
@@ -40,6 +40,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
     this.setTitleByAssets('text-transfer');
 
     this.chianId = this.getNavParams().get("chianId");
+    this.initData();
 
     this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
       this.native.scan().then((q)=>{
@@ -98,8 +99,8 @@ export class TransferComponent extends BaseComponent implements OnInit {
       this.toast('error-amount');
       return;
     }
-    this.subPopup.show().subscribe((res: boolean) => {
-      this.createTransaction();
+    this.createTransaction();
+    this.subPopup.show().subscribe((res: boolean) => {      
     });
   }
 
@@ -110,19 +111,20 @@ export class TransferComponent extends BaseComponent implements OnInit {
       this.transfer.fee,
       this.transfer.memo,
       (data)=>{
-        this.rawTransaction = data;
+        this.rawTransaction = data['transactionId'].toString();
         this.getFee();
       });
   }
 
   getFee(){
     this.walletManager.calculateTransactionFee(this.chianId, this.rawTransaction, this.feePerKb, (data) => {
-      this.transfer.fee = data;
+      this.transfer.fee = data['fee'];
     });
   }
 
   sendRawTransaction(){
     this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, () => {
+      alert("===========sendRawTransaction ")
       this.Go(ContactListComponent);
     });
   }
