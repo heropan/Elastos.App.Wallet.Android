@@ -198,8 +198,8 @@ export class WalletManager {
       this.wallet.isAddressValid([address], Fun, this.errorFun);
   }
 
-  generateMnemonic(Fun){
-    this.wallet.generateMnemonic([],Fun,this.errorFun);
+  generateMnemonic(language:string,Fun){
+    this.wallet.generateMnemonic([language],Fun,this.errorFun);
   }
 
   saveConfigs(Fun){

@@ -19,7 +19,7 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
   isSelect:boolean = false;
   ngOnInit() {
     this.setTitleByAssets('text-mnemonic');
-    this.walletManager.generateMnemonic((data) => {
+    this.walletManager.generateMnemonic(this.getMnemonicLang(),(data) => {
       //let data ={"mnemonic":"aaa bbb ccc ddd eee  fff ggg  ssss kkk lll zzz hhh"};
       this.mnemonicStr = data.mnemonic.toString();
       let mnemonicArr = this.mnemonicStr.split(/[\u3000\s]+/);
