@@ -19,7 +19,7 @@ export class AddressComponent extends BaseComponent implements OnInit {
     });
   }
 
-  onItem() {
-
+  onItem(item) {
+    this.native.copyClipboard(item);
   }
 }
