@@ -19,5 +19,6 @@ export class AddressComponent extends BaseComponent implements OnInit {
 
   onItem(item) {
     this.native.copyClipboard(item);
+    this.toast('copy-ok');
   }
 }
