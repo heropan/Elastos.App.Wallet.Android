@@ -198,7 +198,7 @@ walletFunc.prototype.didCheckSign = function(arg0, sucess, error) {
 };
 
 walletFunc.prototype.didGetPublicKey = function(arg0, sucess, error) {
-    exec(sucess, error, "Wallet", "didCheckSign", arg0);
+    exec(sucess, error, "Wallet", "didGetPublicKey", arg0);
 };
 
 
