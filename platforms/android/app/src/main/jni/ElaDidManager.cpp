@@ -34,6 +34,7 @@ static /*nlohmann::json*/ jstring JNICALL nativeGetDIDList(JNIEnv *env, jobject 
 {
     IDIDManager* didMgr = (IDIDManager*)jDidMgrProxy;
     nlohmann::json jsonValue = didMgr->GetDIDList();
+    LOGD("FUNC=[%s]========================value=[%s]", __FUNCTION__, ToStringFromJson(jsonValue));
     return env->NewStringUTF(ToStringFromJson(jsonValue));
 }
 
