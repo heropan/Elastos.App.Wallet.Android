@@ -63,16 +63,16 @@ export class CoinComponent extends BaseComponent implements OnInit {
   }
 
   onItem(item) {
-    this.Go(RecordinfoComponent,{id: this.coinId, txId: item.txId});
+    this.Go(RecordinfoComponent, {chainId: this.coinName, txId: item.txId});
   }
 
   onNext(type) {
     switch (type) {
       case 1:
-        this.Go(ReceiveComponent, {id: this.coinId, chianId:this.coinName});
+        this.Go(ReceiveComponent, {id: this.coinId, chianId: this.coinName});
         break;
       case 2:
-        this.Go(TransferComponent, {id: this.coinId, chianId:this.coinName});
+        this.Go(TransferComponent, {id: this.coinId, chianId: this.coinName});
         break;
       case 3:
         this.Go(RecordComponent, {id: this.coinId});
