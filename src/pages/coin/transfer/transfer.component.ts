@@ -4,6 +4,7 @@ import {BaseComponent} from './../../../app/BaseComponent';
 //import {DialogService, DialogConfig, DialogComponent, ToastService, ToptipsComponent, ToptipsService } from 'ngx-weui';
 
 import {ContactListComponent} from "../../contacts/contact-list/contact-list.component";
+import {TabsComponent} from "../../tabs/tabs.component";
 //import {Native} from "../../../providers/Native";
 import {Util} from "../../../providers/Util";
 import { PopupComponent } from "ngx-weui";
@@ -121,9 +122,10 @@ export class TransferComponent extends BaseComponent implements OnInit {
   }
 
   sendRawTransaction(){
-    this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, () => {
-      alert("===========sendRawTransaction ")
-      this.Go(ContactListComponent);
+    this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
+      alert("===========sendRawTransaction " + JSON.stringify(data));
+      this.toast('send-raw-transaction');
+      this.Go(TabsComponent);
     });
   }
 
