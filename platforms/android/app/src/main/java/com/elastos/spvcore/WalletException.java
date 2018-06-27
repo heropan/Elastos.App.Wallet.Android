@@ -1,7 +1,6 @@
 
 package com.elastos.spvcore;
 
-
 public class WalletException extends Exception {
     private int mErrorCode = 0;
 

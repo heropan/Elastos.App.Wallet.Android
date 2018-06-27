@@ -100,3 +100,13 @@ void ThrowLogicException(JNIEnv* env, const char* errorInfo)
     }
     env->ThrowNew(walletException, errorInfo);
 }
+
+void ThrowWalletException(JNIEnv* env, const char* errorInfo)
+{
+    jclass walletException = env->FindClass(WALLETEXCEPTION);
+    if (walletException == NULL) {
+        /* Unable to find the exception class, give up. */
+        return;
+    }
+    env->ThrowNew(walletException, errorInfo);
+}
