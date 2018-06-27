@@ -459,6 +459,7 @@ public class Wallet extends CordovaPlugin {
 
     public void registerWalletListener(JSONArray args, CallbackContext callbackContext) throws JSONException {
         //The first parameter is [chainID]
+        Log.d("JS-Wallet", "registerWalletListener==================1");
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
             callbackContext.error("Don't have the subWallet, please check.");
@@ -469,6 +470,7 @@ public class Wallet extends CordovaPlugin {
             @Override
             public void OnTransactionStatusChanged(String txId, String status, String desc, int confirms) {
                 JSONObject jsonObject = new JSONObject();
+                Log.d("JS-Wallet", "registerWalletListener==================2");
                 try {
                     jsonObject.put("txId", txId);
                     jsonObject.put("status", status);
