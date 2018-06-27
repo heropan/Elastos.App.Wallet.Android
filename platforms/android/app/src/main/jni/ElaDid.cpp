@@ -56,6 +56,7 @@ static /*nlohmann::json*/ jstring JNICALL nativeGetAllKeys(JNIEnv *env, jobject 
 {
     IDID* did = (IDID*)jDidProxy;
     nlohmann::json jsonValue = did->GetAllKeys(jstart, jcount);
+    LOGD("FUNC=[%s]========================value=[%s]", __FUNCTION__, ToStringFromJson(jsonValue));
     return env->NewStringUTF(ToStringFromJson(jsonValue));
 }
 

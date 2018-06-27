@@ -135,6 +135,7 @@ static jstring JNICALL nativeCreateTransaction(JNIEnv *env, jobject clazz, jlong
     const char* memo = env->GetStringUTFChars(jmemo, NULL);
 
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
+    LOGD("nativeCreateTransaction == fromAddress=[%s], to=[%s], amount=[%lld], fee=[%lld], memo=[%s]", fromAddress, toAddress, amount, fee, memo);
     nlohmann::json result = subWallet->CreateTransaction(fromAddress, toAddress, amount, fee, memo);
 
     env->ReleaseStringUTFChars(jfromAddress, fromAddress);
@@ -206,6 +207,8 @@ static jstring JNICALL nativeSign(JNIEnv *env, jobject clazz, jlong jSubProxy, j
 
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
     std::string result = subWallet->Sign(message, payPassword);
+
+    LOGD("FUNC=[%s]========================value=[%s]", __FUNCTION__, result.c_str());
 
     env->ReleaseStringUTFChars(jmessage, message);
     env->ReleaseStringUTFChars(jpayPassword, payPassword);

@@ -196,6 +196,10 @@ walletFunc.prototype.didGetPublicKey = function(arg0, sucess, error) {
     exec(sucess, error, "Wallet", "didGetPublicKey", arg0);
 };
 
+walletFunc.prototype.destroyWallet = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "destroyWallet", arg0);
+};
+
 
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;
