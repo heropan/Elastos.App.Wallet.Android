@@ -25,20 +25,21 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
       let transactions = JSON.parse(allTransaction)['Transactions'];
       // alert("getAllTransaction" + JSON.stringify(transactions));
       let transaction = transactions[0];
-        let timestamp = transaction['Timestamp'];
-        let datetime = Util.dateFormat(new Date(timestamp));
-        this.transactionRecord = {
-          name: chainId,
-          status: "complete",
-          balance: 0,
-          datetime: datetime,
-          txId: txId,
-          receiveAddress: 'receiveAddress',
-          transactionTime: '',
-          payfees: 1,
-          confirmCount: 1,
-          remark: 'remark',
-        }
+      let timestamp = transaction['Timestamp'];
+      let datetime = Util.dateFormat(new Date(timestamp));
+      let summary = transaction['Summary'];
+      this.transactionRecord = {
+        name: chainId,
+        status: summary["Status"],
+        balance: summary["Amount"],
+        txId: txId,
+        receiveAddress: summary["ToAddress"],
+        transactionTime: datetime,
+        payfees: transaction['Fee'],
+        confirmCount: summary["ConfirmStatus"],
+        remark: 'remark',
+        type: summary["Type"]
+      }
     });
   }  
 
