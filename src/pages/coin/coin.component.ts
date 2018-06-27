@@ -1,6 +1,7 @@
 import {BaseComponent} from '../../app/BaseComponent';
 import {Component, ViewEncapsulation, OnInit} from '@angular/core';
 import { Config } from '../../providers/Config';
+import { Util } from '../../providers/Util';
 import {RecordComponent} from "./record/record.component";
 import {TransferComponent} from "./transfer/transfer.component";
 import {ReceiveComponent} from "./receive/receive.component";
@@ -35,13 +36,28 @@ export class CoinComponent extends BaseComponent implements OnInit {
   }
 
   initData(){
-    this.walletManager.getBalance(this.coinName,(data)=>{
+    this.walletManager.getBalance(this.coinName, (data)=>{
       this.coinCount = data.balance;
     });
-    this.transferList = [{"name": "ELA", "status": "complete", "balance": 0, "datetime": 1234567890}];
-    // this.walletManager.getAllTransaction(this.start,this.count,'',(data)=>{
-    //
-    // });
+    this.walletManager.getAllTransaction(this.coinName, this.start, '', (data) => {      
+      let allTransaction = data['allTransaction'];
+      let transactions = JSON.parse(allTransaction)['Transactions'];
+
+      // alert("getAllTransaction" + JSON.stringify(transactions));
+      for (let key in transactions) {
+        let transaction = transactions[key];
+        let timestamp = transaction['Timestamp'];
+        let datetime = Util.dateFormat(new Date(timestamp));
+        let transfer = {
+          "name": this.coinName,
+          "status": "complete",
+          "balance": 0,
+          "datetime": datetime
+        }
+        this.transferList.push(transfer);
+      }
+    });
+    // this.transferList = [{"name": "ELA", "status": "complete", "balance": 0, "datetime": 1234567890}];
   }
 
   onItem(item) {
