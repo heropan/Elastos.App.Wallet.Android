@@ -40,8 +40,6 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <allow-navigation href="http://10.0.0.160:8100" />
-    <allow-navigation href="http://172.31.80.123:8100" />
     <allow-intent href="market:*" />
     <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
     <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
@@ -75,5 +73,4 @@
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="ShowSplashScreenSpinner" value="false" />
     <preference name="AutoHideSplashScreen" value="false" />
-    <preference name="FadeSplashScreen" value="false" />
 </widget>
