@@ -18,18 +18,33 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
     remark: 'remark',
   };
 
-  balance = 1.0;
+  chinaId: string;
+  start = 0;
 
   blockchain_url = Config.BLOCKCHAIN_URL;
 
   ngOnInit() {
     this.setTitleByAssets('text-record');
-    // let txId = this.getNavParams().get("txId");
-    // this.walletManager.getAllTransaction(this.start,this.count, txId, (data)=>{
-    //   this.transactionRecord = data
-    // });
-    // this.walletManager.getBalanceFun((data)=>{
-    //   this.balance = data.balance;
+    let txId = this.getNavParams().get("txId");
+    let chinaId = this.getNavParams().get("id");
+    alert(txId)
+    alert(chinaId)
+    // this.walletManager.getAllTransaction(this.chinaId, this.start, txId, (data) => {      
+    //   let allTransaction = data['allTransaction'];
+    //   let transactions = JSON.parse(allTransaction)['Transactions'];
+    //   // alert("getAllTransaction" + JSON.stringify(transactions));
+    //   for (let key in transactions) {
+    //     let transaction = transactions[key];
+    //     let timestamp = transaction['Timestamp'];
+    //     let datetime = Util.dateFormat(new Date(timestamp));
+    //     let transfer = {
+    //       "name": this.coinName,
+    //       "status": "complete",
+    //       "balance": 0,
+    //       "datetime": datetime
+    //     }
+    //     this.transferList.push(transfer);
+    //   }
     // });
   }  
 

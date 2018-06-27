@@ -48,11 +48,13 @@ export class CoinComponent extends BaseComponent implements OnInit {
         let transaction = transactions[key];
         let timestamp = transaction['Timestamp'];
         let datetime = Util.dateFormat(new Date(timestamp));
+        let txId = transaction['TxHash'];
         let transfer = {
           "name": this.coinName,
           "status": "complete",
           "balance": 0,
-          "datetime": datetime
+          "datetime": datetime,
+          "txId": txId
         }
         this.transferList.push(transfer);
       }

@@ -123,7 +123,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
 
   sendRawTransaction(){
     this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
-      alert("===========sendRawTransaction " + JSON.stringify(data));
+      // alert("===========sendRawTransaction " + JSON.stringify(data));
       this.toast('send-raw-transaction');
       this.Go(TabsComponent);
     });
