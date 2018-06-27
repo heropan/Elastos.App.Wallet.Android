@@ -56,19 +56,9 @@ static /*nlohmann::json*/ jstring JNICALL nativeGetAllKeys(JNIEnv *env, jobject 
 {
     IDID* did = (IDID*)jDidProxy;
     nlohmann::json jsonValue = did->GetAllKeys(jstart, jcount);
-    const char* value = ToStringFromJson(jsonValue);
-    if (value != NULL) {
-        unsigned char firstCh = value[0];
-        LOGD("FUNC=[%s]========================value=[%s], firstCh=[0x%02x]", __FUNCTION__, value, firstCh);
-        std::stringstream ss;
-        ss << jsonValue;
-        jstring retValue = stringTojstring(env, ss.str());
-        LOGD("FUNC=[%s]========================LINE=[%d], ", __FUNCTION__, __LINE__);
-        return retValue;
-    }
-
-    LOGD("FUNC=[%s]========================value=[%s], jstart=[%d], jcount=[%d]", __FUNCTION__, value, jstart, jcount);
-    return env->NewStringUTF(ToStringFromJson(jsonValue));
+    std::stringstream ss;
+    ss << jsonValue;
+    return stringTojstring(env, ss.str());
 }
 
 //"(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
