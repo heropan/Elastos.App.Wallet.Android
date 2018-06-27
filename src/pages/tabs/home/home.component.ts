@@ -27,7 +27,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
             this.coinList = [];
             for (let coin in coinListCache) {
               this.walletManager.getBalance(coin,(data)=>{
-                this.coinList.push({name: coin, balance: data.balance});
+                this.coinList.push({name: coin, balance: data.balance/Config.SELA});
               })
             }
           });
@@ -68,7 +68,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   getElaBalance(item){
     this.walletManager.getBalance(item.name,(data)=>{
-      this.ElaObj.balance = data.balance;
+      this.ElaObj.balance = data.balance/Config.SELA;
     })
   }
 
@@ -93,7 +93,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   getSubBalance(coin){
     this.walletManager.getBalance(coin, (data)=>{
-      this.coinList.push({name: coin, balance: data.balance});
+      this.coinList.push({name: coin, balance: data.balance/Config.SELA});
     })
   }
 }
