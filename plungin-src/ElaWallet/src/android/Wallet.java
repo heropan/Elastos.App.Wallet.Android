@@ -90,9 +90,6 @@ public class Wallet extends CordovaPlugin {
               case "recoverSubWallet":
                   this.recoverSubWallet(args, callbackContext);
                   return true;
-              case "importWalletWithKeystore":
-                  this.importWalletWithKeystore(args, callbackContext);
-                  return true;
               case "importWalletWithMnemonic":
                   this.importWalletWithMnemonic(args, callbackContext);
                   return true;
@@ -332,6 +329,7 @@ public class Wallet extends CordovaPlugin {
                 , args.getString(3), args.getString(4));
         if (mCurrentMasterWallet != null) {
             mMasterWalletList.add(mCurrentMasterWallet);
+            initDidManager();
             callbackContext.success();
         }
         else {
@@ -343,19 +341,6 @@ public class Wallet extends CordovaPlugin {
     public void destroyWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
         mWalletManager.DestroyWallet(args.getString(0));
         callbackContext.success();
-    }
-
-    //ImportWalletWithKeystore(String masterWalletId, String keystoreContent, String backupPassWord ,String payPassWord, String phrasePassword)
-    public void importWalletWithKeystore(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        mCurrentMasterWallet = mWalletManager.ImportWalletWithKeystore(args.getString(0), args.getString(1), args.getString(2), args.getString(3), args.getString(4));
-        if (mCurrentMasterWallet != null) {
-            mMasterWalletList.add(mCurrentMasterWallet);
-            initDidManager();
-            callbackContext.success();
-        }
-        else {
-            callbackContext.error("ImportWalletWithKeystore failed.");
-        }
     }
 
     //ImportWalletWithMnemonic(String masterWalletId, String mnemonic, String phrasePassword ,String payPassWord, String language)
