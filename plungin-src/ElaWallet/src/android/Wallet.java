@@ -430,6 +430,7 @@ public class Wallet extends CordovaPlugin {
 
     public void getAllTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
         //The first parameter is [chainID]
+        Log.d("JS-Wallet", "getAllTransaction======id="+args.getString(0)+", a1="+args.getInt(1)+", a2="+args.getInt(2)+", a3="+args.getString(3));
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
             callbackContext.error("Don't have the subWallet, please check.");
