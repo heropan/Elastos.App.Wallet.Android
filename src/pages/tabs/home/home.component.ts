@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../../app/BaseComponent';
 import {CoinComponent} from "../../coin/coin.component";
 import {CoinListComponent} from "../../coin/coin-list/coin-list.component";
+import { Config } from '../../../providers/Config';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
             this.coinList = [];
             for (let coin in coinListCache) {
               this.walletManager.getBalance(coin,(data)=>{
-                this.coinList.push({name: coin, balance: data.balance});
+                this.coinList.push({name: coin, balance: data.balance/Config.SELA});
               })
             }
           });
@@ -67,7 +68,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   getElaBalance(item){
     this.walletManager.getBalance(item.name,(data)=>{
-      this.ElaObj.balance = data.balance;
+      this.ElaObj.balance = data.balance/Config.SELA;
     })
   }
 
@@ -92,7 +93,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   getSubBalance(coin){
     this.walletManager.getBalance(coin, (data)=>{
-      this.coinList.push({name: coin, balance: data.balance});
+      this.coinList.push({name: coin, balance: data.balance/Config.SELA});
     })
   }
 }

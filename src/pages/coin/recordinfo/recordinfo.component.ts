@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
 import {Config} from '../../../providers/Config';
+import { Util } from '../../../providers/Util';
 
 @Component({
   selector: 'app-recordinfo',
@@ -9,28 +10,37 @@ import {Config} from '../../../providers/Config';
 })
 export class RecordinfoComponent extends BaseComponent implements OnInit {
 
-  transactionRecord: any = {
-    txId: '1c4c4af6a164bf6eb5c17e56d79b0a744865538a7a75d1d61a463728b217cb49',
-    receiveAddress: 'receiveAddress',
-    transactionTime: '',
-    payfees: 1,
-    confirmCount: 1,
-    remark: 'remark',
-  };
+  transactionRecord: any = {};
 
-  balance = 1.0;
+  start = 0;
 
   blockchain_url = Config.BLOCKCHAIN_URL;
 
   ngOnInit() {
     this.setTitleByAssets('text-record');
-    // let txId = this.getNavParams().get("txId");
-    // this.walletManager.getAllTransaction(this.start,this.count, txId, (data)=>{
-    //   this.transactionRecord = data
-    // });
-    // this.walletManager.getBalanceFun((data)=>{
-    //   this.balance = data.balance;
-    // });
+    let txId = this.getNavParams().get("txId");
+    let chainId = this.getNavParams().get("chainId");
+    this.walletManager.getAllTransaction(chainId, this.start, txId, (data) => {
+      let allTransaction = data['allTransaction'];
+      let transactions = JSON.parse(allTransaction)['Transactions'];
+      // alert("getAllTransaction" + JSON.stringify(transactions));
+      let transaction = transactions[0];
+      let timestamp = transaction['Timestamp'];
+      let datetime = Util.dateFormat(new Date(timestamp));
+      let summary = transaction['Summary'];
+      this.transactionRecord = {
+        name: chainId,
+        status: summary["Status"],
+        balance: summary["Amount"],
+        txId: txId,
+        receiveAddress: summary["ToAddress"],
+        transactionTime: datetime,
+        payfees: transaction['Fee'],
+        confirmCount: summary["ConfirmStatus"],
+        remark: 'remark',
+        type: summary["Type"]
+      }
+    });
   }  
 
 }
