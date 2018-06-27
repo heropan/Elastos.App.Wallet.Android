@@ -37,16 +37,19 @@ export class ManagerComponent extends BaseComponent implements OnInit {
         break;
       case 2:
         this.popupProvider.ionicConfirm('confirmTitle', 'confirmSubTitle').then(() => {
-          this.localStorage.remove('myWallet').then(() => {
-            this.Go(LauncherComponent);
-          });
-          // console.log("delete wallet");
-          // this.walletManager.destroyWallet(function () {
-          // });
+               this.destroyWallet("1");
         });
         break;
     }
 
+  }
+
+  destroyWallet(masterWalletId:string){
+    this.walletManager.destroyWallet(masterWalletId,(result)=>{
+      this.localStorage.remove('myWallet').then(() => {
+          this.Go(LauncherComponent);
+      });
+    });
   }
 
 }
