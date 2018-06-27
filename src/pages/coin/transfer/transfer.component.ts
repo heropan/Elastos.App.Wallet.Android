@@ -8,6 +8,7 @@ import {TabsComponent} from "../../tabs/tabs.component";
 //import {Native} from "../../../providers/Native";
 import {Util} from "../../../providers/Util";
 import { PopupComponent } from "ngx-weui";
+import { Config } from '../../../providers/Config';
 
 
 
@@ -34,6 +35,8 @@ export class TransferComponent extends BaseComponent implements OnInit {
   feePerKb = 10000;
 
   rawTransaction: '';
+
+  SELA = Config.SELA;
 
   ngOnInit() {
     this.setTitleByAssets('text-transfer');
@@ -106,7 +109,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
   createTransaction(){
     this.walletManager.createTransaction(this.chianId, "",
       this.transfer.toAddress,
-      this.transfer.amount,
+      this.transfer.amount*Config.SELA,
       this.transfer.fee,
       this.transfer.memo,
       (data)=>{

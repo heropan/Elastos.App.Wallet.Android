@@ -37,7 +37,7 @@ export class CoinComponent extends BaseComponent implements OnInit {
 
   initData(){
     this.walletManager.getBalance(this.coinName, (data)=>{
-      this.coinCount = data.balance;
+      this.coinCount = data.balance/Config.SELA;
     });
     this.walletManager.getAllTransaction(this.coinName, this.start, '', (data) => {      
       let allTransaction = data['allTransaction'];

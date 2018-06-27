@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../../app/BaseComponent';
 import {CoinComponent} from "../../coin/coin.component";
 import {CoinListComponent} from "../../coin/coin-list/coin-list.component";
+import { Config } from '../../../providers/Config';
 
 
 @Component({
