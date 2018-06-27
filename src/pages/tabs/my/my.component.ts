@@ -15,7 +15,7 @@ export class MyComponent  extends BaseComponent implements OnInit  {
 
 
   ngOnInit() {
-    this.setTitleByAssets("tab-my");
+
   }
 
   onNext(type): void {
