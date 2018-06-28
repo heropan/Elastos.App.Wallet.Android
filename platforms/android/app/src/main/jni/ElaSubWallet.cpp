@@ -137,12 +137,32 @@ static jstring JNICALL nativeCreateTransaction(JNIEnv *env, jobject clazz, jlong
 
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
     LOGD("nativeCreateTransaction == fromAddress=[%s], to=[%s], amount=[%lld], fee=[%lld], memo=[%s]", fromAddress, toAddress, amount, fee, memo);
-    nlohmann::json result = subWallet->CreateTransaction(fromAddress, toAddress, amount, fee, memo);
 
-    env->ReleaseStringUTFChars(jfromAddress, fromAddress);
-    env->ReleaseStringUTFChars(jtoAddress, toAddress);
-    env->ReleaseStringUTFChars(jmemo, memo);
-    return env->NewStringUTF(ToStringFromJson(result));
+    nlohmann::json result;
+    try {
+        result = subWallet->CreateTransaction(fromAddress, toAddress, amount, fee, memo);
+        env->ReleaseStringUTFChars(jfromAddress, fromAddress);
+        env->ReleaseStringUTFChars(jtoAddress, toAddress);
+        env->ReleaseStringUTFChars(jmemo, memo);
+        return env->NewStringUTF(ToStringFromJson(result));
+    }
+    catch (std::logic_error e) {
+        ThrowWalletException(env, e.what());
+    }
+    catch (std::invalid_argument e) {
+        LOGD("FUNC=[%s]===================LINE=[%d]", __FUNCTION__, __LINE__);
+        ThrowWalletException(env, e.what());
+    }
+    catch (std::runtime_error e) {
+        LOGD("FUNC=[%s]===================LINE=[%d]", __FUNCTION__, __LINE__);
+        ThrowWalletException(env, e.what());
+    }
+    catch (std::exception e) {
+        LOGD("FUNC=[%s]===================LINE=[%d]", __FUNCTION__, __LINE__);
+        ThrowWalletException(env, e.what());
+    }
+
+    return NULL;
 }
 
 static jstring JNICALL nativeCreateMultiSignAddress(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jmultiPublicKeyJson,

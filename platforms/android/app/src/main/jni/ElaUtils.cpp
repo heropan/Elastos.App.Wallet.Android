@@ -5,6 +5,34 @@
 
 #include "ElaUtils.h"
 
+const char* WALLETEXCEPTION = "com/elastos/spvcore/WalletException";
+void ThrowLogicException(JNIEnv* env, const char* errorInfo)
+{
+    jclass walletException = env->FindClass(WALLETEXCEPTION);
+    env->ExceptionClear();
+    env->ThrowNew(walletException, errorInfo);
+}
+
+void ThrowWalletExceptionWithECode(JNIEnv* env, int errorcode, const char* errorInfo)
+{
+    jclass walletException = env->FindClass(WALLETEXCEPTION);
+    jmethodID methodId = env->GetMethodID(walletException, "<init>", "(ILjava/lang/String;)V");
+    jstring arg = env->NewStringUTF(errorInfo);
+    jthrowable throwable = (jthrowable) env->NewObject(walletException, methodId, errorcode, arg);
+    env->ExceptionClear();
+    env->Throw(throwable);
+}
+
+void ThrowWalletException(JNIEnv* env, const char* errorInfo)
+{
+    jclass walletException = env->FindClass(WALLETEXCEPTION);
+    jmethodID methodId = env->GetMethodID(walletException, "<init>", "(Ljava/lang/String;)V");
+    jstring arg = env->NewStringUTF(errorInfo);
+    jthrowable throwable = (jthrowable) env->NewObject(walletException, methodId, arg);
+    env->ExceptionClear();
+    env->Throw(throwable);
+}
+
 int UTF82UnicodeOne(const char* utf8, wchar_t& wch)
 {
     unsigned char firstCh = utf8[0];

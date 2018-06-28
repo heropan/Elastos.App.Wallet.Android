@@ -39,8 +39,15 @@ public class ISubWallet {
         nativeRemoveCallback(mSubProxy, subCallback);
     }
 
-    public String CreateTransaction(String fromAddress, String toAddress, long amount, long fee, String memo) {
-        return nativeCreateTransaction(mSubProxy, fromAddress, toAddress, amount, fee, memo);
+    public String CreateTransaction(String fromAddress, String toAddress, long amount, long fee, String memo) throws WalletException {
+        String transactionJson = null;
+        try {
+            transactionJson = nativeCreateTransaction(mSubProxy, fromAddress, toAddress, amount, fee, memo);
+        }
+        catch (WalletException e) {
+            e.printStackTrace();
+        }
+        return transactionJson;
     }
 
     public String CreateMultiSignAddress(String multiPublicKeyJson, int totalSignNum, int requiredSignNum) {
