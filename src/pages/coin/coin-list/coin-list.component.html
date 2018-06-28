@@ -8,3 +8,12 @@
         </div>
     </li>
 </ul>
+
+<weui-popup #subscribe>
+  <div class="pop-box" >
+    <div class="weui-cell" style="margin: 10px; padding: 0px">
+        <input class="weui-input" type="password" placeholder="{{ 'text-pay-password' | translate }}" [(ngModel)]="payPassword">
+    </div>
+    <div class="button-default " style="margin: 20px auto"  (click)="onClick()">{{ 'confirm' | translate }}</div>
+  </div>
+</weui-popup>

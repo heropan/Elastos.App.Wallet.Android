@@ -19,6 +19,7 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
   singleAddress: boolean = false;
   defaultCointype = "Ela";
   isSelect:boolean = false;
+  
   ngOnInit() {
     this.setTitleByAssets('text-mnemonic');
     this.walletManager.generateMnemonic(this.getMnemonicLang(),(data) => {
