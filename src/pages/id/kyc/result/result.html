@@ -1,11 +1,11 @@
 <app-header [header]="header"></app-header>
 <div class="company-result">
     <div class="result-title" *ngIf="type==='0'">
-        <p>{{'text-kyc-success' | translate }} <img src='../../assets/images/icon/icon-success.svg' class="result-img" /></p>
+        <p>{{'text-kyc-success' | translate }} <img src='./assets/images/icon/icon-success.svg' class="result-img" /></p>
     </div>
 
     <div class="result-title" *ngIf="type==='1'">
-        <p>{{'text-kyc-failure' | translate }} <img src='../../assets/images/icon/icon-failure.svg' class="result-img" /></p>
+        <p>{{'text-kyc-failure' | translate }} <img src='./assets/images/icon/icon-failure.svg' class="result-img" /></p>
     </div>
     <div class="weui-cells__title">{{'text-kyc-message' | translate }}</div>
     <div class="weui-cells">
