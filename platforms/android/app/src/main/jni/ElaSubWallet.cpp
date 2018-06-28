@@ -107,6 +107,7 @@ private:
 static std::map<jobject, ElaSubWalletCallback*> sSubCallbackMap;
 static void JNICALL nativeAddCallback(JNIEnv *env, jobject clazz, jlong jSubProxy, jobject jsubCallback)
 {
+    LOGD("FUNC=[%s]========================LINE=[%d]", __FUNCTION__, __LINE__);
     ElaSubWalletCallback* subCallback = new ElaSubWalletCallback(env, clazz);
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
     subWallet->AddCallback(subCallback);
@@ -269,12 +270,14 @@ ElaSubWalletCallback::ElaSubWalletCallback(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
+    LOGD("FUNC=[%s]========================LINE=[%d]", __FUNCTION__, __LINE__);
     mObj = env->NewGlobalRef(jobj);
     env->GetJavaVM(&mVM);
 }
 
 ElaSubWalletCallback::~ElaSubWalletCallback()
 {
+    LOGD("FUNC=[%s]========================LINE=[%d]", __FUNCTION__, __LINE__);
     if (mObj) {
         GetEnv()->DeleteGlobalRef(mObj);
     }
@@ -298,6 +301,7 @@ void ElaSubWalletCallback::OnTransactionStatusChanged(const std::string &txid, c
     const nlohmann::json &desc, uint32_t confirms)
 {
     JNIEnv* env = GetEnv();
+    LOGD("FUNC=[%s]========================LINE=[%d]", __FUNCTION__, __LINE__);
 
     jclass clazz = env->GetObjectClass(mObj);
     //"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V"

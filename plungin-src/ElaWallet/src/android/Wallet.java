@@ -90,6 +90,9 @@ public class Wallet extends CordovaPlugin {
               case "recoverSubWallet":
                   this.recoverSubWallet(args, callbackContext);
                   return true;
+              case "importWalletWithKeystore":
+                  this.importWalletWithKeystore(args, callbackContext);
+                  return true;
               case "importWalletWithMnemonic":
                   this.importWalletWithMnemonic(args, callbackContext);
                   return true;
@@ -343,6 +346,19 @@ public class Wallet extends CordovaPlugin {
         callbackContext.success();
     }
 
+    //ImportWalletWithKeystore(String masterWalletId, String keystoreContent, String backupPassWord ,String payPassWord, String phrasePassword)
+    public void importWalletWithKeystore(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        mCurrentMasterWallet = mWalletManager.ImportWalletWithKeystore(args.getString(0), args.getString(1), args.getString(2), args.getString(3), args.getString(4));
+        if (mCurrentMasterWallet != null) {
+            mMasterWalletList.add(mCurrentMasterWallet);
+            initDidManager();
+            callbackContext.success();
+        }
+        else {
+            callbackContext.error("ImportWalletWithKeystore failed.");
+        }
+    }
+
     //ImportWalletWithMnemonic(String masterWalletId, String mnemonic, String phrasePassword ,String payPassWord, String language)
     public void importWalletWithMnemonic(JSONArray args, CallbackContext callbackContext) throws JSONException {
         mCurrentMasterWallet = mWalletManager.ImportWalletWithMnemonic(args.getString(0), args.getString(1), args.getString(2), args.getString(3), args.getString(4));
@@ -443,6 +459,7 @@ public class Wallet extends CordovaPlugin {
 
     public void registerWalletListener(JSONArray args, CallbackContext callbackContext) throws JSONException {
         //The first parameter is [chainID]
+        Log.d("JS-Wallet", "registerWalletListener==================1");
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
             callbackContext.error("Don't have the subWallet, please check.");
@@ -453,6 +470,7 @@ public class Wallet extends CordovaPlugin {
             @Override
             public void OnTransactionStatusChanged(String txId, String status, String desc, int confirms) {
                 JSONObject jsonObject = new JSONObject();
+                Log.d("JS-Wallet", "registerWalletListener==================2");
                 try {
                     jsonObject.put("txId", txId);
                     jsonObject.put("status", status);

@@ -2,16 +2,19 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#ifndef  __ELASTOS_WALLET_JNI_UTILS_H__
+#define  __ELASTOS_WALLET_JNI_UTILS_H__
 
 #include <jni.h>
+#include <string>
 #include <android/log.h>
 
-#define TAG "Elastos_Droid_Wallet" // 这个是自定义的LOG的标识
-#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG,TAG ,__VA_ARGS__) // 定义LOGD类型
-#define LOGI(...) __android_log_print(ANDROID_LOG_INFO,TAG ,__VA_ARGS__) // 定义LOGI类型
-#define LOGW(...) __android_log_print(ANDROID_LOG_WARN,TAG ,__VA_ARGS__) // 定义LOGW类型
-#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR,TAG ,__VA_ARGS__) // 定义LOGE类型
-#define LOGF(...) __android_log_print(ANDROID_LOG_FATAL,TAG ,__VA_ARGS__) // 定义LOGF类型
+#define TAG "Elastos_Droid_Wallet"
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG,TAG ,__VA_ARGS__)
+#define LOGI(...) __android_log_print(ANDROID_LOG_INFO,TAG ,__VA_ARGS__)
+#define LOGW(...) __android_log_print(ANDROID_LOG_WARN,TAG ,__VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR,TAG ,__VA_ARGS__)
+#define LOGF(...) __android_log_print(ANDROID_LOG_FATAL,TAG ,__VA_ARGS__)
 
 #ifndef NELEM
 # define NELEM(x) ((int) (sizeof(x) / sizeof((x)[0])))
@@ -34,3 +37,8 @@ jlong GetJavaLongField(JNIEnv* env, jclass klass, jobject jobj, const char* fiel
 
 void ThrowLogicException(JNIEnv* env, const char* errorInfo);
 void ThrowWalletException(JNIEnv* env, const char* errorInfo);
+
+//If NewStringUTF has running error, need to use the method.
+jstring stringTojstring(JNIEnv* env, std::string str);
+
+#endif  // __ELASTOS_WALLET_JNI_UTILS_H__
