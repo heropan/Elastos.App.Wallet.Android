@@ -67,7 +67,7 @@ public class ISubWallet {
         return nativeCheckSign(mSubProxy, address, message, signature);
     }
 
-    public long CalculateTransactionFee(String rawTransaction, long feePerKb) {
+    public long CalculateTransactionFee(String rawTransaction, long feePerKb) throws WalletException {
         return nativeCalculateTransactionFee(mSubProxy, rawTransaction, feePerKb);
     }
 
