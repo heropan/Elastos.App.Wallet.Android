@@ -46,7 +46,7 @@ export class CoinComponent extends BaseComponent implements OnInit {
       // alert("getAllTransaction" + JSON.stringify(transactions));
       for (let key in transactions) {
         let transaction = transactions[key];
-        let timestamp = transaction['Timestamp'];
+        let timestamp = transaction['Timestamp']*1000;
         let datetime = Util.dateFormat(new Date(timestamp));
         let txId = transaction['TxHash'];
         let summary = transaction['Summary'];
