@@ -343,7 +343,9 @@ public class Wallet extends CordovaPlugin {
 
     //DestroyWallet(String masterWalletId)
     public void destroyWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        Log.d("JS-Wallet", "destroyWallet==================1, walletid="+args.getString(0));
         mWalletManager.DestroyWallet(args.getString(0));
+        Log.d("JS-Wallet", "destroyWallet==================2");
         callbackContext.success();
     }
 
