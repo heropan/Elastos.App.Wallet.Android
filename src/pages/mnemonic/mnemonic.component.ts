@@ -15,6 +15,8 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
   mnemonicPassword: string="";
   mnemonicRepassword: string;
   payPassword: string;
+  name: string;
+  singleAddress: boolean = false;
   defaultCointype = "Ela";
   isSelect:boolean = false;
   ngOnInit() {
@@ -29,6 +31,8 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
       // console.log(this.mnemonicList);
     });
     this.payPassword = this.getNavParams().get("payPassword");
+    this.name = this.getNavParams().get("name");
+    this.singleAddress = this.getNavParams().get("singleAddress");
   }
 
   onNext() {
@@ -46,14 +50,14 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
            this.getSupportedChains();
            this.Go(WriteComponent, {mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList});
            this.localStorage.setWallet({
-            'name': "sss"
+            'name': this.name
            });
     })
   }
 
   getSupportedChains(){
     this.walletManager.getSupportedChains((result)=>{
-      for(let key in result){;
+      for(let key in result){
          this.createSubWallet(key);
       }
      });
@@ -61,7 +65,7 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
 
   createSubWallet(chainId){
     // Sub Wallet
-    this.walletManager.createSubWallet(chainId,this.payPassword, false, 0, (val)=>{
+    this.walletManager.createSubWallet(chainId, this.payPassword, this.singleAddress, 0, (val)=>{
 
     });
   }
