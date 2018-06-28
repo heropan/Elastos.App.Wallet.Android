@@ -308,7 +308,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    checkSign(address:string, message:string, signature:string, payPassword:string){
-         this.walletManager.checkSign(this.chinaId,address,message,signature,payPassword,(result)=>{
+         this.walletManager.checkSign(this.chinaId,address,message,signature,(result)=>{
           alert(JSON.stringify(result));
          });
    }

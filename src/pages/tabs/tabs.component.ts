@@ -17,8 +17,8 @@ export class TabsComponent extends BaseComponent implements OnInit {
 
 
   ngOnInit() {
-    this.header.setHeaderDisplay(false);
-    console.log(this.header.getHeaderDisplay());
+    // this.header.setHeaderDisplay(false);
+    // console.log(this.header.getHeaderDisplay());
   }
 
 
