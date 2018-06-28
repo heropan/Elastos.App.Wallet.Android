@@ -1,7 +1,5 @@
 import { Component,OnInit } from '@angular/core';
 import {BaseComponent} from "../../../app/BaseComponent";
-import {Config} from '../../../providers/Config';
-import {IdHomeComponent} from "../../../pages/id/home/home";
 import {IdCreateComponent} from "../../../pages/id/create/create";
 import {IdImportComponent} from "../../../pages/id/import/import";
 

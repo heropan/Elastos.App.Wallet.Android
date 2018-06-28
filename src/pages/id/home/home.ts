@@ -12,7 +12,7 @@ import {TabsComponent} from "../../../pages/tabs/tabs.component";
   templateUrl: 'home.html',
 })
 export class IdHomeComponent extends BaseComponent implements OnInit{
-  public kycIdArr:any=[{id:"11111111111111111111"}];
+  public kycIdArr:any;
   ngOnInit(){
     this.setTitleByAssets('text-id-home');
     this.setLeftIcon("",()=>{
@@ -20,24 +20,8 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
     });
 
     this.walletManager.getDIDList((result)=>{
-           alert("======"+JSON.stringify(result));
-           //this.kycIdArr = result["list"];
-           alert("===dddddd==="+JSON.stringify(this.kycIdArr));
+           this.kycIdArr = JSON.parse(result["list"]);
     });
-    // let kycObj = Config.getKycObj();
-    // if(this.isEmptyObject(kycObj)){
-    //      this.localStorage.get('kyc').then((val)=>{
-    //     if(val === null){
-    //       this.kycIdArr = [];
-    //       Config.setKycObj(JSON.parse(val));
-    //     }else{
-    //        this.kycIdArr = this.objtoarr(JSON.parse(val));
-    //        Config.setKycObj(JSON.parse(val));
-    //     }
-    //      });
-    //       return;
-    //   }
-    //   this.kycIdArr = this.objtoarr(kycObj);
   }
 
   onNext(type){

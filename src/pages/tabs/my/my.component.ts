@@ -47,7 +47,8 @@ export class MyComponent  extends BaseComponent implements OnInit  {
 
    getDIDList(){
     this.walletManager.getDIDList((result)=>{
-      if(this.isEmptyObject(result)){
+
+      if(this.isNull(result["list"])){
           this.Go(IdLauncherComponent);
           return;
       }
