@@ -155,7 +155,7 @@ if(this.checkCellphone(phone)){
           return;
          }
         }
-        this.Go(TransferComponent,{addr:"ENMLAuBi4qW7ViKwh6GbcaMcktU8j78T6F",money:this.payMoney,type:"kyc",chianId:"IdChain"});
+        this.Go(TransferComponent,{addr:"ENMLAuBi4qW7ViKwh6GbcaMcktU8j78T6F",money:this.payMoney,type:"kyc",chianId:"IdChain",selectType:"company"});
     //this.sendPersonAuth();
   }
 
