@@ -122,7 +122,7 @@ export const zh = {
   'text-pwd-rePlease': '请再次输入密码',
   'text-person': '个人',
   'text-company': '企业',
-  'text-id-type': '选择ID类型',
+  'text-id-type': '选择认证类型',
   'text-id-import-file': '导入ID文件',
   'text-browsing': '浏览',
   'text-id-manager': 'ID管理',
@@ -168,5 +168,5 @@ export const zh = {
   'text-phrase-passworld-input':'请输入助记词密码',
   'import-text-keystroe-message':'将密钥文件复制到文本框',
   'import-text-keystroe-sucess':'导入私钥成功',
-  'import-text-world-sucess':'导入助记词成功'
+  'import-text-world-sucess':'导入助记词成功',
 };
