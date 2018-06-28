@@ -37,7 +37,7 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
         transactionTime: datetime,
         payfees: transaction['Fee'],
         confirmCount: summary["ConfirmStatus"],
-        remark: 'remark',
+        remark: summary["Remark"],
         type: summary["Type"]
       }
     });
