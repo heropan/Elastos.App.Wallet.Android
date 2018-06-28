@@ -1,7 +1,5 @@
 import { Component,OnInit } from '@angular/core';
 import {BaseComponent} from "../../../../app/BaseComponent";
-import {Config} from '../../../../providers/Config';
-import {IdHomeComponent} from "../../../../pages/id/home/home";
 import {IdKycPersonComponent} from "../../../../pages/id/kyc/person/person"
 import {IdKycCompanyComponent} from "../../../../pages/id/kyc/company/company"
 
@@ -22,7 +20,6 @@ export class kycSelectTypeComponent extends BaseComponent implements OnInit{
 
   ngOnInit(){
     this.idObj = this.getNavParams().data;
-    alert("ssssss"+JSON.stringify(this.idObj));
     this.setTitleByAssets('text-id-type');
   }
 
@@ -30,12 +27,6 @@ export class kycSelectTypeComponent extends BaseComponent implements OnInit{
     this.createDID();
   }
 
-  tiaozhuan(obj){
-    this.localStorage.add('kyc',obj).then((val)=>{
-        Config.setKycObj(JSON.parse(val));
-        this.Go(IdHomeComponent);
-      });
-  }
 
   createDID(){
   if( this.createData.createType === 1){

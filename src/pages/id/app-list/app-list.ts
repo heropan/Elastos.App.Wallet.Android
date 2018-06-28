@@ -1,8 +1,6 @@
 import { Component,OnInit } from '@angular/core';
 import {BaseComponent} from "./../../../app/BaseComponent";
 import {Config} from '../../../providers/Config';
-import {IdKycPersonComponent} from "../../../pages/id/kyc/person/person";
-import {IdKycCompanyComponent} from "../../../pages/id/kyc/company/company";
 import {kycSelectTypeComponent} from "../../../pages/id/kyc/selecttype/create";
 @Component({
   selector: 'id-app-list',
@@ -10,33 +8,23 @@ import {kycSelectTypeComponent} from "../../../pages/id/kyc/selecttype/create";
 })
 export class IdAppListComponent extends BaseComponent implements OnInit{
   appList = Config.appList;
-  idObj={};
+  id:string;
   ngOnInit(){
       this.setTitleByAssets('text-id-app-list-name');
-      this.idObj =this.getNavParams().get("idObj");
+      this.id =this.getNavParams().get("idObj");
   }
 
   onNext(item){
-     let id = item.id;
-     switch (id){
+     let apptype = item.id;
+     switch (apptype){
        case 0:
-          //this.kyc(this.idObj);
-          this.selectType(this.idObj);
+          this.selectType(this.id);
          break;
      }
   }
 
   selectType(item){
-     let id = item.id;
+     let id = item;
      this.Go(kycSelectTypeComponent,{'id':id});
-  }
-
-  kyc(item){
-     let id = item.id;
-    if(item.createType === 1){
-      this.Go(IdKycPersonComponent,{'id':id});
-    }else if(item.createType === 2){
-      this.Go(IdKycCompanyComponent,{'id':id});
-    }
   }
 }
