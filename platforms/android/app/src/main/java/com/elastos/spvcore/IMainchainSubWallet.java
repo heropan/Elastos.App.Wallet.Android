@@ -8,10 +8,10 @@ public class IMainchainSubWallet {
 
 
     public String CreateDepositTransaction(String fromAddress, String toAddress, long amount, String sidechainAccounts,
-            String sidechainAmounts, String sidechainIndexs, long fee, String memo)
+            String sidechainAmounts, String sidechainIndexs, long fee, String memo, String remark)
     {
         return nativeCreateDepositTransaction(mMainchainProxy, fromAddress, toAddress, amount, sidechainAccounts,
-                    sidechainAmounts, sidechainIndexs, fee, memo);
+                    sidechainAmounts, sidechainIndexs, fee, memo, remark);
     }
 
     public IMainchainSubWallet(long proxy) {
@@ -19,5 +19,5 @@ public class IMainchainSubWallet {
     }
 
     private native String nativeCreateDepositTransaction(long proxy, String fromAddress, String toAddress, long amount
-            , String sidechainAccounts, String sidechainAmounts, String sidechainIndexs, long fee, String memo);
+            , String sidechainAccounts, String sidechainAmounts, String sidechainIndexs, long fee, String memo, String remark);
 }

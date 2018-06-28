@@ -6,17 +6,17 @@ package com.elastos.spvcore;
 public class ISidechainSubWallet {
     private long mSidechainProxy;
 
-    public String SendWithdrawTransaction(String fromAddress, String toAddress, long amount, String mainchainAccounts,
-                String mainchainAmounts, String mainchainIndexs, long fee, String payPassword, String memo)
+    public String CreateWithdrawTransaction(String fromAddress, String toAddress, long amount, String mainchainAccounts,
+                String mainchainAmounts, String mainchainIndexs, long fee, String memo, String remark)
     {
-        return nativeSendWithdrawTransaction(mSidechainProxy, fromAddress, toAddress, amount, mainchainAccounts, mainchainAmounts,
-                    mainchainIndexs, fee, payPassword, memo);
+        return nativeCreateWithdrawTransaction(mSidechainProxy, fromAddress, toAddress, amount, mainchainAccounts, mainchainAmounts,
+                    mainchainIndexs, fee, memo, remark);
     }
 
     public ISidechainSubWallet(long proxy) {
         mSidechainProxy = proxy;
     }
 
-    private native String nativeSendWithdrawTransaction(long proxy, String fromAddress, String toAddress, long amount, String mainchainAccounts,
-                String mainchainAmounts, String mainchainIndexs, long fee, String payPassword, String memo);
+    private native String nativeCreateWithdrawTransaction(long proxy, String fromAddress, String toAddress, long amount, String mainchainAccounts,
+                String mainchainAmounts, String mainchainIndexs, long fee, String memo, String remark);
 }

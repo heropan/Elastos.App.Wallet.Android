@@ -129,22 +129,19 @@ static void JNICALL nativeRemoveCallback(JNIEnv *env, jobject clazz, jlong jSubP
 }
 
 static jstring JNICALL nativeCreateTransaction(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jfromAddress,
-        jstring jtoAddress, jlong amount, jlong fee, jstring jmemo)
+        jstring jtoAddress, jlong amount, jlong fee, jstring jmemo, jstring jremark)
 {
     const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
     const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
     const char* memo = env->GetStringUTFChars(jmemo, NULL);
+    const char* remark = env->GetStringUTFChars(jremark, NULL);
 
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
     LOGD("nativeCreateTransaction == fromAddress=[%s], to=[%s], amount=[%lld], fee=[%lld], memo=[%s]", fromAddress, toAddress, amount, fee, memo);
 
     nlohmann::json result;
     try {
-        result = subWallet->CreateTransaction(fromAddress, toAddress, amount, fee, memo);
-        env->ReleaseStringUTFChars(jfromAddress, fromAddress);
-        env->ReleaseStringUTFChars(jtoAddress, toAddress);
-        env->ReleaseStringUTFChars(jmemo, memo);
-        return env->NewStringUTF(ToStringFromJson(result));
+        result = subWallet->CreateTransaction(fromAddress, toAddress, amount, fee, memo, remark);
     }
     catch (std::logic_error e) {
         ThrowWalletException(env, e.what());
@@ -162,7 +159,11 @@ static jstring JNICALL nativeCreateTransaction(JNIEnv *env, jobject clazz, jlong
         ThrowWalletException(env, e.what());
     }
 
-    return NULL;
+    env->ReleaseStringUTFChars(jfromAddress, fromAddress);
+    env->ReleaseStringUTFChars(jtoAddress, toAddress);
+    env->ReleaseStringUTFChars(jmemo, memo);
+    env->ReleaseStringUTFChars(jremark, remark);
+    return env->NewStringUTF(ToStringFromJson(result));
 }
 
 static jstring JNICALL nativeCreateMultiSignAddress(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jmultiPublicKeyJson,
@@ -270,7 +271,7 @@ static const JNINativeMethod gMethods[] = {
     {"nativeGetBalanceWithAddress", "(JLjava/lang/String;)J", (void*)nativeGetBalanceWithAddress},
     {"nativeAddCallback", "(JLcom/elastos/spvcore/ISubWalletCallback;)V", (void*)nativeAddCallback},
     {"nativeRemoveCallback", "(JLcom/elastos/spvcore/ISubWalletCallback;)V", (void*)nativeRemoveCallback},
-    {"nativeCreateTransaction", "(JLjava/lang/String;Ljava/lang/String;JJLjava/lang/String;)Ljava/lang/String;", (void*)nativeCreateTransaction},
+    {"nativeCreateTransaction", "(JLjava/lang/String;Ljava/lang/String;JJLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeCreateTransaction},
     {"nativeCreateMultiSignTransaction", "(JLjava/lang/String;Ljava/lang/String;JJLjava/lang/String;)Ljava/lang/String;", (void*)nativeCreateMultiSignTransaction},
     {"nativeCreateMultiSignAddress", "(JLjava/lang/String;II)Ljava/lang/String;", (void*)nativeCreateMultiSignAddress},
     {"nativeSendRawTransaction", "(JLjava/lang/String;JLjava/lang/String;)Ljava/lang/String;", (void*)nativeSendRawTransaction},
