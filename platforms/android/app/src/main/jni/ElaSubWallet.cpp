@@ -257,7 +257,27 @@ static jlong JNICALL nativeCalculateTransactionFee(JNIEnv *env, jobject clazz, j
 {
     const char* rawTransaction = env->GetStringUTFChars(jrawTransaction, NULL);
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-    long fee = subWallet->CalculateTransactionFee(ToJosnFromString(rawTransaction), feePerKb);
+    long fee = 0;
+
+    try {
+        fee = subWallet->CalculateTransactionFee(ToJosnFromString(rawTransaction), feePerKb);
+    }
+    catch (std::logic_error e) {
+        ThrowWalletException(env, e.what());
+    }
+    catch (std::invalid_argument e) {
+        LOGD("FUNC=[%s]===================LINE=[%d]", __FUNCTION__, __LINE__);
+        ThrowWalletException(env, e.what());
+    }
+    catch (std::runtime_error e) {
+        LOGD("FUNC=[%s]===================LINE=[%d]", __FUNCTION__, __LINE__);
+        ThrowWalletException(env, e.what());
+    }
+    catch (std::exception e) {
+        LOGD("FUNC=[%s]===================LINE=[%d]", __FUNCTION__, __LINE__);
+        ThrowWalletException(env, e.what());
+    }
+
     env->ReleaseStringUTFChars(jrawTransaction, rawTransaction);
     return (jlong)fee;
 }
