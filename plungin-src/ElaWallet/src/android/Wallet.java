@@ -610,8 +610,15 @@ public class Wallet extends CordovaPlugin {
             return;
         }
 
-        long fee = subWallet.CalculateTransactionFee(args.getString(1), args.getLong(2));
-        callbackContext.success(parseOneParam("fee", fee));
+        long fee = 0;
+        try {
+            fee = subWallet.CalculateTransactionFee(args.getString(1), args.getLong(2));
+            callbackContext.success(parseOneParam("fee", fee));
+        }
+        catch (WalletException e) {
+            e.printStackTrace();
+            callbackContext.success(parseOneParam(ERRORCODE, e.GetErrorInfo()));
+        }
     }
 
     public void getAllChainIds(JSONArray args, CallbackContext callbackContext) throws JSONException {
