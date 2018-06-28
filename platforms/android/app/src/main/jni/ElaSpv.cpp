@@ -89,24 +89,3 @@ jlong GetJavaLongField(JNIEnv* env, jclass klass, jobject jobj, const char* fiel
     CheckErrorAndLog(env, "Fail get long field: %s : %d!\n", fieldName, __LINE__);
     return value;
 }
-
-const char* WALLETEXCEPTION = "com/elastos/spvcore/WalletException";
-void ThrowLogicException(JNIEnv* env, const char* errorInfo)
-{
-    jclass walletException = env->FindClass(WALLETEXCEPTION);
-    if (walletException == NULL) {
-        /* Unable to find the exception class, give up. */
-        return;
-    }
-    env->ThrowNew(walletException, errorInfo);
-}
-
-void ThrowWalletException(JNIEnv* env, const char* errorInfo)
-{
-    jclass walletException = env->FindClass(WALLETEXCEPTION);
-    if (walletException == NULL) {
-        /* Unable to find the exception class, give up. */
-        return;
-    }
-    env->ThrowNew(walletException, errorInfo);
-}
