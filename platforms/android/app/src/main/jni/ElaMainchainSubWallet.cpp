@@ -13,7 +13,7 @@ extern nlohmann::json ToJosnFromString(const char* str);
 //"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz, jlong jMainSubWalletProxy,
         jstring jfromAddress, jstring jtoAddress, jlong amount, jstring jsidechainAccounts, jstring jsidechainAmounts
-        , jstring jsidechainIndexs, jlong fee, jstring jmemo)
+        , jstring jsidechainIndexs, jlong fee, jstring jmemo, jstring jremark)
 {
     const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
     const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
@@ -21,11 +21,12 @@ static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz
     const char* sidechainAmounts = env->GetStringUTFChars(jsidechainAmounts, NULL);
     const char* sidechainIndexs = env->GetStringUTFChars(jsidechainIndexs, NULL);
     const char* memo = env->GetStringUTFChars(jmemo, NULL);
+    const char* remark = env->GetStringUTFChars(jremark, NULL);
 
     IMainchainSubWallet* wallet = (IMainchainSubWallet*)jMainSubWalletProxy;
     nlohmann::json txidJson = wallet->CreateDepositTransaction(fromAddress, toAddress, amount
             , ToJosnFromString(sidechainAccounts), ToJosnFromString(sidechainAmounts)
-            , ToJosnFromString(sidechainIndexs), fee, memo);
+            , ToJosnFromString(sidechainIndexs), fee, memo, remark);
 
     env->ReleaseStringUTFChars(jfromAddress, fromAddress);
     env->ReleaseStringUTFChars(jtoAddress, toAddress);
@@ -33,6 +34,7 @@ static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz
     env->ReleaseStringUTFChars(jsidechainAmounts, sidechainAmounts);
     env->ReleaseStringUTFChars(jsidechainIndexs, sidechainIndexs);
     env->ReleaseStringUTFChars(jmemo, memo);
+    env->ReleaseStringUTFChars(jremark, remark);
 
     return env->NewStringUTF(ToStringFromJson(txidJson));
 }
@@ -40,7 +42,7 @@ static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz
 
 static const JNINativeMethod gMethods[] = {
     {"nativeCreateDepositTransaction",
-    "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;)Ljava/lang/String;"
+    "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
             , (void*)nativeCreateDepositTransaction},
 };
 

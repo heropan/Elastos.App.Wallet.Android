@@ -39,15 +39,8 @@ public class ISubWallet {
         nativeRemoveCallback(mSubProxy, subCallback);
     }
 
-    public String CreateTransaction(String fromAddress, String toAddress, long amount, long fee, String memo) throws WalletException {
-        String transactionJson = null;
-        try {
-            transactionJson = nativeCreateTransaction(mSubProxy, fromAddress, toAddress, amount, fee, memo);
-        }
-        catch (WalletException e) {
-            e.printStackTrace();
-        }
-        return transactionJson;
+    public String CreateTransaction(String fromAddress, String toAddress, long amount, long fee, String memo, String remark) throws WalletException {
+        return nativeCreateTransaction(mSubProxy, fromAddress, toAddress, amount, fee, memo, remark);
     }
 
     public String CreateMultiSignAddress(String multiPublicKeyJson, int totalSignNum, int requiredSignNum) {
@@ -94,7 +87,7 @@ public class ISubWallet {
     private native long nativeGetBalanceWithAddress(long subProxy, String address);
     private native void nativeAddCallback(long subProxy, ISubWalletCallback subCallback);
     private native void nativeRemoveCallback(long subProxy, ISubWalletCallback subCallback);
-    private native String nativeCreateTransaction(long subProxy, String fromAddress, String toAddress, long amount, long fee, String memo);
+    private native String nativeCreateTransaction(long subProxy, String fromAddress, String toAddress, long amount, long fee, String memo, String remark);
     private native String nativeCreateMultiSignTransaction(long subProxy, String fromAddress, String toAddress, long amount, long fee, String memo);
     private native String nativeCreateMultiSignAddress(long subProxy, String multiPublicKeyJson, int totalSignNum, int requiredSignNum);
     private native String nativeSendRawTransaction(long subProxy, String transactionJson, long fee, String payPassword);

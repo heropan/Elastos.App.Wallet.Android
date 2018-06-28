@@ -402,7 +402,7 @@ public class Wallet extends CordovaPlugin {
         String transactionId = null;
         try {
             transactionId = subWallet.CreateTransaction(args.getString(1), args.getString(2), args.getLong(3),
-                                    args.getLong(4), args.getString(5));
+                                    args.getLong(4), args.getString(5), args.getString(6));
             if (transactionId != null) {
                 callbackContext.success(parseOneParam("transactionId", transactionId));
             }

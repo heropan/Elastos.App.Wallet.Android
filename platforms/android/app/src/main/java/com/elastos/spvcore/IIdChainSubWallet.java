@@ -8,9 +8,9 @@ public class IIdChainSubWallet {
 
 
     public String CreateIdTransaction(String fromAddress, String toAddress, long amount,
-            String payloadJson, String programJson, long fee, String memo)
+            String payloadJson, String programJson, long fee, String memo, String remark)
     {
-        return nativeCreateIdTransaction(mIDchainProxy, fromAddress, toAddress, amount, payloadJson, programJson, fee, memo);
+        return nativeCreateIdTransaction(mIDchainProxy, fromAddress, toAddress, amount, payloadJson, programJson, fee, memo, remark);
     }
 
     public IIdChainSubWallet(long proxy) {
@@ -18,5 +18,5 @@ public class IIdChainSubWallet {
     }
 
     private native String nativeCreateIdTransaction(long proxy, String fromAddress, String toAddress, long amount,
-            String payloadJson, String programJson, long fee, String memo);
+            String payloadJson, String programJson, long fee, String memo, String remark);
 }
