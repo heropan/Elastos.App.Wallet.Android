@@ -5,7 +5,7 @@ import {IdCreateComponent} from "../../../pages/id/create/create";
 import {IdImportComponent} from "../../../pages/id/import/import";
 import {IdManagerComponent} from "../../../pages/id/manager/manager";
 import {IdAppListComponent} from "../../../pages/id/app-list/app-list";
-import {MyComponent} from "../../../pages/tabs/my/my.component";
+import {TabsComponent} from "../../../pages/tabs/tabs.component";
 
 @Component({
   selector: 'id-home',
@@ -16,7 +16,7 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
   ngOnInit(){
     this.setTitleByAssets('text-id-home');
     this.setLeftIcon("",()=>{
-       this.Go(MyComponent);
+       this.Go(TabsComponent);
     });
     let kycObj = Config.getKycObj();
     if(this.isEmptyObject(kycObj)){

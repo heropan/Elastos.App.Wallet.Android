@@ -1,13 +1,13 @@
 <app-header [header]="header"></app-header>
 <div class="result">
     <div *ngIf="type==='0'">
-        <img src='../../assets/images/icon/icon-success.svg' class="result-img" />
+        <img src='./assets/images/icon/icon-success.svg' class="result-img" />
         <p class="result-wenzi color-main ">{{'text-commit-success' | translate }}</p>
         <p class="result-wenzi1 color-main ">{{'text-commit-wait' | translate }}</p>
     </div>
 
     <div *ngIf="type==='1'">
-        <img src='../../assets/images/icon/icon-failure.svg' class="result-img" />
+        <img src='./assets/images/icon/icon-failure.svg' class="result-img" />
         <p class="result-wenzi-color color-main ">{{'text-browsing-failure' | translate }}</p>
     </div>
 </div>

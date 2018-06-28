@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../../app/BaseComponent';
-import {HomeComponent} from '../../../pages/tabs/home/home.component';
+import {TabsComponent} from '../../../pages/tabs/tabs.component';
 
 @Component({
   selector: 'app-import',
@@ -68,7 +68,7 @@ export class ImportComponent extends BaseComponent implements OnInit {
                           this.localStorage.setWallet({
                             'name': "sss"
                            }).then(()=>{
-                            this.Go(HomeComponent);
+                            this.Go(TabsComponent);
                            });
 
                       });
@@ -113,7 +113,7 @@ export class ImportComponent extends BaseComponent implements OnInit {
                  this.localStorage.setWallet({
                   'name': "sss"
                  }).then(()=>{
-                    this.Go(HomeComponent);
+                    this.Go(TabsComponent);
                  });
 
     });
