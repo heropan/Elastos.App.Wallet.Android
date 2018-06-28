@@ -55,7 +55,9 @@ static void JNICALL nativeDestroyWallet(JNIEnv *env, jobject clazz, jlong jWalle
     const char* masterWalletId = env->GetStringUTFChars(jmasterWalletId, NULL);
 
     MasterWalletManager* walletManager = (MasterWalletManager*)jWalletMgr;
+    LOGD("FUNC=[%s]===================LINE=[%d], masterWalletId=[%s], walletManager=[%p]", __FUNCTION__, __LINE__, masterWalletId, walletManager);
     walletManager->DestroyWallet(masterWalletId);
+    LOGD("FUNC=[%s]===================LINE=[%d]", __FUNCTION__, __LINE__);
 
     env->ReleaseStringUTFChars(jmasterWalletId, masterWalletId);
 }
