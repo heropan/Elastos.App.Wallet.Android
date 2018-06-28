@@ -25,6 +25,7 @@ static void JNICALL nativeSetValue(JNIEnv *env, jobject clazz, jlong jDidProxy, 
     const char* keyPath = env->GetStringUTFChars(jkeyPath, NULL);
     const char* valueJson = env->GetStringUTFChars(jvalueJson, NULL);
     IDID* did = (IDID*)jDidProxy;
+    LOGD("FUNC=[%s]===================LINE=[%d], p=[%s], v=[%s]", __FUNCTION__, __LINE__, keyPath, valueJson);
     did->SetValue(keyPath, ToJosnFromString(valueJson));
     env->ReleaseStringUTFChars(jkeyPath, keyPath);
     env->ReleaseStringUTFChars(jvalueJson, valueJson);
@@ -38,6 +39,7 @@ static /*nlohmann::json*/ jstring JNICALL nativeGetValue(JNIEnv *env, jobject cl
     nlohmann::json jsonValue = did->GetValue(path);
     env->ReleaseStringUTFChars(jpath, path);
 
+    LOGD("FUNC=[%s]===================LINE=[%d], p=[%s], v=[%s]", __FUNCTION__, __LINE__, path, ToStringFromJson(jsonValue));
     return env->NewStringUTF(ToStringFromJson(jsonValue));
 }
 
@@ -58,6 +60,7 @@ static /*nlohmann::json*/ jstring JNICALL nativeGetAllKeys(JNIEnv *env, jobject 
     nlohmann::json jsonValue = did->GetAllKeys(jstart, jcount);
     std::stringstream ss;
     ss << jsonValue;
+    LOGD("FUNC=[%s]===================LINE=[%d], keys=[%s]", __FUNCTION__, __LINE__, ss.str().c_str());
     return stringTojstring(env, ss.str());
 }
 

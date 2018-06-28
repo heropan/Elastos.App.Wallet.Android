@@ -9,6 +9,7 @@ import com.elastos.spvcore.MasterWalletManager;
 import com.elastos.spvcore.IdManagerFactory;
 import com.elastos.spvcore.IDidManager;
 import com.elastos.spvcore.IDid;
+import com.elastos.spvcore.WalletException;
 import com.elastos.wallet.util.LogUtil;
 
 import org.apache.cordova.CordovaInterface;
@@ -398,13 +399,20 @@ public class Wallet extends CordovaPlugin {
             return;
         }
 
-        String transactionId = subWallet.CreateTransaction(args.getString(1), args.getString(2), args.getLong(3),
-                                args.getLong(4), args.getString(5));
-        if (transactionId != null) {
-            callbackContext.success(parseOneParam("transactionId", transactionId));
+        String transactionId = null;
+        try {
+            transactionId = subWallet.CreateTransaction(args.getString(1), args.getString(2), args.getLong(3),
+                                    args.getLong(4), args.getString(5));
+            if (transactionId != null) {
+                callbackContext.success(parseOneParam("transactionId", transactionId));
+            }
+            else {
+                callbackContext.error("CreateTransaction failed.");
+            }
         }
-        else {
-            callbackContext.error("CreateTransaction failed.");
+        catch (WalletException e) {
+            e.printStackTrace();
+            callbackContext.success(parseOneParam(ERRORCODE, e.GetErrorInfo()));
         }
     }
 

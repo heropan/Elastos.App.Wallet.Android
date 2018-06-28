@@ -167,7 +167,7 @@ export class WalletManager {
     this.wallet.sign([chainId,message, payPassword], Fun, this.errorFun);
   }
 
-  checkSign(chainId:string,address, message, signature, payPassword, Fun) {
+  checkSign(chainId:string,address, message, signature, Fun) {
     this.wallet.checkSign([chainId,address, message, signature], Fun, this.errorFun);
   }
   /**
