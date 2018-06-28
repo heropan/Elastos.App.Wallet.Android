@@ -3,7 +3,7 @@ import {BaseComponent} from "./../../../app/BaseComponent";
 import {Config} from '../../../providers/Config';
 import {IdKycPersonComponent} from "../../../pages/id/kyc/person/person";
 import {IdKycCompanyComponent} from "../../../pages/id/kyc/company/company";
-
+import {kycSelectTypeComponent} from "../../../pages/id/kyc/selecttype/create";
 @Component({
   selector: 'id-app-list',
   templateUrl: 'app-list.html',
@@ -20,9 +20,15 @@ export class IdAppListComponent extends BaseComponent implements OnInit{
      let id = item.id;
      switch (id){
        case 0:
-          this.kyc(this.idObj);
+          //this.kyc(this.idObj);
+          this.selectType(this.idObj);
          break;
      }
+  }
+
+  selectType(item){
+     let id = item.id;
+     this.Go(kycSelectTypeComponent,{'id':id});
   }
 
   kyc(item){

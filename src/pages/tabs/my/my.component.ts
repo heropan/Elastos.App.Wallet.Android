@@ -7,6 +7,7 @@ import {AboutComponent} from "../../other/about/about.component";
 import {HelpComponent} from "../../other/help/help.component";
 import {NoticeComponent} from "../../other/notice/notice.component";
 import {IdLauncherComponent} from "../../id/launcher/launcher";
+import {IdHomeComponent} from "../../id/home/home";
 @Component({
   selector: 'app-my',
   templateUrl: 'my.component.html',
@@ -39,9 +40,18 @@ export class MyComponent  extends BaseComponent implements OnInit  {
          this.Go(HelpComponent);
          break;
        case 6:
-         this.Go(IdLauncherComponent);
+          this.getDIDList();
          break;
      }
    }
 
+   getDIDList(){
+    this.walletManager.getDIDList((result)=>{
+      if(this.isEmptyObject(result)){
+          this.Go(IdLauncherComponent);
+          return;
+      }
+      this.Go(IdHomeComponent,result);
+      });
+   }
 }

@@ -5,7 +5,7 @@ import 'rxjs/add/observable/timer';
 import {IdResultComponent} from "../../../../pages/id/result/result";
 import {IDManager} from "../../../../providers/IDManager"
 import {ApiUrl} from "../../../../providers/ApiUrl"
-
+import {TransferComponent} from "../../../../pages/coin/transfer/transfer.component";
 
 @Component({
   selector: 'id-person',
@@ -155,7 +155,8 @@ if(this.checkCellphone(phone)){
           return;
          }
         }
-    this.sendPersonAuth();
+        this.Go(TransferComponent,{addr:"ENMLAuBi4qW7ViKwh6GbcaMcktU8j78T6F",money:this.payMoney,type:"kyc",chianId:"IdChain"});
+    //this.sendPersonAuth();
   }
 
   sendPersonHttp(){

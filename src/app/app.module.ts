@@ -70,6 +70,7 @@ import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 import {FileChooser} from "@ionic-native/file-chooser";
 
 import {TestJniComponent} from '../pages/testjni/testjni.component';
+import {kycSelectTypeComponent} from "../pages/id/kyc/selecttype/create"
 
 /*id相关页面*/
 import {IdLauncherComponent} from '../pages/id/launcher/launcher';
@@ -153,7 +154,8 @@ export function TranslateLoaderFactory() {
     IdKycCompanyComponent,
     IdKycResultComponent,
     IdAppListComponent,
-    IdResultComponent
+    IdResultComponent,
+    kycSelectTypeComponent
   ],
   imports: [
     BrowserModule,
@@ -220,7 +222,8 @@ export function TranslateLoaderFactory() {
     IdKycCompanyComponent,
     IdKycResultComponent,
     IdAppListComponent,
-    IdResultComponent
+    IdResultComponent,
+    kycSelectTypeComponent
   ],
   providers: [
     StatusBar,

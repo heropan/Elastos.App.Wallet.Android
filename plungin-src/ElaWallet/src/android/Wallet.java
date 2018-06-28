@@ -50,6 +50,7 @@ public class Wallet extends CordovaPlugin {
         super.initialize(cordova, webView);
 
         mRootPath = MyUtil.getRootPath();
+        Log.d("JS-Wallet", "initialize=============mRootPath="+mRootPath);
         mWalletManager = new MasterWalletManager(mRootPath);
         MyUtil.SetCurrentMasterWalletManager(mWalletManager);
         mMasterWalletList = mWalletManager.GetAllMasterWallets();
@@ -62,7 +63,9 @@ public class Wallet extends CordovaPlugin {
     }
 
     private void initDidManager() {
+      Log.d("JS-Wallet", "initDidManager=========1====mRootPath="+mRootPath);
         if (mDidManager == null && mCurrentMasterWallet != null) {
+            Log.d("JS-Wallet", "initDidManager=========2====mRootPath="+mRootPath);
             mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet, mRootPath);
         }
     }

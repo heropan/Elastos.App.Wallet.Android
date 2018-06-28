@@ -3,6 +3,7 @@ import {BaseComponent} from "../../../../app/BaseComponent";
 import {IdResultComponent} from "../../../../pages/id/result/result";
 import {ApiUrl} from "../../../../providers/ApiUrl";
 import {IDManager} from "../../../../providers/IDManager";
+import {TransferComponent} from "../../../../pages/coin/transfer/transfer.component";
 
 @Component({
   selector: 'id-company',
@@ -29,7 +30,7 @@ export class IdKycCompanyComponent extends BaseComponent implements OnInit {
   onCommit(): void {
     this.sendCompanyHttp();
     if(this.checkParms()){
-      this.Go(IdResultComponent,{'status':'0'});
+      this.Go(TransferComponent,{addr:"ENMLAuBi4qW7ViKwh6GbcaMcktU8j78T6F",money:this.payMoney,type:"kyc",chianId:"IdChain"});
     }
   }
 

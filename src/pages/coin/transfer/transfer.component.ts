@@ -38,11 +38,15 @@ export class TransferComponent extends BaseComponent implements OnInit {
   rawTransaction: '';
 
   SELA = Config.SELA;
-
+  type:string="";
   ngOnInit() {
     this.setTitleByAssets('text-transfer');
-
-    this.chianId = this.getNavParams().get("chianId");
+    let transferObj =this.getNavParams().data;
+    alert(JSON.stringify(transferObj));
+    this.chianId = transferObj["chianId"];
+    this.transfer.toAddress = transferObj["addr"] || "";
+    this.transfer.amount = transferObj["money"] || "";
+    this.type = this.transfer["type"] || "";
     this.initData();
 
     this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
@@ -103,7 +107,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
       return;
     }
     this.createTransaction();
-    this.subPopup.show().subscribe((res: boolean) => {      
+    this.subPopup.show().subscribe((res: boolean) => {
     });
   }
 
@@ -130,8 +134,13 @@ export class TransferComponent extends BaseComponent implements OnInit {
   sendRawTransaction(){
     this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
       // alert("===========sendRawTransaction " + JSON.stringify(data));
-      this.toast('send-raw-transaction');
-      this.Go(TabsComponent);
+      if(this.isNull(this.type)){
+        this.toast('send-raw-transaction');
+        this.Go(TabsComponent);
+      }else{
+
+      }
+
     });
   }
 

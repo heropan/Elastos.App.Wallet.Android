@@ -13,20 +13,6 @@ import {IdImportComponent} from "../../../pages/id/import/import";
 export class IdLauncherComponent extends BaseComponent implements OnInit{
   ngOnInit(){
       this.setTitleByAssets('text-id-my');
-      let kycObj = Config.getKycObj();
-      if(this.isEmptyObject(kycObj)){
-        this.localStorage.get('kyc').then((val)=>{
-        if(val === null){
-
-        }else{
-          Config.setKycObj(JSON.parse(val));
-          this.Go(IdHomeComponent);
-        }
-      });
-       return;
-    }
-    Config.setKycObj(JSON.parse(kycObj));
-    this.Go(IdHomeComponent);
   }
 
   onNext(type){
