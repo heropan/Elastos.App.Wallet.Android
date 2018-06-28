@@ -26,6 +26,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
     memo: '',
     fee: 0,
     payPassword:'',
+    remark:'',
   };
 
   balance = 0;
@@ -107,11 +108,13 @@ export class TransferComponent extends BaseComponent implements OnInit {
   }
 
   createTransaction(){
+    alert(this.transfer.remark);
     this.walletManager.createTransaction(this.chianId, "",
       this.transfer.toAddress,
       this.transfer.amount*Config.SELA,
       this.transfer.fee,
       this.transfer.memo,
+      this.transfer.remark,
       (data)=>{
         this.rawTransaction = data['transactionId'].toString();
         this.getFee();

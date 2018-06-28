@@ -14,7 +14,7 @@ extern nlohmann::json ToJosnFromString(const char* str);
 //"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject clazz, jlong jSideSubWalletProxy, jstring jfromAddress
         , jstring jtoAddress, jlong amount, jstring jmainchainAccounts, jstring jmainchainAmounts,
-        jstring jmainchainIndexs, jlong fee, jstring jmemo)
+        jstring jmainchainIndexs, jlong fee, jstring jmemo, jstring jremark)
 {
     const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
     const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
@@ -22,11 +22,12 @@ static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject claz
     const char* mainchainAmounts = env->GetStringUTFChars(jmainchainAmounts, NULL);
     const char* mainchainIndexs = env->GetStringUTFChars(jmainchainIndexs, NULL);
     const char* memo = env->GetStringUTFChars(jmemo, NULL);
+    const char* remark = env->GetStringUTFChars(jremark, NULL);
 
     ISidechainSubWallet* wallet = (ISidechainSubWallet*)jSideSubWalletProxy;
     nlohmann::json result = wallet->CreateWithdrawTransaction(fromAddress, toAddress, amount
                 , ToJosnFromString(mainchainAccounts), ToJosnFromString(mainchainAmounts)
-                , ToJosnFromString(mainchainIndexs), fee, memo);
+                , ToJosnFromString(mainchainIndexs), fee, memo, remark);
 
     env->ReleaseStringUTFChars(jfromAddress, fromAddress);
     env->ReleaseStringUTFChars(jtoAddress, toAddress);
@@ -34,6 +35,7 @@ static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject claz
     env->ReleaseStringUTFChars(jmainchainAmounts, mainchainAmounts);
     env->ReleaseStringUTFChars(jmainchainIndexs, mainchainIndexs);
     env->ReleaseStringUTFChars(jmemo, memo);
+    env->ReleaseStringUTFChars(jremark, remark);
 
     return env->NewStringUTF(ToStringFromJson(result));
 }
@@ -41,7 +43,7 @@ static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject claz
 
 static const JNINativeMethod gMethods[] = {
     {"nativeCreateWithdrawTransaction",
-    "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;)Ljava/lang/String;"
+    "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
             , (void*)nativeCreateWithdrawTransaction},
 };
 

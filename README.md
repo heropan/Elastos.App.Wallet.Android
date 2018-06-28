@@ -47,7 +47,7 @@
         - anroid 与platforms下anroid相同，自动打包到项目中
         - 
 ### c++ 层
-> 参看 https://github.com/elastos/Elastos.ELA.SPV.Cpp/tree/jni
+> 参看 https://github.com/elastos/Elastos.ELA.SPV.Cpp/tree/dev
 
 
 ### 基础命令
