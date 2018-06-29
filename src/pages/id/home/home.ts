@@ -27,7 +27,7 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
   onNext(type){
     switch (type){
       case 0:
-        this.Go(IdCreateComponent);
+        this.createDID();
         break;
       case 1:
         this.Go(IdImportComponent);
@@ -40,5 +40,11 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
 
   onItem(item){
     this.Go(IdAppListComponent,{"idObj":item});
+  }
+
+  createDID(){
+    this.walletManager.createDID("s12345678",(result)=>{
+                    this.tiaozhuan();
+    });
   }
 }

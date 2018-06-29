@@ -172,5 +172,8 @@ export const zh = {
   'text-down-sucess-message':'导出成功',
   'text-down-fail-message':'导出失败',
   'text-down-please-message':'请选择要导出的ID',
-  'text-exprot-sucess-message':'导出成功'
+  'text-exprot-sucess-message':'导出成功',
+  'text-id-chain-prompt1':'您可以将信息写入到ID链，做个有身份的人',
+  'text-id-chain-prompt2':'您输入的信息将永久保存到ID链',
+  'text-data-chain':'数据上链'
 };

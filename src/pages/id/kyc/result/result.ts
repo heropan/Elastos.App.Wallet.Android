@@ -9,6 +9,12 @@ import {IdHomeComponent} from "../../../../pages/id/home/home";
 })
 export class IdKycResultComponent extends BaseComponent implements OnInit{
   type: string;
+  approdType:string="company";
+  businessObj={
+    "word":"xxx公司",
+    "legalPerson":"张三",
+    "registrationNum":"91311117011111111K",
+  }
   ngOnInit(){
     this.setTitleByAssets('text-kyc-result');
 
@@ -23,7 +29,9 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
   }
 
   onCommit(){
+    this.popupProvider.ionicConfirm('confirmTitle', 'confirmSubTitle').then(() => {
 
+    });
   }
 
 }
