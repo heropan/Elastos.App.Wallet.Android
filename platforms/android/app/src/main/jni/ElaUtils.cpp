@@ -25,11 +25,11 @@ void ThrowWalletExceptionWithECode(JNIEnv* env, int errorcode, const char* error
 
 void ThrowWalletException(JNIEnv* env, const char* errorInfo)
 {
+    env->ExceptionClear();
     jclass walletException = env->FindClass(WALLETEXCEPTION);
     jmethodID methodId = env->GetMethodID(walletException, "<init>", "(Ljava/lang/String;)V");
     jstring arg = env->NewStringUTF(errorInfo);
     jthrowable throwable = (jthrowable) env->NewObject(walletException, methodId, arg);
-    env->ExceptionClear();
     env->Throw(throwable);
 }
 
