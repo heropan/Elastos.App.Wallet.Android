@@ -24,9 +24,24 @@ static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz
     const char* remark = env->GetStringUTFChars(jremark, NULL);
 
     IMainchainSubWallet* wallet = (IMainchainSubWallet*)jMainSubWalletProxy;
-    nlohmann::json txidJson = wallet->CreateDepositTransaction(fromAddress, toAddress, amount
-            , ToJosnFromString(sidechainAccounts), ToJosnFromString(sidechainAmounts)
-            , ToJosnFromString(sidechainIndexs), fee, memo, remark);
+    nlohmann::json txidJson;
+
+    try {
+        txidJson = wallet->CreateDepositTransaction(fromAddress, toAddress, amount , ToJosnFromString(sidechainAccounts)
+            , ToJosnFromString(sidechainAmounts), ToJosnFromString(sidechainIndexs), fee, memo, remark);
+    }
+    catch (std::invalid_argument& e) {
+        ThrowWalletException(env, e.what());
+    }
+    catch (std::logic_error& e) {
+        ThrowWalletException(env, e.what());
+    }
+    catch (std::runtime_error& e) {
+        ThrowWalletException(env, e.what());
+    }
+    catch (std::exception& e) {
+        ThrowWalletException(env, e.what());
+    }
 
     env->ReleaseStringUTFChars(jfromAddress, fromAddress);
     env->ReleaseStringUTFChars(jtoAddress, toAddress);

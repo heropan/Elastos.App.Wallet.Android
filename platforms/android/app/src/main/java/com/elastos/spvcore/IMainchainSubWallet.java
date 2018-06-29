@@ -8,8 +8,7 @@ public class IMainchainSubWallet extends ISubWallet {
 
 
     public String CreateDepositTransaction(String fromAddress, String toAddress, long amount, String sidechainAccounts,
-            String sidechainAmounts, String sidechainIndexs, long fee, String memo, String remark)
-    {
+            String sidechainAmounts, String sidechainIndexs, long fee, String memo, String remark) throws WalletException {
         return nativeCreateDepositTransaction(mMainchainProxy, fromAddress, toAddress, amount, sidechainAccounts,
                     sidechainAmounts, sidechainIndexs, fee, memo, remark);
     }
