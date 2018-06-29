@@ -12,6 +12,7 @@ import {LauncherComponent} from "../pages/launcher/launcher.component";
 //import {ReceiveComponent} from "../pages/coin/receive/receive.component";
 //import {TransferComponent} from "../pages/coin/transfer/transfer.component";
 //import {CoinComponent} from "../pages/coin/coin.component";
+import {CoinListComponent} from "../pages/coin/coin-list/coin-list.component";
 //import {RecordinfoComponent} from "../pages/coin/recordinfo/recordinfo.component";
 //import {RecordComponent} from "../pages/coin/record/record.component";
 //import {TestJniComponent} from '../pages/testjni/testjni.component';

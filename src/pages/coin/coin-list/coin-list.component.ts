@@ -23,7 +23,7 @@ export class CoinListComponent extends BaseComponent implements OnInit {
       coin["id"] = item.name;
       this.currentCoin = item.name;
       this.subPopup.show().subscribe((res: boolean) => {
-      });      
+      });
     } else {
       this.localStorage.get('coinListCache').then((val)=>{
         let coinListCache = JSON.parse(val);
@@ -41,6 +41,7 @@ export class CoinListComponent extends BaseComponent implements OnInit {
     });
     this.localStorage.get('coinListCache').then((val)=>{
       this.walletManager.getSupportedChains((allChains) => {
+        // let allChains = ['ELA', 'aaa']
         for (var chain in allChains) {
           let isOpen = false;
           let coinListCache = JSON.parse(val);
@@ -64,8 +65,10 @@ export class CoinListComponent extends BaseComponent implements OnInit {
   createSubWallet(chainId){
     // Sub Wallet
     alert(this.payPassword)
+    alert(this.singleAddress)
     this.walletManager.createSubWallet(chainId, this.payPassword, this.singleAddress, 0, (val)=>{
-
+      
+      this.subPopup.hide();
     });
   }
 
