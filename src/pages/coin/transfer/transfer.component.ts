@@ -112,7 +112,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
   }
 
   createTransaction(){
-    alert(this.transfer.remark);
+    // alert(this.transfer.remark);
     this.walletManager.createTransaction(this.chianId, "",
       this.transfer.toAddress,
       this.transfer.amount*Config.SELA,

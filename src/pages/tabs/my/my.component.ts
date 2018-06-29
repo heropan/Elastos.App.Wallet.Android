@@ -16,7 +16,10 @@ export class MyComponent  extends BaseComponent implements OnInit  {
 
 
   ngOnInit() {
-
+    this.setLeftIcon("",()=>{
+      this.events.publish("home:update");
+      this.Back();
+    });
   }
 
   onNext(type): void {
