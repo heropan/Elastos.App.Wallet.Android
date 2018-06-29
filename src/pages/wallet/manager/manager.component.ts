@@ -31,8 +31,10 @@ export class ManagerComponent extends BaseComponent implements OnInit {
         this.Go(PaypasswordResetComponent);
         break;
       case 2:
-        this.popupProvider.ionicConfirm('confirmTitle', 'confirmSubTitle').then(() => {
-          this.destroyWallet("1");
+        this.popupProvider.ionicConfirm('confirmTitle', 'confirmSubTitle').then((data) => {
+          if (data) {
+            this.destroyWallet("1");
+          }
         });
         break;
     }

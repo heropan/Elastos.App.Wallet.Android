@@ -30,6 +30,10 @@ export class CoinComponent extends BaseComponent implements OnInit {
 
 
   ngOnInit() {
+    this.setLeftIcon("",()=>{
+      this.events.publish("home:update");
+      this.Back();
+    });
     this.coinName = this.getNavParams().get("name");
     this.setTitle(this.coinName);
     this.initData();
