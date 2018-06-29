@@ -1,17 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
-//import {SkinType, InputType} from 'ngx-weui';
-//import {DialogService, DialogConfig, DialogComponent, ToastService, ToptipsComponent, ToptipsService } from 'ngx-weui';
-
 import {ContactListComponent} from "../../contacts/contact-list/contact-list.component";
 import {TabsComponent} from "../../tabs/tabs.component";
-//import {Native} from "../../../providers/Native";
 import {Util} from "../../../providers/Util";
 import { PopupComponent } from "ngx-weui";
 import { Config } from '../../../providers/Config';
-
-
-
+import {IDManager} from "../../../providers/IDManager";
+import {ApiUrl} from "../../../providers/ApiUrl"
+import {IdResultComponent} from "../../../pages/id/result/result";
 @Component({
   selector: 'app-transfer',
   templateUrl: './transfer.component.html'})
@@ -39,6 +35,8 @@ export class TransferComponent extends BaseComponent implements OnInit {
 
   SELA = Config.SELA;
   type:string="";
+  selectType:string="";
+  parms:any;
   ngOnInit() {
     this.setTitleByAssets('text-transfer');
     let transferObj =this.getNavParams().data;
@@ -47,6 +45,8 @@ export class TransferComponent extends BaseComponent implements OnInit {
     this.transfer.toAddress = transferObj["addr"] || "";
     this.transfer.amount = transferObj["money"] || "";
     this.type = this.transfer["type"] || "";
+    this.selectType = this.transfer["selectType"] || "";
+    this.parms = this.transfer["parms"] || "";
     this.initData();
 
     this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
@@ -137,11 +137,53 @@ export class TransferComponent extends BaseComponent implements OnInit {
       if(this.isNull(this.type)){
         this.toast('send-raw-transaction');
         this.Go(TabsComponent);
-      }else{
+      }else if(this.type === "kyc"){
 
+           if(this.selectType === "company"){
+                this.company();
+           }else if(this.selectType === "person"){
+                this.person();
+           }
       }
-
     });
   }
+
+  company(){
+    this.sendCompanyHttp(this.parms);
+  }
+
+  person(){
+    this.sendPersonAuth(this.parms);
+  }
+
+  sendCompanyHttp(params){
+    let timestamp = this.getTimestamp();
+    params["timestamp"] = timestamp;
+    let checksum = IDManager.getCheckSum(params,"asc");
+    params["checksum"] = checksum;
+    alert("============"+JSON.stringify(params));
+    this.getHttp().postByAuth(ApiUrl.AUTH,params).toPromise().then(data => {
+         this.Go(IdResultComponent,{'status':'0'});
+    }).catch(error => {
+         this.Go(IdResultComponent,{'status':'1'});
+    });
+}
+
+sendPersonAuth(parms){
+      let timestamp = this.getTimestamp();
+      parms["timestamp"] = timestamp;
+      parms["txHash"] = "6a943e5079d424dd9daee8b3ef4062072ece5752ceea22612a0781b7a76d1dfe";
+      let checksum = IDManager.getCheckSum(parms,"asc");
+      parms["checksum"] = checksum;
+      console.log("====parms===="+JSON.stringify(parms));
+      this.getHttp().postByAuth(ApiUrl.AUTH,parms).toPromise().then(data=>{
+        if(data["status"] === 200){
+          this.Go(IdResultComponent,{'status':'0'});
+         }
+      }).catch(error => {
+
+      });
+      this.Go(IdResultComponent,{'status':'0'});
+}
 
 }

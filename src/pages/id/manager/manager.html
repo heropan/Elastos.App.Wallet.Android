@@ -1,13 +1,11 @@
 <app-header [header]="header"></app-header>
 <div class="per-certified">
     <ul class="idList">
-        <li class="item" *ngFor="let item of kycIdArr" (click)="onItem(item.id)">
+        <li class="item" *ngFor="let item of kycIdArr" (click)="onItem(item)">
             <a class="tiaozhuan">
-                <div [ngClass]="{'radio':true,'per-select':isSelectObj[item.id]}"></div>
+                <div [ngClass]="{'radio':true,'per-select':isSelectObj[item]}"></div>
                 <div class="item-text">
-                    <span class="item-text-title">ID:{{item.id}}</span>
-                    <p>{{ 'text-update-time' | translate }}：{{item.updateTiem}}&nbsp;&nbsp;{{item.finshNumber}}/{{item.maxNumber}}&nbsp;&nbsp;{{ 'text-person' | translate }}
-                    </p>
+                    <span class="item-text-title">ID:{{item}}</span>
                 </div>
             </a>
         </li>

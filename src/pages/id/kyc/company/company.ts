@@ -25,15 +25,15 @@ export class IdKycCompanyComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.setTitleByAssets('text-certified-company');
     this.idObj = this.getNavParams();
-    alert("---id---"+JSON.stringify(this.idObj));
     this.getPrice();
     //this.getAppAuth();
   }
 
   onCommit(): void {
-    this.sendCompanyHttp();
+    //this.sendCompanyHttp();
     if(this.checkParms()){
-      this.Go(TransferComponent,{addr:"ENMLAuBi4qW7ViKwh6GbcaMcktU8j78T6F",money:this.payMoney,type:"kyc",chianId:"IdChain",selectType:"company"});
+      this.businessObj["serialNum"] = this.serialNum;
+      this.Go(TransferComponent,{addr:"ENMLAuBi4qW7ViKwh6GbcaMcktU8j78T6F",money:this.payMoney,type:"kyc",chianId:"IdChain",selectType:"company",parm:this.businessObj});
     }
   }
 
@@ -56,18 +56,18 @@ export class IdKycCompanyComponent extends BaseComponent implements OnInit {
      return true;
   }
 
-  sendCompanyHttp(){
-      let timestamp = this.getTimestamp();
-      this.businessObj["timestamp"] = timestamp;
-      this.businessObj["serialNum"] = this.serialNum;
-      let checksum = IDManager.getCheckSum(this.businessObj,"asc");
-      this.businessObj["checksum"] = checksum;
-      this.getHttp().postByAuth(ApiUrl.AUTH,this.businessObj).toPromise().then(data => {
-           //this.Go(ResultComponent,{'status':'0'});
-      }).catch(error => {
-           //this.Go(ResultComponent,{'status':'1'});
-      });
-  }
+  // sendCompanyHttp(){
+  //     let timestamp = this.getTimestamp();
+  //     this.businessObj["timestamp"] = timestamp;
+  //     this.businessObj["serialNum"] = this.serialNum;
+  //     let checksum = IDManager.getCheckSum(this.businessObj,"asc");
+  //     this.businessObj["checksum"] = checksum;
+  //     this.getHttp().postByAuth(ApiUrl.AUTH,this.businessObj).toPromise().then(data => {
+  //          //this.Go(ResultComponent,{'status':'0'});
+  //     }).catch(error => {
+  //          //this.Go(ResultComponent,{'status':'1'});
+  //     });
+  // }
 
   getPrice(){
     let timestamp = this.getTimestamp();
