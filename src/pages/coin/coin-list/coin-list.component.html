@@ -8,3 +8,18 @@
         </div>
     </li>
 </ul>
+
+<weui-popup #subscribe>
+  <div class="pop-box" >
+    <div class="weui-cell" style="margin: 10px; padding: 0px">
+        <input class="weui-input" type="password" placeholder="{{ 'text-pay-password' | translate }}" [(ngModel)]="payPassword">
+    </div>
+    <label for="weuiAgree" class="weui-agree">
+      <input id="weuiAgree" type="checkbox" class="weui-agree__checkbox" [(ngModel)]="singleAddress" name="agree">
+      <span class="weui-agree__text">
+                 &nbsp;&nbsp;{{'text-signaddress' | translate }}
+              </span>
+    </label>
+    <div class="button-default " style="margin: 20px auto"  (click)="onClick()">{{ 'confirm' | translate }}</div>
+  </div>
+</weui-popup>

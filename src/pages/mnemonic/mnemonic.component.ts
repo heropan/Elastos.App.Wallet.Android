@@ -19,6 +19,7 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
   singleAddress: boolean = false;
   defaultCointype = "Ela";
   isSelect:boolean = false;
+  
   ngOnInit() {
     this.setTitleByAssets('text-mnemonic');
     this.walletManager.generateMnemonic(this.getMnemonicLang(),(data) => {
@@ -47,7 +48,8 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
       return;
     }
     this.walletManager.createMasterWallet("1", this.mnemonicStr, this.mnemonicPassword, this.payPassword,this.getMnemonicLang(),(data) =>{
-           this.getSupportedChains();
+           // this.getSupportedChains();
+           this.createSubWallet('ELA');
            this.Go(WriteComponent, {mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList});
            this.localStorage.setWallet({
             'name': this.name
@@ -55,13 +57,13 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
     })
   }
 
-  getSupportedChains(){
-    this.walletManager.getSupportedChains((result)=>{
-      for(let key in result){
-         this.createSubWallet(key);
-      }
-     });
-   }
+  // getSupportedChains(){
+  //   this.walletManager.getSupportedChains((result)=>{
+  //     for(let key in result){
+  //        this.createSubWallet(key);
+  //     }
+  //    });
+  //  }
 
   createSubWallet(chainId){
     // Sub Wallet

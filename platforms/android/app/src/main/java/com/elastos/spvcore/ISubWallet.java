@@ -47,11 +47,11 @@ public class ISubWallet {
         return nativeCreateMultiSignAddress(mSubProxy, multiPublicKeyJson, totalSignNum, requiredSignNum);
     }
 
-    public String CreateMultiSignTransaction(String fromAddress, String toAddress, long amount, long fee, String memo) {
+    public String CreateMultiSignTransaction(String fromAddress, String toAddress, long amount, long fee, String memo) throws WalletException {
         return nativeCreateMultiSignTransaction(mSubProxy, fromAddress, toAddress, amount, fee, memo);
     }
 
-    public String SendRawTransaction(String transactionJson, long fee, String payPassword) {
+    public String SendRawTransaction(String transactionJson, long fee, String payPassword) throws WalletException {
         return nativeSendRawTransaction(mSubProxy, transactionJson, fee, payPassword);
     }
 
@@ -59,11 +59,11 @@ public class ISubWallet {
         return nativeGetAllTransaction(mSubProxy, start, count, addressOrTxId);
     }
 
-    public String Sign(String message, String payPassword) {
+    public String Sign(String message, String payPassword) throws WalletException {
         return nativeSign(mSubProxy, message, payPassword);
     }
 
-    public boolean CheckSign(String address, String message, String signature) {
+    public boolean CheckSign(String address, String message, String signature) throws WalletException {
         return nativeCheckSign(mSubProxy, address, message, signature);
     }
 
