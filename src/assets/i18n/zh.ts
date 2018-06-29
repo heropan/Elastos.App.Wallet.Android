@@ -169,4 +169,8 @@ export const zh = {
   'import-text-keystroe-message':'将密钥文件复制到文本框',
   'import-text-keystroe-sucess':'导入私钥成功',
   'import-text-world-sucess':'导入助记词成功',
+  'text-down-sucess-message':'导出成功',
+  'text-down-fail-message':'导出失败',
+  'text-down-please-message':'请选择要导出的ID',
+  'text-exprot-sucess-message':'导出成功'
 };
