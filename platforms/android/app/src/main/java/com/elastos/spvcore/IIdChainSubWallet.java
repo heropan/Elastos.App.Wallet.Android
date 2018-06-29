@@ -8,8 +8,7 @@ public class IIdChainSubWallet extends ISubWallet{
 
 
     public String CreateIdTransaction(String fromAddress, String toAddress, long amount,
-            String payloadJson, String programJson, long fee, String memo, String remark)
-    {
+            String payloadJson, String programJson, long fee, String memo, String remark) throws WalletException {
         return nativeCreateIdTransaction(mIDchainProxy, fromAddress, toAddress, amount, payloadJson, programJson, fee, memo, remark);
     }
 
