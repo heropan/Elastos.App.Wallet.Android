@@ -83,10 +83,10 @@ class ElaSubWalletCallback: public ISubWalletCallback
 {
 public:
     virtual void OnTransactionStatusChanged(
-            const std::string &txid,
-            const std::string &status,
-            const nlohmann::json &desc,
-            uint32_t confirms);
+        const std::string &txid,
+        const std::string &status,
+        const nlohmann::json &desc,
+        uint32_t confirms);
 
     ElaSubWalletCallback(
         /* [in] */ JNIEnv* env,
@@ -108,7 +108,7 @@ static std::map<jobject, ElaSubWalletCallback*> sSubCallbackMap;
 static void JNICALL nativeAddCallback(JNIEnv *env, jobject clazz, jlong jSubProxy, jobject jsubCallback)
 {
     LOGD("FUNC=[%s]========================LINE=[%d]", __FUNCTION__, __LINE__);
-    ElaSubWalletCallback* subCallback = new ElaSubWalletCallback(env, clazz);
+    ElaSubWalletCallback* subCallback = new ElaSubWalletCallback(env, jsubCallback);
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
     subWallet->AddCallback(subCallback);
     sSubCallbackMap[jsubCallback] = subCallback;

@@ -9,6 +9,7 @@ import com.elastos.spvcore.MasterWalletManager;
 import com.elastos.spvcore.IdManagerFactory;
 import com.elastos.spvcore.IDidManager;
 import com.elastos.spvcore.IDid;
+import com.elastos.spvcore.IIdManagerCallback;
 import com.elastos.spvcore.WalletException;
 import com.elastos.wallet.util.LogUtil;
 
@@ -215,6 +216,9 @@ public class Wallet extends CordovaPlugin {
                   return true;
               case "didGetPublicKey":
                   this.didGetPublicKey(args, callbackContext);
+                  return true;
+              case "registerIdListener":
+                  this.registerIdListener(args, callbackContext);
                   return true;
           }
         } catch (JSONException e) {
@@ -935,6 +939,30 @@ public class Wallet extends CordovaPlugin {
         callbackContext.error("didGetPublicKey error.");
     }
 
+    public void registerIdListener(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mDidManager == null) {
+            callbackContext.error("registerIdListener error.");
+            return;
+        }
+
+        mDidManager.RegisterCallback(args.getString(0), new IIdManagerCallback() {
+            @Override
+            public void OnIdStatusChanged(String id, String path, /*const nlohmann::json*/ String value) {
+                JSONObject jsonObject = new JSONObject();
+                Log.i("JS-Wallet", "registerIdListener==================2");
+                try {
+                    jsonObject.put("id", id);
+                    jsonObject.put("path", path);
+                    jsonObject.put("value", value);
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();;
+                }
+
+                callbackContext.success(jsonObject);
+            }
+        });
+    }
 
     @Override
     public void onDestroy() {

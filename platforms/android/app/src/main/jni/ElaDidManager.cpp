@@ -47,15 +47,121 @@ static void JNICALL nativeDestoryDID(JNIEnv *env, jobject clazz, jlong jDidMgrPr
     env->ReleaseStringUTFChars(jdidName, didName);
 }
 
+
+class ElaIdManagerCallback: public IIdManagerCallback
+{
+public:
+    virtual void OnIdStatusChanged(
+        const std::string &id,
+        const std::string &path,
+        const nlohmann::json &value);
+
+    ElaIdManagerCallback(
+        /* [in] */ JNIEnv* env,
+        /* [in] */ jobject jobj);
+
+    ~ElaIdManagerCallback();
+
+private:
+    JNIEnv* GetEnv();
+    void Detach();
+
+private:
+    JavaVM* mVM;
+    jobject mObj;
+};
+
+static std::map<jstring, ElaIdManagerCallback*> sIdCallbackMap;
+static jboolean JNICALL nativeRegisterCallback(JNIEnv *env, jobject clazz, jlong jDidMgrProxy, jstring jdidName, jobject jidCallback)
+{
+    LOGD("FUNC=[%s]========================LINE=[%d]", __FUNCTION__, __LINE__);
+    const char* didName = env->GetStringUTFChars(jdidName, NULL);
+    ElaIdManagerCallback* idCallback = new ElaIdManagerCallback(env, jidCallback);
+    IDIDManager* didMgr = (IDIDManager*)jDidMgrProxy;
+    didMgr->RegisterCallback(didName, idCallback);
+    sIdCallbackMap[jdidName] = idCallback;
+
+    env->ReleaseStringUTFChars(jdidName, didName);
+}
+
+static jboolean JNICALL nativeUnregisterCallback(JNIEnv *env, jobject clazz, jlong jDidMgrProxy, jstring jdidName)
+{
+    const char* didName = env->GetStringUTFChars(jdidName, NULL);
+
+    IDIDManager* didMgr = (IDIDManager*)jDidMgrProxy;
+    std::map<jstring, ElaIdManagerCallback*>::iterator it;
+    for (it = sIdCallbackMap.begin(); it != sIdCallbackMap.end(); it++) {
+        if (jdidName == it->first) {
+            didMgr->UnregisterCallback(didName);
+            delete it->second;
+            sIdCallbackMap.erase(it);
+            break;
+        }
+    }
+
+    env->ReleaseStringUTFChars(jdidName, didName);
+}
+
 static const JNINativeMethod gMethods[] = {
     {"nativeCreateDID", "(JLjava/lang/String;)J", (void*)nativeCreateDID},
     {"nativeGetDID", "(JLjava/lang/String;)J", (void*)nativeGetDID},
     {"nativeGetDIDList", "(J)Ljava/lang/String;", (void*)nativeGetDIDList},
     {"nativeDestoryDID", "(JLjava/lang/String;)V", (void*)nativeDestoryDID},
+    {"nativeRegisterCallback", "(JLjava/lang/String;Lcom/elastos/spvcore/IIdManagerCallback;)Z", (void*)nativeRegisterCallback},
+    {"nativeUnregisterCallback", "(JLjava/lang/String;)Z", (void*)nativeUnregisterCallback},
 };
 
 jint register_elastos_spv_IDidManager(JNIEnv *env)
 {
     return jniRegisterNativeMethods(env, "com/elastos/spvcore/IDidManager",
         gMethods, NELEM(gMethods));
+}
+
+ElaIdManagerCallback::ElaIdManagerCallback(
+    /* [in] */ JNIEnv* env,
+    /* [in] */ jobject jobj)
+{
+    LOGD("FUNC=[%s]========================LINE=[%d]", __FUNCTION__, __LINE__);
+    mObj = env->NewGlobalRef(jobj);
+    env->GetJavaVM(&mVM);
+}
+
+ElaIdManagerCallback::~ElaIdManagerCallback()
+{
+    LOGD("FUNC=[%s]========================LINE=[%d]", __FUNCTION__, __LINE__);
+    if (mObj) {
+        GetEnv()->DeleteGlobalRef(mObj);
+    }
+}
+
+JNIEnv* ElaIdManagerCallback::GetEnv()
+{
+    JNIEnv* env;
+    assert(mVM != NULL);
+    mVM->AttachCurrentThread(&env, NULL);
+    return env;
+}
+
+void ElaIdManagerCallback::Detach()
+{
+    assert(mVM != NULL);
+    mVM->DetachCurrentThread();
+}
+
+void ElaIdManagerCallback::OnIdStatusChanged(const std::string &id,
+    const std::string &path, const nlohmann::json &value)
+{
+    JNIEnv* env = GetEnv();
+    LOGD("FUNC=[%s]========================LINE=[%d]", __FUNCTION__, __LINE__);
+
+    jclass clazz = env->GetObjectClass(mObj);
+    //"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V"
+    jmethodID methodId = env->GetMethodID(clazz, "OnIdStatusChanged","(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+    jstring jid = env->NewStringUTF(id.c_str());
+    jstring jpath = env->NewStringUTF(path.c_str());
+    jstring jvalue = env->NewStringUTF(ToStringFromJson(value));
+
+    env->CallVoidMethod(mObj, methodId, jid, jpath, jvalue);
+
+    Detach();
 }
