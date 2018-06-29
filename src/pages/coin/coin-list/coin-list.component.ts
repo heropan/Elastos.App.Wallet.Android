@@ -59,15 +59,15 @@ export class CoinListComponent extends BaseComponent implements OnInit {
 
   onClick() {
     this.createSubWallet(this.currentCoin);
-    this.localStorage.add('coinListCache', this.currentCoin);
   }
 
   createSubWallet(chainId){
-    // Sub Wallet
-    alert(this.payPassword)
-    alert(this.singleAddress)
+    // Sub Wallet IdChain
+    alert(chainId);
+    alert(this.payPassword);
+    alert(this.singleAddress);
     this.walletManager.createSubWallet(chainId, this.payPassword, this.singleAddress, 0, (val)=>{
-      
+      this.localStorage.add('coinListCache', this.currentCoin);
       this.subPopup.hide();
     });
   }
