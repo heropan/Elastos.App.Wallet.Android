@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {BaseComponent} from '../../../app/BaseComponent';
 import { PopupComponent } from "ngx-weui";
+import {Util} from "../../../providers/Util";
 
 @Component({
   selector: 'app-coin-list',
@@ -62,10 +63,16 @@ export class CoinListComponent extends BaseComponent implements OnInit {
   createSubWallet(chainId){
     // Sub Wallet IdChain
     this.walletManager.createSubWallet(chainId, this.payPassword, this.singleAddress, 0, (val)=>{
-      let coin = {};
-      coin["id"] = chainId;
-      this.localStorage.add('coinListCache', coin);
-      this.subPopup.hide();
+      if (val['ERRORCODE'] != undefined) {
+        if (!Util.password(this.payPassword)) {
+          this.toast("text-pwd-validator");
+          return;
+        }
+        let coin = {};
+        coin["id"] = chainId;
+        this.localStorage.add('coinListCache', coin);
+        this.subPopup.hide();
+      }
     });
   }
 
