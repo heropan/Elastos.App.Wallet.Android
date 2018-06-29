@@ -200,6 +200,14 @@ walletFunc.prototype.destroyWallet = function(arg0, sucess, error) {
     exec(sucess, error, "Wallet", "destroyWallet", arg0);
 };
 
+walletFunc.prototype.createIdTransaction = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "createIdTransaction", arg0);
+};
+
+walletFunc.prototype.createDepositTransaction = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "createDepositTransaction", arg0);
+};
+
 
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;

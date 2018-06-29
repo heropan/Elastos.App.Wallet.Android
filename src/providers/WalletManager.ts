@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Logger} from "./Logger";
 import {Native} from "./Native";
+import { Chain } from '@angular/compiler';
 //import {StorageUtil} from "./StorageUtil";
 declare var cordova: any;
 
@@ -276,7 +277,20 @@ export class WalletManager {
   }
 
   didGetPublicKey(did:string,Fun){
-    this.wallet.didGetPublicKey([did],Fun,this.errorFun)
+    this.wallet.didGetPublicKey([did],Fun,this.errorFun);
+  }
+
+  createIdTransaction(chainId:string,fromAddress:string,toAddress:string,amount:number,payloadJson:string,programJson:string,fee:number,memo:string,remark:string,Fun){
+     this.wallet.createIdTransaction([chainId,fromAddress,toAddress,amount,payloadJson,programJson,fee,memo,remark],Fun,this.errorFun);
+  }
+
+  createDepositTransaction(chainId:string,fromAddress:string,toAddress:string,amount:number
+                           ,sidechainAccounts:string,sidechainAmounts:string,sidechainIndex:string,fee:number,memo:string,remark:string,Fun){
+    this.wallet.createIdTransaction([chainId,fromAddress,toAddress,amount,sidechainAccounts,sidechainAmounts,sidechainIndex,fee,memo,remark],Fun,this.errorFun);
+  }
+
+  didGenerateProgram(message:string,password:string,Fun){
+      this.wallet.didGenerateProgram([message,password],Fun,this.errorFun);
   }
 
   errorFun(error) {
