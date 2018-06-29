@@ -6,7 +6,6 @@ import {IdImportComponent} from "../../../pages/id/import/import";
 import {IdManagerComponent} from "../../../pages/id/manager/manager";
 import {IdAppListComponent} from "../../../pages/id/app-list/app-list";
 import {TabsComponent} from "../../../pages/tabs/tabs.component";
-import {IdHomeComponent} from "../../../pages/id/home/home";
 @Component({
   selector: 'id-home',
   templateUrl: 'home.html',
@@ -44,12 +43,12 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
 
   createDID(){
     this.walletManager.createDID("s12345678",(result)=>{
-                    this.tiaozhuan();
+                    //this.tiaozhuan();
     });
   }
 
 
   tiaozhuan(){
-    this.Go(IdHomeComponent);
- }
+    //this.Go(IdHomeComponent);
+  }
 }
