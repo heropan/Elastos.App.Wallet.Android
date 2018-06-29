@@ -19,8 +19,6 @@ export class CoinListComponent extends BaseComponent implements OnInit {
   onSelect(item) {
     item.open = ! item.open;
     if (item.open) {
-      let coin = {};
-      coin["id"] = item.name;
       this.currentCoin = item.name;
       this.subPopup.show().subscribe((res: boolean) => {
       });
@@ -63,11 +61,10 @@ export class CoinListComponent extends BaseComponent implements OnInit {
 
   createSubWallet(chainId){
     // Sub Wallet IdChain
-    alert(chainId);
-    alert(this.payPassword);
-    alert(this.singleAddress);
     this.walletManager.createSubWallet(chainId, this.payPassword, this.singleAddress, 0, (val)=>{
-      this.localStorage.add('coinListCache', this.currentCoin);
+      let coin = {};
+      coin["id"] = chainId;
+      this.localStorage.add('coinListCache', coin);
       this.subPopup.hide();
     });
   }
