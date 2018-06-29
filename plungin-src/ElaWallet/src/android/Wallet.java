@@ -230,9 +230,11 @@ public class Wallet extends CordovaPlugin {
     //CreateSubWallet(String chainID, String payPassword, boolean singleAddress, long feePerKb)
     public void createSubWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
         ISubWallet subWallet = mCurrentMasterWallet.CreateSubWallet(args.getString(0), args.getString(1), args.getBoolean(2), args.getLong(3));
+        Log.i("JS-Wallet", "createSubWallet==============1, id="+args.getString(0));
         if (subWallet != null) {
             mSubWalletMap.put(args.getString(0), subWallet);
             callbackContext.success(args.getString(0));
+            Log.i("JS-Wallet", "createSubWallet==============2");
         }
         else {
             callbackContext.error("CreateSubWallet failed.");
@@ -280,6 +282,7 @@ public class Wallet extends CordovaPlugin {
 
             mSubWalletMap.clear();
             ArrayList<ISubWallet> list = mCurrentMasterWallet.GetAllSubWallets();
+            Log.i("JS-Wallet", "getAllSubWallets==============1, list.size="+list.size());
             for (int i = 0; i < list.size(); i++) {
                 ISubWallet subWallet = list.get(i);
                 if (subWallet != null) {
@@ -581,9 +584,9 @@ public class Wallet extends CordovaPlugin {
         callbackContext.success(parseOneParam("balance", subWallet.GetBalanceInfo()));
     }
 
-
     public void getBalance(JSONArray args, CallbackContext callbackContext) throws JSONException {
         //The first parameter is [chainID]
+        Log.i("JS-Wallet", "getBalance==============1, id="+args.getString(0));
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
             callbackContext.error("Don't have the subWallet, please check.");
