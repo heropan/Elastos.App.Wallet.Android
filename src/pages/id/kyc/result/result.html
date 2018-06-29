@@ -9,39 +9,59 @@
     </div>
     <div class="weui-cells__title">{{'text-kyc-message' | translate }}</div>
     <div class="weui-cells">
-        <div class="weui-cell">
+        <div class="weui-cell" *ngIf="approdType==='person'">
             <div class="weui-cell__bd">
                 <p>{{'text-name' | translate }}：</p>
             </div>
             <div class="weui-cell__ft">sssss</div>
         </div>
 
-        <div class="weui-cell">
+        <div class="weui-cell" *ngIf="approdType==='person'">
             <div class="weui-cell__bd">
                 <p>{{'text-identity' | translate }}：</p>
             </div>
             <div class="weui-cell__ft">410426???????</div>
         </div>
 
-        <div class="weui-cell">
+        <div class="weui-cell" *ngIf="approdType==='person'">
             <div class="weui-cell__bd">
                 <p>{{'text-phone' | translate }}：</p>
             </div>
             <div class="weui-cell__ft">18210230496</div>
         </div>
 
-        <div class="weui-cell">
+        <div class="weui-cell" *ngIf="approdType==='person'">
             <div class="weui-cell__bd">
                 <p>{{'text-card' | translate }}：</p>
             </div>
             <div class="weui-cell__ft">6106126</div>
+        </div>
+
+        <div class="weui-cell" *ngIf="approdType==='company'">
+            <div class="weui-cell__bd">
+                <p>{{'text-company-name' | translate }}：</p>
+            </div>
+            <div class="weui-cell__ft">{{businessObj.word}}</div>
+        </div>
+
+        <div class="weui-cell" *ngIf="approdType==='company'">
+            <div class="weui-cell__bd">
+                <p>{{'text-company-legal' | translate }}：</p>
+            </div>
+            <div class="weui-cell__ft">{{businessObj.legalPerson}}</div>
+        </div>
+
+        <div class="weui-cell" *ngIf="approdType==='company'">
+            <div class="weui-cell__bd">
+                <p>{{'text-company-code' | translate }}：</p>
+            </div>
+            <div class="weui-cell__ft">{{businessObj.registrationNum}}</div>
         </div>
     </div>
     <div class="weui-cells_checkbox" style="text-align: center;margin-top: 30px">
         <div class="weui-cell__bd">
             <p class="text-person-agreement-wenzi">{{ 'text-id-chain-prompt1' | translate }}</p>
         </div>
-
     </div>
     <div class="btn-commit" (click)="onCommit()">
         {{'text-data-chain' | translate}}0.01ela
