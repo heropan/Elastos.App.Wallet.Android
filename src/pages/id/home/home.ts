@@ -43,7 +43,7 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
   createDID(){
     this.walletManager.createDID("s12345678",(result)=>{
         //this.getDID();
-        alert("111111111");
+        this.kycIdArr.push(result.didname);
     });
   }
 

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from "../../../../app/BaseComponent";
-import {IdResultComponent} from "../../../../pages/id/result/result";
+import {IdKycResultComponent} from "../../../../pages/id/kyc/result/result";
 import {ApiUrl} from "../../../../providers/ApiUrl";
 import {IDManager} from "../../../../providers/IDManager";
 import {TransferComponent} from "../../../../pages/coin/transfer/transfer.component";
@@ -32,8 +32,9 @@ export class IdKycCompanyComponent extends BaseComponent implements OnInit {
   onCommit(): void {
     //this.sendCompanyHttp();
     if(this.checkParms()){
-      this.businessObj["serialNum"] = this.serialNum;
-      this.Go(TransferComponent,{addr:"ENMLAuBi4qW7ViKwh6GbcaMcktU8j78T6F",money:this.payMoney,type:"kyc",chianId:"IdChain",selectType:"company",parm:this.businessObj});
+      //this.businessObj["serialNum"] = this.serialNum;
+      //this.Go(TransferComponent,{addr:"ENMLAuBi4qW7ViKwh6GbcaMcktU8j78T6F",money:this.payMoney,type:"kyc",chianId:"IdChain",selectType:"company",parm:this.businessObj});
+      this.Go(IdKycResultComponent);
     }
   }
 
