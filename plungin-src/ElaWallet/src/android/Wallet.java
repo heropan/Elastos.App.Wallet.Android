@@ -197,6 +197,9 @@ public class Wallet extends CordovaPlugin {
               case "createDID":
                   this.createDID(args, callbackContext);
                   return true;
+              case "didGenerateProgram":
+                  this.didGenerateProgram(args, callbackContext);
+                  return true;
               case "getDIDList":
                   this.getDIDList(args, callbackContext);
                   return true;
