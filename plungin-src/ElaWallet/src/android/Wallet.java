@@ -4,6 +4,8 @@ import android.util.JsonReader;
 
 import com.elastos.spvcore.IMasterWallet;
 import com.elastos.spvcore.ISubWallet;
+import com.elastos.spvcore.IMainchainSubWallet;
+import com.elastos.spvcore.IIdChainSubWallet;
 import com.elastos.spvcore.ISubWalletCallback;
 import com.elastos.spvcore.MasterWalletManager;
 import com.elastos.spvcore.IdManagerFactory;
@@ -44,7 +46,6 @@ public class Wallet extends CordovaPlugin {
 
     private final String ERRORCODE = "ERRORCODE";
     private final String ERRORCODE_NODATA = "NODATA";
-
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
@@ -185,6 +186,14 @@ public class Wallet extends CordovaPlugin {
               case "calculateTransactionFee":
                   this.calculateTransactionFee(args, callbackContext);
                   return true;
+              case "createIdTransaction":
+                  this.createIdTransaction(args, callbackContext);
+                  return true;
+              case "createDepositTransaction":
+                  this.createDepositTransaction(args, callbackContext);
+                  return true;
+
+              //did
               case "createDID":
                   this.createDID(args, callbackContext);
                   return true;
@@ -194,8 +203,6 @@ public class Wallet extends CordovaPlugin {
               case "destoryDID":
                   this.destoryDID(args, callbackContext);
                   return true;
-
-              //did
               case "didSetValue":
                   this.didSetValue(args, callbackContext);
                   return true;
@@ -484,7 +491,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet, please check.");
+            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -509,7 +516,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet, please check.");
+            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -526,7 +533,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet, please check.");
+            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -552,7 +559,7 @@ public class Wallet extends CordovaPlugin {
         Log.i("JS-Wallet", "getAllTransaction======id="+args.getString(0)+", a1="+args.getInt(1)+", a2="+args.getInt(2)+", a3="+args.getString(3));
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet, please check.");
+            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -565,7 +572,7 @@ public class Wallet extends CordovaPlugin {
         Log.i("JS-Wallet", "registerWalletListener==================1");
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet, please check.");
+            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -593,7 +600,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet, please check.");
+            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -605,7 +612,7 @@ public class Wallet extends CordovaPlugin {
         Log.i("JS-Wallet", "getBalance==============1, id="+args.getString(0));
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet, please check.");
+            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -616,7 +623,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet, please check.");
+            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -633,7 +640,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet, please check.");
+            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -644,7 +651,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet, please check.");
+            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -655,7 +662,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet, please check.");
+            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -673,7 +680,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet, please check.");
+            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -686,7 +693,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet, please check.");
+            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -705,7 +712,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet, please check.");
+            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -713,6 +720,68 @@ public class Wallet extends CordovaPlugin {
         try {
             fee = subWallet.CalculateTransactionFee(args.getString(1), args.getLong(2));
             callbackContext.success(parseOneParam("fee", fee));
+        }
+        catch (WalletException e) {
+            e.printStackTrace();
+            callbackContext.success(parseOneParam(ERRORCODE, e.GetErrorInfo()));
+        }
+    }
+
+    //String CreateIdTransaction(fromAddress, toAddress, long amount, payloadJson, programJson, long fee, memo, remark)
+    public void createIdTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        //The first parameter is [chainID]
+        if (args.getString(0) != IMasterWallet.CHAINID.ID) {
+            callbackContext.success(parseOneParam(ERRORCODE, "The chainID must be IdChain."));
+            return;
+        }
+
+        IIdChainSubWallet subWallet = (IIdChainSubWallet)mSubWalletMap.get(args.getString(0));
+        if (subWallet == null) {
+            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            return;
+        }
+
+        String json = null;
+        try {
+            json = subWallet.CreateIdTransaction(args.getString(1), args.getString(2), args.getLong(3),
+                     args.getString(4), args.getString(5), args.getLong(6), args.getString(7), args.getString(8));
+            if (json != null) {
+                callbackContext.success(parseOneParam("json", json));
+            }
+            else {
+                callbackContext.error("CreateIdTransaction failed.");
+            }
+        }
+        catch (WalletException e) {
+            e.printStackTrace();
+            callbackContext.success(parseOneParam(ERRORCODE, e.GetErrorInfo()));
+        }
+    }
+
+    public void createDepositTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        //The first parameter is [chainID]
+        if (args.getString(0) != IMasterWallet.CHAINID.MAIN) {
+            callbackContext.success(parseOneParam(ERRORCODE, "The chainID must be ELA."));
+            return;
+        }
+
+        IMainchainSubWallet subWallet = (IMainchainSubWallet)mSubWalletMap.get(args.getString(0));
+        if (subWallet == null) {
+            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            return;
+        }
+
+        String json = null;
+        try {
+            json = subWallet.CreateDepositTransaction(args.getString(1), args.getString(2), args.getLong(3)
+                    , args.getString(4), args.getString(5), args.getString(6)
+                    , args.getLong(7), args.getString(8), args.getString(9));
+            if (json != null) {
+                callbackContext.success(parseOneParam("json", json));
+            }
+            else {
+                callbackContext.error("CreateDepositTransaction failed.");
+            }
         }
         catch (WalletException e) {
             e.printStackTrace();

@@ -3,7 +3,7 @@ package com.elastos.spvcore;
 /**
  * IMainchainSubWallet jni
  */
-public class IMainchainSubWallet {
+public class IMainchainSubWallet extends ISubWallet {
     private long mMainchainProxy;
 
 
@@ -15,6 +15,7 @@ public class IMainchainSubWallet {
     }
 
     public IMainchainSubWallet(long proxy) {
+        super(proxy);
         mMainchainProxy = proxy;
     }
 
