@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Logger} from "./Logger";
 import {Native} from "./Native";
 //import {StorageUtil} from "./StorageUtil";
-//declare var cordova: any;
+declare var cordova: any;
 
 
 /***
@@ -22,8 +22,8 @@ export class WalletManager {
   public static PAGECOUNT = 20;
 
   constructor(public native: Native) {
-    //this.wallet = cordova.plugins.Wallet;
-    this.wallet = {};
+    this.wallet = cordova.plugins.Wallet;
+    //this.wallet = {};
   }
 
   /**通过android log 打印数据*/
