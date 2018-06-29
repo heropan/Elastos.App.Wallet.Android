@@ -2,7 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import {BaseComponent} from "../../../app/BaseComponent";
 import {IdCreateComponent} from "../../../pages/id/create/create";
 import {IdImportComponent} from "../../../pages/id/import/import";
-
+import {IdHomeComponent} from "../../../pages/id/home/home";
 
 @Component({
   selector: 'id-launcher',
@@ -29,4 +29,8 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
                     this.tiaozhuan();
     });
   }
+
+  tiaozhuan(){
+    this.Go(IdHomeComponent);
+ }
 }
