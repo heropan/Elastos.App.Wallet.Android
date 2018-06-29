@@ -22,12 +22,12 @@ public class IMasterWallet {
         return list;
     }
 
-    public ISubWallet CreateSubWallet(String chainID, String payPassword, boolean singleAddress, long feePerKb) {
+    public ISubWallet CreateSubWallet(String chainID, String payPassword, boolean singleAddress, long feePerKb) throws WalletException {
         long subProxy = nativeCreateSubWallet(mMasterProxy, chainID, payPassword, singleAddress, feePerKb);
         return new ISubWallet(subProxy);
     }
 
-    public ISubWallet RecoverSubWallet(String chainID, String payPassword, boolean singleAddress, int limitGap, long feePerKb) {
+    public ISubWallet RecoverSubWallet(String chainID, String payPassword, boolean singleAddress, int limitGap, long feePerKb) throws WalletException {
         long subProxy = nativeRecoverSubWallet(mMasterProxy, chainID, payPassword, singleAddress, limitGap, feePerKb);
         return new ISubWallet(subProxy);
     }
@@ -42,13 +42,11 @@ public class IMasterWallet {
         return nativeGetPublicKey(mMasterProxy);
     }
 
-    public String Sign(String message, String payPassword)
-    {
+    public String Sign(String message, String payPassword) throws WalletException {
         return nativeSign(mMasterProxy, message, payPassword);
     }
 
-    public String CheckSign(String publicKey, String message, String signature)
-    {
+    public String CheckSign(String publicKey, String message, String signature) throws WalletException {
         return nativeCheckSign(mMasterProxy, publicKey, message, signature);
     }
 
@@ -68,7 +66,7 @@ public class IMasterWallet {
         return mMasterProxy;
     }
 
-    public void ChangePassword(String oldPassword, String newPassword) {
+    public void ChangePassword(String oldPassword, String newPassword) throws WalletException {
         nativeChangePassword(mMasterProxy, oldPassword, newPassword);
     }
 

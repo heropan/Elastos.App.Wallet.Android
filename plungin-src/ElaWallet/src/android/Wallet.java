@@ -233,27 +233,39 @@ public class Wallet extends CordovaPlugin {
 
     //CreateSubWallet(String chainID, String payPassword, boolean singleAddress, long feePerKb)
     public void createSubWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        ISubWallet subWallet = mCurrentMasterWallet.CreateSubWallet(args.getString(0), args.getString(1), args.getBoolean(2), args.getLong(3));
-        Log.i("JS-Wallet", "createSubWallet==============1, id="+args.getString(0));
-        if (subWallet != null) {
-            mSubWalletMap.put(args.getString(0), subWallet);
-            callbackContext.success(args.getString(0));
-            Log.i("JS-Wallet", "createSubWallet==============2");
+        try {
+            ISubWallet subWallet = mCurrentMasterWallet.CreateSubWallet(args.getString(0), args.getString(1), args.getBoolean(2), args.getLong(3));
+            Log.i("JS-Wallet", "createSubWallet==============1, id="+args.getString(0));
+            if (subWallet != null) {
+                mSubWalletMap.put(args.getString(0), subWallet);
+                callbackContext.success(args.getString(0));
+                Log.i("JS-Wallet", "createSubWallet==============2");
+            }
+            else {
+                callbackContext.error("CreateSubWallet failed.");
+            }
         }
-        else {
-            callbackContext.error("CreateSubWallet failed.");
+        catch (WalletException e) {
+            e.printStackTrace();
+            callbackContext.success(parseOneParam(ERRORCODE, e.GetErrorInfo()));
         }
     }
 
     //RecoverSubWallet(String chainID, String payPassword, boolean singleAddress, int limitGap, long feePerKb)
     public void recoverSubWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        ISubWallet subWallet = mCurrentMasterWallet.RecoverSubWallet(args.getString(0), args.getString(1), args.getBoolean(2), args.getInt(3), args.getLong(4));
-        if (subWallet != null) {
-            mSubWalletMap.put(args.getString(0), subWallet);
-            callbackContext.success(parseOneParam(args.getString(0), subWallet));
+        try {
+            ISubWallet subWallet = mCurrentMasterWallet.RecoverSubWallet(args.getString(0), args.getString(1), args.getBoolean(2), args.getInt(3), args.getLong(4));
+            if (subWallet != null) {
+                mSubWalletMap.put(args.getString(0), subWallet);
+                callbackContext.success(parseOneParam(args.getString(0), subWallet));
+            }
+            else {
+                callbackContext.error("RecoverSubWallet failed.");
+            }
         }
-        else {
-            callbackContext.error("RecoverSubWallet failed.");
+        catch (WalletException e) {
+            e.printStackTrace();
+            callbackContext.success(parseOneParam(ERRORCODE, e.GetErrorInfo()));
         }
     }
 
@@ -738,13 +750,19 @@ public class Wallet extends CordovaPlugin {
     }
 
     public void changePassword(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if (mCurrentMasterWallet != null) {
-            mCurrentMasterWallet.ChangePassword(args.getString(0), args.getString(1));
-            callbackContext.success();
-            return;
-        }
+        try {
+            if (mCurrentMasterWallet != null) {
+                mCurrentMasterWallet.ChangePassword(args.getString(0), args.getString(1));
+                callbackContext.success();
+                return;
+            }
 
-        callbackContext.success(parseOneParam("changePassword", null));
+            callbackContext.success(parseOneParam("changePassword", null));
+        }
+        catch (WalletException e) {
+            e.printStackTrace();
+            callbackContext.success(parseOneParam(ERRORCODE, e.GetErrorInfo()));
+        }
     }
 
     public void resetAddressCache(JSONArray args, CallbackContext callbackContext) throws JSONException {

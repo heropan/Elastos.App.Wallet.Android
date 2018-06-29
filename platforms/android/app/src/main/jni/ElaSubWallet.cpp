@@ -219,6 +219,9 @@ static jstring JNICALL nativeSendRawTransaction(JNIEnv *env, jobject clazz, jlon
 
     try {
         result = subWallet->SendRawTransaction(ToJosnFromString(transactionJson), jfee, signJson);
+        env->ReleaseStringUTFChars(jtransactionJson, transactionJson);
+        env->ReleaseStringUTFChars(jsignJson, signJson);
+        return env->NewStringUTF(ToStringFromJson(result));
     }
     catch (std::invalid_argument& e) {
         ThrowWalletException(env, e.what());
@@ -235,7 +238,7 @@ static jstring JNICALL nativeSendRawTransaction(JNIEnv *env, jobject clazz, jlon
 
     env->ReleaseStringUTFChars(jtransactionJson, transactionJson);
     env->ReleaseStringUTFChars(jsignJson, signJson);
-    return env->NewStringUTF(ToStringFromJson(result));
+    return NULL;
 }
 
 static jstring JNICALL nativeGetAllTransaction(JNIEnv *env, jobject clazz, jlong jSubProxy, jint start,
@@ -309,7 +312,6 @@ static jstring JNICALL nativeCheckSign(JNIEnv *env, jobject clazz, jlong jSubPro
     env->ReleaseStringUTFChars(jsignature, signature);
     return env->NewStringUTF(ToStringFromJson(result));
 }
-
 
 static jlong JNICALL nativeCalculateTransactionFee(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jrawTransaction, jlong feePerKb)
 {
