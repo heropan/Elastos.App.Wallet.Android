@@ -7,6 +7,11 @@ import java.util.ArrayList;
  * IMasterWallet
  */
 public class IMasterWallet {
+    static public class CHAINID {
+        public static String MAIN = "ELA";
+        public static String ID = "IdChain";
+    }
+
     private long mMasterProxy;
 
     public String GetId() {
@@ -24,7 +29,15 @@ public class IMasterWallet {
 
     public ISubWallet CreateSubWallet(String chainID, String payPassword, boolean singleAddress, long feePerKb) throws WalletException {
         long subProxy = nativeCreateSubWallet(mMasterProxy, chainID, payPassword, singleAddress, feePerKb);
-        return new ISubWallet(subProxy);
+        if (chainID == CHAINID.MAIN) {
+            return new IMainchainSubWallet(subProxy);
+        }
+        else if (chainID == CHAINID.ID) {
+            return new IIdChainSubWallet(subProxy);
+        }
+
+        throw new WalletException("Not support the other sidechain now.");
+        // return new ISubWallet(subProxy);
     }
 
     public ISubWallet RecoverSubWallet(String chainID, String payPassword, boolean singleAddress, int limitGap, long feePerKb) throws WalletException {
