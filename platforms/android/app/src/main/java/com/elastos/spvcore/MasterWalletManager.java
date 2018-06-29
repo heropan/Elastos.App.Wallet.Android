@@ -17,23 +17,26 @@ public class MasterWalletManager {
      * @param masterWalletId
      * @param language
      */
-    public IMasterWallet CreateMasterWallet(String masterWalletId, String mnemonic, String phrasePassword, String payPassword, String language)
+    public IMasterWallet CreateMasterWallet(String masterWalletId, String mnemonic, String phrasePassword, String payPassword
+            , String language) throws WalletException
     {
         long masterProxy = nativeCreateMasterWallet(mManagerProxy, masterWalletId, mnemonic, phrasePassword, payPassword, language);
         return new IMasterWallet(masterProxy);
     }
 
-    public ArrayList<IMasterWallet> GetAllMasterWallets() {
+    public ArrayList<IMasterWallet> GetAllMasterWallets() throws WalletException {
         long[] masterWalletProxies = nativeGetAllMasterWallets(mManagerProxy);
-        ArrayList<IMasterWallet> list = new ArrayList<IMasterWallet>();
-        for (int i = 0; i < masterWalletProxies.length; i++) {
-            list.add(new IMasterWallet(masterWalletProxies[i]));
+        if (masterWalletProxies != null) {
+            ArrayList<IMasterWallet> list = new ArrayList<IMasterWallet>();
+            for (int i = 0; i < masterWalletProxies.length; i++) {
+                list.add(new IMasterWallet(masterWalletProxies[i]));
+            }
+            return list;
         }
-        return list;
+        return null;
     }
 
-    public void DestroyWallet(String masterWalletId)
-    {
+    public void DestroyWallet(String masterWalletId) throws WalletException {
         nativeDestroyWallet(mManagerProxy, masterWalletId);
     }
 
@@ -45,8 +48,7 @@ public class MasterWalletManager {
      * @return
      */
     public IMasterWallet ImportWalletWithKeystore(String masterWalletId, String keystoreContent,String backupPassWord
-                    ,String payPassWord, String phrasePassword)
-    {
+                    ,String payPassWord, String phrasePassword) throws WalletException {
         long masterProxy = nativeImportWalletWithKeystore(mManagerProxy, masterWalletId, keystoreContent, backupPassWord, payPassWord, phrasePassword);
         return new IMasterWallet(masterProxy);
     }
@@ -60,8 +62,7 @@ public class MasterWalletManager {
      * @return
      */
     public IMasterWallet ImportWalletWithMnemonic(String masterWalletId, String mnemonic, String phrasePassword
-                    ,String payPassWord, String language)
-    {
+                    ,String payPassWord, String language) throws WalletException {
         long masterProxy = nativeImportWalletWithMnemonic(mManagerProxy, masterWalletId, mnemonic, phrasePassword, payPassWord, language);
         return new IMasterWallet(masterProxy);
     }
@@ -72,8 +73,7 @@ public class MasterWalletManager {
      * @param backupPassWord
      * @param keystorePath
      */
-    public String ExportWalletWithKeystore(IMasterWallet masterWallet, String backupPassWord, String payPassword)
-    {
+    public String ExportWalletWithKeystore(IMasterWallet masterWallet, String backupPassWord, String payPassword) throws WalletException {
         return nativeExportWalletWithKeystore(mManagerProxy, masterWallet, backupPassWord, payPassword);
     }
 
@@ -83,8 +83,7 @@ public class MasterWalletManager {
      * @param backupPassWord
      * @return
      */
-    public String ExportWalletWithMnemonic(IMasterWallet masterWallet,String backupPassWord)
-    {
+    public String ExportWalletWithMnemonic(IMasterWallet masterWallet,String backupPassWord) throws WalletException {
         return nativeExportWalletWithMnemonic(mManagerProxy, masterWallet, backupPassWord);
     }
 
@@ -93,8 +92,7 @@ public class MasterWalletManager {
         mManagerProxy = nativeInitMasterWalletManager(mRootPath);
     }
 
-    public String GenerateMnemonic(String language)
-    {
+    public String GenerateMnemonic(String language) throws WalletException {
         return nativeGenerateMnemonic(mManagerProxy, language);
     }
 
