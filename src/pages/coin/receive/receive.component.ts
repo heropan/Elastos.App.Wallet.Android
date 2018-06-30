@@ -20,9 +20,9 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
     this.chinaId = this.getNavParams().get("chianId");
     this.createAddress();
     this.setHeadDisPlay({left:true,title:true,right:true});
-    this.setRightIcon('./assets/images/icon/icon-s.svg', () => {
-      Logger.info('分享');
-    });
+    // this.setRightIcon('./assets/images/icon/icon-s.svg', () => {
+    //   Logger.info('分享');
+    // });
   }
 
   onChange(){
