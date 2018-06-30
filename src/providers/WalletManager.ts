@@ -160,7 +160,7 @@ export class WalletManager {
   }
 
   registerWalletListener(chainId:string,Fun) {
-    this.wallet.addCallback([chainId], Fun, this.errorFun);
+    this.wallet.registerWalletListener([chainId], Fun, this.errorFun);
   }
 
 

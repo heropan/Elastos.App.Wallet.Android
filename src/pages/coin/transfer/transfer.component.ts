@@ -132,18 +132,29 @@ export class TransferComponent extends BaseComponent implements OnInit {
   }
 
   sendRawTransaction(){
+    if (!Util.password(this.transfer.payPassword)) {
+      this.toast("text-pwd-validator");
+      return;
+    }
     this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
-      // alert("===========sendRawTransaction " + JSON.stringify(data));
-      if(this.isNull(this.type)){
-        this.toast('send-raw-transaction');
-        this.Go(TabsComponent);
-      }else if(this.type === "kyc"){
-
-           if(this.selectType === "company"){
-                this.company();
-           }else if(this.selectType === "person"){
-                this.person();
-           }
+      alert("===========sendRawTransaction " + JSON.stringify(data['ERRORCODE']));
+      if (data['ERRORCODE'] != undefined) {
+        this.walletManager.registerWalletListener(this.chianId, (data) => {
+          alert("registerWalletListener=====" + JSON.stringify(data));
+          this.Go(TabsComponent);
+        });
+        if(this.isNull(this.type)){
+          this.toast('send-raw-transaction');
+          this.Go(TabsComponent);
+        }else if(this.type === "kyc"){
+             if(this.selectType === "company"){
+                  this.company();
+             }else if(this.selectType === "person"){
+                  this.person();
+             }
+        }
+      } else {
+        this.toast('text-password-error');
       }
     });
   }
