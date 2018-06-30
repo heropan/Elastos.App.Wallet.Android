@@ -31,7 +31,7 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
       this.transactionRecord = {
         name: chainId,
         status: summary["Status"],
-        balance: summary["Amount"],
+        balance: summary["Amount"]/Config.SELA,
         txId: txId,
         receiveAddress: summary["ToAddress"],
         transactionTime: datetime,

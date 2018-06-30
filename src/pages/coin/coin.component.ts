@@ -44,10 +44,8 @@ export class CoinComponent extends BaseComponent implements OnInit {
       this.coinCount = data.balance/Config.SELA;
     });
     this.walletManager.getAllTransaction(this.coinName, this.start, '', (data) => {
-      alert("getAllTransaction" + JSON.stringify(data));      
       let allTransaction = data['allTransaction'];
       let transactions = JSON.parse(allTransaction)['Transactions'];
-
       alert("getAllTransaction" + JSON.stringify(transactions));
       for (let key in transactions) {
         let transaction = transactions[key];
@@ -55,17 +53,17 @@ export class CoinComponent extends BaseComponent implements OnInit {
         let datetime = Util.dateFormat(new Date(timestamp));
         let txId = transaction['TxHash'];
         let summary = transaction['Summary'];
+        alert("getAllTransaction" + JSON.stringify(summary));
         let transfer = {
           "name": this.coinName,
           "status": summary["Status"],
-          "balance": summary["Amount"],
+          "balance": summary["Amount"]/Config.SELA,
           "datetime": datetime,
           "txId": txId
         }
         this.transferList.push(transfer);
       }
     });
-    // this.transferList = [{"name": "ELA", "status": "complete", "balance": 0, "datetime": 1234567890}];
   }
 
   onItem(item) {
