@@ -208,6 +208,11 @@ walletFunc.prototype.createDepositTransaction = function(arg0, sucess, error) {
     exec(sucess, error, "Wallet", "createDepositTransaction", arg0);
 };
 
+walletFunc.prototype.didGenerateProgram = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "didGenerateProgram", arg0);
+};
+
+
 
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;

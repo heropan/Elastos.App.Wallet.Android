@@ -137,11 +137,13 @@ export class TransferComponent extends BaseComponent implements OnInit {
       return;
     }
     this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
-      alert("===========sendRawTransaction " + JSON.stringify(data['ERRORCODE']));
+      // alert("===========sendRawTransaction " + JSON.stringify(data['ERRORCODE']));
       if (data['ERRORCODE'] == undefined) {
         this.walletManager.registerWalletListener(this.chianId, (data) => {
-          alert("registerWalletListener=====" + JSON.stringify(data));
-          this.Go(TabsComponent);
+          // alert("registerWalletListener=====" + JSON.stringify(data));
+          this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
+            // alert("ionicAlert=====" + JSON.stringify(data));
+          });
         });
         if(this.isNull(this.type)){
           this.toast('send-raw-transaction');
