@@ -244,8 +244,8 @@ public class Wallet extends CordovaPlugin {
     //CreateSubWallet(String chainID, String payPassword, boolean singleAddress, long feePerKb)
     public void createSubWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
         try {
-            ISubWallet subWallet = mCurrentMasterWallet.CreateSubWallet(args.getString(0), args.getString(1), args.getBoolean(2), args.getLong(3));
             Log.i("JS-Wallet", "createSubWallet==============1, id="+args.getString(0));
+            ISubWallet subWallet = mCurrentMasterWallet.CreateSubWallet(args.getString(0), args.getString(1), args.getBoolean(2), args.getLong(3));
             if (subWallet != null) {
                 mSubWalletMap.put(args.getString(0), subWallet);
                 callbackContext.success(args.getString(0));
