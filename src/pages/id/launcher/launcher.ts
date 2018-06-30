@@ -16,11 +16,19 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
   onNext(type){
     switch (type){
       case 0:
-      this.Go(IdCreateComponent);
+      //this.Go(IdCreateComponent);
+        this.createId();
         break;
       case 1:
         this.Go(IdImportComponent);
         break;
     }
+  }
+
+  createId(){
+    alert("11111111");
+    this.walletManager.createDID("s12345678",(result)=>{
+          this.Go(IdHomeComponent);
+    })
   }
 }
