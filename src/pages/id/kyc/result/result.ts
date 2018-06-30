@@ -15,6 +15,11 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     "legalPerson":"张三",
     "registrationNum":"91311117011111111K",
   }
+  message:string="1234555555555";
+  passworld:string="s12345678";
+  programJson:string;
+  fromAddress:string;
+  fee:number;
   ngOnInit(){
     this.setTitleByAssets('text-kyc-result');
 
@@ -33,5 +38,53 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
 
     });
   }
+
+  didGenerateProgram(){
+    this.walletManager.didGenerateProgram(this.message,this.passworld,(result)=>{
+                   alert("====11111===="+JSON.stringify(result));
+                   this.programJson  = result.value;
+                   alert("====2222===="+JSON.stringify(this.programJson));
+    });
+  }
+
+  createfromAddress(){
+
+    this.walletManager.createAddress("ELA",(result)=>{
+              this.fromAddress = result.address;
+              this.cauFee();
+    });
+  }
+
+  cauFee(){
+     this.walletManager.createIdTransaction("IDChain",this.fromAddress,"",0,this.message,this.programJson,0,"","",(result)=>{
+             alert("sssssssssss11=="+JSON.stringify(result));
+             let rawTransaction = result['transactionId'].toString();
+             alert(rawTransaction);
+             this.calculateTransactionFee(rawTransaction);
+     });
+  }
+
+  calculateTransactionFee(rawTransaction){
+     this.walletManager.calculateTransactionFee("ELA", rawTransaction,10000, (data) => {
+      this.fee = data['fee'];
+     });
+  }
+
+
+  createDepositTransaction(){
+      this.walletManager.createDepositTransaction("IdChina","","11111",this.fee,this.fromAddress,"qq","1",0.1,"","",(result)=>{
+
+      });
+  }
+
+
+
+
+
+
+
+
+
+
 
 }
