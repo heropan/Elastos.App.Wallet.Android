@@ -34,12 +34,14 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
   }
 
   onCommit(){
-    this.popupProvider.ionicConfirm('confirmTitle', 'confirmSubTitle').then(() => {
+    // this.popupProvider.ionicConfirm('confirmTitle', 'confirmSubTitle').then(() => {
 
-    });
+    // });
+    this.didGenerateProgram();
   }
 
   didGenerateProgram(){
+    alert("11111111");
     this.walletManager.didGenerateProgram(this.message,this.passworld,(result)=>{
                    alert("====11111===="+JSON.stringify(result));
                    this.programJson  = result.value;
@@ -49,8 +51,10 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
 
   createfromAddress(){
 
-    this.walletManager.createAddress("ELA",(result)=>{
+    this.walletManager.createAddress("IDChain",(result)=>{
+              alert(JSON.stringify(result));
               this.fromAddress = result.address;
+              alert("this.fromAddress====="+this.fromAddress);
               this.cauFee();
     });
   }
@@ -72,7 +76,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
 
 
   createDepositTransaction(){
-      this.walletManager.createDepositTransaction("IdChina","","11111",this.fee,this.fromAddress,"qq","1",0.1,"","",(result)=>{
+      this.walletManager.createDepositTransaction("IDChain","","11111",this.fee,this.fromAddress,"qq","1",0.1,"","",(result)=>{
 
       });
   }
