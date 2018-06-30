@@ -138,7 +138,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
     }
     this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
       alert("===========sendRawTransaction " + JSON.stringify(data['ERRORCODE']));
-      if (data['ERRORCODE'] != undefined) {
+      if (data['ERRORCODE'] == undefined) {
         this.walletManager.registerWalletListener(this.chianId, (data) => {
           alert("registerWalletListener=====" + JSON.stringify(data));
           this.Go(TabsComponent);
