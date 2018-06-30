@@ -57,6 +57,7 @@ export class CoinComponent extends BaseComponent implements OnInit {
         let transfer = {
           "name": this.coinName,
           "status": summary["Status"],
+          "type": summary["Type"],
           "balance": summary["Amount"]/Config.SELA,
           "datetime": datetime,
           "txId": txId

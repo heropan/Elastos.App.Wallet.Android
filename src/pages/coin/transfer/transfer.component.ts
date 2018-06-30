@@ -40,7 +40,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.setTitleByAssets('text-transfer');
     let transferObj =this.getNavParams().data;
-    alert(JSON.stringify(transferObj));
+    // alert(JSON.stringify(transferObj));
     this.chianId = transferObj["chianId"];
     this.transfer.toAddress = transferObj["addr"] || "";
     this.transfer.amount = transferObj["money"] || "";
@@ -174,7 +174,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
     params["timestamp"] = timestamp;
     let checksum = IDManager.getCheckSum(params,"asc");
     params["checksum"] = checksum;
-    alert("============"+JSON.stringify(params));
+    // alert("============"+JSON.stringify(params));
     this.getHttp().postByAuth(ApiUrl.AUTH,params).toPromise().then(data => {
          this.Go(IdResultComponent,{'status':'0'});
     }).catch(error => {
