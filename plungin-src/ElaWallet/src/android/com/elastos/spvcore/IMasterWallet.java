@@ -2,6 +2,7 @@
 package com.elastos.spvcore;
 
 import java.util.ArrayList;
+import android.util.Log;
 
 /**
  * IMasterWallet
@@ -28,6 +29,12 @@ public class IMasterWallet {
     }
 
     public ISubWallet CreateSubWallet(String chainID, String payPassword, boolean singleAddress, long feePerKb) throws WalletException {
+        Log.i("JS-Wallet-MasterWallet", "CreateSubWallet==1============chainID="+chainID+", payPassword="+payPassword);
+        Log.i("JS-Wallet-MasterWallet", "CreateSubWallet==2============MAIN="+CHAINID.MAIN+", DID="+ID);
+        if (chainID == CHAINID.MAIN || chainID == CHAINID.ID) {
+            throw new WalletException("Not support the other sidechain now.");
+        }
+
         long subProxy = nativeCreateSubWallet(mMasterProxy, chainID, payPassword, singleAddress, feePerKb);
         if (chainID == CHAINID.MAIN) {
             return new IMainchainSubWallet(subProxy);
@@ -36,7 +43,7 @@ public class IMasterWallet {
             return new IIdChainSubWallet(subProxy);
         }
 
-        throw new WalletException("Not support the other sidechain now.");
+        throw new WalletException("Not support the other sidechain now..");
         // return new ISubWallet(subProxy);
     }
 
