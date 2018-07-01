@@ -8,7 +8,7 @@ import { Config } from '../../../providers/Config';
 import {ApiUrl} from "../../../providers/ApiUrl"
 @Component({
   selector: 'app-transfer',
-  templateUrl: './recharge.component.html'})
+  templateUrl: './withdraw.component.html'})
 export class WithdrawComponent extends BaseComponent implements OnInit {
 
   @ViewChild('subscribe') subPopup: PopupComponent;
