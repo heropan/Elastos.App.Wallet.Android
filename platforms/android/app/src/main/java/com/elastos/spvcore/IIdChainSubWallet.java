@@ -3,7 +3,7 @@ package com.elastos.spvcore;
 /**
  * IIdChainSubWallet jni
  */
-public class IIdChainSubWallet extends ISubWallet{
+public class IIdChainSubWallet extends ISidechainSubWallet{
     private long mIDchainProxy;
 
 

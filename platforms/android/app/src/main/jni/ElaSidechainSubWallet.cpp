@@ -25,9 +25,25 @@ static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject claz
     const char* remark = env->GetStringUTFChars(jremark, NULL);
 
     ISidechainSubWallet* wallet = (ISidechainSubWallet*)jSideSubWalletProxy;
-    nlohmann::json result = wallet->CreateWithdrawTransaction(fromAddress, toAddress, amount
+    nlohmann::json result;
+
+    try {
+        result = wallet->CreateWithdrawTransaction(fromAddress, toAddress, amount
                 , ToJosnFromString(mainchainAccounts), ToJosnFromString(mainchainAmounts)
                 , ToJosnFromString(mainchainIndexs), fee, memo, remark);
+    }
+    catch (std::invalid_argument& e) {
+        ThrowWalletException(env, e.what());
+    }
+    catch (std::logic_error& e) {
+        ThrowWalletException(env, e.what());
+    }
+    catch (std::runtime_error& e) {
+        ThrowWalletException(env, e.what());
+    }
+    catch (std::exception& e) {
+        ThrowWalletException(env, e.what());
+    }
 
     env->ReleaseStringUTFChars(jfromAddress, fromAddress);
     env->ReleaseStringUTFChars(jtoAddress, toAddress);
@@ -40,11 +56,37 @@ static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject claz
     return env->NewStringUTF(ToStringFromJson(result));
 }
 
+//"(J)Ljava/lang/String;"
+static jstring JNICALL nativeGetGenesisAddress(JNIEnv *env, jobject clazz, jlong jSideSubWalletProxy)
+{
+    ISidechainSubWallet* wallet = (ISidechainSubWallet*)jSideSubWalletProxy;
+    std::string address;
+
+    try {
+        address = wallet->GetGenesisAddress();
+    }
+    catch (std::invalid_argument& e) {
+        ThrowWalletException(env, e.what());
+    }
+    catch (std::logic_error& e) {
+        ThrowWalletException(env, e.what());
+    }
+    catch (std::runtime_error& e) {
+        ThrowWalletException(env, e.what());
+    }
+    catch (std::exception& e) {
+        ThrowWalletException(env, e.what());
+    }
+
+    return env->NewStringUTF(address.c_str());
+}
+
 
 static const JNINativeMethod gMethods[] = {
     {"nativeCreateWithdrawTransaction",
     "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
             , (void*)nativeCreateWithdrawTransaction},
+    {"nativeGetGenesisAddress", "(J)Ljava/lang/String;", (void*)nativeGetGenesisAddress},
 };
 
 jint register_elastos_spv_ISidechainSubWallet(JNIEnv *env)
