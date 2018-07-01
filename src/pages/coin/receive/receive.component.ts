@@ -19,7 +19,7 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
     this.setTitleByAssets('text-receive');
     this.chinaId = this.getNavParams().get("chianId");
     this.createAddress();
-    this.setHeadDisPlay({left:true,title:true,right:true});
+    this.setHeadDisPlay({left:true,title:true,right:false});
     // this.setRightIcon('./assets/images/icon/icon-s.svg', () => {
     //   Logger.info('分享');
     // });
