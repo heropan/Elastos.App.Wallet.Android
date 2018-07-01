@@ -2,7 +2,7 @@
 
 <div class="recordinfo-top">
   <img src="./assets/images/tx-state/icon-tx-moved.svg"/>
-  <p>{{'transaction-ok'| translate }}</p>
+  <p>{{transactionRecord.status | translate}}</p>
 </div>
 
 
@@ -10,7 +10,7 @@
   <div class="weui-form-preview__hd">
     <div class="weui-form-preview__item" >
       <label class="weui-form-preview__label" style="line-height: 40px">{{'transaction-price' | translate}}</label>
-      <em class="weui-form-preview__value">{{transactionRecord.balance}} {{transactionRecord.name}}</em>
+      <em class="weui-form-preview__value">{{transactionRecord.type == 'Outcoming' ? '-' : '+'}} {{transactionRecord.balance}} {{transactionRecord.name}}</em>
     </div>
   </div>
   <div class="weui-form-preview__bd">

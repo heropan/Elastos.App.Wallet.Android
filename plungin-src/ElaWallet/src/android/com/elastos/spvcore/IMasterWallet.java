@@ -2,11 +2,17 @@
 package com.elastos.spvcore;
 
 import java.util.ArrayList;
+import android.util.Log;
 
 /**
  * IMasterWallet
  */
 public class IMasterWallet {
+    static public class CHAINID {
+        public static String MAIN = "ELA";
+        public static String ID = "IdChain";
+    }
+
     private long mMasterProxy;
 
     public String GetId() {
@@ -22,12 +28,26 @@ public class IMasterWallet {
         return list;
     }
 
-    public ISubWallet CreateSubWallet(String chainID, String payPassword, boolean singleAddress, long feePerKb) {
+    public ISubWallet CreateSubWallet(String chainID, String payPassword, boolean singleAddress, long feePerKb) throws WalletException {
+        Log.i("JS-Wallet-MasterWallet", "CreateSubWallet==1============chainID="+chainID+", payPassword="+payPassword);
+        Log.i("JS-Wallet-MasterWallet", "CreateSubWallet==2============MAIN="+CHAINID.MAIN+", DID="+CHAINID.ID);
+        if (CHAINID.MAIN.equals(chainID) || CHAINID.ID.equals(chainID)) {
+            throw new WalletException("Not support the other sidechain now.");
+        }
+
         long subProxy = nativeCreateSubWallet(mMasterProxy, chainID, payPassword, singleAddress, feePerKb);
-        return new ISubWallet(subProxy);
+        if (CHAINID.MAIN.equals(chainID)) {
+            return new IMainchainSubWallet(subProxy);
+        }
+        else if (CHAINID.ID.equals(chainID)) {
+            return new IIdChainSubWallet(subProxy);
+        }
+
+        throw new WalletException("Not support the other sidechain now..");
+        // return new ISubWallet(subProxy);
     }
 
-    public ISubWallet RecoverSubWallet(String chainID, String payPassword, boolean singleAddress, int limitGap, long feePerKb) {
+    public ISubWallet RecoverSubWallet(String chainID, String payPassword, boolean singleAddress, int limitGap, long feePerKb) throws WalletException {
         long subProxy = nativeRecoverSubWallet(mMasterProxy, chainID, payPassword, singleAddress, limitGap, feePerKb);
         return new ISubWallet(subProxy);
     }
@@ -42,18 +62,11 @@ public class IMasterWallet {
         return nativeGetPublicKey(mMasterProxy);
     }
 
-    public String GenerateMnemonic()
-    {
-        return nativeGenerateMnemonic(mMasterProxy);
-    }
-
-    public String Sign(String message, String payPassword)
-    {
+    public String Sign(String message, String payPassword) throws WalletException {
         return nativeSign(mMasterProxy, message, payPassword);
     }
 
-    public String CheckSign(String publicKey, String message, String signature)
-    {
+    public String CheckSign(String publicKey, String message, String signature) throws WalletException {
         return nativeCheckSign(mMasterProxy, publicKey, message, signature);
     }
 
@@ -73,7 +86,7 @@ public class IMasterWallet {
         return mMasterProxy;
     }
 
-    public void ChangePassword(String oldPassword, String newPassword) {
+    public void ChangePassword(String oldPassword, String newPassword) throws WalletException {
         nativeChangePassword(mMasterProxy, oldPassword, newPassword);
     }
 
@@ -90,7 +103,6 @@ public class IMasterWallet {
     private native String nativeSign(long masterProxy, String message, String payPassword);
     private native String nativeCheckSign(long masterProxy, String publicKey, String message, String signature);
     private native boolean nativeIsAddressValid(long masterProxy, String address);
-    private native String nativeGenerateMnemonic(long masterProxy);
     private native String[] nativeGetSupportedChains(long masterProxy);
     private native void nativeChangePassword(long proxy, String oldPassword, String newPassword);
     private native void nativeResetAddressCache(long proxy, String payPassword);

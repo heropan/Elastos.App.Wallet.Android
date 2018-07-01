@@ -40,7 +40,6 @@ export class CoinListComponent extends BaseComponent implements OnInit {
     });
     this.localStorage.get('coinListCache').then((val)=>{
       this.walletManager.getSupportedChains((allChains) => {
-        // let allChains = ['ELA', 'aaa']
         for (var chain in allChains) {
           let isOpen = false;
           let coinListCache = JSON.parse(val);
