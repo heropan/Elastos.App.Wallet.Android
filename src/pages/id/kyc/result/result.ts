@@ -1,6 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import {BaseComponent} from "../../../../app/BaseComponent";
 import {IdHomeComponent} from "../../../../pages/id/home/home";
+import {IDManager} from "../../../../providers/IDManager";
 //{notary:"COOIX"}
 
 @Component({
@@ -84,6 +85,31 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
 
       });
   }
+
+
+  caulmessage(){
+
+     //kyc 内容
+     let kycContent={ "word":"xxx公司",
+                      "legalPerson":"张三",
+                      "registrationNum":"91311117011111111K"
+                    };
+     //kyc 结果
+     let authSign = {
+                     signature: "26d72d2ca4a8da5ab8a58d1330fc6bb9cd5ab966789fe9d945afe355974da02d00da42310fd1f099f5192db9b0a6838254f62ffd1c0a6f2245d4f7b5f881f6fc",
+                     notary:"COOIX"
+                    }
+
+     let authDataHash = IDManager.hash(JSON.stringify(kycContent)+JSON.stringify(authSign));
+
+     let kycChainDataHash = IDManager.hash(authDataHash+JSON.stringify(authSign));
+
+     let singObj = {ID:"sdfghjjk",Path:"1",Proof:authSign,datahash:kycChainDataHash};
+
+     this.walletManager.didSign(this.did,JSON.stringify(singObj),this.passworld,(result)=>{
+               this.message = {ID:this.did,Path:"1",Proof:authSign,datahash:kycChainDataHash,sign:result.value};
+     });
+ }
 
 
 
