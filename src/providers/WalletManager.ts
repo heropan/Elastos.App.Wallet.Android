@@ -286,7 +286,7 @@ export class WalletManager {
 
   createDepositTransaction(chainId:string,fromAddress:string,toAddress:string,amount:number
                            ,sidechainAccounts:string,sidechainAmounts:string,sidechainIndex:string,fee:number,memo:string,remark:string,Fun){
-    this.wallet.createIdTransaction([chainId,fromAddress,toAddress,amount,sidechainAccounts,sidechainAmounts,sidechainIndex,fee,memo,remark],Fun,this.errorFun);
+    this.wallet.createDepositTransaction([chainId,fromAddress,toAddress,amount,sidechainAccounts,sidechainAmounts,sidechainIndex,fee,memo,remark],Fun,this.errorFun);
   }
 
   didGenerateProgram(did:string,message:string,password:string,Fun){
