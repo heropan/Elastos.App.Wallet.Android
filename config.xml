@@ -94,4 +94,5 @@
     <plugin name="cordova-clipboard" spec="^1.2.1" />
     <engine name="android" spec="^7.0.0" />
     <plugin name="ElaWallet" spec="ElaWallet" />
+    <plugin name="ElaJava2JSBridge" spec="ElaJava2JSBridge" />
 </widget>
