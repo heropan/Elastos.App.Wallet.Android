@@ -1,7 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import {BaseComponent} from "../../../../app/BaseComponent";
 import {IdHomeComponent} from "../../../../pages/id/home/home";
-
+//{notary:"COOIX"}
 
 @Component({
   selector: 'app-kyc-result',
@@ -15,6 +15,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     "legalPerson":"张三",
     "registrationNum":"91311117011111111K",
   }
+
   message:any={ID:"12233333",Path:"1",Proof:"123444",datahash:"1111111",sing:"11111111"};
   passworld:string="s12345678";
   programJson:string;
@@ -54,7 +55,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
   }
 
   createfromAddress(){
-    this.walletManager.createAddress("IDChain",(result)=>{
+    this.walletManager.createAddress("IdChain",(result)=>{
               alert(JSON.stringify(result));
               this.fromAddress = result.address;
               alert("this.fromAddress====="+this.fromAddress);
@@ -63,7 +64,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
   }
 
   cauFee(){
-     this.walletManager.createIdTransaction("IDChain",this.fromAddress,"",0,this.message,this.programJson,0,"","",(result)=>{
+     this.walletManager.createIdTransaction("IdChain",this.fromAddress,"",0,this.message,this.programJson,0,"","",(result)=>{
              alert("sssssssssss11=="+JSON.stringify(result));
              let rawTransaction = result['transactionId'].toString();
              alert(rawTransaction);
@@ -72,7 +73,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
   }
 
   calculateTransactionFee(rawTransaction){
-     this.walletManager.calculateTransactionFee("IDChain", rawTransaction,10000, (data) => {
+     this.walletManager.calculateTransactionFee("IdChain", rawTransaction,10000, (data) => {
       this.fee = data['fee'];
      });
   }
