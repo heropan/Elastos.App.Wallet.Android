@@ -35,7 +35,7 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
         txId: txId,
         receiveAddress: summary["ToAddress"],
         transactionTime: datetime,
-        payfees: transaction['Fee'],
+        payfees: summary['Fee'],
         confirmCount: summary["ConfirmStatus"],
         remark: summary["Remark"],
         type: summary["Type"]
