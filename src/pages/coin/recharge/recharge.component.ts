@@ -118,13 +118,12 @@ export class RechargeComponent extends BaseComponent implements OnInit {
       this.transfer.remark,
       (data)=>{
         this.rawTransaction = data['transactionId'].toString();
-        this.getFee();
       });
   }
 
-  getFee(){
-    this.walletManager.calculateTransactionFee(this.chianId, this.rawTransaction, this.feePerKb, (data) => {
-      this.transfer.fee = data['fee'];
+  getGenesisAddress(){
+    this.walletManager.getGenesisAddress(this.chianId, (data) => {
+      
     });
   }
 
