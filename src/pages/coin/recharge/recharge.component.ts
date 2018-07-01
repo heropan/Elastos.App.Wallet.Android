@@ -99,4 +99,45 @@ export class RechargeComponent extends BaseComponent implements OnInit {
   }
 
 
+  createTransaction(){
+    // alert(this.transfer.remark);
+    this.walletManager.createTransaction(this.chianId, "",
+      this.transfer.toAddress,
+      this.transfer.amount*Config.SELA,
+      this.transfer.fee,
+      this.transfer.memo,
+      this.transfer.remark,
+      (data)=>{
+        this.rawTransaction = data['transactionId'].toString();
+        this.getFee();
+      });
+  }
+
+  getFee(){
+    this.walletManager.calculateTransactionFee(this.chianId, this.rawTransaction, this.feePerKb, (data) => {
+      this.transfer.fee = data['fee'];
+    });
+  }
+
+  sendRawTransaction(){
+    if (!Util.password(this.transfer.payPassword)) {
+      this.toast("text-pwd-validator");
+      return;
+    }
+    this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
+      // alert("===========sendRawTransaction " + JSON.stringify(data['ERRORCODE']));
+      if (data['ERRORCODE'] == undefined) {
+        this.walletManager.registerWalletListener(this.chianId, (data) => {
+          // alert("registerWalletListener=====" + JSON.stringify(data));
+          if (data['confirms'] == 1) {
+            this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
+            });
+          }
+        });
+      } else {
+        this.toast('text-password-error');
+      }
+    });
+  }
+
 }
