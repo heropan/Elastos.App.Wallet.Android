@@ -37,7 +37,7 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
     this.setTitleByAssets('text-withdraw');
     let transferObj =this.getNavParams().data;
     this.chianId = transferObj["chianId"];
-    // this.initData();
+    this.initData();
 
     this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
       this.native.scan().then((q)=>{
@@ -51,11 +51,11 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
     this.subPopup.config = {cancel:'',confirm:'',backdrop:false,is_full:false};
   }
 
-  // initData(){
-  //   this.walletManager.getBalance(this.chianId, (data)=>{
-  //     this.balance = data.balance;
-  //   });
-  // }
+  initData(){
+    this.walletManager.getBalance(this.chianId, (data)=>{
+      this.balance = data.balance;
+    });
+  }
 
 
   onClick(type) {
@@ -70,7 +70,7 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
         this.subPopup.close();
         break;
       case 4:
-        // this.sendRawTransaction();
+        this.sendRawTransaction();
         break;
     }
   }
