@@ -4,6 +4,8 @@ import { Config } from '../../providers/Config';
 import { Util } from '../../providers/Util';
 import {RecordComponent} from "./record/record.component";
 import {TransferComponent} from "./transfer/transfer.component";
+import {RechargeComponent} from "./recharge/recharge.component";
+import {WithdrawComponent} from "./withdraw/withdraw.component";
 import {ReceiveComponent} from "./receive/receive.component";
 import {RecordinfoComponent} from "./recordinfo/recordinfo.component";
 
@@ -28,6 +30,8 @@ export class CoinComponent extends BaseComponent implements OnInit {
 
   count = Config.LIST_COUNT;
 
+  textShow = '';
+
 
   ngOnInit() {
     this.setLeftIcon("",()=>{
@@ -36,7 +40,12 @@ export class CoinComponent extends BaseComponent implements OnInit {
     });
     this.coinName = this.getNavParams().get("name");
     this.setTitle(this.coinName);
-    this.initData();
+    if (this.coinName == 'ELA') {
+      this.textShow = 'text-recharge';
+    }else{
+      this.textShow = 'text-withdraw';
+    }
+    // this.initData();
   }
 
   initData(){
@@ -80,7 +89,11 @@ export class CoinComponent extends BaseComponent implements OnInit {
         this.Go(TransferComponent, {id: this.coinId, chianId: this.coinName});
         break;
       case 3:
-        this.Go(RecordComponent, {id: this.coinId});
+        if (this.coinName == 'ELA') {
+          this.Go(RechargeComponent, {chianId: this.coinName});
+        }else{
+          this.Go(WithdrawComponent, {chianId: this.coinName});
+        }
         break;
     }
   }

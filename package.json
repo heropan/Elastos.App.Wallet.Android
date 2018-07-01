@@ -32,6 +32,7 @@
     "@ngx-translate/core": "^9.1.1",
     "@ngx-translate/http-loader": "^3.0.1",
     "@types/lodash": "^4.14.107",
+    "ElaJava2JSBridge": "file:plungin-src/ElaJava2JSBridge",
     "ElaWallet": "file:plungin-src/ElaWallet",
     "android-versions": "^1.3.0",
     "angular2-uuid": "^1.1.1",
@@ -85,7 +86,8 @@
       },
       "cordova-plugin-filechooser": {},
       "cordova-clipboard": {},
-      "ElaWallet": {}
+      "ElaWallet": {},
+      "ElaJava2JSBridge": {}
     },
     "platforms": [
       "android"

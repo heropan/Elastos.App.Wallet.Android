@@ -73,4 +73,7 @@
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="ShowSplashScreenSpinner" value="false" />
     <preference name="AutoHideSplashScreen" value="false" />
+    <feature name="Java2JSBridge">
+        <param name="android-package" value="ElaJava2JSBridge.Java2JSBridge" />
+    </feature>
 </widget>
