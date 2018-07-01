@@ -62,7 +62,7 @@ export class CoinListComponent extends BaseComponent implements OnInit {
   createSubWallet(chainId){
     // Sub Wallet IdChain
     this.walletManager.createSubWallet(chainId, this.payPassword, this.singleAddress, 0, (val)=>{
-      if (val['ERRORCODE'] != undefined) {
+      if (val['ERRORCODE'] == undefined) {
         if (!Util.password(this.payPassword)) {
           this.toast("text-pwd-validator");
           return;
@@ -71,6 +71,8 @@ export class CoinListComponent extends BaseComponent implements OnInit {
         coin["id"] = chainId;
         this.localStorage.add('coinListCache', coin);
         this.subPopup.hide();
+      }else{
+        this.toast("text-password-error");
       }
     });
   }
