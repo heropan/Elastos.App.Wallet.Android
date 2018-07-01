@@ -23,6 +23,13 @@ export class RechargeComponent extends BaseComponent implements OnInit {
     remark:'',
   };
 
+  sidechain: any = {
+    accounts: '',
+    amounts: '',
+    index: 0,
+  };
+
+
   balance = 0;
 
   chianId: string;
@@ -93,17 +100,19 @@ export class RechargeComponent extends BaseComponent implements OnInit {
       this.toast('error-amount');
       return;
     }
-    // this.createTransaction();
+    // this.createDepositTransaction();
     this.subPopup.show().subscribe((res: boolean) => {
     });
   }
 
 
-  createTransaction(){
-    // alert(this.transfer.remark);
-    this.walletManager.createTransaction(this.chianId, "",
+  createDepositTransaction(){
+    this.walletManager.createDepositTransaction(this.chianId, "",
       this.transfer.toAddress,
       this.transfer.amount*Config.SELA,
+      this.sidechain.accounts,
+      this.sidechain.amounts,
+      this.sidechain.index,
       this.transfer.fee,
       this.transfer.memo,
       this.transfer.remark,
