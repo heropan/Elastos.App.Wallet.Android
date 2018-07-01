@@ -49,7 +49,10 @@ static jstring JNICALL nativeCreateIdTransaction(JNIEnv *env, jobject clazz, jlo
     env->ReleaseStringUTFChars(jmemo, memo);
     env->ReleaseStringUTFChars(jremark, remark);
 
-    return env->NewStringUTF(ToStringFromJson(txidJson));
+    std::stringstream ss;
+    ss << txidJson;
+    LOGD("FUNC=[%s]===================LINE=[%d], keys=[%s]", __FUNCTION__, __LINE__, ss.str().c_str());
+    return stringTojstring(env, ss.str());
 }
 
 
