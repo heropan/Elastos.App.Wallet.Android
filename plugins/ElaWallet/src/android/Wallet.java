@@ -231,6 +231,12 @@ public class Wallet extends CordovaPlugin {
               case "registerIdListener":
                   this.registerIdListener(args, callbackContext);
                   return true;
+              case "createWithdrawTransaction":
+                  this.createWithdrawTransaction(args, callbackContext);
+                  return true;
+              case "getGenesisAddress":
+                  this.getGenesisAddress(args, callbackContext);
+                  return true;
           }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1059,6 +1065,72 @@ public class Wallet extends CordovaPlugin {
                 callbackContext.sendPluginResult(pluginResult);
             }
         });
+    }
+
+    // SidechainSubWallet
+
+    // String CreateWithdrawTransaction(String fromAddress, String toAddress, long amount, String mainchainAccounts,
+    //             String mainchainAmounts, String mainchainIndexs, long fee, String memo, String remark)
+    public void createWithdrawTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        //The first parameter is [chainID]
+        Log.i("JS-Wallet", "createWithdrawTransaction==================1, id="+args.getString(0));
+        if (!IMasterWallet.CHAINID.ID.equals(args.getString(0))) {
+            callbackContext.success(parseOneParam(ERRORCODE, "The chainID must be IdChain."));
+            return;
+        }
+
+        IIdChainSubWallet subWallet = (IIdChainSubWallet)mSubWalletMap.get(args.getString(0));
+        if (subWallet == null) {
+            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            return;
+        }
+
+        String json = null;
+        try {
+            json = subWallet.CreateWithdrawTransaction(args.getString(1), args.getString(2), args.getLong(3),
+                     args.getString(4), args.getString(5), args.getString(6)
+                     , args.getLong(7), args.getString(8), args.getString(9));
+            if (json != null) {
+                callbackContext.success(parseOneParam("json", json));
+            }
+            else {
+                callbackContext.error("CreateWithdrawTransaction failed.");
+            }
+        }
+        catch (WalletException e) {
+            e.printStackTrace();
+            callbackContext.success(parseOneParam(ERRORCODE, e.GetErrorInfo()));
+        }
+    }
+
+    public void getGenesisAddress(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        //The first parameter is [chainID]
+        Log.i("JS-Wallet", "getGenesisAddress==================1, id="+args.getString(0));
+        if (!IMasterWallet.CHAINID.ID.equals(args.getString(0))) {
+            callbackContext.success(parseOneParam(ERRORCODE, "The chainID must be IdChain."));
+            return;
+        }
+
+        IIdChainSubWallet subWallet = (IIdChainSubWallet)mSubWalletMap.get(args.getString(0));
+        if (subWallet == null) {
+            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            return;
+        }
+
+        String address = null;
+        try {
+            address = subWallet.GetGenesisAddress();
+            if (address != null) {
+                callbackContext.success(parseOneParam("address", address));
+            }
+            else {
+                callbackContext.error("GetGenesisAddress failed.");
+            }
+        }
+        catch (WalletException e) {
+            e.printStackTrace();
+            callbackContext.success(parseOneParam(ERRORCODE, e.GetErrorInfo()));
+        }
     }
 
     @Override
