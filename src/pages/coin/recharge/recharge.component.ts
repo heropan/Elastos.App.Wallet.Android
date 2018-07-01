@@ -59,7 +59,7 @@ export class RechargeComponent extends BaseComponent implements OnInit {
   }
 
   initData(){
-    this.walletManager.getBalance(this.chianId, (data)=>{
+    this.walletManager.getBalance('ELA', (data)=>{
       this.balance = data.balance;
     });
   }
