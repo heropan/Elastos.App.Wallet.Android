@@ -4,7 +4,6 @@ package-lock.json
 www/build
 platforms/android/.gradle/
 .idea/
-plugins/ElaWallet/
 platforms/android/CordovaLib/build/
 platforms/android/app/.externalNativeBuild/
 platforms/android/app/build/
