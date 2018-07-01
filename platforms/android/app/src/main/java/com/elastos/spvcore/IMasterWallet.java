@@ -2,7 +2,6 @@
 package com.elastos.spvcore;
 
 import java.util.ArrayList;
-import android.util.Log;
 
 /**
  * IMasterWallet
