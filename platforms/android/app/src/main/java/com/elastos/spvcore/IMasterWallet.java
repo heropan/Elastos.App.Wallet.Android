@@ -30,7 +30,7 @@ public class IMasterWallet {
 
     public ISubWallet CreateSubWallet(String chainID, String payPassword, boolean singleAddress, long feePerKb) throws WalletException {
         Log.i("JS-Wallet-MasterWallet", "CreateSubWallet==1============chainID="+chainID+", payPassword="+payPassword);
-        Log.i("JS-Wallet-MasterWallet", "CreateSubWallet==2============MAIN="+CHAINID.MAIN+", DID="+ID);
+        Log.i("JS-Wallet-MasterWallet", "CreateSubWallet==2============MAIN="+CHAINID.MAIN+", DID="+CHAINID.ID);
         if (chainID == CHAINID.MAIN || chainID == CHAINID.ID) {
             throw new WalletException("Not support the other sidechain now.");
         }
