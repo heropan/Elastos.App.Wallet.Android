@@ -18,6 +18,7 @@ const char* ToStringFromJson(const nlohmann::json& jsonValue)
     ss << jsonValue;
 
     const char* value = ss.str().c_str();
+    LOGD("Func=[%s]===Line=[%d], value=%s", __FUNCTION__, __LINE__, value);
     if (!strcmp(value, "null")) {
         return NULL;
     }
@@ -247,10 +248,14 @@ static jstring JNICALL nativeGetAllTransaction(JNIEnv *env, jobject clazz, jlong
     const char* addressOrTxid = env->GetStringUTFChars(jaddressOrTxid, NULL);
 
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
+    LOGD("Func=[%s]===Line=[%d]", __FUNCTION__, __LINE__);
     nlohmann::json result = subWallet->GetAllTransaction(start, count, addressOrTxid);
 
+    LOGD("Func=[%s]===Line=[%d]", __FUNCTION__, __LINE__);
     env->ReleaseStringUTFChars(jaddressOrTxid, addressOrTxid);
-    return env->NewStringUTF(ToStringFromJson(result));
+    jstring value = env->NewStringUTF(result.dump().c_str());
+    LOGD("Func=[%s]===Line=[%d]", __FUNCTION__, __LINE__);
+    return value;
 }
 
 

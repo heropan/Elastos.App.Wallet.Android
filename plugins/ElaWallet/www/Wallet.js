@@ -208,6 +208,15 @@ walletFunc.prototype.createDepositTransaction = function(arg0, sucess, error) {
     exec(sucess, error, "Wallet", "createDepositTransaction", arg0);
 };
 
+walletFunc.prototype.createWithdrawTransaction = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "createWithdrawTransaction", arg0);
+};
+
+walletFunc.prototype.getGenesisAddress = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "getGenesisAddress", arg0);
+};
+
+
 walletFunc.prototype.didGenerateProgram = function(arg0, sucess, error) {
     exec(sucess, error, "Wallet", "didGenerateProgram", arg0);
 };
