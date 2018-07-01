@@ -34,7 +34,7 @@ export class RechargeComponent extends BaseComponent implements OnInit {
   SELA = Config.SELA;
 
   ngOnInit() {
-    this.setTitleByAssets('text-transfer');
+    this.setTitleByAssets('text-recharge');
     let transferObj =this.getNavParams().data;
     this.chianId = transferObj["chianId"];
     // this.initData();
@@ -48,7 +48,7 @@ export class RechargeComponent extends BaseComponent implements OnInit {
     });
 
     this.setHeadDisPlay({right: true});
-
+    this.subPopup.config = {cancel:'',confirm:'',backdrop:false,is_full:false};
   }
 
   // initData(){
@@ -58,45 +58,45 @@ export class RechargeComponent extends BaseComponent implements OnInit {
   // }
 
 
-  // onClick(type) {
-  //   switch (type) {
-  //     case 1:
-  //       this.Go(ContactListComponent);
-  //       break;
-  //     case 2:   // 转账
-  //       this.checkValue();
-  //       break;
-  //     case 3:
-  //       this.subPopup.close();
-  //       break;
-  //     case 4:
-  //       this.sendRawTransaction();
-  //       break;
-  //   }
+  onClick(type) {
+    switch (type) {
+      // case 1:
+      //   this.Go(ContactListComponent);
+      //   break;
+      case 2:   // 转账
+        this.checkValue();
+        break;
+      case 3:
+        this.subPopup.close();
+        break;
+      case 4:
+        // this.sendRawTransaction();
+        break;
+    }
+  }
 
-  // }
+  checkValue() {
+    if(Util.isNull(this.transfer.toAddress)){
+      this.toast('correct-address');
+      return;
+    }
+    if (!Util.isAddressValid(this.transfer.toAddress)) {
+      this.messageBox("contact-address-digits");
+      return;
+    }
+    if(Util.number(this.transfer.amount)){
+      this.toast('correct-amount');
+      return;
+    }
 
-  // checkValue() {
-  //   if(Util.isNull(this.transfer.toAddress)){
-  //     this.toast('correct-address');
-  //     return;
-  //   }
-  //   if (!Util.isAddressValid(this.transfer.toAddress)) {
-  //     this.messageBox("contact-address-digits");
-  //     return;
-  //   }
-  //   if(Util.number(this.transfer.amount)){
-  //     this.toast('correct-amount');
-  //     return;
-  //   }
+    if(this.transfer.amount > this.balance){
+      this.toast('error-amount');
+      return;
+    }
+    // this.createTransaction();
+    this.subPopup.show().subscribe((res: boolean) => {
+    });
+  }
 
-  //   if(this.transfer.amount > this.balance){
-  //     this.toast('error-amount');
-  //     return;
-  //   }
-  //   this.createTransaction();
-  //   this.subPopup.show().subscribe((res: boolean) => {
-  //   });
-  // }
 
 }
