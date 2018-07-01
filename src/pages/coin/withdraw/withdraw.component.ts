@@ -23,6 +23,13 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
     remark:'',
   };
 
+  mainchain: any = {
+    accounts: '',
+    amounts: '',
+    index: 0,
+  };
+
+
   balance = 0;
 
   chianId: string;
@@ -93,17 +100,19 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
       this.toast('error-amount');
       return;
     }
-    // this.createTransaction();
+    // this.createWithdrawTransaction();
     this.subPopup.show().subscribe((res: boolean) => {
     });
   }
 
 
-  createTransaction(){
-    // alert(this.transfer.remark);
-    this.walletManager.createTransaction(this.chianId, "",
+  createWithdrawTransaction(){
+    this.walletManager.createWithdrawTransaction(this.chianId, "",
       this.transfer.toAddress,
       this.transfer.amount*Config.SELA,
+      this.mainchain.accounts,
+      this.mainchain.amounts,
+      this.mainchain.index,
       this.transfer.fee,
       this.transfer.memo,
       this.transfer.remark,
