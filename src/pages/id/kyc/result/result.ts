@@ -2,6 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import {BaseComponent} from "../../../../app/BaseComponent";
 import {IdHomeComponent} from "../../../../pages/id/home/home";
 import {IDManager} from "../../../../providers/IDManager";
+import { Config } from '../../../../providers/Config';
 //{notary:"COOIX"}
 
 @Component({
@@ -24,7 +25,9 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
   fee:number;
   did:string;
   idObj:any={};
-  ngOnInit(){
+ depositTransaction:string;
+ depositTransactionFee:number;
+ ngOnInit(){
     this.setTitleByAssets('text-kyc-result');
     this.idObj = this.getNavParams().data;
     alert("====="+JSON.stringify(this.idObj));
@@ -65,7 +68,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
   }
 
   cauFee(){
-     this.walletManager.createIdTransaction("IdChain",this.fromAddress,"",0,this.message,this.programJson,0,"","",(result)=>{
+     this.walletManager.createIdTransaction("IdChain","",this.fromAddress,0,this.message,this.programJson,0,"","",(result)=>{
              alert("sssssssssss11=="+JSON.stringify(result));
              let rawTransaction = result['transactionId'].toString();
              alert(rawTransaction);
@@ -79,12 +82,6 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
      });
   }
 
-
-  createDepositTransaction(){
-      this.walletManager.createDepositTransaction("ELA","","11111",this.fee,this.fromAddress,"qq","1",0.1,"","",(result)=>{
-
-      });
-  }
 
 
   caulmessage(){
@@ -110,6 +107,39 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
                this.message = {ID:this.did,Path:"1",Proof:authSign,datahash:kycChainDataHash,sign:result.value};
      });
  }
+
+
+ sendRawTransaction(){
+    this.walletManager.sendRawTransaction("IdChain",this.programJson,this.fee,this.passworld,(result)=>{
+
+    })
+ }
+
+
+ //从主链转一批钱到测链
+
+createDepositTransaction(){
+  this.walletManager.createDepositTransaction("ELA","","XQd1DCi6H62NQdWZQhJCRnrPn7sF9CTjaU",this.fee,this.fromAddress,"qq",this.fee+"",20000,"","",(result)=>{
+            this.depositTransaction = result['transactionId'].toString();
+            //this.getDepositTransaction();
+  });
+}
+
+getDepositTransaction(){
+  this.walletManager.calculateTransactionFee("ELA",this.depositTransaction,10000, (data) => {
+    this.depositTransactionFee = data['fee'];
+  });
+}
+
+ sendDepositTransaction(){
+     this.walletManager.sendRawTransaction("ELA",this.depositTransaction,20000,this.passworld,(result)=>{
+
+     })
+ }
+
+
+
+
 
 
 
