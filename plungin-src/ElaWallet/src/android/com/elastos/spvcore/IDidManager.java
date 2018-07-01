@@ -24,12 +24,22 @@ public class IDidManager {
         return nativeGetDIDList(mDidManagerProxy);
     }
 
-    public void  DestoryDID(String didName) {
+    public void DestoryDID(String didName) {
         nativeDestoryDID(mDidManagerProxy, didName);
+    }
+
+    public boolean RegisterCallback(String id, IIdManagerCallback callback) {
+        return nativeRegisterCallback(mDidManagerProxy, id, callback);
+    }
+
+    public boolean UnregisterCallback(String id) {
+        return nativeUnregisterCallback(mDidManagerProxy, id);
     }
 
     private native long nativeCreateDID(long proxy, String password);
     private native long nativeGetDID(long proxy, String didName);
     private native String nativeGetDIDList(long proxy);
     private native void nativeDestoryDID(long proxy, String didName);
+    private native boolean nativeRegisterCallback(long proxy, String id, IIdManagerCallback callback);
+    private native boolean nativeUnregisterCallback(long proxy, String id);
 }
