@@ -78,13 +78,5 @@
     },
     "is_top_level": true,
     "variables": {}
-  },
-  "ElaJava2JSBridge": {
-    "source": {
-      "type": "local",
-      "path": "/Users/xuxinlai/blockchain/0701-bk/node_modules/ElaJava2JSBridge"
-    },
-    "is_top_level": true,
-    "variables": {}
   }
 }
