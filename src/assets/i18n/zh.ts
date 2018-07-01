@@ -104,6 +104,7 @@ export const zh = {
   'update-ok': '刷新成功',
   'Confirmed': '已完成',
   'Pending': '确认中',
+  'Unconfirmed': '未确认',
   'contact-name-notnull': '联系人姓名不能为空',
   'contact-address-notnull': '联系人地址不能为空',
   'contact-address-digits': '地址必须是34位',
