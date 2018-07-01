@@ -289,6 +289,15 @@ export class WalletManager {
     this.wallet.createDepositTransaction([chainId,fromAddress,toAddress,amount,sidechainAccounts,sidechainAmounts,sidechainIndex,fee,memo,remark],Fun,this.errorFun);
   }
 
+  createWithdrawTransaction(chainId:string,fromAddress:string,toAddress:string,amount:number
+                           ,mainchainAccounts:string,mainchainAmounts:string,mainchainIndexs:string,fee:number,memo:string,remark:string,Fun){
+    this.wallet.createWithdrawTransaction([chainId,fromAddress,toAddress,amount,mainchainAccounts,mainchainAmounts,mainchainIndexs,fee,memo,remark],Fun,this.errorFun);
+  }
+
+  getGenesisAddress(chainId:string,Fun){
+    this.wallet.getGenesisAddress([chainId],Fun,this.errorFun);
+  }
+
   didGenerateProgram(did:string,message:string,password:string,Fun){
       this.wallet.didGenerateProgram([did,message,password],Fun,this.errorFun);
   }
