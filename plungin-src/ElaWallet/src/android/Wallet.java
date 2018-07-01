@@ -736,7 +736,8 @@ public class Wallet extends CordovaPlugin {
     //String CreateIdTransaction(fromAddress, toAddress, long amount, payloadJson, programJson, long fee, memo, remark)
     public void createIdTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
         //The first parameter is [chainID]
-        if (args.getString(0) != IMasterWallet.CHAINID.ID) {
+        Log.i("JS-Wallet", "createIdTransaction==================1, id="+args.getString(0));
+        if (!IMasterWallet.CHAINID.ID.equals(args.getString(0))) {
             callbackContext.success(parseOneParam(ERRORCODE, "The chainID must be IdChain."));
             return;
         }
@@ -766,7 +767,8 @@ public class Wallet extends CordovaPlugin {
 
     public void createDepositTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
         //The first parameter is [chainID]
-        if (args.getString(0) != IMasterWallet.CHAINID.MAIN) {
+        Log.i("JS-Wallet", "createDepositTransaction==================1, id="+args.getString(0));
+        if (!IMasterWallet.CHAINID.MAIN.equals(args.getString(0))) {
             callbackContext.success(parseOneParam(ERRORCODE, "The chainID must be ELA."));
             return;
         }
