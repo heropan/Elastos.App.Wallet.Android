@@ -51,6 +51,7 @@ import {CoinComponent} from '../pages/coin/coin.component';
 import {RecordComponent} from '../pages/coin/record/record.component';
 import {TransferComponent} from '../pages/coin/transfer/transfer.component';
 import {ReceiveComponent} from '../pages/coin/receive/receive.component';
+import {RechargeComponent} from '../pages/coin/recharge/recharge.component';
 import {ContactListComponent} from '../pages/contacts/contact-list/contact-list.component';
 import {ContactCreateComponent} from '../pages/contacts/contact-create/contact-create.component';
 import {CoinListComponent} from '../pages/coin/coin-list/coin-list.component';
@@ -133,6 +134,7 @@ export function TranslateLoaderFactory() {
     RecordComponent,
     TransferComponent,
     ReceiveComponent,
+    RechargeComponent,
     ContactListComponent,
     ContactCreateComponent,
     CoinListComponent,
@@ -201,6 +203,7 @@ export function TranslateLoaderFactory() {
     RecordComponent,
     TransferComponent,
     ReceiveComponent,
+    RechargeComponent,
     ContactListComponent,
     ContactCreateComponent,
     CoinListComponent,
