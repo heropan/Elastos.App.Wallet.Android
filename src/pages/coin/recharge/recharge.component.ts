@@ -16,7 +16,7 @@ export class RechargeComponent extends BaseComponent implements OnInit {
 
   transfer: any = {
     toAddress: '',
-    amount: '',
+    amount: 0,
     memo: '',
     fee: 0,
     payPassword:'',
@@ -108,14 +108,13 @@ export class RechargeComponent extends BaseComponent implements OnInit {
 
 
   createDepositTransaction(){
-    this.sidechain.amounts = this.transfer.amount*Config.SELA*this.sidechain.rate;
     this.getGenesisAddress();
     this.walletManager.createDepositTransaction('ELA', "",
       this.transfer.toAddress, // genesisAddress
       this.transfer.amount*Config.SELA, // user input amount
       this.sidechain.accounts, // user input address
-      this.sidechain.amounts, // amount rate result
-      this.sidechain.index, // 0 sidechain
+      this.sidechain.amounts, // TODO default:0
+      this.sidechain.index, // TODO default:0
       this.transfer.fee,
       this.transfer.memo,
       this.transfer.remark,
