@@ -25,8 +25,9 @@ export class RechargeComponent extends BaseComponent implements OnInit {
 
   sidechain: any = {
     accounts: '',
-    amounts: '',
+    amounts: 0,
     index: 0,
+    rate: 1,
   };
 
 
@@ -44,11 +45,11 @@ export class RechargeComponent extends BaseComponent implements OnInit {
     this.setTitleByAssets('text-recharge');
     let transferObj =this.getNavParams().data;
     this.chianId = transferObj["chianId"];
-    // this.initData();
+    this.initData();
 
     this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
       this.native.scan().then((q)=>{
-        this.transfer.toAddress = q.text.split(":")[1];
+        this.sidechain.accounts = q.text.split(":")[1];
       }).catch(err=>{
           this.toast('error-address');
       });
@@ -58,11 +59,11 @@ export class RechargeComponent extends BaseComponent implements OnInit {
     this.subPopup.config = {cancel:'',confirm:'',backdrop:false,is_full:false};
   }
 
-  // initData(){
-  //   this.walletManager.getBalance(this.chianId, (data)=>{
-  //     this.balance = data.balance;
-  //   });
-  // }
+  initData(){
+    this.walletManager.getBalance('ELA', (data)=>{
+      this.balance = data.balance;
+    });
+  }
 
 
   onClick(type) {
@@ -77,17 +78,17 @@ export class RechargeComponent extends BaseComponent implements OnInit {
         this.subPopup.close();
         break;
       case 4:
-        // this.sendRawTransaction();
+        this.sendRawTransaction();
         break;
     }
   }
 
   checkValue() {
-    if(Util.isNull(this.transfer.toAddress)){
+    if(Util.isNull(this.sidechain.accounts)){
       this.toast('correct-address');
       return;
     }
-    if (!Util.isAddressValid(this.transfer.toAddress)) {
+    if (!Util.isAddressValid(this.sidechain.accounts)) {
       this.messageBox("contact-address-digits");
       return;
     }
@@ -100,26 +101,35 @@ export class RechargeComponent extends BaseComponent implements OnInit {
       this.toast('error-amount');
       return;
     }
-    // this.createDepositTransaction();
+    this.createDepositTransaction();
     this.subPopup.show().subscribe((res: boolean) => {
     });
   }
 
 
   createDepositTransaction(){
-    this.walletManager.createDepositTransaction(this.chianId, "",
-      this.transfer.toAddress,
-      this.transfer.amount*Config.SELA,
-      this.sidechain.accounts,
-      this.sidechain.amounts,
-      this.sidechain.index,
+    this.getGenesisAddress();
+    this.walletManager.createDepositTransaction('ELA', "",
+      this.transfer.toAddress, // genesisAddress
+      this.transfer.amount*Config.SELA, // user input amount
+      this.sidechain.accounts, // user input address
+      this.sidechain.amounts, // TODO default:0
+      this.sidechain.index, // TODO default:0
       this.transfer.fee,
       this.transfer.memo,
       this.transfer.remark,
       (data)=>{
+        alert(JSON.stringify(data));
         this.rawTransaction = data['transactionId'].toString();
+        alert("createDepositTransaction: "+JSON.stringify(data))
         this.getFee();
       });
+  }
+
+  getGenesisAddress(){
+    // this.walletManager.getGenesisAddress(this.chianId, (data) => {
+      this.transfer.toAddress = 'XQd1DCi6H62NQdWZQhJCRnrPn7sF9CTjaU';
+    // });
   }
 
   getFee(){
@@ -128,11 +138,19 @@ export class RechargeComponent extends BaseComponent implements OnInit {
     });
   }
 
+  // getRate(){
+  //   this.sidechain.rate = 1;
+  // }
+
   sendRawTransaction(){
     if (!Util.password(this.transfer.payPassword)) {
       this.toast("text-pwd-validator");
       return;
     }
+    alert("sendRawTransaction: "+this.chianId)
+    alert("sendRawTransaction: "+this.rawTransaction)
+    alert("sendRawTransaction: "+this.transfer.fee)
+    alert("sendRawTransaction: "+this.transfer.payPassword)
     this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
       // alert("===========sendRawTransaction " + JSON.stringify(data['ERRORCODE']));
       if (data['ERRORCODE'] == undefined) {

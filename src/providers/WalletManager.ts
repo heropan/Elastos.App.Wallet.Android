@@ -20,7 +20,7 @@ export class WalletManager {
   public static COINTYPE_ID = 1;
   public static LIMITGAP = 500;
   public static FEEPERKb = 500;
-  public static PAGECOUNT = 20;
+  public static PAGECOUNT = 100;
 
   constructor(public native: Native) {
     this.wallet = cordova.plugins.Wallet;

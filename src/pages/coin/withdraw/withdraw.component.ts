@@ -13,7 +13,6 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
 
   @ViewChild('subscribe') subPopup: PopupComponent;
 
-
   transfer: any = {
     toAddress: '',
     amount: '',
@@ -21,6 +20,13 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
     fee: 0,
     payPassword:'',
     remark:'',
+  };
+
+  mainchain: any = {
+    accounts: '',
+    amounts: 0,
+    index: 0,
+    rate: 1,
   };
 
   balance = 0;
@@ -37,11 +43,11 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
     this.setTitleByAssets('text-withdraw');
     let transferObj =this.getNavParams().data;
     this.chianId = transferObj["chianId"];
-    // this.initData();
+    this.initData();
 
     this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
       this.native.scan().then((q)=>{
-        this.transfer.toAddress = q.text.split(":")[1];
+        this.mainchain.accounts = q.text.split(":")[1];
       }).catch(err=>{
           this.toast('error-address');
       });
@@ -51,11 +57,11 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
     this.subPopup.config = {cancel:'',confirm:'',backdrop:false,is_full:false};
   }
 
-  // initData(){
-  //   this.walletManager.getBalance(this.chianId, (data)=>{
-  //     this.balance = data.balance;
-  //   });
-  // }
+  initData(){
+    this.walletManager.getBalance(this.chianId, (data)=>{
+      this.balance = data.balance;
+    });
+  }
 
 
   onClick(type) {
@@ -70,17 +76,17 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
         this.subPopup.close();
         break;
       case 4:
-        // this.sendRawTransaction();
+        this.sendRawTransaction();
         break;
     }
   }
 
   checkValue() {
-    if(Util.isNull(this.transfer.toAddress)){
+    if(Util.isNull(this.mainchain.accounts)){
       this.toast('correct-address');
       return;
     }
-    if (!Util.isAddressValid(this.transfer.toAddress)) {
+    if (!Util.isAddressValid(this.mainchain.accounts)) {
       this.messageBox("contact-address-digits");
       return;
     }
@@ -93,17 +99,19 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
       this.toast('error-amount');
       return;
     }
-    // this.createTransaction();
+    this.createWithdrawTransaction();
     this.subPopup.show().subscribe((res: boolean) => {
     });
   }
 
-
-  createTransaction(){
-    // alert(this.transfer.remark);
-    this.walletManager.createTransaction(this.chianId, "",
-      this.transfer.toAddress,
-      this.transfer.amount*Config.SELA,
+  createWithdrawTransaction(){
+    this.getDestroyAddress();
+    this.walletManager.createWithdrawTransaction(this.chianId, "",
+      this.transfer.toAddress, // 销毁地址 34*0 ''
+      this.transfer.amount*Config.SELA, // user input amount
+      this.mainchain.accounts, // user input address
+      this.mainchain.amounts, // TODO default:0
+      this.mainchain.index, // TODO default:0
       this.transfer.fee,
       this.transfer.memo,
       this.transfer.remark,
@@ -113,17 +121,31 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
       });
   }
 
+  getDestroyAddress(){
+    // this.walletManager.getGenesisAddress(this.chianId, (data) => {
+      this.transfer.toAddress = '';
+    // });
+  }
+
   getFee(){
     this.walletManager.calculateTransactionFee(this.chianId, this.rawTransaction, this.feePerKb, (data) => {
       this.transfer.fee = data['fee'];
     });
   }
 
+  // getRate(){
+  //   this.sidechain.rate = 1;
+  // }
+
   sendRawTransaction(){
     if (!Util.password(this.transfer.payPassword)) {
       this.toast("text-pwd-validator");
       return;
     }
+    alert("sendRawTransaction: "+this.chianId)
+    alert("sendRawTransaction: "+this.rawTransaction)
+    alert("sendRawTransaction: "+this.transfer.fee)
+    alert("sendRawTransaction: "+this.transfer.payPassword)
     this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
       // alert("===========sendRawTransaction " + JSON.stringify(data['ERRORCODE']));
       if (data['ERRORCODE'] == undefined) {
