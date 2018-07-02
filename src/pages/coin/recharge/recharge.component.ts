@@ -49,7 +49,7 @@ export class RechargeComponent extends BaseComponent implements OnInit {
 
     this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
       this.native.scan().then((q)=>{
-        this.transfer.toAddress = q.text.split(":")[1];
+        this.sidechain.accounts = q.text.split(":")[1];
       }).catch(err=>{
           this.toast('error-address');
       });
@@ -84,11 +84,11 @@ export class RechargeComponent extends BaseComponent implements OnInit {
   }
 
   checkValue() {
-    if(Util.isNull(this.transfer.toAddress)){
+    if(Util.isNull(this.sidechain.accounts)){
       this.toast('correct-address');
       return;
     }
-    if (!Util.isAddressValid(this.transfer.toAddress)) {
+    if (!Util.isAddressValid(this.sidechain.accounts)) {
       this.messageBox("contact-address-digits");
       return;
     }
