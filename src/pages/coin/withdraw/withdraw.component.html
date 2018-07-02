@@ -9,7 +9,7 @@
       <div class="weui-cell">
         <input class="weui-input" type="text" placeholder="{{ 'text-price' | translate}}" [(ngModel)]="transfer.amount" />
 
-        <span class="transfer-balance">{{'text-balance' | translate}}：{{balance/SELA}}</span>
+        <span class="transfer-balance">{{'text-balance' | translate}}：{{balance/SELA}}({{'text-rate' | translate}}：1:{{this.mainchain.rate}})</span>
     </div>
     <div class="weui-cell">
       <textarea class="weui-textarea" placeholder="{{ 'text-remark' | translate}}" rows="3" [(ngModel)]="transfer.remark"
@@ -37,6 +37,11 @@
     <div class="weui-cell">
 
       <p><span>{{'text-fees' | translate}}</span><span>{{transfer.fee/SELA}}</span></p>
+    </div>
+
+    <div class="weui-cell">
+
+      <p><span>{{'text-rate' | translate}}</span><span>1 : {{this.mainchain.rate}}</span></p>
     </div>
 
   </div>

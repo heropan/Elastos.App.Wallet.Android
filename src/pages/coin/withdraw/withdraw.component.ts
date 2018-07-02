@@ -142,6 +142,10 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
       this.toast("text-pwd-validator");
       return;
     }
+    alert("sendRawTransaction: "+this.chianId)
+    alert("sendRawTransaction: "+this.rawTransaction)
+    alert("sendRawTransaction: "+this.transfer.fee)
+    alert("sendRawTransaction: "+this.transfer.payPassword)
     this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
       // alert("===========sendRawTransaction " + JSON.stringify(data['ERRORCODE']));
       if (data['ERRORCODE'] == undefined) {

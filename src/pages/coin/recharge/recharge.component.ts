@@ -16,7 +16,7 @@ export class RechargeComponent extends BaseComponent implements OnInit {
 
   transfer: any = {
     toAddress: '',
-    amount: 0,
+    amount: '',
     memo: '',
     fee: 0,
     payPassword:'',
