@@ -18,7 +18,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     "registrationNum":"91311117011111111K",
   }
 
-  message:any={ID:"12233333",Path:"1",Proof:"123444",datahash:"1111111",sing:"11111111"};
+  message:any={Id:"12233333",Path:"1",Proof:"123444",DataHash:"1111111",Sign:"11111111"};
   passworld:string="s12345678";
   programJson:string;
   fromAddress:string;
@@ -63,7 +63,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
               alert(JSON.stringify(result));
               this.fromAddress = result.address;
               alert("this.fromAddress====="+this.fromAddress);
-              //this.cauFee();
+              this.cauFee();
     });
   }
 
@@ -101,10 +101,10 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
 
      let kycChainDataHash = IDManager.hash(authDataHash+JSON.stringify(authSign));
 
-     let singObj = {ID:"sdfghjjk",Path:"1",Proof:authSign,datahash:kycChainDataHash};
+     let singObj = {Id:"sdfghjjk",Path:"1",Proof:authSign,DataHash:kycChainDataHash};
 
      this.walletManager.didSign(this.did,JSON.stringify(singObj),this.passworld,(result)=>{
-               this.message = {ID:this.did,Path:"1",Proof:authSign,datahash:kycChainDataHash,sign:result.value};
+               this.message = {ID:this.did,Path:"1",Proof:authSign,DataHash:kycChainDataHash,Sign:result.value};
      });
  }
 

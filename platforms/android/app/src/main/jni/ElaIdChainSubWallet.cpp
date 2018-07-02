@@ -51,7 +51,7 @@ static jstring JNICALL nativeCreateIdTransaction(JNIEnv *env, jobject clazz, jlo
 
     std::stringstream ss;
     ss << txidJson;
-    LOGD("FUNC=[%s]===================LINE=[%d], keys=[%s]", __FUNCTION__, __LINE__, ss.str().c_str());
+    LOGD("FUNC=[%s]===================LINE=[%d], keys=[%s]", __FUNCTION__, __LINE__, txidJson.dump().c_str());
     return stringTojstring(env, ss.str());
 }
 
