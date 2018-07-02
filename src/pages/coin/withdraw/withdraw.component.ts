@@ -86,22 +86,27 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
       this.toast('correct-address');
       return;
     }
-    if (!Util.isAddressValid(this.mainchain.accounts)) {
-      this.messageBox("contact-address-digits");
+    if(Util.isNull(this.transfer.amount)){
+      this.toast('amount-null');
       return;
     }
-    if(Util.number(this.transfer.amount)){
+    if(!Util.number(this.transfer.amount)){
       this.toast('correct-amount');
       return;
     }
-
     if(this.transfer.amount > this.balance){
       this.toast('error-amount');
       return;
     }
-    this.createWithdrawTransaction();
-    this.subPopup.show().subscribe((res: boolean) => {
-    });
+    this.walletManager.isAddressValid(this.mainchain.accounts, (data) => {
+      if (!data['valid']) {
+        this.toast("contact-address-digits");
+        return;
+      }
+      this.createWithdrawTransaction();
+      this.subPopup.show().subscribe((res: boolean) => {
+      });
+    })
   }
 
   createWithdrawTransaction(){
