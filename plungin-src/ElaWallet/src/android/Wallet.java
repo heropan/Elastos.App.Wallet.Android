@@ -747,8 +747,16 @@ public class Wallet extends CordovaPlugin {
             callbackContext.success(parseOneParam(ERRORCODE, "The chainID must be IdChain."));
             return;
         }
-
-        IIdChainSubWallet subWallet = (IIdChainSubWallet)mSubWalletMap.get(args.getString(0));
+        ISubWallet baseWallet = mSubWalletMap.get(args.getString(0));
+        IIdChainSubWallet subWallet;
+        if(baseWallet instanceof IIdChainSubWallet){
+            subWallet = (IIdChainSubWallet)baseWallet;
+            Log.i("JS-Wallet", "createIdTransaction instanceof IIdChainSubWallet 1, id="+args.getString(0));
+        }else{
+            Log.i("JS-Wallet", "createIdTransaction not instanceof IIdChainSubWallet 1, id="+args.getString(0));
+            return ;
+        }
+       // IIdChainSubWallet subWallet = (IIdChainSubWallet)mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
             callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;

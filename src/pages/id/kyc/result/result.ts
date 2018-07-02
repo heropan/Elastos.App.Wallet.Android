@@ -53,7 +53,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
 
     this.walletManager.didGenerateProgram(this.did,JSON.stringify(this.message),this.passworld,(result)=>{
                    this.programJson  = result.value;
-                   alert("====2222===="+JSON.stringify(this.programJson));
+                   alert("====didGenerateProgram===="+JSON.stringify(this.programJson));
                    this.createfromAddress();
     });
   }
@@ -62,23 +62,30 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     this.walletManager.createAddress("IdChain",(result)=>{
               alert(JSON.stringify(result));
               this.fromAddress = result.address;
-              alert("this.fromAddress====="+this.fromAddress);
+              alert("createfromAddress this.fromAddress====="+this.fromAddress);
               this.cauFee();
     });
   }
 
   cauFee(){
      this.walletManager.createIdTransaction("IdChain","",this.fromAddress,0,this.message,this.programJson,0,"","",(result)=>{
-             alert("sssssssssss11=="+JSON.stringify(result));
-             let rawTransaction = result['transactionId'].toString();
-             alert(rawTransaction);
+             alert("createIdTransaction result =="+JSON.stringify(result));
+             let rawTransaction = result['json'].toString();
+             //alert(rawTransaction);
+             alert("createIdTransaction rawTransaction =="+rawTransaction);
+
              this.calculateTransactionFee(rawTransaction);
      });
   }
 
   calculateTransactionFee(rawTransaction){
+    alert("calculateTransactionFee begin ==");
      this.walletManager.calculateTransactionFee("IdChain", rawTransaction,10000, (data) => {
+      alert("calculateTransactionFee data=="+JSON.stringify(data));
+
       this.fee = data['fee'];
+      alert("calculateTransactionFee fee=="+JSON.stringify(this.fee));
+      this.sendRawTransaction(rawTransaction);
      });
   }
 
@@ -109,8 +116,11 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
  }
 
 
- sendRawTransaction(){
-    this.walletManager.sendRawTransaction("IdChain",this.programJson,this.fee,this.passworld,(result)=>{
+ sendRawTransaction( rawTransaction){
+    alert("sendRawTransaction begin==");
+
+    this.walletManager.sendRawTransaction("IdChain",rawTransaction,this.fee,this.passworld,(result)=>{
+      alert("sendRawTransaction result"+JSON.stringify(result));
 
     })
  }
