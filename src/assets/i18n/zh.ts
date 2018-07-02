@@ -16,6 +16,7 @@ export const zh = {
   'text-withdraw': '主链提现',
   'text-recharge-address': '侧链充值地址',
   'text-withdraw-address': '主链提现地址',
+  'text-rate': '汇率',
   'text-memory': '已经记下了',
   'text-mnemonic': '助记词',
   'text-mnemonic-prompt': '请在纸上抄下您的助记词，助记词丢失您将永远失去自己的钱包',
