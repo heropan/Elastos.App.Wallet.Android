@@ -61,6 +61,8 @@ static jlong JNICALL nativeCreateSubWallet(JNIEnv *env, jobject clazz, jlong jMa
         ThrowWalletException(env, e.what());
     }
 
+    LOGI("?????????????? subWallet = %p", subWallet);
+    
     env->ReleaseStringUTFChars(jChainID, chainID);
     env->ReleaseStringUTFChars(jpayPassword, payPassword);
     return (jlong)subWallet;
