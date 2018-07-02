@@ -4,7 +4,7 @@
 
   <div class="weui-cells">
     <div class="weui-cell">
-        <input class="weui-input" type="text" placeholder="{{ 'text-recharge-address' | translate}}" [(ngModel)]="transfer.toAddress" />
+        <input class="weui-input" type="text" placeholder="{{ 'text-recharge-address' | translate}}" [(ngModel)]="sidechain.accounts" />
     </div>
       <div class="weui-cell">
         <input class="weui-input" type="text" placeholder="{{ 'text-price' | translate}}" [(ngModel)]="transfer.amount" />
@@ -27,7 +27,7 @@
 
     <div class="pop-title">{{'transfer-info' | translate}}<img class="close" src="./assets/images/icon/icon-close.svg" (click)="onClick(3)"></div>
     <div class="weui-cell">
-      <p><span>{{'transfer-address' | translate}}</span><span>{{transfer.toAddress}}</span></p>
+      <p><span>{{'transfer-address' | translate}}</span><span>{{sidechain.accounts}}</span></p>
 
     </div>
     <div class="weui-cell">

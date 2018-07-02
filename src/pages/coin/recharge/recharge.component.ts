@@ -25,8 +25,9 @@ export class RechargeComponent extends BaseComponent implements OnInit {
 
   sidechain: any = {
     accounts: '',
-    amounts: '',
+    amounts: 0,
     index: 0,
+    rate: 1,
   };
 
 
@@ -100,32 +101,44 @@ export class RechargeComponent extends BaseComponent implements OnInit {
       this.toast('error-amount');
       return;
     }
-    // this.createDepositTransaction();
+    this.createDepositTransaction();
     this.subPopup.show().subscribe((res: boolean) => {
     });
   }
 
 
   createDepositTransaction(){
+    this.sidechain.amounts = this.transfer.amount*Config.SELA*this.sidechain.rate;
     this.walletManager.createDepositTransaction(this.chianId, "",
-      this.transfer.toAddress,
-      this.transfer.amount*Config.SELA,
-      this.sidechain.accounts,
-      this.sidechain.amounts,
-      this.sidechain.index,
+      this.transfer.toAddress, // genesisAddress
+      this.transfer.amount*Config.SELA, // user input amount
+      this.sidechain.accounts, // user input address
+      this.sidechain.amounts, // amount rate result
+      this.sidechain.index, // 0
       this.transfer.fee,
       this.transfer.memo,
       this.transfer.remark,
       (data)=>{
         this.rawTransaction = data['transactionId'].toString();
+        this.getFee();
       });
   }
 
   getGenesisAddress(){
-    this.walletManager.getGenesisAddress(this.chianId, (data) => {
-      
+    // this.walletManager.getGenesisAddress(this.chianId, (data) => {
+      this.transfer.toAddress = 'XQd1DCi6H62NQdWZQhJCRnrPn7sF9CTjaU';
+    // });
+  }
+
+  getFee(){
+    this.walletManager.calculateTransactionFee(this.chianId, this.rawTransaction, this.feePerKb, (data) => {
+      this.transfer.fee = data['fee'];
     });
   }
+
+  // getRate(){
+  //   this.sidechain.rate = 1;
+  // }
 
   sendRawTransaction(){
     if (!Util.password(this.transfer.payPassword)) {
