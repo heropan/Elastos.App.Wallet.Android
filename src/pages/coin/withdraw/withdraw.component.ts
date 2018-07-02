@@ -86,7 +86,11 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
       this.toast('correct-address');
       return;
     }
-    if(Util.number(this.transfer.amount)){
+    if(Util.isNull(this.transfer.amount)){
+      this.toast('amount-null');
+      return;
+    }
+    if(!Util.number(this.transfer.amount)){
       this.toast('correct-amount');
       return;
     }
