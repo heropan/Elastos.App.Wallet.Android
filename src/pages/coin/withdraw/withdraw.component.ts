@@ -116,17 +116,20 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
 
   createWithdrawTransaction(){
     this.getDestroyAddress();
+    let mainchainAddress = JSON.stringify([this.mainchain.accounts]);
+    let mainchainAmounts = JSON.stringify([this.mainchain.amounts]);
+    let mainchainIndex = JSON.stringify([this.mainchain.index]);
     this.walletManager.createWithdrawTransaction(this.chianId, "",
       this.transfer.toAddress, // 销毁地址 34*0 ''
       this.transfer.amount*Config.SELA, // user input amount
-      this.mainchain.accounts, // user input address
-      this.mainchain.amounts, // TODO default:0
-      this.mainchain.index, // TODO default:0
+      mainchainAddress, // user input address
+      mainchainAmounts, // TODO default:0
+      mainchainIndex, // TODO default:0
       this.transfer.fee,
       this.transfer.memo,
       this.transfer.remark,
       (data)=>{
-        this.rawTransaction = data['transactionId'].toString();
+        this.rawTransaction = data['json'].toString();
         this.getFee();
       });
   }
