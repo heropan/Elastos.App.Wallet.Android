@@ -32,13 +32,13 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     this.setTitleByAssets('text-kyc-result');
     this.idObj = this.getNavParams().data;
     alert("====="+JSON.stringify(this.idObj));
-    this.did = this.idObj["parms"]["id"];
-    this.businessObj.word = this.idObj["parms"]["word"];
-    this.businessObj.legalPerson = this.idObj["parms"]["legalPerson"];
-    this.businessObj.registrationNum = this.idObj["parms"]["registrationNum"];
-    this.signature = this.idObj["parms"]["signature"];
+    // this.did = this.idObj["parms"]["id"];
+    // this.businessObj.word = this.idObj["parms"]["word"];
+    // this.businessObj.legalPerson = this.idObj["parms"]["legalPerson"];
+    // this.businessObj.registrationNum = this.idObj["parms"]["registrationNum"];
+    // this.signature = this.idObj["parms"]["signature"];
     this.message["Id"]=  this.did;
-    this.caulmessage();
+    //this.caulmessage();
     if(this.isNull(status)){
       this.type = '0';
     }else{
