@@ -44,6 +44,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
     let transferObj =this.getNavParams().data;
     // alert(JSON.stringify(transferObj));
     this.chianId = transferObj["chianId"];
+    alert("china=="+this.chianId);
     this.transfer.toAddress = transferObj["addr"] || "";
     this.transfer.amount = transferObj["money"] || "";
     this.type = this.transfer["type"] || "";
