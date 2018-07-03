@@ -49,7 +49,12 @@ export class RechargeComponent extends BaseComponent implements OnInit {
 
     this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
       this.native.scan().then((q)=>{
-        this.sidechain.accounts = q.text.split(":")[1];
+        let result = q.text;
+        if (result.indexOf('elastos') != -1) {
+          this.sidechain.accounts = result.split(":")[1];
+        } else {
+          this.sidechain.accounts = result.split(":")[0];
+        }
       }).catch(err=>{
           this.toast('error-address');
       });

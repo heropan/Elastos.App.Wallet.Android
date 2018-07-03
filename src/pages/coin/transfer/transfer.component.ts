@@ -54,7 +54,12 @@ export class TransferComponent extends BaseComponent implements OnInit {
 
     this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
       this.native.scan().then((q)=>{
-        this.transfer.toAddress = q.text.split(":")[1];
+        let result = q.text;
+        if (result.indexOf('elastos') != -1) {
+          this.transfer.toAddress = result.split(":")[1];
+        } else {
+          this.transfer.toAddress = result.split(":")[0];
+        }
       }).catch(err=>{
           this.toast('error-address');
       });
