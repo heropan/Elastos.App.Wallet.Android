@@ -119,10 +119,13 @@ export class RechargeComponent extends BaseComponent implements OnInit {
 
   createDepositTransaction(){
     this.getGenesisAddress();
+    alert(this.sidechain.accounts)
+    let sidechainAddress = JSON.stringify([this.sidechain.accounts]);
+    alert(sidechainAddress)
     this.walletManager.createDepositTransaction('ELA', "",
       this.transfer.toAddress, // genesisAddress
       this.transfer.amount*Config.SELA, // user input amount
-      this.sidechain.accounts, // user input address
+      sidechainAddress, // user input address
       this.sidechain.amounts, // TODO default:0
       this.sidechain.index, // TODO default:0
       this.transfer.fee,
