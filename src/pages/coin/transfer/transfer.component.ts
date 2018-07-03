@@ -37,6 +37,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
   type:string="";
   selectType:string="";
   parms:any;
+  txId:string;
   ngOnInit() {
     this.setTitleByAssets('text-transfer');
     let transferObj =this.getNavParams().data;
@@ -104,7 +105,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
     if(this.transfer.amount > this.balance){
       this.toast('error-amount');
       return;
-    }    
+    }
     this.walletManager.isAddressValid(this.transfer.toAddress, (data) => {
       if (!data['valid']) {
         this.toast("contact-address-digits");
@@ -142,6 +143,8 @@ export class TransferComponent extends BaseComponent implements OnInit {
       return;
     }
     this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
+      alert("======sendRawTransaction"+JSON.stringify(data));
+      this.txId = data["json"]["txHash"];
       // alert("===========sendRawTransaction " + JSON.stringify(data['ERRORCODE']));
       if (data['ERRORCODE'] == undefined) {
         this.walletManager.registerWalletListener(this.chianId, (data) => {
@@ -156,6 +159,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
           this.Go(TabsComponent);
         }else if(this.type === "kyc"){
              if(this.selectType === "company"){
+                  alert("===========company");
                   this.company();
              }else if(this.selectType === "person"){
                   this.person();
@@ -178,9 +182,10 @@ export class TransferComponent extends BaseComponent implements OnInit {
   sendCompanyHttp(params){
     let timestamp = this.getTimestamp();
     params["timestamp"] = timestamp;
+    params["txHash"] = this.txId;
     let checksum = IDManager.getCheckSum(params,"asc");
     params["checksum"] = checksum;
-    // alert("============"+JSON.stringify(params));
+    alert("============sendCompanyHttp"+JSON.stringify(params));
     this.getHttp().postByAuth(ApiUrl.AUTH,params).toPromise().then(data => {
          this.Go(IdResultComponent,{'status':'0'});
     }).catch(error => {
@@ -191,10 +196,11 @@ export class TransferComponent extends BaseComponent implements OnInit {
 sendPersonAuth(parms){
       let timestamp = this.getTimestamp();
       parms["timestamp"] = timestamp;
-      parms["txHash"] = "6a943e5079d424dd9daee8b3ef4062072ece5752ceea22612a0781b7a76d1dfe";
+      parms["txHash"] = this.txId;
       let checksum = IDManager.getCheckSum(parms,"asc");
       parms["checksum"] = checksum;
       console.log("====parms===="+JSON.stringify(parms));
+      alert("============sendPersonAuth"+JSON.stringify(parms));
       this.getHttp().postByAuth(ApiUrl.AUTH,parms).toPromise().then(data=>{
         if(data["status"] === 200){
           this.Go(IdResultComponent,{'status':'0'});

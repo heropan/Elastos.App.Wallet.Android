@@ -12,9 +12,9 @@ import {TransferComponent} from "../../../../pages/coin/transfer/transfer.compon
 export class IdKycCompanyComponent extends BaseComponent implements OnInit {
   businessObj={
               "type":"1",
-              "word":"xxx公司",
-              "legalPerson":"张三",
-              "registrationNum":"91311117011111111K",
+              "word":"北京比特大陆科技有限公司",
+              "legalPerson":"詹克团",
+              "registrationNum":"911101080804655794",
               "txHash":"59e5347c8cd6ee04c9241d48494bf0182751a071f7fab2ee960b17ab51ff3280",
               };
   priceObj:any={};
@@ -33,8 +33,8 @@ export class IdKycCompanyComponent extends BaseComponent implements OnInit {
     //this.sendCompanyHttp();
     if(this.checkParms()){
       //this.businessObj["serialNum"] = this.serialNum;
-      //this.Go(TransferComponent,{addr:"ENMLAuBi4qW7ViKwh6GbcaMcktU8j78T6F",money:this.payMoney,type:"kyc",chianId:"IdChain",selectType:"company",parm:this.businessObj});
-      this.Go(IdKycResultComponent,this.idObj);
+      this.Go(TransferComponent,{addr:"ENMLAuBi4qW7ViKwh6GbcaMcktU8j78T6F",money:this.payMoney,type:"kyc",chianId:"IdChain",selectType:"company",parm:this.businessObj});
+      //this.Go(IdKycResultComponent,this.idObj);
     }
   }
 
