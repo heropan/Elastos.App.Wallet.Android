@@ -38,6 +38,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
   selectType:string="";
   parms:any;
   txId:string;
+  did:string;
   ngOnInit() {
     this.setTitleByAssets('text-transfer');
     let transferObj =this.getNavParams().data;
@@ -48,6 +49,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
     this.type = this.transfer["type"] || "";
     this.selectType = this.transfer["selectType"] || "";
     this.parms = this.transfer["parms"] || "";
+    this.did = this.transfer["did"];
     this.initData();
 
     this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
@@ -187,7 +189,13 @@ export class TransferComponent extends BaseComponent implements OnInit {
     params["checksum"] = checksum;
     alert("============sendCompanyHttp"+JSON.stringify(params));
     this.getHttp().postByAuth(ApiUrl.AUTH,params).toPromise().then(data => {
-         this.Go(IdResultComponent,{'status':'0'});
+         alert("========sendCompanyHttp"+JSON.stringify(data));
+         let authData= JSON.parse(data["_body"])
+         alert("=========authData"+data["_body"]);
+         this.localStorage.add("kyc",{id:this.did,status:0,'serialNum':authData['serialNum'],'vtoken':authData['vtoken'],'txHash':this.txId,'parms':this.parms}).then(()=>{
+                    this.Go(IdResultComponent,{'status':'0'});
+         });
+
     }).catch(error => {
          this.Go(IdResultComponent,{'status':'1'});
     });
