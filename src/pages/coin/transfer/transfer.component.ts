@@ -47,11 +47,11 @@ export class TransferComponent extends BaseComponent implements OnInit {
     alert("china=="+this.chianId);
     this.transfer.toAddress = transferObj["addr"] || "";
     this.transfer.amount = transferObj["money"] || "";
-    this.type = this.transfer["type"] || "";
+    this.type = transferObj["type"] || "";
     alert("type====="+this.type);
-    this.selectType = this.transfer["selectType"] || "";
-    this.parms = this.transfer["parms"] || "";
-    this.did = this.transfer["did"];
+    this.selectType = transferObj["selectType"] || "";
+    this.parms = transferObj["parms"] || "";
+    this.did = transferObj["did"];
     this.initData();
 
     this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
