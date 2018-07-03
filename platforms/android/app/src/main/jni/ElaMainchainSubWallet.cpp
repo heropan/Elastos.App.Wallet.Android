@@ -25,10 +25,12 @@ static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz
 
     IMainchainSubWallet* wallet = (IMainchainSubWallet*)jMainSubWalletProxy;
     nlohmann::json txidJson;
+    jstring retValue = NULL;
 
     try {
         txidJson = wallet->CreateDepositTransaction(fromAddress, toAddress, amount , ToJosnFromString(sidechainAccounts)
             , ToJosnFromString(sidechainAmounts), ToJosnFromString(sidechainIndexs), fee, memo, remark);
+        retValue = env->NewStringUTF(ToStringFromJson(txidJson));
     }
     catch (std::invalid_argument& e) {
         ThrowWalletException(env, e.what());
@@ -51,9 +53,8 @@ static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz
     env->ReleaseStringUTFChars(jmemo, memo);
     env->ReleaseStringUTFChars(jremark, remark);
 
-    return env->NewStringUTF(ToStringFromJson(txidJson));
+    return retValue;
 }
-
 
 static const JNINativeMethod gMethods[] = {
     {"nativeCreateDepositTransaction",

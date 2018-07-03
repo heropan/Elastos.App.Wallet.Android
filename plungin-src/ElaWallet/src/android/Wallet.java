@@ -256,7 +256,7 @@ public class Wallet extends CordovaPlugin {
             if (subWallet != null) {
                 mSubWalletMap.put(args.getString(0), subWallet);
                 callbackContext.success(args.getString(0));
-                Log.i("JS-Wallet", "createSubWallet==============2");
+                Log.i("JS-Wallet", "createSubWallet==============2, subWallet============["+subWallet+"]");
             }
             else {
                 callbackContext.error("CreateSubWallet failed.");
@@ -786,21 +786,8 @@ public class Wallet extends CordovaPlugin {
             callbackContext.success(parseOneParam(ERRORCODE, "The chainID must be ELA."));
             return;
         }
-                                //mSubWalletMap.get(args.getString(0))
-        ISubWallet baseWallet = mSubWalletMap.get(args.getString(0));
-        IMainchainSubWallet subWallet;
-        
-        if(baseWallet instanceof IMainchainSubWallet){
-            subWallet = (IMainchainSubWallet)baseWallet;
-            Log.i("JS-Wallet", "Elastos createDepositTransaction instanceof IMainchainSubWallet 1, id="+args.getString(0));
-        }else{
-            Log.i("JS-Wallet", "Elastos createDepositTransaction not instanceof IMainchainSubWallet 1, id="+args.getString(0));
-            return ;
-        }
 
-        //IMainchainSubWallet subWallet = (IMainchainSubWallet)mSubWalletMap.get(args.getString(0));
-
-
+        IMainchainSubWallet subWallet = (IMainchainSubWallet)mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
             callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
