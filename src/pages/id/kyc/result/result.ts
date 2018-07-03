@@ -32,6 +32,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     this.idObj = this.getNavParams().data;
     alert("====="+JSON.stringify(this.idObj));
     this.did = this.idObj["id"];
+    this.message["Id"]=  this.did;
     if(this.isNull(status)){
       this.type = '0';
     }else{
@@ -84,6 +85,8 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
       alert("calculateTransactionFee data=="+JSON.stringify(data));
 
       this.fee = data['fee'];
+      console.log("Elastos 111111111111111");
+      console.log("rawTransaction" + JSON.stringify(rawTransaction));
       alert("calculateTransactionFee fee=="+JSON.stringify(this.fee));
       this.sendRawTransaction(rawTransaction);
      });
