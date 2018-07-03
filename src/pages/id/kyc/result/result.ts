@@ -27,12 +27,18 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
   idObj:any={};
  depositTransaction:string;
  depositTransactionFee:number;
+ signature:string;
  ngOnInit(){
     this.setTitleByAssets('text-kyc-result');
     this.idObj = this.getNavParams().data;
     alert("====="+JSON.stringify(this.idObj));
-    this.did = this.idObj["id"];
+    this.did = this.idObj["parms"]["id"];
+    this.businessObj.word = this.idObj["parms"]["word"];
+    this.businessObj.legalPerson = this.idObj["parms"]["legalPerson"];
+    this.businessObj.registrationNum = this.idObj["parms"]["registrationNum"];
+    this.signature = this.idObj["parms"]["signature"];
     this.message["Id"]=  this.did;
+    this.caulmessage();
     if(this.isNull(status)){
       this.type = '0';
     }else{
@@ -97,13 +103,10 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
   caulmessage(){
 
      //kyc 内容
-     let kycContent={ "word":"xxx公司",
-                      "legalPerson":"张三",
-                      "registrationNum":"91311117011111111K"
-                    };
+     let kycContent=this.businessObj;
      //kyc 结果
      let authSign = {
-                     signature: "26d72d2ca4a8da5ab8a58d1330fc6bb9cd5ab966789fe9d945afe355974da02d00da42310fd1f099f5192db9b0a6838254f62ffd1c0a6f2245d4f7b5f881f6fc",
+                     signature:this.signature,
                      notary:"COOIX"
                     }
 
