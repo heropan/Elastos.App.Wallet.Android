@@ -48,6 +48,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
     this.transfer.toAddress = transferObj["addr"] || "";
     this.transfer.amount = transferObj["money"] || "";
     this.type = this.transfer["type"] || "";
+    alert("type====="+this.type);
     this.selectType = this.transfer["selectType"] || "";
     this.parms = this.transfer["parms"] || "";
     this.did = this.transfer["did"];
