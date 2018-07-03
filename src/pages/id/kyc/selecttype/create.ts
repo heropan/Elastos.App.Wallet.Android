@@ -20,7 +20,7 @@ export class kycSelectTypeComponent extends BaseComponent implements OnInit{
   txHash:string;
   vtoken:string;
   kyccontent:any;
-  status:number=0;
+  status:number;
   onChange(type){
     this.createData.createType = type;
   }
@@ -30,11 +30,14 @@ export class kycSelectTypeComponent extends BaseComponent implements OnInit{
     this.setTitleByAssets('text-id-type');
     this.localStorage.get("kyc").then((val)=>{
             alert("======="+val);
+            if(val){
             this.idsObj = JSON.parse(val);
             this.serialNum = this.idsObj["serialNum"];
             this.vtoken = this.idsObj["vtoken"];
             this.txHash = this.idsObj["txHash"];
             this.status = this.idsObj["status"];
+            this.getAppAuth();
+           }
     });
   }
 
@@ -42,6 +45,10 @@ export class kycSelectTypeComponent extends BaseComponent implements OnInit{
 
   createDID(){
   if( this.createData.createType === 1){
+    if(this.isNull(this.status)){
+        this.Go(IdKycPersonComponent,this.idObj);
+        return
+    }
     if(this.status == 0){
        this.Go(IdResultComponent,{'status':'0'});
          return;
@@ -50,8 +57,12 @@ export class kycSelectTypeComponent extends BaseComponent implements OnInit{
       this.Go(IdKycResultComponent,{'status':'0',parms:this.idsObj});
       return;
     }
-    this.Go(IdKycPersonComponent,this.idObj);
+
   }else if(this.createData.createType === 2){
+    if(this.isNull(this.status)){
+      this.Go(IdKycPersonComponent,this.idObj);
+      return
+    }
     if(this.status == 0){
       this.Go(IdResultComponent,{'status':'0'});
       return;
