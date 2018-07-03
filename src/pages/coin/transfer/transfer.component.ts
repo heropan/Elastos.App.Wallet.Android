@@ -44,6 +44,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
     let transferObj =this.getNavParams().data;
     // alert(JSON.stringify(transferObj));
     this.chianId = transferObj["chianId"];
+    alert("china=="+this.chianId);
     this.transfer.toAddress = transferObj["addr"] || "";
     this.transfer.amount = transferObj["money"] || "";
     this.type = this.transfer["type"] || "";
@@ -133,7 +134,9 @@ export class TransferComponent extends BaseComponent implements OnInit {
       this.transfer.memo,
       this.transfer.remark,
       (data)=>{
+
         this.rawTransaction = data['transactionId'].toString();
+        alert("createTransaction rawTransaction"+ JSON.stringify(this.rawTransaction ));
         this.getFee();
       });
   }
@@ -141,6 +144,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
   getFee(){
     this.walletManager.calculateTransactionFee(this.chianId, this.rawTransaction, this.feePerKb, (data) => {
       this.transfer.fee = data['fee'];
+      alert("getFee fee"+ this.transfer.fee);
     });
   }
 
@@ -149,8 +153,10 @@ export class TransferComponent extends BaseComponent implements OnInit {
       this.toast("text-pwd-validator");
       return;
     }
+    alert("11111111111 sendRawTransaction payPassword "+this.transfer.payPassword);
+
     this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
-      alert("======sendRawTransaction"+JSON.stringify(data));
+      alert("2222222222222 sendRawTransaction"+JSON.stringify(data));
       this.txId = data["json"]["txHash"];
       // alert("===========sendRawTransaction " + JSON.stringify(data['ERRORCODE']));
       if (data['ERRORCODE'] == undefined) {
