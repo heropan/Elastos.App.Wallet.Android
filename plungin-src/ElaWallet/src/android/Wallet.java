@@ -786,18 +786,18 @@ public class Wallet extends CordovaPlugin {
             callbackContext.success(parseOneParam(ERRORCODE, "The chainID must be ELA."));
             return;
         }
-
-        ISubWallet baseWallet = mSubWalletMap.get(args.getString(0));
-        IMainchainSubWallet subWallet;
+                                //mSubWalletMap.get(args.getString(0))
+        // ISubWallet baseWallet = mSubWalletMap.get(args.getString(0));
+        // IMainchainSubWallet subWallet;
         
-        if(baseWallet instanceof IMainchainSubWallet){
-            subWallet = (IMainchainSubWallet)baseWallet;
-            Log.i("JS-Wallet", "createDepositTransaction instanceof IMainchainSubWallet 1, id="+args.getString(0));
-        }else{
-            Log.i("JS-Wallet", "createDepositTransaction not instanceof IMainchainSubWallet 1, id="+args.getString(0));
-            return ;
-        }
-        //IMainchainSubWallet subWallet = (IMainchainSubWallet)mSubWalletMap.get(args.getString(0));
+        // if(baseWallet instanceof IMainchainSubWallet){
+        //     subWallet = (IMainchainSubWallet)baseWallet;
+        //     Log.i("JS-Wallet", "createDepositTransaction instanceof IMainchainSubWallet 1, id="+args.getString(0));
+        // }else{
+        //     Log.i("JS-Wallet", "createDepositTransaction not instanceof IMainchainSubWallet 1, id="+args.getString(0));
+        //     return ;
+        // }
+        IMainchainSubWallet subWallet = (IMainchainSubWallet)mSubWalletMap.get(args.getString(0));
 
 
         if (subWallet == null) {
