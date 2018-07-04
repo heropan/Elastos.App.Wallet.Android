@@ -42,13 +42,10 @@ export class TransferComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.setTitleByAssets('text-transfer');
     let transferObj =this.getNavParams().data;
-    // alert(JSON.stringify(transferObj));
     this.chianId = transferObj["chianId"];
-    alert("china=="+this.chianId);
     this.transfer.toAddress = transferObj["addr"] || "";
     this.transfer.amount = transferObj["money"] || "";
     this.type = transferObj["type"] || "";
-    alert("type====="+this.type);
     this.selectType = transferObj["selectType"] || "";
     this.parms = transferObj["parms"] || "";
     this.did = transferObj["did"];
@@ -127,7 +124,6 @@ export class TransferComponent extends BaseComponent implements OnInit {
   }
 
   createTransaction(){
-    // alert(this.transfer.remark);
     this.walletManager.createTransaction(this.chianId, "",
       this.transfer.toAddress,
       this.transfer.amount*Config.SELA,
@@ -137,7 +133,6 @@ export class TransferComponent extends BaseComponent implements OnInit {
       (data)=>{
 
         this.rawTransaction = data['transactionId'].toString();
-        alert("createTransaction rawTransaction"+ JSON.stringify(this.rawTransaction ));
         this.getFee();
       });
   }
@@ -145,7 +140,6 @@ export class TransferComponent extends BaseComponent implements OnInit {
   getFee(){
     this.walletManager.calculateTransactionFee(this.chianId, this.rawTransaction, this.feePerKb, (data) => {
       this.transfer.fee = data['fee'];
-      alert("getFee fee"+ this.transfer.fee);
     });
   }
 
@@ -154,15 +148,11 @@ export class TransferComponent extends BaseComponent implements OnInit {
       this.toast("text-pwd-validator");
       return;
     }
-    alert("11111111111 sendRawTransaction payPassword "+this.transfer.payPassword);
 
     this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
-      alert("2222222222222 sendRawTransaction"+JSON.stringify(data));
       this.txId = data["json"]["txHash"];
-      // alert("===========sendRawTransaction " + JSON.stringify(data['ERRORCODE']));
       if (data['ERRORCODE'] == undefined) {
         this.walletManager.registerWalletListener(this.chianId, (data) => {
-          // alert("registerWalletListener=====" + JSON.stringify(data));
           if (data['confirms'] == 1) {
             this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
             });
@@ -173,7 +163,6 @@ export class TransferComponent extends BaseComponent implements OnInit {
           this.Go(TabsComponent);
         }else if(this.type === "kyc"){
              if(this.selectType === "company"){
-                  alert("===========company");
                   this.company();
              }else if(this.selectType === "person"){
                   this.person();
@@ -199,11 +188,8 @@ export class TransferComponent extends BaseComponent implements OnInit {
     params["txHash"] = this.txId;
     let checksum = IDManager.getCheckSum(params,"asc");
     params["checksum"] = checksum;
-    alert("============sendCompanyHttp"+JSON.stringify(params));
     this.getHttp().postByAuth(ApiUrl.AUTH,params).toPromise().then(data => {
-         alert("========sendCompanyHttp"+JSON.stringify(data));
          let authData= JSON.parse(data["_body"])
-         alert("=========authData"+data["_body"]);
          this.localStorage.add("kyc",{id:this.did,status:0,'serialNum':authData['serialNum'],'vtoken':authData['vtoken'],'txHash':this.txId,'parms':this.parms}).then(()=>{
                     this.Go(IdResultComponent,{'status':'0'});
          });
@@ -219,8 +205,6 @@ sendPersonAuth(parms){
       parms["txHash"] = this.txId;
       let checksum = IDManager.getCheckSum(parms,"asc");
       parms["checksum"] = checksum;
-      console.log("====parms===="+JSON.stringify(parms));
-      alert("============sendPersonAuth"+JSON.stringify(parms));
       this.getHttp().postByAuth(ApiUrl.AUTH,parms).toPromise().then(data=>{
         if(data["status"] === 200){
           this.Go(IdResultComponent,{'status':'0'});

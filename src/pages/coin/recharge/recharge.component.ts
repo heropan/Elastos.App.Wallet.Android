@@ -119,15 +119,9 @@ export class RechargeComponent extends BaseComponent implements OnInit {
 
   createDepositTransaction(){
     this.getGenesisAddress();
-    alert(this.sidechain.accounts)
-    alert(this.sidechain.amounts)
-    alert(this.sidechain.index)
     let sidechainAddress = JSON.stringify([this.sidechain.accounts]);
     let sidechainAmounts = JSON.stringify([this.sidechain.amounts]);
     let sidechainIndex = JSON.stringify([this.sidechain.index]);
-    alert(sidechainAddress)
-    alert(sidechainAmounts)
-    alert(sidechainIndex)
     this.walletManager.createDepositTransaction('ELA', "",
       this.transfer.toAddress, // genesisAddress
       this.transfer.amount*Config.SELA, // user input amount
@@ -138,9 +132,7 @@ export class RechargeComponent extends BaseComponent implements OnInit {
       this.transfer.memo,
       this.transfer.remark,
       (data)=>{
-        alert(JSON.stringify(data));
         this.rawTransaction = data['json'].toString();
-        alert("createDepositTransaction: "+JSON.stringify(data))
         this.getFee();
       });
   }
@@ -166,15 +158,9 @@ export class RechargeComponent extends BaseComponent implements OnInit {
       this.toast("text-pwd-validator");
       return;
     }
-    alert("sendRawTransaction: "+this.chianId)
-    alert("sendRawTransaction: "+this.rawTransaction)
-    alert("sendRawTransaction: "+this.transfer.fee)
-    alert("sendRawTransaction: "+this.transfer.payPassword)
     this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
-      // alert("===========sendRawTransaction " + JSON.stringify(data['ERRORCODE']));
       if (data['ERRORCODE'] == undefined) {
         this.walletManager.registerWalletListener(this.chianId, (data) => {
-          // alert("registerWalletListener=====" + JSON.stringify(data));
           if (data['confirms'] == 1) {
             this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
             });
