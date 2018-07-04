@@ -28,14 +28,13 @@ export class WriteComponent extends BaseComponent implements OnInit {
     for(let i =0;i<this.selectList.length;i++){
       mn += this.selectList[i].text;
     }
-    this.Go(TabsComponent)
     //hptest
-    // if(!Util.isNull(mn) && mn == this.mnemonicStr.replace(/\s+/g,"")){
-    //   this.toast('text-mnemonic-ok');
-    //   this.Go(TabsComponent)
-    // }else{
-    //   this.toast('text-mnemonic-prompt3');
-    // }
+    if(!Util.isNull(mn) && mn == this.mnemonicStr.replace(/\s+/g,"")){
+      this.toast('text-mnemonic-ok');
+      this.Go(TabsComponent)
+    }else{
+      this.toast('text-mnemonic-prompt3');
+    }
   }
 
   public addButton(index: number, item: any): void {
