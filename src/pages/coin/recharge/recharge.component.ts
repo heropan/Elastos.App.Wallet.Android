@@ -167,6 +167,7 @@ export class RechargeComponent extends BaseComponent implements OnInit {
             });
           }
         });
+        this.Go(TabsComponent);
       } else {
         this.toast('text-password-error');
       }
