@@ -136,7 +136,7 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
 
   getDestroyAddress(){
     // this.walletManager.getGenesisAddress(this.chianId, (data) => {
-      this.transfer.toAddress = '';
+      this.transfer.toAddress = 'XKUh4GLhFJiqAMTF6HyWQrV9pK9HcGUdfJ';
     // });
   }
 
