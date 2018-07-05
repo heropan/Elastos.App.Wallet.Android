@@ -122,13 +122,14 @@ export class RechargeComponent extends BaseComponent implements OnInit {
     let sidechainAddress = JSON.stringify([this.sidechain.accounts]);
     let sidechainAmounts = JSON.stringify([this.sidechain.amounts]);
     let sidechainIndex = JSON.stringify([this.sidechain.index]);
+    let finallyFee = this.transfer.amount*Config.SELA - 20000;
     this.walletManager.createDepositTransaction('ELA', "",
       this.transfer.toAddress, // genesisAddress
       this.transfer.amount*Config.SELA, // user input amount
       sidechainAddress, // user input address
       sidechainAmounts, // TODO default:0
       sidechainIndex, // TODO default:0
-      this.transfer.fee,
+      finallyFee,
       this.transfer.memo,
       this.transfer.remark,
       (data)=>{
@@ -139,12 +140,12 @@ export class RechargeComponent extends BaseComponent implements OnInit {
 
   getGenesisAddress(){
     // this.walletManager.getGenesisAddress(this.chianId, (data) => {
-      this.transfer.toAddress = 'XQd1DCi6H62NQdWZQhJCRnrPn7sF9CTjaU';
+      this.transfer.toAddress = 'XKUh4GLhFJiqAMTF6HyWQrV9pK9HcGUdfJ';
     // });
   }
 
   getFee(){
-    this.walletManager.calculateTransactionFee(this.chianId, this.rawTransaction, this.feePerKb, (data) => {
+    this.walletManager.calculateTransactionFee('ELA', this.rawTransaction, this.feePerKb, (data) => {
       this.transfer.fee = data['fee'];
     });
   }
@@ -158,7 +159,7 @@ export class RechargeComponent extends BaseComponent implements OnInit {
       this.toast("text-pwd-validator");
       return;
     }
-    this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
+    this.walletManager.sendRawTransaction('ELA', this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
       if (data['ERRORCODE'] == undefined) {
         this.walletManager.registerWalletListener(this.chianId, (data) => {
           if (data['confirms'] == 1) {
