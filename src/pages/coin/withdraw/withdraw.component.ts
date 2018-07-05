@@ -17,7 +17,7 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
     toAddress: '',
     amount: '',
     memo: '',
-    fee: 0,
+    fee: 20000,
     payPassword:'',
     remark:'',
   };
@@ -117,7 +117,7 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
   createWithdrawTransaction(){
     this.getDestroyAddress();
     let mainchainAddress = JSON.stringify([this.mainchain.accounts]);
-    let mainchainAmounts = JSON.stringify([this.mainchain.amounts]);
+    let mainchainAmounts = JSON.stringify([this.transfer.amount*Config.SELA - 20000]);
     let mainchainIndex = JSON.stringify([this.mainchain.index]);
     this.walletManager.createWithdrawTransaction(this.chianId, "",
       this.transfer.toAddress, // 销毁地址 34*0 ''
