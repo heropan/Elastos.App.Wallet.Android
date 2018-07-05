@@ -7,7 +7,7 @@
         <input class="weui-input" type="text" placeholder="{{ 'text-recharge-address' | translate}}" [(ngModel)]="sidechain.accounts" />
     </div>
       <div class="weui-cell">
-        <input class="weui-input" type="text" placeholder="{{ 'text-price' | translate}}" [(ngModel)]="transfer.amount" />
+        <input class="weui-input" type="text" placeholder="{{ 'text-price' | translate}}" [(ngModel)]="sidechain.amounts" />
 
         <span class="transfer-balance">{{'text-balance' | translate}}：{{balance/SELA}}({{'text-rate' | translate}}：1:{{this.sidechain.rate}})</span>
     </div>
@@ -32,7 +32,7 @@
     </div>
     <div class="weui-cell">
 
-    <p><span>{{'text-price' | translate}}</span><span>{{sidechain.amount}}</span></p>
+    <p><span>{{'text-price' | translate}}</span><span>{{sidechain.amounts}}</span></p>
     </div>
     <div class="weui-cell">
 
