@@ -221,7 +221,9 @@ walletFunc.prototype.didGenerateProgram = function(arg0, sucess, error) {
     exec(sucess, error, "Wallet", "didGenerateProgram", arg0);
 };
 
-
+walletFunc.prototype.getAllCreatedSubWallets = function(arg0, sucess, error) {
+    exec(sucess, error, "Wallet", "getAllCreatedSubWallets", arg0);
+};
 
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;

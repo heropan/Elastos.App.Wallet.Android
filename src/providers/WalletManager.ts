@@ -302,6 +302,10 @@ export class WalletManager {
       this.wallet.didGenerateProgram([did,message,password],Fun,this.errorFun);
   }
 
+  getAllCreatedSubWallets(Fun){
+    this.wallet.getAllCreatedSubWallets([],Fun,this.errorFun);
+  }
+
   errorFun(error) {
     alert("错误信息：" + error);
     //this.native.toast(error);
