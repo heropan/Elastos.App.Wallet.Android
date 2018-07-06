@@ -435,6 +435,17 @@ public class Wallet extends CordovaPlugin {
 
         if (mCurrentMasterWallet != null) {
             mMasterWalletList.add(mCurrentMasterWallet);
+
+            mSubWalletMap.clear();
+            ArrayList<ISubWallet> list = mCurrentMasterWallet.GetAllSubWallets();
+            Log.i("JS-Wallet", "importWalletWithKeystore==============1, subwallet.list.size="+list.size());
+            for (int i = 0; i < list.size(); i++) {
+                ISubWallet subWallet = list.get(i);
+                if (subWallet != null) {
+                    mSubWalletMap.put(subWallet.GetChainId(), subWallet);
+                }
+            }
+
             initDidManager();
             callbackContext.success();
         }
