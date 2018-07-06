@@ -16,6 +16,7 @@ static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject claz
         , jstring jtoAddress, jlong amount, jstring jmainchainAccounts, jstring jmainchainAmounts,
         jstring jmainchainIndexs, jlong fee, jstring jmemo, jstring jremark)
 {
+    LOGD("FUNC=[%s]=========================line=[%d]", __FUNCTION__, __LINE__);
     const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
     const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
     const char* mainchainAccounts = env->GetStringUTFChars(jmainchainAccounts, NULL);
@@ -24,26 +25,40 @@ static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject claz
     const char* memo = env->GetStringUTFChars(jmemo, NULL);
     const char* remark = env->GetStringUTFChars(jremark, NULL);
 
+    LOGD("FUNC=[%s]=========================line=[%d], fromAddress=[%s]", __FUNCTION__, __LINE__, fromAddress);
+    LOGD("FUNC=[%s]=========================line=[%d], toAddress=[%s]", __FUNCTION__, __LINE__, toAddress);
+    LOGD("FUNC=[%s]=========================line=[%d], mainchainAccounts=[%s]", __FUNCTION__, __LINE__, mainchainAccounts);
+    LOGD("FUNC=[%s]=========================line=[%d], mainchainAmounts=[%s]", __FUNCTION__, __LINE__, mainchainAmounts);
+    LOGD("FUNC=[%s]=========================line=[%d], mainchainIndexs=[%s]", __FUNCTION__, __LINE__, mainchainIndexs);
+    LOGD("FUNC=[%s]=========================line=[%d], memo=[%s]", __FUNCTION__, __LINE__, memo);
+    LOGD("FUNC=[%s]=========================line=[%d], remark=[%s]", __FUNCTION__, __LINE__, remark);
+
     ISidechainSubWallet* wallet = (ISidechainSubWallet*)jSideSubWalletProxy;
     nlohmann::json result;
+    jstring retValue = NULL;
 
-    try {
+    // try {
+        LOGD("FUNC=[%s]=========================line=[%d]", __FUNCTION__, __LINE__);
         result = wallet->CreateWithdrawTransaction(fromAddress, toAddress, amount
                 , ToJosnFromString(mainchainAccounts), ToJosnFromString(mainchainAmounts)
                 , ToJosnFromString(mainchainIndexs), fee, memo, remark);
-    }
-    catch (std::invalid_argument& e) {
-        ThrowWalletException(env, e.what());
-    }
-    catch (std::logic_error& e) {
-        ThrowWalletException(env, e.what());
-    }
-    catch (std::runtime_error& e) {
-        ThrowWalletException(env, e.what());
-    }
-    catch (std::exception& e) {
-        ThrowWalletException(env, e.what());
-    }
+
+        LOGD("FUNC=[%s]=========================line=[%d]", __FUNCTION__, __LINE__);
+        retValue = env->NewStringUTF(ToStringFromJson(result));
+        LOGD("FUNC=[%s]=========================line=[%d]", __FUNCTION__, __LINE__);
+    // }
+    // catch (std::invalid_argument& e) {
+    //     ThrowWalletException(env, e.what());
+    // }
+    // catch (std::logic_error& e) {
+    //     ThrowWalletException(env, e.what());
+    // }
+    // catch (std::runtime_error& e) {
+    //     ThrowWalletException(env, e.what());
+    // }
+    // catch (std::exception& e) {
+    //     ThrowWalletException(env, e.what());
+    // }
 
     env->ReleaseStringUTFChars(jfromAddress, fromAddress);
     env->ReleaseStringUTFChars(jtoAddress, toAddress);
@@ -52,8 +67,8 @@ static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject claz
     env->ReleaseStringUTFChars(jmainchainIndexs, mainchainIndexs);
     env->ReleaseStringUTFChars(jmemo, memo);
     env->ReleaseStringUTFChars(jremark, remark);
-
-    return env->NewStringUTF(ToStringFromJson(result));
+    LOGD("FUNC=[%s]=========================line=[%d]", __FUNCTION__, __LINE__);
+    return retValue;
 }
 
 //"(J)Ljava/lang/String;"

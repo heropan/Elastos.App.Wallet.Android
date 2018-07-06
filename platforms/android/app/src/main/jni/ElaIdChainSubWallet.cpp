@@ -22,6 +22,13 @@ static jstring JNICALL nativeCreateIdTransaction(JNIEnv *env, jobject clazz, jlo
     const char* memo = env->GetStringUTFChars(jmemo, NULL);
     const char* remark = env->GetStringUTFChars(jremark, NULL);
 
+    LOGD("FUNC=[%s]=========================line=[%d], fromAddress=[%s]", __FUNCTION__, __LINE__, fromAddress);
+    LOGD("FUNC=[%s]=========================line=[%d], toAddress=[%s]", __FUNCTION__, __LINE__, toAddress);
+    LOGD("FUNC=[%s]=========================line=[%d], programJson=[%s]", __FUNCTION__, __LINE__, payloadJson);
+    LOGD("FUNC=[%s]=========================line=[%d], programJson=[%s]", __FUNCTION__, __LINE__, programJson);
+    LOGD("FUNC=[%s]=========================line=[%d], memo=[%s]", __FUNCTION__, __LINE__, memo);
+    LOGD("FUNC=[%s]=========================line=[%d], remark=[%s]", __FUNCTION__, __LINE__, remark);
+
     IIdChainSubWallet* wallet = (IIdChainSubWallet*)jIdSubWalletProxy;
     nlohmann::json txidJson;
 
