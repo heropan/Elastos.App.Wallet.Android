@@ -11,7 +11,7 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
 
   payPasswordType = 0;
   wallet = {
-    name: 's',
+    name: '',
     singleAddress: false,
     payPassword:'' ,//houpeitest
     rePayPassword:''//houpeitest
