@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.Iterator;
 import android.util.Log;
 
 import io.ionic.starter.MyUtil;
@@ -102,6 +104,9 @@ public class Wallet extends CordovaPlugin {
                   return true;
               case "importWalletWithKeystore":
                   this.importWalletWithKeystore(args, callbackContext);
+                  return true;
+              case "getAllCreatedSubWallets":
+                  this.getAllCreatedSubWallets(args, callbackContext);
                   return true;
               case "importWalletWithMnemonic":
                   this.importWalletWithMnemonic(args, callbackContext);
@@ -452,6 +457,25 @@ public class Wallet extends CordovaPlugin {
         else {
             callbackContext.error("ImportWalletWithKeystore failed.");
         }
+    }
+
+    public void getAllCreatedSubWallets(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mCurrentMasterWallet != null) {
+            Set<String> keys = mSubWalletMap.keySet();
+            Iterator<String> iter = keys.iterator();
+
+            JSONObject jsonObject = new JSONObject();
+            while(iter.hasNext()){
+                String chainID = iter.next();
+                Log.i("JS-Wallet", "getAllCreatedSubWallets=========================chainID=["+chainID+"]");
+                jsonObject.put(chainID, chainID);
+            }
+
+            callbackContext.success(jsonObject);
+            return;
+        }
+
+        callbackContext.success(parseOneParam("createdSubWallets", null));
     }
 
     //ImportWalletWithMnemonic(String masterWalletId, String mnemonic, String phrasePassword ,String payPassWord, String language)
