@@ -218,6 +218,9 @@ static jstring JNICALL nativeSendRawTransaction(JNIEnv *env, jobject clazz, jlon
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
     nlohmann::json result;
 
+    LOGD("FUNC=[%s]=========================line=[%d], transactionJson=[%s]", __FUNCTION__, __LINE__, transactionJson);
+    LOGD("FUNC=[%s]=========================line=[%d], signJson=[%s]", __FUNCTION__, __LINE__, signJson);
+
     try {
         result = subWallet->SendRawTransaction(ToJosnFromString(transactionJson), jfee, signJson);
         env->ReleaseStringUTFChars(jtransactionJson, transactionJson);
