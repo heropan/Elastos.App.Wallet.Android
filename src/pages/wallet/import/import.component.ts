@@ -64,13 +64,7 @@ export class ImportComponent extends BaseComponent implements OnInit {
                       this.keyStoreContent,this.importFileObj.backupPassWord,
                       this.importFileObj.payPassword,this.importFileObj.phrasePassword,
                       ()=>{
-                          this.messageBox('import-text-keystroe-sucess');
-                          this.localStorage.setWallet({
-                            'name': "sss"
-                           }).then(()=>{
-                            this.Go(TabsComponent);
-                           });
-
+                             this.getAllCreatedSubWallets();
                       });
   }
 
@@ -118,4 +112,37 @@ export class ImportComponent extends BaseComponent implements OnInit {
 
     });
   }
+
+  getAllCreatedSubWallets(){
+
+    this.localStorage.get('coinListCache').then((val)=>{
+         let coinListCache = JSON.parse(val);
+      this.walletManager.getAllCreatedSubWallets((createdChains) => {
+         for(let china in coinListCache){
+             if(this.isExitCoinListCache(china,createdChains) === -1){
+                    delete(coinListCache[china])
+             }
+         }
+
+         this.localStorage.set('coinListCache', coinListCache).then(()=>{
+          this.messageBox('import-text-keystroe-sucess');
+          this.localStorage.setWallet({
+            'name': "sss"
+           }).then(()=>{
+            this.Go(TabsComponent);
+           });
+         });
+      });
+    });
+  }
+
+  isExitCoinListCache(cacheChain,createdChains){
+    for (let chain in createdChains) {
+           if(cacheChain === chain){
+                return 1;
+           }
+    }
+         return -1;
+  }
+
 }
