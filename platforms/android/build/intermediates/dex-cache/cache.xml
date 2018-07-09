@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/desugar/release/20.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="6e4979b5cba007454dc2cc6c3ea2f9d398c96faf">
+        <dex dex="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/preDex/release/20.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/desugar/release/15.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="9ee4f1ac740c27ba678d9a76f1dc4a8f0d498dca">
+        <dex dex="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/preDex/release/15.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/desugar/release/8.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="91218f428c3cee2e2b4478c95cca6a363f78ca07">
+        <dex dex="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/preDex/release/8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/desugar/release/13.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="e8750237c59ac5513826cb4e63bbc27b1d6e914b">
+        <dex dex="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/preDex/release/13.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/desugar/release/5.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="936af59a4b93059159eac66726c6a1057011b916">
+        <dex dex="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/preDex/release/5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/desugar/release/2.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="6b9f5da101c2b7348d4ac251ab256100a925e290">
+        <dex dex="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/preDex/release/2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/desugar/release/9.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="9a1c96347d9fde842194883575da5462a27fcce3">
+        <dex dex="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/preDex/release/9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/desugar/release/19.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="1843c36364abc18bc6c625e65225b401cf0bdd16">
+        <dex dex="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/preDex/release/19.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/desugar/release/18.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="6e177a171378f335b7feec2b1f587b0657523744">
+        <dex dex="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/preDex/release/18.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/desugar/release/0.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="ce771dd9ca38456169566b60db9d88ad1617b4b6">
+        <dex dex="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/preDex/release/1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/desugar/release/12.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="faa16adc19ffd47c0e68d159ea079d5b37104f99">
+        <dex dex="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/preDex/release/12.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/desugar/release/11.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="8652981b42930bb7a72e98dd6ee9dce193c79bdb">
+        <dex dex="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/preDex/release/11.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/desugar/release/16.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="b8799785a62103372b2debda29c33d2e25d01c66">
+        <dex dex="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/preDex/release/16.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/desugar/release/10.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="75eede2a42246e34bc4a42c40707e4ec166ff91b">
+        <dex dex="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/preDex/release/10.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/desugar/release/4.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="b2097b4743a3cc213f596f129187a4cb268adaf0">
+        <dex dex="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/preDex/release/4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/desugar/release/17.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="4645f4c117243f634df2c612d531b87f86cdc239">
+        <dex dex="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/preDex/release/17.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/desugar/release/6.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="e2e5f071cebecf7bb3d45de90ec41fc1197c0741">
+        <dex dex="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/preDex/release/6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/desugar/release/14.jar"
+        jumboMode="false"
+        min-sdk-version="19"
+        optimize="true"
+        revision="26.0.2"
+        sha1="00bd536bdc2768828c4abfae96d68f54ff6aef72">
+        <dex dex="/Users/free/Desktop/Elastos.ORG.Wallet.Mobile/platforms/android/app/build/intermediates/transforms/preDex/release/14.jar" />
+    </item>
+
+</items>

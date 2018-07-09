@@ -1,0 +1,13 @@
+# ninja log v5
+1	1150	0	CMakeFiles/elastoswallet.dir/src/main/jni/ElaSpv.cpp.o	a45d115bee87ce78
+2	5357	0	CMakeFiles/elastoswallet.dir/src/main/jni/ElaMainchainSubWallet.cpp.o	289c78a998cf9336
+6	5514	0	CMakeFiles/elastoswallet.dir/src/main/jni/ElaSidechainSubWallet.cpp.o	88d4d6595bc61fed
+1	6116	0	CMakeFiles/elastoswallet.dir/src/main/jni/ElaMasterWallet.cpp.o	f79c823b88724427
+1	6379	0	CMakeFiles/elastoswallet.dir/src/main/jni/ElaMasterWalletManager.cpp.o	e7ee59a551ea8ac5
+6379	7602	0	CMakeFiles/elastoswallet.dir/src/main/jni/ElaUtils.cpp.o	2164150efac8dd3f
+1152	9488	0	CMakeFiles/elastoswallet.dir/src/main/jni/ElaIdChainSubWallet.cpp.o	976879e0c33c4578
+5358	9704	0	CMakeFiles/elastoswallet.dir/src/main/jni/ElaIdManagerFactory.cpp.o	fcd17ea724a50c20
+5514	10636	0	CMakeFiles/elastoswallet.dir/src/main/jni/ElaDidManager.cpp.o	3d37114706750af5
+2	11426	0	CMakeFiles/elastoswallet.dir/src/main/jni/ElaSubWallet.cpp.o	78c602543124855e
+6117	12057	0	CMakeFiles/elastoswallet.dir/src/main/jni/ElaDid.cpp.o	5d73829fe1637cf0
+12058	12208	0	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libelastoswallet.so	dca528bbdfa1d9f3
