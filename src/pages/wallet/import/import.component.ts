@@ -116,6 +116,15 @@ export class ImportComponent extends BaseComponent implements OnInit {
   getAllCreatedSubWallets(){
 
     this.localStorage.get('coinListCache').then((val)=>{
+         if(this.isNull(val)){
+          this.messageBox('import-text-keystroe-sucess');
+          this.localStorage.setWallet({
+            'name': "sss"
+           }).then(()=>{
+            this.Go(TabsComponent);
+           });
+           return;
+         }
          let coinListCache = JSON.parse(val);
       this.walletManager.getAllCreatedSubWallets((createdChains) => {
          for(let china in coinListCache){
