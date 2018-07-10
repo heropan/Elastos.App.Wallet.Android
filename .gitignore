@@ -1,5 +1,4 @@
 node_modules/
-package-lock.json
 .sourcemaps/main.js.map
 www/build
 platforms/android/.gradle/
