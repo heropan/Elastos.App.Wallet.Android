@@ -183,9 +183,6 @@ public class Wallet extends CordovaPlugin {
               case "changePassword":
                   this.changePassword(args, callbackContext);
                   return true;
-              case "resetAddressCache":
-                  this.resetAddressCache(args, callbackContext);
-                  return true;
               case "sendRawTransaction":
                   this.sendRawTransaction(args, callbackContext);
                   return true;
@@ -904,16 +901,6 @@ public class Wallet extends CordovaPlugin {
             e.printStackTrace();
             callbackContext.success(parseOneParam(ERRORCODE, e.GetErrorInfo()));
         }
-    }
-
-    public void resetAddressCache(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if (mCurrentMasterWallet != null) {
-            mCurrentMasterWallet.ResetAddressCache(args.getString(0));
-            callbackContext.success();
-            return;
-        }
-
-        callbackContext.success(parseOneParam("changePassword", null));
     }
 
     private JSONObject parseOneParam(String key, Object value) throws JSONException {

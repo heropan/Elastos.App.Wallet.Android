@@ -62,7 +62,7 @@ static jlong JNICALL nativeCreateSubWallet(JNIEnv *env, jobject clazz, jlong jMa
     }
 
     LOGI("?????????????? subWallet = %p", subWallet);
-    
+
     env->ReleaseStringUTFChars(jChainID, chainID);
     env->ReleaseStringUTFChars(jpayPassword, payPassword);
     return (jlong)subWallet;
@@ -237,16 +237,6 @@ static void JNICALL nativeChangePassword(JNIEnv *env, jobject clazz, jlong jMast
     env->ReleaseStringUTFChars(jnewPassword, newPassword);
 }
 
-static void JNICALL nativeResetAddressCache(JNIEnv *env, jobject clazz, jlong jMasterProxy, jstring jpayPassword)
-{
-    const char* payPassword = env->GetStringUTFChars(jpayPassword, NULL);
-
-    IMasterWallet* masterWallet = (IMasterWallet*)jMasterProxy;
-    masterWallet->ResetAddressCache(payPassword);
-
-    env->ReleaseStringUTFChars(jpayPassword, payPassword);
-}
-
 static const JNINativeMethod gMethods[] = {
     {"nativeGetId", "(J)Ljava/lang/String;", (void*)nativeGetId},
     {"nativeGetAllSubWallets", "(J)[J", (void*)nativeGetAllSubWallets},
@@ -259,7 +249,6 @@ static const JNINativeMethod gMethods[] = {
     {"nativeIsAddressValid", "(JLjava/lang/String;)Z", (void*)nativeIsAddressValid},
     {"nativeGetSupportedChains", "(J)[Ljava/lang/String;", (void*)nativeGetSupportedChains},
     {"nativeChangePassword", "(JLjava/lang/String;Ljava/lang/String;)V", (void*)nativeChangePassword},
-    {"nativeResetAddressCache", "(JLjava/lang/String;)V", (void*)nativeResetAddressCache},
 };
 
 jint register_elastos_spv_IMasterWallet(JNIEnv *env)
