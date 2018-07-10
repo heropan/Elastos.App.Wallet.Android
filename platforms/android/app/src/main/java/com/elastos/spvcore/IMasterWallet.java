@@ -105,10 +105,6 @@ public class IMasterWallet {
         nativeChangePassword(mMasterProxy, oldPassword, newPassword);
     }
 
-    public void ResetAddressCache(String payPassword) {
-        nativeResetAddressCache(mMasterProxy, payPassword);
-    }
-
     private native String nativeGetId(long masterProxy);
     private native long[] nativeGetAllSubWallets(long masterProxy);
     private native long nativeCreateSubWallet(long masterProxy, String chainID, String payPassword, boolean singleAddress, long feePerKb);
@@ -120,5 +116,4 @@ public class IMasterWallet {
     private native boolean nativeIsAddressValid(long masterProxy, String address);
     private native String[] nativeGetSupportedChains(long masterProxy);
     private native void nativeChangePassword(long proxy, String oldPassword, String newPassword);
-    private native void nativeResetAddressCache(long proxy, String payPassword);
 }
