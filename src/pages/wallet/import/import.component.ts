@@ -137,12 +137,13 @@ export class ImportComponent extends BaseComponent implements OnInit {
   }
 
   isExitCoinListCache(cacheChain,createdChains){
+    let result = -1;
     for (let chain in createdChains) {
            if(cacheChain === chain){
-                return 1;
+                result = 1;
            }
     }
-         return -1;
+         return result;
   }
 
 }
