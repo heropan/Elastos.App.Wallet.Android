@@ -42,7 +42,7 @@ public class Wallet extends CordovaPlugin {
     private static final String TAG = "Wallet.JNI";
     private IMasterWallet mCurrentMasterWallet;
     private MasterWalletManager mWalletManager;
-    private ArrayList<IMasterWallet> mMasterWalletList;
+    private ArrayList<IMasterWallet> mMasterWalletList = new ArrayList<IMasterWallet>();
     private IDidManager mDidManager = null;
     private Map<String, ISubWallet> mSubWalletMap = new HashMap<String, ISubWallet>();
     private String mRootPath = null;
