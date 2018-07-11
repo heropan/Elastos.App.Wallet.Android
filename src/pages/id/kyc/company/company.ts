@@ -11,7 +11,7 @@ import {TransferComponent} from "../../../../pages/coin/transfer/transfer.compon
 })
 export class IdKycCompanyComponent extends BaseComponent implements OnInit {
   businessObj={
-              "type":"1",
+              "type":"enterprise",
               "word":"北京比特大陆科技有限公司",
               "legalPerson":"詹克团",
               "registrationNum":"911101080804655794",
