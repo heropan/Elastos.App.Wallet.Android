@@ -10,7 +10,7 @@
   <div class="weui-form-preview__hd">
     <div class="weui-form-preview__item" >
       <label class="weui-form-preview__label" style="line-height: 40px">{{'transaction-price' | translate}}</label>
-      <em class="weui-form-preview__value">{{transactionRecord.type == 'Outcoming' ? '-' : '+'}} {{transactionRecord.balance}} {{transactionRecord.name}}</em>
+      <em class="weui-form-preview__value">{{transactionRecord.balance < 0 ? '' : '+'}}  {{transactionRecord.balance}} {{transactionRecord.name}}</em>
     </div>
   </div>
   <div class="weui-form-preview__bd">
@@ -20,10 +20,24 @@
         <span class="weui-form-preview__value">{{transactionRecord.txId}}</span>
       </a>
     </div>
+
     <div class="weui-form-preview__item">
-      <label class="weui-form-preview__label">{{'receive-address' | translate}}</label>
-      <span class="weui-form-preview__value">{{transactionRecord.receiveAddress}}</span>
+      <label class="weui-form-preview__label">{{'utxo-incoming' | translate}}</label>
+      <span class="weui-form-preview__value">{{transactionRecord.incomingAmount}}</span>
     </div>
+    <div class="weui-form-preview__item">
+      <label class="weui-form-preview__label">{{'utxo-incoming-address' | translate}}</label>
+      <span class="weui-form-preview__value">{{transactionRecord.incomingAddress}}</span>
+    </div>
+    <div class="weui-form-preview__item">
+      <label class="weui-form-preview__label">{{'utxo-outcoming' | translate}}</label>
+      <span class="weui-form-preview__value">{{transactionRecord.outcomingAmount}}</span>
+    </div>
+    <div class="weui-form-preview__item">
+      <label class="weui-form-preview__label">{{'utxo-outcoming-address' | translate}}</label>
+      <span class="weui-form-preview__value">{{transactionRecord.outcomingAddress}}</span>
+    </div>
+
     <div class="weui-form-preview__item">
       <label class="weui-form-preview__label">{{'transaction-time' | translate}}</label>
       <span class="weui-form-preview__value">{{transactionRecord.transactionTime}}</span>

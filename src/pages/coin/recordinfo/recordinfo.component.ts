@@ -28,17 +28,24 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
       let timestamp = transaction['Timestamp']*1000;
       let datetime = Util.dateFormat(new Date(timestamp));
       let summary = transaction['Summary'];
+      let incomingAmount = summary["Incoming"]['Amount'];
+      let outcomingAmount = summary["Outcoming"]['Amount'];
+      let incomingAddress = summary["Incoming"]['ToAddress'];
+      let outcomingAddress = summary["Outcoming"]['ToAddress'];
+      let balanceResult = incomingAmount - outcomingAmount;
       this.transactionRecord = {
         name: chainId,
         status: summary["Status"],
-        balance: summary["Amount"]/Config.SELA,
+        balance: balanceResult/Config.SELA,
+        incomingAmount: incomingAmount/Config.SELA,
+        outcomingAmount: outcomingAmount/Config.SELA,
+        incomingAddress: incomingAddress,
+        outcomingAddress: outcomingAddress,
         txId: txId,
-        receiveAddress: summary["ToAddress"],
         transactionTime: datetime,
         payfees: summary['Fee']/Config.SELA,
         confirmCount: summary["ConfirmStatus"],
-        remark: summary["Remark"],
-        type: summary["Type"]
+        remark: summary["Remark"]
       }
     });
   }  

@@ -15,7 +15,7 @@
             <div class="weui-cell__bd">
                 <p><br/> {{item.status | translate}} <span class="transfer-list-date" *ngIf="item.datetime!=0"> {{item.datetime}} </span></p>
             </div>
-            <div class="weui-cell__ft">{{item.type == 'Outcoming' ? '-' : '+'}} {{item.balance}} {{item.name}}</div>
+            <div class="weui-cell__ft">{{item.balance < 0 ? '' : '+'}} {{item.balance}} {{item.name}}</div>
         </li>
     </ul>
 
