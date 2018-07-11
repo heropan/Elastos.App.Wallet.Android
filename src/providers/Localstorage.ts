@@ -41,13 +41,13 @@ export class LocalStorage {
 
   public setWallet(value: any): any {
     // TODO
-    let key = "myWallet";
+    let key = "ELA-Wallet";
     return this.storage.set(key, JSON.stringify(value));
   }
 
   public getWallet(): any {
     // TODO
-    let key = "myWallet";
+    let key = "ELA-Wallet";
     return this.storage.get(key);
   }
 
