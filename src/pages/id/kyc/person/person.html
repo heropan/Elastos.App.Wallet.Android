@@ -23,9 +23,9 @@
         <div class="weui-cells__title title_h">
             <span class="float-left">{{'text-certified-phone' | translate }}</span>
             <!-- <input class="weui-switch float-right" type="checkbox" [(ngModel)]="validateObj['3'].isSelect" (ngModelChange)="calculateMenoy()"> -->
-            <input class="weui-switch float-right" type="checkbox" [(ngModel)]="validateObj['3'].isSelect">
+            <input class="weui-switch float-right" type="checkbox" [(ngModel)]="validateObj['phone'].isSelect">
         </div>
-        <div class="weui-cells" *ngIf="validateObj['3'].isSelect">
+        <div class="weui-cells" *ngIf="validateObj['phone'].isSelect">
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label for="" class="weui-label">{{'text-phone' | translate }}</label></div>
                 <div class="weui-cell__bd">
@@ -49,9 +49,9 @@
         <div class="weui-cells__title title_h">
             <span class="float-left">{{'text-card-debit' | translate }}</span>
             <!-- <input class="weui-switch float-right" type="checkbox" [(ngModel)]="validateObj['4'].isSelect" (ngModelChange)="calculateMenoy()"> -->
-            <input class="weui-switch float-right" type="checkbox" [(ngModel)]="validateObj['4'].isSelect">
+            <input class="weui-switch float-right" type="checkbox" [(ngModel)]="validateObj['bankCard'].isSelect">
         </div>
-        <div class="weui-cells" *ngIf="validateObj['4'].isSelect">
+        <div class="weui-cells" *ngIf="validateObj['bankCard'].isSelect">
 
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label for="" class="weui-label">{{'text-card-debit' | translate }}</label></div>
