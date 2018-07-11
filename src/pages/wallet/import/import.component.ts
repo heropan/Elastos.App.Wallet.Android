@@ -119,7 +119,7 @@ export class ImportComponent extends BaseComponent implements OnInit {
          if(this.isNull(val)) {
           this.messageBox('import-text-keystroe-sucess');
           this.localStorage.setWallet({
-            'name': "sss"
+            'name': "ELA-Wallet"
            }).then(()=>{
             this.Go(TabsComponent);
            });
@@ -136,7 +136,7 @@ export class ImportComponent extends BaseComponent implements OnInit {
          this.localStorage.set('coinListCache', coinListCache).then(()=>{
           this.messageBox('import-text-keystroe-sucess');
           this.localStorage.setWallet({
-            'name': "sss"
+            'name': "ELA-Wallet"
            }).then(()=>{
             this.Go(TabsComponent);
            });
