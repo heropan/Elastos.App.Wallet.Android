@@ -22,7 +22,6 @@ export class Config {
 
   public static appList=[{"id":0,"appkeyName":"KYC"}];
 
-  //短信接口签名私钥
   private static smsSecretKey = "";
 
   public static test: any = '';
