@@ -40,7 +40,7 @@
 
     <div class="weui-form-preview__item">
       <label class="weui-form-preview__label">{{'transaction-time' | translate}}</label>
-      <span class="weui-form-preview__value">{{transactionRecord.transactionTime}}</span>
+      <span class="weui-form-preview__value" *ngIf="transactionRecord.timestamp!='0'">{{transactionRecord.transactionTime}}</span>
     </div>
     <div class="weui-form-preview__item">
       <label class="weui-form-preview__label">{{'text-fees' | translate}}</label>
