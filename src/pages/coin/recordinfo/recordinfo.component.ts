@@ -26,6 +26,7 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
       // alert("getAllTransaction" + JSON.stringify(transactions));
       let transaction = transactions[0];
       let timestamp = transaction['Timestamp']*1000;
+      // alert(timestamp)
       let datetime = Util.dateFormat(new Date(timestamp));
       let summary = transaction['Summary'];
       let incomingAmount = summary["Incoming"]['Amount'];
@@ -43,6 +44,7 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
         outcomingAddress: outcomingAddress,
         txId: txId,
         transactionTime: datetime,
+        timestamp: timestamp,
         payfees: summary['Fee']/Config.SELA,
         confirmCount: summary["ConfirmStatus"],
         remark: summary["Remark"]

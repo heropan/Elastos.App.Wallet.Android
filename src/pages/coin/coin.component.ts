@@ -60,6 +60,7 @@ export class CoinComponent extends BaseComponent implements OnInit {
       for (let key in transactions) {
         let transaction = transactions[key];
         let timestamp = transaction['Timestamp']*1000;
+        // alert(timestamp)
         let datetime = Util.dateFormat(new Date(timestamp));
         let txId = transaction['TxHash'];
         let summary = transaction['Summary'];
@@ -73,6 +74,7 @@ export class CoinComponent extends BaseComponent implements OnInit {
           "type": summary["Type"],
           "balance": balanceResult/Config.SELA,
           "datetime": datetime,
+          "timestamp": timestamp,
           "txId": txId
         }
         this.transferList.push(transfer);

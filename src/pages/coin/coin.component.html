@@ -13,7 +13,7 @@
             <div class="weui-cell__hd">
                 <img src="./assets/images/tx-state/icon-tx-moved.svg" alt="" class="transfer-list-img"></div>
             <div class="weui-cell__bd">
-                <p><br/> {{item.status | translate}} <span class="transfer-list-date" *ngIf="item.datetime!=0"> {{item.datetime}} </span></p>
+                <p><br/> {{item.status | translate}} <span class="transfer-list-date" *ngIf="item.timestamp!='0'"> {{item.datetime}} </span></p>
             </div>
             <div class="weui-cell__ft">{{item.balance < 0 ? '' : '+'}} {{item.balance}} {{item.name}}</div>
         </li>
