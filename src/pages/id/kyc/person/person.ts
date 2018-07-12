@@ -160,7 +160,7 @@ if(this.checkCellphone(phone)){
         parms["type"] = type;
         parms["serialNum"] =this.serialNum;
         parms["txHash"] = "6a943e5079d424dd9daee8b3ef4062072ece5752ceea22612a0781b7a76d1dfe";
-        this.Go(TransferComponent,{addr:"ENMLAuBi4qW7ViKwh6GbcaMcktU8j78T6F",money:this.payMoney,type:"kyc",chianId:"IdChain",selectType:"person",parms:parms});
+        this.Go(TransferComponent,{addr:"EV3N6EfLGeTnrf5d31LvLBP4hkE5tp9Z1L",money:this.payMoney,type:"kyc",chianId:"IdChain",selectType:"person",parms:parms});
     //this.sendPersonAuth();
   }
 
