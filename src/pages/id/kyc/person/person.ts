@@ -12,9 +12,9 @@ import {TransferComponent} from "../../../../pages/coin/transfer/transfer.compon
   templateUrl: 'person.html',
 })
 export class IdKycPersonComponent extends BaseComponent implements OnInit {
-  validateObj ={"2":{isValidate:false,isSelect:true,payMoney:0.3},
-                "3":{isValidate:false,isSelect:false,payMoney:0.1},
-                "4":{isValidate:false,isSelect:false,payMoney:0.1}};
+  validateObj ={"identityCard":{isValidate:false,isSelect:true,payMoney:0.3},
+                "phone":{isValidate:false,isSelect:false,payMoney:0.1},
+                "bankCard":{isValidate:false,isSelect:false,payMoney:0.1}};
   personValidate = {fullName:'sss',identityNumber:'410426198811151012'};//个人验证对象
   phoneValidate  = {mobile:'18210230496',code:'123456'};//手机验证对象
   debitCard = {cardNumber:'6225260167820399',cardMobile:'18210230496',cardCode:'123456'};//银行卡验证对象
@@ -76,13 +76,13 @@ if(this.checkCellphone(phone)){
     for(let key in this.validateObj){
          let vobj = this.validateObj[key];
          //console.log("===key==="+key+typeof(key));
-         if(key=="2"){
+         if(key=="identityCard"){
                 obj["fullName"] = this.personValidate.fullName;
                 obj["identityNumber"] = this.personValidate.identityNumber;
-         }else if(!vobj.isValidate && vobj.isSelect&&key=="3"){
+         }else if(!vobj.isValidate && vobj.isSelect&&key=="phone"){
                 obj["mobile"] = this.phoneValidate.mobile;
                 obj["code"] = this.phoneValidate.code;
-         }else if(!vobj.isValidate && vobj.isSelect&&key=="4"){
+         }else if(!vobj.isValidate && vobj.isSelect&&key=="bankCard"){
                 obj["cardNumber"] = this.debitCard.cardNumber;
                 obj["cardMobile"] = this.debitCard.cardMobile;
                 obj["cardCode"] = this.debitCard.cardCode;
@@ -92,7 +92,7 @@ if(this.checkCellphone(phone)){
   }
   onCommit(): void {
     /**个人身份验证 */
-     if(!this.validateObj['2'].isValidate && this.validateObj['2'].isSelect){
+     if(!this.validateObj['identityCard'].isValidate && this.validateObj['identityCard'].isSelect){
               if(this.isNull(this.personValidate.fullName)){
                     this.messageBox('text-realname-message');
                      return;
@@ -110,7 +110,7 @@ if(this.checkCellphone(phone)){
      }
 
      /**手机验证 */
-     if(!this.validateObj['3'].isValidate && this.validateObj['3'].isSelect){
+     if(!this.validateObj['phone'].isValidate && this.validateObj['phone'].isSelect){
       if(this.isNull(this.phoneValidate.mobile)){
             this.messageBox('text-phone-message-1');
              return;
@@ -128,7 +128,7 @@ if(this.checkCellphone(phone)){
       }
 
       /**邮政卡验证 */
-      if(!this.validateObj['4'].isValidate && this.validateObj['4'].isSelect){
+      if(!this.validateObj['bankCard'].isValidate && this.validateObj['bankCard'].isSelect){
 
         if(this.isNull(this.debitCard.cardNumber)){
           this.messageBox('text-debitCard-message-1');
@@ -160,7 +160,7 @@ if(this.checkCellphone(phone)){
         parms["type"] = type;
         parms["serialNum"] =this.serialNum;
         parms["txHash"] = "6a943e5079d424dd9daee8b3ef4062072ece5752ceea22612a0781b7a76d1dfe";
-        this.Go(TransferComponent,{addr:"ENMLAuBi4qW7ViKwh6GbcaMcktU8j78T6F",money:this.payMoney,type:"kyc",chianId:"IdChain",selectType:"person",parms:parms});
+        this.Go(TransferComponent,{addr:"EV3N6EfLGeTnrf5d31LvLBP4hkE5tp9Z1L",money:this.payMoney,type:"kyc",chianId:"IdChain",selectType:"person",parms:parms});
     //this.sendPersonAuth();
   }
 

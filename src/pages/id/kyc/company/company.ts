@@ -11,7 +11,7 @@ import {TransferComponent} from "../../../../pages/coin/transfer/transfer.compon
 })
 export class IdKycCompanyComponent extends BaseComponent implements OnInit {
   businessObj={
-              "type":"1",
+              "type":"enterprise",
               "word":"北京比特大陆科技有限公司",
               "legalPerson":"詹克团",
               "registrationNum":"911101080804655794",
@@ -34,7 +34,7 @@ export class IdKycCompanyComponent extends BaseComponent implements OnInit {
     if(this.checkParms()){
       this.businessObj["serialNum"] = this.serialNum;
 
-      //this.Go(TransferComponent,{"did":this.idObj["id"],addr:"ENMLAuBi4qW7ViKwh6GbcaMcktU8j78T6F",money:this.payMoney,type:"kyc",chianId:"ELA",selectType:"company",parm:this.businessObj});
+      //this.Go(TransferComponent,{"did":this.idObj["id"],addr:"EV3N6EfLGeTnrf5d31LvLBP4hkE5tp9Z1L",money:this.payMoney,type:"kyc",chianId:"ELA",selectType:"company",parm:this.businessObj});
       this.Go(IdKycResultComponent,this.idObj);
     }
   }

@@ -26,7 +26,6 @@
 ### 项目结构
 
 - src |网页代码
-    - app/app-routing.module.ts |网站路由
     - pages |网站页面
     - providers/WalletManager.ts | cordova插件调用  
 - www |打包后的网页代码
