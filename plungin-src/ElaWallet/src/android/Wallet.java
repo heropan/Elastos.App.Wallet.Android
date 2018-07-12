@@ -62,7 +62,7 @@ public class Wallet extends CordovaPlugin {
         if (mMasterWalletList != null) {
             mCurrentMasterWallet = mMasterWalletList.get(0);
             if (mCurrentMasterWallet != null) {
-                // mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet, mRootPath);
+                mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet, mRootPath);
             }
         }
         else {
@@ -74,7 +74,7 @@ public class Wallet extends CordovaPlugin {
       Log.d("JS-Wallet", "initDidManager=========1====mRootPath="+mRootPath);
         if (mDidManager == null && mCurrentMasterWallet != null) {
             Log.d("JS-Wallet", "initDidManager=========2====mRootPath="+mRootPath);
-            // mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet, mRootPath);
+            mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet, mRootPath);
         }
     }
 
