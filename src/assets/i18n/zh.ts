@@ -191,5 +191,9 @@ export const zh = {
   'text-exprot-sucess-message':'导出成功',
   'text-id-chain-prompt1':'您可以将信息写入到ID链，做个有身份的人',
   'text-id-chain-prompt2':'您输入的信息将永久保存到ID链',
-  'text-data-chain':'数据上链'
+  'text-data-chain':'数据上链',
+  'text-id-kyc-add':'新增',
+  'text-id-kyc-check':'查看',
+  'text-id-kyc-operation':'操作',
+  'text-id-kyc-order-list':"订单列表"
 };

@@ -8,7 +8,7 @@ import {BaseComponent} from "../../../../app/BaseComponent";
 export class KycOperationPage  extends BaseComponent implements OnInit{
 
     ngOnInit(){
-      this.setTitleByAssets('text-id-import');
+      this.setTitleByAssets('text-id-kyc-operation');
     }
 
     onNext(type) {
