@@ -11,7 +11,7 @@ export class IdAppListComponent extends BaseComponent implements OnInit{
   id:string;
   ngOnInit(){
       this.setTitleByAssets('text-id-app-list-name');
-      this.id =this.getNavParams().get("idObj");
+      this.id =this.getNavParams().get("id");
   }
 
   onNext(item){
