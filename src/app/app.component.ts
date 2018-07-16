@@ -42,6 +42,16 @@ export class AppComponent {
       //init java 2 js plugin
       cordova.plugins.Java2JSBridge.init(this);
 
+
+      //cordova.plugins.Java2JSBridge.getDeviceID();
+
+     cordova.plugins.Java2JSBridge.getDeviceID(succeedCallback);
+     function succeedCallback(message){
+      alert(message);
+
+    }
+    //alert(devideID);
+
       localStorage.getWallet().then((val) => {
         if (val) {
           this.rootPage = TabsComponent;
