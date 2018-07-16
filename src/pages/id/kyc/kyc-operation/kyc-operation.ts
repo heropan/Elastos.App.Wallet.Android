@@ -12,6 +12,7 @@ export class KycOperationPage  extends BaseComponent implements OnInit{
     private aprType;
     ngOnInit(){
       this.params  = this.getNavParams().data;
+
       this.aprType = this.params["type"];
       this.setTitleByAssets('text-id-kyc-operation');
     }
@@ -26,9 +27,9 @@ export class KycOperationPage  extends BaseComponent implements OnInit{
 
     add(){
       if(this.aprType === 1){
-         this.Go(IdKycPersonComponent,{id:this.aprType});
+         this.Go(IdKycPersonComponent,this.params);
       }else{
-        this.Go(IdKycCompanyComponent,{id:this.aprType});
+        this.Go(IdKycCompanyComponent,this.params);
       }
     }
 

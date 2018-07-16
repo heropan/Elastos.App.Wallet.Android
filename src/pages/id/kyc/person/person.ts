@@ -22,11 +22,13 @@ export class IdKycPersonComponent extends BaseComponent implements OnInit {
   unit:string="ELA"
   priceObj:any={};
   serialNum:string;
+  parms:any;
+  did:any;
   ngOnInit() {
     this.setTitleByAssets('text-certified-person');
+    this.parms = this.getNavParams().data;
+    this.did = this.parms["id"];
     this.getPrice();
-    //this.sendCodeHttp();
-    //this.calculateMenoy();
   }
 
   onSendCode(): Observable<boolean> {
@@ -155,12 +157,13 @@ if(this.checkCellphone(phone)){
           return;
          }
         }
+        //appType authType
         let parms =this.getpayParms();
         let type = this.getSelectType();
         parms["type"] = type;
         parms["serialNum"] =this.serialNum;
-        parms["txHash"] = "6a943e5079d424dd9daee8b3ef4062072ece5752ceea22612a0781b7a76d1dfe";
-        this.Go(TransferComponent,{addr:"EV3N6EfLGeTnrf5d31LvLBP4hkE5tp9Z1L",money:this.payMoney,type:"kyc",chianId:"IdChain",selectType:"person",parms:parms});
+        //parms["txHash"] = "6a943e5079d424dd9daee8b3ef4062072ece5752ceea22612a0781b7a76d1dfe";
+        this.Go(TransferComponent,{did:this.did,addr:"EV3N6EfLGeTnrf5d31LvLBP4hkE5tp9Z1L",money:this.payMoney,appType:"kyc",chianId:"IdChain",selectType:"person",parms:parms});
     //this.sendPersonAuth();
   }
 

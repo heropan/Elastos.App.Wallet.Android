@@ -21,21 +21,19 @@ export class IdKycCompanyComponent extends BaseComponent implements OnInit {
   payMoney:number = 0;
   unit:string ="ELA";
   serialNum:string;
-  idObj:any;
+  parms:any;
   ngOnInit() {
     this.setTitleByAssets('text-certified-company');
-    this.idObj = this.getNavParams();
+    this.parms = this.getNavParams().data;
     this.getPrice();
-    //this.getAppAuth();
   }
 
   onCommit(): void {
-    //this.sendCompanyHttp();
     if(this.checkParms()){
       this.businessObj["serialNum"] = this.serialNum;
 
       //this.Go(TransferComponent,{"did":this.idObj["id"],addr:"EV3N6EfLGeTnrf5d31LvLBP4hkE5tp9Z1L",money:this.payMoney,type:"kyc",chianId:"ELA",selectType:"company",parm:this.businessObj});
-      this.Go(IdKycResultComponent,this.idObj);
+      this.Go(IdKycResultComponent,this.parms);
     }
   }
 
