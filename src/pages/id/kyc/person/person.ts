@@ -169,8 +169,6 @@ if(this.checkCellphone(phone)){
     let code = (Math.random()*1000000000000000).toString().substring(0,6);
     let timestamp = this.getTimestamp();
     let parms ={"mobile":"18210230496","code":code,"serialNum":this.serialNum,"timestamp":timestamp};
-    let signature = IDManager.getInfoSign(parms);
-    parms["signature"] = signature;
     let checksum = IDManager.getCheckSum(parms,"asc");
     parms["checksum"] = checksum;
     this.getHttp().postByAuth(ApiUrl.SEND_CODE,parms).toPromise().then(data=>{
