@@ -41,7 +41,7 @@ export class ManagerComponent extends BaseComponent implements OnInit {
   }
 
   destroyWallet(masterWalletId: string){
-    this.localStorage.remove('myWallet').then(() => {
+    this.localStorage.remove('ELA-Wallet').then(() => {
       this.walletManager.destroyWallet(masterWalletId, (result)=>{
         this.Go(LauncherComponent);
       });
