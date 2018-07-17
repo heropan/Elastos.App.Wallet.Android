@@ -26,7 +26,7 @@ export class KycOperationPage  extends BaseComponent implements OnInit{
     }
 
     add(){
-      if(this.aprType === 1){
+      if(this.aprType === "person"){
          this.Go(IdKycPersonComponent,this.params);
       }else{
         this.Go(IdKycCompanyComponent,this.params);

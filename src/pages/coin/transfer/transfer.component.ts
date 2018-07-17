@@ -238,7 +238,7 @@ alert("=====4"+JSON.stringify(parm));
 
   // let id = this.did+"-"+serialNum+"-"+this.selectType;
   this.localStorage.addKyc("kyc",parm).then((val)=>{
-       this.Go(IdResultComponent,{'status':'0'});
+       this.Go(IdResultComponent,{'status':'0',id:this.did,appType:this.appType,selectType:this.selectType});
   });
 }
 
