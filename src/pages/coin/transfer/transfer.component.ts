@@ -50,6 +50,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
     this.selectType = transferObj["selectType"] || "";
     this.parms = transferObj["parms"] || "";
     this.did = transferObj["did"] || "";
+    this.saveKycSerialNum("AJJ1530200943637686");
     this.initData();
 
     this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
@@ -221,8 +222,22 @@ sendPersonAuth(parms){
 
 saveKycSerialNum(serialNum){
   //id+认证流水号+企业/个人
-  let id = this.did+"-"+serialNum+"-"+this.selectType;
-  this.localStorage.addKyc("kyc",{"id":id}).then((val)=>{
+  //let id="z123456789"
+let parm ={};
+parm[this.did] ={};
+alert("=====1"+JSON.stringify(parm));
+let appType = "kyc";
+parm[this.did][this.appType ] ={};
+alert("=====2"+JSON.stringify(parm));
+parm[this.did][this.appType ][this.selectType] ={};
+alert("=====3"+JSON.stringify(parm));
+let sparms ={};
+sparms[serialNum] = {txHash:"f13bd87a1aed741803f019588ba102976ad5d49c5d322e844ce81eac240151af",serialNum:"AJJ1530200943637686"};
+parm[this.did][this.appType][this.selectType]["order"] =sparms;
+alert("=====4"+JSON.stringify(parm));
+
+  // let id = this.did+"-"+serialNum+"-"+this.selectType;
+  this.localStorage.addKyc("kyc",parm).then((val)=>{
        this.Go(IdResultComponent,{'status':'0'});
   });
 }
