@@ -157,13 +157,13 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
     }
     this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
       if (data['ERRORCODE'] == undefined) {
+        this.Go(TabsComponent);
         this.walletManager.registerWalletListener(this.chianId, (data) => {
           if (data['confirms'] == 1) {
             this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
             });
           }
         });
-        this.Go(TabsComponent);
       } else {
         this.toast('text-password-error');
       }
