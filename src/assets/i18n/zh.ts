@@ -195,5 +195,6 @@ export const zh = {
   'text-id-kyc-add':'新增',
   'text-id-kyc-check':'查看',
   'text-id-kyc-operation':'操作',
-  'text-id-kyc-order-list':"订单列表"
+  'text-id-kyc-order-list':"订单列表",
+  'text-id-kyc-auth-uncompleted':"认证未完成"
 };
