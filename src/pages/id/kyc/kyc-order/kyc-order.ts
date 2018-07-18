@@ -3,6 +3,7 @@ import {BaseComponent} from "../../../../app/BaseComponent";
 import {IdKycResultComponent} from "../../../../pages/id/kyc/result/result";
 import {IDManager} from "../../../../providers/IDManager";
 import {ApiUrl} from "../../../../providers/ApiUrl";
+import { kycSelectTypeComponent } from '../selecttype/create';
 @Component({
   selector: 'page-kyc-order',
   templateUrl: 'kyc-order.html',
@@ -56,7 +57,13 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
       if(data["status"] === 200){
         alert("sssss======="+JSON.stringify(data));
         let authResult = JSON.parse(data["_body"]);
-        alert("sssss111111======="+JSON.stringify(data));
+        if(authResult["errorCode"] === "4"){
+            this.messageBox("text-id-kyc-auth-uncompleted");
+               return;
+        }
+        if(authResult["errorCode"] === "0"){
+            this.Go(kycSelectTypeComponent,this.params);
+        }
        }
     }).catch(error => {
 

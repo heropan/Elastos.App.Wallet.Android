@@ -50,7 +50,6 @@ export class TransferComponent extends BaseComponent implements OnInit {
     this.selectType = transferObj["selectType"] || "";
     this.parms = transferObj["parms"] || "";
     this.did = transferObj["did"] || "";
-    this.saveKycSerialNum("AJJ1530200943637686");
     this.initData();
 
     this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
@@ -152,7 +151,9 @@ export class TransferComponent extends BaseComponent implements OnInit {
     }
 
     this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
-      this.txId = data["json"]["txHash"];
+      alert(JSON.stringify(data["json"]));
+      alert(typeof(data["json"]));
+      this.txId = JSON.parse(data["json"])["TxHash"];
       alert("=======txId====="+this.txId);
       if (data['ERRORCODE'] == undefined) {
         this.walletManager.registerWalletListener(this.chianId, (data) => {
@@ -193,7 +194,8 @@ export class TransferComponent extends BaseComponent implements OnInit {
     params["checksum"] = checksum;
     this.getHttp().postByAuth(ApiUrl.AUTH,params).toPromise().then(data => {
          let authData= JSON.parse(data["_body"])
-         this.saveKycSerialNum(authData['serialNum']);
+         alert('---authData---'+JSON.stringify(authData));
+         //this.saveKycSerialNum(authData['serialNum']);
         //  this.localStorage.add("kyc",{id:this.did,status:0,'serialNum':authData['serialNum'],'vtoken':authData['vtoken'],'txHash':this.txId,'parms':this.parms}).then(()=>{
         //             this.Go(IdResultComponent,{'status':'0'});
         //  });
@@ -212,7 +214,13 @@ sendPersonAuth(parms){
       this.getHttp().postByAuth(ApiUrl.AUTH,parms).toPromise().then(data=>{
         if(data["status"] === 200){
           let authData= JSON.parse(data["_body"])
-          this.saveKycSerialNum(authData['serialNum']);
+          alert('---authData---'+JSON.stringify(authData));
+          if(authData["errorCode"] === "0"){
+               let serialNum = authData["serialNum"];
+               this.saveKycSerialNum(serialNum);
+          }else{
+              alert("错误码:"+authData["errorCode"]);
+          }
          }
       }).catch(error => {
 
@@ -221,8 +229,6 @@ sendPersonAuth(parms){
 }
 
 saveKycSerialNum(serialNum){
-  //id+认证流水号+企业/个人
-  //let id="z123456789"
 let parm ={};
 parm[this.did] ={};
 alert("=====1"+JSON.stringify(parm));
@@ -232,7 +238,7 @@ alert("=====2"+JSON.stringify(parm));
 parm[this.did][this.appType ][this.selectType] ={};
 alert("=====3"+JSON.stringify(parm));
 let sparms ={};
-sparms[serialNum] = {txHash:"f13bd87a1aed741803f019588ba102976ad5d49c5d322e844ce81eac240151af",serialNum:"AJJ1530200943637686"};
+sparms[serialNum] = {txHash:this.txId,serialNum:serialNum};
 parm[this.did][this.appType][this.selectType]["order"] =sparms;
 alert("=====4"+JSON.stringify(parm));
 
