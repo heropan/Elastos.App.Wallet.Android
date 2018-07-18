@@ -134,7 +134,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
        let proofString = JSON.stringify(authSign);
        alert("didSign proofString"+ proofString);
 
-       this.message = {ID:this.did,Path:"1",Proof: proofString,DataHash:kycChainDataHash,Sign:result.value};
+       this.message = {Id:this.did,Path:"1",Proof: proofString,DataHash:kycChainDataHash,Sign:result.value};
        alert("didSign 5"+ JSON.stringify(this.message));
 
      });
@@ -168,7 +168,7 @@ getDepositTransaction(){
 
  sendDepositTransaction(){
      this.walletManager.sendRawTransaction("ELA",this.depositTransaction,20000,this.passworld,(result)=>{
-
+       alert("sendDepositTransaction result"+JSON.stringify(result));
      })
  }
 
