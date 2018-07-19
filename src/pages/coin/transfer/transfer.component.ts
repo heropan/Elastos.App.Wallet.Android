@@ -193,12 +193,16 @@ export class TransferComponent extends BaseComponent implements OnInit {
     let checksum = IDManager.getCheckSum(params,"asc");
     params["checksum"] = checksum;
     this.getHttp().postByAuth(ApiUrl.AUTH,params).toPromise().then(data => {
-         let authData= JSON.parse(data["_body"])
-         alert('---authData---'+JSON.stringify(authData));
-         //this.saveKycSerialNum(authData['serialNum']);
-        //  this.localStorage.add("kyc",{id:this.did,status:0,'serialNum':authData['serialNum'],'vtoken':authData['vtoken'],'txHash':this.txId,'parms':this.parms}).then(()=>{
-        //             this.Go(IdResultComponent,{'status':'0'});
-        //  });
+         if(data["status"] === 200){
+          let authData= JSON.parse(data["_body"]);
+          alert('---authData---'+JSON.stringify(authData));
+          if(authData["errorCode"] === "0"){
+               let serialNum = authData["serialNum"];
+               this.saveKycSerialNum(serialNum);
+          }else{
+              alert("错误码:"+authData["errorCode"]);
+          }
+         }
 
     }).catch(error => {
          this.Go(IdResultComponent,{'status':'1'});
