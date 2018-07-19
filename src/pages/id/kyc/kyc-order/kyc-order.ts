@@ -34,14 +34,7 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
   }
 
   onNext(item) {
-    // if ( this.params["type"] === 1) {
-    //    alert("---item---"+JSON.stringify(item));
-    //   //this.Go(IdKycResultComponent,{});
-    // } else {
-    //   //this.Go(IdKycResultComponent,{});
-    // }
-
-    this.getAppAuth(item["serialNum"],item["txHash"]);
+      this.getAppAuth(item["serialNum"],item["txHash"]);
   }
 
     getAppAuth(serialNum,txHash){
