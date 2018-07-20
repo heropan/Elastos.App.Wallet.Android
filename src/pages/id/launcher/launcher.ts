@@ -27,7 +27,11 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
 
   createId(){
     this.walletManager.createDID("s12345678",(result)=>{
-          this.Go(IdHomeComponent);
+          alert("---1111---"+JSON.stringify(result));
+          let idObj ={id:result.didname};
+          this.localStorage.add("kycId",idObj).then(()=>{
+               this.Go(IdHomeComponent);
+          });
     })
   }
 }

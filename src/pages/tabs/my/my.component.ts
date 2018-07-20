@@ -49,13 +49,12 @@ export class MyComponent  extends BaseComponent implements OnInit  {
    }
 
    getDIDList(){
-    this.walletManager.getDIDList((result)=>{
-
-      if(this.isNull(result["list"])){
+    this.localStorage.get("kycId").then((val)=>{
+      if(this.isNull(val)){
           this.Go(IdLauncherComponent);
           return;
       }
-      this.Go(IdHomeComponent,result);
-      });
+      this.Go(IdHomeComponent);
+    });
    }
 }

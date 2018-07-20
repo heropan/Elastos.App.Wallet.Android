@@ -15,8 +15,9 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
     this.setLeftIcon("",()=>{
        this.Go(TabsComponent);
     });
-    this.walletManager.getDIDList((result)=>{
-      this.kycIdArr = JSON.parse(result["list"]);
+
+    this.localStorage.get("kycId").then((val)=>{
+             this.kycIdArr = this.objtoarr(JSON.parse(val));
     });
   }
 
@@ -34,14 +35,17 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
     }
   }
 
-  onItem(id){
-    this.Go(IdAppListComponent,{"id":id});
+  onItem(item){
+    this.Go(IdAppListComponent,{"id":item.id});
   }
 
   createDID(){
+
     this.walletManager.createDID("s12345678",(result)=>{
-        //this.getDID();
-        this.kycIdArr.push(result.didname);
+      let idObj ={id:result.didname};
+      this.localStorage.add("kycId",idObj).then(()=>{
+           this.kycIdArr.push({id:result.didname});
+      });
     });
   }
 
