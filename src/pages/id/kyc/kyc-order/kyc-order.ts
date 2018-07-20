@@ -34,14 +34,7 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
   }
 
   onNext(item) {
-    // if ( this.params["type"] === 1) {
-    //    alert("---item---"+JSON.stringify(item));
-    //   //this.Go(IdKycResultComponent,{});
-    // } else {
-    //   //this.Go(IdKycResultComponent,{});
-    // }
-
-    this.getAppAuth(item["serialNum"],item["txHash"]);
+      this.getAppAuth(item["serialNum"],item["txHash"]);
   }
 
     getAppAuth(serialNum,txHash){
@@ -62,7 +55,8 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
                return;
         }
         if(authResult["errorCode"] === "0"){
-            this.Go(kycSelectTypeComponent,this.params);
+            this.params["adata"] = authResult["data"];
+            this.Go(IdKycResultComponent,this.params);
         }
        }
     }).catch(error => {
