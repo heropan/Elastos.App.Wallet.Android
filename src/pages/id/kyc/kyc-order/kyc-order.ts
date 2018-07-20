@@ -55,7 +55,8 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
                return;
         }
         if(authResult["errorCode"] === "0"){
-            this.Go(kycSelectTypeComponent,this.params);
+            this.params["adata"] = authResult["data"];
+            this.Go(IdKycResultComponent,this.params);
         }
        }
     }).catch(error => {

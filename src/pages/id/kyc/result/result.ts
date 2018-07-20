@@ -33,11 +33,13 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     this.idObj = this.getNavParams().data;
     alert("ngOnInit ====="+JSON.stringify(this.idObj));
     this.did = this.idObj["id"];
-    // this.businessObj.word = this.idObj["parms"]["word"];
-    // this.businessObj.legalPerson = this.idObj["parms"]["legalPerson"];
-    // this.businessObj.registrationNum = this.idObj["parms"]["registrationNum"];
-    // this.signature = this.idObj["parms"]["signature"];
-    //this.message["Id"]=  this.did;
+
+    if(this.idObj["type"] === "company"){
+           this.getCompany();
+    }else{
+           this.getPerson();
+    }
+
     this.caulmessage();
     if(this.isNull(status)){
       this.type = '0';
@@ -47,6 +49,19 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     this.setLeftIcon('',()=>{
            this.Go(IdHomeComponent);
     });
+  }
+
+  getCompany(){
+    let adata = this.idObj["adata"][0];
+    let companyObj = adata["retdata"];
+    this.businessObj["word"] = companyObj["word"];
+    this.businessObj["legalPerson"] = companyObj["legalPerson"];
+    this.businessObj["registrationNum"] = companyObj["registrationNum"];
+    this.signature = companyObj["signature"];
+  }
+
+  getPerson(){
+
   }
 
   onCommit(){
