@@ -3,7 +3,7 @@ import {BaseComponent} from "../../../../app/BaseComponent";
 import {ApiUrl} from "../../../../providers/ApiUrl";
 import {IDManager} from "../../../../providers/IDManager";
 import {TransferComponent} from "../../../../pages/coin/transfer/transfer.component";
-
+import {IdKycResultComponent} from '../../../../pages/id/kyc/result/result';
 @Component({
   selector: 'id-company',
   templateUrl: 'company.html',
@@ -31,8 +31,8 @@ export class IdKycCompanyComponent extends BaseComponent implements OnInit {
   onCommit(): void {
     if(this.checkParms()){
       this.businessObj["serialNum"] = this.serialNum;
-      this.Go(TransferComponent,{did:this.did,addr:"EV3N6EfLGeTnrf5d31LvLBP4hkE5tp9Z1L",money:this.payMoney,appType:"kyc",chianId:"ELA",selectType:"company",parms:this.businessObj});
-      //this.Go(IdKycResultComponent,this.parms);
+      //this.Go(TransferComponent,{did:this.did,addr:"EV3N6EfLGeTnrf5d31LvLBP4hkE5tp9Z1L",money:this.payMoney,appType:"kyc",chianId:"ELA",selectType:"company",parms:this.businessObj});
+      this.Go(IdKycResultComponent,this.parms);
     }
   }
 

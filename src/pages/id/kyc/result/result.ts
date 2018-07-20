@@ -34,11 +34,11 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     alert("ngOnInit ====="+JSON.stringify(this.idObj));
     this.did = this.idObj["id"];
 
-    if(this.idObj["type"] === "company"){
-           this.getCompany();
-    }else{
-           this.getPerson();
-    }
+    // if(this.idObj["type"] === "company"){
+    //        this.getCompany();
+    // }else{
+    //        this.getPerson();
+    // }
 
     this.caulmessage();
     if(this.isNull(status)){
