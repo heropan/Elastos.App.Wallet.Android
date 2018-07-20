@@ -89,6 +89,20 @@ public:
         const nlohmann::json &desc,
         uint32_t confirms);
 
+    virtual void OnBlockSyncStarted();
+
+    /**
+     * Callback method fired when best block chain height increased. This callback could be used to show progress.
+     * @param currentBlockHeight is the of current block when callback fired.
+     * @param progress is current progress when block height increased.
+     */
+    virtual void OnBlockHeightIncreased(uint32_t currentBlockHeight, double progress);
+
+    /**
+     * Callback method fired when block end synchronizing with a peer. This callback could be used to show progress.
+     */
+    virtual void OnBlockSyncStopped();
+
     ElaSubWalletCallback(
         /* [in] */ JNIEnv* env,
         /* [in] */ jobject jobj);
@@ -130,7 +144,7 @@ static void JNICALL nativeRemoveCallback(JNIEnv *env, jobject clazz, jlong jSubP
 }
 
 static jstring JNICALL nativeCreateTransaction(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jfromAddress,
-        jstring jtoAddress, jlong amount, jlong fee, jstring jmemo, jstring jremark)
+        jstring jtoAddress, jlong amount, jstring jmemo, jstring jremark)
 {
     const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
     const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
@@ -142,7 +156,7 @@ static jstring JNICALL nativeCreateTransaction(JNIEnv *env, jobject clazz, jlong
 
     nlohmann::json result;
     try {
-        result = subWallet->CreateTransaction(fromAddress, toAddress, amount, fee, memo, remark);
+        result = subWallet->CreateTransaction(fromAddress, toAddress, amount, memo, remark);
     }
     catch (std::invalid_argument& e) {
         ThrowWalletException(env, e.what());
@@ -176,9 +190,9 @@ static jstring JNICALL nativeCreateMultiSignAddress(JNIEnv *env, jobject clazz, 
     return env->NewStringUTF(result.c_str());
 }
 
-//"(JLjava/lang/String;Ljava/lang/String;JJLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+//"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeCreateMultiSignTransaction(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jfromAddress,
-        jstring jtoAddress, jlong amount, jlong fee, jstring jmemo)
+        jstring jtoAddress, jlong amount, jstring jmemo)
 {
     const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
     const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
@@ -188,7 +202,7 @@ static jstring JNICALL nativeCreateMultiSignTransaction(JNIEnv *env, jobject cla
     nlohmann::json result;
 
     try {
-        result = subWallet->CreateMultiSignTransaction(fromAddress, toAddress, amount, fee, memo);
+        result = subWallet->CreateMultiSignTransaction(fromAddress, toAddress, amount, memo);
     }
     catch (std::invalid_argument& e) {
         ThrowWalletException(env, e.what());
@@ -356,8 +370,8 @@ static const JNINativeMethod gMethods[] = {
     {"nativeGetBalanceWithAddress", "(JLjava/lang/String;)J", (void*)nativeGetBalanceWithAddress},
     {"nativeAddCallback", "(JLcom/elastos/spvcore/ISubWalletCallback;)V", (void*)nativeAddCallback},
     {"nativeRemoveCallback", "(JLcom/elastos/spvcore/ISubWalletCallback;)V", (void*)nativeRemoveCallback},
-    {"nativeCreateTransaction", "(JLjava/lang/String;Ljava/lang/String;JJLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeCreateTransaction},
-    {"nativeCreateMultiSignTransaction", "(JLjava/lang/String;Ljava/lang/String;JJLjava/lang/String;)Ljava/lang/String;", (void*)nativeCreateMultiSignTransaction},
+    {"nativeCreateTransaction", "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void*)nativeCreateTransaction},
+    {"nativeCreateMultiSignTransaction", "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;)Ljava/lang/String;", (void*)nativeCreateMultiSignTransaction},
     {"nativeCreateMultiSignAddress", "(JLjava/lang/String;II)Ljava/lang/String;", (void*)nativeCreateMultiSignAddress},
     {"nativeSendRawTransaction", "(JLjava/lang/String;JLjava/lang/String;)Ljava/lang/String;", (void*)nativeSendRawTransaction},
     {"nativeGetAllTransaction", "(JIILjava/lang/String;)Ljava/lang/String;", (void*)nativeGetAllTransaction},
@@ -417,6 +431,42 @@ void ElaSubWalletCallback::OnTransactionStatusChanged(const std::string &txid, c
     jstring jdesc = env->NewStringUTF(ToStringFromJson(desc));
 
     env->CallVoidMethod(mObj, methodId, jtxid, jstatus, jdesc, confirms);
+
+    Detach();
+}
+
+void ElaSubWalletCallback::OnBlockSyncStarted()
+{
+    JNIEnv* env = GetEnv();
+    LOGD("FUNC=[%s]========================LINE=[%d]", __FUNCTION__, __LINE__);
+
+    jclass clazz = env->GetObjectClass(mObj);
+    jmethodID methodId = env->GetMethodID(clazz, "OnBlockSyncStarted","()V");
+    env->CallVoidMethod(mObj, methodId);
+
+    Detach();
+}
+
+void ElaSubWalletCallback::OnBlockHeightIncreased(uint32_t currentBlockHeight, double progress)
+{
+    JNIEnv* env = GetEnv();
+    LOGD("FUNC=[%s]========================LINE=[%d]", __FUNCTION__, __LINE__);
+
+    jclass clazz = env->GetObjectClass(mObj);
+    jmethodID methodId = env->GetMethodID(clazz, "OnBlockHeightIncreased","(ID)V");
+    env->CallVoidMethod(mObj, methodId, currentBlockHeight, progress);
+
+    Detach();
+}
+
+void ElaSubWalletCallback::OnBlockSyncStopped()
+{
+    JNIEnv* env = GetEnv();
+    LOGD("FUNC=[%s]========================LINE=[%d]", __FUNCTION__, __LINE__);
+
+    jclass clazz = env->GetObjectClass(mObj);
+    jmethodID methodId = env->GetMethodID(clazz, "OnBlockSyncStopped","()V");
+    env->CallVoidMethod(mObj, methodId);
 
     Detach();
 }

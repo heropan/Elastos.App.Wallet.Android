@@ -7,9 +7,8 @@ public class IIdChainSubWallet extends ISidechainSubWallet{
     private long mIDchainProxy;
 
 
-    public String CreateIdTransaction(String fromAddress, String toAddress, long amount,
-            String payloadJson, String programJson, long fee, String memo, String remark) throws WalletException {
-        return nativeCreateIdTransaction(mIDchainProxy, fromAddress, toAddress, amount, payloadJson, programJson, fee, memo, remark);
+    public String CreateIdTransaction(String fromAddress, String payloadJson, String programJson, String memo, String remark) throws WalletException {
+        return nativeCreateIdTransaction(mIDchainProxy, fromAddress, payloadJson, programJson, memo, remark);
     }
 
     public IIdChainSubWallet(long proxy) {
@@ -17,6 +16,6 @@ public class IIdChainSubWallet extends ISidechainSubWallet{
         mIDchainProxy = proxy;
     }
 
-    private native String nativeCreateIdTransaction(long proxy, String fromAddress, String toAddress, long amount,
-            String payloadJson, String programJson, long fee, String memo, String remark);
+    private native String nativeCreateIdTransaction(long proxy, String fromAddress,
+            String payloadJson, String programJson, String memo, String remark);
 }

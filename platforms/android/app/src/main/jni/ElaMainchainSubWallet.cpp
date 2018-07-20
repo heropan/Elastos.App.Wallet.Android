@@ -10,10 +10,10 @@ using namespace Elastos::ElaWallet;
 extern const char* ToStringFromJson(const nlohmann::json& jsonValue);
 extern nlohmann::json ToJosnFromString(const char* str);
 
-//"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;)Ljava/lang/String;"
+//"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz, jlong jMainSubWalletProxy,
         jstring jfromAddress, jstring jtoAddress, jlong amount, jstring jsidechainAccounts, jstring jsidechainAmounts
-        , jstring jsidechainIndexs, jlong fee, jstring jmemo, jstring jremark)
+        , jstring jsidechainIndexs, jstring jmemo, jstring jremark)
 {
     const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
     const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
@@ -38,7 +38,7 @@ static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz
     try {
         LOGD("FUNC=[%s]=========================line=[%d]", __FUNCTION__, __LINE__);
         txidJson = wallet->CreateDepositTransaction(fromAddress, toAddress, amount , ToJosnFromString(sidechainAccounts)
-            , ToJosnFromString(sidechainAmounts), ToJosnFromString(sidechainIndexs), fee, memo, remark);
+            , ToJosnFromString(sidechainAmounts), ToJosnFromString(sidechainIndexs), memo, remark);
         LOGD("FUNC=[%s]=========================line=[%d]", __FUNCTION__, __LINE__);
         retValue = env->NewStringUTF(ToStringFromJson(txidJson));
         LOGD("FUNC=[%s]=========================line=[%d]", __FUNCTION__, __LINE__);
@@ -69,7 +69,7 @@ static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz
 
 static const JNINativeMethod gMethods[] = {
     {"nativeCreateDepositTransaction",
-    "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+    "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
             , (void*)nativeCreateDepositTransaction},
 };
 

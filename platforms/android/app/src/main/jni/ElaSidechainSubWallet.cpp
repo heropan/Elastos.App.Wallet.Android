@@ -11,10 +11,10 @@ using namespace Elastos::ElaWallet;
 extern const char* ToStringFromJson(const nlohmann::json& jsonValue);
 extern nlohmann::json ToJosnFromString(const char* str);
 
-//"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;)Ljava/lang/String;"
+//"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject clazz, jlong jSideSubWalletProxy, jstring jfromAddress
         , jstring jtoAddress, jlong amount, jstring jmainchainAccounts, jstring jmainchainAmounts,
-        jstring jmainchainIndexs, jlong fee, jstring jmemo, jstring jremark)
+        jstring jmainchainIndexs, jstring jmemo, jstring jremark)
 {
     LOGD("FUNC=[%s]=========================line=[%d]", __FUNCTION__, __LINE__);
     const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
@@ -41,7 +41,7 @@ static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject claz
         LOGD("FUNC=[%s]=========================line=[%d]", __FUNCTION__, __LINE__);
         result = wallet->CreateWithdrawTransaction(fromAddress, toAddress, amount
                 , ToJosnFromString(mainchainAccounts), ToJosnFromString(mainchainAmounts)
-                , ToJosnFromString(mainchainIndexs), fee, memo, remark);
+                , ToJosnFromString(mainchainIndexs), memo, remark);
 
         LOGD("FUNC=[%s]=========================line=[%d]", __FUNCTION__, __LINE__);
         retValue = env->NewStringUTF(ToStringFromJson(result));
@@ -99,7 +99,7 @@ static jstring JNICALL nativeGetGenesisAddress(JNIEnv *env, jobject clazz, jlong
 
 static const JNINativeMethod gMethods[] = {
     {"nativeCreateWithdrawTransaction",
-    "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+    "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
             , (void*)nativeCreateWithdrawTransaction},
     {"nativeGetGenesisAddress", "(J)Ljava/lang/String;", (void*)nativeGetGenesisAddress},
 };
