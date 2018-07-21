@@ -152,7 +152,7 @@ static jstring JNICALL nativeCreateTransaction(JNIEnv *env, jobject clazz, jlong
     const char* remark = env->GetStringUTFChars(jremark, NULL);
 
     ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-    LOGD("nativeCreateTransaction == fromAddress=[%s], to=[%s], amount=[%lld], fee=[%lld], memo=[%s]", fromAddress, toAddress, amount, fee, memo);
+    LOGD("nativeCreateTransaction == fromAddress=[%s], to=[%s], amount=[%lld], memo=[%s]", fromAddress, toAddress, amount, memo);
 
     nlohmann::json result;
     try {
