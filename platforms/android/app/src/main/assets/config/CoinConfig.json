@@ -23,7 +23,7 @@
   "IdChain": {
     "Type": "Idchain",
     "CoinIndex": 1,
-    "NetType": "MainNet",
+    "NetType": "RegNet",
     "TargetTimeSpan": 86400,
     "TargetTimePerBlock": 120,
     "StandardPort": 22608,

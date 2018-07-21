@@ -555,7 +555,7 @@ public class Wallet extends CordovaPlugin {
         String transactionId = null;
         try {
             transactionId = subWallet.CreateTransaction(args.getString(1), args.getString(2), args.getLong(3),
-                                    , args.getString(4), args.getString(5));
+                              args.getString(4), args.getString(5));
             if (transactionId != null) {
                 callbackContext.success(parseOneParam("transactionId", transactionId));
             }
@@ -671,7 +671,7 @@ public class Wallet extends CordovaPlugin {
             @Override
             public void OnBlockHeightIncreased(int currentBlockHeight, double progress) {
                 JSONObject jsonObject = new JSONObject();
-                Log.i("JS-Wallet", "OnBlockHeightIncreased==================1");
+                Log.i("JS-Wallet", "OnBlockHeightIncreased==================currentBlockHeight: " + currentBlockHeight + " progress: " + progress);
                 try {
                     jsonObject.put("currentBlockHeight", currentBlockHeight);
                     jsonObject.put("progress", progress);
