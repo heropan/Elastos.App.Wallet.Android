@@ -125,7 +125,6 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
       mainchainAddress, // user input address
       mainchainAmounts, // TODO default:0
       mainchainIndex, // TODO default:0
-      this.transfer.fee,
       this.transfer.memo,
       this.transfer.remark,
       (data)=>{

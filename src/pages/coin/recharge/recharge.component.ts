@@ -128,7 +128,6 @@ export class RechargeComponent extends BaseComponent implements OnInit {
       sidechainAddress, // user input address
       sidechainAmounts, // TODO default:0
       sidechainIndex, // TODO default:0
-      this.transfer.fee,
       this.transfer.memo,
       this.transfer.remark,
       (data)=>{

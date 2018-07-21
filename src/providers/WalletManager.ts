@@ -228,8 +228,8 @@ export class WalletManager {
      this.wallet.getAllSubWallets([oldPassword,newPassword],Fun,this.errorFun);
   }
 
-  createTransaction(chainId:string,fromAddress:string , toAddress:string ,amount:number,fee:number, memo:string, remark: string,Fun){
-    this.wallet.createTransaction([chainId,fromAddress,toAddress,amount,fee,memo, remark],Fun,this.errorFun);
+  createTransaction(chainId:string,fromAddress:string , toAddress:string ,amount:number, memo:string, remark: string,Fun){
+    this.wallet.createTransaction([chainId,fromAddress,toAddress,amount,memo, remark],Fun,this.errorFun);
   }
 
   calculateTransactionFee(chainId:string,rawTransaction:string,feePerKb:number,Fun){
@@ -285,13 +285,13 @@ export class WalletManager {
   }
 
   createDepositTransaction(chainId:string,fromAddress:string,toAddress:string,amount:number
-                           ,sidechainAccounts:string,sidechainAmounts:string,sidechainIndex:string,fee:number,memo:string,remark:string,Fun){
-    this.wallet.createDepositTransaction([chainId,fromAddress,toAddress,amount,sidechainAccounts,sidechainAmounts,sidechainIndex,fee,memo,remark],Fun,this.errorFun);
+                           ,sidechainAccounts:string,sidechainAmounts:string,sidechainIndex:string,memo:string,remark:string,Fun){
+    this.wallet.createDepositTransaction([chainId,fromAddress,toAddress,amount,sidechainAccounts,sidechainAmounts,sidechainIndex,memo,remark],Fun,this.errorFun);
   }
 
   createWithdrawTransaction(chainId:string,fromAddress:string,toAddress:string,amount:number
-                           ,mainchainAccounts:string,mainchainAmounts:string,mainchainIndexs:string,fee:number,memo:string,remark:string,Fun){
-    this.wallet.createWithdrawTransaction([chainId,fromAddress,toAddress,amount,mainchainAccounts,mainchainAmounts,mainchainIndexs,fee,memo,remark],Fun,this.errorFun);
+                           ,mainchainAccounts:string,mainchainAmounts:string,mainchainIndexs:string,memo:string,remark:string,Fun){
+    this.wallet.createWithdrawTransaction([chainId,fromAddress,toAddress,amount,mainchainAccounts,mainchainAmounts,mainchainIndexs,memo,remark],Fun,this.errorFun);
   }
 
   getGenesisAddress(chainId:string,Fun){
