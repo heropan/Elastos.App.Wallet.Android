@@ -280,8 +280,8 @@ export class WalletManager {
     this.wallet.didGetPublicKey([did],Fun,this.errorFun);
   }
 
-  createIdTransaction(chainId:string,fromAddress:string,toAddress:string,amount:number,payloadJson:string,programJson:string,fee:number,memo:string,remark:string,Fun){
-     this.wallet.createIdTransaction([chainId,fromAddress,toAddress,amount,payloadJson,programJson,fee,memo,remark],Fun,this.errorFun);
+  createIdTransaction(chainId:string,fromAddress:string,payloadJson:string,programJson:string,memo:string,remark:string,Fun){
+     this.wallet.createIdTransaction([chainId,fromAddress,payloadJson,programJson,memo,remark],Fun,this.errorFun);
   }
 
   createDepositTransaction(chainId:string,fromAddress:string,toAddress:string,amount:number

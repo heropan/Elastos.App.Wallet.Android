@@ -75,7 +75,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
   }
 
   cauFee(){
-     this.walletManager.createIdTransaction("IdChain","",this.fromAddress,0,this.message,this.programJson,0,"","",(result)=>{
+     this.walletManager.createIdTransaction("IdChain",this.fromAddress,this.message,this.programJson,"","",(result)=>{
              alert("createIdTransaction result =="+JSON.stringify(result));
              let rawTransaction = result['json'].toString();
              //alert(rawTransaction);
@@ -135,7 +135,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
  //从主链转一批钱到测链
 
 createDepositTransaction(){
-  this.walletManager.createDepositTransaction("ELA","","XQd1DCi6H62NQdWZQhJCRnrPn7sF9CTjaU",this.fee,this.fromAddress,"qq",this.fee+"",20000,"","",(result)=>{
+  this.walletManager.createDepositTransaction("ELA","","XQd1DCi6H62NQdWZQhJCRnrPn7sF9CTjaU",this.fee,this.fromAddress,"qq",this.fee+"","","",(result)=>{
             this.depositTransaction = result['transactionId'].toString();
             //this.getDepositTransaction();
   });
