@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from "../../../../app/BaseComponent";
 import {Observable} from 'rxjs';
 import 'rxjs/add/observable/timer';
-import {IdResultComponent} from "../../../../pages/id/result/result";
 import {IDManager} from "../../../../providers/IDManager"
 import {ApiUrl} from "../../../../providers/ApiUrl"
 import {TransferComponent} from "../../../../pages/coin/transfer/transfer.component";
@@ -22,11 +21,13 @@ export class IdKycPersonComponent extends BaseComponent implements OnInit {
   unit:string="ELA"
   priceObj:any={};
   serialNum:string;
+  parms:any;
+  did:any;
   ngOnInit() {
     this.setTitleByAssets('text-certified-person');
+    this.parms = this.getNavParams().data;
+    this.did = this.parms["id"];
     this.getPrice();
-    //this.sendCodeHttp();
-    //this.calculateMenoy();
   }
 
   onSendCode(): Observable<boolean> {
@@ -155,29 +156,12 @@ if(this.checkCellphone(phone)){
           return;
          }
         }
+        //appType authType
         let parms =this.getpayParms();
         let type = this.getSelectType();
         parms["type"] = type;
         parms["serialNum"] =this.serialNum;
-        parms["txHash"] = "6a943e5079d424dd9daee8b3ef4062072ece5752ceea22612a0781b7a76d1dfe";
-        this.Go(TransferComponent,{addr:"EV3N6EfLGeTnrf5d31LvLBP4hkE5tp9Z1L",money:this.payMoney,type:"kyc",chianId:"IdChain",selectType:"person",parms:parms});
-    //this.sendPersonAuth();
-  }
-
-
-  sendCodeHttp(){
-    let code = (Math.random()*1000000000000000).toString().substring(0,6);
-    let timestamp = this.getTimestamp();
-    let parms ={"mobile":"18210230496","code":code,"serialNum":this.serialNum,"timestamp":timestamp};
-    let signature = IDManager.getInfoSign(parms);
-    parms["signature"] = signature;
-    let checksum = IDManager.getCheckSum(parms,"asc");
-    parms["checksum"] = checksum;
-    this.getHttp().postByAuth(ApiUrl.SEND_CODE,parms).toPromise().then(data=>{
-
-    }).catch(error => {
-
-    });
+        this.Go(TransferComponent,{did:this.did,addr:"EV3N6EfLGeTnrf5d31LvLBP4hkE5tp9Z1L",money:this.payMoney,appType:"kyc",chianId:"ELA",selectType:"person",parms:parms});
   }
 
   getPrice(){
@@ -195,27 +179,6 @@ if(this.checkCellphone(phone)){
     }).catch(error => {
 
     });
-  }
-
-  sendPersonAuth(){
-    let parms =this.getpayParms();
-        let type = this.getSelectType();
-        parms["type"] = type;
-        let timestamp = this.getTimestamp();
-        parms["timestamp"] = timestamp;
-        parms["serialNum"] =this.serialNum;
-        parms["txHash"] = "6a943e5079d424dd9daee8b3ef4062072ece5752ceea22612a0781b7a76d1dfe";
-        let checksum = IDManager.getCheckSum(parms,"asc");
-        parms["checksum"] = checksum;
-        console.log("====parms===="+JSON.stringify(parms));
-        this.getHttp().postByAuth(ApiUrl.AUTH,parms).toPromise().then(data=>{
-          if(data["status"] === 200){
-            this.Go(IdResultComponent,{'status':'0'});
-           }
-        }).catch(error => {
-
-        });
-        this.Go(IdResultComponent,{'status':'0'});
   }
 
 }

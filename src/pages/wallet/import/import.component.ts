@@ -10,7 +10,7 @@ export class ImportComponent extends BaseComponent implements OnInit {
   public selectedTab: string="words";
   public showAdvOpts:boolean;
   public keyStoreContent:any;
-  public importFileObj:any={payPassword: "",rePayPassword: "", backupPassWord: "",phrasePassword:""};
+  public importFileObj:any={payPassword: "s12345678",rePayPassword: "s12345678", backupPassWord: "s12345678",phrasePassword:"s12345678"};
   public mnemonicObj:any={mnemonic:"",payPassword: "", rePayPassword: "",phrasePassword:""}
   public toggleShowAdvOpts(): void {
     this.showAdvOpts = !this.showAdvOpts;
@@ -105,12 +105,12 @@ export class ImportComponent extends BaseComponent implements OnInit {
     this.walletManager.importWalletWithMnemonic("1",mnemonic,this.mnemonicObj.phrasePassword,this.mnemonicObj.payPassword,this.getMnemonicLang(),()=>{
                  this.messageBox('import-text-world-sucess');
                  this.localStorage.remove('coinListCache').then(()=>{
-                    this.localStorage.setWallet({
-                    'name': "ELA-Wallet"
-                     }).then(()=>{
-                      this.Go(TabsComponent);
-                    });
-                 });
+                 this.localStorage.setWallet({
+                  'name': "ELA-Wallet"
+                   }).then(()=>{
+                    this.Go(TabsComponent);
+                  });
+});
 
 
     });

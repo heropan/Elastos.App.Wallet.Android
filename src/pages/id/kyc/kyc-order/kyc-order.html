@@ -1,8 +1,8 @@
 <app-header [header]="header"></app-header>
 <div class="weui-cells">
-    <a class="weui-cell weui-cell_access my-row" href="javascript:;" (click)="onNext(0)">
+    <a class="weui-cell weui-cell_access my-row" href="javascript:;" *ngFor="let item of serialNumList; let i = index" (click)="onNext(item)">
         <div class="weui-cell__bd my-font-size-14  my-font-size-top">
-            <p>111111111111111111111</p>
+            <p>{{item["serialNum"]}}</p>
         </div>
         <div class="weui-cell__ft"></div>
     </a>

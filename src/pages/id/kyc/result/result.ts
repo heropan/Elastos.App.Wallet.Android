@@ -31,14 +31,16 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
  ngOnInit(){
     this.setTitleByAssets('text-kyc-result');
     this.idObj = this.getNavParams().data;
-    alert("====="+JSON.stringify(this.idObj));
-    // this.did = this.idObj["parms"]["id"];
-    // this.businessObj.word = this.idObj["parms"]["word"];
-    // this.businessObj.legalPerson = this.idObj["parms"]["legalPerson"];
-    // this.businessObj.registrationNum = this.idObj["parms"]["registrationNum"];
-    // this.signature = this.idObj["parms"]["signature"];
-    this.message["Id"]=  this.did;
-    //this.caulmessage();
+    alert("ngOnInit ====="+JSON.stringify(this.idObj));
+    this.did = this.idObj["id"];
+
+    // if(this.idObj["type"] === "company"){
+    //        this.getCompany();
+    // }else{
+    //        this.getPerson();
+    // }
+
+    this.caulmessage();
     if(this.isNull(status)){
       this.type = '0';
     }else{
@@ -49,7 +51,21 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     });
   }
 
+  getCompany(){
+    let adata = this.idObj["adata"][0];
+    let companyObj = adata["retdata"];
+    this.businessObj["word"] = companyObj["word"];
+    this.businessObj["legalPerson"] = companyObj["legalPerson"];
+    this.businessObj["registrationNum"] = companyObj["registrationNum"];
+    this.signature = companyObj["signature"];
+  }
+
+  getPerson(){
+
+  }
+
   onCommit(){
+    alert("onCommit begin");
     // this.popupProvider.ionicConfirm('confirmTitle', 'confirmSubTitle').then(() => {
 
     // });
@@ -57,7 +73,10 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
   }
 
   didGenerateProgram(){
-
+    alert("didGenerateProgram did"+this.did);
+    alert("didGenerateProgram message"+ JSON.stringify(this.message));
+    alert("didGenerateProgram passworld"+ this.passworld);
+    console.log("---didGenerateProgram----"+"did="+this.did+"message="+JSON.stringify(this.message)+"passworld"+this.passworld);
     this.walletManager.didGenerateProgram(this.did,JSON.stringify(this.message),this.passworld,(result)=>{
                    this.programJson  = result.value;
                    alert("====didGenerateProgram===="+JSON.stringify(this.programJson));
@@ -75,7 +94,10 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
   }
 
   cauFee(){
-     this.walletManager.createIdTransaction("IdChain",this.fromAddress,this.message,this.programJson,"","",(result)=>{
+
+    alert("createIdTransaction before");
+    this.walletManager.createIdTransaction("IdChain","",this.fromAddress,0,this.message,this.programJson,0,"","",(result)=>{
+            console.log("---createIdTransaction---"+"fromAddress="+this.fromAddress+"message="+JSON.stringify(this.message)+"programJson="+this.programJson);
              alert("createIdTransaction result =="+JSON.stringify(result));
              let rawTransaction = result['json'].toString();
              //alert(rawTransaction);
@@ -110,14 +132,27 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
                      notary:"COOIX"
                     }
 
-     let authDataHash = IDManager.hash(JSON.stringify(kycContent)+JSON.stringify(authSign));
+    alert("caulmessage 1");
 
-     let kycChainDataHash = IDManager.hash(authDataHash+JSON.stringify(authSign));
+    let authDataHash = IDManager.hash(JSON.stringify(kycContent)+JSON.stringify(authSign));
 
-     let singObj = {Id:"sdfghjjk",Path:"1",Proof:authSign,DataHash:kycChainDataHash};
+    alert("caulmessage 2"+ authDataHash);
+
+    let kycChainDataHash = IDManager.hash(authDataHash+JSON.stringify(authSign));
+
+    alert("caulmessage 3"+ kycChainDataHash);
+
+    let singObj = {Id:this.did,Path:"1",Proof:authSign,DataHash:kycChainDataHash};
 
      this.walletManager.didSign(this.did,JSON.stringify(singObj),this.passworld,(result)=>{
-               this.message = {ID:this.did,Path:"1",Proof:authSign,DataHash:kycChainDataHash,Sign:result.value};
+       alert("didSign 4"+ JSON.stringify(result));
+
+       let proofString = JSON.stringify(authSign);
+       alert("didSign proofString"+ proofString);
+
+       this.message = {Id:this.did,Path:"1",Proof: proofString,DataHash:kycChainDataHash,Sign:result.value};
+       alert("didSign 5"+ JSON.stringify(this.message));
+
      });
  }
 
@@ -126,8 +161,8 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     alert("sendRawTransaction begin==");
 
     this.walletManager.sendRawTransaction("IdChain",rawTransaction,this.fee,this.passworld,(result)=>{
+      console.log("---sendRawTransaction---"+"rawTransaction="+rawTransaction+"fee="+this.fee);
       alert("sendRawTransaction result"+JSON.stringify(result));
-
     })
  }
 
@@ -149,7 +184,7 @@ getDepositTransaction(){
 
  sendDepositTransaction(){
      this.walletManager.sendRawTransaction("ELA",this.depositTransaction,20000,this.passworld,(result)=>{
-
+       alert("sendDepositTransaction result"+JSON.stringify(result));
      })
  }
 

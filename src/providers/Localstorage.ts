@@ -6,7 +6,7 @@ import { Storage } from '@ionic/storage';
  */
 @Injectable()
 export class LocalStorage {
-  
+
   constructor(private storage: Storage) { }
 
   public add(key: string, value: any): any {
@@ -49,6 +49,14 @@ export class LocalStorage {
     // TODO
     let key = "ELA-Wallet";
     return this.storage.get(key);
+  }
+
+  public addKyc(key: string, value: any):any{
+    return this.storage.set(key, JSON.stringify(value));
+  }
+
+  public getKycList(key: string):any{
+      return this.storage.get(key);
   }
 
 }

@@ -1,6 +1,5 @@
 import { Component,OnInit } from '@angular/core';
 import {BaseComponent} from "../../../app/BaseComponent";
-import {IdCreateComponent} from "../../../pages/id/create/create";
 import {IdImportComponent} from "../../../pages/id/import/import";
 import {IdHomeComponent} from "../../../pages/id/home/home";
 
@@ -16,7 +15,6 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
   onNext(type){
     switch (type){
       case 0:
-      //this.Go(IdCreateComponent);
         this.createId();
         break;
       case 1:
@@ -27,7 +25,10 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
 
   createId(){
     this.walletManager.createDID("s12345678",(result)=>{
-          this.Go(IdHomeComponent);
+          let idObj ={id:result.didname};
+          this.localStorage.add("kycId",idObj).then(()=>{
+               this.Go(IdHomeComponent);
+          });
     })
   }
 }
