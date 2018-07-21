@@ -458,7 +458,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    createTransaction(){
-      this.walletManager.createTransaction(this.chinaId,"",this.toAddress,1*this.unit,0.01*this.unit,"sssssss", "ssss",(result)=>{
+      this.walletManager.createTransaction(this.chinaId,"",this.toAddress,1*this.unit,"sssssss", "ssss",(result)=>{
                       alert("=====createTransaction======"+JSON.stringify(result));
       });
    }
