@@ -76,7 +76,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     alert("didGenerateProgram did"+this.did);
     alert("didGenerateProgram message"+ JSON.stringify(this.message));
     alert("didGenerateProgram passworld"+ this.passworld);
-
+    console.log("---didGenerateProgram----"+"did="+this.did+"message="+JSON.stringify(this.message)+"passworld"+this.passworld);
     this.walletManager.didGenerateProgram(this.did,JSON.stringify(this.message),this.passworld,(result)=>{
                    this.programJson  = result.value;
                    alert("====didGenerateProgram===="+JSON.stringify(this.programJson));
@@ -97,6 +97,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
 
     alert("createIdTransaction before");
     this.walletManager.createIdTransaction("IdChain","",this.fromAddress,0,this.message,this.programJson,0,"","",(result)=>{
+            console.log("---createIdTransaction---"+"fromAddress="+this.fromAddress+"message="+JSON.stringify(this.message)+"programJson="+this.programJson);
              alert("createIdTransaction result =="+JSON.stringify(result));
              let rawTransaction = result['json'].toString();
              //alert(rawTransaction);
@@ -160,8 +161,8 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     alert("sendRawTransaction begin==");
 
     this.walletManager.sendRawTransaction("IdChain",rawTransaction,this.fee,this.passworld,(result)=>{
+      console.log("---sendRawTransaction---"+"rawTransaction="+rawTransaction+"fee="+this.fee);
       alert("sendRawTransaction result"+JSON.stringify(result));
-
     })
  }
 
