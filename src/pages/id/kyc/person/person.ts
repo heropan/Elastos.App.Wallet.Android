@@ -161,7 +161,7 @@ if(this.checkCellphone(phone)){
         let type = this.getSelectType();
         parms["type"] = type;
         parms["serialNum"] =this.serialNum;
-        this.Go(TransferComponent,{did:this.did,addr:"EV3N6EfLGeTnrf5d31LvLBP4hkE5tp9Z1L",money:this.payMoney,appType:"kyc",chianId:"ELA",selectType:"person",parms:parms});
+        this.Go(TransferComponent,{did:this.did,addr:"EKZCcfqBP1YXiDtJVNdnLQR74QRHKrgFYD",money:this.payMoney,appType:"kyc",chianId:"ELA",selectType:"person",parms:parms});
   }
 
   getPrice(){

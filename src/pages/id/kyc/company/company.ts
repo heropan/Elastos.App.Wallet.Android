@@ -31,7 +31,7 @@ export class IdKycCompanyComponent extends BaseComponent implements OnInit {
   onCommit(): void {
     if(this.checkParms()){
       this.businessObj["serialNum"] = this.serialNum;
-      //this.Go(TransferComponent,{did:this.did,addr:"EV3N6EfLGeTnrf5d31LvLBP4hkE5tp9Z1L",money:this.payMoney,appType:"kyc",chianId:"ELA",selectType:"company",parms:this.businessObj});
+      //this.Go(TransferComponent,{did:this.did,addr:"EKZCcfqBP1YXiDtJVNdnLQR74QRHKrgFYD",money:this.payMoney,appType:"kyc",chianId:"ELA",selectType:"company",parms:this.businessObj});
       this.Go(IdKycResultComponent,this.parms);
     }
   }
