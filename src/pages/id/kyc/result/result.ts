@@ -73,10 +73,10 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
   }
 
   didGenerateProgram(){
-    alert("didGenerateProgram did"+this.did);
-    alert("didGenerateProgram message"+ JSON.stringify(this.message));
-    alert("didGenerateProgram passworld"+ this.passworld);
-    console.log("---didGenerateProgram----"+"did="+this.did+"message="+JSON.stringify(this.message)+"passworld"+this.passworld);
+    //alert("didGenerateProgram did"+this.did);
+    //alert("didGenerateProgram message"+ JSON.stringify(this.message));
+    //alert("didGenerateProgram passworld"+ this.passworld);
+    //console.log("---didGenerateProgram----"+"did="+this.did+"message="+JSON.stringify(this.message)+"passworld"+this.passworld);
     this.walletManager.didGenerateProgram(this.did,JSON.stringify(this.message),this.passworld,(result)=>{
                    this.programJson  = result.value;
                    alert("====didGenerateProgram===="+JSON.stringify(this.programJson));
@@ -86,9 +86,9 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
 
   createfromAddress(){
     this.walletManager.createAddress("IdChain",(result)=>{
-              alert(JSON.stringify(result));
+             // alert(JSON.stringify(result));
               this.fromAddress = result.address;
-              alert("createfromAddress this.fromAddress====="+this.fromAddress);
+             // alert("createfromAddress this.fromAddress====="+this.fromAddress);
               this.cauFee();
     });
   }
@@ -97,11 +97,11 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
 
     alert("createIdTransaction before" + this.fromAddress);
     this.walletManager.createIdTransaction("IdChain","",this.message,this.programJson,"","",(result)=>{
-            console.log("---createIdTransaction---"+"fromAddress="+this.fromAddress+"message="+JSON.stringify(this.message)+"programJson="+this.programJson);
+            //console.log("---createIdTransaction---"+"fromAddress="+this.fromAddress+"message="+JSON.stringify(this.message)+"programJson="+this.programJson);
              alert("createIdTransaction result =="+JSON.stringify(result));
              let rawTransaction = result['json'].toString();
              //alert(rawTransaction);
-             alert("createIdTransaction rawTransaction =="+rawTransaction);
+             //alert("createIdTransaction rawTransaction =="+rawTransaction);
 
              this.calculateTransactionFee(rawTransaction);
      });
@@ -113,9 +113,9 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
       alert("calculateTransactionFee data=="+JSON.stringify(data));
 
       this.fee = data['fee'];
-      console.log("Elastos 111111111111111");
-      console.log("rawTransaction" + JSON.stringify(rawTransaction));
-      alert("calculateTransactionFee fee=="+JSON.stringify(this.fee));
+     // console.log("Elastos 111111111111111");
+      //console.log("rawTransaction" + JSON.stringify(rawTransaction));
+      //alert("calculateTransactionFee fee=="+JSON.stringify(this.fee));
       this.sendRawTransaction(rawTransaction);
      });
   }
@@ -132,15 +132,15 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
                      notary:"COOIX"
                     }
 
-    alert("caulmessage 1");
+    //alert("caulmessage 1");
 
     let authDataHash = IDManager.hash(JSON.stringify(kycContent)+JSON.stringify(authSign));
 
-    alert("caulmessage 2"+ authDataHash);
+    //alert("caulmessage 2"+ authDataHash);
 
     let kycChainDataHash = IDManager.hash(authDataHash+JSON.stringify(authSign));
 
-    alert("caulmessage 3"+ kycChainDataHash);
+    //alert("caulmessage 3"+ kycChainDataHash);
 
     let singObj = {Id:this.did,Path:"1",Proof:authSign,DataHash:kycChainDataHash};
 
@@ -161,9 +161,23 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     alert("sendRawTransaction begin==");
 
     this.walletManager.sendRawTransaction("IdChain",rawTransaction,this.fee,this.passworld,(result)=>{
-      console.log("---sendRawTransaction---"+"rawTransaction="+rawTransaction+"fee="+this.fee);
+      ////////////////
       alert("sendRawTransaction result"+JSON.stringify(result));
-    })
+
+      // if (result['ERRORCODE'] == undefined) {
+      //   //this.Go(TabsComponent);
+      //   this.walletManager.registerIdListener(this.did, (data) => {
+      //     ////////////////
+      //     alert("sendRawTransaction registerIdListener data "+ JSON.stringify(data));
+      //
+      //   });
+      //
+      // } else {
+      //   this.toast('text-password-error');
+      // }
+    });
+
+    //})
  }
 
 

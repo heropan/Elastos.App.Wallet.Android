@@ -18,6 +18,20 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
 
     this.localStorage.get("kycId").then((val)=>{
              this.kycIdArr = this.objtoarr(JSON.parse(val));
+
+             // this.kycIdArr.forEach(function(e){
+             //
+             //   alert("createDID registerIdListener e.id "+ e.id);
+             //   //alert("createDID registerIdListener this.walletManager "+ this.walletManager)
+             //   this.walletManager.registerIdListener(e.id, (data) => {
+             //     ////////////////
+             //     alert("createDID registerIdListener data "+ JSON.stringify(data));
+             //
+             //   });
+             //   alert("createDID registerIdListener end e.id "+ e.id);
+             //  });
+
+
     });
   }
 
@@ -43,6 +57,14 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
 
     this.walletManager.createDID("s12345678",(result)=>{
       let idObj ={id:result.didname};
+      alert("createDID before registerIdListener  ");
+      this.walletManager.registerIdListener(result.didname, (data) => {
+        ////////////////
+        alert("createDID registerIdListener data "+ JSON.stringify(data));
+
+      });
+
+
       this.localStorage.add("kycId",idObj).then(()=>{
            this.kycIdArr.push({id:result.didname});
       });

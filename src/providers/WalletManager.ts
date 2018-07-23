@@ -163,7 +163,10 @@ export class WalletManager {
     this.wallet.registerWalletListener([chainId], Fun, this.errorFun);
   }
 
-
+  registerIdListener(chainId:string,Fun) {
+    alert("WalletManager registerIdListener begin==");
+    this.wallet.registerIdListener([chainId], Fun, this.errorFun);
+  }
   sign(chainId:string,message, payPassword, Fun) {
     this.wallet.sign([chainId,message, payPassword], Fun, this.errorFun);
   }
