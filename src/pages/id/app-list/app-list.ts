@@ -9,6 +9,7 @@ import {kycSelectTypeComponent} from "../../../pages/id/kyc/selecttype/create";
 export class IdAppListComponent extends BaseComponent implements OnInit{
   appList = Config.appList;
   id:string;
+  appName:any;
   ngOnInit(){
       this.setTitleByAssets('text-id-app-list-name');
       this.id =this.getNavParams().get("id");
@@ -16,6 +17,7 @@ export class IdAppListComponent extends BaseComponent implements OnInit{
 
   onNext(item){
      let apptype = item.id;
+     this.appName = item.appkeyName;
      switch (apptype){
        case 0:
           this.selectType(this.id);
@@ -25,6 +27,17 @@ export class IdAppListComponent extends BaseComponent implements OnInit{
 
   selectType(item){
      let id = item;
-     this.Go(kycSelectTypeComponent,{'id':id});
+     this.localStorage.get("kycId").then((val)=>{
+            let  idsObj = JSON.parse(val);
+            let idObj = idsObj[id];
+            if(this.isNull(idObj[this.appName])){
+                 idObj[this.appName] = {};
+                 this.localStorage.set("kycId",idsObj).then(()=>{
+                  this.Go(kycSelectTypeComponent,{'id':id,"appName":this.appName});
+               });
+            }else{
+                 this.Go(kycSelectTypeComponent,{'id':id,"appName":this.appName});
+            }
+     });
   }
 }

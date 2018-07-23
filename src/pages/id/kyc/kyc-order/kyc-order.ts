@@ -3,7 +3,6 @@ import {BaseComponent} from "../../../../app/BaseComponent";
 import {IdKycResultComponent} from "../../../../pages/id/kyc/result/result";
 import {IDManager} from "../../../../providers/IDManager";
 import {ApiUrl} from "../../../../providers/ApiUrl";
-import { kycSelectTypeComponent } from '../selecttype/create';
 @Component({
   selector: 'page-kyc-order',
   templateUrl: 'kyc-order.html',
@@ -14,6 +13,7 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
   params:any;
   did:any;
   aprType:any;
+  idsObj:any;
   ngOnInit(){
      this.params = this.getNavParams().data;
      this.did = this.params["id"];
@@ -22,23 +22,30 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
      }else{
          this.aprType = "person"
      }
-     alert("---params----"+JSON.stringify(this.params));
+
      this.setTitleByAssets("text-id-kyc-order-list");
-     this.localStorage.getKycList("kyc").then((val=>{
-            alert("---kyclist---"+val);
+     this.localStorage.getKycList("kycId").then((val=>{
+            if(this.isNull(val)){
+                  return;
+            }
+            this.idsObj = JSON.parse(val);
             this.orderList = JSON.parse(val)[this.did]["kyc"][this.aprType]["order"];
-            alert("---orderList---"+JSON.stringify(this.orderList));
             this.serialNumList = this.objtoarr(this.orderList);
-            alert("---serialNumList---"+JSON.stringify(this.serialNumList))
      }));
   }
 
   onNext(item) {
-      this.getAppAuth(item["serialNum"],item["txHash"]);
+      if(this.isNull(item["status"])){
+        this.getAppAuth(item["serialNum"],item["txHash"]);
+      }else if(item["status"] === 1){
+          this.params = item["params"];
+          this.Go(IdKycResultComponent,this.params);
+      }
+
   }
 
     getAppAuth(serialNum,txHash){
-    alert("---serialNum---"+serialNum+"---serialNum---"+txHash);
+    console.log('----getAppAuth----'+"---serialNum---"+serialNum+"---serialNum---"+txHash);
     let timestamp = this.getTimestamp();
     let parms ={"serialNum":serialNum,
                 "txHash":txHash,
@@ -56,11 +63,19 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
         }
         if(authResult["errorCode"] === "0"){
             this.params["adata"] = authResult["data"];
-            this.Go(IdKycResultComponent,this.params);
+            this.saveSerialNumParm(serialNum);
         }
        }
     }).catch(error => {
 
     });
+  }
+
+  saveSerialNumParm(serialNum){
+     this.idsObj[this.did]["kyc"][this.aprType]["order"][serialNum]["status"] = 1;
+     this.idsObj[this.did]["kyc"][this.aprType]["order"][serialNum]["params"] = this.params;
+     this.localStorage.set("kycId",this.idsObj).then(()=>{
+          this.Go(IdKycResultComponent,this.params);
+     });
   }
 }
