@@ -24,16 +24,22 @@ export class kycSelectTypeComponent extends BaseComponent implements OnInit{
   }
 
   selectType(){
+  let id = this.idObj["id"];
+  let appName = this.idObj["appName"];
   this.idObj["type"] = this.createData.createType;
-  this.Go(KycOperationPage,this.idObj);
+  this.localStorage.get("kycId").then((val)=>{
+    let idsObj = JSON.parse(val);
+    let idObj = idsObj[id][appName];
+    if(this.isNull(idObj[this.createData.createType])){
+         idObj[this.createData.createType] = {};
+          this.localStorage.set("kycId",idsObj).then((newVal)=>{
+          this.Go(KycOperationPage,this.idObj);
+       });
+    }else{
+          this.Go(KycOperationPage,this.idObj);
+    }
+});
+
   }
 
-  getsing(arr,type){
-     for(var index in arr){
-       let data = arr[index];
-        if(type === data["type"]){
-            return data["retdata"]["signature"];
-        }
-     }
-  }
 }

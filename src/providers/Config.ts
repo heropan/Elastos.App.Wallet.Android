@@ -20,7 +20,7 @@ export class Config {
 
   public static BLOCKCHAIN_URL: String = 'https://blockchain.elastos.org/';
 
-  public static appList=[{"id":0,"appkeyName":"KYC"}];
+  public static appList=[{"id":0,"appkeyName":"kyc"}];
 
   private static smsSecretKey = "";
 
