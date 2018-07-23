@@ -95,8 +95,8 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
 
   cauFee(){
 
-    alert("createIdTransaction before");
-    this.walletManager.createIdTransaction("IdChain",this.fromAddress,this.message,this.programJson,"","",(result)=>{
+    alert("createIdTransaction before" + this.fromAddress);
+    this.walletManager.createIdTransaction("IdChain","",this.message,this.programJson,"","",(result)=>{
             console.log("---createIdTransaction---"+"fromAddress="+this.fromAddress+"message="+JSON.stringify(this.message)+"programJson="+this.programJson);
              alert("createIdTransaction result =="+JSON.stringify(result));
              let rawTransaction = result['json'].toString();
