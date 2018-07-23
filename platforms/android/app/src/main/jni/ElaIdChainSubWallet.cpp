@@ -29,10 +29,13 @@ static jstring JNICALL nativeCreateIdTransaction(JNIEnv *env, jobject clazz, jlo
 
     IIdChainSubWallet* wallet = (IIdChainSubWallet*)jIdSubWalletProxy;
     nlohmann::json txidJson;
+    std::stringstream ss;
 
     try {
         txidJson = wallet->CreateIdTransaction(fromAddress , ToJosnFromString(payloadJson)
                     , ToJosnFromString(programJson), memo, remark);
+		ss << txidJson;
+		LOGD("FUNC=[%s]===================LINE=[%d], keys=[%s]", __FUNCTION__, __LINE__, txidJson.dump().c_str());
         return stringTojstring(env, ss.str());
     }
     catch (std::invalid_argument& e) {
@@ -54,9 +57,6 @@ static jstring JNICALL nativeCreateIdTransaction(JNIEnv *env, jobject clazz, jlo
     env->ReleaseStringUTFChars(jmemo, memo);
     env->ReleaseStringUTFChars(jremark, remark);
 
-    std::stringstream ss;
-    ss << txidJson;
-    LOGD("FUNC=[%s]===================LINE=[%d], keys=[%s]", __FUNCTION__, __LINE__, txidJson.dump().c_str());
     return NULL;
 }
 
