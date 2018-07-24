@@ -13,6 +13,13 @@
         display: block;
         // background:url('./../../assets/images/ricon.png') no-repeat center;
     }
+    .huan-hang {
+        width: 100%;
+        height: auto;
+        word-wrap: break-word;
+        word-break: break-all;
+        overflow: hidden;
+    }
     .per-select {
         background: url('./../../assets/images/ricon.png') no-repeat center;
         background-size: 100% 100%;
