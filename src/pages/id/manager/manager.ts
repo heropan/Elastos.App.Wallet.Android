@@ -18,19 +18,16 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
   selectAll = false;
   ngOnInit(){
     this.setTitleByAssets('text-id-manager');
-    let kycObj = Config.getKycObj();
-    if(this.isEmptyObject(kycObj)){
         this.localStorage.get('kycId').then((val)=>{
+        alert('---val---'+JSON.stringify(val));
         if(val === null){
           this.kycIdArr = [];
         }else{
           this.kycIdArr = this.objtoarr(JSON.parse(val));
         }
-        Config.setKycObj(JSON.parse(val));
+
+        alert("---1111----"+JSON.stringify(this.kycIdArr));
       });
-       return;
-    }
-    this.kycIdArr = this.objtoarr(Config.getKycObj());
   }
 
   onItem(id){

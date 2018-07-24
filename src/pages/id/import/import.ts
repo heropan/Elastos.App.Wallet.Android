@@ -13,6 +13,7 @@ export class IdImportComponent extends BaseComponent implements OnInit{
   private reader: FileReader;
   private file: File;
   private kycObj:any={};
+  keyStoreContent="";
   ngOnInit(){
       this.setTitleByAssets('text-id-import');
       // this.kycObj = Config.getKycObj();
