@@ -45,6 +45,7 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
   }
 
     getAppAuth(serialNum,txHash){
+    alert("getAppAuth======= txHash type "+typeof(txHash));
     console.log('ElastosJs----getAppAuth----'+"---serialNum---"+serialNum+"---txHash---"+txHash);
     let timestamp = this.getTimestamp();
     let parms ={"serialNum":serialNum,
