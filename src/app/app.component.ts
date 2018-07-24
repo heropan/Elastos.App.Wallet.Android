@@ -19,6 +19,7 @@ import {CoinListComponent} from "../pages/coin/coin-list/coin-list.component";
 //import { AddressComponent } from '../pages/wallet/address/address.component'
 import {TabsComponent} from '../pages/tabs/tabs.component';
 import {LocalStorage} from "../providers/Localstorage";
+import {PaymentConfirmComponent} from "../pages/coin/payment-confirm/payment-confirm.component";
 
 @Component({
   selector: 'app',
@@ -34,14 +35,19 @@ export class AppComponent {
       statusBar.styleDefault();
       splashScreen.hide();
 
-      localStorage.getWallet().then((val) => {
-        if (val) {
-          this.rootPage = TabsComponent;
-        } else {
-          this.rootPage = LauncherComponent;
-        }
-      });
+      this.rootPage = PaymentConfirmComponent;
+      // localStorage.getWallet().then((val) => {
+      //   let isPay = true;
+      //   if (val) {
+      //     if (isPay) {
+      //       this.rootPage = PaymentConfirmComponent;
+      //     }else{
+      //       this.rootPage = TabsComponent;
+      //     }
+      //   } else {
+      //     this.rootPage = LauncherComponent;
+      //   }
+      // });
     });
   }
 }
-

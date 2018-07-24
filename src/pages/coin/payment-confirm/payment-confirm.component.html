@@ -1,0 +1,37 @@
+<app-header [header]="header"   ></app-header>
+
+
+<div class="weui-form-preview">
+  <div class="weui-form-preview__hd">
+    <div class="weui-form-preview__item" >
+      <label class="weui-form-preview__label" style="line-height: 40px">{{'transaction-price' | translate}}</label>
+      <em class="weui-form-preview__value"> - {{transfer.amount}} {{chianId}}</em>
+    </div>
+  </div>
+  <div class="weui-form-preview__bd">
+    <div class="weui-form-preview__item">
+      <label class="weui-form-preview__label">{{'text-to-address' | translate}}</label>
+      <span class="weui-form-preview__value">{{transfer.toAddress}}</span>
+    </div>
+  </div>
+  <div class="weui-form-preview__bd">
+    <div class="weui-form-preview__item">
+      <label class="weui-form-preview__label">{{'text-memo' | translate}}</label>
+      <span class="weui-form-preview__value">{{transfer.memo}}</span>
+    </div>
+  </div>
+  <div class="weui-form-preview__bd">
+    <div class="weui-form-preview__item">
+      <label class="weui-form-preview__label">{{'text-fees' | translate}}</label>
+      <span class="weui-form-preview__value">{{transfer.fee}}</span>
+    </div>
+  </div>
+  <div class="weui-cell">
+    <div class="weui-cell__bd">
+      <input class="weui-input" type="password" placeholder="{{ 'text-pay-passworld-input' | translate }}" [(ngModel)]="transfer.payPassword">
+    </div>
+  </div>
+  <div class="weui-form-preview__ft">
+    <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" (click)="onClick()">{{'text-payment-confirm' | translate}}</a>
+  </div>
+</div>
