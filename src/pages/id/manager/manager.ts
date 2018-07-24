@@ -9,22 +9,32 @@ import {Config} from '../../../providers/Config';
  */
 
 @Component({
-  selector: 'id-manager',
+  selector: 'app-manager',
   templateUrl: 'manager.html',
 })
-export class IdManagerComponent extends BaseComponent implements OnInit{
+export class ManagerComponent extends BaseComponent implements OnInit{
   public kycIdArr:any=[];
   public isSelectObj:any={};
   selectAll = false;
   ngOnInit(){
     this.setTitleByAssets('text-id-manager');
-    this.walletManager.getDIDList((result)=>{
-      this.kycIdArr = JSON.parse(result["list"]);
-    });
+    let kycObj = Config.getKycObj();
+    if(this.isEmptyObject(kycObj)){
+        this.localstorage.get('kyc').then((val)=>{
+        if(val === null){
+          this.kycIdArr = [];  
+        }else{
+          this.kycIdArr = this.objtoarr(JSON.parse(val));
+        }
+        Config.setKycObj(JSON.parse(val));
+      });
+       return;
+    }
+    this.kycIdArr = this.objtoarr(Config.getKycObj());
   }
 
   onItem(id){
-
+      
       if(this.isNull(this.isSelectObj[id])){
         this.isSelectObj[id] = true;
         this.selectAll=this.setAllButton();
@@ -35,9 +45,9 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
   }
 
   onNext(type){
-
+    
     switch (type){
-
+      
       case 1:   //导出
          let improtids = this.getSelsetId();
          this.downButton(improtids);
@@ -54,10 +64,10 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
   }
 
   setSelectAll(stauts)
-  {
+  {  
      for(let key in Config.getKycObj()){
        this.isSelectObj[key] = stauts;
-     }
+     }  
   }
 
   getSelsetId(){
@@ -82,7 +92,7 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
   }
 
   downButton(ids){
-
+   
     if(ids.length===0){
       this.messageBox("text-down-please-message");
          return;
