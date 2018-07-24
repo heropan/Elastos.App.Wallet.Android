@@ -45,7 +45,7 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
   }
 
     getAppAuth(serialNum,txHash){
-    console.log('----getAppAuth----'+"---serialNum---"+serialNum+"---serialNum---"+txHash);
+    console.log('----getAppAuth----'+"---serialNum---"+serialNum+"---txHash---"+txHash);
     let timestamp = this.getTimestamp();
     let parms ={"serialNum":serialNum,
                 "txHash":txHash,
