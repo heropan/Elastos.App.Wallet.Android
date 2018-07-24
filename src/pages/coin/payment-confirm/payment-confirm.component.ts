@@ -10,6 +10,8 @@ import { Config } from '../../../providers/Config';
 })
 export class PaymentConfirmComponent extends BaseComponent implements OnInit {
 
+  @ViewChild('subscribe') subPopup: PopupComponent;
+
   transfer: any = {
     toAddress: '',
     amount: '',
@@ -33,14 +35,51 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
   ngOnInit(){
     this.setTitleByAssets('text-payment-confirm');
     this.setHeadDisPlay({left:false});
+    this.subPopup.config = {cancel:'',confirm:'',backdrop:false,is_full:false};
   }
 
-  onClick(){
-    if (!Util.password(this.transfer.payPassword)) {
-      this.toast("text-pwd-validator");
-      return;
+  onClick(type){
+    switch (type) {
+      case 1:
+        break;
+      case 2:   // 转账
+        this.checkValue();
+        break;
+      case 3:
+        this.subPopup.close();
+        break;
+      case 4:
+        this.sendRawTransaction();
+        break;
     }
-    // this.createTransaction();
+  }
+
+  checkValue() {
+    // if(Util.isNull(this.transfer.toAddress)){
+    //   this.toast('correct-address');
+    //   return;
+    // }
+    // if(Util.isNull(this.transfer.amount)){
+    //   this.toast('amount-null');
+    //   return;
+    // }
+    // if(!Util.number(this.transfer.amount)){
+    //   this.toast('correct-amount');
+    //   return;
+    // }
+    // if(this.transfer.amount > this.balance){
+    //   this.toast('error-amount');
+    //   return;
+    // }
+    // this.walletManager.isAddressValid(this.transfer.toAddress, (data) => {
+    //   if (!data['valid']) {
+    //     this.toast("contact-address-digits");
+    //     return;
+    //   }
+      // this.createTransaction();
+      this.subPopup.show().subscribe((res: boolean) => {
+      });
+    // })
   }
 
   createTransaction(){
@@ -62,6 +101,10 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
   }
 
   sendRawTransaction(){
+    if (!Util.password(this.transfer.payPassword)) {
+      this.toast("text-pwd-validator");
+      return;
+    }
     // this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
     //   this.txId = JSON.parse(data["json"])["TxHash"];
     //   if (data['ERRORCODE'] == undefined) {
