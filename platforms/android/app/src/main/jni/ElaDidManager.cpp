@@ -74,7 +74,7 @@ private:
 static std::map<jstring, ElaIdManagerCallback*> sIdCallbackMap;
 static jboolean JNICALL nativeRegisterCallback(JNIEnv *env, jobject clazz, jlong jDidMgrProxy, jstring jdidName, jobject jidCallback)
 {
-    LOGD("FUNC=[%s]========================LINE=[%d]", __FUNCTION__, __LINE__);
+    LOGD("FUNC=[%s] begin ========================LINE=[%d]", __FUNCTION__, __LINE__);
     const char* didName = env->GetStringUTFChars(jdidName, NULL);
     ElaIdManagerCallback* idCallback = new ElaIdManagerCallback(env, jidCallback);
     IDIDManager* didMgr = (IDIDManager*)jDidMgrProxy;
@@ -82,6 +82,7 @@ static jboolean JNICALL nativeRegisterCallback(JNIEnv *env, jobject clazz, jlong
     sIdCallbackMap[jdidName] = idCallback;
 
     env->ReleaseStringUTFChars(jdidName, didName);
+    LOGD("FUNC=[%s] end ========================LINE=[%d]", __FUNCTION__, __LINE__);
 }
 
 static jboolean JNICALL nativeUnregisterCallback(JNIEnv *env, jobject clazz, jlong jDidMgrProxy, jstring jdidName)
@@ -121,9 +122,10 @@ ElaIdManagerCallback::ElaIdManagerCallback(
     /* [in] */ JNIEnv* env,
     /* [in] */ jobject jobj)
 {
-    LOGD("FUNC=[%s]========================LINE=[%d]", __FUNCTION__, __LINE__);
+    LOGD("FUNC=[%s] begin========================LINE=[%d]", __FUNCTION__, __LINE__);
     mObj = env->NewGlobalRef(jobj);
     env->GetJavaVM(&mVM);
+    LOGD("FUNC=[%s] end========================LINE=[%d]", __FUNCTION__, __LINE__);
 }
 
 ElaIdManagerCallback::~ElaIdManagerCallback()

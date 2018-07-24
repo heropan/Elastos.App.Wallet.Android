@@ -110,6 +110,11 @@ walletFunc.prototype.registerWalletListener = function(arg0, success, error) {
 
 };
 
+
+//
+
+
+
 walletFunc.prototype.isAddressValid = function(arg0, success, error) {
     exec(success, error, "Wallet", "isAddressValid", arg0);
 };
@@ -226,6 +231,12 @@ walletFunc.prototype.getAllCreatedSubWallets = function(arg0, sucess, error) {
     exec(sucess, error, "Wallet", "getAllCreatedSubWallets", arg0);
 };
 
+walletFunc.prototype.registerIdListener = function(arg0, success, error) {
+  exec(success, error, "Wallet", "registerIdListener", arg0);
+
+};
+
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;
+
 });

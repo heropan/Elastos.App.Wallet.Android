@@ -1134,6 +1134,8 @@ public class Wallet extends CordovaPlugin {
     }
 
     public void registerIdListener(JSONArray args, CallbackContext callbackContext) throws JSONException {
+
+        Log.i("JS-Wallet-Elastos", "registerIdListener==================begin");
         if (mDidManager == null) {
             callbackContext.error("registerIdListener error.");
             return;
@@ -1142,8 +1144,11 @@ public class Wallet extends CordovaPlugin {
         mDidManager.RegisterCallback(args.getString(0), new IIdManagerCallback() {
             @Override
             public void OnIdStatusChanged(String id, String path, /*const nlohmann::json*/ String value) {
+
+                Log.i("JS-Wallet-Elastos", "OnIdStatusChanged==================begin");
+
                 JSONObject jsonObject = new JSONObject();
-                Log.i("JS-Wallet", "registerIdListener==================2");
+                Log.i("JS-Wallet-Elastos", "OnIdStatusChanged==================begin2");
                 try {
                     jsonObject.put("id", id);
                     jsonObject.put("path", path);
@@ -1153,11 +1158,18 @@ public class Wallet extends CordovaPlugin {
                     e.printStackTrace();;
                 }
 
+                Log.i("JS-Wallet-Elastos", "OnIdStatusChanged==================begin3");
+
                 PluginResult pluginResult = new PluginResult(PluginResult.Status.OK,jsonObject);
                 pluginResult.setKeepCallback(true);
                 callbackContext.sendPluginResult(pluginResult);
+                Log.i("JS-Wallet-Elastos", "OnIdStatusChanged==================end");
+
             }
         });
+
+        Log.i("JS-Wallet-Elastos", "registerIdListener==================end");
+
     }
 
     // SidechainSubWallet

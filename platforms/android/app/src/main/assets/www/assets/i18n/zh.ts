@@ -100,6 +100,11 @@ export const zh = {
   'send-info': '发款方',
   'record-info': '收款方',
   'receive-address': '收款地址',
+  'utxo-info': '转入转出详情',
+  'utxo-incoming': '交易输入',
+  'utxo-incoming-address': '输入地址',
+  'utxo-outcoming': '交易输出',
+  'utxo-outcoming-address': '输出地址',
   'transaction-price': '交易金额',
   'transaction-time': '交易时间',
   'transaction-id': '交易号',
@@ -186,5 +191,11 @@ export const zh = {
   'text-exprot-sucess-message':'导出成功',
   'text-id-chain-prompt1':'您可以将信息写入到ID链，做个有身份的人',
   'text-id-chain-prompt2':'您输入的信息将永久保存到ID链',
-  'text-data-chain':'数据上链'
+  'text-data-chain':'数据上链',
+  'text-id-kyc-add':'新增',
+  'text-id-kyc-check':'查看',
+  'text-id-kyc-operation':'操作',
+  'text-id-kyc-order-list':"订单列表",
+  'text-id-kyc-auth-uncompleted':"认证未完成",
+  'text-id-kyc-no-order':"暂无订单"
 };
