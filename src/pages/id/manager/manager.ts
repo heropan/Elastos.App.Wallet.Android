@@ -16,17 +16,17 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
   public kycIdArr:any=[];
   public isSelectObj:any={};
   selectAll = false;
+  public backupWalletPlainText:any;
+  idsObj:any;
   ngOnInit(){
     this.setTitleByAssets('text-id-manager');
         this.localStorage.get('kycId').then((val)=>{
-        alert('---val---'+JSON.stringify(val));
         if(val === null){
           this.kycIdArr = [];
         }else{
           this.kycIdArr = this.objtoarr(JSON.parse(val));
+          this.idsObj = JSON.parse(val);
         }
-
-        alert("---1111----"+JSON.stringify(this.kycIdArr));
       });
   }
 
@@ -62,7 +62,7 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
 
   setSelectAll(stauts)
   {
-     for(let key in Config.getKycObj()){
+     for(let key in this.idsObj){
        this.isSelectObj[key] = stauts;
      }
   }
@@ -95,15 +95,28 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
          return;
     }
      let idsObj = {};
-     let kycObj =Config.getKycObj();
+     let kycObj = this.idsObj;
      for(let id in ids){
       let key =ids[id];
       idsObj[key] = kycObj[key];
      }
-    this.backupProvider.idsDownload(JSON.stringify(idsObj),"exportId.txt").then(()=>{
-       this.messageBox("text-down-sucess-message");
+
+     alert("---daochu---"+JSON.stringify(idsObj));
+     this.backupWalletPlainText = JSON.stringify(idsObj);
+
+
+    // this.backupProvider.idsDownload(JSON.stringify(idsObj),"exportId.txt").then(()=>{
+    //    this.messageBox("text-down-sucess-message");
+    // }).catch(()=>{
+    //   this.messageBox("text-down-fail-message");
+    // });
+  }
+
+  onCopay(){
+    this.native.copyClipboard(this.backupWalletPlainText).then(()=>{
+             this.toast('text-copied-to-clipboard');
     }).catch(()=>{
-      this.messageBox("text-down-fail-message");
+
     });
   }
 }

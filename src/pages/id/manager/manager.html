@@ -1,8 +1,14 @@
 <div class="per-certified">
     <app-header [header]="header"></app-header>
 
+    <div *ngIf="backupWalletPlainText" class="kuangTextArea">
+        <p>{{ 'text-keystroe-message' | translate }} </p>
+        <textarea rows="10" class="backupWalletTextArea">{{backupWalletPlainText}}</textarea>
+    </div>
 
-    <ul class="idList">
+    <button *ngIf="backupWalletPlainText" ion-button full class="button-footer" (click)="onCopay()" style="width: 100%">{{ 'text-copy-to-clipboard' | translate }}</button>
+
+    <ul class="idList" *ngIf="!backupWalletPlainText">
         <li class="item" *ngFor="let item of kycIdArr" (click)="onItem(item.id)">
             <a class="tiaozhuan">
                 <div [ngClass]="{'radio':true,'per-select':isSelectObj[item.id]}"></div>
@@ -13,7 +19,7 @@
         </li>
     </ul>
 
-    <div class="chooseAll" style="background: white;">
+    <div class="chooseAll" style="background: white;" *ngIf="!backupWalletPlainText">
 
         <div [ngClass]="{'radio':true,'per-select':selectAll}" style="margin: 0px 16px;" (click)="onNext(3)"></div>
         <span (click)="onNext(3)">{{ 'text-select-all' | translate }}</span>
