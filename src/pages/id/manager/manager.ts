@@ -28,6 +28,11 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
           this.idsObj = JSON.parse(val);
         }
       });
+
+      this.setLeftIcon("",()=>{
+        this.events.publish("idhome:update");
+        this.Back();
+      });
   }
 
   onItem(id){
@@ -52,6 +57,7 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
       case 2:   //删除
       let delids = this.getSelsetId();
       console.log(JSON.stringify(delids));
+      this.delIds(delids);
         break;
       case 3:
         this.selectAll = !this.selectAll;
@@ -79,6 +85,10 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
 
   setAllButton(){
     let isCheck:any=true;
+    if(Object.keys(this.isSelectObj).length < this.kycIdArr.length){
+      isCheck = false;
+      return isCheck;
+    }
     for(let key in this.isSelectObj){
         if(!this.isSelectObj[key]){
              isCheck = false;
@@ -100,16 +110,7 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
       let key =ids[id];
       idsObj[key] = kycObj[key];
      }
-
-     alert("---daochu---"+JSON.stringify(idsObj));
      this.backupWalletPlainText = JSON.stringify(idsObj);
-
-
-    // this.backupProvider.idsDownload(JSON.stringify(idsObj),"exportId.txt").then(()=>{
-    //    this.messageBox("text-down-sucess-message");
-    // }).catch(()=>{
-    //   this.messageBox("text-down-fail-message");
-    // });
   }
 
   onCopay(){
@@ -118,5 +119,21 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
     }).catch(()=>{
 
     });
+  }
+
+  delIds(ids){
+
+      if(ids.length===0){
+        this.messageBox("text-id-kyc-import-text-del-please-message");
+           return;
+      }
+      for(let id in ids){
+        let key =ids[id];
+        delete this.idsObj[key];
+      }
+      this.localStorage.set("kycId",this.idsObj).then(()=>{
+               this.kycIdArr = this.objtoarr(this.idsObj);
+               this.messageBox('text-id-kyc-import-text-del-message');
+      });
   }
 }
