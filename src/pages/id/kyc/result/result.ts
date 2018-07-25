@@ -118,9 +118,13 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     alert("didGenerateProgram message"+ JSON.stringify(this.message));
     alert("didGenerateProgram passworld"+ this.passworld);
     console.log("---didGenerateProgram----"+"did="+this.did+"message="+JSON.stringify(this.message)+"passworld"+this.passworld);
+
+
     this.walletManager.didGenerateProgram(this.did,JSON.stringify(this.message),this.passworld,(result)=>{
                    this.programJson  = result.value;
                    alert("====didGenerateProgram===="+JSON.stringify(this.programJson));
+
+                   console.log("ElastosJs didGenerateProgram programJson "+JSON.stringify(this.programJson));
                    this.createfromAddress();
     });
   }
