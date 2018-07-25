@@ -197,5 +197,7 @@ export const zh = {
   'text-id-kyc-operation':'操作',
   'text-id-kyc-order-list':"订单列表",
   'text-id-kyc-auth-uncompleted':"认证未完成",
-  'text-id-kyc-no-order':"暂无订单"
+  'text-id-kyc-no-order':"暂无订单",
+  'text-id-kyc-import-no-message':"导入内容不能为空",
+  'text-id-kyc-import-text-message':"将导入文本复制到文本框"
 };
