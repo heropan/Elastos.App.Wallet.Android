@@ -35,19 +35,27 @@ export class AppComponent {
       statusBar.styleDefault();
       splashScreen.hide();
 
-      this.rootPage = PaymentConfirmComponent;
-      // localStorage.getWallet().then((val) => {
-      //   let isPay = true;
-      //   if (val) {
-      //     if (isPay) {
-      //       this.rootPage = PaymentConfirmComponent;
-      //     }else{
-      //       this.rootPage = TabsComponent;
-      //     }
-      //   } else {
-      //     this.rootPage = LauncherComponent;
-      //   }
-      // });
+      let isPay = this.GetQueryString("is_pay");
+      localStorage.getWallet().then((val) => {
+        if (val) {
+          if (isPay == 'true') {
+            this.rootPage = PaymentConfirmComponent;
+          }else{
+            this.rootPage = TabsComponent;
+          }
+        } else {
+          this.rootPage = LauncherComponent;
+        }
+      });
     });
   }
+
+  GetQueryString(name){
+    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if(r!=null)return  decodeURI(r[2]); return null;
+  }
+
 }
+
+

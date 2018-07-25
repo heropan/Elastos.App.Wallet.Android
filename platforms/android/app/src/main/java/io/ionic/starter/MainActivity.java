@@ -48,7 +48,7 @@ public class MainActivity extends CordovaActivity
         }
 
         // Set by <content src="index.html" /> in config.xml
-        loadUrl(launchUrl);
+        loadUrl(launchUrl + "?is_pay=true&account=1000000&address=EQB75ceu41hfcHAFukzgnvATfHxiQyboJy&memo=mmm&information=Information");
 
         initJG();
     }
@@ -88,4 +88,5 @@ public class MainActivity extends CordovaActivity
         //
         JPushInterface.init(applicationContext);
     }
+
 }
