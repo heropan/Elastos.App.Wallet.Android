@@ -437,6 +437,7 @@ public class Wallet extends CordovaPlugin {
         }
 
         if (mCurrentMasterWallet != null) {
+            if (mMasterWalletList == null) mMasterWalletList = new ArrayList<IMasterWallet>();
             mMasterWalletList.add(mCurrentMasterWallet);
 
             mSubWalletMap.clear();
@@ -491,7 +492,7 @@ public class Wallet extends CordovaPlugin {
 
         Log.i("JS-Wallet", "importWalletWithMnemonic======================================2");
         if (mCurrentMasterWallet != null) {
-            Log.i("JS-Wallet", "importWalletWithMnemonic======================================3");
+            if (mMasterWalletList == null) mMasterWalletList = new ArrayList<IMasterWallet>();
             mMasterWalletList.add(mCurrentMasterWallet);
 
             mSubWalletMap.clear();
