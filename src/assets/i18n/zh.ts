@@ -98,6 +98,7 @@ export const zh = {
   'error-amount': '您的余额不足',
   'transfer-info': '转账详情',
   'text-payment-confirm': '确认转账',
+  'text-did-login': '使用DID登录',
   'transfer-address': '转账地址',
   'send-raw-transaction': '交易已发送',
   'transfer-more': '查看更多交易记录',
