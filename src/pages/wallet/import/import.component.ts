@@ -10,7 +10,7 @@ export class ImportComponent extends BaseComponent implements OnInit {
   public selectedTab: string="words";
   public showAdvOpts:boolean;
   public keyStoreContent:any;
-  public importFileObj:any={payPassword: "s12345678",rePayPassword: "s12345678", backupPassWord: "s12345678",phrasePassword:"s12345678"};
+  public importFileObj:any={payPassword: "s12345678",rePayPassword: "s12345678", backupPassWord: "s12345678",phrasePassword:""};
   public mnemonicObj:any={mnemonic:"",payPassword: "", rePayPassword: "",phrasePassword:""}
   public toggleShowAdvOpts(): void {
     this.showAdvOpts = !this.showAdvOpts;
