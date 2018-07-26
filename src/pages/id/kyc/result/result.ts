@@ -117,8 +117,13 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     alert("didGenerateProgram did"+this.did);
     alert("didGenerateProgram message"+ JSON.stringify(this.message));
     alert("didGenerateProgram passworld"+ this.passworld);
-    console.log("---didGenerateProgram----"+"did="+this.did+"message="+JSON.stringify(this.message)+"passworld"+this.passworld);
+    console.log("---didGenerateProgram----"+"message="+JSON.stringify(this.message)+"passworld"+this.passworld);
 
+    console.log("---didGenerateProgram DataHash.length----"+ this.message.DataHash.length);
+    console.log("---didGenerateProgram----Sign.length"+ this.message.Sign.length);
+    console.log("---didGenerateProgram----Proof"+  this.message.Proof);
+
+    console.log("---didGenerateProgram----Proof"+ JSON.stringify(this.message.Proof) );
 
     this.walletManager.didGenerateProgram(this.did,JSON.stringify(this.message),this.passworld,(result)=>{
                    this.programJson  = result.value;
@@ -185,14 +190,19 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
                      signature:this.signature,
                      notary:"COOIX"
                     }
+    console.log("caulmessage this.signature " +this.signature);
+    console.log("caulmessage this.signature " +this.signature);
 
-    alert("caulmessage 1");
+    //alert("caulmessage signature"+ this.signature.length);
 
     let authDataHash = IDManager.hash(JSON.stringify(kycContent)+JSON.stringify(authSign));
 
     alert("caulmessage 2"+ authDataHash);
 
+
     let kycChainDataHash = IDManager.hash(authDataHash+JSON.stringify(authSign));
+
+    console.log("caulmessage kycChainDataHash.length " +kycChainDataHash.length);
 
     alert("caulmessage 3"+ kycChainDataHash);
 
@@ -205,6 +215,8 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
        alert("didSign proofString"+ proofString);
 
        this.message = {Id:this.did,Path:"1",Proof: proofString,DataHash:kycChainDataHash,Sign:result.value};
+
+       console.log("caulmessage Sign " +result.value + " result.value length "+ result.value.length);
        alert("didSign 5"+ JSON.stringify(this.message));
 
      });
