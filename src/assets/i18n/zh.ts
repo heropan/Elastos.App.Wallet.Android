@@ -220,4 +220,7 @@ export const zh = {
   'text-word-message':'请输入企业全称',
   'text-legalPerson-message':'请输入企业法人',
   'text-registrationN-message':'社会信用代码',
+  'text-id-kyc-prompt-title':'确认',
+  'text-id-kyc-prompt-password':'输入钱包支付密码',
+  'Ok':'确定'
 };
