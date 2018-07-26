@@ -48,7 +48,7 @@ public class MainActivity extends CordovaActivity
         }
 
         // Set by <content src="index.html" /> in config.xml
-        loadUrl(launchUrl + "?type=did_login");
+        loadUrl(launchUrl + "?type=did_login&message=www");
 
         initJG();
     }
