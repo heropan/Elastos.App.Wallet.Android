@@ -191,7 +191,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
     this.getHttp().postByAuth(ApiUrl.AUTH,params).toPromise().then(data => {
          if(data["status"] === 200){
           let authData= JSON.parse(data["_body"]);
-          alert('---authData---'+JSON.stringify(authData));
+          console.log('---authData---'+JSON.stringify(authData));
           if(authData["errorCode"] === "0"){
                let serialNum = authData["serialNum"];
                this.saveKycSerialNum(serialNum);
@@ -215,7 +215,7 @@ sendPersonAuth(parms){
       this.getHttp().postByAuth(ApiUrl.AUTH,parms).toPromise().then(data=>{
         if(data["status"] === 200){
           let authData= JSON.parse(data["_body"])
-          alert('---authData---'+JSON.stringify(authData));
+          console.log('---authData---'+JSON.stringify(authData));
           if(authData["errorCode"] === "0"){
                let serialNum = authData["serialNum"];
                this.saveKycSerialNum(serialNum);
@@ -230,23 +230,6 @@ sendPersonAuth(parms){
 }
 
 saveKycSerialNum(serialNum){
-// let parm ={};
-// parm[this.did] ={};
-// alert("=====1"+JSON.stringify(parm));
-// let appType = "kyc";
-// parm[this.did][this.appType ] ={};
-// alert("=====2"+JSON.stringify(parm));
-// parm[this.did][this.appType ][this.selectType] ={};
-// alert("=====3"+JSON.stringify(parm));
-// let sparms ={};
-// sparms[serialNum] = {txHash:this.txId,serialNum:serialNum};
-// parm[this.did][this.appType][this.selectType]["order"] =sparms;
-// alert("=====4"+JSON.stringify(parm));
-
-//   // let id = this.did+"-"+serialNum+"-"+this.selectType;
-//   this.localStorage.addKyc("kyc",parm).then((val)=>{
-//        this.Go(IdResultComponent,{'status':'0',id:this.did,appType:this.appType,selectType:this.selectType});
-//   });
      this.localStorage.get("kycId").then((val)=>{
          let idsObj = JSON.parse(val);
          let order = idsObj[this.did]["kyc"][this.selectType];

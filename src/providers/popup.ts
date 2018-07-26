@@ -127,6 +127,36 @@ export class PopupProvider {
       });
       alert.present();
     });
+  }
+
+  presentConfirm(price){
+
+    return new Promise((resolve, reject) => {
+
+      let alert = this.alertCtrl.create({
+        title: this.translate.instant("text-id-kyc-prompt-title"),
+        message: this.translate.instant('text-id-kyc-cochain')+price+"ELA",
+        buttons: [
+          {
+            text: this.translate.instant('cancel'),
+            role: 'cancel',
+            handler: () => {
+              reject();
+            }
+          },
+          {
+            text: this.translate.instant('Ok'),
+            handler: () => {
+              resolve();
+            }
+          }
+        ]
+      });
+      alert.present();
+
+
+    });
 
   }
+
 }
