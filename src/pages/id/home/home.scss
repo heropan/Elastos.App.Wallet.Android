@@ -1,9 +1,17 @@
 @import "../../../theme/id";
-.id-home-top {
+.home-top1 {
     background-color: $color-main;
     text-align: center;
     padding-bottom: 10%;
     margin-top: -1px;
+}
+
+.huan-hang {
+    width: 100%;
+    height: auto;
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
 }
 
 .navID {
@@ -66,15 +74,15 @@
                 }
             }
             i.new {
-                background: url("../assets/images/icon1.png") no-repeat 90% center;
+                background: url("./../assets/images/icon (1).png") no-repeat 90% center;
                 background-size: auto 100%;
             }
             i.import {
-                background: url("../assets/images/icon2.png") no-repeat 90% center;
+                background: url("./../assets/images/icon (2).png") no-repeat 90% center;
                 background-size: auto 100%;
             }
             i.guanli {
-                background: url("../assets/images/pen.png") no-repeat 90% center;
+                background: url("./../assets/images/pen.png") no-repeat 90% center;
                 background-size: auto 100%;
             }
         }

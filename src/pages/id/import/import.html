@@ -5,12 +5,8 @@
     <div class="content-id">
         <div class="importid-box">
             <p>{{ 'text-id-import-file' | translate }}</p>
-            <div class="import-input">
-                <input type="text" name="" class="txtFileName" disabled="disabled" [(ngModel)]="formFile">
-                <label for="file" class="chooseFile">{{ 'text-browsing' | translate }}
-          <input type="file" style="display: none;" id="file" accept="txt,json"  (change)="fileChangeEvent($event)">
-        </label>
-
+            <div class="kuangTextArea">
+                <textarea rows="4" class="backupWalletTextArea" placeholder="{{ 'text-id-kyc-import-text-message' | translate}}" [(ngModel)]="keyStoreContent"></textarea>
             </div>
             <button (click)="onImport()" class="btn-commit btn1" id="btn-t" style="color: #fff;cursor: pointer;display: block">{{ 'confirm' | translate }}</button>
         </div>

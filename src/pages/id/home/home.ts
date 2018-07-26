@@ -33,6 +33,12 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
 
 
     });
+
+    this.events.subscribe('idhome:update', () => {
+      this.localStorage.get("kycId").then((val)=>{
+        this.kycIdArr = this.objtoarr(JSON.parse(val));
+      });
+    });
   }
 
   onNext(type){

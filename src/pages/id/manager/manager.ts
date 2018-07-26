@@ -9,18 +9,30 @@ import {Config} from '../../../providers/Config';
  */
 
 @Component({
-  selector: 'id-manager',
+  selector: 'app-manager',
   templateUrl: 'manager.html',
 })
 export class IdManagerComponent extends BaseComponent implements OnInit{
   public kycIdArr:any=[];
   public isSelectObj:any={};
   selectAll = false;
+  public backupWalletPlainText:any;
+  idsObj:any;
   ngOnInit(){
     this.setTitleByAssets('text-id-manager');
-    this.walletManager.getDIDList((result)=>{
-      this.kycIdArr = JSON.parse(result["list"]);
-    });
+        this.localStorage.get('kycId').then((val)=>{
+        if(val === null){
+          this.kycIdArr = [];
+        }else{
+          this.kycIdArr = this.objtoarr(JSON.parse(val));
+          this.idsObj = JSON.parse(val);
+        }
+      });
+
+      this.setLeftIcon("",()=>{
+        this.events.publish("idhome:update");
+        this.Back();
+      });
   }
 
   onItem(id){
@@ -45,6 +57,7 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
       case 2:   //删除
       let delids = this.getSelsetId();
       console.log(JSON.stringify(delids));
+      this.delIds(delids);
         break;
       case 3:
         this.selectAll = !this.selectAll;
@@ -55,7 +68,7 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
 
   setSelectAll(stauts)
   {
-     for(let key in Config.getKycObj()){
+     for(let key in this.idsObj){
        this.isSelectObj[key] = stauts;
      }
   }
@@ -72,6 +85,10 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
 
   setAllButton(){
     let isCheck:any=true;
+    if(Object.keys(this.isSelectObj).length < this.kycIdArr.length){
+      isCheck = false;
+      return isCheck;
+    }
     for(let key in this.isSelectObj){
         if(!this.isSelectObj[key]){
              isCheck = false;
@@ -88,15 +105,35 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
          return;
     }
      let idsObj = {};
-     let kycObj =Config.getKycObj();
+     let kycObj = this.idsObj;
      for(let id in ids){
       let key =ids[id];
       idsObj[key] = kycObj[key];
      }
-    this.backupProvider.idsDownload(JSON.stringify(idsObj),"exportId.txt").then(()=>{
-       this.messageBox("text-down-sucess-message");
+     this.backupWalletPlainText = JSON.stringify(idsObj);
+  }
+
+  onCopay(){
+    this.native.copyClipboard(this.backupWalletPlainText).then(()=>{
+             this.toast('text-copied-to-clipboard');
     }).catch(()=>{
-      this.messageBox("text-down-fail-message");
+
     });
+  }
+
+  delIds(ids){
+
+      if(ids.length===0){
+        this.messageBox("text-id-kyc-import-text-del-please-message");
+           return;
+      }
+      for(let id in ids){
+        let key =ids[id];
+        delete this.idsObj[key];
+      }
+      this.localStorage.set("kycId",this.idsObj).then(()=>{
+               this.kycIdArr = this.objtoarr(this.idsObj);
+               this.messageBox('text-id-kyc-import-text-del-message');
+      });
   }
 }

@@ -437,6 +437,7 @@ public class Wallet extends CordovaPlugin {
         }
 
         if (mCurrentMasterWallet != null) {
+            if (mMasterWalletList == null) mMasterWalletList = new ArrayList<IMasterWallet>();
             mMasterWalletList.add(mCurrentMasterWallet);
 
             mSubWalletMap.clear();
@@ -491,7 +492,7 @@ public class Wallet extends CordovaPlugin {
 
         Log.i("JS-Wallet", "importWalletWithMnemonic======================================2");
         if (mCurrentMasterWallet != null) {
-            Log.i("JS-Wallet", "importWalletWithMnemonic======================================3");
+            if (mMasterWalletList == null) mMasterWalletList = new ArrayList<IMasterWallet>();
             mMasterWalletList.add(mCurrentMasterWallet);
 
             mSubWalletMap.clear();
@@ -1068,6 +1069,7 @@ public class Wallet extends CordovaPlugin {
 
     //String Sign(String message, String password)
     public void didSign(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        Log.i("ElastosJs JS-Wallet didSign begin ", "==================1");
         if (mDidManager != null) {
             IDid did = mDidManager.GetDID(args.getString(0));
             if (did != null) {
@@ -1084,6 +1086,8 @@ public class Wallet extends CordovaPlugin {
         }
 
         callbackContext.error("didSign error.");
+       Log.i("ElastosJs JS-Wallet didSign end ", "==================1");
+
     }
 
     //String Sign(String message, String password)

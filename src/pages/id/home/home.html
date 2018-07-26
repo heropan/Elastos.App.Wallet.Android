@@ -1,10 +1,13 @@
 <app-header [header]="header"></app-header>
 <div class="id-box">
-    <div class="id-home-top">
+
+    <div class="home-top1">
         <img class="id-logo" src="./assets/images/1.0logo.png">
         <div>{{ 'text-id-home-prompt' | translate }}</div>
 
     </div>
+
+
 
     <ul class="navID">
         <li>
@@ -33,13 +36,13 @@
                 <a class="tiaozhuan">
                     <i class="icon-i">{{i+1}}</i>
                     <div class="item-text">
-                        <span class="item-text-title">ID:{{item.id}}</span>
-                        <!-- <p *ngIf="item.createType===1">
+                        <span class="item-text-title huan-hang">{{item.id}}</span>
+                        <p *ngIf="item.createType===1">
                             {{ 'text-update-time' | translate }}：{{item.updateTiem}}&nbsp;&nbsp; {{item.finshNumber}}/{{item.maxNumber}}&nbsp;&nbsp;{{ 'text-person' | translate }}
                         </p>
                         <p *ngIf="item.createType===2">
                             {{ 'text-update-time' | translate }}：{{item.updateTiem}}&nbsp;&nbsp; {{item.finshNumber}}/{{item.maxNumber}}&nbsp;&nbsp;{{ 'text-company' | translate }}
-                        </p> -->
+                        </p>
                     </div>
                     <i class="to-right"></i>
                 </a>

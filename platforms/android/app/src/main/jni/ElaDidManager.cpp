@@ -78,22 +78,24 @@ static jboolean JNICALL nativeRegisterCallback(JNIEnv *env, jobject clazz, jlong
     const char* didName = env->GetStringUTFChars(jdidName, NULL);
     ElaIdManagerCallback* idCallback = new ElaIdManagerCallback(env, jidCallback);
     IDIDManager* didMgr = (IDIDManager*)jDidMgrProxy;
-    didMgr->RegisterCallback(didName, idCallback);
+    jboolean status = didMgr->RegisterCallback(didName, idCallback);
     sIdCallbackMap[jdidName] = idCallback;
 
     env->ReleaseStringUTFChars(jdidName, didName);
     LOGD("FUNC=[%s] end ========================LINE=[%d]", __FUNCTION__, __LINE__);
+    return status;
 }
 
 static jboolean JNICALL nativeUnregisterCallback(JNIEnv *env, jobject clazz, jlong jDidMgrProxy, jstring jdidName)
 {
     const char* didName = env->GetStringUTFChars(jdidName, NULL);
 
+    jboolean status = false;
     IDIDManager* didMgr = (IDIDManager*)jDidMgrProxy;
     std::map<jstring, ElaIdManagerCallback*>::iterator it;
     for (it = sIdCallbackMap.begin(); it != sIdCallbackMap.end(); it++) {
         if (jdidName == it->first) {
-            didMgr->UnregisterCallback(didName);
+            status = didMgr->UnregisterCallback(didName);
             delete it->second;
             sIdCallbackMap.erase(it);
             break;
@@ -101,6 +103,7 @@ static jboolean JNICALL nativeUnregisterCallback(JNIEnv *env, jobject clazz, jlo
     }
 
     env->ReleaseStringUTFChars(jdidName, didName);
+    return status;
 }
 
 static const JNINativeMethod gMethods[] = {
