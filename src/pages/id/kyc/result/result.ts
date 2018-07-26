@@ -13,9 +13,9 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
   type: string;
   approdType:string="company";
   businessObj={
-    "word":"xxx公司",
-    "legalPerson":"张三",
-    "registrationNum":"91311117011111111K",
+    "word":"",
+    "legalPerson":"",
+    "registrationNum":"",
   }
 
   personObj={
@@ -99,7 +99,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
         this.debitObj["fullName"] =  pesronObj["fullName"];
         this.debitObj["identityNumber"] =  pesronObj["identityNumber"];
         this.debitObj["cardNumber"] = pesronObj["cardNumber"];
-        this.debitObj["cardMobile"] = pesronObj["cardMobile"];
+        this.debitObj["cardMobile"] = pesronObj["mobile"];
         this.signature = pesronObj["signature"];
     }
 
@@ -107,8 +107,13 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
 
   onCommit(){
     alert("onCommit begin");
-    // this.popupProvider.ionicConfirm('confirmTitle', 'confirmSubTitle').then(() => {
+    // this.popupProvider.ionicPrompt('confirmTitle', 'confirmSubTitle').then(() => {
 
+    // });
+    // this.popupProvider.presentPrompt().then((val)=>{
+    //   alert("---val--"+val);
+    // }).catch(()=>{
+    //    alert("点击了取消");
     // });
     this.didGenerateProgram();
   }
@@ -206,7 +211,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
 
     alert("caulmessage 3"+ kycChainDataHash);
 
-    let singObj = {Id:this.did,Path:"1",Proof:authSign,DataHash:kycChainDataHash};
+    let singObj = {Id:this.did,Path:this.message["Path"],Proof:authSign,DataHash:kycChainDataHash};
 
      this.walletManager.didSign(this.did,JSON.stringify(singObj),this.passworld,(result)=>{
        alert("didSign 4"+ JSON.stringify(result));
@@ -253,6 +258,8 @@ getDepositTransaction(){
        alert("sendDepositTransaction result"+JSON.stringify(result));
      })
  }
+
+
 
 
 
