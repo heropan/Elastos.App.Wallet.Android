@@ -201,5 +201,7 @@ export const zh = {
   'text-id-kyc-import-no-message':"导入内容不能为空",
   'text-id-kyc-import-text-message':"将导入文本复制到文本框",
   'text-id-kyc-import-text-del-message':"删除id成功",
-  'text-id-kyc-import-text-del-please-message':'请选择要删除的ID'
+  'text-id-kyc-import-text-del-please-message':'请选择要删除的ID',
+  'text-id-kyc-auth-query-timeout':'付费查询失败',
+  'text-id-kyc-auth-fee-fail':'付款失败'
 };

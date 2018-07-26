@@ -58,6 +58,14 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
       if(data["status"] === 200){
         alert("sssss======="+JSON.stringify(data));
         let authResult = JSON.parse(data["_body"]);
+        if(authResult["errorCode"] === "1"){
+          this.messageBox("text-id-kyc-auth-fee-fail");
+          return;
+        }
+        if(authResult["errorCode"] === "2"){
+                 this.messageBox("text-id-kyc-auth-query-timeout");
+                 return;
+        }
         if(authResult["errorCode"] === "4"){
             this.messageBox("text-id-kyc-auth-uncompleted");
                return;

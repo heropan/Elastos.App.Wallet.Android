@@ -14,9 +14,9 @@ export class IdKycPersonComponent extends BaseComponent implements OnInit {
   validateObj ={"identityCard":{isValidate:false,isSelect:true,payMoney:0.3},
                 "phone":{isValidate:false,isSelect:false,payMoney:0.1},
                 "bankCard":{isValidate:false,isSelect:false,payMoney:0.1}};
-  personValidate = {fullName:'sss',identityNumber:'410426198811151012'};//个人验证对象
-  phoneValidate  = {mobile:'18210230496',code:'123456'};//手机验证对象
-  debitCard = {cardNumber:'6225260167820399',cardMobile:'18210230496',cardCode:'123456'};//银行卡验证对象
+  personValidate = {fullName:'宋家准',identityNumber:'410426198811151012'};//个人验证对象
+  phoneValidate  = {mobile:'18210230496',code:''};//手机验证对象
+  debitCard = {cardNumber:'6225260167820399',cardMobile:'18210230496',cardCode:''};//银行卡验证对象
   payMoney = 0;
   unit:string="ELA"
   priceObj:any={};
@@ -47,7 +47,22 @@ if(this.checkCellphone(phone)){
   this.messageBox('text-phone-message-2');
   return;
 }
+   this.sendCodeHttp(phone);
   }
+
+  sendCodeHttp(mobile){
+    let code = (Math.random()*1000000000000000).toString().substring(0,6);
+    let timestamp = this.getTimestamp();
+    let parms ={"mobile":mobile,"code":code,"serialNum":this.serialNum,"timestamp":timestamp};
+    let checksum = IDManager.getCheckSum(parms,"asc");
+    parms["checksum"] = checksum;
+    this.getHttp().postByAuth(ApiUrl.SEND_CODE,parms).toPromise().then(data=>{
+
+    }).catch(error => {
+
+    });
+  }
+
   calculateMenoy(){
     let pay = 0;
     for(let key in this.validateObj){
