@@ -211,6 +211,7 @@ sendPersonAuth(parms){
       parms["txHash"] = this.txId;
       let checksum = IDManager.getCheckSum(parms,"asc");
       parms["checksum"] = checksum;
+      console.log("---pesonParm---"+JSON.stringify(parms));
       this.getHttp().postByAuth(ApiUrl.AUTH,parms).toPromise().then(data=>{
         if(data["status"] === 200){
           let authData= JSON.parse(data["_body"])

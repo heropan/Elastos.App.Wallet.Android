@@ -16,7 +16,7 @@ export class IdKycPersonComponent extends BaseComponent implements OnInit {
                 "bankCard":{isValidate:false,isSelect:false,payMoney:0.1}};
   personValidate = {fullName:'宋家准',identityNumber:'410426198811151012'};//个人验证对象
   phoneValidate  = {mobile:'18210230496',code:''};//手机验证对象
-  debitCard = {cardNumber:'6225260167820399',cardMobile:'18210230496',cardCode:''};//银行卡验证对象
+  debitCard = {cardNumber:'6225880167820399',cardMobile:'18210230496',cardCode:''};//银行卡验证对象
   payMoney = 0;
   unit:string="ELA"
   priceObj:any={};
