@@ -20,6 +20,7 @@ import {CoinListComponent} from "../pages/coin/coin-list/coin-list.component";
 import {TabsComponent} from '../pages/tabs/tabs.component';
 import {LocalStorage} from "../providers/Localstorage";
 import {PaymentConfirmComponent} from "../pages/coin/payment-confirm/payment-confirm.component";
+import {DidLoginComponent} from "../pages/third-party/did-login/did-login.component";
 
 @Component({
   selector: 'app',
@@ -35,13 +36,19 @@ export class AppComponent {
       statusBar.styleDefault();
       splashScreen.hide();
 
-      let isPay = this.GetQueryString("is_pay");
       localStorage.getWallet().then((val) => {
         if (val) {
-          if (isPay == 'true') {
-            this.rootPage = PaymentConfirmComponent;
-          }else{
-            this.rootPage = TabsComponent;
+          let type = this.GetQueryString("type");
+          switch (type) {
+            case "payment":
+              this.rootPage = PaymentConfirmComponent;
+              break;
+            case "did_login":
+              this.rootPage = DidLoginComponent;
+              break;
+            default:
+              this.rootPage = TabsComponent;
+              break;
           }
         } else {
           this.rootPage = LauncherComponent;

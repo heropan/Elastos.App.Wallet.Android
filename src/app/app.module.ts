@@ -51,6 +51,7 @@ import {CoinComponent} from '../pages/coin/coin.component';
 import {RecordComponent} from '../pages/coin/record/record.component';
 import {TransferComponent} from '../pages/coin/transfer/transfer.component';
 import {PaymentConfirmComponent} from "../pages/coin/payment-confirm/payment-confirm.component";
+import {DidLoginComponent} from "../pages/third-party/did-login/did-login.component";
 import {ReceiveComponent} from '../pages/coin/receive/receive.component';
 import {RechargeComponent} from '../pages/coin/recharge/recharge.component';
 import {CoinSelectComponent} from '../pages/coin/coin-select/coin-select.component';
@@ -139,6 +140,7 @@ export function TranslateLoaderFactory() {
     RecordComponent,
     TransferComponent,
     PaymentConfirmComponent,
+    DidLoginComponent,
     ReceiveComponent,
     RechargeComponent,
     CoinSelectComponent,
@@ -213,6 +215,7 @@ export function TranslateLoaderFactory() {
     RecordComponent,
     TransferComponent,
     PaymentConfirmComponent,
+    DidLoginComponent,
     ReceiveComponent,
     RechargeComponent,
     CoinSelectComponent,
