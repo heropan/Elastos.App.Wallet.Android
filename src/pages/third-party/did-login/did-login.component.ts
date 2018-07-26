@@ -11,11 +11,11 @@ export class DidLoginComponent extends BaseComponent implements OnInit {
 
   @ViewChild('subscribe') subPopup: PopupComponent;
 
-  public kycIdArr: any=[];
-  public didNum: '';
-  public sign: '';
-  public didPubkey: '';
-  public message: '';
+  kycIdArr: any=[];
+  didNum: '';
+  sign: '';
+  didPubkey: '';
+  message: string;
 
   ngOnInit(){
     this.setTitleByAssets('text-did-login');
@@ -35,16 +35,16 @@ export class DidLoginComponent extends BaseComponent implements OnInit {
   onItem(itemId){
     this.popupProvider.presentPrompt().then((val)=>{              
       if(this.isNull(val)){
-        this.messageBox("text-id-kyc-prompt-password");        
+        this.messageBox("text-id-kyc-prompt-password");
         return;
       }
-      this.walletManager.didSign(itemId, this.message, val, (data)=>{
-        // this.didNum = itemId;
-        // this.sign = itemId;
-        // this.didPubkey = itemId;
-        alert(val);
-        alert(data);
-      }))
+      this.didNum = itemId;
+      this.walletManager.didSign(itemId, this.message, val.toString(), (data)=>{
+        this.sign = data.value;
+      })
+      this.walletManager.didGetPublicKey(itemId, (data)=>{
+        this.didPubkey = data.value;
+      })
     });
   }
 
