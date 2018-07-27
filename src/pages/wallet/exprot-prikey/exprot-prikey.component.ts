@@ -10,10 +10,10 @@ export class ExprotPrikeyComponent extends BaseComponent implements OnInit {
 
   public backupWalletPlainText:any;
   exprotObj = {
-    name: 'ss',
-    backupPassWord: 's12345678',
-    reBackupPassWord: 's12345678',
-    payPassword: 's12345678'
+    name: '',
+    backupPassWord: '',
+    reBackupPassWord: '',
+    payPassword: ''
   };
 
   ngOnInit() {
