@@ -154,6 +154,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
       if (data['ERRORCODE'] == undefined) {
         this.walletManager.registerWalletListener(this.chianId, (data) => {
           if (data['confirms'] == 1) {
+            alert("转账： " + JSON.stringify(data));
             this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
             });
           }
