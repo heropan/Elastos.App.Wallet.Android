@@ -11,10 +11,10 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
 
   payPasswordType = 0;
   wallet = {
-    name: 'ss',
+    name: '',
     singleAddress: false,
-    payPassword:'s12345678' ,//houpeitest
-    rePayPassword:'s12345678'//houpeitest
+    payPassword:'' ,//houpeitest
+    rePayPassword:''//houpeitest
   };
 
   ngOnInit() {
