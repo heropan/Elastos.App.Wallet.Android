@@ -174,12 +174,16 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
      let kycContent={};
      if(this.message["Path"] === "enterprise"){
          kycContent = this.businessObj;
+         this.message["Path"] = 'kyc'+"|"+"company"+"|"+"enterprise";
      }else if(this.message["Path"] === "identityCard"){
             kycContent = this.personObj;
+         this.message["Path"] = 'kyc'+"|"+"person"+"|"+"identityCard";
      }else if(this.message["Path"] === "phone"){
             kycContent = this.phoneObj;
+         this.message["Path"] = 'kyc'+"|"+"person"+"|"+"phone";
      }else if(this.message["Path"] === "bankCard"){
             kycContent = this.debitObj;
+          this.message["Path"] = 'kyc'+"|"+"person"+"|"+"bankCard";
      }
      //kyc 结果
      let authSign = {
