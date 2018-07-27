@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import { Storage } from '@ionic/storage';
+import {forEach} from "@angular/router/src/utils/collection";
 
 /***
  * 封装存储操作
@@ -29,6 +30,60 @@ export class LocalStorage {
 
   public get(key: string): any {
     return this.storage.get(key);
+  }
+
+  //key  id
+  //appType kyc  and so on
+  //authType  person  company
+  public getSeqNumObj(sign : string, key: string, appType : string, authType: string ): any {
+
+    console.info( "ElastosJs localstorage getSeqNumObj begin sign " + sign + " ID "+ key + " apptype "+ appType+ " authType " + authType);
+
+    /////////////////
+    this.get("kycId").then((val)=>{
+     let valObj = JSON.parse(val);
+
+     console.info("ElastosJs getSeqNumObj valObj " + JSON.stringify(valObj));
+
+      let  idJsonObj = valObj[key];
+
+      console.info( "ElastosJs localstorage getSeqNumObj idJsonObj " + JSON.stringify(idJsonObj) );
+
+      let  seqNumObj;
+
+      if (idJsonObj && idJsonObj[appType]&& idJsonObj[appType][authType] && idJsonObj[appType][authType]["order"])
+      {
+
+
+        let order = idJsonObj[appType]&& idJsonObj[appType][authType] && idJsonObj[appType][authType]["order"];
+
+        console.info( "ElastosJs localstorage getSeqNumObj order " + JSON.stringify(order));
+
+        for(var prop in order){
+          //sign ==
+          if ( order.prop.params&& order.prop.params.adata)
+          {
+            var addataArry = [];
+            addataArry = order.prop.params.adata;
+
+            addataArry.forEach(function (value) {
+              if (value && value.retdata) {
+
+                if (sign == value.retdata.signature) {
+
+                  seqNumObj = order.prop;
+                  console.info( "ElastosJs localstorage getSeqNumObj ok  seqNumObj " + JSON.stringify(seqNumObj));
+                }
+              }
+            })
+          }
+        }
+      }
+      return seqNumObj;
+
+    });
+    ////////////////
+
   }
 
   public remove(key: string): any {

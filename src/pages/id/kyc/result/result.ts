@@ -2,6 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import {BaseComponent} from "../../../../app/BaseComponent";
 import {IdHomeComponent} from "../../../../pages/id/home/home";
 import {IDManager} from "../../../../providers/IDManager";
+import {DataManager} from "../../../../providers/DataManager";
 import { Config } from '../../../../providers/Config';
 //{notary:"COOIX"}
 
@@ -232,7 +233,23 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     alert("sendRawTransaction begin==");
 
     this.walletManager.sendRawTransaction("IdChain",rawTransaction,this.fee,this.passworld,(result)=>{
-      console.log("---sendRawTransaction---"+"rawTransaction="+rawTransaction+"fee="+this.fee);
+
+     let rawTransactionObj = JSON.parse(rawTransaction);
+
+      console.log("ElastosJs ---sendRawTransaction---"+"rawTransaction="+JSON.stringify(rawTransactionObj)+"fee="+this.fee);
+      console.log("ElastosJs ---sendRawTransaction--- PayLoad"+ JSON.stringify(rawTransactionObj.PayLoad));
+
+      if (rawTransactionObj.PayLoad) {
+
+        let seqNumObj = this.localStorage.getSeqNumObj(rawTransactionObj.PayLoad.Sign, rawTransactionObj.PayLoad.Id,"kyc", rawTransactionObj.PayLoad.Path);
+
+        if (seqNumObj) {
+          this.dataManager.addSeqNumObj(result.Sign , seqNumObj );
+        }
+      }
+
+
+
       alert("sendRawTransaction result"+JSON.stringify(result));
     })
  }
