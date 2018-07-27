@@ -222,6 +222,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     this.walletManager.sendRawTransaction("IdChain",rawTransaction,this.fee,this.passworld,(result)=>{
       console.log("---sendRawTransaction---"+"rawTransaction="+rawTransaction+"fee="+this.fee);
       console.log("sendRawTransaction result"+JSON.stringify(result));
+      this.messageBox("text-id-kyc-china");
     })
  }
 
