@@ -159,6 +159,7 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
         this.Go(TabsComponent);
         this.walletManager.registerWalletListener(this.chianId, (data) => {
           if (data['confirms'] == 1) {
+            alert("提现： " + JSON.stringify(data));
             this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
             });
           }

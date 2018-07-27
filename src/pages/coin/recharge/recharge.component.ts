@@ -162,7 +162,9 @@ export class RechargeComponent extends BaseComponent implements OnInit {
         this.Go(TabsComponent);
         this.walletManager.registerWalletListener(this.chianId, (data) => {
           if (data['confirms'] == 1) {
-            this.popupProvider.ionicAlert('IDconfirmTitle', 'confirmTransaction').then((data) => {
+
+            alert("充值： " + JSON.stringify(data));
+            this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
             });
           }
         });

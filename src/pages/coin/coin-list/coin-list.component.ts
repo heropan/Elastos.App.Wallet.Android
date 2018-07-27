@@ -13,7 +13,7 @@ export class CoinListComponent extends BaseComponent implements OnInit {
 
   coinList = [];
   coinListCache = {};
-  payPassword: string = "s12345678";
+  payPassword: string = "";
   singleAddress: boolean = false;
   currentCoin: string;
 
