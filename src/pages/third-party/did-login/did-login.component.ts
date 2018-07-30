@@ -45,7 +45,12 @@ export class DidLoginComponent extends BaseComponent implements OnInit {
       this.walletManager.didGetPublicKey(itemId, (data)=>{
         this.didPubkey = data.value;
       })
-      
+      let result = {
+        didNum: this.didNum,
+        sign: this.sign,
+        didPubkey: this.didPubkey
+      }
+      return result;
     });
   }
 
