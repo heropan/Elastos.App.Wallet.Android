@@ -106,7 +106,7 @@ export const zh = {
   'utxo-outcoming': '交易输出',
   'utxo-outcoming-address': '输出地址',
   'transaction-price': '交易金额',
-  'transaction-time': '交易时间',
+  'transaction-time': '确认时间',
   'transaction-id': '交易号',
   'confirm-count': '确认次数',
   'transaction-ok': '交易成功',
