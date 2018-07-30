@@ -1,8 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Logger} from "./Logger";
 import {Native} from "./Native";
-import { Chain } from '@angular/compiler';
-//import {StorageUtil} from "./StorageUtil";
 declare var cordova: any;
 
 

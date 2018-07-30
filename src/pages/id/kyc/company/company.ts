@@ -3,7 +3,7 @@ import {BaseComponent} from "../../../../app/BaseComponent";
 import {ApiUrl} from "../../../../providers/ApiUrl";
 import {IDManager} from "../../../../providers/IDManager";
 import {TransferComponent} from "../../../../pages/coin/transfer/transfer.component";
-import {IdKycResultComponent} from '../../../../pages/id/kyc/result/result';
+
 @Component({
   selector: 'id-company',
   templateUrl: 'company.html',
