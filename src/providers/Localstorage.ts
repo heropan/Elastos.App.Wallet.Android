@@ -35,7 +35,7 @@ export class LocalStorage {
   //key  id
   //appType kyc  and so on
   //authType  person  company
-  public getSeqNumObj(sign : string, key: string, appType : string, authType: string ): any {
+  public getSeqNumObj(sign : string, key: string, appType : string, authType: string, callback : any ): any {
 
     console.info( "ElastosJs localstorage getSeqNumObj begin sign " + sign + " ID "+ key + " apptype "+ appType+ " authType " + authType);
 
@@ -43,7 +43,7 @@ export class LocalStorage {
     this.get("kycId").then((val)=>{
      let valObj = JSON.parse(val);
 
-     console.info("ElastosJs getSeqNumObj valObj " + JSON.stringify(valObj));
+     console.info("ElastosJs getSeqNumObj total     valObj " + JSON.stringify(valObj));
 
       let  idJsonObj = valObj[key];
 
@@ -60,18 +60,26 @@ export class LocalStorage {
         console.info( "ElastosJs localstorage getSeqNumObj order " + JSON.stringify(order));
 
         for(var prop in order){
+
           //sign ==
-          if ( order.prop.params&& order.prop.params.adata)
+          //console.info( "ElastosJs localstorage prop " + prop);
+          //console.info( "ElastosJs localstorage prop " + prop + " order.prop.params " + JSON.stringify(order[prop]["params"]));
+
+          //console.info( "ElastosJs localstorage prop " + prop + " order.prop.params.adata " + JSON.stringify(order[prop]["params"]["adata"]));
+
+          if ( order[prop]["params"] && order[prop]["params"]["adata"])
           {
             var addataArry = [];
-            addataArry = order.prop.params.adata;
+            addataArry = order[prop]["params"]["adata"];
 
             addataArry.forEach(function (value) {
-              if (value && value.retdata) {
+              console.info( "ElastosJs value " + JSON.stringify(value) + " typeof value " + typeof (value));
+              if (value && value["retdata"]) {
 
-                if (sign == value.retdata.signature) {
+                console.info( "ElastosJs value[\"retdata\"] " + JSON.stringify(value["retdata"]));
+                if (sign == value["retdata"]["signature"]) {
 
-                  seqNumObj = order.prop;
+                  seqNumObj = order[prop];
                   console.info( "ElastosJs localstorage getSeqNumObj ok  seqNumObj " + JSON.stringify(seqNumObj));
                 }
               }
@@ -79,7 +87,8 @@ export class LocalStorage {
           }
         }
       }
-      return seqNumObj;
+      callback(seqNumObj);
+      //return seqNumObj;
 
     });
     ////////////////

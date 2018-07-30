@@ -15,14 +15,14 @@ export class DataManager {
 
   //add obj
   public  addSeqNumObj(sign :string , obj : any ){
+    console.info("ElastosJs DataManager addSeqNumObj sign "+ sign + "obj "+ JSON.stringify(obj));
 
     this.SignSeqNumObjetMap[sign] = obj;
-    console.info("DataManager addSeqNumObj sign "+ sign + "obj "+ JSON.stringify(obj));
   }
 
   //get object
   public  getSeqNumObj(sign : string){
-    console.info("DataManager getSeqNumObj sign "+ sign + "obj "+ JSON.stringify(this.SignSeqNumObjetMap[sign]));
+    console.info("ElastosJs DataManager getSeqNumObj sign "+ sign + "obj "+ JSON.stringify(this.SignSeqNumObjetMap[sign]));
     return this.SignSeqNumObjetMap[sign];
   }
 

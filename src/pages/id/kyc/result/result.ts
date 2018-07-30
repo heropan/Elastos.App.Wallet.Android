@@ -233,12 +233,28 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
       console.log("ElastosJs ---sendRawTransaction--- PayLoad"+ JSON.stringify(rawTransactionObj.PayLoad));
 
       if (rawTransactionObj.PayLoad) {
+        let arr = rawTransactionObj.PayLoad.Path.split("|");
+        //
+        if (arr[1]) {
 
-        let seqNumObj = this.localStorage.getSeqNumObj(rawTransactionObj.PayLoad.Sign, rawTransactionObj.PayLoad.Id,"kyc", rawTransactionObj.PayLoad.Path);
+          let proofStr = rawTransactionObj.PayLoad.Proof;
+          let proofObj = JSON.parse(rawTransactionObj.PayLoad.Proof);
+          let self = this;
+          console.info("ElastosJs this.dataManager 1111111 " + this.dataManager );
+``
+           this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id,"kyc", arr[1], function (reult : any) {
+           console.info("ElastosJs reult" + JSON.stringify(reult) );
 
-        if (seqNumObj) {
-          this.dataManager.addSeqNumObj(result.Sign , seqNumObj );
+            self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
+            // if (reult) {
+            //
+            // }
+          });
+
+
+
         }
+
       }
 
 
