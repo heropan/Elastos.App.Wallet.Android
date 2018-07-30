@@ -1,11 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
-import {ContactListComponent} from "../../contacts/contact-list/contact-list.component";
 import {TabsComponent} from "../../tabs/tabs.component";
 import {Util} from "../../../providers/Util";
 import { PopupComponent } from "ngx-weui";
 import { Config } from '../../../providers/Config';
-import {ApiUrl} from "../../../providers/ApiUrl"
 @Component({
   selector: 'app-transfer',
   templateUrl: './recharge.component.html'})

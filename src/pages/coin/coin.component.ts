@@ -2,7 +2,6 @@ import {BaseComponent} from '../../app/BaseComponent';
 import {Component, ViewEncapsulation, OnInit} from '@angular/core';
 import { Config } from '../../providers/Config';
 import { Util } from '../../providers/Util';
-import {RecordComponent} from "./record/record.component";
 import {TransferComponent} from "./transfer/transfer.component";
 import {CoinSelectComponent} from "./coin-select/coin-select.component";
 import {WithdrawComponent} from "./withdraw/withdraw.component";
