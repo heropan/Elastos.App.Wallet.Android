@@ -626,7 +626,7 @@ public class Wallet extends CordovaPlugin {
 
     public void registerWalletListener(JSONArray args, CallbackContext callbackContext) throws JSONException {
         //The first parameter is [chainID]
-        Log.i("JS-Wallet", "registerWalletListener==================1");
+        Log.i("ElastosJava JS-Wallet", "registerWalletListener==================1");
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
             callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
@@ -656,7 +656,7 @@ public class Wallet extends CordovaPlugin {
             @Override
             public void OnBlockSyncStarted() {
                 JSONObject jsonObject = new JSONObject();
-                Log.i("JS-Wallet", "OnBlockSyncStarted==================1");
+                Log.i("ElastosJava", "OnBlockSyncStarted==================1");
                 try {
                     jsonObject.put("OnBlockSyncStarted", "OnBlockSyncStarted");
                 }
@@ -672,7 +672,7 @@ public class Wallet extends CordovaPlugin {
             @Override
             public void OnBlockHeightIncreased(int currentBlockHeight, double progress) {
                 JSONObject jsonObject = new JSONObject();
-                Log.i("JS-Wallet", "OnBlockHeightIncreased==================1");
+                Log.i("ElastosJava", "OnBlockHeightIncreased==================1");
                 try {
                     jsonObject.put("currentBlockHeight", currentBlockHeight);
                     jsonObject.put("progress", progress);
@@ -689,7 +689,7 @@ public class Wallet extends CordovaPlugin {
             @Override
             public void OnBlockSyncStopped() {
                 JSONObject jsonObject = new JSONObject();
-                Log.i("JS-Wallet", "OnBlockSyncStopped==================1");
+                Log.i("ElastosJava", "OnBlockSyncStopped==================1");
                 try {
                     jsonObject.put("OnBlockSyncStopped", "OnBlockSyncStopped");
                 }
@@ -1139,7 +1139,7 @@ public class Wallet extends CordovaPlugin {
 
     public void registerIdListener(JSONArray args, CallbackContext callbackContext) throws JSONException {
 
-        Log.i("JS-Wallet-Elastos", "registerIdListener==================begin");
+        Log.i("ElastosJava", "registerIdListener==================begin");
         if (mDidManager == null) {
             callbackContext.error("registerIdListener error.");
             return;
@@ -1172,7 +1172,7 @@ public class Wallet extends CordovaPlugin {
             }
         });
 
-        Log.i("JS-Wallet-Elastos", "registerIdListener==================end");
+        Log.i("ElastosJava", "registerIdListener==================end");
 
     }
 
