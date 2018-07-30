@@ -1139,8 +1139,9 @@ public class Wallet extends CordovaPlugin {
 
     public void registerIdListener(JSONArray args, CallbackContext callbackContext) throws JSONException {
 
-        Log.i("ElastosJava", "registerIdListener==================begin");
+        Log.i("ElastosJava", "registerIdListener==================begin mDidManager "+mDidManager);
         if (mDidManager == null) {
+            Log.i("ElastosJava", "registerIdListener==================begin mDidManager == NULL"+mDidManager);
             callbackContext.error("registerIdListener error.");
             return;
         }
@@ -1149,10 +1150,10 @@ public class Wallet extends CordovaPlugin {
             @Override
             public void OnIdStatusChanged(String id, String path, /*const nlohmann::json*/ String value) {
 
-                Log.i("JS-Wallet-Elastos", "OnIdStatusChanged==================begin");
+                Log.i("ElastosJava", "OnIdStatusChanged==================begin");
 
                 JSONObject jsonObject = new JSONObject();
-                Log.i("JS-Wallet-Elastos", "OnIdStatusChanged==================begin2");
+                Log.i("ElastosJava", "OnIdStatusChanged==================begin2");
                 try {
                     jsonObject.put("id", id);
                     jsonObject.put("path", path);
@@ -1162,12 +1163,12 @@ public class Wallet extends CordovaPlugin {
                     e.printStackTrace();;
                 }
 
-                Log.i("JS-Wallet-Elastos", "OnIdStatusChanged==================begin3");
+                Log.i("ElastosJava", "OnIdStatusChanged==================begin3");
 
                 PluginResult pluginResult = new PluginResult(PluginResult.Status.OK,jsonObject);
                 pluginResult.setKeepCallback(true);
                 callbackContext.sendPluginResult(pluginResult);
-                Log.i("JS-Wallet-Elastos", "OnIdStatusChanged==================end");
+                Log.i("ElastosJava", "OnIdStatusChanged==================end");
 
             }
         });
