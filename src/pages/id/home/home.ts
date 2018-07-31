@@ -16,20 +16,24 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
        this.Go(TabsComponent);
     });
 
+    var self = this;
     this.localStorage.get("kycId").then((val)=>{
-             this.kycIdArr = this.objtoarr(JSON.parse(val));
 
-             // this.kycIdArr.forEach(function(e){
-             //
-             //   alert("createDID registerIdListener e.id "+ e.id);
-             //   //alert("createDID registerIdListener this.walletManager "+ this.walletManager)
-             //   this.walletManager.registerIdListener(e.id, (data) => {
-             //     ////////////////
-             //     alert("createDID registerIdListener data "+ JSON.stringify(data));
-             //
-             //   });
-             //   alert("createDID registerIdListener end e.id "+ e.id);
-             //  });
+             let seqNumJsonObj = JSON.parse(val);
+             this.kycIdArr = this.objtoarr(seqNumJsonObj);
+
+             console.info("ElastosJs IdHomeComponent val" + val);
+             self.initSeqObj(seqNumJsonObj);
+
+             this.kycIdArr.forEach(function(e){
+               console.info("ElastosJs IdHomeComponent e.id registerIdListener begin  " + e.id);
+               self.walletManager.registerIdListener(e.id, (data) => {
+                 alert("createDID registerIdListener  data  callback"+ JSON.stringify(data));
+                 console.info("ElastosJs createDID registerIdListener  data  callback !!!!!" + JSON.stringify(e));
+
+               });
+               console.info("ElastosJs IdHomeComponent e.id  end registerIdListener" + e.id);
+              });
 
 
     });
@@ -39,6 +43,45 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
         this.kycIdArr = this.objtoarr(JSON.parse(val));
       });
     });
+  }
+
+  initSeqObj(allStoreSeqNumJsonObj){
+    console.info("ElastosJs initSeqObj begin allStoreSeqNumJsonObj" + JSON.stringify(allStoreSeqNumJsonObj));
+    var self = this;
+
+    let ids = allStoreSeqNumJsonObj;
+    for(let id in ids){
+      let  idJsonObj = ids[id];
+      if (! idJsonObj["kyc"]){
+        continue;
+      }
+
+      for (let authType in idJsonObj["kyc"]){
+        if (!idJsonObj["kyc"][authType]["order"]){
+          continue
+        }
+        let order = idJsonObj["kyc"][authType]["order"];
+
+        for (let prop in order) {
+
+          if ( order[prop]["params"] && order[prop]["params"]["adata"])
+          {
+            var addataArry = [];
+            addataArry = order[prop]["params"]["adata"];
+            addataArry.forEach(function (value) {
+              if (value && value["retdata"]) {
+                if ( value["retdata"]["signature"]) {
+                  let sign = value["retdata"]["signature"];
+                  self.dataManager.addSeqNumObj(sign, order[prop] );
+                 //console.info( "ElastosJs add sign " + sign + " obj "+ JSON.stringify(order[prop]));
+                }
+              }
+            })
+          }
+        }
+      }
+    }
+    console.info("ElastosJs initSeqObj end ");
   }
 
   onNext(type){
