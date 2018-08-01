@@ -161,7 +161,6 @@ export class WalletManager {
   }
 
   registerIdListener(chainId:string,Fun) {
-    alert("ElastosJs WalletManager registerIdListener begin==");
     this.wallet.registerIdListener([chainId], Fun, this.errorFun);
   }
   sign(chainId:string,message, payPassword, Fun) {
