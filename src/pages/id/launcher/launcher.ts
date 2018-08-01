@@ -24,8 +24,18 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
   }
 
   createId(){
+    let self = this;
     this.walletManager.createDID("s12345678",(result)=>{
+
           let idObj ={id:result.didname};
+
+          console.info("ElastosJs luncher.ts createDID result add registerIdListener" + JSON.stringify(result));
+          self.walletManager.registerIdListener(result.didname, (data) => {
+
+            alert("ElastosJs luncher.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
+            console.info("ElastosJs createDID registerIdListener  data  callback !!!!!" + JSON.stringify(data));
+
+          });
           this.localStorage.add("kycId",idObj).then(()=>{
                this.Go(IdHomeComponent);
           });
