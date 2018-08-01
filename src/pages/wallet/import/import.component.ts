@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../../app/BaseComponent';
 import {TabsComponent} from '../../../pages/tabs/tabs.component';
+import {Util} from "../../../providers/Util";
 
 @Component({
   selector: 'app-import',
@@ -83,6 +84,10 @@ export class ImportComponent extends BaseComponent implements OnInit {
     if(this.isNull(this.mnemonicObj.payPassword)){
       this.messageBox('text-pay-password');
       return false;
+    }
+    if (!Util.password(this.mnemonicObj.payPassword)) {
+      this.toast("text-pwd-validator");
+      return;
     }
     if(this.mnemonicObj.payPassword!=this.mnemonicObj.rePayPassword){
       this.messageBox('text-passworld-compare');
