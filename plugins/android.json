@@ -37,6 +37,9 @@
     },
     "ElaWallet": {
       "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "ElaJava2JSBridge": {
+      "PACKAGE_NAME": "io.ionic.starter"
     }
   },
   "dependent_plugins": {}
