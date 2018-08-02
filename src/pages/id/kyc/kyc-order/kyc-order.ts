@@ -45,7 +45,7 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
   }
 
     getAppAuth(serialNum,txHash){
-    alert("getAppAuth======= txHash type "+typeof(txHash));
+    console.log("getAppAuth======= txHash type "+typeof(txHash));
     console.log('ElastosJs----getAppAuth----'+"---serialNum---"+serialNum+"---txHash---"+txHash);
     let timestamp = this.getTimestamp();
     let parms ={"serialNum":serialNum,
@@ -56,7 +56,7 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
     parms["checksum"] = checksum;
     this.getHttp().postByAuth(ApiUrl.APP_AUTH,parms).toPromise().then().then(data => {
       if(data["status"] === 200){
-        alert("sssss======="+JSON.stringify(data));
+        console.log("sssss======="+JSON.stringify(data));
         let authResult = JSON.parse(data["_body"]);
         if(authResult["errorCode"] === "1"){
           this.messageBox("text-id-kyc-auth-fee-fail");
