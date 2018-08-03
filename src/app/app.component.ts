@@ -20,10 +20,15 @@ import {CoinListComponent} from "../pages/coin/coin-list/coin-list.component";
 import {TabsComponent} from '../pages/tabs/tabs.component';
 import {LocalStorage} from "../providers/Localstorage";
 
+//add for plugin
+declare var cordova: any;
+
 @Component({
   selector: 'app',
   templateUrl: 'app.html',
 })
+
+
 export class AppComponent {
   rootPage: any;
 
@@ -34,6 +39,19 @@ export class AppComponent {
       statusBar.styleDefault();
       splashScreen.hide();
 
+      //init java 2 js plugin
+      cordova.plugins.Java2JSBridge.init(this);
+
+
+      //cordova.plugins.Java2JSBridge.getDeviceID();
+
+     cordova.plugins.Java2JSBridge.getDeviceID(succeedCallback);
+     function succeedCallback(message){
+      alert(message);
+
+    }
+    //alert(devideID);
+
       localStorage.getWallet().then((val) => {
         if (val) {
           this.rootPage = TabsComponent;
@@ -43,5 +61,11 @@ export class AppComponent {
       });
     });
   }
+
+    //
+    onReceiveJG(param) {
+      alert(param);
+    }
+
 }
 

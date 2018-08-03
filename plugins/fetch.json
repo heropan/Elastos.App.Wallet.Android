@@ -78,5 +78,13 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "ElaJava2JSBridge": {
+    "source": {
+      "type": "local",
+      "path": "/Users/xuxinlai/blockchain/cmt/Elastos.ORG.Wallet.Mobile/node_modules/ElaJava2JSBridge"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }
