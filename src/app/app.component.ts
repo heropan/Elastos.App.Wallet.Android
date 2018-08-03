@@ -48,6 +48,7 @@ export class AppComponent {
      cordova.plugins.Java2JSBridge.getDeviceID(succeedCallback);
      function succeedCallback(message){
       alert(message);
+      console.log("-----setDeviceID------"+message);
       Config.setDeviceID(message);
     }
     //alert(devideID);

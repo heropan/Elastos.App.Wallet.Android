@@ -2,7 +2,6 @@ import { Component,OnInit } from '@angular/core';
 import {BaseComponent} from "../../../../app/BaseComponent";
 import {IdHomeComponent} from "../../../../pages/id/home/home";
 import {IDManager} from "../../../../providers/IDManager";
-import {DataManager} from "../../../../providers/DataManager";
 import { Config } from '../../../../providers/Config';
 //{notary:"COOIX"}
 
@@ -237,7 +236,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
         //
         if (arr[1]) {
 
-          let proofStr = rawTransactionObj.PayLoad.Proof;
+          //let proofStr = rawTransactionObj.PayLoad.Proof;
           let proofObj = JSON.parse(rawTransactionObj.PayLoad.Proof);
           let self = this;
           //console.info("ElastosJs this.dataManager 1111111 " + this.dataManager );

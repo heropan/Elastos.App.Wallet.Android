@@ -187,14 +187,12 @@ export class TransferComponent extends BaseComponent implements OnInit {
     let timestamp = this.getTimestamp();
     params["timestamp"] = timestamp;
     params["txHash"] = this.txId;
-    alert("----deviceID-----"+Config.getdeviceID());
     params["deviceID"] = Config.getdeviceID();
     let checksum = IDManager.getCheckSum(params,"asc");
     params["checksum"] = checksum;
     this.getHttp().postByAuth(ApiUrl.AUTH,params).toPromise().then(data => {
          if(data["status"] === 200){
           let authData= JSON.parse(data["_body"]);
-          console.log('---authData---'+JSON.stringify(authData));
           if(authData["errorCode"] === "0"){
                let serialNum = authData["serialNum"];
                this.saveKycSerialNum(serialNum);
@@ -204,6 +202,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
          }
 
     }).catch(error => {
+         alert("-------111111-------");
          this.Go(IdResultComponent,{'status':'1'});
     });
 }
@@ -212,6 +211,7 @@ sendPersonAuth(parms){
       let timestamp = this.getTimestamp();
       parms["timestamp"] = timestamp;
       parms["txHash"] = this.txId;
+      parms["deviceID"] = Config.getdeviceID();
       let checksum = IDManager.getCheckSum(parms,"asc");
       parms["checksum"] = checksum;
       console.log("---pesonParm---"+JSON.stringify(parms));
