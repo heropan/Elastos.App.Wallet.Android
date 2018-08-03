@@ -202,7 +202,6 @@ export class TransferComponent extends BaseComponent implements OnInit {
          }
 
     }).catch(error => {
-         alert("-------111111-------");
          this.Go(IdResultComponent,{'status':'1'});
     });
 }
