@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import { Storage } from '@ionic/storage';
-import {forEach} from "@angular/router/src/utils/collection";
 
 /***
  * 封装存储操作
