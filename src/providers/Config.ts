@@ -28,6 +28,8 @@ export class Config {
 
   private static kycObj:any={};
 
+  private static deviceID:string="";
+
   public static getKycObj(){
        return this.kycObj;
   }
@@ -73,6 +75,14 @@ export class Config {
 
   public static getSmsSecretKey(){
       return this.smsSecretKey;
+  }
+
+  public static setDeviceID(deviceID){
+       this.deviceID = deviceID;
+  }
+
+  public static getdeviceID(){
+        return this.deviceID;
   }
 }
 

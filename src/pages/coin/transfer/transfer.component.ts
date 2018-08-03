@@ -187,6 +187,8 @@ export class TransferComponent extends BaseComponent implements OnInit {
     let timestamp = this.getTimestamp();
     params["timestamp"] = timestamp;
     params["txHash"] = this.txId;
+    alert("----deviceID-----"+Config.getdeviceID());
+    params["deviceID"] = Config.getdeviceID();
     let checksum = IDManager.getCheckSum(params,"asc");
     params["checksum"] = checksum;
     this.getHttp().postByAuth(ApiUrl.AUTH,params).toPromise().then(data => {
