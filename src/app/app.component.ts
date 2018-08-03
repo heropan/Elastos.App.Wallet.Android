@@ -45,13 +45,20 @@ export class AppComponent {
 
       //cordova.plugins.Java2JSBridge.getDeviceID();
 
-     cordova.plugins.Java2JSBridge.getDeviceID(succeedCallback);
-     function succeedCallback(message){
-      alert(message);
-      console.log("-----setDeviceID------"+message);
-      Config.setDeviceID(message);
-    }
+    //  cordova.plugins.Java2JSBridge.getDeviceID(succeedCallback);
+    //  function succeedCallback(message){
+    //   //alert(message);
+    //   console.log("-----setDeviceID------"+message);
+    //   Config.setDeviceID(message);
+    // }
     //alert(devideID);
+
+      cordova.plugins.Java2JSBridge.getRegistrationID(succeedCallback);
+      function succeedCallback(message){
+        alert(message);
+        //console.log("-----setDeviceID------"+message);
+        //Config.setDeviceID(message);
+      }
 
       localStorage.getWallet().then((val) => {
         if (val) {

@@ -16,7 +16,7 @@ public class Java2JSBridge extends CordovaPlugin {
     private static CallbackContext mCallbackContext;
     private static Java2JSBridgeInterface java2JSBridgeInterface;
     public static String deviceID = "";
-
+    public static String getRegistrationID= "";
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -27,6 +27,9 @@ public class Java2JSBridge extends CordovaPlugin {
             java2JSBridgeInterface.getJSEvalResult(args.toString());
         }  else if (action.equals("getDeviceID")){
             callbackContext.success(deviceID);
+            return true;
+        }else if (action.equals("getRegistrationID")){
+            callbackContext.success(getRegistrationID);
             return true;
         }
         return true;

@@ -33,7 +33,6 @@ import ElaJava2JSBridge.Java2JSBridge;
 public class MainActivity extends CordovaActivity
 {
 
-    private static String deviceID = "";
     static {
         System.loadLibrary("spvsdk");
         System.loadLibrary("idchain");
@@ -90,7 +89,12 @@ public class MainActivity extends CordovaActivity
         String versionName =  MyUtil.GetVersion(applicationContext);
         Log.w("xxl-jg","versionName " + versionName);
 
+
+        String regID=JPushInterface.getRegistrationID(MainActivity.this);
+        Log.w("xxl-jg","rid " + regID);
+        Java2JSBridge.getRegistrationID = regID;
         //
+
         JPushInterface.init(applicationContext);
     }
 
