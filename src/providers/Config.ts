@@ -60,7 +60,7 @@ export class Config {
         this.serIds = serIds;
   }
 
- public add(idObj,newIds,id,appName,appr){
+ public static add(idObj,newIds,id,appName,appr){
     if(idObj[appName][appr]){
       if(idObj[appName][appr]["order"]){
          for(let index in idObj[appName][appr]["order"]){
@@ -70,7 +70,7 @@ export class Config {
   }
  }
 
- public getSertoId(ids){
+ public static getSertoId(ids){
   let newIds = {};
   for(let key in ids){
 

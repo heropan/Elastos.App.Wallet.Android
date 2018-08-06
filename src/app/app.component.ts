@@ -31,14 +31,14 @@ declare var cordova: any;
 
 export class AppComponent {
   rootPage: any;
-
+  ls:any;
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, localStorage: LocalStorage) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
-
+      this.ls = localStorage;
       //init java 2 js plugin
       cordova.plugins.Java2JSBridge.init(this);
 
@@ -55,7 +55,7 @@ export class AppComponent {
 
       cordova.plugins.Java2JSBridge.getRegistrationID(succeedCallback);
       function succeedCallback(message){
-        alert(message);
+        //alert(message);
         console.log("-----setDeviceID------"+message);
         Config.setDeviceID(message);
       }
@@ -67,12 +67,38 @@ export class AppComponent {
           this.rootPage = LauncherComponent;
         }
       });
+
+      localStorage.getKycList("kycId").then((val)=>{
+
+             if(val == null || val === undefined || val === {} || val === ''){
+                          return;
+             }
+            let serids = Config.getSertoId(JSON.parse(val));
+            Config.setSerIds(serids);
+      });
     });
   }
 
     //
     onReceiveJG(param) {
-      alert(param);
+      alert('交易单号为：'+param+'已认证成功，请去订单列表查看');
+      //  let serialNum = JSON.parse(param)["serialNum"];
+      //  let serids = Config.getSerIds();
+      //  let serid = serids[serialNum];
+      //  let did = serid["id"];
+      //  let appName = serid["appName"];
+      //  let appr = serid["appr"];
+      //  let idsObj = {};
+      //  this.ls.getKycList("kycId").then((val)=>{
+      //      if(val == null || val === undefined || val === {} || val === ''){
+      //           return;
+      //      }
+      //   idsObj = JSON.parse(val);
+      //   idsObj[did][appName][appr]["order"][serialNum]["status"] = 1;
+      //   this.ls.set("kycId",idsObj).then(()=>{
+
+      //   });
+      //  });
     }
 
 }

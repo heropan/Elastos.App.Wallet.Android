@@ -195,7 +195,14 @@ export class TransferComponent extends BaseComponent implements OnInit {
           let authData= JSON.parse(data["_body"]);
           if(authData["errorCode"] === "0"){
                let serialNum = authData["serialNum"];
-               this.saveKycSerialNum(serialNum);
+               let serIds = Config.getSerIds();
+                   serIds[serialNum] = {
+                    "id":this.did,
+                    "appName": "kyc",
+                    "appr": "company"
+                   }
+              Config.setSerIds(serIds);
+              this.saveKycSerialNum(serialNum);
           }else{
               alert("错误码:"+authData["errorCode"]);
           }
@@ -220,6 +227,13 @@ sendPersonAuth(parms){
           console.log('---authData---'+JSON.stringify(authData));
           if(authData["errorCode"] === "0"){
                let serialNum = authData["serialNum"];
+               let serIds = Config.getSerIds();
+               serIds[serialNum] = {
+                "id":this.did,
+                "appName": "kyc",
+                "appr": "person"
+               }
+               Config.setSerIds(serIds);
                this.saveKycSerialNum(serialNum);
           }else{
               alert("错误码:"+authData["errorCode"]);
