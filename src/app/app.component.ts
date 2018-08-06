@@ -56,8 +56,8 @@ export class AppComponent {
       cordova.plugins.Java2JSBridge.getRegistrationID(succeedCallback);
       function succeedCallback(message){
         alert(message);
-        //console.log("-----setDeviceID------"+message);
-        //Config.setDeviceID(message);
+        console.log("-----setDeviceID------"+message);
+        Config.setDeviceID(message);
       }
 
       localStorage.getWallet().then((val) => {
