@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../../app/BaseComponent';
 import {TabsComponent} from '../../../pages/tabs/tabs.component';
+import {Util} from "../../../providers/Util";
 
 @Component({
   selector: 'app-import',
@@ -84,6 +85,10 @@ export class ImportComponent extends BaseComponent implements OnInit {
       this.messageBox('text-pay-password');
       return false;
     }
+    if (!Util.password(this.mnemonicObj.payPassword)) {
+      this.toast("text-pwd-validator");
+      return;
+    }
     if(this.mnemonicObj.payPassword!=this.mnemonicObj.rePayPassword){
       this.messageBox('text-passworld-compare');
       return false;
@@ -118,25 +123,11 @@ export class ImportComponent extends BaseComponent implements OnInit {
 
   getAllCreatedSubWallets(){
 
-    this.localStorage.get('coinListCache').then((val)=>{
-         if(this.isNull(val)) {
-          this.messageBox('import-text-keystroe-sucess');
-          this.localStorage.setWallet({
-            'name': "ELA-Wallet"
-           }).then(()=>{
-            this.Go(TabsComponent);
-           });
-           return;
-         }
-         let coinListCache = JSON.parse(val);
       this.walletManager.getAllCreatedSubWallets((createdChains) => {
-         for(let china in coinListCache){
-             if(this.isExitCoinListCache(china,createdChains) === -1){
-                    delete(coinListCache[china])
-             }
-         }
-
-         this.localStorage.set('coinListCache', coinListCache).then(()=>{
+        console.log("====createdChains======"+JSON.stringify(createdChains));
+        let chinas = this.getCoinListCache(createdChains);
+        console.log("====getCoinListCache======"+JSON.stringify(chinas));
+         this.localStorage.set('coinListCache',chinas).then(()=>{
           this.messageBox('import-text-keystroe-sucess');
           this.localStorage.setWallet({
             'name': "ELA-Wallet"
@@ -145,17 +136,17 @@ export class ImportComponent extends BaseComponent implements OnInit {
            });
          });
       });
-    });
+
   }
 
-  isExitCoinListCache(cacheChain,createdChains){
-    let result = -1;
+   getCoinListCache(createdChains){
+    let chinas = {};
     for (let chain in createdChains) {
-           if(cacheChain === chain){
-                result = 1;
+           if(chain != "ELA"){
+            chinas[chain] = chain;
            }
     }
-         return result;
+         return chinas;
   }
 
 }

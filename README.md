@@ -50,10 +50,14 @@
 
 
 ### 基础命令
+* 删除极光推送插件: `ionic cordova plugin remove ElaJava2JSBridge`
+* 增加极光推送插件: `cd plungin-src && ionic cordova plugin add  ElaJava2JSBridge `
+
 * 删除钱包插件: `ionic cordova plugin remove ElaWallet`
 * 增加钱包插件: `cd plungin-src && ionic cordova plugin add  ElaWallet`
 * 打包钱包插件: `cd .. && ionic cordova build android`
-* `ionic cordova plugin remove ElaWallet && cd plungin-src && ionic cordova plugin add  ElaWallet && cd ..  && ionic cordova run android --device --prod`
+* `ionic cordova plugin remove ElaJava2JSBridge && cd plungin-src && ionic cordova plugin add  ElaJava2JSBridge && cd .. && ionic cordova plugin remove ElaWallet && cd plungin-src && ionic cordova plugin add  ElaWallet && cd ..  && ionic cordova run android --device --prod
+`
 
 ### NDK使用版本
 * android-ndk-r16b

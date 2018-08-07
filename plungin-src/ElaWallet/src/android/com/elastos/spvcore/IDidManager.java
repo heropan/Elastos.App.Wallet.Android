@@ -30,7 +30,7 @@ public class IDidManager {
 
     public boolean RegisterCallback(String id, IIdManagerCallback callback) {
 
-        Log.d("JS-Wallet-Elastos", "RegisterCallback ");
+        Log.d("ElastosJava", "RegisterCallback ");
 
         return nativeRegisterCallback(mDidManagerProxy, id, callback);
     }

@@ -28,6 +28,10 @@ export class Config {
 
   private static kycObj:any={};
 
+  private static deviceID:string="";
+
+  private static serIds:any ={};
+
   public static getKycObj(){
        return this.kycObj;
   }
@@ -36,43 +40,53 @@ export class Config {
         this.kycObj = obj;
   }
 
-  public static getPersonObj(){
-       return {
-       'id':"",
-       'createType':1,
-       'status':'0',
-       'mnemonic':"zzzzzzz",//助记词
-       'priKey':"",
-       'backupPassword':"",
-       'payPassword':"",
-       'maxNumber':3,
-       'pubKey':'sdfghhjjkkj',
-       'updateTiem':'2018-05-20',
-       'finshNumber':0,
-       'validateType':[]
-      };
-  }
-
-
-  public static getCompanyObj(){
-    return {
-    'id':"",
-    'createType':2,
-    'mnemonic':"zzzzzzz",//助记词
-    'status':'0',
-    'priKey':"",
-    'backupPassword':"",
-    'payPassword':"",
-    'maxNumber':1,
-    'pubKey':'sdfghhjjkkj',
-    'updateTiem':'2018-05-20',
-    'finshNumber':0,
-    'validateType':[]
-   };
-  }
-
   public static getSmsSecretKey(){
       return this.smsSecretKey;
+  }
+
+  public static setDeviceID(deviceID){
+       this.deviceID = deviceID;
+  }
+
+  public static getdeviceID(){
+        return this.deviceID;
+  }
+
+  public static getSerIds(){
+         return this.serIds;
+  }
+
+  public static setSerIds(serIds){
+        this.serIds = serIds;
+  }
+
+ public static add(idObj,newIds,id,appName,appr){
+    if(idObj[appName][appr]){
+      if(idObj[appName][appr]["order"]){
+         for(let index in idObj[appName][appr]["order"]){
+             newIds[index] ={"id":id,"appName":appName,"appr":appr};
+         }
+      }
+  }
+ }
+
+ public static getSertoId(ids){
+  let newIds = {};
+  for(let key in ids){
+
+      let id =  key;
+      let idObj = ids[id];
+      let appName ="kyc";
+      if(!idObj[appName]){
+        break;
+      }
+
+      let appr = "person";
+      this.add(idObj,newIds,id,appName,appr);
+      appr = "company";
+      this.add(idObj,newIds,id,appName,appr);
+  }
+    return newIds;
   }
 }
 

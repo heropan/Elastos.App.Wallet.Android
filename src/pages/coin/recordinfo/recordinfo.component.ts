@@ -27,7 +27,7 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
       let transaction = transactions[0];
       let timestamp = transaction['Timestamp']*1000;
       // alert(timestamp)
-      let datetime = Util.dateFormat(new Date(timestamp));
+      let datetime = Util.dateFormat(new Date(timestamp), 'yyyy-MM-dd hh:mm:ss');
       let summary = transaction['Summary'];
       let incomingAmount = summary["Incoming"]['Amount'];
       let outcomingAmount = summary["Outcoming"]['Amount'];

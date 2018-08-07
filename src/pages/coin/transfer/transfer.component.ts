@@ -187,15 +187,22 @@ export class TransferComponent extends BaseComponent implements OnInit {
     let timestamp = this.getTimestamp();
     params["timestamp"] = timestamp;
     params["txHash"] = this.txId;
+    params["deviceID"] = Config.getdeviceID();
     let checksum = IDManager.getCheckSum(params,"asc");
     params["checksum"] = checksum;
     this.getHttp().postByAuth(ApiUrl.AUTH,params).toPromise().then(data => {
          if(data["status"] === 200){
           let authData= JSON.parse(data["_body"]);
-          console.log('---authData---'+JSON.stringify(authData));
           if(authData["errorCode"] === "0"){
                let serialNum = authData["serialNum"];
-               this.saveKycSerialNum(serialNum);
+               let serIds = Config.getSerIds();
+                   serIds[serialNum] = {
+                    "id":this.did,
+                    "appName": "kyc",
+                    "appr": "company"
+                   }
+              Config.setSerIds(serIds);
+              this.saveKycSerialNum(serialNum);
           }else{
               alert("错误码:"+authData["errorCode"]);
           }
@@ -210,6 +217,7 @@ sendPersonAuth(parms){
       let timestamp = this.getTimestamp();
       parms["timestamp"] = timestamp;
       parms["txHash"] = this.txId;
+      parms["deviceID"] = Config.getdeviceID();
       let checksum = IDManager.getCheckSum(parms,"asc");
       parms["checksum"] = checksum;
       console.log("---pesonParm---"+JSON.stringify(parms));
@@ -219,6 +227,13 @@ sendPersonAuth(parms){
           console.log('---authData---'+JSON.stringify(authData));
           if(authData["errorCode"] === "0"){
                let serialNum = authData["serialNum"];
+               let serIds = Config.getSerIds();
+               serIds[serialNum] = {
+                "id":this.did,
+                "appName": "kyc",
+                "appr": "person"
+               }
+               Config.setSerIds(serIds);
                this.saveKycSerialNum(serialNum);
           }else{
               alert("错误码:"+authData["errorCode"]);

@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {BaseComponent} from '../../../app/BaseComponent';
 import { PopupComponent } from "ngx-weui";
 import {RechargeComponent} from "../recharge/recharge.component";
-import {Util} from "../../../providers/Util";
+
 
 @Component({
   selector: 'app-coin-list',

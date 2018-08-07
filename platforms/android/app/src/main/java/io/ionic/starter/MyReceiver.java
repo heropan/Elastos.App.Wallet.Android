@@ -13,6 +13,9 @@ import java.util.Iterator;
 
 import cn.jpush.android.api.JPushInterface;
 
+import ElaJava2JSBridge.Java2JSBridge;
+import ElaJava2JSBridge.Java2JSBridgeInterface;
+
 /**
  * 自定义接收器
  * 
@@ -20,7 +23,7 @@ import cn.jpush.android.api.JPushInterface;
  * 1) 默认用户会打开主界面
  * 2) 接收不到自定义消息
  */
-public class MyReceiver extends BroadcastReceiver {
+public class MyReceiver extends BroadcastReceiver implements Java2JSBridgeInterface{
 	private static final String TAG = "JIGUANG-Example";
 
 	@Override
@@ -46,12 +49,17 @@ public class MyReceiver extends BroadcastReceiver {
 			} else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
 				Logger.d(TAG, "[MyReceiver] 用户点击打开了通知");
 
-				//打开自定义的Activity
-				Intent i = new Intent(context, MyActivity.class);
-				i.putExtras(bundle);
-				//i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
-				context.startActivity(i);
+				// //打开自定义的Activity
+				// Intent i = new Intent(context, MyActivity.class);
+				// i.putExtras(bundle);
+				// //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				// i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
+				// context.startActivity(i);
+
+				String strExtras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+				System.out.println("xxl my extras : " + strExtras);
+				Java2JSBridge.callJS("handle.onReceiveJG('"+ strExtras+"')",MyReceiver.this);
+
 
 			} else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
 				Logger.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
@@ -123,5 +131,11 @@ public class MyReceiver extends BroadcastReceiver {
 //			}
 //			LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
 //		}
+	}
+
+
+	@Override
+	public String getJSEvalResult(String parameter) {
+		return parameter;
 	}
 }

@@ -27,6 +27,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BackupProvider } from '../providers/backup';
 import { HttpService } from '../providers/HttpService';
 import { PopupProvider } from '../providers/popup';
+import { DataManager } from '../providers/DataManager';
 
 /**pages*/
 import {AppComponent} from './app.component';
@@ -261,6 +262,7 @@ export function TranslateLoaderFactory() {
     BackupProvider,
     HttpService,
     PopupProvider,
+    DataManager,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

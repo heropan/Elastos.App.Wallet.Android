@@ -1,7 +1,6 @@
 import { Component,OnInit } from '@angular/core';
 import {BaseComponent} from "./../../../app/BaseComponent";
 import {IdHomeComponent} from "../../../pages/id/home/home";
-import {Config} from '../../../providers/Config';
 
 
 @Component({

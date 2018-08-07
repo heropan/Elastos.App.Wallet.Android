@@ -1,8 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Logger} from "./Logger";
 import {Native} from "./Native";
-import { Chain } from '@angular/compiler';
-//import {StorageUtil} from "./StorageUtil";
 declare var cordova: any;
 
 
@@ -164,7 +161,6 @@ export class WalletManager {
   }
 
   registerIdListener(chainId:string,Fun) {
-    alert("WalletManager registerIdListener begin==");
     this.wallet.registerIdListener([chainId], Fun, this.errorFun);
   }
   sign(chainId:string,message, payPassword, Fun) {

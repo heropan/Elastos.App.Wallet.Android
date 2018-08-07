@@ -121,10 +121,10 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
   didGenerateProgram(){
 
     console.log("---didGenerateProgram----"+"message="+JSON.stringify(this.message)+"passworld"+this.passworld);
-    console.log("---didGenerateProgram DataHash.length----"+ this.message.DataHash.length);
-    console.log("---didGenerateProgram----Sign.length"+ this.message.Sign.length);
-    console.log("---didGenerateProgram----Proof"+  this.message.Proof);
-    console.log("---didGenerateProgram----Proof"+ JSON.stringify(this.message.Proof) );
+    //console.log("---didGenerateProgram DataHash.length----"+ this.message.DataHash.length);
+    //console.log("---didGenerateProgram----Sign.length"+ this.message.Sign.length);
+    //console.log("---didGenerateProgram----Proof"+  this.message.Proof);
+    //console.log("---didGenerateProgram----Proof"+ JSON.stringify(this.message.Proof) );
 
     this.walletManager.didGenerateProgram(this.did,JSON.stringify(this.message),this.passworld,(result)=>{
                    this.programJson  = result.value;
@@ -155,7 +155,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
      this.walletManager.calculateTransactionFee("IdChain", rawTransaction,10000, (data) => {
 
       this.fee = data['fee'];
-      console.log("Elastos 111111111111111");
+      //console.log("Elastos 111111111111111");
       console.log("rawTransaction" + JSON.stringify(rawTransaction));
       console.log("calculateTransactionFee fee=="+JSON.stringify(this.fee));
       this.popupProvider.presentConfirm(this.fee/Config.SELA).then(()=>{
@@ -173,12 +173,16 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
      let kycContent={};
      if(this.message["Path"] === "enterprise"){
          kycContent = this.businessObj;
+         this.message["Path"] = 'kyc'+"|"+"company"+"|"+"enterprise";
      }else if(this.message["Path"] === "identityCard"){
             kycContent = this.personObj;
+         this.message["Path"] = 'kyc'+"|"+"person"+"|"+"identityCard";
      }else if(this.message["Path"] === "phone"){
             kycContent = this.phoneObj;
+         this.message["Path"] = 'kyc'+"|"+"person"+"|"+"phone";
      }else if(this.message["Path"] === "bankCard"){
             kycContent = this.debitObj;
+          this.message["Path"] = 'kyc'+"|"+"person"+"|"+"bankCard";
      }
      //kyc 结果
      let authSign = {
@@ -190,14 +194,14 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
 
     let authDataHash = IDManager.hash(JSON.stringify(kycContent)+JSON.stringify(authSign));
 
-    console.log("caulmessage 2"+ authDataHash);
+    //console.log("caulmessage 2"+ authDataHash);
 
 
     let kycChainDataHash = IDManager.hash(authDataHash+JSON.stringify(authSign));
 
     console.log("caulmessage kycChainDataHash.length " +kycChainDataHash.length);
 
-    console.log("caulmessage 3"+ kycChainDataHash);
+    //console.log("caulmessage 3"+ kycChainDataHash);
 
     let singObj = {Id:this.did,Path:this.message["Path"],Proof:authSign,DataHash:kycChainDataHash};
 
@@ -205,12 +209,12 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
       console.log("didSign 4"+ JSON.stringify(result));
 
        let proofString = JSON.stringify(authSign);
-       console.log("didSign proofString"+ proofString);
+       //console.log("didSign proofString"+ proofString);
 
        this.message = {Id:this.did,Path:this.message["Path"],Proof: proofString,DataHash:kycChainDataHash,Sign:result.value};
        this.didGenerateProgram();
-       console.log("caulmessage Sign " +result.value + " result.value length "+ result.value.length);
-       console.log("didSign 5"+ JSON.stringify(this.message));
+       //console.log("caulmessage Sign " +result.value + " result.value length "+ result.value.length);
+       //console.log("didSign 5"+ JSON.stringify(this.message));
 
      });
  }
@@ -220,8 +224,38 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     //alert("sendRawTransaction begin==");
 
     this.walletManager.sendRawTransaction("IdChain",rawTransaction,this.fee,this.passworld,(result)=>{
-      console.log("---sendRawTransaction---"+"rawTransaction="+rawTransaction+"fee="+this.fee);
-      console.log("sendRawTransaction result"+JSON.stringify(result));
+
+
+     let rawTransactionObj = JSON.parse(rawTransaction);
+
+      console.log("ElastosJs ---sendRawTransaction---"+"rawTransaction="+JSON.stringify(rawTransactionObj)+"fee="+this.fee);
+      //console.log("ElastosJs ---sendRawTransaction--- PayLoad"+ JSON.stringify(rawTransactionObj.PayLoad));
+
+      if (rawTransactionObj.PayLoad) {
+        let arr = rawTransactionObj.PayLoad.Path.split("|");
+        //
+        if (arr[1]) {
+
+          //let proofStr = rawTransactionObj.PayLoad.Proof;
+          let proofObj = JSON.parse(rawTransactionObj.PayLoad.Proof);
+          let self = this;
+          //console.info("ElastosJs this.dataManager 1111111 " + this.dataManager );
+           this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id,"kyc", arr[1], function (reult : any) {
+           console.info("ElastosJs reult" + JSON.stringify(reult) );
+
+            self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
+            // if (reult) {
+            //
+            // }
+          });
+
+
+
+        }
+
+      }
+
+
       this.messageBox("text-id-kyc-china");
     })
  }

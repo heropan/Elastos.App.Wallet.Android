@@ -17,6 +17,8 @@ import { NavParams } from 'ionic-angular';
 import {BackupProvider} from "../providers/backup";
 import {HttpService} from "../providers/HttpService";
 import {PopupProvider} from "../providers/popup";
+import {DataManager} from "../providers/DataManager";
+
 import { Events } from 'ionic-angular';
 @Component({
   selector: 'app-base',
@@ -46,6 +48,7 @@ export class BaseComponent {
                      public backupProvider:BackupProvider,
                      public http:HttpService,
                      public popupProvider: PopupProvider,
+                     public dataManager  : DataManager,
                      public events: Events) {
     this.translate.addLangs(['zh', 'en']);
     this.translate.setDefaultLang('zh');

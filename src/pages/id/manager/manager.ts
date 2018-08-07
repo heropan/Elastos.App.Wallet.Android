@@ -1,6 +1,5 @@
 import { Component,OnInit } from '@angular/core';
 import {BaseComponent} from "./../../../app/BaseComponent";
-import {Config} from '../../../providers/Config';
 /**
  * Generated class for the LauncherPage page.
  *

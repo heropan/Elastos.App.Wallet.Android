@@ -35,6 +35,10 @@
             {
               "xml": "<feature name=\"Wallet\"><param name=\"android-package\" value=\"ElaWallet.Wallet\" /></feature>",
               "count": 1
+            },
+            {
+              "xml": "<feature name=\"Java2JSBridge\"><param name=\"android-package\" value=\"ElaJava2JSBridge.Java2JSBridge\" /></feature>",
+              "count": 1
             }
           ],
           "/widget": [
@@ -116,6 +120,9 @@
     },
     "ElaWallet": {
       "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "ElaJava2JSBridge": {
+      "PACKAGE_NAME": "io.ionic.starter"
     }
   },
   "dependent_plugins": {},
@@ -183,6 +190,14 @@
       "clobbers": [
         "cordova.plugins.Wallet"
       ]
+    },
+    {
+      "id": "ElaJava2JSBridge.Java2JSBridge",
+      "file": "plugins/ElaJava2JSBridge/www/Java2JSBridge.js",
+      "pluginId": "ElaJava2JSBridge",
+      "clobbers": [
+        "cordova.plugins.Java2JSBridge"
+      ]
     }
   ],
   "plugin_metadata": {
@@ -195,6 +210,7 @@
     "phonegap-plugin-barcodescanner": "7.1.2",
     "cordova-plugin-filechooser": "1.0.1",
     "cordova-clipboard": "1.2.1",
-    "ElaWallet": "1.0.0"
+    "ElaWallet": "1.0.0",
+    "ElaJava2JSBridge": "1"
   }
 }

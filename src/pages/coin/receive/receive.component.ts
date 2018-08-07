@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
-import {Logger} from "../../../providers/Logger";
 import {AddressComponent} from "../../wallet/address/address.component";
 import {Util} from "../../../providers/Util";
 
