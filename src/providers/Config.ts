@@ -64,7 +64,8 @@ export class Config {
     if(idObj[appName][appr]){
       if(idObj[appName][appr]["order"]){
          for(let index in idObj[appName][appr]["order"]){
-             newIds[index] ={"id":id,"appName":appName,"appr":appr};
+          let data = idObj[appName][appr]["order"][index];
+          newIds[index] ={"id":id,"appName":appName,"appr":appr,"txHash":data["txHash"]};
          }
       }
   }

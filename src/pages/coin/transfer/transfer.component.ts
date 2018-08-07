@@ -199,7 +199,8 @@ export class TransferComponent extends BaseComponent implements OnInit {
                    serIds[serialNum] = {
                     "id":this.did,
                     "appName": "kyc",
-                    "appr": "company"
+                    "appr": "company",
+                    "txHash":this.txId
                    }
               Config.setSerIds(serIds);
               this.saveKycSerialNum(serialNum);
