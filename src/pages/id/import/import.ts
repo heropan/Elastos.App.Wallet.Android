@@ -26,9 +26,8 @@ export class IdImportComponent extends BaseComponent implements OnInit{
            this.messageBox("text-id-kyc-import-no-message");
            return;
     }
-
     let addObjs = JSON.parse(this.keyStoreContent);
-    for(let key of addObjs){
+    for(let key in addObjs){
       this.kycObj[key] =  addObjs[key];
     }
     this.localStorage.set('kycId',this.kycObj).then(()=>{
