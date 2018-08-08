@@ -144,6 +144,10 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
             });
           }
         });
+        let result = {
+          txId: this.txId
+        }
+        return result;
       } else {
         this.toast('text-password-error');
       }
