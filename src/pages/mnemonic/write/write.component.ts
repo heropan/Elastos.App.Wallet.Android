@@ -17,10 +17,10 @@ export class WriteComponent extends BaseComponent implements OnInit {
   selectComplete = false;
 
   ngOnInit() {
-    this.setHeadDisPlay({left:false});
+    // this.setHeadDisPlay({left:false});
     this.setTitleByAssets('text-mnemonic-check');
-    this.mnemonicStr = this.getNavParams().get("mnemonicStr");
-    this.mnemonicList = this.getNavParams().get("mnemonicList").sort(function(){ return 0.5 - Math.random() });
+    this.mnemonicStr = this.clone(this.getNavParams().get("mnemonicStr"));
+    this.mnemonicList = this.clone(this.getNavParams().get("mnemonicList")).sort(function(){ return 0.5 - Math.random() });
   }
 
   onNext() {

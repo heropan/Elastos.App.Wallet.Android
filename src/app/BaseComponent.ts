@@ -247,4 +247,22 @@ export class BaseComponent {
   public getTimestamp(){
       return new Date().getTime().toString();
   }
+
+  public clone(myObj){
+    if(typeof(myObj) != 'object') return myObj;
+    if(myObj == null) return myObj;
+
+    let myNewObj;
+
+    if(myObj instanceof(Array)){
+      myNewObj= new Array();
+    }else{
+      myNewObj= new Object();
+    }
+
+    for(let i in myObj)
+      myNewObj[i] = this.clone(myObj[i]);
+
+    return myNewObj;
+  }
 }
