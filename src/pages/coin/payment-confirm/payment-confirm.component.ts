@@ -40,6 +40,7 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
     this.setHeadDisPlay({left:false});
     this.subPopup.config = {cancel:'',confirm:'',backdrop:false,is_full:false};
 
+    this.getAllMasterWallets();
     let account = this.GetQueryString("account");
     let toAddress = this.GetQueryString("address");
     let memo = this.GetQueryString("memo");
@@ -48,6 +49,17 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
     this.transfer.toAddress = toAddress;
     this.transfer.memo = memo;
     this.information = information;
+  }
+
+  getAllMasterWallets(){
+    this.walletManager.getAllMasterWallets((result)=>{
+      this.getAllSubWallets();
+    });
+  }
+
+  getAllSubWallets(){
+    this.walletManager.getAllSubWallets(()=>{
+    })
   }
 
   GetQueryString(name){
