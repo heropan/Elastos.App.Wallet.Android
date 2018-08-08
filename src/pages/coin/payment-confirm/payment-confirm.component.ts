@@ -115,7 +115,7 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
   createTransaction(){
     this.walletManager.createTransaction(this.chianId, "",
       this.transfer.toAddress,
-      this.transfer.amount*Config.SELA,
+      this.transfer.amount,
       this.transfer.memo,
       this.transfer.remark,
       (data)=>{
