@@ -47,6 +47,13 @@ static void JNICALL nativeDestoryDID(JNIEnv *env, jobject clazz, jlong jDidMgrPr
     env->ReleaseStringUTFChars(jdidName, didName);
 }
 
+static void JNICALL nativeDisposeNative(JNIEnv *env, jobject clazz, jlong jDidMgrProxy)
+{
+    IDIDManager* didMgr = (IDIDManager*)jDidMgrProxy;
+    if (didMgr) {
+        delete didMgr;
+    }
+}
 
 class ElaIdManagerCallback: public IIdManagerCallback
 {
@@ -113,6 +120,7 @@ static const JNINativeMethod gMethods[] = {
     {"nativeDestoryDID", "(JLjava/lang/String;)V", (void*)nativeDestoryDID},
     {"nativeRegisterCallback", "(JLjava/lang/String;Lcom/elastos/spvcore/IIdManagerCallback;)Z", (void*)nativeRegisterCallback},
     {"nativeUnregisterCallback", "(JLjava/lang/String;)Z", (void*)nativeUnregisterCallback},
+    {"nativeDisposeNative", "(J)V", (void*)nativeDisposeNative},
 };
 
 jint register_elastos_spv_IDidManager(JNIEnv *env)
