@@ -219,5 +219,7 @@ export const zh = {
   'text-id-kyc-prompt-password':'输入钱包支付密码',
   'Ok':'确定',
   'text-id-kyc-cochain':'上链需要花费',
-  'text-id-kyc-china':'上链提交成功'
+  'text-id-kyc-china':'上链提交成功',
+  'text-Jpush-kyc-message-1':'交易单号为：',
+  'text-Jpush-kyc-message-2':'已认证成功，请去订单列表查看'
 };

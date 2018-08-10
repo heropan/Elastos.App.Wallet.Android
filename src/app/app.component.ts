@@ -20,6 +20,7 @@ import {LauncherComponent} from "../pages/launcher/launcher.component";
 import {TabsComponent} from '../pages/tabs/tabs.component';
 import {LocalStorage} from "../providers/Localstorage";
 import { Config } from '../providers/Config';
+import { TranslateService } from '@ngx-translate/core';
 //add for plugin
 declare var cordova: any;
 
@@ -32,13 +33,15 @@ declare var cordova: any;
 export class AppComponent {
   rootPage: any;
   ls:any;
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, localStorage: LocalStorage) {
+  tr:any;
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, localStorage: LocalStorage, private translate: TranslateService) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
       this.ls = localStorage;
+      this.tr =  translate;
       //init java 2 js plugin
       cordova.plugins.Java2JSBridge.init(this);
 
@@ -81,7 +84,9 @@ export class AppComponent {
 
     //
     onReceiveJG(param) {
-      alert('交易单号为：'+param+'已认证成功，请去订单列表查看');
+      let message1 = this.translate.instant("text-Jpush-kyc-message-1");
+      let message2 = this.translate.instant("text-Jpush-kyc-message-2");
+      alert(message1+param+message2);
       //  let serialNum = JSON.parse(param)["serialNum"];
       //  let serids = Config.getSerIds();
       //  let serid = serids[serialNum];
