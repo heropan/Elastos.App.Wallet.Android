@@ -89,6 +89,8 @@ import {IdAppListComponent} from '../pages/id/app-list/app-list';
 import {IdResultComponent} from '../pages/id/result/result';
 import {KycOperationPage} from '../pages/id/kyc/kyc-operation/kyc-operation';
 import {KycOrderPage} from '../pages/id/kyc/kyc-order/kyc-order';
+import {CompanyWriteChainPage} from '../pages/id/kyc/company-write-chain/company-write-chain';
+import {PersonWriteChainPage} from '../pages/id/kyc/person-write-chain/person-write-chain';
 /*id相关页面*/
 
 /** 通过类引用方式解析国家化文件 */
@@ -166,7 +168,9 @@ export function TranslateLoaderFactory() {
     IdResultComponent,
     kycSelectTypeComponent,
     KycOperationPage,
-    KycOrderPage
+    KycOrderPage,
+    CompanyWriteChainPage,
+    PersonWriteChainPage
   ],
   imports: [
     BrowserModule,
@@ -239,7 +243,9 @@ export function TranslateLoaderFactory() {
     IdResultComponent,
     kycSelectTypeComponent,
     KycOperationPage,
-    KycOrderPage
+    KycOrderPage,
+    CompanyWriteChainPage,
+    PersonWriteChainPage
   ],
   providers: [
     StatusBar,
