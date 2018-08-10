@@ -73,6 +73,8 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     let companyObj = adata["retdata"];
     this.message["Path"] = adata["type"];
     this.approdType = adata["type"];
+
+
     this.businessObj["word"] = companyObj["word"];
     this.businessObj["legalPerson"] = companyObj["legalPerson"];
     this.businessObj["registrationNum"] = companyObj["RegistrationNum"];
@@ -86,15 +88,18 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     this.message["Path"] = adata["type"];
     this.approdType =  adata["type"];
     if(this.message["Path"] === "identityCard"){
+
          this.personObj["fullName"] = pesronObj["fullName"];
          this.personObj["identityNumber"] = pesronObj["identityNumber"];
          this.signature = pesronObj["signature"];
     }else if(this.message["Path"] === "phone"){
+
          this.phoneObj["fullName"] =  pesronObj["fullName"];
          this.phoneObj["identityNumber"] =  pesronObj["identityNumber"];
          this.phoneObj["mobile"] = pesronObj["mobile"];
          this.signature = pesronObj["signature"];
     }else if(this.message["Path"] === "bankCard"){
+
         this.debitObj["fullName"] =  pesronObj["fullName"];
         this.debitObj["identityNumber"] =  pesronObj["identityNumber"];
         this.debitObj["cardNumber"] = pesronObj["cardNumber"];
@@ -121,10 +126,6 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
   didGenerateProgram(){
 
     console.log("---didGenerateProgram----"+"message="+JSON.stringify(this.message)+"passworld"+this.passworld);
-    //console.log("---didGenerateProgram DataHash.length----"+ this.message.DataHash.length);
-    //console.log("---didGenerateProgram----Sign.length"+ this.message.Sign.length);
-    //console.log("---didGenerateProgram----Proof"+  this.message.Proof);
-    //console.log("---didGenerateProgram----Proof"+ JSON.stringify(this.message.Proof) );
 
     this.walletManager.didGenerateProgram(this.did,JSON.stringify(this.message),this.passworld,(result)=>{
                    this.programJson  = result.value;
@@ -166,6 +167,165 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
   }
 
 
+  // getKycContent(authType, authData){
+  //
+  //     let retContent;
+  //
+  //     switch (authData.type)
+  //     {
+  //       case "identityCard":
+  //         retContent["fullName"] = authData["retdata"]["fullName"];
+  //         retContent["identityNumber"] = authData["retdata"]["identityNumber"];
+  //         break;
+  //
+  //       case "phone":
+  //         retContent["fullName"] =  authData["retdata"]["fullName"];
+  //         retContent["identityNumber"] =  authData["retdata"]["identityNumber"];
+  //         retContent["mobile"] = authData["retdata"]["mobile"];
+  //         break;
+  //
+  //       case "bankCard":
+  //         retContent["fullName"] =  authData["retdata"]["fullName"];
+  //         retContent["identityNumber"] =  authData["retdata"]["identityNumber"];
+  //         retContent["cardNumber"] = authData["retdata"]["cardNumber"];
+  //         retContent["cardMobile"] = authData["retdata"]["mobile"];
+  //         break;
+  //
+  //       case "enterprise":
+  //         retContent["word"] = authData["retdata"]["word"];
+  //         retContent["legalPerson"] = authData["retdata"]["legalPerson"];
+  //         retContent["registrationNum"] = authData["retdata"]["RegistrationNum"];
+  //         break;
+  //     }
+  // }
+  //
+  // getcontent(authType, authData){
+  //
+  //   let retContent;
+  //   retContent.path = 'kyc' +'/' +authType + authData.type;
+  //
+  //   retContent.proof = {
+  //      signature : authData.resultSign,
+  //      notary : "COOIX"
+  //    }
+  //
+  //    let kycContent = this.getKycContent(authType, authData);
+  //    let authDataHash = IDManager.hash(JSON.stringify(kycContent)+JSON.stringify(retContent.proof));
+  //
+  //    retContent.DataHash = IDManager.hash(authDataHash+JSON.stringify(retContent.proof));;
+  //
+  //     return retContent;
+  // }
+  //
+  // caulmessageNew(){
+  //
+  //   //
+  //   ///////////////////////
+  //   let signMessage= {};
+  //
+  //   signMessage["Id"] = this.did;
+  //   signMessage["Contents"] =[];
+  //   let content ;
+  //   let params = this.idObj;
+  //
+  //   for (let ele of params.adata) {
+  //     content = this.getcontent(params.type , ele);
+  //     signMessage["Contents"].push(content);
+  //   }
+  //
+  //   this.walletManager.didSign(this.did,JSON.stringify(signMessage),this.passworld,(result)=>{
+  //     this.message = {
+  //                     Id : this.did,
+  //                     Sign :result.value,
+  //                     Contents: signMessage["Contents"],
+  //                     };
+  //     this.didGenerateProgram();
+  //   });
+  // }
+
+  //////////////////////
+  getKycContent(authType, authData){
+
+    let retContent = {};
+
+    switch (authData.type)
+    {
+      case "identityCard":
+        retContent["fullName"] = authData["retdata"]["fullName"];
+        retContent["identityNumber"] = authData["retdata"]["identityNumber"];
+        break;
+
+      case "phone":
+        retContent["fullName"] =  authData["retdata"]["fullName"];
+        retContent["identityNumber"] =  authData["retdata"]["identityNumber"];
+        retContent["mobile"] = authData["retdata"]["mobile"];
+        break;
+
+      case "bankCard":
+        retContent["fullName"] =  authData["retdata"]["fullName"];
+        retContent["identityNumber"] =  authData["retdata"]["identityNumber"];
+        retContent["cardNumber"] = authData["retdata"]["cardNumber"];
+        retContent["cardMobile"] = authData["retdata"]["mobile"];
+        break;
+
+      case "enterprise":
+        retContent["word"] = authData["retdata"]["word"];
+        retContent["legalPerson"] = authData["retdata"]["legalPerson"];
+        retContent["registrationNum"] = authData["retdata"]["RegistrationNum"];
+        break;
+    }
+    return retContent;
+  }
+
+  getcontent(authType, authData){
+
+    let retContent = {};
+    retContent["path"] = 'kyc' +'/' +authType +'/'+ authData["type"];
+
+    let proofObj = {
+      signature : authData["resultSign"],
+      notary : "COOIX"
+    }
+
+    retContent["proof"] = JSON.stringify(proofObj);
+
+    let kycContent = this.getKycContent(authType, authData);
+    let authDataHash = IDManager.hash(JSON.stringify(kycContent)+retContent["proof"]);
+
+    retContent["DataHash"] = IDManager.hash(authDataHash+retContent["proof"]);
+
+    return retContent;
+  }
+
+  caulmessageNew(){
+
+    //
+    ///////////////////////
+    let signMessage= {};
+
+    signMessage["Id"] = this.did ;//
+    signMessage["Contents"] =[];
+    let content ;
+    let params = this.idObj;//
+
+    for (let ele of params.adata) {
+      content = this.getcontent(params.type , ele);
+      signMessage["Contents"].push(content);
+    }
+
+    console.log("caulmessageNew "+JSON.stringify(signMessage));
+    //alert("caulmessageNew "+JSON.stringify(signMessage));
+
+    this.walletManager.didSign(this.did,JSON.stringify(signMessage),this.passworld,(result)=>{
+      this.message = {
+        Id : this.did,
+        Sign :result.value,
+        Contents: signMessage["Contents"],
+      };
+      this.didGenerateProgram();
+    });
+  }
+////////////////////////
 
   caulmessage(){
 
@@ -184,13 +344,14 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
             kycContent = this.debitObj;
           this.message["Path"] = 'kyc'+"|"+"person"+"|"+"bankCard";
      }
-     //kyc 结果
+
+
+     //kyc 结果 proof
      let authSign = {
                      signature:this.signature,
                      notary:"COOIX"
                     }
-    console.log("caulmessage this.signature " +this.signature);
-    console.log("caulmessage this.signature " +this.signature);
+
 
     let authDataHash = IDManager.hash(JSON.stringify(kycContent)+JSON.stringify(authSign));
 
