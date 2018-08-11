@@ -156,6 +156,18 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
         console.info("home.ts ElastosJs createDID registerIdListener  data  callback !!!!!" + JSON.stringify(data));
 
 
+        if(data["path"] == "Added"){
+
+          if((data["Contents"].length > 0) && data["Contents"][0]["Proof"]){
+
+            let proofObj = JSON.parse(data["Contents"][0]["Proof"]);
+            let seqNumObj = this.dataManager.getSeqNumObj(proofObj["signature"]);
+            let serialNum =  seqNumObj["serialNum"] ;
+            console.info("home.ts ElastosJs createDID serialNum "+ serialNum);
+            this.setOrderStatus(3,serialNum);
+          }
+        }
+
       });
 
 
