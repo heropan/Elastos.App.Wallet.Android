@@ -66,7 +66,7 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
                 return;
               }
               this.passworld = val.toString();
-              this.caulmessage();
+              this.caulmessageNew();
     }).catch(()=>{
 
     });
@@ -120,7 +120,92 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
      });
   }
 
+//////////////////////
+  getKycContent(authType, authData){
 
+    let retContent = {};
+
+    switch (authData.type)
+    {
+      case "identityCard":
+        retContent["fullName"] = authData["retdata"]["fullName"];
+        retContent["identityNumber"] = authData["retdata"]["identityNumber"];
+        break;
+
+      case "phone":
+        retContent["fullName"] =  authData["retdata"]["fullName"];
+        retContent["identityNumber"] =  authData["retdata"]["identityNumber"];
+        retContent["mobile"] = authData["retdata"]["mobile"];
+        break;
+
+      case "bankCard":
+        retContent["fullName"] =  authData["retdata"]["fullName"];
+        retContent["identityNumber"] =  authData["retdata"]["identityNumber"];
+        retContent["cardNumber"] = authData["retdata"]["cardNumber"];
+        retContent["cardMobile"] = authData["retdata"]["mobile"];
+        break;
+
+      case "enterprise":
+        retContent["word"] = authData["retdata"]["word"];
+        retContent["legalPerson"] = authData["retdata"]["legalPerson"];
+        retContent["registrationNum"] = authData["retdata"]["RegistrationNum"];
+        break;
+    }
+    return retContent;
+  }
+
+  getcontent(authType, authData){
+
+    let retContent = {};
+    retContent["Path"] = 'kyc' +'/' +authType +'/'+ authData["type"];
+
+    let proofObj = {
+      signature : authData["retdata"]["signature"],
+      notary : "COOIX"
+    }
+
+    retContent["Proof"] = JSON.stringify(proofObj);
+
+    let kycContent = this.getKycContent(authType, authData);
+    let authDataHash = IDManager.hash(JSON.stringify(kycContent)+retContent["proof"]);
+
+    retContent["DataHash"] = IDManager.hash(authDataHash+retContent["proof"]);
+
+    return retContent;
+  }
+
+  caulmessageNew(){
+
+    //
+    ///////////////////////
+    let signMessage= {};
+
+    signMessage["Id"] = this.did ;//
+    //signMessage["Sign"] = "" ;//
+    signMessage["Contents"] =[];
+
+    let content ;
+    let params = this.idObj;//
+
+    for (let ele of params.adata) {
+      content = this.getcontent(params.type , ele);
+      signMessage["Contents"].push(content);
+    }
+
+    console.log("caulmessageNew "+JSON.stringify(signMessage));
+    //alert("caulmessageNew "+JSON.stringify(signMessage));
+
+    this.walletManager.didSign(this.did,JSON.stringify(signMessage),this.passworld,(result)=>{
+      this.message = {
+        Id : this.did,
+        Sign :result.value,
+        Contents: signMessage["Contents"],
+      };
+
+      this.didGenerateProgram();
+    });
+  }
+////////////////////////
 
   caulmessage(){
 
