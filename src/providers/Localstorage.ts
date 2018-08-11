@@ -36,7 +36,7 @@ export class LocalStorage {
   //authType  person  company
   public getSeqNumObj(sign : string, key: string, appType : string, authType: string, callback : any ): any {
 
-    console.info( "ElastosJs localstorage getSeqNumObj begin sign " + sign + " ID "+ key + " apptype "+ appType+ " authType " + authType);
+    console.info( "ElastosJs localstorage getSeqNumObj begin sign " + sign + " key "+ key + " apptype "+ appType+ " authType " + authType);
 
     /////////////////
     this.get("kycId").then((val)=>{
@@ -46,7 +46,7 @@ export class LocalStorage {
 
       let  idJsonObj = valObj[key];
 
-      console.info( "ElastosJs localstorage getSeqNumObj idJsonObj " + JSON.stringify(idJsonObj) );
+      //console.info( "ElastosJs localstorage getSeqNumObj idJsonObj " + JSON.stringify(idJsonObj) );
 
       let  seqNumObj;
 
@@ -72,7 +72,7 @@ export class LocalStorage {
             addataArry = order[prop]["params"]["adata"];
 
             addataArry.forEach(function (value) {
-              console.info( "ElastosJs value " + JSON.stringify(value) + " typeof value " + typeof (value));
+             // console.info( "ElastosJs value " + JSON.stringify(value) + " typeof value " + typeof (value));
               if (value && value["retdata"]) {
 
                 console.info( "ElastosJs value[\"retdata\"] " + JSON.stringify(value["retdata"]));

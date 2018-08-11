@@ -32,8 +32,8 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
           console.info("ElastosJs luncher.ts createDID result add registerIdListener" + JSON.stringify(result));
           self.walletManager.registerIdListener(result.didname, (data) => {
 
-            alert("ElastosJs luncher.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
-            console.info("ElastosJs createDID registerIdListener  data  callback !!!!!" + JSON.stringify(data));
+            alert("luncher.ts ElastosJs  createDID registerIdListener  data  callback"+ JSON.stringify(data));
+            console.info("luncher.ts ElastosJs createDID registerIdListener  data  callback !!!!!" + JSON.stringify(data));
 
           });
           this.localStorage.add("kycId",idObj).then(()=>{
