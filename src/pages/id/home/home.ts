@@ -31,7 +31,7 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
                self.walletManager.registerIdListener(e.id, (data) => {
 
                  console.info("home.ts ElastosJs createDID registerIdListener "+ JSON.stringify(data));
-
+                 alert("home.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
                  //first commit
                  if(data["path"] == "Added"){
 
@@ -45,7 +45,7 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
                    }
                  }
                  //console.info("home.ts ElastosJs createDID registerIdListener " + JSON.stringify(data));
-                 alert("home.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
+
                  console.info("home.ts ElastosJs createDID registerIdListener  data  callback !!!!!" + JSON.stringify(data));
 
                });
