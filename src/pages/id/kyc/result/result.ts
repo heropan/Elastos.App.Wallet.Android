@@ -116,7 +116,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
                 return;
               }
               this.passworld = val.toString();
-              this.caulmessage();
+              this.caulmessageNew();
     }).catch(()=>{
 
     });
@@ -280,14 +280,14 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
   getcontent(authType, authData){
 
     let retContent = {};
-    retContent["path"] = 'kyc' +'/' +authType +'/'+ authData["type"];
+    retContent["Path"] = 'kyc' +'/' +authType +'/'+ authData["type"];
 
     let proofObj = {
       signature : authData["resultSign"],
       notary : "COOIX"
     }
 
-    retContent["proof"] = JSON.stringify(proofObj);
+    retContent["Proof"] = JSON.stringify(proofObj);
 
     let kycContent = this.getKycContent(authType, authData);
     let authDataHash = IDManager.hash(JSON.stringify(kycContent)+retContent["proof"]);
@@ -304,7 +304,9 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
     let signMessage= {};
 
     signMessage["Id"] = this.did ;//
+    //signMessage["Sign"] = "" ;//
     signMessage["Contents"] =[];
+
     let content ;
     let params = this.idObj;//
 
@@ -322,6 +324,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
         Sign :result.value,
         Contents: signMessage["Contents"],
       };
+
       this.didGenerateProgram();
     });
   }
@@ -401,6 +404,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
           let proofObj = JSON.parse(rawTransactionObj.PayLoad.Proof);
           let self = this;
           //console.info("ElastosJs this.dataManager 1111111 " + this.dataManager );
+          
            this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id,"kyc", arr[1], function (reult : any) {
            console.info("ElastosJs reult" + JSON.stringify(reult) );
 
