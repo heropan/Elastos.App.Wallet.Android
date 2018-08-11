@@ -1,6 +1,5 @@
 import { Component ,OnInit} from '@angular/core';
 import {BaseComponent} from "../../../../app/BaseComponent";
-import {IdKycResultComponent} from "../../../../pages/id/kyc/result/result";
 import {IDManager} from "../../../../providers/IDManager";
 import {ApiUrl} from "../../../../providers/ApiUrl";
 import {CompanyWriteChainPage} from "../../../../pages/id/kyc/company-write-chain/company-write-chain";
@@ -46,7 +45,7 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
           if(this.params["type"] === "company"){
             this.Go(CompanyWriteChainPage,this.params);
           }else{
-            this.Go(IdKycResultComponent,this.params);
+            this.Go(PersonWriteChainPage,this.params);
           }
       }
 
@@ -97,7 +96,7 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
       if(this.params["type"] === "company"){
        this.Go(CompanyWriteChainPage,this.params);
       }else{
-        this.Go(IdKycResultComponent,this.params);
+        this.Go(PersonWriteChainPage,this.params);
       }
      });
   }
