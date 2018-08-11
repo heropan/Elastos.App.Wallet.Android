@@ -220,7 +220,38 @@ function caulmessageNew(){
 }
 ////////////////////////
 
-caulmessageNew();
+function t1(){
+
+  let data = {
+    "id": "iiLqvSs263YfHKrb61QP4De7THNCfWkKEo",
+    "path": "Added",
+    "value": "{\"Contents\":[{\"DataHash\":\"7f6d1d62480d06e939999f33cc9f3802602236dccfb8243a2e74176b9fb905ab\",\"Path\":\"kyc/company/enterprise\",\"Proof\":\"{\\\"signature\\\":\\\"6bda8a568c740d67a048e166311408a25b53682da95aa0e78ae6e96e7a158b09985b0c379d45eaa53f3433267df03a3e7c7326c0a02b0f2ee7bd1ab2c667e3b2\\\",\\\"notary\\\":\\\"COOIX\\\"}\"}],\"Id\":\"iiLqvSs263YfHKrb61QP4De7THNCfWkKEo\",\"Sign\":\"4001f55aece5b3b9e01d1f42482ff2330cf8e8b89c7cdf0d327eaa1a82b337d49d360a1aabbd9b25a5b36b21f1397617c0f11463ef8f5d7aafae6b47ace6d12ef0\"}"
+  }
+
+
+
+  console.info("home.ts ElastosJs createDID registerIdListener "+ JSON.stringify(data));
+  //alert("home.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
+  //first commit
+  if(data["path"] == "Added"){
+
+    let valueObj = JSON.parse(data["value"]) ;
+    if((valueObj["Contents"].length > 0) && valueObj["Contents"][0]["Proof"]){
+
+      let proofObj = JSON.parse(valueObj["Contents"][0]["Proof"]);
+      let seqNumObj = self.dataManager.getSeqNumObj(proofObj["signature"]);
+      let serialNum =  seqNumObj["serialNum"] ;
+      console.info("home.ts ElastosJs createDID serialNum "+ serialNum);
+      //this.setOrderStatus(3,serialNum);
+    }
+  }
+  //console.info("home.ts ElastosJs createDID registerIdListener " + JSON.stringify(data));
+
+  console.info("home.ts ElastosJs createDID registerIdListener  data  callback !!!!!" + JSON.stringify(data));
+
+}
+t1();
+//caulmessageNew();
 //console.log("============"+JSON.stringify(ss));
 //alert("====kyc===="+JSON.stringify(ss));
 
