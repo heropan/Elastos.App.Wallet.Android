@@ -286,46 +286,89 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
      });
  }
 
-
- sendRawTransaction( rawTransaction){
+  sendRawTransaction( rawTransaction){
     //alert("sendRawTransaction begin==");
 
     this.walletManager.sendRawTransaction("IdChain",rawTransaction,this.fee,this.passworld,(result)=>{
 
 
-     let rawTransactionObj = JSON.parse(rawTransaction);
+      let rawTransactionObj = JSON.parse(rawTransaction);
 
       console.log("ElastosJs ---sendRawTransaction---"+"rawTransaction="+JSON.stringify(rawTransactionObj)+"fee="+this.fee);
       //console.log("ElastosJs ---sendRawTransaction--- PayLoad"+ JSON.stringify(rawTransactionObj.PayLoad));
 
-      if (rawTransactionObj.PayLoad) {
-        let arr = rawTransactionObj.PayLoad.Path.split("|");
-        //
-        if (arr[1]) {
-
-          //let proofStr = rawTransactionObj.PayLoad.Proof;
-          let proofObj = JSON.parse(rawTransactionObj.PayLoad.Proof);
-          let self = this;
-          //console.info("ElastosJs this.dataManager 1111111 " + this.dataManager );
-           this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id,"kyc", arr[1], function (reult : any) {
-           console.info("ElastosJs reult" + JSON.stringify(reult) );
-
-            self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
-            // if (reult) {
-            //
-            // }
-          });
-
-
-
-        }
-
+      if (!rawTransactionObj.PayLoad) {
+        console.log("ElastosJs ---sendRawTransaction--- PayLoad NULL");
+        return;
       }
 
+      if (!rawTransactionObj["PayLoad"]["Contents"]){
+        console.log("ElastosJs ---sendRawTransaction--- Contents NULL");
+        return ;
+      }
 
-      this.messageBox("text-id-kyc-china");
+      for (let ele of rawTransactionObj["PayLoad"]["Contents"] ) {
+
+        console.log("ElastosJs ---sendRawTransaction--- ele " + JSON.stringify(ele));
+        let arr = ele["Path"].split("/");
+
+        if (arr[1]) {
+
+          let proofObj = JSON.parse(ele["Proof"]);
+          let self = this;
+
+          this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id,"kyc", arr[1], function (reult : any) {
+            console.info("ElastosJs reult" + JSON.stringify(reult) );
+            self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
+
+          });
+        }
+      }
+
+      this.setOrderStatus(2);
+      //this.messageBox("text-id-kyc-china");
     })
- }
+  }
+
+ // sendRawTransaction( rawTransaction){
+ //    //alert("sendRawTransaction begin==");
+ //
+ //    this.walletManager.sendRawTransaction("IdChain",rawTransaction,this.fee,this.passworld,(result)=>{
+ //
+ //
+ //     let rawTransactionObj = JSON.parse(rawTransaction);
+ //
+ //      console.log("ElastosJs ---sendRawTransaction---"+"rawTransaction="+JSON.stringify(rawTransactionObj)+"fee="+this.fee);
+ //      //console.log("ElastosJs ---sendRawTransaction--- PayLoad"+ JSON.stringify(rawTransactionObj.PayLoad));
+ //
+ //      if (rawTransactionObj.PayLoad) {
+ //        let arr = rawTransactionObj.PayLoad.Path.split("|");
+ //        //
+ //        if (arr[1]) {
+ //
+ //          //let proofStr = rawTransactionObj.PayLoad.Proof;
+ //          let proofObj = JSON.parse(rawTransactionObj.PayLoad.Proof);
+ //          let self = this;
+ //          //console.info("ElastosJs this.dataManager 1111111 " + this.dataManager );
+ //           this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id,"kyc", arr[1], function (reult : any) {
+ //           console.info("ElastosJs reult" + JSON.stringify(reult) );
+ //
+ //            self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
+ //            // if (reult) {
+ //            //
+ //            // }
+ //          });
+ //
+ //
+ //
+ //        }
+ //
+ //      }
+ //
+ //
+ //      this.messageBox("text-id-kyc-china");
+ //    })
+ // }
 
 
  //从主链转一批钱到测链
@@ -369,23 +412,47 @@ for(let index in obj){
 }
 
 
-setOrderStatus(){
-  let serids = Config.getSerIds();
-  let serid = serids[this.serialNum];
-  let did = serid["id"];
-  let appName = serid["appName"];
-  let appr = serid["appr"];
-  let idsObj = {};
-  this.localStorage.getKycList("kycId").then((val)=>{
+// setOrderStatus(){
+//   let serids = Config.getSerIds();
+//   let serid = serids[this.serialNum];
+//   let did = serid["id"];
+//   let appName = serid["appName"];
+//   let appr = serid["appr"];
+//   let idsObj = {};
+//   this.localStorage.getKycList("kycId").then((val)=>{
+//       if(val == null || val === undefined || val === {} || val === ''){
+//            return;
+//       }
+//    idsObj = JSON.parse(val);
+//    idsObj[did][appName][appr]["order"][this.serialNum]["status"] = 2;
+//    this.localStorage.set("kycId",idsObj).then(()=>{
+//             this.orderStatus = 2;
+//    });
+//   });
+// }
+// }
+
+
+  setOrderStatus(status){
+    console.info("setOrderStatus status begin" + status);
+    let serids = Config.getSerIds();
+    let serid = serids[this.serialNum];
+    let did = serid["id"];
+    let appName = serid["appName"];
+    let appr = serid["appr"];
+    let idsObj = {};
+    this.localStorage.getKycList("kycId").then((val)=>{
       if(val == null || val === undefined || val === {} || val === ''){
-           return;
+        console.info("setOrderStatus val == null return ");
+        return;
       }
-   idsObj = JSON.parse(val);
-   idsObj[did][appName][appr]["order"][this.serialNum]["status"] = 2;
-   this.localStorage.set("kycId",idsObj).then(()=>{
-            this.orderStatus = 2;
-   });
-  });
-}
+      idsObj = JSON.parse(val);
+      idsObj[did][appName][appr]["order"][this.serialNum]["status"] = status;
+      this.localStorage.set("kycId",idsObj).then(()=>{
+        console.info("setOrderStatus  end  status " + status);
+        this.orderStatus = status;
+      });
+    });
+  }
 }
 
