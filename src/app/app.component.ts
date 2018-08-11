@@ -34,12 +34,13 @@ export class AppComponent {
   rootPage: any;
   ls:any;
   tr:any;
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, localStorage: LocalStorage, private translate: TranslateService) {
+  constructor(private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, localStorage: LocalStorage, private translate: TranslateService) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+      this.registerBackButtonAction();
       this.ls = localStorage;
       this.tr =  translate;
       //init java 2 js plugin
@@ -84,9 +85,10 @@ export class AppComponent {
 
     //
     onReceiveJG(param) {
+      let serialNum = JSON.parse(param)["serialNum"];
       let message1 = this.translate.instant("text-Jpush-kyc-message-1");
       let message2 = this.translate.instant("text-Jpush-kyc-message-2");
-      alert(message1+param+message2);
+      alert(message1+serialNum+message2);
       //  let serialNum = JSON.parse(param)["serialNum"];
       //  let serids = Config.getSerIds();
       //  let serid = serids[serialNum];
@@ -104,6 +106,12 @@ export class AppComponent {
 
       //   });
       //  });
+    }
+
+    registerBackButtonAction(){
+      this.platform.registerBackButtonAction(()=>{
+              return;
+      },1);
     }
 
 }
