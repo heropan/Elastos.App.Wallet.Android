@@ -158,9 +158,9 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
              return;
         }
      idsObj = JSON.parse(val);
-     idsObj[did][appName][appr]["order"][this.serialNum]["status"] = status;
+     idsObj[did][appName][appr]["order"][serialNum]["status"] = status;
      this.localStorage.set("kycId",idsObj).then(()=>{
-              this.orderStatus = status;
+
      });
     });
 }
