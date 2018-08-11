@@ -4,6 +4,7 @@ import {IdImportComponent} from "../../../pages/id/import/import";
 import {IdManagerComponent} from "../../../pages/id/manager/manager";
 import {IdAppListComponent} from "../../../pages/id/app-list/app-list";
 import {TabsComponent} from "../../../pages/tabs/tabs.component";
+import { Config } from '../../../providers/Config';
 @Component({
   selector: 'id-home',
   templateUrl: 'home.html',
@@ -40,7 +41,7 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
                      let seqNumObj = self.dataManager.getSeqNumObj(proofObj["signature"]);
                      let serialNum =  seqNumObj["serialNum"] ;
                      console.info("home.ts ElastosJs createDID serialNum "+ serialNum);
-
+                     this.setOrderStatus(3,serialNum);
                    }
                  }
                  //console.info("home.ts ElastosJs createDID registerIdListener " + JSON.stringify(data));
@@ -144,4 +145,23 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
       this.kycIdArr = JSON.parse(result["list"]);
     });
   }
+
+  setOrderStatus(status,serialNum){
+    let serids = Config.getSerIds();
+    let serid = serids[serialNum];
+    let did = serid["id"];
+    let appName = serid["appName"];
+    let appr = serid["appr"];
+    let idsObj = {};
+    this.localStorage.getKycList("kycId").then((val)=>{
+        if(val == null || val === undefined || val === {} || val === ''){
+             return;
+        }
+     idsObj = JSON.parse(val);
+     idsObj[did][appName][appr]["order"][this.serialNum]["status"] = status;
+     this.localStorage.set("kycId",idsObj).then(()=>{
+              this.orderStatus = status;
+     });
+    });
+}
 }
