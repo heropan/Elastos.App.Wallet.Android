@@ -11,16 +11,13 @@ import { Config } from '../../../../providers/Config';
 })
 export class PersonWriteChainPage extends BaseComponent implements OnInit{
   type: string;
-  approdType:string="company";
-  businessObj={
-    "word":"",
-    "legalPerson":"",
-    "registrationNum":"",
-  }
-
+  pageObj = {};
   personObj={
      fullName:'sss',
-     identityNumber:'410426198811151012'
+     identityNumber:'410426198811151012',
+     mobile:'18210230496',
+     cardNumber:'6225260167820399',
+     cardMobile:'18210230496'
   }
 
   phoneObj={
@@ -46,18 +43,16 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
  depositTransaction:string;
  depositTransactionFee:number;
  signature:string;
+ orderStatus = 0;
+ serialNum = "";
  ngOnInit(){
     this.setTitleByAssets('text-kyc-result');
     this.idObj = this.getNavParams().data;
     console.log("ngOnInit ====="+JSON.stringify(this.idObj));
     this.did = this.idObj["id"];
-
-    if(this.idObj["type"] === "company"){
-           this.getCompany();
-    }else{
-           this.getPerson();
-    }
-
+    this.orderStatus = this.idObj["orderStatus"];
+    this.serialNum = this.idObj["serialNum"];
+    this.getPerson();
     if(this.isNull(status)){
       this.type = '0';
     }else{
@@ -67,40 +62,30 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
            this.Go(IdHomeComponent);
     });
   }
-
-  getCompany(){
-    let adata = this.idObj["adata"][0];
-    let companyObj = adata["retdata"];
-    this.message["Path"] = adata["type"];
-    this.approdType = adata["type"];
-    this.businessObj["word"] = companyObj["word"];
-    this.businessObj["legalPerson"] = companyObj["legalPerson"];
-    this.businessObj["registrationNum"] = companyObj["RegistrationNum"];
-    this.signature = companyObj["signature"];
-  }
-
   getPerson(){
+    this.pageObj = this.getPageObj(this.idObj["adata"]);
     let index = this.idObj["adata"].length-1;
     let adata = this.idObj["adata"][index];
     let pesronObj = adata["retdata"];
+
     this.message["Path"] = adata["type"];
-    this.approdType =  adata["type"];
-    if(this.message["Path"] === "identityCard"){
-         this.personObj["fullName"] = pesronObj["fullName"];
-         this.personObj["identityNumber"] = pesronObj["identityNumber"];
-         this.signature = pesronObj["signature"];
-    }else if(this.message["Path"] === "phone"){
-         this.phoneObj["fullName"] =  pesronObj["fullName"];
-         this.phoneObj["identityNumber"] =  pesronObj["identityNumber"];
-         this.phoneObj["mobile"] = pesronObj["mobile"];
-         this.signature = pesronObj["signature"];
-    }else if(this.message["Path"] === "bankCard"){
-        this.debitObj["fullName"] =  pesronObj["fullName"];
-        this.debitObj["identityNumber"] =  pesronObj["identityNumber"];
-        this.debitObj["cardNumber"] = pesronObj["cardNumber"];
-        this.debitObj["cardMobile"] = pesronObj["mobile"];
-        this.signature = pesronObj["signature"];
-    }
+    // this.approdType =  adata["type"];
+    // if(this.message["Path"] === "identityCard"){
+    //      this.personObj["fullName"] = pesronObj["fullName"];
+    //      this.personObj["identityNumber"] = pesronObj["identityNumber"];
+    //      this.signature = pesronObj["signature"];
+    // }else if(this.message["Path"] === "phone"){
+    //      this.phoneObj["fullName"] =  pesronObj["fullName"];
+    //      this.phoneObj["identityNumber"] =  pesronObj["identityNumber"];
+    //      this.phoneObj["mobile"] = pesronObj["mobile"];
+    //      this.signature = pesronObj["signature"];
+    // }else if(this.message["Path"] === "bankCard"){
+    //     this.debitObj["fullName"] =  pesronObj["fullName"];
+    //     this.debitObj["identityNumber"] =  pesronObj["identityNumber"];
+    //     this.debitObj["cardNumber"] = pesronObj["cardNumber"];
+    //     this.debitObj["cardMobile"] = pesronObj["mobile"];
+    //     this.signature = pesronObj["signature"];
+    // }
 
   }
 
@@ -171,10 +156,7 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
 
      //kyc 内容
      let kycContent={};
-     if(this.message["Path"] === "enterprise"){
-         kycContent = this.businessObj;
-         this.message["Path"] = 'kyc'+"|"+"company"+"|"+"enterprise";
-     }else if(this.message["Path"] === "identityCard"){
+    if(this.message["Path"] === "identityCard"){
             kycContent = this.personObj;
          this.message["Path"] = 'kyc'+"|"+"person"+"|"+"identityCard";
      }else if(this.message["Path"] === "phone"){
@@ -281,5 +263,44 @@ getDepositTransaction(){
        alert("sendDepositTransaction result"+JSON.stringify(result));
      })
  }
+
+
+
+getPageObj(obj){
+  let aprObj ={};
+
+for(let index in obj){
+ let data = obj[index];
+ let retdata= data["retdata"];
+ if(data["type"] === "identityCard"){
+   aprObj["identityCard"] = {"identityNumber":retdata["identityNumber"],"fullName":retdata["fullName"]}
+ }else if(data["type"] === "phone"){
+   aprObj["phone"] = {"mobile":retdata["mobile"]};
+ }else if(data["type"] === "bankCard"){
+   aprObj["bankCard"] = {"cardMobile":retdata["mobile"],"cardNumber":retdata["cardNumber"]};
+ }
+}
+ return aprObj;
+}
+
+
+setOrderStatus(){
+  let serids = Config.getSerIds();
+  let serid = serids[this.serialNum];
+  let did = serid["id"];
+  let appName = serid["appName"];
+  let appr = serid["appr"];
+  let idsObj = {};
+  this.localStorage.getKycList("kycId").then((val)=>{
+      if(val == null || val === undefined || val === {} || val === ''){
+           return;
+      }
+   idsObj = JSON.parse(val);
+   idsObj[did][appName][appr]["order"][this.serialNum]["status"] = 2;
+   this.localStorage.set("kycId",idsObj).then(()=>{
+            this.orderStatus = 2;
+   });
+  });
+}
 }
 

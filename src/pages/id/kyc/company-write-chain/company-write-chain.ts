@@ -18,24 +18,6 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
     "registrationNum":"",
   }
 
-  personObj={
-     fullName:'sss',
-     identityNumber:'410426198811151012'
-  }
-
-  phoneObj={
-    fullName:'sss',
-    identityNumber:'410426198811151012',
-    mobile:'18210230496'
-  }
-
-  debitObj={
-    fullName:'sss',
-    identityNumber:'410426198811151012',
-    cardNumber:'6225260167820399',
-    cardMobile:'18210230496'
-  }
-
   message:any={Id:"",Path:"",Proof:"",DataHash:"",Sign:""};
   passworld:string="";
   programJson:string;
@@ -46,18 +28,16 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
  depositTransaction:string;
  depositTransactionFee:number;
  signature:string;
+ orderStatus = 0;
+ serialNum = "";
  ngOnInit(){
     this.setTitleByAssets('text-kyc-result');
     this.idObj = this.getNavParams().data;
+    this.orderStatus = this.idObj["orderStatus"];
+    this.serialNum = this.idObj["serialNum"];
     console.log("ngOnInit ====="+JSON.stringify(this.idObj));
     this.did = this.idObj["id"];
-
-    if(this.idObj["type"] === "company"){
-           this.getCompany();
-    }else{
-           this.getPerson();
-    }
-
+    this.getCompany();
     if(this.isNull(status)){
       this.type = '0';
     }else{
@@ -77,31 +57,6 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
     this.businessObj["legalPerson"] = companyObj["legalPerson"];
     this.businessObj["registrationNum"] = companyObj["RegistrationNum"];
     this.signature = companyObj["signature"];
-  }
-
-  getPerson(){
-    let index = this.idObj["adata"].length-1;
-    let adata = this.idObj["adata"][index];
-    let pesronObj = adata["retdata"];
-    this.message["Path"] = adata["type"];
-    this.approdType =  adata["type"];
-    if(this.message["Path"] === "identityCard"){
-         this.personObj["fullName"] = pesronObj["fullName"];
-         this.personObj["identityNumber"] = pesronObj["identityNumber"];
-         this.signature = pesronObj["signature"];
-    }else if(this.message["Path"] === "phone"){
-         this.phoneObj["fullName"] =  pesronObj["fullName"];
-         this.phoneObj["identityNumber"] =  pesronObj["identityNumber"];
-         this.phoneObj["mobile"] = pesronObj["mobile"];
-         this.signature = pesronObj["signature"];
-    }else if(this.message["Path"] === "bankCard"){
-        this.debitObj["fullName"] =  pesronObj["fullName"];
-        this.debitObj["identityNumber"] =  pesronObj["identityNumber"];
-        this.debitObj["cardNumber"] = pesronObj["cardNumber"];
-        this.debitObj["cardMobile"] = pesronObj["mobile"];
-        this.signature = pesronObj["signature"];
-    }
-
   }
 
   onCommit(){
@@ -171,19 +126,8 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
 
      //kyc 内容
      let kycContent={};
-     if(this.message["Path"] === "enterprise"){
          kycContent = this.businessObj;
          this.message["Path"] = 'kyc'+"|"+"company"+"|"+"enterprise";
-     }else if(this.message["Path"] === "identityCard"){
-            kycContent = this.personObj;
-         this.message["Path"] = 'kyc'+"|"+"person"+"|"+"identityCard";
-     }else if(this.message["Path"] === "phone"){
-            kycContent = this.phoneObj;
-         this.message["Path"] = 'kyc'+"|"+"person"+"|"+"phone";
-     }else if(this.message["Path"] === "bankCard"){
-            kycContent = this.debitObj;
-          this.message["Path"] = 'kyc'+"|"+"person"+"|"+"bankCard";
-     }
      //kyc 结果
      let authSign = {
                      signature:this.signature,
@@ -254,9 +198,7 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
         }
 
       }
-
-
-      this.messageBox("text-id-kyc-china");
+      this.setOrderStatus();
     })
  }
 
@@ -280,5 +222,24 @@ getDepositTransaction(){
      this.walletManager.sendRawTransaction("ELA",this.depositTransaction,20000,this.passworld,(result)=>{
        alert("sendDepositTransaction result"+JSON.stringify(result));
      })
+ }
+
+ setOrderStatus(){
+       let serids = Config.getSerIds();
+       let serid = serids[this.serialNum];
+       let did = serid["id"];
+       let appName = serid["appName"];
+       let appr = serid["appr"];
+       let idsObj = {};
+       this.localStorage.getKycList("kycId").then((val)=>{
+           if(val == null || val === undefined || val === {} || val === ''){
+                return;
+           }
+        idsObj = JSON.parse(val);
+        idsObj[did][appName][appr]["order"][this.serialNum]["status"] = 2;
+        this.localStorage.set("kycId",idsObj).then(()=>{
+                 this.orderStatus = 2;
+        });
+       });
  }
 }

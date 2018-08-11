@@ -84,9 +84,10 @@ export class AppComponent {
 
     //
     onReceiveJG(param) {
+      let serialNum = JSON.parse(param)["serialNum"];
       let message1 = this.translate.instant("text-Jpush-kyc-message-1");
       let message2 = this.translate.instant("text-Jpush-kyc-message-2");
-      alert(message1+param+message2);
+      alert(message1+serialNum+message2);
       //  let serialNum = JSON.parse(param)["serialNum"];
       //  let serids = Config.getSerIds();
       //  let serid = serids[serialNum];
