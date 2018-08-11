@@ -283,7 +283,7 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
         }
 
       }
-      this.setOrderStatus();
+      this.setOrderStatus(2);
     })
  }
 
@@ -309,7 +309,7 @@ getDepositTransaction(){
      })
  }
 
- setOrderStatus(){
+ setOrderStatus(status){
        let serids = Config.getSerIds();
        let serid = serids[this.serialNum];
        let did = serid["id"];
@@ -321,9 +321,9 @@ getDepositTransaction(){
                 return;
            }
         idsObj = JSON.parse(val);
-        idsObj[did][appName][appr]["order"][this.serialNum]["status"] = 2;
+        idsObj[did][appName][appr]["order"][this.serialNum]["status"] = status;
         this.localStorage.set("kycId",idsObj).then(()=>{
-                 this.orderStatus = 2;
+                 this.orderStatus = status;
         });
        });
  }
