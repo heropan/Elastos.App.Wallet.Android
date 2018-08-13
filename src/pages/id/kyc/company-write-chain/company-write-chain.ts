@@ -31,6 +31,12 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
  orderStatus = 0;
  serialNum = "";
  ngOnInit(){
+    this.events.subscribe("order:update",(orderStatus,appr)=>{
+      alert("===orderStatus===="+orderStatus+"===appr===="+appr);
+           if(appr === "company"){
+             this.orderStatus = orderStatus;
+           }
+    });
     this.setTitleByAssets('text-kyc-result');
     this.idObj = this.getNavParams().data;
     this.orderStatus = this.idObj["orderStatus"];

@@ -46,6 +46,12 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
  orderStatus = 0;
  serialNum = "";
  ngOnInit(){
+   this.events.subscribe("order:update",(orderStatus,appr)=>{
+    alert("===orderStatus===="+orderStatus+"===appr===="+appr);
+    if(appr === "pesron"){
+      this.orderStatus = orderStatus;
+    }
+   });
     this.setTitleByAssets('text-kyc-result');
     this.idObj = this.getNavParams().data;
     console.log("ngOnInit ====="+JSON.stringify(this.idObj));
@@ -66,7 +72,7 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
     this.pageObj = this.getPageObj(this.idObj["adata"]);
     let index = this.idObj["adata"].length-1;
     let adata = this.idObj["adata"][index];
-    let pesronObj = adata["retdata"];
+    //let pesronObj = adata["retdata"];
 
     this.message["Path"] = adata["type"];
     // this.approdType =  adata["type"];
