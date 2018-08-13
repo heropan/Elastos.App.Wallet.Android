@@ -30,7 +30,7 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
                console.info("ElastosJs IdHomeComponent e.id registerIdListener begin  " + e.id);
                self.walletManager.registerIdListener(e.id, (data) => {
 
-                 console.info("home.ts ElastosJs createDID registerIdListener "+ JSON.stringify(data));
+                 console.info("home.ts ElastosJs ngOnInit registerIdListener "+ JSON.stringify(data));
                  //alert("home.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
                  //first commit
                  if(data["path"] == "Added"){
@@ -40,18 +40,18 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
 
                      let proofObj = JSON.parse(valueObj["Contents"][0]["Proof"]);
 
-                     console.info("home.ts ElastosJs createDID proofObj[\"signature\"]  "+ proofObj["signature"]);
+                     console.info("home.ts ElastosJs ngOnInit proofObj[\"signature\"]  "+ proofObj["signature"]);
                      let seqNumObj = self.dataManager.getSeqNumObj(proofObj["signature"]);
 
                      let serialNum =  seqNumObj["serialNum"] ;
-                     console.info("home.ts ElastosJs createDID serialNum "+ serialNum);
+                     console.info("home.ts ElastosJs ngOnInit serialNum "+ serialNum);
                      self.setOrderStatus(3,serialNum);
                    }
                  }
                  alert("home.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
                  //console.info("home.ts ElastosJs createDID registerIdListener " + JSON.stringify(data));
 
-                 console.info("home.ts ElastosJs createDID registerIdListener  data  callback !!!!!" + JSON.stringify(data));
+                 console.info("home.ts ElastosJs ngOnInit registerIdListener  data  callback !!!!!" + JSON.stringify(data));
 
                });
                console.info("ElastosJs IdHomeComponent e.id  end registerIdListener" + e.id);
