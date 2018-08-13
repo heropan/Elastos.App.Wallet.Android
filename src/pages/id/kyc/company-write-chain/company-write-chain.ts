@@ -32,7 +32,6 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
  serialNum = "";
  ngOnInit(){
     this.events.subscribe("order:update",(orderStatus,appr)=>{
-      alert("===orderStatus===="+orderStatus+"===appr===="+appr);
            if(appr === "company"){
              this.orderStatus = orderStatus;
            }
