@@ -46,6 +46,12 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
  orderStatus = 0;
  serialNum = "";
  ngOnInit(){
+   this.events.subscribe("order:update",(orderStatus,appr)=>{
+    alert("===orderStatus===="+orderStatus+"===appr===="+appr);
+    if(appr === "pesron"){
+      this.orderStatus = orderStatus;
+    }
+   });
     this.setTitleByAssets('text-kyc-result');
     this.idObj = this.getNavParams().data;
     console.log("ngOnInit ====="+JSON.stringify(this.idObj));
