@@ -66,7 +66,7 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
     this.pageObj = this.getPageObj(this.idObj["adata"]);
     let index = this.idObj["adata"].length-1;
     let adata = this.idObj["adata"][index];
-    let pesronObj = adata["retdata"];
+    //let pesronObj = adata["retdata"];
 
     this.message["Path"] = adata["type"];
     // this.approdType =  adata["type"];

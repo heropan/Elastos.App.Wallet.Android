@@ -8,7 +8,6 @@ import { Config } from '../../../providers/Config';
 import {IDManager} from "../../../providers/IDManager";
 import {ApiUrl} from "../../../providers/ApiUrl"
 import {IdResultComponent} from "../../../pages/id/result/result";
-import { flatten } from '@angular/compiler';
 @Component({
   selector: 'app-transfer',
   templateUrl: './transfer.component.html'})
