@@ -47,8 +47,7 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
  serialNum = "";
  ngOnInit(){
    this.events.subscribe("order:update",(orderStatus,appr)=>{
-    alert("===orderStatus===="+orderStatus+"===appr===="+appr);
-    if(appr === "pesron"){
+    if(appr === "person"){
       this.orderStatus = orderStatus;
     }
    });
