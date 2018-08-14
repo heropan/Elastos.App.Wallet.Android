@@ -52,7 +52,6 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
                 self.setOrderStatus(3,serialNum);
               }
             }
-            alert("home.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
             //console.info("home.ts ElastosJs createDID registerIdListener " + JSON.stringify(data));
 
             console.info("home.ts ElastosJs createDID registerIdListener  data  callback !!!!!" + JSON.stringify(data));
