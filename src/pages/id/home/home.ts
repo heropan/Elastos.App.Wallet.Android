@@ -129,7 +129,6 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
     this.walletManager.createDID("s12345678",(result)=>{
       let idObj ={id:result.didname};
       let self = this;
-      alert("createDID before registerIdListener  ");
       this.walletManager.registerIdListener(result.didname, (data) => {
 
         console.info("home.ts ElastosJs createDID registerIdListener "+ JSON.stringify(data));
