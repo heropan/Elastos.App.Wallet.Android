@@ -51,6 +51,7 @@ export class DidLoginComponent extends BaseComponent implements OnInit {
         didPubkey: this.didPubkey
       }
       return result;
+      this.platform.exitApp();
     });
   }
 

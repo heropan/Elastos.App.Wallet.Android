@@ -151,6 +151,7 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
       } else {
         this.toast('text-password-error');
       }
+      this.platform.exitApp();
     });
   }
 
