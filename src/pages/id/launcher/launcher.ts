@@ -53,7 +53,6 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
                 alert("lacucher.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
               }
             }
-
             //console.info("home.ts ElastosJs createDID registerIdListener " + JSON.stringify(data));
 
             console.info("lacucher.ts ElastosJs createDID registerIdListener  data  callback !!!!!" + JSON.stringify(data));
