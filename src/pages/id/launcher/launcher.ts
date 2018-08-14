@@ -34,7 +34,7 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
           console.info("ElastosJs luncher.ts createDID result add registerIdListener" + JSON.stringify(result));
           self.walletManager.registerIdListener(result.didname, (data) => {
 
-            console.info("home.ts ElastosJs createDID registerIdListener "+ JSON.stringify(data));
+            console.info("lacucher.ts ElastosJs createDID registerIdListener "+ JSON.stringify(data));
             //alert("home.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
             //first commit
             if(data["path"] == "Added"){
@@ -44,17 +44,18 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
 
                 let proofObj = JSON.parse(valueObj["Contents"][0]["Proof"]);
 
-                console.info("home.ts ElastosJs createDID proofObj[\"signature\"]  "+ proofObj["signature"]);
+                console.info("lacucher.ts ElastosJs createDID proofObj[\"signature\"]  "+ proofObj["signature"]);
                 let seqNumObj = self.dataManager.getSeqNumObj(proofObj["signature"]);
 
                 let serialNum =  seqNumObj["serialNum"] ;
-                console.info("home.ts ElastosJs createDID serialNum "+ serialNum);
+                console.info("lacucher.ts ElastosJs createDID serialNum "+ serialNum);
                 self.setOrderStatus(3,serialNum);
+               // alert("lacucher.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
               }
             }
             //console.info("home.ts ElastosJs createDID registerIdListener " + JSON.stringify(data));
 
-            console.info("home.ts ElastosJs createDID registerIdListener  data  callback !!!!!" + JSON.stringify(data));
+            console.info("lacucher.ts ElastosJs createDID registerIdListener  data  callback !!!!!" + JSON.stringify(data));
 
 
           });
