@@ -63,8 +63,8 @@ export class AppComponent {
       }
 
       localStorage.getWallet().then((val) => {
+        let type = this.GetQueryString("type");
         if (val) {
-          let type = this.GetQueryString("type");
           switch (type) {
             case "payment":
               this.rootPage = PaymentConfirmComponent;
@@ -77,6 +77,17 @@ export class AppComponent {
               break;
           }
         } else {
+          if (type == 'payment') {
+            let account = this.GetQueryString("account");
+            let toAddress = this.GetQueryString("address");
+            let memo = this.GetQueryString("memo");
+            let payment_params = {
+              account: account,
+              toAddress: toAddress,
+              memo: memo
+            }
+            localStorage.set('payment', payment_params);
+          }
           this.rootPage = LauncherComponent;
         }
       });
