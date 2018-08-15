@@ -91,8 +91,8 @@ import {KycOperationPage} from '../pages/id/kyc/kyc-operation/kyc-operation';
 import {KycOrderPage} from '../pages/id/kyc/kyc-order/kyc-order';
 import {CompanyWriteChainPage} from '../pages/id/kyc/company-write-chain/company-write-chain';
 import {PersonWriteChainPage} from '../pages/id/kyc/person-write-chain/person-write-chain';
-import {PathlistPage} from '../pages/id/kyc/pathlist/pathlist';
-import {PathdetailsPage} from '../pages/id/kyc/pathdetails/pathdetails';
+import {PathlistPage} from '../pages/id/pathlist/pathlist';
+import {PathdetailsPage} from '../pages/id/pathdetails/pathdetails';
 
 /*id相关页面*/
 

@@ -3,7 +3,7 @@ import {BaseComponent} from "../../../../app/BaseComponent";
 import {IdKycPersonComponent} from "../../../../pages/id/kyc/person/person";
 import {IdKycCompanyComponent} from "../../../../pages/id/kyc/company/company";
 import {KycOrderPage} from "../../../../pages/id/kyc/kyc-order/kyc-order";
-import {PathlistPage} from '../../../../pages/id/kyc/pathlist/pathlist';
+import {PathlistPage} from '../../../../pages/id/pathlist/pathlist';
 @Component({
   selector: 'page-kyc-operation',
   templateUrl: 'kyc-operation.html',
