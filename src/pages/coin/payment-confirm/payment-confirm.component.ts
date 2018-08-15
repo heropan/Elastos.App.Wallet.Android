@@ -3,6 +3,7 @@ import {BaseComponent} from '../../../app/BaseComponent';
 import { PopupComponent } from "ngx-weui";
 import {Util} from "../../../providers/Util";
 import { Config } from '../../../providers/Config';
+import {TabsComponent} from "../../tabs/tabs.component";
 
 @Component({
   selector: 'app-payment-confirm',
@@ -151,7 +152,8 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
       } else {
         this.toast('text-password-error');
       }
-      this.platform.exitApp();
+      this.Go(TabsComponent);
+      // this.platform.exitApp();
     });
   }
 
