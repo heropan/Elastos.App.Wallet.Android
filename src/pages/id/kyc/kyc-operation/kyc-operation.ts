@@ -3,6 +3,7 @@ import {BaseComponent} from "../../../../app/BaseComponent";
 import {IdKycPersonComponent} from "../../../../pages/id/kyc/person/person";
 import {IdKycCompanyComponent} from "../../../../pages/id/kyc/company/company";
 import {KycOrderPage} from "../../../../pages/id/kyc/kyc-order/kyc-order";
+import {PathlistPage} from '../../../../pages/id/kyc/pathlist/pathlist';
 @Component({
   selector: 'page-kyc-operation',
   templateUrl: 'kyc-operation.html',
@@ -23,12 +24,14 @@ export class KycOperationPage  extends BaseComponent implements OnInit{
     onNext(type) {
       if (type === 1) {
           this.add();
-      } else {
+      } else if(type === 2) {
           if(this.isNull(this.orderList)){
                this.messageBox("text-id-kyc-no-order");
                return;
           }
           this.check();
+      }else if(type === 3){
+            this.Go(PathlistPage,this.params);
       }
     }
 
