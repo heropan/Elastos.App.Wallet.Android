@@ -112,12 +112,13 @@ export class AppComponent {
 
     registerBackButtonAction(){
       this.platform.registerBackButtonAction(()=>{
-        let activeNav = this.appCtrl.getActiveNavs()[0];
-        if(activeNav.canGoBack()){
-            activeNav.pop();
-         }else{
-            this.showExit();
-         }
+        this.showExit();
+        // let activeNav = this.appCtrl.getActiveNavs()[0];
+        // if(activeNav.canGoBack()){
+        //     activeNav.pop();
+        //  }else{
+        //     this.showExit();
+        //  }
         // let activePortal = this.ionicApp._modalPortal.getActive();
         // console.log("---activePortal---"+JSON.stringify(activePortal));
         // if (activePortal) {
