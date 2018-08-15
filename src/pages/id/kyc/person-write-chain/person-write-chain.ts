@@ -200,10 +200,16 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
 
     retContent["Proof"] = JSON.stringify(proofObj);
 
-    let kycContent = this.getKycContent(authType, authData);
-    let authDataHash = IDManager.hash(JSON.stringify(kycContent)+retContent["proof"]);
+    console.info("getcontent Proof "+ retContent["Proof"]);
 
-    retContent["DataHash"] = IDManager.hash(authDataHash+retContent["proof"]);
+    let kycContent = this.getKycContent(authType, authData);
+
+    console.info("getcontent kycContent "+ JSON.stringify(kycContent));
+
+    let authDataHash = IDManager.hash(JSON.stringify(kycContent)+retContent["Proof"]);
+    retContent["DataHash"] = IDManager.hash(authDataHash+retContent["Proof"]);
+
+    console.info("getcontent retContent "+ JSON.stringify(retContent));
 
     return retContent;
   }

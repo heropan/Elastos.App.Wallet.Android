@@ -149,12 +149,25 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
             self.setOrderStatus(3,serialNum);
             //alert("home.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
 
+            /*for(let ele of valueObj["Contents"]){
+              //get value
+
+              let proofObj = JSON.parse(ele["Proof"])
+
+              //newSeqNumObj这里可能有多个 提交的。 要找到path对应的那个
+              let newSeqNumObj = self.dataManager.getSeqNumObj(proofObj["signature"]);
+
+              //遍历result中的proof 找到对应的seqNumObj 比较这两个seqNumObj中的关键字。如果相同则先删除后添加。
+              //否则添加
+              self.walletManager.didGetValue(data["id"] , ele["Path"] ,(result)=>{
+
+              })
+              //check duplicate
+
+              //setvalue
+            }*/
             //
-            //get value
 
-            //check duplicate
-
-            //setvalue
           }
         }
 

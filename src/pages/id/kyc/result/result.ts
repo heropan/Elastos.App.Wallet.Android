@@ -294,6 +294,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
 
     retContent["DataHash"] = IDManager.hash(authDataHash+retContent["proof"]);
 
+
     return retContent;
   }
 

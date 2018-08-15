@@ -169,13 +169,19 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
       notary : "COOIX"
     }
 
+    console.info(" company getcontent Proof "+ retContent["Proof"]);
+
     retContent["Proof"] = JSON.stringify(proofObj);
 
+
     let kycContent = this.getKycContent(authType, authData);
+    console.info("company getcontent kycContent "+ JSON.stringify(kycContent));
+
     let authDataHash = IDManager.hash(JSON.stringify(kycContent)+retContent["proof"]);
 
     retContent["DataHash"] = IDManager.hash(authDataHash+retContent["proof"]);
 
+    console.info("company getcontent retContent "+ JSON.stringify(retContent));
     return retContent;
   }
 
