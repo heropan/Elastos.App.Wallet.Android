@@ -173,6 +173,11 @@ android {
       ldLibs "log"
     }
 
+	packagingOptions {
+		doNotStrip '*/mips/*.so'
+		doNotStrip '*/mips64/*.so'
+	}
+
       externalNativeBuild {
           cmake {
               //cppFlags "-std=c++11", "-D_GNUC", "-D_linux", "-D_UNDEFDLLEXP", "-fvisibility=hidden"
