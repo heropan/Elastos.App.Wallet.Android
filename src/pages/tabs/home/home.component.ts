@@ -52,7 +52,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
   goPayment() {
     this.localStorage.get('payment').then((val)=>{
       if (val) {
-        console.log(JSON.parse(val));
+        // console.log(JSON.parse(val));
+        this.localStorage.remove('payment');
         this.Go(PaymentConfirmComponent, JSON.parse(val));
       }
     });
