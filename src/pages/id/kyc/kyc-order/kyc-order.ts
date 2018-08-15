@@ -1,8 +1,9 @@
 import { Component ,OnInit} from '@angular/core';
 import {BaseComponent} from "../../../../app/BaseComponent";
-import {IdKycResultComponent} from "../../../../pages/id/kyc/result/result";
 import {IDManager} from "../../../../providers/IDManager";
 import {ApiUrl} from "../../../../providers/ApiUrl";
+import {CompanyWriteChainPage} from "../../../../pages/id/kyc/company-write-chain/company-write-chain";
+import {PersonWriteChainPage} from "../../../../pages/id/kyc/person-write-chain/person-write-chain";
 @Component({
   selector: 'page-kyc-order',
   templateUrl: 'kyc-order.html',
@@ -37,9 +38,15 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
   onNext(item) {
       if(this.isNull(item["status"])){
         this.getAppAuth(item["serialNum"],item["txHash"]);
-      }else if(item["status"] === 1){
+      }else {
           this.params = item["params"];
-          this.Go(IdKycResultComponent,this.params);
+          this.params["orderStatus"] = this.idsObj[this.did]["kyc"][this.aprType]["order"][item["serialNum"]]["status"];
+          this.params["serialNum"] = item["serialNum"];
+          if(this.params["type"] === "company"){
+            this.Go(CompanyWriteChainPage,this.params);
+          }else{
+            this.Go(PersonWriteChainPage,this.params);
+          }
       }
 
   }
@@ -84,7 +91,13 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
      this.idsObj[this.did]["kyc"][this.aprType]["order"][serialNum]["status"] = 1;
      this.idsObj[this.did]["kyc"][this.aprType]["order"][serialNum]["params"] = this.params;
      this.localStorage.set("kycId",this.idsObj).then(()=>{
-          this.Go(IdKycResultComponent,this.params);
+      this.params["orderStatus"] = this.idsObj[this.did]["kyc"][this.aprType]["order"][serialNum]["status"];
+      this.params["serialNum"] = serialNum;
+      if(this.params["type"] === "company"){
+       this.Go(CompanyWriteChainPage,this.params);
+      }else{
+        this.Go(PersonWriteChainPage,this.params);
+      }
      });
   }
 }

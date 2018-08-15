@@ -4,6 +4,7 @@ import {IdImportComponent} from "../../../pages/id/import/import";
 import {IdManagerComponent} from "../../../pages/id/manager/manager";
 import {IdAppListComponent} from "../../../pages/id/app-list/app-list";
 import {TabsComponent} from "../../../pages/tabs/tabs.component";
+import { Config } from '../../../providers/Config';
 @Component({
   selector: 'id-home',
   templateUrl: 'home.html',
@@ -28,8 +29,29 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
              this.kycIdArr.forEach(function(e){
                console.info("ElastosJs IdHomeComponent e.id registerIdListener begin  " + e.id);
                self.walletManager.registerIdListener(e.id, (data) => {
-                 alert("createDID registerIdListener  data  callback"+ JSON.stringify(data));
-                 console.info("ElastosJs createDID registerIdListener  data  callback !!!!!" + JSON.stringify(data));
+
+                 console.info("home.ts ElastosJs ngOnInit registerIdListener "+ JSON.stringify(data));
+                 //alert("home.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
+                 //first commit
+                 if(data["path"] == "Added"){
+
+                   let valueObj = JSON.parse(data["value"]) ;
+                   if((valueObj["Contents"].length > 0) && valueObj["Contents"][0]["Proof"]){
+
+                     let proofObj = JSON.parse(valueObj["Contents"][0]["Proof"]);
+
+                     console.info("home.ts ElastosJs ngOnInit proofObj[\"signature\"]  "+ proofObj["signature"]);
+                     let seqNumObj = self.dataManager.getSeqNumObj(proofObj["signature"]);
+
+                     let serialNum =  seqNumObj["serialNum"] ;
+                     console.info("home.ts ElastosJs ngOnInit serialNum "+ serialNum);
+                     self.setOrderStatus(3,serialNum);
+                   }
+                 }
+                 //alert("home.ts createDID registerIdListener ngOnInit data  callback"+ JSON.stringify(data));
+                 //console.info("home.ts ElastosJs createDID registerIdListener " + JSON.stringify(data));
+
+                 console.info("home.ts ElastosJs ngOnInit registerIdListener  data  callback !!!!!" + JSON.stringify(data));
 
                });
                console.info("ElastosJs IdHomeComponent e.id  end registerIdListener" + e.id);
@@ -106,11 +128,53 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
 
     this.walletManager.createDID("s12345678",(result)=>{
       let idObj ={id:result.didname};
-      alert("createDID before registerIdListener  ");
+      let self = this;
       this.walletManager.registerIdListener(result.didname, (data) => {
-        console.info("ElastosJs home.ts createDID registerIdListener")+ JSON.stringify(data);
-        ////////////////
-        alert("home.ts createDID registerIdListener  data "+ JSON.stringify(data));
+
+        console.info("home.ts ElastosJs createDID registerIdListener "+ JSON.stringify(data));
+        //alert("home.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
+        //first commit
+        if(data["path"] == "Added"){
+
+          let valueObj = JSON.parse(data["value"]) ;
+          if((valueObj["Contents"].length > 0) && valueObj["Contents"][0]["Proof"]){
+
+            let proofObj = JSON.parse(valueObj["Contents"][0]["Proof"]);
+
+            console.info("home.ts ElastosJs createDID proofObj[\"signature\"]  "+ proofObj["signature"]);
+            let seqNumObj = self.dataManager.getSeqNumObj(proofObj["signature"]);
+
+            let serialNum =  seqNumObj["serialNum"] ;
+            console.info("home.ts ElastosJs createDID serialNum "+ serialNum);
+            self.setOrderStatus(3,serialNum);
+            //alert("home.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
+
+            /*for(let ele of valueObj["Contents"]){
+              //get value
+
+              let proofObj = JSON.parse(ele["Proof"])
+
+              //newSeqNumObj这里可能有多个 提交的。 要找到path对应的那个
+              let newSeqNumObj = self.dataManager.getSeqNumObj(proofObj["signature"]);
+
+              //遍历result中的proof 找到对应的seqNumObj 比较这两个seqNumObj中的关键字。如果相同则先删除后添加。
+              //否则添加
+              self.walletManager.didGetValue(data["id"] , ele["Path"] ,(result)=>{
+
+              })
+              //check duplicate
+
+              //setvalue
+            }*/
+            //
+
+          }
+        }
+
+        //console.info("home.ts ElastosJs createDID registerIdListener " + JSON.stringify(data));
+
+        console.info("home.ts ElastosJs createDID registerIdListener  data  callback !!!!!" + JSON.stringify(data));
+
 
       });
 
@@ -127,4 +191,33 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
       this.kycIdArr = JSON.parse(result["list"]);
     });
   }
+
+  setOrderStatus(status,serialNum){
+
+    console.info("setOrderStatus begin status " + status +" serialNum " + serialNum);
+
+    let serids = Config.getSerIds();
+    let serid = serids[serialNum];
+
+    console.info("setOrderStatus serid" + JSON.stringify(serid));
+    console.info("setOrderStatus serids" + JSON.stringify(serids));
+
+    let did = serid["id"];
+    let appName = serid["appName"];
+    let appr = serid["appr"];
+
+    console.info("setOrderStatus appr" + appr);
+
+    let idsObj = {};
+    this.localStorage.getKycList("kycId").then((val)=>{
+        if(val == null || val === undefined || val === {} || val === ''){
+             return;
+        }
+     idsObj = JSON.parse(val);
+     idsObj[did][appName][appr]["order"][serialNum]["status"] = status;
+     this.localStorage.set("kycId",idsObj).then(()=>{
+          this.events.publish("order:update",3,appr);
+     });
+    });
+}
 }

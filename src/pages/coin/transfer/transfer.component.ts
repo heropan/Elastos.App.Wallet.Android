@@ -39,6 +39,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
   parms:any;
   txId:string;
   did:string;
+  isInput = true;
   ngOnInit() {
     this.setTitleByAssets('text-transfer');
     let transferObj =this.getNavParams().data;
@@ -47,6 +48,11 @@ export class TransferComponent extends BaseComponent implements OnInit {
     this.transfer.toAddress = transferObj["addr"] || "";
     this.transfer.amount = transferObj["money"] || "";
     this.appType = transferObj["appType"] || "";
+    if(this.appType==""){
+        this.isInput = false;
+    }else{
+        this.isInput = true;
+    }
     this.selectType = transferObj["selectType"] || "";
     this.parms = transferObj["parms"] || "";
     this.did = transferObj["did"] || "";

@@ -221,5 +221,8 @@ export const zh = {
   'text-id-kyc-cochain':'上链需要花费',
   'text-id-kyc-china':'上链提交成功',
   'text-Jpush-kyc-message-1':'交易单号为：',
-  'text-Jpush-kyc-message-2':'已认证成功，请去订单列表查看'
+  'text-Jpush-kyc-message-2':'已认证成功，请去订单列表查看',
+  'text-data-chain1':'上链中请耐心等待',
+  'text-data-chain2':"上链成功",
+  'text-exit-message':"再按一次退出应用",
 };
