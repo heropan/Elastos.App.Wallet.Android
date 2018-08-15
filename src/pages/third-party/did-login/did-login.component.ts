@@ -50,7 +50,7 @@ export class DidLoginComponent extends BaseComponent implements OnInit {
         sign: this.sign,
         didPubkey: this.didPubkey
       }
-      return result;
+      // return result;
       this.platform.exitApp();
     });
   }
