@@ -113,7 +113,8 @@ export class ImportComponent extends BaseComponent implements OnInit {
                  this.localStorage.setWallet({
                   'name': "ELA-Wallet"
                    }).then(()=>{
-                    this.Go(TabsComponent);
+                    //this.Go(TabsComponent);
+                    this.setRootRouter(TabsComponent);
                   });
 });
 
@@ -132,7 +133,8 @@ export class ImportComponent extends BaseComponent implements OnInit {
           this.localStorage.setWallet({
             'name': "ELA-Wallet"
            }).then(()=>{
-            this.Go(TabsComponent);
+            //this.Go(TabsComponent);
+            this.setRootRouter(TabsComponent);
            });
          });
       });
