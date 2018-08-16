@@ -31,7 +31,8 @@ export class WriteComponent extends BaseComponent implements OnInit {
     //hptest
     if(!Util.isNull(mn) && mn == this.mnemonicStr.replace(/\s+/g,"")){
       this.toast('text-mnemonic-ok');
-      this.Go(TabsComponent)
+      //this.Go(TabsComponent)
+      this.setRootRouter(TabsComponent);
     }else{
       this.toast('text-mnemonic-prompt3');
     }

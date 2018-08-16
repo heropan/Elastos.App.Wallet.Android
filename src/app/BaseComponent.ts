@@ -18,7 +18,7 @@ import {BackupProvider} from "../providers/backup";
 import {HttpService} from "../providers/HttpService";
 import {PopupProvider} from "../providers/popup";
 import {DataManager} from "../providers/DataManager";
-
+import { App } from 'ionic-angular';
 import { Events } from 'ionic-angular';
 @Component({
   selector: 'app-base',
@@ -49,7 +49,8 @@ export class BaseComponent {
                      public http:HttpService,
                      public popupProvider: PopupProvider,
                      public dataManager  : DataManager,
-                     public events: Events) {
+                     public events: Events,
+                     private app: App) {
     this.translate.addLangs(['zh', 'en']);
     this.translate.setDefaultLang('zh');
     const broswerLang = this.translate.getBrowserLang();
@@ -264,5 +265,9 @@ export class BaseComponent {
       myNewObj[i] = this.clone(myObj[i]);
 
     return myNewObj;
+  }
+
+  setRootRouter(router){
+    this.app.getRootNav().setRoot(router);
   }
 }
