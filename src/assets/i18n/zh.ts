@@ -227,5 +227,6 @@ export const zh = {
   'text-data-chain2':"上链成功",
   'text-exit-message':"再按一次退出应用",
   'text-path-list':"path列表",
-  'text-path-deatils':"path详情"
+  'text-path-deatils':"path详情",
+  'add-path':"添加"
 };
