@@ -224,7 +224,7 @@ export class WalletManager {
   }
 
   changePassword(oldPassword:string , newPassword:string ,Fun){
-     this.wallet.getAllSubWallets([oldPassword,newPassword],Fun,this.errorFun);
+     this.wallet.changePassword([oldPassword,newPassword],Fun,this.errorFun);
   }
 
   createTransaction(chainId:string,fromAddress:string , toAddress:string ,amount:number, memo:string, remark: string,Fun){
