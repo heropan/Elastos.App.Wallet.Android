@@ -18,7 +18,9 @@ import {BackupProvider} from "../providers/backup";
 import {HttpService} from "../providers/HttpService";
 import {PopupProvider} from "../providers/popup";
 import {DataManager} from "../providers/DataManager";
+
 import { App } from 'ionic-angular';
+import {Platform} from 'ionic-angular';
 import { Events } from 'ionic-angular';
 @Component({
   selector: 'app-base',
@@ -50,6 +52,7 @@ export class BaseComponent {
                      public popupProvider: PopupProvider,
                      public dataManager  : DataManager,
                      public events: Events,
+                     public platform  : Platform,
                      private app: App) {
     this.translate.addLangs(['zh', 'en']);
     this.translate.setDefaultLang('zh');

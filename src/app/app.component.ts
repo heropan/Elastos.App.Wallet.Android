@@ -19,6 +19,8 @@ import {LauncherComponent} from "../pages/launcher/launcher.component";
 //import { AddressComponent } from '../pages/wallet/address/address.component'
 import {TabsComponent} from '../pages/tabs/tabs.component';
 import {LocalStorage} from "../providers/Localstorage";
+import {PaymentConfirmComponent} from "../pages/coin/payment-confirm/payment-confirm.component";
+import {DidLoginComponent} from "../pages/third-party/did-login/did-login.component";
 import { Config } from '../providers/Config';
 import { TranslateService } from '@ngx-translate/core';
 import { Native } from '../providers/Native';
@@ -67,9 +69,31 @@ export class AppComponent {
       }
 
       localStorage.getWallet().then((val) => {
+        let type = this.GetQueryString("type");
         if (val) {
-          this.rootPage = TabsComponent;
+          switch (type) {
+            case "payment":
+              this.rootPage = PaymentConfirmComponent;
+              break;
+            case "did_login":
+              this.rootPage = DidLoginComponent;
+              break;
+            default:
+              this.rootPage = TabsComponent;
+              break;
+          }
         } else {
+          if (type == 'payment') {
+            let account = this.GetQueryString("account");
+            let toAddress = this.GetQueryString("address");
+            let memo = this.GetQueryString("memo");
+            let payment_params = {
+              account: account,
+              toAddress: toAddress,
+              memo: memo
+            }
+            localStorage.set('payment', payment_params);
+          }
           this.rootPage = LauncherComponent;
         }
       });
@@ -85,6 +109,11 @@ export class AppComponent {
     });
   }
 
+  GetQueryString(name){
+    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if(r!=null)return  decodeURI(r[2]); return null;
+  }
     //
     onReceiveJG(param) {
       let serialNum = JSON.parse(param)["serialNum"];
@@ -153,4 +182,5 @@ export class AppComponent {
   }
 
 }
+
 

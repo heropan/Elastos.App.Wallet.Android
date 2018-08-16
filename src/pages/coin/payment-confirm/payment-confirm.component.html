@@ -1,0 +1,61 @@
+<app-header [header]="header"   ></app-header>
+
+
+<div class="weui-form-preview">
+  <div class="weui-form-preview__hd">
+    <div class="weui-form-preview__item" >
+      <label class="weui-form-preview__label" style="line-height: 40px">{{'transaction-price' | translate}}</label>
+      <em class="weui-form-preview__value"> - {{transfer.amount/SELA}} {{chianId}}</em>
+    </div>
+  </div>
+  <div class="weui-form-preview__bd">
+    <div class="weui-form-preview__item">
+      <label class="weui-form-preview__label">{{'text-to-address' | translate}}</label>
+      <span class="weui-form-preview__value">{{transfer.toAddress}}</span>
+    </div>
+  </div>
+  <div class="weui-form-preview__bd">
+    <div class="weui-form-preview__item">
+      <label class="weui-form-preview__label">{{'text-memo' | translate}}</label>
+      <span class="weui-form-preview__value">{{transfer.memo}}</span>
+    </div>
+  </div>
+  <div class="weui-form-preview__bd">
+    <div class="weui-form-preview__item">
+      <label class="weui-form-preview__label">{{'text-information' | translate}}</label>
+      <span class="weui-form-preview__value">{{information}}</span>
+    </div>
+  </div>
+  <div class="weui-form-preview__ft">
+    <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" (click)="onClick(2)">{{'text-payment-confirm' | translate}}</a>
+  </div>
+</div>
+
+<weui-popup #subscribe>
+<div class="pop-box" >
+  <div class="weui-cells" style="margin: 0px;padding: 0px">
+
+    <div class="pop-title">{{'transfer-info' | translate}}<img class="close" src="./assets/images/icon/icon-close.svg" (click)="onClick(3)"></div>
+    <div class="weui-cell">
+      <p><span>{{'transfer-address' | translate}}</span><span>{{transfer.toAddress}}</span></p>
+
+    </div>
+    <div class="weui-cell">
+
+    <p><span>{{'text-price' | translate}}</span><span>{{transfer.amount/SELA}}</span></p>
+    </div>
+    <div class="weui-cell">
+
+      <p><span>{{'text-fees' | translate}}</span><span>{{transfer.fee/SELA}}</span></p>
+    </div>
+
+  </div>
+
+  <div class="weui-cell">
+      <input class="weui-input" type="password" placeholder="{{ 'text-pay-passworld-input' | translate }}" [(ngModel)]="transfer.payPassword">
+  </div>
+  <div class="button-default " style="margin: 20px auto"  (click)="onClick(4)">{{ 'confirm' | translate }}</div>
+
+</div>
+
+</weui-popup>

@@ -1,0 +1,15 @@
+<div class="per-certified">
+    <app-header [header]="header"></app-header>
+
+    <ul class="idList">
+        <li class="item" *ngFor="let item of kycIdArr" (click)="onItem(item.id)">
+            <a class="tiaozhuan">
+                <div class="item-text">
+                    <span class="item-text-title huan-hang">{{item.id}}</span>
+                </div>
+            </a>
+        </li>
+    </ul>
+
+
+</div>

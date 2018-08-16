@@ -3,6 +3,7 @@ import {BaseComponent} from '../../../app/BaseComponent';
 import {CoinComponent} from "../../coin/coin.component";
 import {CoinListComponent} from "../../coin/coin-list/coin-list.component";
 import { Config } from '../../../providers/Config';
+import { PaymentConfirmComponent } from '../../coin/payment-confirm/payment-confirm.component';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   coinList = []
 
   ngOnInit() {
+    this.goPayment();
     this.getAllMasterWallets();
     this.events.subscribe('home:update', () => {
            this.getElaBalance(this.ElaObj);
@@ -45,6 +47,16 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   onOpen() {
     this.wallet.showBalance = !this.wallet.showBalance;
+  }
+
+  goPayment() {
+    this.localStorage.get('payment').then((val)=>{
+      if (val) {
+        // console.log(JSON.parse(val));
+        this.localStorage.remove('payment');
+        this.Go(PaymentConfirmComponent, JSON.parse(val));
+      }
+    });
   }
 
   onClick(type){
