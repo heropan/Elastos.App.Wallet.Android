@@ -91,6 +91,9 @@ import {KycOperationPage} from '../pages/id/kyc/kyc-operation/kyc-operation';
 import {KycOrderPage} from '../pages/id/kyc/kyc-order/kyc-order';
 import {CompanyWriteChainPage} from '../pages/id/kyc/company-write-chain/company-write-chain';
 import {PersonWriteChainPage} from '../pages/id/kyc/person-write-chain/person-write-chain';
+import {PathlistPage} from '../pages/id/pathlist/pathlist';
+import {PathdetailsPage} from '../pages/id/pathdetails/pathdetails';
+
 /*id相关页面*/
 
 /** 通过类引用方式解析国家化文件 */
@@ -170,7 +173,9 @@ export function TranslateLoaderFactory() {
     KycOperationPage,
     KycOrderPage,
     CompanyWriteChainPage,
-    PersonWriteChainPage
+    PersonWriteChainPage,
+    PathlistPage,
+    PathdetailsPage
   ],
   imports: [
     BrowserModule,
@@ -245,7 +250,9 @@ export function TranslateLoaderFactory() {
     KycOperationPage,
     KycOrderPage,
     CompanyWriteChainPage,
-    PersonWriteChainPage
+    PersonWriteChainPage,
+    PathlistPage,
+    PathdetailsPage
   ],
   providers: [
     StatusBar,

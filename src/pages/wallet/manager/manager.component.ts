@@ -50,4 +50,21 @@ export class ManagerComponent extends BaseComponent implements OnInit {
     });
   }
 
+  getDiD(){
+    this.walletManager.getDIDList((result)=>{
+                let list= result["list"];
+                if(list === null){
+                     return;
+                }
+    })
+  }
+
+  destroyDiD(did){
+     this.walletManager.destoryDID(did,(result)=>{
+
+     })
+  }
+
+
+
 }
