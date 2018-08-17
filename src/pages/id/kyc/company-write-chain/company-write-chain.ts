@@ -158,11 +158,12 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
     }
     return retContent;
   }
-
+// authtype is one of  person company
   getcontent(authType, authData){
 
     let retContent = {};
     retContent["Path"] = 'kyc' +'/' +authType +'/'+ authData["type"];
+    retContent["Values"] = [];
 
     let proofObj = {
       signature : authData["retdata"]["signature"],
@@ -171,7 +172,8 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
 
     console.info(" company getcontent Proof "+ retContent["Proof"]);
 
-    retContent["Proof"] = JSON.stringify(proofObj);
+    let valueObj = {};
+    valueObj["Proof"] = JSON.stringify(proofObj);
 
 
     let kycContent = this.getKycContent(authType, authData);
@@ -179,8 +181,9 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
 
     let authDataHash = IDManager.hash(JSON.stringify(kycContent)+retContent["proof"]);
 
-    retContent["DataHash"] = IDManager.hash(authDataHash+retContent["proof"]);
+    valueObj["DataHash"] = IDManager.hash(authDataHash+retContent["proof"]);
 
+    retContent["Values"].push(valueObj)
     console.info("company getcontent retContent "+ JSON.stringify(retContent));
     return retContent;
   }
