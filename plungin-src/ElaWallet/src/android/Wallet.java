@@ -39,7 +39,7 @@ import io.ionic.starter.MyUtil;
  * wallet webview jni
  */
 public class Wallet extends CordovaPlugin {
-    private static final String TAG = "Wallet.JNI";
+    private static final String TAG = "Wallet.java";
     private IMasterWallet mCurrentMasterWallet;
     private MasterWalletManager mWalletManager;
     private ArrayList<IMasterWallet> mMasterWalletList = new ArrayList<IMasterWallet>();
@@ -55,7 +55,7 @@ public class Wallet extends CordovaPlugin {
         super.initialize(cordova, webView);
 
         mRootPath = MyUtil.getRootPath();
-        Log.d("JS-Wallet", "initialize=============mRootPath="+mRootPath);
+        Log.d(TAG, "initialize mRootPath = "+mRootPath);
         mWalletManager = new MasterWalletManager(mRootPath);
         MyUtil.SetCurrentMasterWalletManager(mWalletManager);
         mMasterWalletList = mWalletManager.GetAllMasterWallets();
@@ -71,16 +71,16 @@ public class Wallet extends CordovaPlugin {
     }
 
     private void initDidManager() {
-      Log.d("JS-Wallet", "initDidManager=========1====mRootPath="+mRootPath);
+      Log.d(TAG, "initDidManager: mRootPath = " + mRootPath);
         if (mDidManager == null && mCurrentMasterWallet != null) {
-            Log.d("JS-Wallet", "initDidManager=========2====mRootPath="+mRootPath);
+            Log.d(TAG, "CreateIdManager: mRootPath = " + mRootPath);
             mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet, mRootPath);
         }
     }
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
-        Log.i("JS-Wallet", "execute=============action="+action);
+        Log.i(TAG, "execute: action="+action);
         try {
           switch (action) {
               case "coolMethod":
@@ -253,12 +253,12 @@ public class Wallet extends CordovaPlugin {
     //CreateSubWallet(String chainID, String payPassword, boolean singleAddress, long feePerKb)
     public void createSubWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
         try {
-            Log.i("JS-Wallet", "createSubWallet==============1, id="+args.getString(0));
+            Log.i(TAG, "createSubWallet, id="+args.getString(0));
             ISubWallet subWallet = mCurrentMasterWallet.CreateSubWallet(args.getString(0), args.getString(1), args.getBoolean(2), args.getLong(3));
             if (subWallet != null) {
                 mSubWalletMap.put(args.getString(0), subWallet);
                 callbackContext.success(args.getString(0));
-                Log.i("JS-Wallet", "createSubWallet==============2, subWallet============["+subWallet+"]");
+                Log.i(TAG, "createSubWallet OK, subWallet=["+subWallet+"]");
             }
             else {
                 callbackContext.error("CreateSubWallet failed.");
@@ -289,10 +289,12 @@ public class Wallet extends CordovaPlugin {
     }
 
     public void getAllMasterWallets(JSONArray args, CallbackContext callbackContext) throws JSONException {
+		Log.i(TAG, "getAllMasterWallets");
         try {
             mMasterWalletList = mWalletManager.GetAllMasterWallets();
         }
         catch (WalletException e) {
+			Log.e(TAG, "getAllMasterWallets fail");
             e.printStackTrace();
             callbackContext.success(parseOneParam(ERRORCODE, e.GetErrorInfo()));
             return;
@@ -300,11 +302,13 @@ public class Wallet extends CordovaPlugin {
 
         if (mMasterWalletList != null && mMasterWalletList.size() > 0) {
             //TODO: Now, the first masterWallet is the default.
+			Log.i(TAG, "getAllMasterWallets OK");
             mCurrentMasterWallet = mMasterWalletList.get(0);
             initDidManager();
             callbackContext.success(parseOneParam("walletid",mCurrentMasterWallet.GetId()));
         }
         else {
+			Log.i(TAG, "getAllMasterWallets fail");
             // callbackContext.error("Don't have masterWallet, please create a new one.");
             callbackContext.success(parseOneParam("walletid",""));
         }
@@ -317,7 +321,7 @@ public class Wallet extends CordovaPlugin {
 
             mSubWalletMap.clear();
             ArrayList<ISubWallet> list = mCurrentMasterWallet.GetAllSubWallets();
-            Log.i("JS-Wallet", "getAllSubWallets==============1, list.size="+list.size());
+            Log.i(TAG, "getAllSubWallets, list.size="+list.size());
             for (int i = 0; i < list.size(); i++) {
                 ISubWallet subWallet = list.get(i);
                 if (subWallet != null) {
@@ -329,6 +333,7 @@ public class Wallet extends CordovaPlugin {
             callbackContext.success(jsonObject);
         }
         else {
+			Log.e(TAG, "getAllSubWallets fail: mCurrentMasterWallet is null");
             // callbackContext.error("Don't have any subWallet, please create a new one.");
             callbackContext.success(parseOneParam(ERRORCODE, ERRORCODE_NODATA));
         }
@@ -412,7 +417,7 @@ public class Wallet extends CordovaPlugin {
 
     //DestroyWallet(String masterWalletId)
     public void destroyWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        Log.i("JS-Wallet", "destroyWallet==================1, walletid="+args.getString(0));
+        Log.i(TAG, "destroyWallet, walletid="+args.getString(0));
         try {
             mWalletManager.DestroyWallet(args.getString(0));
             callbackContext.success();
@@ -442,7 +447,7 @@ public class Wallet extends CordovaPlugin {
 
             mSubWalletMap.clear();
             ArrayList<ISubWallet> list = mCurrentMasterWallet.GetAllSubWallets();
-            Log.i("JS-Wallet", "importWalletWithKeystore==============1, subwallet.list.size="+list.size());
+            Log.i(TAG, "importWalletWithKeystore, subwallet.list.size="+list.size());
             for (int i = 0; i < list.size(); i++) {
                 ISubWallet subWallet = list.get(i);
                 if (subWallet != null) {
@@ -466,7 +471,7 @@ public class Wallet extends CordovaPlugin {
             JSONObject jsonObject = new JSONObject();
             while(iter.hasNext()){
                 String chainID = iter.next();
-                Log.i("JS-Wallet", "getAllCreatedSubWallets=========================chainID=["+chainID+"]");
+                Log.i(TAG, "getAllCreatedSubWallets: chainID=["+chainID+"]");
                 jsonObject.put(chainID, chainID);
             }
 
@@ -480,7 +485,7 @@ public class Wallet extends CordovaPlugin {
     //ImportWalletWithMnemonic(String masterWalletId, String mnemonic, String phrasePassword ,String payPassWord, String language)
     public void importWalletWithMnemonic(JSONArray args, CallbackContext callbackContext) throws JSONException {
         try {
-            Log.i("JS-Wallet", "importWalletWithMnemonic======================================1");
+            Log.i(TAG, "importWalletWithMnemonic");
             mCurrentMasterWallet = mWalletManager.ImportWalletWithMnemonic(args.getString(0), args.getString(1), args.getString(2)
                     , args.getString(3), args.getString(4));
         }
@@ -490,14 +495,14 @@ public class Wallet extends CordovaPlugin {
             return;
         }
 
-        Log.i("JS-Wallet", "importWalletWithMnemonic======================================2");
+        Log.i(TAG, "importWalletWithMnemonic OK");
         if (mCurrentMasterWallet != null) {
             if (mMasterWalletList == null) mMasterWalletList = new ArrayList<IMasterWallet>();
             mMasterWalletList.add(mCurrentMasterWallet);
 
             mSubWalletMap.clear();
             ArrayList<ISubWallet> list = mCurrentMasterWallet.GetAllSubWallets();
-            Log.i("JS-Wallet", "importWalletWithMnemonic==============1, subwallet.list.size="+list.size());
+            Log.i(TAG, "importWalletWithMnemonic: subwallet.list.size="+list.size());
             for (int i = 0; i < list.size(); i++) {
                 ISubWallet subWallet = list.get(i);
                 if (subWallet != null) {
@@ -549,7 +554,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            callbackContext.error("create tx, Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -574,7 +579,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            callbackContext.error("create multi sign addr, Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -591,7 +596,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            callbackContext.error("create multi sign tx, Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -613,10 +618,9 @@ public class Wallet extends CordovaPlugin {
 
     public void getAllTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
         //The first parameter is [chainID]
-        Log.i("JS-Wallet", "getAllTransaction======id="+args.getString(0)+", a1="+args.getInt(1)+", a2="+args.getInt(2)+", a3="+args.getString(3));
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            callbackContext.error("get all tx, Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -626,10 +630,10 @@ public class Wallet extends CordovaPlugin {
 
     public void registerWalletListener(JSONArray args, CallbackContext callbackContext) throws JSONException {
         //The first parameter is [chainID]
-        Log.i("ElastosJava JS-Wallet", "registerWalletListener==================1");
+        Log.i(TAG, "registerWalletListener");
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            callbackContext.error("register wallet listener, Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -637,7 +641,7 @@ public class Wallet extends CordovaPlugin {
             @Override
             public void OnTransactionStatusChanged(String txId, String status, String desc, int confirms) {
                 JSONObject jsonObject = new JSONObject();
-                Log.i("JS-Wallet", "OnTransactionStatusChanged==================1");
+                Log.i(TAG, "OnTransactionStatusChanged");
                 try {
                     jsonObject.put("txId", txId);
                     jsonObject.put("status", status);
@@ -645,7 +649,7 @@ public class Wallet extends CordovaPlugin {
                     jsonObject.put("confirms", confirms);
                 }
                 catch (JSONException e) {
-                    e.printStackTrace();;
+                    e.printStackTrace();
                 }
 
                 PluginResult pluginResult = new PluginResult(PluginResult.Status.OK,jsonObject);
@@ -656,12 +660,12 @@ public class Wallet extends CordovaPlugin {
             @Override
             public void OnBlockSyncStarted() {
                 JSONObject jsonObject = new JSONObject();
-                Log.i("ElastosJava", "OnBlockSyncStarted==================1");
+                Log.i(TAG, "OnBlockSyncStarted");
                 try {
                     jsonObject.put("OnBlockSyncStarted", "OnBlockSyncStarted");
                 }
                 catch (JSONException e) {
-                    e.printStackTrace();;
+                    e.printStackTrace();
                 }
 
                 PluginResult pluginResult = new PluginResult(PluginResult.Status.OK,jsonObject);
@@ -672,13 +676,13 @@ public class Wallet extends CordovaPlugin {
             @Override
             public void OnBlockHeightIncreased(int currentBlockHeight, double progress) {
                 JSONObject jsonObject = new JSONObject();
-                Log.i("ElastosJava", "OnBlockHeightIncreased==================1");
+                Log.i(TAG, "OnBlockHeightIncreased");
                 try {
                     jsonObject.put("currentBlockHeight", currentBlockHeight);
                     jsonObject.put("progress", progress);
                 }
                 catch (JSONException e) {
-                    e.printStackTrace();;
+                    e.printStackTrace();
                 }
 
                 PluginResult pluginResult = new PluginResult(PluginResult.Status.OK,jsonObject);
@@ -689,18 +693,34 @@ public class Wallet extends CordovaPlugin {
             @Override
             public void OnBlockSyncStopped() {
                 JSONObject jsonObject = new JSONObject();
-                Log.i("ElastosJava", "OnBlockSyncStopped==================1");
+                Log.i(TAG, "OnBlockSyncStopped");
                 try {
                     jsonObject.put("OnBlockSyncStopped", "OnBlockSyncStopped");
                 }
                 catch (JSONException e) {
-                    e.printStackTrace();;
+                    e.printStackTrace();
                 }
 
                 PluginResult pluginResult = new PluginResult(PluginResult.Status.OK,jsonObject);
                 pluginResult.setKeepCallback(true);
                 callbackContext.sendPluginResult(pluginResult);
             }
+
+			@Override
+			public void OnDestroyWallet() {
+				JSONObject jsonObject = new JSONObject();
+				Log.i(TAG, "OnDestroyWallet");
+				try {
+					jsonObject.put("OnDestroyWallet", "OnDestroyWallet");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+				PluginResult pluginResult = new PluginResult(PluginResult.Status.OK,jsonObject);
+				pluginResult.setKeepCallback(true);
+				callbackContext.sendPluginResult(pluginResult);
+			}
+
         });
     }
 
@@ -708,7 +728,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            callbackContext.error("get balance info, Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -717,10 +737,9 @@ public class Wallet extends CordovaPlugin {
 
     public void getBalance(JSONArray args, CallbackContext callbackContext) throws JSONException {
         //The first parameter is [chainID]
-        Log.i("JS-Wallet", "getBalance==============1, id="+args.getString(0));
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            callbackContext.error("get balance, Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -731,7 +750,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            callbackContext.error("create addr, Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -748,7 +767,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            callbackContext.error("get all addr, Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -759,7 +778,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            callbackContext.error("get balance with addr, Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -770,7 +789,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            callbackContext.error("sign, Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -788,7 +807,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            callbackContext.error("check sign, Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -800,9 +819,8 @@ public class Wallet extends CordovaPlugin {
     public void sendRawTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
-        Log.i("JS-Wallet", "sendRawTransaction==============1, id="+args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            callbackContext.error("send raw tx, Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -821,7 +839,7 @@ public class Wallet extends CordovaPlugin {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            callbackContext.error("calculate tx fee, Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -839,7 +857,7 @@ public class Wallet extends CordovaPlugin {
     //String CreateIdTransaction(fromAddress, payloadJson, programJson, memo, remark)
     public void createIdTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
         //The first parameter is [chainID]
-        Log.i("JS-Wallet", "createIdTransaction==================1, id="+args.getString(0));
+        Log.i(TAG, "createIdTransaction, id="+args.getString(0));
         if (!IMasterWallet.CHAINID.ID.equals(args.getString(0))) {
             callbackContext.success(parseOneParam(ERRORCODE, "The chainID must be IdChain."));
             return;
@@ -848,9 +866,9 @@ public class Wallet extends CordovaPlugin {
         IIdChainSubWallet subWallet;
         if(baseWallet instanceof IIdChainSubWallet){
             subWallet = (IIdChainSubWallet)baseWallet;
-            Log.i("JS-Wallet", "createIdTransaction instanceof IIdChainSubWallet 1, id="+args.getString(0));
+            Log.i(TAG, "createIdTransaction instanceof IIdChainSubWallet 1, id="+args.getString(0));
         }else{
-            Log.i("JS-Wallet", "createIdTransaction not instanceof IIdChainSubWallet 1, id="+args.getString(0));
+            Log.i(TAG, "createIdTransaction not instanceof IIdChainSubWallet 1, id="+args.getString(0));
             return ;
         }
        // IIdChainSubWallet subWallet = (IIdChainSubWallet)mSubWalletMap.get(args.getString(0));
@@ -877,7 +895,7 @@ public class Wallet extends CordovaPlugin {
 
     public void createDepositTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
         //The first parameter is [chainID]
-        Log.i("JS-Wallet", "createDepositTransaction==================1, id="+args.getString(0));
+        Log.i(TAG, "createDepositTransaction, id="+args.getString(0));
         if (!IMasterWallet.CHAINID.MAIN.equals(args.getString(0))) {
             callbackContext.success(parseOneParam(ERRORCODE, "The chainID must be ELA."));
             return;
@@ -885,7 +903,7 @@ public class Wallet extends CordovaPlugin {
 
         IMainchainSubWallet subWallet = (IMainchainSubWallet)mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            callbackContext.error("create deposit tx, Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -1069,7 +1087,7 @@ public class Wallet extends CordovaPlugin {
 
     //String Sign(String message, String password)
     public void didSign(JSONArray args, CallbackContext callbackContext) throws JSONException {
-        Log.i("ElastosJs JS-Wallet didSign begin ", "==================1");
+        Log.i(TAG, "ElastosJs JS-Wallet didSign begin");
         if (mDidManager != null) {
             IDid did = mDidManager.GetDID(args.getString(0));
             if (did != null) {
@@ -1086,7 +1104,7 @@ public class Wallet extends CordovaPlugin {
         }
 
         callbackContext.error("didSign error.");
-       Log.i("ElastosJs JS-Wallet didSign end ", "==================1");
+       Log.i(TAG, "ElastosJs JS-Wallet didSign end");
 
     }
 
@@ -1139,9 +1157,9 @@ public class Wallet extends CordovaPlugin {
 
     public void registerIdListener(JSONArray args, CallbackContext callbackContext) throws JSONException {
 
-        Log.i("ElastosJava", "registerIdListener==================begin mDidManager "+mDidManager);
+        Log.i(TAG, "registerIdListener begin, mDidManager = "+mDidManager);
         if (mDidManager == null) {
-            Log.i("ElastosJava", "registerIdListener==================begin mDidManager == NULL"+mDidManager);
+            Log.e(TAG, "registerIdListener error mDidManager == NULL");
             callbackContext.error("registerIdListener error.");
             return;
         }
@@ -1150,30 +1168,30 @@ public class Wallet extends CordovaPlugin {
             @Override
             public void OnIdStatusChanged(String id, String path, /*const nlohmann::json*/ String value) {
 
-                Log.i("ElastosJava", "OnIdStatusChanged==================begin");
+                Log.i(TAG, "OnIdStatusChanged==================begin");
 
                 JSONObject jsonObject = new JSONObject();
-                Log.i("ElastosJava", "OnIdStatusChanged==================begin2");
+                Log.i(TAG, "OnIdStatusChanged==================begin2");
                 try {
                     jsonObject.put("id", id);
                     jsonObject.put("path", path);
                     jsonObject.put("value", value);
                 }
                 catch (JSONException e) {
-                    e.printStackTrace();;
+                    e.printStackTrace();
                 }
 
-                Log.i("ElastosJava", "OnIdStatusChanged==================begin3");
+                Log.i(TAG, "OnIdStatusChanged==================begin3");
 
                 PluginResult pluginResult = new PluginResult(PluginResult.Status.OK,jsonObject);
                 pluginResult.setKeepCallback(true);
                 callbackContext.sendPluginResult(pluginResult);
-                Log.i("ElastosJava", "OnIdStatusChanged==================end");
+                Log.i(TAG, "OnIdStatusChanged==================end");
 
             }
         });
 
-        Log.i("ElastosJava", "registerIdListener==================end");
+        Log.i(TAG, "registerIdListener==================end");
 
     }
 
@@ -1183,7 +1201,7 @@ public class Wallet extends CordovaPlugin {
     //             String mainchainAmounts, String mainchainIndexs, String memo, String remark)
     public void createWithdrawTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
         //The first parameter is [chainID]
-        Log.i("JS-Wallet", "createWithdrawTransaction==================1, id="+args.getString(0));
+        Log.i(TAG, "createWithdrawTransaction, id="+args.getString(0));
         if (!IMasterWallet.CHAINID.ID.equals(args.getString(0))) {
             callbackContext.success(parseOneParam(ERRORCODE, "The chainID must be IdChain."));
             return;
@@ -1191,7 +1209,7 @@ public class Wallet extends CordovaPlugin {
 
         IIdChainSubWallet subWallet = (IIdChainSubWallet)mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            callbackContext.error("create withdraw tx, Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 
@@ -1215,7 +1233,7 @@ public class Wallet extends CordovaPlugin {
 
     public void getGenesisAddress(JSONArray args, CallbackContext callbackContext) throws JSONException {
         //The first parameter is [chainID]
-        Log.i("JS-Wallet", "getGenesisAddress==================1, id="+args.getString(0));
+        Log.i(TAG, "getGenesisAddress, id="+args.getString(0));
         if (!IMasterWallet.CHAINID.ID.equals(args.getString(0))) {
             callbackContext.success(parseOneParam(ERRORCODE, "The chainID must be IdChain."));
             return;
@@ -1223,7 +1241,7 @@ public class Wallet extends CordovaPlugin {
 
         IIdChainSubWallet subWallet = (IIdChainSubWallet)mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
-            callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
+            callbackContext.error("get genesis addr, Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
         }
 

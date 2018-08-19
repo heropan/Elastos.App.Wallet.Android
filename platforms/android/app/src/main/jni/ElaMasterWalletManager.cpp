@@ -239,23 +239,30 @@ static jlongArray JNICALL nativeGetAllMasterWallets(JNIEnv *env, jobject clazz, 
     MasterWalletManager* walletManager = (MasterWalletManager*)jWalletMgr;
     std::vector<IMasterWallet *> array;
 
+	LOGI("walletManager = %p", walletManager);
+
     try {
         array = walletManager->GetAllMasterWallets();
     }
     catch (std::invalid_argument& e) {
+		LOGE("GetAllMasterWallets e = %s", e.what());
         ThrowWalletException(env, e.what());
     }
     catch (std::logic_error& e) {
+		LOGE("GetAllMasterWallets e = %s", e.what());
         ThrowWalletException(env, e.what());
     }
     catch (std::runtime_error& e) {
+		LOGE("GetAllMasterWallets e = %s", e.what());
         ThrowWalletException(env, e.what());
     }
     catch (std::exception& e) {
+		LOGE("GetAllMasterWallets e = %s", e.what());
         ThrowWalletException(env, e.what());
     }
 
     const int length = array.size();
+	LOGI("array.size = %d", array.size());
     if (length > 0) {
         jlong* proxies = new jlong[length];
         for (int i = 0; i < length; ++i) {
