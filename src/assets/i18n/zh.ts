@@ -228,5 +228,7 @@ export const zh = {
   'text-exit-message':"再按一次退出应用",
   'text-path-list':"path列表",
   'text-path-deatils':"path详情",
-  'add-path':"添加"
+  'add-path':"添加",
+  'text-company-path-deatils':"企业详情",
+  'text-bankcard-path-deatils':"银行卡详情"
 };
