@@ -5,6 +5,7 @@ import {IdManagerComponent} from "../../../pages/id/manager/manager";
 import {IdAppListComponent} from "../../../pages/id/app-list/app-list";
 import {TabsComponent} from "../../../pages/tabs/tabs.component";
 import { Config } from '../../../providers/Config';
+import {PathlistPage} from '../../../pages/id/pathlist/pathlist';
 @Component({
   selector: 'id-home',
   templateUrl: 'home.html',
@@ -122,6 +123,7 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
 
   onItem(item){
     this.Go(IdAppListComponent,{"id":item.id});
+    //this.Go(PathlistPage,{"id":item.id});
   }
 
   createDID(){
