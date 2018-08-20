@@ -31,15 +31,20 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
                console.info("ElastosJs IdHomeComponent e.id registerIdListener begin  " + e.id);
                self.walletManager.registerIdListener(e.id, (data) => {
 
-                 console.info("home.ts ElastosJs ngOnInit registerIdListener "+ JSON.stringify(data));
+                 console.info("home.ts ElastosJs ngOnInit registerIdListener data "+ JSON.stringify(data));
                  //alert("home.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
                  //first commit
                  if(data["path"] == "Added"){
 
                    let valueObj = JSON.parse(data["value"]) ;
-                   if((valueObj["Contents"].length > 0) && valueObj["Contents"][0]["Proof"]){
 
-                     let proofObj = JSON.parse(valueObj["Contents"][0]["Proof"]);
+                   console.info("home.ts ElastosJs ngOnInit registerIdListener valueObj "+ JSON.stringify(valueObj));
+                   console.info("home.ts ElastosJs ngOnInit registerIdListener valueObj[\"Contents\"].length  "+ valueObj["Contents"].length);
+                   console.info("home.ts ElastosJs ngOnInit registerIdListener Proof "+ valueObj["Contents"][0]["Values"][0]["Proof"] );
+
+                   if((valueObj["Contents"].length > 0) && (valueObj["Contents"][0]["Values"].length > 0) && valueObj["Contents"][0]["Values"][0]["Proof"] ){
+
+                     let proofObj = JSON.parse(valueObj["Contents"][0]["Values"][0]["Proof"] );
 
                      console.info("home.ts ElastosJs ngOnInit proofObj[\"signature\"]  "+ proofObj["signature"]);
                      let seqNumObj = self.dataManager.getSeqNumObj(proofObj["signature"]);
@@ -139,9 +144,9 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
         if(data["path"] == "Added"){
 
           let valueObj = JSON.parse(data["value"]) ;
-          if((valueObj["Contents"].length > 0) && valueObj["Contents"][0]["Proof"]){
+          if((valueObj["Contents"].length > 0) && (valueObj["Contents"][0]["Values"].length > 0) && valueObj["Contents"][0]["Values"][0]["Proof"] ){
 
-            let proofObj = JSON.parse(valueObj["Contents"][0]["Proof"]);
+            let proofObj = JSON.parse(valueObj["Contents"][0]["Values"][0]["Proof"]);
 
             console.info("home.ts ElastosJs createDID proofObj[\"signature\"]  "+ proofObj["signature"]);
             let seqNumObj = self.dataManager.getSeqNumObj(proofObj["signature"]);

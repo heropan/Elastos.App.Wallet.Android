@@ -40,9 +40,9 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
             if(data["path"] == "Added"){
 
               let valueObj = JSON.parse(data["value"]) ;
-              if((valueObj["Contents"].length > 0) && valueObj["Contents"][0]["Proof"]){
+              if((valueObj["Contents"].length > 0) && (valueObj["Contents"][0]["Values"].length > 0) && valueObj["Contents"][0]["Values"][0]["Proof"] ){
 
-                let proofObj = JSON.parse(valueObj["Contents"][0]["Proof"]);
+                let proofObj = JSON.parse(valueObj["Contents"][0]["Values"][0]["Proof"]);
 
                 console.info("lacucher.ts ElastosJs createDID proofObj[\"signature\"]  "+ proofObj["signature"]);
                 let seqNumObj = self.dataManager.getSeqNumObj(proofObj["signature"]);
