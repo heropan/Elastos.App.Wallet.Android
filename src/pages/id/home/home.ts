@@ -122,7 +122,7 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
   }
 
   onItem(item){
-    this.Go(IdAppListComponent,{"id":item.id});
+     this.Go(IdAppListComponent,{"id":item.id});
     //this.Go(PathlistPage,{"id":item.id});
   }
 

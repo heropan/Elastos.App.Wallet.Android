@@ -21,20 +21,32 @@ export class IdKycCompanyComponent extends BaseComponent implements OnInit {
   serialNum:string;
   parms:any;
   did:any;
+  path:string = "";
   ngOnInit() {
     this.setTitleByAssets('text-certified-company');
     this.parms = this.getNavParams().data;
     this.did = this.parms["id"];
+    this.path = this.parms["path"] || "";
     this.getPrice();
   }
 
   onCommit(): void {
     if(this.checkParms()){
       this.businessObj["serialNum"] = this.serialNum;
-      this.Go(TransferComponent,{did:this.did,addr:"EKZCcfqBP1YXiDtJVNdnLQR74QRHKrgFYD",money:this.payMoney,appType:"kyc",chianId:"ELA",selectType:"company",parms:this.businessObj});
-      //this.Go(IdKycResultComponent,this.parms);
+       this.saveKycSerialNum(this.serialNum);
     }
   }
+
+  saveKycSerialNum(serialNum){
+    this.localStorage.get("kycId").then((val)=>{
+        let idsObj = JSON.parse(val);
+        let order = idsObj[this.did][this.path];
+        order[serialNum] = {serialNum:serialNum,pathStatus:0,payObj:{did:this.did,addr:"EKZCcfqBP1YXiDtJVNdnLQR74QRHKrgFYD",money:this.payMoney,appType:"kyc",chianId:"ELA",selectType:this.path,parms:this.businessObj}};
+        this.localStorage.set("kycId",idsObj).then((newVal)=>{
+          this.Go(TransferComponent,{did:this.did,addr:"EKZCcfqBP1YXiDtJVNdnLQR74QRHKrgFYD",money:this.payMoney,appType:"kyc",chianId:"ELA",selectType:this.path,parms:this.businessObj});
+        });
+    })
+}
 
   checkParms(): boolean{
      if(this.isNull(this.businessObj.word)){

@@ -1,21 +1,49 @@
 import { Component ,OnInit} from '@angular/core';
 import {BaseComponent} from "../../../app/BaseComponent";
+import {IdKycCompanyComponent} from "../../../pages/id/kyc/company/company";
 @Component({
   selector: 'page-companypathinfo',
   templateUrl: 'companypathinfo.html',
 })
 export class CompanypathinfoPage extends BaseComponent implements OnInit{
-       public companyPathList = [{"word":"北京比特大陆科技有限公司","legalPerson":"詹克团",
-       "registrationNum":"911101080804655794"},{"word":"北京比特大陆科技有限公司1","legalPerson":"詹克团1",
-       "registrationNum":"9112010808046557941"}];
+       public companyPathList = [];
        private parmar ={};
+       public idsObj ={};
        ngOnInit(){
         this.parmar = this.getNavParams().data;
         console.log("---path---"+JSON.stringify(this.parmar));
         this.setTitleByAssets("text-company-path-deatils");
+        this.localStorage.get("kycId").then((val)=>{
+          if(val == null || val === undefined || val === {} || val === ''){
+            return;
+           }
+          this.idsObj = JSON.parse(val);
+
+          let pathList = this.idsObj[this.parmar["id"]][this.parmar["path"]];
+
+          for(let key in pathList){
+             this.companyPathList.push(pathList[key]);
+          }
+
+
+        });
        }
 
       onNext(item){
           alert("---item----"+JSON.stringify(item));
+          this.jumpPage(item);
+      }
+
+      onCommit(){
+          this.Go(IdKycCompanyComponent,this.parmar);
+      }
+
+      jumpPage(item){
+          switch(item["pathStatus"]){
+                case 0 :
+                    break;
+                case 2 :
+                    break;
+          }
       }
 }

@@ -230,5 +230,8 @@ export const zh = {
   'text-path-deatils':"path详情",
   'add-path':"添加",
   'text-company-path-deatils':"企业详情",
-  'text-bankcard-path-deatils':"银行卡详情"
+  'text-bankcard-path-deatils':"银行卡详情",
+  'path-status':"状态",
+  'path-status-no-pay':"未支付",
+  'text-identity-path-deatils':"身份证详情"
 };

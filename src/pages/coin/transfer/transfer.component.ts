@@ -169,7 +169,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
           this.toast('send-raw-transaction');
           this.Go(TabsComponent);
         }else if(this.appType === "kyc"){
-             if(this.selectType === "company"){
+             if(this.selectType === "enterprise"){
                   this.company();
              }else if(this.selectType === "person"){
                   this.person();
