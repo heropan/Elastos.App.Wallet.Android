@@ -199,6 +199,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
     this.getHttp().postByAuth(ApiUrl.AUTH,params).toPromise().then(data => {
          if(data["status"] === 200){
           let authData= JSON.parse(data["_body"]);
+          console.info("Elastjs authData" + JSON.stringify(authData));
           if(authData["errorCode"] === "0"){
                let serialNum = authData["serialNum"];
                let serIds = Config.getSerIds();
@@ -216,6 +217,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
          }
 
     }).catch(error => {
+      alert("错误码:"+ JSON.stringify(error));
          this.Go(IdResultComponent,{'status':'1'});
     });
 }

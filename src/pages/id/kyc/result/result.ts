@@ -408,7 +408,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
 
       for (let ele of rawTransactionObj["PayLoad"]["Contents"] ) {
 
-        console.log("ElastosJs ---sendRawTransaction--- ele " + JSON.stringify(ele));
+        console.log("ElastosJs result---sendRawTransaction--- ele " + JSON.stringify(ele));
         let arr = ele["Path"].split("/");
 
         if (arr[1]) {

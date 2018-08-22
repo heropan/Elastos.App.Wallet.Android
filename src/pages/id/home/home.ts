@@ -52,6 +52,8 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
                      let serialNum =  seqNumObj["serialNum"] ;
                      console.info("home.ts ElastosJs ngOnInit serialNum "+ serialNum);
                      self.setOrderStatus(3,serialNum);
+                     self.dataManager.OutPutIDJson(data.id, valueObj["Contents"][0]["Path"], proofObj["signature"]);
+                    // self.dataManager.addIdPathJson(data.id, valueObj["Contents"][0]["Path"], valueObj);
                    }
                  }
                  //alert("home.ts createDID registerIdListener ngOnInit data  callback"+ JSON.stringify(data));
@@ -154,6 +156,10 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
             let serialNum =  seqNumObj["serialNum"] ;
             console.info("home.ts ElastosJs createDID serialNum "+ serialNum);
             self.setOrderStatus(3,serialNum);
+
+            self.dataManager.OutPutIDJson(data.id, valueObj["Contents"][0]["Path"], proofObj["signature"]);
+            //self.dataManager.addIdPathJson(data.id, valueObj["Contents"][0]["Path"], valueObj);
+            //self.dataManager.addSignCont();
             //alert("home.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
 
             /*for(let ele of valueObj["Contents"]){

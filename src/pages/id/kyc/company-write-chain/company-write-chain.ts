@@ -183,6 +183,12 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
 
     valueObj["DataHash"] = IDManager.hash(authDataHash+retContent["proof"]);
 
+    let idJsonPart = {};
+    idJsonPart["hash"] = valueObj["DataHash"];
+    idJsonPart["KycContent"] = kycContent;
+    idJsonPart["Proof"] = valueObj["Proof"];
+    this.dataManager.addIdPathJson(this.did, retContent["Path"], idJsonPart)
+
     retContent["Values"].push(valueObj)
     console.info("company getcontent retContent "+ JSON.stringify(retContent));
     return retContent;
@@ -283,22 +289,37 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
         console.log("ElastosJs ---sendRawTransaction--- Contents NULL");
         return ;
       }
+      /*
+      *
+      *
+      "PayLoad": {
+		"Contents": [{
+			"Path": "kyc/company/enterprise",
+			"Values": [{
+				"DataHash": "7f6d1d62480d06e939999f33cc9f3802602236dccfb8243a2e74176b9fb905ab",
+				"Proof": "{\"signature\":\"c82657ce310aa4313fd95272f3e52a28b6c4ec9fd2461d1047db5e86edf289995576d9bd3304d938a7bb66cab196258751b6a3c7e7d76b4867588fa827d4de58\",\"notary\":\"COOIX\"}"
+			}]
+		}],
+		"Id": "ifrQqG7kiqqSxGfHN62QPyRZD88ggK6MdD",
+		"Sign": "4029d9695dfd5919de9f05b4bd48beb93b33fcb960276cfbbc29ae47365cbb601ea68eceb98ed3c888474b01e66231fccfcef9d633c76e6d513af995e7fd60bd66"
+	} */
 
       for (let ele of rawTransactionObj["PayLoad"]["Contents"] ) {
-
-        console.log("ElastosJs ---sendRawTransaction--- ele " + JSON.stringify(ele));
+        console.log("ElastosJs company-write-chain ---sendRawTransaction--- ele " + JSON.stringify(ele));
         let arr = ele["Path"].split("/");
 
         if (arr[1]) {
-
-          let proofObj = JSON.parse(ele["Proof"]);
           let self = this;
+          //iterat values
+          for (let valueObj of ele["Values"]){
+            let proofObj = JSON.parse(valueObj["Proof"]);
 
-          this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id,"kyc", arr[1], function (reult : any) {
-            console.info("ElastosJs reult" + JSON.stringify(reult) );
-            self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
+            this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id,"kyc", arr[1], function (reult : any) {
+              console.info("ElastosJs reult" + JSON.stringify(reult) );
+              self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
 
-          });
+            });
+          }
         }
       }
 

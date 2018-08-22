@@ -320,7 +320,7 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
 
       for (let ele of rawTransactionObj["PayLoad"]["Contents"] ) {
 
-        console.log("ElastosJs ---sendRawTransaction--- ele " + JSON.stringify(ele));
+        console.log("ElastosJs person-write-chain.ts ---sendRawTransaction--- ele " + JSON.stringify(ele));
         let arr = ele["Path"].split("/");
 
         if (arr[1]) {

@@ -62,9 +62,28 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
     let checksum = IDManager.getCheckSum(parms,"asc");
     parms["checksum"] = checksum;
     this.getHttp().postByAuth(ApiUrl.APP_AUTH,parms).toPromise().then().then(data => {
+
+
       if(data["status"] === 200){
         console.log("sssss======="+JSON.stringify(data));
+
         let authResult = JSON.parse(data["_body"]);
+        console.log('ElastosJs----authResult----'+JSON.stringify(authResult));
+
+        if (authResult["data"].length > 0){
+          if (authResult["data"][0]["retdata"]) {
+            let signCont = authResult["data"];
+            if (signCont.length > 0){
+              delete signCont[0]["resultSign"];
+              console.log('ElastosJs----signCont----'+JSON.stringify(signCont));
+              this.dataManager.addSignCont(authResult["data"][0]["retdata"]["signature"], signCont[0]);
+            }
+
+          }
+
+        }
+
+
         if(authResult["errorCode"] === "1"){
           this.messageBox("text-id-kyc-auth-fee-fail");
           return;
