@@ -102,7 +102,7 @@ export class CustomTranslateLoader implements TranslateLoader {
       switch (lang) {
         case 'zh':
         default:
-          observer.next(zh);
+          observer.next(en);
           break;
         case 'en':
           observer.next(en);

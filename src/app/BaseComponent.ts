@@ -55,9 +55,9 @@ export class BaseComponent {
                      public platform  : Platform,
                      private app: App) {
     this.translate.addLangs(['zh', 'en']);
-    this.translate.setDefaultLang('zh');
+    this.translate.setDefaultLang('en');
     const broswerLang = this.translate.getBrowserLang();
-    this.translate.use(broswerLang.match(/en|zh/) ? broswerLang : 'zh');
+    this.translate.use(broswerLang.match(/en|zh/) ? broswerLang : 'en');
 
     this.header = new Header(location, '');
     this.header.backClick = () => {
