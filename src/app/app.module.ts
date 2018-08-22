@@ -93,7 +93,13 @@ import {CompanyWriteChainPage} from '../pages/id/kyc/company-write-chain/company
 import {PersonWriteChainPage} from '../pages/id/kyc/person-write-chain/person-write-chain';
 import {PathlistPage} from '../pages/id/pathlist/pathlist';
 import {PathdetailsPage} from '../pages/id/pathdetails/pathdetails';
-
+import {CompanypathinfoPage} from '../pages/id/companypathinfo/companypathinfo';
+import {BankcardpathinfoPage} from '../pages/id/bankcardpathinfo/bankcardpathinfo';
+import {PhonepathinfoPage} from '../pages/id/phonepathinfo/phonepathinfo';
+import {IdentitypathinfoPage} from '../pages/id/identitypathinfo/identitypathinfo';
+import {IdentityauthPage} from '../pages/id/identityauth/identityauth';
+import {PhoneauthPage} from '../pages/id/phoneauth/phoneauth';
+import {BankcardauthPage} from '../pages/id/bankcardauth/bankcardauth';
 /*id相关页面*/
 
 /** 通过类引用方式解析国家化文件 */
@@ -175,7 +181,14 @@ export function TranslateLoaderFactory() {
     CompanyWriteChainPage,
     PersonWriteChainPage,
     PathlistPage,
-    PathdetailsPage
+    PathdetailsPage,
+    CompanypathinfoPage,
+    BankcardpathinfoPage,
+    PhonepathinfoPage,
+    IdentitypathinfoPage,
+    IdentityauthPage,
+    PhoneauthPage,
+    BankcardauthPage
   ],
   imports: [
     BrowserModule,
@@ -252,7 +265,14 @@ export function TranslateLoaderFactory() {
     CompanyWriteChainPage,
     PersonWriteChainPage,
     PathlistPage,
-    PathdetailsPage
+    PathdetailsPage,
+    CompanypathinfoPage,
+    BankcardpathinfoPage,
+    PhonepathinfoPage,
+    IdentitypathinfoPage,
+    IdentityauthPage,
+    PhoneauthPage,
+    BankcardauthPage
   ],
   providers: [
     StatusBar,

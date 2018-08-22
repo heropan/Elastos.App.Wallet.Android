@@ -4,7 +4,7 @@
 
 <ion-content no-bounce>
     <div class="weui-cells">
-        <div class="weui-cell">
+        <!-- <div class="weui-cell">
             <div class="weui-cell__bd">
                 <p>{{'text-name' | translate }}：</p>
             </div>
@@ -37,7 +37,30 @@
                 <p>{{'text-card' | translate }}：</p>
             </div>
             <div class="weui-cell__ft">{{personValidate["cardNumber"]}}</div>
+        </div> -->
+
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>{{'text-company-name' | translate }}：</p>
+            </div>
+            <div class="weui-cell__ft">{{personValidate["word"]}}</div>
         </div>
+
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>{{'text-company-legal' | translate }}：</p>
+            </div>
+            <div class="weui-cell__ft">{{personValidate["legalPerson"]}}</div>
+        </div>
+
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <p>{{'text-company-code' | translate }}：</p>
+            </div>
+            <div class="weui-cell__ft">{{personValidate["registrationNum"]}}</div>
+        </div>
+
+
     </div>
 </ion-content>
 

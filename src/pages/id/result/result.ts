@@ -1,7 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import {BaseComponent} from "./../../../app/BaseComponent";
 import {IdHomeComponent} from "../../../pages/id/home/home";
-import {KycOrderPage} from "../../../pages/id/kyc/kyc-order/kyc-order";
+import {PathlistPage} from '../../../pages/id/pathlist/pathlist';
 @Component({
   selector: 'id-kyc-result',
   templateUrl: './result.html',
@@ -23,7 +23,7 @@ export class IdResultComponent extends BaseComponent implements OnInit{
   }
 
   check(){
-     this.Go(KycOrderPage,this.parms);
+     this.Go(PathlistPage,this.parms);
   }
 
 }

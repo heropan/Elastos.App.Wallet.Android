@@ -11,7 +11,7 @@ import { Config } from '../../../../providers/Config';
 })
 export class CompanyWriteChainPage extends BaseComponent implements OnInit{
   type: string;
-  approdType:string="company";
+  approdType:string="enterprise";
   businessObj={
     "word":"",
     "legalPerson":"",
@@ -32,13 +32,13 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
  serialNum = "";
  ngOnInit(){
     this.events.subscribe("order:update",(orderStatus,appr)=>{
-           if(appr === "company"){
+           if(appr === "enterprise"){
              this.orderStatus = orderStatus;
            }
     });
     this.setTitleByAssets('text-kyc-result');
     this.idObj = this.getNavParams().data;
-    this.orderStatus = this.idObj["orderStatus"];
+    this.orderStatus = this.idObj["pathStatus"];
     this.serialNum = this.idObj["serialNum"];
     console.log("ngOnInit ====="+JSON.stringify(this.idObj));
     this.did = this.idObj["id"];
@@ -323,7 +323,7 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
         }
       }
 
-      this.setOrderStatus(2);
+      this.setOrderStatus(4);
       //this.messageBox("text-id-kyc-china");
     })
   }
@@ -393,8 +393,7 @@ getDepositTransaction(){
        let serids = Config.getSerIds();
        let serid = serids[this.serialNum];
        let did = serid["id"];
-       let appName = serid["appName"];
-       let appr = serid["appr"];
+       let path = serid["path"];
        let idsObj = {};
        this.localStorage.getKycList("kycId").then((val)=>{
            if(val == null || val === undefined || val === {} || val === ''){
@@ -402,7 +401,7 @@ getDepositTransaction(){
              return;
            }
         idsObj = JSON.parse(val);
-        idsObj[did][appName][appr]["order"][this.serialNum]["status"] = status;
+        idsObj[did][path][this.serialNum]["pathStatus"] = status;
         this.localStorage.set("kycId",idsObj).then(()=>{
           console.info("setOrderStatus  end  status " + status);
                  this.orderStatus = status;
