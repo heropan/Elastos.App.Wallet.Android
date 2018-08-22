@@ -65,7 +65,9 @@ export class ImportComponent extends BaseComponent implements OnInit {
                       this.keyStoreContent,this.importFileObj.backupPassWord,
                       this.importFileObj.payPassword,this.importFileObj.phrasePassword,
                       ()=>{
-                             this.getAllCreatedSubWallets();
+                        this.walletManager.createSubWallet("ELA", this.importFileObj.payPassword, false, 0, (val)=>{
+                        });
+                        this.getAllCreatedSubWallets();
                       });
   }
 
@@ -108,17 +110,17 @@ export class ImportComponent extends BaseComponent implements OnInit {
   importWalletWithMnemonic(){
     let mnemonic = this.normalizeMnemonic(this.normalizeMnemonic(this.mnemonicObj.mnemonic));
     this.walletManager.importWalletWithMnemonic("1",mnemonic,this.mnemonicObj.phrasePassword,this.mnemonicObj.payPassword,this.getMnemonicLang(),()=>{
-                 this.messageBox('import-text-world-sucess');
-                 this.localStorage.remove('coinListCache').then(()=>{
-                 this.localStorage.setWallet({
-                  'name': "ELA-Wallet"
-                   }).then(()=>{
-                    //this.Go(TabsComponent);
-                    this.setRootRouter(TabsComponent);
-                  });
-});
-
-
+                this.walletManager.createSubWallet("ELA", this.mnemonicObj.payPassword, false, 0, (val)=>{
+                });
+                this.messageBox('import-text-world-sucess');
+                this.localStorage.remove('coinListCache').then(()=>{
+                this.localStorage.setWallet({
+                'name': "ELA-Wallet"
+                 }).then(()=>{
+                  //this.Go(TabsComponent);
+                  this.setRootRouter(TabsComponent);
+                });
+      });
     });
   }
 
