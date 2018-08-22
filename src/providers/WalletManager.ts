@@ -108,7 +108,7 @@ export class WalletManager {
    * @param Fun
    */
   importWalletWithMnemonic(masterWalletId:string,mnemonic: string, phrasePassword: string, payPassword,language:string, Fun) {
-    this.wallet.createMasterWallet([masterWalletId,mnemonic,phrasePassword, payPassword,language], Fun, this.errorFun);
+    this.wallet.importWalletWithMnemonic([masterWalletId,mnemonic,phrasePassword, payPassword,language], Fun, this.errorFun);
   }
 
   /**
