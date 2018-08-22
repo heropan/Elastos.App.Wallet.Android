@@ -122,8 +122,8 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
   }
 
   onItem(item){
-     this.Go(IdAppListComponent,{"id":item.id});
-    //this.Go(PathlistPage,{"id":item.id});
+     //this.Go(IdAppListComponent,{"id":item.id});
+     this.Go(PathlistPage,{"id":item.id});
   }
 
   createDID(){
@@ -148,7 +148,7 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
 
             let serialNum =  seqNumObj["serialNum"] ;
             console.info("home.ts ElastosJs createDID serialNum "+ serialNum);
-            self.setOrderStatus(3,serialNum);
+            self.setOrderStatus(5,serialNum);
             //alert("home.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
 
             /*for(let ele of valueObj["Contents"]){
@@ -205,10 +205,8 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
     console.info("setOrderStatus serids" + JSON.stringify(serids));
 
     let did = serid["id"];
-    let appName = serid["appName"];
-    let appr = serid["appr"];
-
-    console.info("setOrderStatus appr" + appr);
+    let path = serid["path"];
+    console.info("setOrderStatus appr" + path);
 
     let idsObj = {};
     this.localStorage.getKycList("kycId").then((val)=>{
@@ -216,9 +214,9 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
              return;
         }
      idsObj = JSON.parse(val);
-     idsObj[did][appName][appr]["order"][serialNum]["status"] = status;
+     idsObj[did][path][serialNum]["status"] = status;
      this.localStorage.set("kycId",idsObj).then(()=>{
-          this.events.publish("order:update",3,appr);
+          this.events.publish("order:update",status,path);
      });
     });
 }

@@ -11,6 +11,10 @@
                     <p class="line-height">{{'text-company-legal' | translate }}：{{item["payObj"]["parms"]["legalPerson"]}}</p>
                     <p class="line-height">{{'text-company-code' | translate }}：{{item["payObj"]["parms"]["registrationNum"]}}</p>
                     <p class="line-height" *ngIf="item['pathStatus']===0">{{'path-status' | translate }}：{{'path-status-no-pay' | translate }}</p>
+                    <p class="line-height" *ngIf="item['pathStatus']===1">{{'path-status' | translate }}：{{'path-status-authing' | translate }}</p>
+                    <p class="line-height" *ngIf="item['pathStatus']===2">{{'path-status' | translate }}：{{'path-status-authed' | translate }}</p>
+                    <p class="line-height" *ngIf="item['pathStatus']===4">{{'path-status' | translate }}：{{'text-data-chain1' | translate }}</p>
+                    <p class="line-height" *ngIf="item['pathStatus']===5">{{'path-status' | translate }}：{{'text-data-chain2' | translate }}</p>
                 </div>
                 <div class="weui-cell__ft"></div>
             </a>

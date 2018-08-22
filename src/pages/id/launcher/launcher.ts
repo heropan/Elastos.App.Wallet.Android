@@ -65,7 +65,6 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
     })
   }
 
-
   setOrderStatus(status,serialNum){
 
     console.info("setOrderStatus begin status " + status +" serialNum " + serialNum);
@@ -77,23 +76,21 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
     console.info("setOrderStatus serids" + JSON.stringify(serids));
 
     let did = serid["id"];
-    let appName = serid["appName"];
-    let appr = serid["appr"];
-
-    console.info("setOrderStatus appr" + appr);
+    let path = serid["path"];
+    console.info("setOrderStatus appr" + path);
 
     let idsObj = {};
     this.localStorage.getKycList("kycId").then((val)=>{
-      if(val == null || val === undefined || val === {} || val === ''){
-        return;
-      }
-      idsObj = JSON.parse(val);
-      idsObj[did][appName][appr]["order"][serialNum]["status"] = status;
-      this.localStorage.set("kycId",idsObj).then(()=>{
-         this.events.publish("order:update",3,appr);
-      });
+        if(val == null || val === undefined || val === {} || val === ''){
+             return;
+        }
+     idsObj = JSON.parse(val);
+     idsObj[did][path][serialNum]["status"] = status;
+     this.localStorage.set("kycId",idsObj).then(()=>{
+          this.events.publish("order:update",status,path);
+     });
     });
-  }
+}
 
 }
 

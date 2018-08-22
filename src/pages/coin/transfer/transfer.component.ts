@@ -202,12 +202,12 @@ export class TransferComponent extends BaseComponent implements OnInit {
           if(authData["errorCode"] === "0"){
                let serialNum = authData["serialNum"];
                let serIds = Config.getSerIds();
-                   serIds[serialNum] = {
-                    "id":this.did,
-                    "appName": "kyc",
-                    "appr": "company",
-                    "txHash":this.txId
-                   }
+               serIds[serialNum] = {
+                "id":this.did,
+                "path":this.selectType,
+                "serialNum":serialNum,
+                "txHash":this.txId
+               };
               Config.setSerIds(serIds);
               this.saveKycSerialNum(serialNum);
           }else{
@@ -237,8 +237,9 @@ sendPersonAuth(parms){
                let serIds = Config.getSerIds();
                serIds[serialNum] = {
                 "id":this.did,
-                "appName": "kyc",
-                "appr": "person"
+                "path":this.selectType,
+                "serialNum":serialNum,
+                "txHash":this.txId
                }
                Config.setSerIds(serIds);
                this.saveKycSerialNum(serialNum);
@@ -255,11 +256,9 @@ sendPersonAuth(parms){
 saveKycSerialNum(serialNum){
      this.localStorage.get("kycId").then((val)=>{
          let idsObj = JSON.parse(val);
-         let order = idsObj[this.did]["kyc"][this.selectType];
-         if(this.isNull(order["order"])){
-             order["order"] = {};
-         }
-         order["order"][serialNum] = {txHash:this.txId,serialNum:serialNum};
+         let serialNumObj = idsObj[this.did][this.selectType][serialNum];
+         serialNumObj["txHash"] = this.txId;
+         serialNumObj["pathStatus"] = 1;
          this.localStorage.set("kycId",idsObj).then((newVal)=>{
           this.Go(IdResultComponent,{'status':'0',id:this.did,appType:this.appType,type:this.selectType});
          });

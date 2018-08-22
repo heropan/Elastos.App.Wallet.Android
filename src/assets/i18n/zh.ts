@@ -233,5 +233,7 @@ export const zh = {
   'text-bankcard-path-deatils':"银行卡详情",
   'path-status':"状态",
   'path-status-no-pay':"未支付",
-  'text-identity-path-deatils':"身份证详情"
+  'text-identity-path-deatils':"身份证详情",
+  'path-status-authing':"认证中",
+  'path-status-authed':"认证通过"
 };
