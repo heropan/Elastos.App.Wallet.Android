@@ -260,7 +260,7 @@ saveKycSerialNum(serialNum){
          serialNumObj["txHash"] = this.txId;
          serialNumObj["pathStatus"] = 1;
          this.localStorage.set("kycId",idsObj).then((newVal)=>{
-          this.Go(IdResultComponent,{'status':'0',id:this.did,appType:this.appType,type:this.selectType});
+          this.Go(IdResultComponent,{'status':'0',id:this.did,path:this.selectType});
          });
      })
 }

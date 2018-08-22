@@ -1,6 +1,5 @@
 import { Component ,OnInit} from '@angular/core';
 import {BaseComponent} from "../../../app/BaseComponent";
-import {PathdetailsPage} from '../../../pages/id/pathdetails/pathdetails';
 import {CompanypathinfoPage} from '../../../pages/id/companypathinfo/companypathinfo';
 import {BankcardpathinfoPage} from '../../../pages/id/bankcardpathinfo/bankcardpathinfo';
 import {PhonepathinfoPage} from '../../../pages/id/phonepathinfo/phonepathinfo';
