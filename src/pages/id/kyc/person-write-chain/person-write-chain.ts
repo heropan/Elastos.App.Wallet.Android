@@ -47,7 +47,7 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
  serialNum = "";
  ngOnInit(){
    this.events.subscribe("order:update",(orderStatus,appr)=>{
-    if(appr === "person"){
+    if(appr != "enterprise"){
       this.orderStatus = orderStatus;
     }
    });
@@ -55,7 +55,7 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
     this.idObj = this.getNavParams().data;
     console.log("ngOnInit ====="+JSON.stringify(this.idObj));
     this.did = this.idObj["id"];
-    this.orderStatus = this.idObj["orderStatus"];
+    this.orderStatus = this.idObj["pathStatus"];
     this.serialNum = this.idObj["serialNum"];
     this.getPerson();
     if(this.isNull(status)){
@@ -336,7 +336,7 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
         }
       }
 
-      this.setOrderStatus(2);
+      this.setOrderStatus(4);
       //this.messageBox("text-id-kyc-china");
     })
   }
@@ -444,26 +444,25 @@ for(let index in obj){
 // }
 
 
-  setOrderStatus(status){
-    console.info("setOrderStatus status begin" + status);
-    let serids = Config.getSerIds();
-    let serid = serids[this.serialNum];
-    let did = serid["id"];
-    let appName = serid["appName"];
-    let appr = serid["appr"];
-    let idsObj = {};
-    this.localStorage.getKycList("kycId").then((val)=>{
+setOrderStatus(status){
+  console.info("setOrderStatus status begin" + status);
+  let serids = Config.getSerIds();
+  let serid = serids[this.serialNum];
+  let did = serid["id"];
+  let path = serid["path"];
+  let idsObj = {};
+  this.localStorage.getKycList("kycId").then((val)=>{
       if(val == null || val === undefined || val === {} || val === ''){
         console.info("setOrderStatus val == null return ");
         return;
       }
-      idsObj = JSON.parse(val);
-      idsObj[did][appName][appr]["order"][this.serialNum]["status"] = status;
-      this.localStorage.set("kycId",idsObj).then(()=>{
-        console.info("setOrderStatus  end  status " + status);
-        this.orderStatus = status;
-      });
-    });
-  }
+   idsObj = JSON.parse(val);
+   idsObj[did][path][this.serialNum]["pathStatus"] = status;
+   this.localStorage.set("kycId",idsObj).then(()=>{
+     console.info("setOrderStatus  end  status " + status);
+            this.orderStatus = status;
+   });
+  });
+}
 }
 

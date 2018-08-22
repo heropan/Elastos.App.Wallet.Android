@@ -4,7 +4,7 @@ import {IdKycCompanyComponent} from "../../../pages/id/kyc/company/company";
 import {IDManager} from "../../../providers/IDManager";
 import {ApiUrl} from "../../../providers/ApiUrl";
 import {CompanyWriteChainPage} from "../../../pages/id/kyc/company-write-chain/company-write-chain";
-import {PersonWriteChainPage} from "../../../pages/id/kyc/person-write-chain/person-write-chain";
+
 @Component({
   selector: 'page-companypathinfo',
   templateUrl: 'companypathinfo.html',
@@ -98,11 +98,7 @@ export class CompanypathinfoPage extends BaseComponent implements OnInit{
          item["pathStatus"] = 2;
          this.idsObj[this.parmar["id"]][this.parmar["path"]][serialNum]= item;
          this.localStorage.set("kycId",this.idsObj).then(()=>{
-          if(this.parmar["path"] === "enterprise"){
             this.Go(CompanyWriteChainPage,item);
-          }else{
-            this.Go(PersonWriteChainPage,item);
-          }
          });
       }
 }
