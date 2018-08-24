@@ -86,6 +86,15 @@ getAppAuth(item){
           //this.params["adata"] = authResult["data"];
           item["adata"] = authResult["data"];
           this.saveSerialNumParm(serialNum,item);
+
+        if (authResult["data"].length > 0){
+          var signCont = JSON.parse(JSON.stringify(authResult["data"][0]));
+          let resultSign = signCont["resultSign"];
+          delete signCont["resultSign"];
+
+          this.dataManager.addSignCont(resultSign, signCont);
+
+        }
       }
      }
   }).catch(error => {

@@ -66,6 +66,7 @@ export class DataManager {
       idJson["DataHash"] = (jsonObj)
 
       console.info("Elastjs OutPutIDJson " + JSON.stringify(idJson));
+      return idJson;
     //}
 
   }

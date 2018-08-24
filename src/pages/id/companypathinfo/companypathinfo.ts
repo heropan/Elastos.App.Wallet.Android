@@ -112,27 +112,10 @@ export class CompanypathinfoPage extends BaseComponent implements OnInit{
               console.log("ElastosJs companypathinfo.ts length ======="+authResult["data"].length);
 
               if (authResult["data"].length > 0){
-
-                console.log("ElastosJs companypathinfo.ts 22222 =======");
-
-
-               // let testClone = authResult["data"].clone();
-                //console.log("ElastosJs companypathinfo.ts testClone ======="+ JSON.stringify(testClone));
                 var signCont = JSON.parse(JSON.stringify(authResult["data"][0]));
-
-                //let signCont = authResult["data"][0].clone();
-                console.log("ElastosJs companypathinfo.ts signCont ======="+ JSON.stringify(signCont));
-
-                console.log("ElastosJs companypathinfo.ts before delete authResult[data] ======="+JSON.stringify(authResult["data"]));
-                  console.log("ElastosJs companypathinfo.ts before delete signCont ======="+JSON.stringify(signCont));
-
-                  let resultSign = signCont["resultSign"];
+                 let resultSign = signCont["resultSign"];
                   delete signCont["resultSign"];
 
-                console.log("ElastosJs companypathinfo.ts after delete authResult[data] ======="+JSON.stringify(authResult["data"]));
-                console.log("ElastosJs companypathinfo.ts after delete signCont ======="+JSON.stringify(signCont));
-
-                  console.log('ElastosJs----signCont----'+JSON.stringify(signCont));
                   this.dataManager.addSignCont(resultSign, signCont);
 
               }

@@ -157,7 +157,7 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
       case "enterprise":
         retContent["word"] = authData["retdata"]["word"];
         retContent["legalPerson"] = authData["retdata"]["legalPerson"];
-        retContent["registrationNum"] = authData["retdata"]["registrationNum"];
+        retContent["registrationNum"] = authData["retdata"]["RegistrationNum"];
         break;
     }
     return retContent;
@@ -202,6 +202,8 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
 }
 * */
   // authData is one of  adata
+
+
   getcontent(authData){
 
     let retContent = {};
@@ -213,18 +215,19 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
       notary : "COOIX"
     }
 
-    console.info(" company getcontent Proof "+ retContent["Proof"]);
+
 
     let valueObj = {};
     valueObj["Proof"] = JSON.stringify(proofObj);
 
 
     let kycContent = this.getKycContent( authData);
-    console.info("company getcontent kycContent "+ JSON.stringify(kycContent));
+    console.info("ElastJs company getcontent kycContent "+ JSON.stringify(kycContent));
+    console.info("ElastJs company getcontent Proof "+ valueObj["Proof"]);
 
-    let authDataHash = IDManager.hash(JSON.stringify(kycContent)+retContent["proof"]);
+    let authDataHash = IDManager.hash(JSON.stringify(kycContent)+valueObj["Proof"]);
 
-    valueObj["DataHash"] = IDManager.hash(authDataHash+retContent["proof"]);
+    valueObj["DataHash"] = IDManager.hash(authDataHash+valueObj["Proof"]);
 
     let idJsonPart = {};
     idJsonPart["hash"] = valueObj["DataHash"];
@@ -233,7 +236,7 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
     this.dataManager.addIdPathJson(this.did, retContent["Path"], idJsonPart)
 
     retContent["Values"].push(valueObj)
-    console.info("company getcontent retContent "+ JSON.stringify(retContent));
+    console.info("ElastJs company getcontent retContent "+ JSON.stringify(retContent));
     return retContent;
   }
 
@@ -371,43 +374,6 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
     })
   }
 
- // sendRawTransaction( rawTransaction){
- //    //alert("sendRawTransaction begin==");
- //
- //    this.walletManager.sendRawTransaction("IdChain",rawTransaction,this.fee,this.passworld,(result)=>{
- //
- //      this.setOrderStatus(2);
- //     let rawTransactionObj = JSON.parse(rawTransaction);
- //
- //      console.log("ElastosJs ---sendRawTransaction---"+"rawTransaction="+JSON.stringify(rawTransactionObj)+"fee="+this.fee);
- //      //console.log("ElastosJs ---sendRawTransaction--- PayLoad"+ JSON.stringify(rawTransactionObj.PayLoad));
- //
- //      if (rawTransactionObj.PayLoad) {
- //        let arr = rawTransactionObj.PayLoad.Path.split("/");
- //        //
- //        if (arr[1]) {
- //
- //          //let proofStr = rawTransactionObj.PayLoad.Proof;
- //          let proofObj = JSON.parse(rawTransactionObj.PayLoad.Proof);
- //          let self = this;
- //          //console.info("ElastosJs this.dataManager 1111111 " + this.dataManager );
- //           this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id,"kyc", arr[1], function (reult : any) {
- //           console.info("ElastosJs reult" + JSON.stringify(reult) );
- //
- //            self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
- //            // if (reult) {
- //            //
- //            // }
- //          });
- //
- //
- //
- //        }
- //
- //      }
- //
- //    })
- // }
 
 
  //从主链转一批钱到测链
