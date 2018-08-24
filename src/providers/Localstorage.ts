@@ -31,12 +31,13 @@ export class LocalStorage {
     return this.storage.get(key);
   }
 
+  // get seqnumobj by id authtype(bankcard phone idcard enterprise) sign
   //key  id
   //appType kyc  and so on
   //authType  person  company
-  public getSeqNumObj(sign : string, key: string, appType : string, authType: string, callback : any ): any {
+  public getSeqNumObj(sign : string, id: string,  authType: string, callback : any ): any {
 
-    console.info( "ElastosJs localstorage getSeqNumObj begin sign " + sign + " key "+ key + " apptype "+ appType+ " authType " + authType);
+    console.info( "ElastosJs localstorage getSeqNumObj begin sign " + sign + " id "+ id + " authType " + authType);
 
     /////////////////
     this.get("kycId").then((val)=>{
@@ -44,21 +45,20 @@ export class LocalStorage {
 
      console.info("ElastosJs getSeqNumObj total     valObj " + JSON.stringify(valObj));
 
-      let  idJsonObj = valObj[key];
+      let  idJsonObj = valObj[id];
 
       //console.info( "ElastosJs localstorage getSeqNumObj idJsonObj " + JSON.stringify(idJsonObj) );
 
       let  seqNumObj;
 
-      if (idJsonObj && idJsonObj[appType]&& idJsonObj[appType][authType] && idJsonObj[appType][authType]["order"])
+      if (idJsonObj &&  idJsonObj[authType] )
       {
 
+        let seqObjs = idJsonObj[authType];
 
-        let order = idJsonObj[appType]&& idJsonObj[appType][authType] && idJsonObj[appType][authType]["order"];
+        console.info( "ElastosJs localstorage getSeqNumObj order " + JSON.stringify(seqObjs));
 
-        console.info( "ElastosJs localstorage getSeqNumObj order " + JSON.stringify(order));
-
-        for(var prop in order){
+        for(var prop in seqObjs){
 
           //sign ==
           //console.info( "ElastosJs localstorage prop " + prop);
@@ -66,19 +66,19 @@ export class LocalStorage {
 
           //console.info( "ElastosJs localstorage prop " + prop + " order.prop.params.adata " + JSON.stringify(order[prop]["params"]["adata"]));
 
-          if ( order[prop]["params"] && order[prop]["params"]["adata"])
+          if ( seqObjs[prop]["adata"])
           {
-            var addataArry = [];
-            addataArry = order[prop]["params"]["adata"];
+            // var addataArry = [];
+            // addataArry = seqObjs[prop]["adata"];
 
-            addataArry.forEach(function (value) {
+            seqObjs[prop]["adata"].forEach(function (value) {
              // console.info( "ElastosJs value " + JSON.stringify(value) + " typeof value " + typeof (value));
-              if (value && value["retdata"]) {
+              if (value && value["resultSign"]) {
 
                 console.info( "ElastosJs value[\"retdata\"] " + JSON.stringify(value["retdata"]));
-                if (sign == value["retdata"]["signature"]) {
+                if (sign == value["resultSign"]) {
 
-                  seqNumObj = order[prop];
+                  seqNumObj = seqObjs[prop];
                   console.info( "ElastosJs localstorage getSeqNumObj ok  seqNumObj " + JSON.stringify(seqNumObj));
                 }
               }

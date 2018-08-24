@@ -54,12 +54,29 @@ export class CompanypathinfoPage extends BaseComponent implements OnInit{
           }
       }
 
-
+/*  authResult[data] 格式
+  [{
+    "type": "enterprise",
+    "result": "success",
+    "retdata": {
+      "app": "b1c0b7028c8c4be3beafc4c4812ae92e",
+      "signature": "04c7a7e1b062d4692172f8bf9cad0b54d99a780d88c674dece9956bead38c228b53ebdaeb7f2d10b2804f7dd18aa764dcf9a12f7e27ccc3b949965db93ffd46a",
+      "RegistrationNum": "911101080804655794",
+      "legalPerson": "詹克团",
+      "word": "北京比特大陆科技有限公司",
+      "authid": "12345678",
+      "ts": "1535090480"
+    },
+    "message": "认证成功",
+    "timestamp": "1535090608902",
+    "resultSign": "304402204187f00b8217b9eaeaad4c7c25ab01479872467443c7a516c68b368d290767ea02205f4130cd5bb904a070978baf2141ecaafb72163b45c21dc64fc48d63ad3ab0c4"
+  }]
+  */
       getAppAuth(item){
         let serialNum = item["serialNum"];
         let txHash =  item["txHash"];
         console.log("getAppAuth======= txHash type "+typeof(txHash));
-        console.log('ElastosJs----getAppAuth----'+"---serialNum---"+serialNum+"---txHash---"+txHash);
+        console.log('ElastosJs companypathinfo.ts----getAppAuth----'+"---serialNum---"+serialNum+"---txHash---"+txHash);
         let timestamp = this.getTimestamp();
         let parms ={"serialNum":serialNum,
                     "txHash":txHash,
@@ -69,8 +86,11 @@ export class CompanypathinfoPage extends BaseComponent implements OnInit{
         parms["checksum"] = checksum;
         this.getHttp().postByAuth(ApiUrl.APP_AUTH,parms).toPromise().then().then(data => {
           if(data["status"] === 200){
-            console.log("sssss======="+JSON.stringify(data));
+            console.log("ElastosJs companypathinfo.ts data ======="+JSON.stringify(data));
             let authResult = JSON.parse(data["_body"]);
+
+            console.log("ElastosJs companypathinfo.ts authResult ======="+JSON.stringify(authResult));
+
             if(authResult["errorCode"] === "1"){
               this.messageBox("text-id-kyc-auth-fee-fail");
               return;
@@ -87,6 +107,35 @@ export class CompanypathinfoPage extends BaseComponent implements OnInit{
                 //this.params["adata"] = authResult["data"];
                 item["adata"] = authResult["data"];
                 this.saveSerialNumParm(serialNum,item);
+
+
+              console.log("ElastosJs companypathinfo.ts length ======="+authResult["data"].length);
+
+              if (authResult["data"].length > 0){
+
+                console.log("ElastosJs companypathinfo.ts 22222 =======");
+
+
+               // let testClone = authResult["data"].clone();
+                //console.log("ElastosJs companypathinfo.ts testClone ======="+ JSON.stringify(testClone));
+                var signCont = JSON.parse(JSON.stringify(authResult["data"][0]));
+
+                //let signCont = authResult["data"][0].clone();
+                console.log("ElastosJs companypathinfo.ts signCont ======="+ JSON.stringify(signCont));
+
+                console.log("ElastosJs companypathinfo.ts before delete authResult[data] ======="+JSON.stringify(authResult["data"]));
+                  console.log("ElastosJs companypathinfo.ts before delete signCont ======="+JSON.stringify(signCont));
+
+                  let resultSign = signCont["resultSign"];
+                  delete signCont["resultSign"];
+
+                console.log("ElastosJs companypathinfo.ts after delete authResult[data] ======="+JSON.stringify(authResult["data"]));
+                console.log("ElastosJs companypathinfo.ts after delete signCont ======="+JSON.stringify(signCont));
+
+                  console.log('ElastosJs----signCont----'+JSON.stringify(signCont));
+                  this.dataManager.addSignCont(resultSign, signCont);
+
+              }
             }
            }
         }).catch(error => {

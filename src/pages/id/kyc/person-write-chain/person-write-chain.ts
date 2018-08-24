@@ -54,7 +54,7 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
     this.setTitleByAssets('text-kyc-result');
     this.idObj = this.getNavParams().data;
     console.log("ngOnInit ====="+JSON.stringify(this.idObj));
-    this.did = this.idObj["id"];
+   this.did = this.idObj["payObj"]["did"];
     this.orderStatus = this.idObj["pathStatus"];
     this.serialNum = this.idObj["serialNum"];
     this.getPerson();
@@ -155,7 +155,7 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
      });
   }
 //////////////////////
-  getKycContent(authType, authData){
+  getKycContent( authData){
 
     let retContent = {};
 
@@ -191,10 +191,10 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
   getcontent(authType, authData){
 
     let retContent = {};
-    retContent["Path"] = 'kyc' +'/' +authType +'/'+ authData["type"];
+    retContent["Path"] = 'kyc' +'/'+ authData["type"];
 
     let proofObj = {
-      signature : authData["retdata"]["signature"],
+      signature : authData["resultSign"],
       notary : "COOIX"
     }
 
@@ -202,7 +202,7 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
 
     console.info("getcontent Proof "+ retContent["Proof"]);
 
-    let kycContent = this.getKycContent(authType, authData);
+    let kycContent = this.getKycContent(authData);
 
     console.info("getcontent kycContent "+ JSON.stringify(kycContent));
 
@@ -328,7 +328,7 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
           let proofObj = JSON.parse(ele["Proof"]);
           let self = this;
 
-          this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id,"kyc", arr[1], function (reult : any) {
+          this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id, arr[1], function (reult : any) {
             console.info("ElastosJs reult" + JSON.stringify(reult) );
             self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
 

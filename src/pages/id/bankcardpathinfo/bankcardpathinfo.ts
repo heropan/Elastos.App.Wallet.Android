@@ -58,7 +58,7 @@ getAppAuth(item){
   let serialNum = item["serialNum"];
   let txHash =  item["txHash"];
   console.log("getAppAuth======= txHash type "+typeof(txHash));
-  console.log('ElastosJs----getAppAuth----'+"---serialNum---"+serialNum+"---txHash---"+txHash);
+  console.log('ElastosJs--bankcardpathinfo.ts--getAppAuth----'+"---serialNum---"+serialNum+"---txHash---"+txHash);
   let timestamp = this.getTimestamp();
   let parms ={"serialNum":serialNum,
               "txHash":txHash,

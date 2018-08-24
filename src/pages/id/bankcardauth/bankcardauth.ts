@@ -87,6 +87,8 @@ export class BankcardauthPage extends BaseComponent implements OnInit{
          let order = idsObj[this.did][this.path];
          order[serialNum] = {serialNum:serialNum,pathStatus:0,payObj:{did:this.did,addr:"EKZCcfqBP1YXiDtJVNdnLQR74QRHKrgFYD",money:this.payMoney,appType:"kyc",chianId:"ELA",selectType:this.path,parms:this.debitCard}};
          this.localStorage.set("kycId",idsObj).then((newVal)=>{
+           this.debitCard["serialNum"] = serialNum;
+
            this.Go(TransferComponent,{did:this.did,addr:"EKZCcfqBP1YXiDtJVNdnLQR74QRHKrgFYD",money:this.payMoney,appType:"kyc",chianId:"ELA",selectType:this.path,parms:this.debitCard});
          });
      })

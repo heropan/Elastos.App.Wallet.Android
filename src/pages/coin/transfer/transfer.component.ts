@@ -171,7 +171,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
         }else if(this.appType === "kyc"){
              if(this.selectType === "enterprise"){
                   this.company();
-             }else if(this.selectType === "person"){
+             }else {
                   this.person();
              }
         }
@@ -196,10 +196,12 @@ export class TransferComponent extends BaseComponent implements OnInit {
     params["deviceID"] = Config.getdeviceID();
     let checksum = IDManager.getCheckSum(params,"asc");
     params["checksum"] = checksum;
+
+    console.info("ElastJs sendCompanyHttp params "+ JSON.stringify(params));
     this.getHttp().postByAuth(ApiUrl.AUTH,params).toPromise().then(data => {
          if(data["status"] === 200){
           let authData= JSON.parse(data["_body"]);
-          console.info("Elastjs authData" + JSON.stringify(authData));
+          console.info("Elastjs sendCompanyHttp authData" + JSON.stringify(authData));
           if(authData["errorCode"] === "0"){
                let serialNum = authData["serialNum"];
                let serIds = Config.getSerIds();
@@ -212,7 +214,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
               Config.setSerIds(serIds);
               this.saveKycSerialNum(serialNum);
           }else{
-              alert("错误码:"+authData["errorCode"]);
+              alert("sendCompanyHttp 错误码:"+authData["errorCode"]);
           }
          }
 
@@ -230,10 +232,12 @@ sendPersonAuth(parms){
       let checksum = IDManager.getCheckSum(parms,"asc");
       parms["checksum"] = checksum;
       console.log("---pesonParm---"+JSON.stringify(parms));
-      this.getHttp().postByAuth(ApiUrl.AUTH,parms).toPromise().then(data=>{
+      console.info("ElastJs sendPersonAuth params "+ JSON.stringify(parms));
+
+  this.getHttp().postByAuth(ApiUrl.AUTH,parms).toPromise().then(data=>{
         if(data["status"] === 200){
           let authData= JSON.parse(data["_body"])
-          console.log('---authData---'+JSON.stringify(authData));
+          console.log('ElastJs sendPersonAuth return data ---authData---'+JSON.stringify(authData));
           if(authData["errorCode"] === "0"){
                let serialNum = authData["serialNum"];
                let serIds = Config.getSerIds();

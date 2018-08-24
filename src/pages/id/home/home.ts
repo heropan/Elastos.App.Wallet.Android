@@ -51,7 +51,7 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
 
                      let serialNum =  seqNumObj["serialNum"] ;
                      console.info("home.ts ElastosJs ngOnInit serialNum "+ serialNum);
-                     self.setOrderStatus(3,serialNum);
+                     self.setOrderStatus(5,serialNum);
                      self.dataManager.OutPutIDJson(data.id, valueObj["Contents"][0]["Path"], proofObj["signature"]);
                     // self.dataManager.addIdPathJson(data.id, valueObj["Contents"][0]["Path"], valueObj);
                    }

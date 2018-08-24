@@ -36,6 +36,7 @@ export class IdentityauthPage extends BaseComponent implements OnInit{
         let order = idsObj[this.did][this.path];
         order[serialNum] = {serialNum:serialNum,pathStatus:0,payObj:{did:this.did,addr:"EKZCcfqBP1YXiDtJVNdnLQR74QRHKrgFYD",money:this.payMoney,appType:"kyc",chianId:"ELA",selectType:this.path,parms:this.personValidate}};
         this.localStorage.set("kycId",idsObj).then((newVal)=>{
+          this.personValidate["serialNum"] = serialNum;
           this.Go(TransferComponent,{did:this.did,addr:"EKZCcfqBP1YXiDtJVNdnLQR74QRHKrgFYD",money:this.payMoney,appType:"kyc",chianId:"ELA",selectType:this.path,parms:this.personValidate});
         });
     })

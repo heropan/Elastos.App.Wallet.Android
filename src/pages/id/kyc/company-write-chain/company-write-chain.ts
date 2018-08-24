@@ -38,10 +38,14 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
     });
     this.setTitleByAssets('text-kyc-result');
     this.idObj = this.getNavParams().data;
+
+
+    console.info("ElastJs ngOnInit this.idObj " + JSON.stringify(this.idObj));
+
     this.orderStatus = this.idObj["pathStatus"];
     this.serialNum = this.idObj["serialNum"];
     console.log("ngOnInit ====="+JSON.stringify(this.idObj));
-    this.did = this.idObj["id"];
+    this.did = this.idObj["payObj"]["did"];
     this.getCompany();
     if(this.isNull(status)){
       this.type = '0';
@@ -126,7 +130,7 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
   }
 
 //////////////////////
-  getKycContent(authType, authData){
+  getKycContent( authData){
 
     let retContent = {};
 
@@ -153,20 +157,59 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
       case "enterprise":
         retContent["word"] = authData["retdata"]["word"];
         retContent["legalPerson"] = authData["retdata"]["legalPerson"];
-        retContent["registrationNum"] = authData["retdata"]["RegistrationNum"];
+        retContent["registrationNum"] = authData["retdata"]["registrationNum"];
         break;
     }
     return retContent;
   }
 // authtype is one of  person company
-  getcontent(authType, authData){
+/*
+*
+* {
+	"serialNum": "VIN1533555041238630",
+	"pathStatus": 2,
+	"payObj": {
+		"did": "ihWrYTvJ4FYHBuQ5mwmTNTVXenSfvWHDy9",
+		"addr": "EKZCcfqBP1YXiDtJVNdnLQR74QRHKrgFYD",
+		"money": "0.1",
+		"appType": "kyc",
+		"chianId": "ELA",
+		"selectType": "enterprise",
+		"parms": {
+			"type": "enterprise",
+			"word": "北京比特大陆科技有限公司",
+			"legalPerson": "詹克团",
+			"registrationNum": "911101080804655794",
+			"serialNum": "VIN1533555041238630"
+		}
+	},
+	"txHash": "fc812077fba108ab407166eb284b3780ad03da893d73f118ffb241c9533128af",
+	"adata": [{
+		"type": "enterprise",
+		"result": "success",
+		"retdata": {
+			"app": "b1c0b7028c8c4be3beafc4c4812ae92e",
+			"signature": "04c7a7e1b062d4692172f8bf9cad0b54d99a780d88c674dece9956bead38c228b53ebdaeb7f2d10b2804f7dd18aa764dcf9a12f7e27ccc3b949965db93ffd46a",
+			"RegistrationNum": "911101080804655794",
+			"legalPerson": "詹克团",
+			"word": "北京比特大陆科技有限公司",
+			"authid": "12345678",
+			"ts": "1535090480"
+		},
+		"message": "认证成功",
+		"timestamp": "1535090608902"
+	}]
+}
+* */
+  // authData is one of  adata
+  getcontent(authData){
 
     let retContent = {};
-    retContent["Path"] = 'kyc' +'/' +authType +'/'+ authData["type"];
+    retContent["Path"] = 'kyc' +'/' + authData["type"];
     retContent["Values"] = [];
 
     let proofObj = {
-      signature : authData["retdata"]["signature"],
+      signature : authData["resultSign"],
       notary : "COOIX"
     }
 
@@ -176,7 +219,7 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
     valueObj["Proof"] = JSON.stringify(proofObj);
 
 
-    let kycContent = this.getKycContent(authType, authData);
+    let kycContent = this.getKycContent( authData);
     console.info("company getcontent kycContent "+ JSON.stringify(kycContent));
 
     let authDataHash = IDManager.hash(JSON.stringify(kycContent)+retContent["proof"]);
@@ -208,7 +251,7 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
     let params = this.idObj;//
 
     for (let ele of params.adata) {
-      content = this.getcontent(params.type , ele);
+      content = this.getcontent( ele);
       signMessage["Contents"].push(content);
     }
 
@@ -314,8 +357,8 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
           for (let valueObj of ele["Values"]){
             let proofObj = JSON.parse(valueObj["Proof"]);
 
-            this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id,"kyc", arr[1], function (reult : any) {
-              console.info("ElastosJs reult" + JSON.stringify(reult) );
+            this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id, arr[1], function (reult : any) {
+              console.info("ElastosJs reult " + JSON.stringify(reult) );
               self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
 
             });
