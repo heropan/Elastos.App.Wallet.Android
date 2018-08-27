@@ -368,6 +368,7 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
           }
         }
       }
+      console.log("ElastosJs company-write-chain setOrderStatus(4) ");
 
       this.setOrderStatus(4);
       //this.messageBox("text-id-kyc-china");
@@ -398,7 +399,7 @@ getDepositTransaction(){
  }
 
  setOrderStatus(status){
-       console.info("setOrderStatus status begin" + status);
+       console.info("ElastJs setOrderStatus status begin" + status);
        let serids = Config.getSerIds();
        let serid = serids[this.serialNum];
        let did = serid["id"];
@@ -412,7 +413,7 @@ getDepositTransaction(){
         idsObj = JSON.parse(val);
         idsObj[did][path][this.serialNum]["pathStatus"] = status;
         this.localStorage.set("kycId",idsObj).then(()=>{
-          console.info("setOrderStatus  end  status " + status);
+          console.info("ElastJs setOrderStatus  end  status " + status);
                  this.orderStatus = status;
         });
        });
