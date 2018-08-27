@@ -39,7 +39,7 @@ import io.ionic.starter.MyUtil;
  * wallet webview jni
  */
 public class Wallet extends CordovaPlugin {
-    private static final String TAG = "Wallet.java";
+    private static final String TAG = "Wallet";
     private IMasterWallet mCurrentMasterWallet;
     private MasterWalletManager mWalletManager;
     private ArrayList<IMasterWallet> mMasterWalletList = new ArrayList<IMasterWallet>();
@@ -253,7 +253,8 @@ public class Wallet extends CordovaPlugin {
     //CreateSubWallet(String chainID, String payPassword, boolean singleAddress, long feePerKb)
     public void createSubWallet(JSONArray args, CallbackContext callbackContext) throws JSONException {
         try {
-            Log.i(TAG, "createSubWallet, id="+args.getString(0));
+            Log.i(TAG, "createSubWallet, id="+args.getString(0) + ", singleAddress=" +
+					args.getBoolean(2) + ", feePerKb=" + args.getLong(3));
             ISubWallet subWallet = mCurrentMasterWallet.CreateSubWallet(args.getString(0), args.getString(1), args.getBoolean(2), args.getLong(3));
             if (subWallet != null) {
                 mSubWalletMap.put(args.getString(0), subWallet);
@@ -261,6 +262,7 @@ public class Wallet extends CordovaPlugin {
                 Log.i(TAG, "createSubWallet OK, subWallet=["+subWallet+"]");
             }
             else {
+				Log.e(TAG, "createSubWallet error: subWallet = null");
                 callbackContext.error("CreateSubWallet failed.");
             }
         }

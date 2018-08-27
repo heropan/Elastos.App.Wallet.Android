@@ -12,6 +12,7 @@ public class IMasterWallet {
         public static String MAIN = "ELA";
         public static String ID = "IdChain";
     }
+	static public String TAG = "IMasterWallet";
 
     private long mMasterProxy;
 
@@ -37,33 +38,32 @@ public class IMasterWallet {
         if ((!CHAINID.MAIN.equals(chainID)) && (!CHAINID.ID.equals(chainID))) {
             throw new WalletException("Not support the other sidechain now.");
         }
-        Log.i("JS-Wallet-IMasterWallet", "CreateSubWallet==================0, chainID=["+chainID+"]");
+        Log.i(TAG, "CreateSubWallet: chainID=" + chainID + ", singleAddress=" + singleAddress + ", feePerKb=" + feePerKb);
 
         long subProxy = nativeCreateSubWallet(mMasterProxy, chainID, payPassword, singleAddress, feePerKb);
         if (CHAINID.MAIN.equals(chainID)) {
-            Log.i("JS-Wallet-IMasterWallet", "CreateSubWallet==================0, chainID=["+chainID+"]====1");
             return new IMainchainSubWallet(subProxy);
         }
         else if (CHAINID.ID.equals(chainID)) {
-            Log.i("JS-Wallet-IMasterWallet", "CreateSubWallet==================0, chainID=["+chainID+"]====2");
             return new IIdChainSubWallet(subProxy);
         }
 
-        Log.i("JS-Wallet-IMasterWallet", "CreateSubWallet==================0, chainID=["+chainID+"]====3");
+        Log.e(TAG, "CreateSubWallet error: unsupport chainID="+chainID);
         throw new WalletException("Not support the other sidechain now..");
         // return new ISubWallet(subProxy);
     }
 
     public ISubWallet RecoverSubWallet(String chainID, String payPassword, boolean singleAddress, int limitGap, long feePerKb) throws WalletException {
         long subProxy = nativeRecoverSubWallet(mMasterProxy, chainID, payPassword, singleAddress, limitGap, feePerKb);
+		Log.i(TAG, "RecoverSubWallet: chainID="+chainID+", singleAddress=" +
+				singleAddress + ", limitGap=" + limitGap + ", feePerKb=" + feePerKb);
         if (CHAINID.MAIN.equals(chainID)) {
-            Log.i("JS-Wallet-IMasterWallet", "RecoverSubWallet==================0, chainID=["+chainID+"]====1");
             return new IMainchainSubWallet(subProxy);
         }
         else if (CHAINID.ID.equals(chainID)) {
-            Log.i("JS-Wallet-IMasterWallet", "RecoverSubWallet==================0, chainID=["+chainID+"]====2");
             return new IIdChainSubWallet(subProxy);
         }
+		Log.e(TAG, "RecoverSubWallet error: unsupport chainID=" + chainID);
         throw new WalletException("Not support the other sidechain now..");
     }
 
