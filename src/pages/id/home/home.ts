@@ -2,7 +2,6 @@ import { Component,OnInit } from '@angular/core';
 import {BaseComponent} from "./../../../app/BaseComponent";
 import {IdImportComponent} from "../../../pages/id/import/import";
 import {IdManagerComponent} from "../../../pages/id/manager/manager";
-import {IdAppListComponent} from "../../../pages/id/app-list/app-list";
 import {TabsComponent} from "../../../pages/tabs/tabs.component";
 import { Config } from '../../../providers/Config';
 import {PathlistPage} from '../../../pages/id/pathlist/pathlist';

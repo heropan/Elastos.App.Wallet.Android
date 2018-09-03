@@ -85,7 +85,6 @@ import {IdManagerComponent} from '../pages/id/manager/manager';
 import {IdKycPersonComponent} from '../pages/id/kyc/person/person';
 import {IdKycCompanyComponent} from '../pages/id/kyc/company/company';
 import {IdKycResultComponent} from '../pages/id/kyc/result/result';
-import {IdAppListComponent} from '../pages/id/app-list/app-list';
 import {IdResultComponent} from '../pages/id/result/result';
 import {KycOperationPage} from '../pages/id/kyc/kyc-operation/kyc-operation';
 import {KycOrderPage} from '../pages/id/kyc/kyc-order/kyc-order';
@@ -173,7 +172,6 @@ export function TranslateLoaderFactory() {
     IdKycPersonComponent,
     IdKycCompanyComponent,
     IdKycResultComponent,
-    IdAppListComponent,
     IdResultComponent,
     kycSelectTypeComponent,
     KycOperationPage,
@@ -257,7 +255,6 @@ export function TranslateLoaderFactory() {
     IdKycPersonComponent,
     IdKycCompanyComponent,
     IdKycResultComponent,
-    IdAppListComponent,
     IdResultComponent,
     kycSelectTypeComponent,
     KycOperationPage,
