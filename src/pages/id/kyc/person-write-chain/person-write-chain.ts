@@ -197,21 +197,44 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
       signature : authData["resultSign"],
       notary : "COOIX"
     }
+/////////////////
 
-    retContent["Proof"] = JSON.stringify(proofObj);
+    let valueObj = {};
+    valueObj["Proof"] = JSON.stringify(proofObj);
 
-    console.info("getcontent Proof "+ retContent["Proof"]);
 
-    let kycContent = this.getKycContent(authData);
+    let kycContent = this.getKycContent( authData);
+    console.info("ElastJs company getcontent kycContent "+ JSON.stringify(kycContent));
+    console.info("ElastJs company getcontent Proof "+ valueObj["Proof"]);
 
-    console.info("getcontent kycContent "+ JSON.stringify(kycContent));
+    let authDataHash = IDManager.hash(JSON.stringify(kycContent)+valueObj["Proof"]);
 
-    let authDataHash = IDManager.hash(JSON.stringify(kycContent)+retContent["Proof"]);
-    retContent["DataHash"] = IDManager.hash(authDataHash+retContent["Proof"]);
+    valueObj["DataHash"] = IDManager.hash(authDataHash+valueObj["Proof"]);
 
-    console.info("getcontent retContent "+ JSON.stringify(retContent));
+    let idJsonPart = {};
+    idJsonPart["hash"] = valueObj["DataHash"];
+    idJsonPart["KycContent"] = kycContent;
+    idJsonPart["Proof"] = valueObj["Proof"];
+    this.dataManager.addIdPathJson(this.did, retContent["Path"], idJsonPart)
 
+    retContent["Values"].push(valueObj)
+    console.info("ElastJs company getcontent retContent "+ JSON.stringify(retContent));
     return retContent;
+    ////////////////
+    // retContent["Proof"] = JSON.stringify(proofObj);
+    //
+    // console.info("getcontent Proof "+ retContent["Proof"]);
+    //
+    // let kycContent = this.getKycContent(authData);
+    //
+    // console.info("getcontent kycContent "+ JSON.stringify(kycContent));
+    //
+    // let authDataHash = IDManager.hash(JSON.stringify(kycContent)+retContent["Proof"]);
+    // retContent["DataHash"] = IDManager.hash(authDataHash+retContent["Proof"]);
+    //
+    // console.info("getcontent retContent "+ JSON.stringify(retContent));
+
+    //return retContent;
   }
 
   caulmessageNew(){
@@ -325,14 +348,28 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
 
         if (arr[1]) {
 
-          let proofObj = JSON.parse(ele["Proof"]);
+
           let self = this;
+          //iterat values
+          for (let valueObj of ele["Values"]){
+            let proofObj = JSON.parse(valueObj["Proof"]);
 
-          this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id, arr[1], function (reult : any) {
-            console.info("ElastosJs reult" + JSON.stringify(reult) );
-            self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
+            this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id, arr[1], function (reult : any) {
+              console.info("ElastosJs reult " + JSON.stringify(reult) );
+              self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
 
-          });
+            });
+          }
+          // let proofObj = JSON.parse(ele["Proof"]);
+          // let self = this;
+          //
+          // this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id, arr[1], function (reult : any) {
+          //   console.info("ElastosJs reult" + JSON.stringify(reult) );
+          //   self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
+          //
+          // });
+
+
         }
       }
 
