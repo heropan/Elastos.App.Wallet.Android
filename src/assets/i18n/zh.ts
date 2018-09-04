@@ -235,5 +235,6 @@ export const zh = {
   'path-status-no-pay':"未支付",
   'text-identity-path-deatils':"身份证详情",
   'path-status-authing':"认证中",
-  'path-status-authed':"认证通过"
+  'path-status-authed':"认证通过",
+  'phone-path-deatils':"手机认证详情"
 };

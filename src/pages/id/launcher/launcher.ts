@@ -87,7 +87,7 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
              return;
         }
      idsObj = JSON.parse(val);
-     idsObj[did][path][serialNum]["status"] = status;
+     idsObj[did][path][serialNum]["pathStatus"] = status;
      this.localStorage.set("kycId",idsObj).then(()=>{
           this.events.publish("order:update",status,path);
      });

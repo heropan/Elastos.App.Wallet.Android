@@ -39,8 +39,8 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
                    let valueObj = JSON.parse(data["value"]) ;
 
                    console.info("home.ts ElastosJs ngOnInit registerIdListener valueObj "+ JSON.stringify(valueObj));
-                   console.info("home.ts ElastosJs ngOnInit registerIdListener valueObj[\"Contents\"].length  "+ valueObj["Contents"].length);
-                   console.info("home.ts ElastosJs ngOnInit registerIdListener Proof "+ valueObj["Contents"][0]["Values"][0]["Proof"] );
+                   //console.info("home.ts ElastosJs ngOnInit registerIdListener valueObj[\"Contents\"].length  "+ valueObj["Contents"].length);
+                   //console.info("home.ts ElastosJs ngOnInit registerIdListener Proof "+ valueObj["Contents"][0]["Values"][0]["Proof"] );
 
                    if((valueObj["Contents"].length > 0) && (valueObj["Contents"][0]["Values"].length > 0) && valueObj["Contents"][0]["Values"][0]["Proof"] ){
 
@@ -270,27 +270,37 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
 
   setOrderStatus(status,serialNum){
 
-    console.info("setOrderStatus begin status " + status +" serialNum " + serialNum);
+    console.info("ElastJs setOrderStatus begin status " + status +" serialNum " + serialNum);
 
     let serids = Config.getSerIds();
     let serid = serids[serialNum];
 
-    console.info("setOrderStatus serid" + JSON.stringify(serid));
-    console.info("setOrderStatus serids" + JSON.stringify(serids));
+    console.info("ElastJs setOrderStatus serid " + JSON.stringify(serid));
+    console.info("ElastJs setOrderStatus serids " + JSON.stringify(serids));
 
     let did = serid["id"];
     let path = serid["path"];
-    console.info("setOrderStatus appr" + path);
+    console.info("ElastJs setOrderStatus appr " + path);
 
     let idsObj = {};
     this.localStorage.getKycList("kycId").then((val)=>{
+
+      console.info("ElastJs setOrderStatus getKycList " + val);
         if(val == null || val === undefined || val === {} || val === ''){
-             return;
+          console.info("ElastJs setOrderStatus getKycList err return ");
+
+          return;
         }
      idsObj = JSON.parse(val);
-     idsObj[did][path][serialNum]["status"] = status;
+
+      console.info("ElastJs setOrderStatus before chg status did "+ did + " path "+path + " serialNum "+ serialNum + " status "+ status);
+
+      idsObj[did][path][serialNum]["pathStatus"] = status;
+
      this.localStorage.set("kycId",idsObj).then(()=>{
           this.events.publish("order:update",status,path);
+       console.info("ElastJs setOrderStatus pulish order ");
+
      });
     });
 }

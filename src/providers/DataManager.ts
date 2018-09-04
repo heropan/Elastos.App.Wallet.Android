@@ -32,6 +32,7 @@ export class DataManager {
       this.idPathJson[Id][Path] =[]
     }
     this.idPathJson[Id][Path].push(objJson);
+    console.info("ElastosJs DataManager addIdPathJson end Id "+ Id +" Path" + Path + "objJson "+ JSON.stringify(objJson));
 
   }
 

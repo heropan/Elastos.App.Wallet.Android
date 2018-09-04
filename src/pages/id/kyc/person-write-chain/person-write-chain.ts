@@ -46,15 +46,23 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
  orderStatus = 0;
  serialNum = "";
  ngOnInit(){
+   let self = this;
    this.events.subscribe("order:update",(orderStatus,appr)=>{
-    if(appr != "enterprise"){
-      this.orderStatus = orderStatus;
-    }
+     console.log("ElastJs ngOnInit  orderStatus "+orderStatus + " appr " + appr);
+
+     if(appr != "enterprise"){
+
+       self.orderStatus = orderStatus;//
+       console.log("ElastJs ngOnInit appr !=orderStatus "+orderStatus + " appr " + appr);
+
+     }
    });
     this.setTitleByAssets('text-kyc-result');
     this.idObj = this.getNavParams().data;
-    console.log("ngOnInit ====="+JSON.stringify(this.idObj));
+    console.log("ElastJs ngOnInit idObj"+JSON.stringify(this.idObj));
    this.did = this.idObj["payObj"]["did"];
+
+   console.info("ElastJs ngOnInit pathStatus " +this.idObj["pathStatus"])
     this.orderStatus = this.idObj["pathStatus"];
     this.serialNum = this.idObj["serialNum"];
     this.getPerson();
@@ -66,7 +74,9 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
     this.setLeftIcon('',()=>{
            this.Go(IdHomeComponent);
     });
-  }
+   console.info("ElastJs ngOnInit end " )
+
+ }
   getPerson(){
     this.pageObj = this.getPageObj(this.idObj["adata"]);
     let index = this.idObj["adata"].length-1;
@@ -192,7 +202,7 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
 
     let retContent = {};
     retContent["Path"] = 'kyc' +'/'+ authData["type"];
-
+    retContent["Values"] =[];
     let proofObj = {
       signature : authData["resultSign"],
       notary : "COOIX"
@@ -216,6 +226,8 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
     idJsonPart["KycContent"] = kycContent;
     idJsonPart["Proof"] = valueObj["Proof"];
     this.dataManager.addIdPathJson(this.did, retContent["Path"], idJsonPart)
+
+    console.info("ElastJs company getcontent retContent before push ");
 
     retContent["Values"].push(valueObj)
     console.info("ElastJs company getcontent retContent "+ JSON.stringify(retContent));
@@ -447,6 +459,8 @@ for(let index in obj){
 setOrderStatus(status){
   console.info("ElastJs setOrderStatus status begin" + status);
   let serids = Config.getSerIds();
+  console.info("ElastJs setOrderStatus status serids" + JSON.stringify(serids));
+
   let serid = serids[this.serialNum];
   let did = serid["id"];
   let path = serid["path"];

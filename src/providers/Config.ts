@@ -57,6 +57,7 @@ export class Config {
   }
 
   public static setSerIds(serIds){
+        console.info("Elastjs setSerIds serIds " + JSON.stringify(serIds));
         this.serIds = serIds;
   }
 
@@ -73,28 +74,26 @@ export class Config {
              let id =  key;
              let idObj = ids[id];
              let path = "enterprise";
-               if(!idObj[path]){
-                  break;
+               if(idObj[path]){
+                 this.add(ids,newIds,id,path);
                 }
-             this.add(ids,newIds,id,path);
 
              path = "identityCard";
-               if(!idObj[path]){
-                  break;
-                }
-                this.add(ids,newIds,id,path);
+               if(idObj[path]){
+                 this.add(ids,newIds,id,path);
+               }
 
                 path = "phone";
-               if(!idObj[path]){
-                  break;
-                }
-              this.add(ids,newIds,id,path);
+               if(idObj[path]){
+                 this.add(ids,newIds,id,path);
+
+               }
 
                path = "bankCard";
-               if(!idObj[path]){
-                  break;
-                }
-              this.add(ids,newIds,id,path);
+               if(idObj[path]){
+                 this.add(ids,newIds,id,path);
+
+               }
           }
 
           return newIds;

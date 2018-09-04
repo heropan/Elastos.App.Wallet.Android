@@ -21,7 +21,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
     amount: '',
     memo: '',
     fee: 0,
-    payPassword:'',
+    payPassword:'s12345678',//hptest
     remark:'',
   };
 
@@ -239,7 +239,10 @@ sendPersonAuth(parms){
           let authData= JSON.parse(data["_body"])
           console.log('ElastJs sendPersonAuth return data ---authData---'+JSON.stringify(authData));
           if(authData["errorCode"] === "0"){
-               let serialNum = authData["serialNum"];
+
+            console.log('ElastJs sendPersonAuth errorCode == 0');
+
+            let serialNum = authData["serialNum"];
                let serIds = Config.getSerIds();
                serIds[serialNum] = {
                 "id":this.did,
@@ -247,6 +250,7 @@ sendPersonAuth(parms){
                 "serialNum":serialNum,
                 "txHash":this.txId
                }
+               console.log('ElastJs sendPersonAuth selectType '+ this.selectType +" serialNum " + serialNum);
                Config.setSerIds(serIds);
                this.saveKycSerialNum(serialNum);
           }else{
@@ -260,7 +264,9 @@ sendPersonAuth(parms){
 }
 
 saveKycSerialNum(serialNum){
-     this.localStorage.get("kycId").then((val)=>{
+  console.log('ElastJs saveKycSerialNum serialNum begin'+ serialNum);
+
+  this.localStorage.get("kycId").then((val)=>{
          let idsObj = JSON.parse(val);
          let serialNumObj = idsObj[this.did][this.selectType][serialNum];
          serialNumObj["txHash"] = this.txId;

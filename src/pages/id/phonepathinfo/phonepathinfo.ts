@@ -15,7 +15,7 @@ export class PhonepathinfoPage  extends BaseComponent implements OnInit{
   ngOnInit(){
    this.parmar = this.getNavParams().data;
    console.log("---path---"+JSON.stringify(this.parmar));
-   this.setTitleByAssets("text-identity-path-deatils");
+   this.setTitleByAssets("phone-path-deatils");
    this.localStorage.get("kycId").then((val)=>{
     if(val == null || val === undefined || val === {} || val === ''){
       return;

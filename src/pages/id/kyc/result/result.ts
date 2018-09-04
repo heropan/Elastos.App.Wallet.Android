@@ -115,7 +115,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
                 this.messageBox("text-id-kyc-prompt-password");
                 return;
               }
-              this.passworld = val.toString();
+              this.passworld = val.toString();//
               this.caulmessageNew();
     }).catch(()=>{
 
