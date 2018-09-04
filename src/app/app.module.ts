@@ -75,7 +75,7 @@ import {FileChooser} from "@ionic-native/file-chooser";
 
 import {TestJniComponent} from '../pages/testjni/testjni.component';
 import {kycSelectTypeComponent} from "../pages/id/kyc/selecttype/create"
-
+import {ComponentsModule} from "../components/components.module";
 /*id相关页面*/
 import {IdLauncherComponent} from '../pages/id/launcher/launcher';
 import {IdHomeComponent} from '../pages/id/home/home';
@@ -205,6 +205,7 @@ export function TranslateLoaderFactory() {
       name: '__walletdb',
       driverOrder: ['localstorage','indexeddb', 'sqlite', 'websql']
     }),
+    ComponentsModule,
     WeUiModule.forRoot()
   ],
   bootstrap: [IonicApp],

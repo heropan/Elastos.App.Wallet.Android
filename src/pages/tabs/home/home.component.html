@@ -21,13 +21,16 @@
 
         <li class="weui-cell weui-cell_access" (click)="onItem(ElaObj)">
             <div class="weui-cell__hd">
-                <img src="./assets/images/logo-maincolor.svg" alt="" class="home-list-img"></div>
+                <img src="./assets/images/logo-maincolor.svg" alt="" class="home-list-img">
+            </div>
             <div class="weui-cell__bd home-list-title">
                 {{ElaObj.name}}
             </div>
             <div class="weui-cell__ft"><span [hidden]="!wallet.showBalance">{{ElaObj.balance}}</span></div>
         </li>
-
+        <li>
+            <progress-bar total="10" amount="10"></progress-bar>
+        </li>
         <li class="weui-cell weui-cell_access" *ngFor="let item of coinList" (click)="onItem(item)">
             <div class="weui-cell__hd">
                 <img src="./assets/images/logo-maincolor.svg" alt="" class="home-list-img"></div>
@@ -36,7 +39,9 @@
             </div>
             <div class="weui-cell__ft"><span [hidden]="!wallet.showBalance">{{item.balance}}</span></div>
         </li>
-
+        <li>
+            <progress-bar total="10" amount="4"></progress-bar>
+        </li>
     </ul>
 
 </div>
