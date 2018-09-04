@@ -16,7 +16,7 @@ progress-bar {
     .Bar,
     .Bars {
         position: relative;
-        width: 240px;
+        width: 100%;
         border-radius: 9999px;
         /* 宽度 */
         border: 1px solid #B1D632;
@@ -41,7 +41,7 @@ progress-bar {
     .Bar div span,
     .Bars div span {
         position: absolute;
-        width: 240px;
+        width: 100%;
         /* 宽度 */
         text-align: center;
         font-weight: bold;

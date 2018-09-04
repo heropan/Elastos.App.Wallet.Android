@@ -29,7 +29,7 @@
             <div class="weui-cell__ft"><span [hidden]="!wallet.showBalance">{{ElaObj.balance}}</span></div>
         </li>
         <li>
-            <progress-bar total="10" amount="10"></progress-bar>
+            <progress-bar proportion="{{sycObj.elaPer}}"></progress-bar>
         </li>
         <li class="weui-cell weui-cell_access" *ngFor="let item of coinList" (click)="onItem(item)">
             <div class="weui-cell__hd">
@@ -40,7 +40,7 @@
             <div class="weui-cell__ft"><span [hidden]="!wallet.showBalance">{{item.balance}}</span></div>
         </li>
         <li>
-            <progress-bar total="10" amount="4"></progress-bar>
+            <progress-bar proportion="{{sycObj.idChain}}"></progress-bar>
         </li>
     </ul>
 

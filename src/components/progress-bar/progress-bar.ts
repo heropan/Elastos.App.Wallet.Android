@@ -5,11 +5,9 @@ import { Component, Input, OnInit, OnChanges } from '@angular/core';
 })
 export class ProgressBarComponent implements OnInit, OnChanges {
   @Input()
-  total: any;//总数
-  @Input()
-  amount: any;//使用数
-  length: any;//颜色长度
   proportion: any;//比例值
+  length: any;//颜色长度
+
 
   constructor() {
     this.length = {
@@ -24,7 +22,8 @@ export class ProgressBarComponent implements OnInit, OnChanges {
   }
 
   setData(){
-    this.proportion = Math.round(this.amount / this.total * 100);
+    //this.proportion = Math.round(this.amount / this.total * 100);
+    this.proportion = this.proportion*100;
     if (this.proportion) {
       this.proportion += '%';
     } else {
