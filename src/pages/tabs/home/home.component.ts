@@ -10,7 +10,8 @@ import { Config } from '../../../providers/Config';
   templateUrl: './home.component.html'
 })
 export class HomeComponent extends BaseComponent implements OnInit {
-
+  elaPer:string = "0";
+  idChainPer:string = "0";
   wallet = {
     name: 'myWallet',
     showBalance: true
@@ -80,6 +81,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   getAllSubWallets(){
     this.walletManager.getAllSubWallets(()=>{
+      this.sycEla();
+      this.sycIdChain();
      this.getElaBalance(this.ElaObj);
          // wallet balance
     this.localStorage.get('coinListCache').then((val)=>{
@@ -95,5 +98,19 @@ export class HomeComponent extends BaseComponent implements OnInit {
     this.walletManager.getBalance(coin, (data)=>{
       this.coinList.push({name: coin, balance: data.balance/Config.SELA});
     })
+  }
+
+  sycEla(){
+    this.walletManager.registerWalletListener("ELA",(result)=>{
+           this.elaPer = result["progress"]+"";
+           //console.log("========sycEla"+JSON.stringify(result)+"this.elaPer"+this.elaPer);
+    });
+  }
+
+  sycIdChain(){
+    this.walletManager.registerWalletListener("IdChain",(result)=>{
+      this.idChainPer = result["progress"]+"";
+      console.log("========sycIdChain"+JSON.stringify(result));
+    });
   }
 }
