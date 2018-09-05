@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges ,SimpleChanges} from '@angular/core';
 @Component({
   selector: 'progress-bar',
   templateUrl: 'progress-bar.html',
@@ -36,7 +36,7 @@ export class ProgressBarComponent implements OnInit, OnChanges {
     /**
    * 数据变化
    */
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     //重新更新数据
     this.setData();
   }

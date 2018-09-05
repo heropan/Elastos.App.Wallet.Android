@@ -10,7 +10,8 @@ import { Config } from '../../../providers/Config';
   templateUrl: './home.component.html'
 })
 export class HomeComponent extends BaseComponent implements OnInit {
-  sycObj={"elaPer":"0","idChain":"0"};
+  elaPer:string = "0";
+  idChainPer:string = "0";
   wallet = {
     name: 'myWallet',
     showBalance: true
@@ -101,14 +102,14 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   sycEla(){
     this.walletManager.registerWalletListener("ELA",(result)=>{
-           this.sycObj.elaPer = result["progress"];
+           this.elaPer = result["progress"]+"";
            //console.log("========sycEla"+JSON.stringify(result)+"this.elaPer"+this.elaPer);
     });
   }
 
   sycIdChain(){
     this.walletManager.registerWalletListener("IdChain",(result)=>{
-      this.sycObj.idChain = result["progress"];
+      this.idChainPer = result["progress"]+"";
       console.log("========sycIdChain"+JSON.stringify(result));
     });
   }
