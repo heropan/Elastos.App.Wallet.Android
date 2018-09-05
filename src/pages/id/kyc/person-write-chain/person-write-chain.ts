@@ -53,7 +53,7 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
      if(appr != "enterprise"){
 
        self.orderStatus = orderStatus;//
-       console.log("ElastJs ngOnInit appr !=orderStatus "+orderStatus + " appr " + appr);
+       console.log("ElastJs ngOnInit 111 appr !=orderStatus "+orderStatus + " appr " + appr);
 
      }
    });
@@ -283,54 +283,7 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
 ////////////////////////
 
 
-  caulmessage(){
 
-     //kyc 内容
-     let kycContent={};
-    if(this.message["Path"] === "identityCard"){
-            kycContent = this.personObj;
-         this.message["Path"] = 'kyc'+"|"+"person"+"|"+"identityCard";
-     }else if(this.message["Path"] === "phone"){
-            kycContent = this.phoneObj;
-         this.message["Path"] = 'kyc'+"|"+"person"+"|"+"phone";
-     }else if(this.message["Path"] === "bankCard"){
-            kycContent = this.debitObj;
-          this.message["Path"] = 'kyc'+"|"+"person"+"|"+"bankCard";
-     }
-     //kyc 结果
-     let authSign = {
-                     signature:this.signature,
-                     notary:"COOIX"
-                    }
-    console.log("caulmessage this.signature " +this.signature);
-    console.log("caulmessage this.signature " +this.signature);
-
-    let authDataHash = IDManager.hash(JSON.stringify(kycContent)+JSON.stringify(authSign));
-
-    //console.log("caulmessage 2"+ authDataHash);
-
-
-    let kycChainDataHash = IDManager.hash(authDataHash+JSON.stringify(authSign));
-
-    console.log("caulmessage kycChainDataHash.length " +kycChainDataHash.length);
-
-    //console.log("caulmessage 3"+ kycChainDataHash);
-
-    let singObj = {Id:this.did,Path:this.message["Path"],Proof:authSign,DataHash:kycChainDataHash};
-
-     this.walletManager.didSign(this.did,JSON.stringify(singObj),this.passworld,(result)=>{
-      console.log("didSign 4"+ JSON.stringify(result));
-
-       let proofString = JSON.stringify(authSign);
-       //console.log("didSign proofString"+ proofString);
-
-       this.message = {Id:this.did,Path:this.message["Path"],Proof: proofString,DataHash:kycChainDataHash,Sign:result.value};
-       this.didGenerateProgram();
-       //console.log("caulmessage Sign " +result.value + " result.value length "+ result.value.length);
-       //console.log("didSign 5"+ JSON.stringify(this.message));
-
-     });
- }
 
   sendRawTransaction( rawTransaction){
     //alert("sendRawTransaction begin==");
