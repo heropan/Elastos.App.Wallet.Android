@@ -27,10 +27,11 @@ export class ProgressBarComponent implements OnInit, OnChanges {
     if (this.proportion) {
       this.proportion += '%';
     } else {
-      this.proportion = '0%';
+      this.proportion = '0';
     }
-    setTimeout(() => { this.length.width = this.proportion; }
-    , 200);
+    this.length.width = this.proportion;
+    // setTimeout(() => { this.length.width = this.proportion; }
+    // , 200);
   }
 
     /**
@@ -38,6 +39,7 @@ export class ProgressBarComponent implements OnInit, OnChanges {
    */
   ngOnChanges(changes: SimpleChanges) {
     //重新更新数据
+    console.log("--------Ela------"+this.proportion);
     this.setData();
   }
 }

@@ -10,8 +10,10 @@ import { Config } from '../../../providers/Config';
   templateUrl: './home.component.html'
 })
 export class HomeComponent extends BaseComponent implements OnInit {
-  elaPer:string = "0";
-  idChainPer:string = "0";
+  elaPer:any;
+  tempElaPer:any;
+  idChainPer:any;
+  tempIdChinaPer:any;
   wallet = {
     name: 'myWallet',
     showBalance: true
@@ -20,6 +22,13 @@ export class HomeComponent extends BaseComponent implements OnInit {
   coinList = []
 
   ngOnInit() {
+         setInterval(()=>{
+               this.elaPer = this.tempElaPer;
+        },0);
+
+        setInterval(()=>{
+             this.idChainPer = this.tempIdChinaPer;
+        },0);
     this.getAllMasterWallets();
     this.events.subscribe('home:update', () => {
            this.getElaBalance(this.ElaObj);
@@ -82,12 +91,12 @@ export class HomeComponent extends BaseComponent implements OnInit {
   getAllSubWallets(){
     this.walletManager.getAllSubWallets(()=>{
       this.sycEla();
-      this.sycIdChain();
      this.getElaBalance(this.ElaObj);
          // wallet balance
     this.localStorage.get('coinListCache').then((val)=>{
       let coinListCache = JSON.parse(val);
       for (let coin in coinListCache) {
+         this.sycIdChain();
          this.getSubBalance(coin);
       }
     });
@@ -101,16 +110,25 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   sycEla(){
+
     this.walletManager.registerWalletListener("ELA",(result)=>{
-           this.elaPer = result["progress"]+"";
-           //console.log("========sycEla"+JSON.stringify(result)+"this.elaPer"+this.elaPer);
+           if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
+              this.tempElaPer = 1;
+           }else{
+            this.tempElaPer= result["progress"].toFixed(2);
+           }
+
     });
   }
 
   sycIdChain(){
     this.walletManager.registerWalletListener("IdChain",(result)=>{
-      this.idChainPer = result["progress"]+"";
-      console.log("========sycIdChain"+JSON.stringify(result));
+      console.log("----sycIdChain----"+JSON.stringify(result));
+      if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
+        this.tempIdChinaPer = 1;
+      }else{
+        this.tempIdChinaPer  = result["progress"].toFixed(2);
+      }
     });
   }
 }
