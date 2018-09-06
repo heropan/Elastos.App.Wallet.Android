@@ -24,21 +24,19 @@ export class HomeComponent extends BaseComponent implements OnInit {
   ngOnInit() {
          setInterval(()=>{
                this.elaPer = this.tempElaPer;
-        },0);
-
-        setInterval(()=>{
-             this.idChainPer = this.tempIdChinaPer;
+               this.idChainPer = this.tempIdChinaPer;
         },0);
     this.getAllMasterWallets();
     this.events.subscribe('home:update', () => {
            this.getElaBalance(this.ElaObj);
            this.localStorage.get('coinListCache').then((val)=>{
             let coinListCache = JSON.parse(val);
-            this.coinList = [];
+            //this.coinList = [];
             for (let coin in coinListCache) {
-              this.walletManager.getBalance(coin,(data)=>{
-                this.coinList.push({name: coin, balance: data.balance/Config.SELA});
-              })
+              // this.walletManager.getBalance(coin,(data)=>{
+              //   this.coinList.push({name: coin, balance: data.balance/Config.SELA});
+              // })
+              this.getSubBalance(coin);
             }
           });
     });
@@ -105,8 +103,32 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   getSubBalance(coin){
     this.walletManager.getBalance(coin, (data)=>{
-      this.coinList.push({name: coin, balance: data.balance/Config.SELA});
+      if(this.coinList.length === 0){
+          this.coinList.push({name: coin, balance: data.balance/Config.SELA});
+      }else{
+            let index = this.getCoinIndex(coin);
+            if(index!=-1){
+               let item = this.coinList[index];
+                   item["balance"] =  data.balance/Config.SELA;
+                   this.coinList.splice(index,1,item);
+
+            }else{
+                   this.coinList.push({name: coin, balance: data.balance/Config.SELA});
+            }
+      }
+
     })
+  }
+
+  getCoinIndex(coin){
+
+   for(let index = 0; index <this.coinList.length;index++){
+             let item = this.coinList[index];
+              if(coin === item["name"]){
+                    return index;
+              }
+   }
+   return -1;
   }
 
   sycEla(){
@@ -118,16 +140,23 @@ export class HomeComponent extends BaseComponent implements OnInit {
             this.tempElaPer= result["progress"].toFixed(2);
            }
 
+           if(this.tempElaPer === 1){
+            this.getElaBalance(this.ElaObj);
+           }
+
     });
   }
 
   sycIdChain(){
     this.walletManager.registerWalletListener("IdChain",(result)=>{
-      console.log("----sycIdChain----"+JSON.stringify(result));
       if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
         this.tempIdChinaPer = 1;
       }else{
         this.tempIdChinaPer  = result["progress"].toFixed(2);
+      }
+
+      if(this.tempIdChinaPer === 1){
+               this.getSubBalance("IdChain");
       }
     });
   }
