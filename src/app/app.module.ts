@@ -99,6 +99,7 @@ import {IdentitypathinfoPage} from '../pages/id/identitypathinfo/identitypathinf
 import {IdentityauthPage} from '../pages/id/identityauth/identityauth';
 import {PhoneauthPage} from '../pages/id/phoneauth/phoneauth';
 import {BankcardauthPage} from '../pages/id/bankcardauth/bankcardauth';
+import {LanguagePage} from '../pages/wallet/language/language';
 /*id相关页面*/
 
 /** 通过类引用方式解析国家化文件 */
@@ -186,7 +187,8 @@ export function TranslateLoaderFactory() {
     IdentitypathinfoPage,
     IdentityauthPage,
     PhoneauthPage,
-    BankcardauthPage
+    BankcardauthPage,
+    LanguagePage
   ],
   imports: [
     BrowserModule,
@@ -270,7 +272,8 @@ export function TranslateLoaderFactory() {
     IdentitypathinfoPage,
     IdentityauthPage,
     PhoneauthPage,
-    BankcardauthPage
+    BankcardauthPage,
+    LanguagePage
   ],
   providers: [
     StatusBar,

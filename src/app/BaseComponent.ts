@@ -50,10 +50,10 @@ export class BaseComponent {
                      public popupProvider: PopupProvider,
                      public dataManager  : DataManager,
                      public events: Events) {
-    this.translate.addLangs(['zh', 'en']);
-    this.translate.setDefaultLang('zh');
-    const broswerLang = this.translate.getBrowserLang();
-    this.translate.use(broswerLang.match(/en|zh/) ? broswerLang : 'zh');
+    // this.translate.addLangs(['zh', 'en']);
+    // this.translate.setDefaultLang('zh');
+    // const broswerLang = this.translate.getBrowserLang();
+    // this.translate.use(broswerLang.match(/en|zh/) ? broswerLang : 'zh');
 
     this.header = new Header(location, '');
     this.header.backClick = () => {

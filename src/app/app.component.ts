@@ -43,26 +43,14 @@ export class AppComponent {
       statusBar.styleDefault();
       splashScreen.hide();
       this.registerBackButtonAction();
+      this.initTranslateConfig();
       this.ls = localStorage;
       this.tr =  translate;
       //init java 2 js plugin
       cordova.plugins.Java2JSBridge.init(this);
 
-
-      //cordova.plugins.Java2JSBridge.getDeviceID();
-
-    //  cordova.plugins.Java2JSBridge.getDeviceID(succeedCallback);
-    //  function succeedCallback(message){
-    //   //alert(message);
-    //   console.log("-----setDeviceID------"+message);
-    //   Config.setDeviceID(message);
-    // }
-    //alert(devideID);
-
       cordova.plugins.Java2JSBridge.getRegistrationID(succeedCallback);
       function succeedCallback(message){
-        //alert(message);
-        console.log("-----setDeviceID------"+message);
         Config.setDeviceID(message);
       }
 
@@ -149,6 +137,13 @@ export class AppComponent {
       this.backButtonPressed = true;
       setTimeout(() => this.backButtonPressed = false, 2000);//2秒内没有再次点击返回则将触发标志标记为false
     }
+  }
+
+  initTranslateConfig() {
+    this.translate.addLangs(['zh', 'en']);
+    this.translate.setDefaultLang('zh');
+    const broswerLang = this.translate.getBrowserLang();
+    this.translate.use(broswerLang.match(/en|zh/) ? broswerLang : 'zh');
   }
 
 }

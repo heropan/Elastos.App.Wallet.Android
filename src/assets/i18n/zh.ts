@@ -238,5 +238,6 @@ export const zh = {
   'path-status-authed':"认证通过",
   'phone-path-deatils':"手机认证详情",
   'text-ela-per-message':'正在同步中，同步完成再用',
-  'text-sycn-message':'同步状态'
+  'text-sycn-message':'同步状态',
+  'text-language-message':"语言"
 };
