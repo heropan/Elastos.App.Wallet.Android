@@ -71,7 +71,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   onItem(item) {
-    this.Go(CoinComponent, {name: item.name});
+    this.Go(CoinComponent, {name: item.name,"elaPer":this.tempElaPer,"idChainPer":this.tempIdChinaPer});
   }
 
   getElaBalance(item){

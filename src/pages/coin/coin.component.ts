@@ -31,6 +31,8 @@ export class CoinComponent extends BaseComponent implements OnInit {
 
   textShow = '';
 
+  elaPer:any;
+  idChainPer:any;
 
   ngOnInit() {
     this.setLeftIcon("",()=>{
@@ -38,6 +40,8 @@ export class CoinComponent extends BaseComponent implements OnInit {
       this.Back();
     });
     this.coinName = this.getNavParams().get("name");
+    this.elaPer = this.getNavParams().get("elaPer") || 0;
+    this.idChainPer = this.getNavParams().get("idChainPer") || 0;
     this.setTitle(this.coinName);
     if (this.coinName == 'ELA') {
       this.textShow = 'text-recharge';
@@ -91,12 +95,33 @@ export class CoinComponent extends BaseComponent implements OnInit {
         this.Go(ReceiveComponent, {id: this.coinId, chianId: this.coinName});
         break;
       case 2:
+      if (this.coinName == 'ELA') {
+        if(this.elaPer != 1){
+          this.messageBox("text-ela-per-message");
+          return;
+        }
         this.Go(TransferComponent, {id: this.coinId, chianId: this.coinName});
+      }else{
+        if(this.idChainPer != 1){
+          this.messageBox("text-ela-per-message");
+          return;
+        }
+        this.Go(TransferComponent, {id: this.coinId, chianId: this.coinName});
+      }
+
         break;
       case 3:
         if (this.coinName == 'ELA') {
+          if(this.elaPer != 1){
+            this.messageBox("text-ela-per-message");
+            return;
+          }
           this.Go(CoinSelectComponent, {chianId: this.coinName});
         }else{
+          if(this.idChainPer != 1){
+            this.messageBox("text-ela-per-message");
+            return;
+          }
           this.Go(WithdrawComponent, {chianId: this.coinName});
         }
         break;

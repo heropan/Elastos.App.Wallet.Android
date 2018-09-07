@@ -236,5 +236,7 @@ export const zh = {
   'text-identity-path-deatils':"身份证详情",
   'path-status-authing':"认证中",
   'path-status-authed':"认证通过",
-  'phone-path-deatils':"手机认证详情"
+  'phone-path-deatils':"手机认证详情",
+  'text-ela-per-message':'正在同步中，同步完成再用',
+  'text-sycn-message':'同步状态'
 };
