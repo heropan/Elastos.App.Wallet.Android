@@ -29,6 +29,8 @@ export class LanguagePage {
   public save(newLang: string): void {
 
          alert("newLang=="+newLang);
+         this.translate.use(newLang);
+         this.navCtrl.pop();
   }
 
 }
