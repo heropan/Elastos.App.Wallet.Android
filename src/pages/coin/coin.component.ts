@@ -67,9 +67,22 @@ export class CoinComponent extends BaseComponent implements OnInit {
         let incomingAmount = summary["Incoming"]['Amount'];
         let outcomingAmount = summary["Outcoming"]['Amount'];
         let balanceResult = incomingAmount - outcomingAmount;
+        let status = '';
+        switch(summary["Status"])
+        {
+          case 'Confirmed':
+            status = 'Confirmed'
+            break;
+          case 'Pending':
+            status = 'Pending'
+            break;
+          case 'Unconfirmed':
+            status = 'Unconfirmed'
+            break;
+        }
         let transfer = {
           "name": this.coinName,
-          "status": summary["Status"],
+          "status": status,
           "type": summary["Type"],
           "balance": balanceResult/Config.SELA,
           "datetime": datetime,

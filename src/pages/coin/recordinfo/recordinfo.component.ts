@@ -34,9 +34,22 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
       let incomingAddress = summary["Incoming"]['ToAddress'];
       let outcomingAddress = summary["Outcoming"]['ToAddress'];
       let balanceResult = incomingAmount - outcomingAmount;
+      let status = '';
+      switch(summary["Status"])
+      {
+        case 'Confirmed':
+          status = 'Confirmed'
+          break;
+        case 'Pending':
+          status = 'Pending'
+          break;
+        case 'Unconfirmed':
+          status = 'Unconfirmed'
+          break;
+      }
       this.transactionRecord = {
         name: chainId,
-        status: summary["Status"],
+        status: status,
         balance: balanceResult/Config.SELA,
         incomingAmount: incomingAmount/Config.SELA,
         outcomingAmount: outcomingAmount/Config.SELA,
