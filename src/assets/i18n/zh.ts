@@ -243,5 +243,11 @@ export const zh = {
   'text-wallte-list':"钱包列表",
   'text-create-multi-signature-wallet':"创建多重签名钱包",
   'text-next-step':"下一步",
-  'text-select-type':"选择类型"
+  'text-select-type':"选择类型",
+  'text-publickey-placeholder':"请输入参与者的公钥",
+  'text-add-publickey-title':"添加公钥",
+  'text-add-private-title':"添加私钥",
+  'text-create-privatekyc':"创建私钥",
+  'text-import-privatekyc':"导入私钥",
+  'text-observe-wallte':"观察钱包"
 };

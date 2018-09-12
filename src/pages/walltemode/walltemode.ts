@@ -7,8 +7,13 @@ import {AddprivatekeyPage} from '../../pages/addprivatekey/addprivatekey';
   templateUrl: 'walltemode.html',
 })
 export class WalltemodePage {
-
+  public navObj:any;
+  public totalCopayers:number;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    console.log("========="+JSON.stringify(this.navParams.data));
+     this.navObj = this.navParams.data;
+     this.totalCopayers = this.navParams.data["totalCopayers"];
+
   }
 
   ionViewDidLoad() {
@@ -16,11 +21,15 @@ export class WalltemodePage {
   }
 
   wayOne(){
-     this.navCtrl.push(AddpublickeyPage);
+     //this.navCtrl.push(AddpublickeyPage,this.navObj);
   }
 
   wayTwo(){
-     this.navCtrl.push(AddprivatekeyPage);
+     //this.navCtrl.push(AddprivatekeyPage,this.navObj);
+  }
+
+  wayThree(){
+    this.navCtrl.push(AddpublickeyPage,this.navObj);
   }
 
 }

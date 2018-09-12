@@ -9,8 +9,8 @@ import {WalltemodePage} from '../../pages/walltemode/walltemode';
 export class CreatemultiwalltePage {
   public copayers: number[] =[1,2,3,4,5,6];
   public signatures: number[]=[1,2,3,4,5,6];
-  public totalCopayers:number = 2;
-  public requiredCopayers:number = 1;
+  public totalCopayers:number = 3;
+  public requiredCopayers:number = 2;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
 
   }
@@ -24,7 +24,7 @@ export class CreatemultiwalltePage {
   }
 
   nextPage(){
-      this.navCtrl.push(WalltemodePage);
+      this.navCtrl.push(WalltemodePage,{totalCopayers:this.totalCopayers,requiredCopayers:this.requiredCopayers});
   }
 
 }

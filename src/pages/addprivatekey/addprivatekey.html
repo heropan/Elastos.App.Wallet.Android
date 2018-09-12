@@ -7,7 +7,7 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>addprivatekey</ion-title>
+        <ion-title style="text-align: center">{{'text-add-private-title' | translate }}</ion-title>
     </ion-navbar>
 
 </ion-header>
@@ -16,19 +16,9 @@
 
 <ion-content>
     <ion-list>
-
-        <ion-item>
-            <ion-input type="text" placeholder="Username"></ion-input>
+        <ion-item *ngFor="let copayer of publicKeyArr">
+            <ion-input type="text" placeholder="{{'text-publickey-placeholder'|translate}}" [(ngModel)]="copayer['publicKey']"></ion-input>
         </ion-item>
-
-        <ion-item>
-            <ion-input type="text" placeholder="text"></ion-input>
-        </ion-item>
-
-        <ion-item>
-            <ion-input type="text" placeholder="text"></ion-input>
-        </ion-item>
-
     </ion-list>
 </ion-content>
 <ion-footer>
