@@ -239,5 +239,9 @@ export const zh = {
   'phone-path-deatils':"手机认证详情",
   'text-ela-per-message':'正在同步中，同步完成再用',
   'text-sycn-message':'同步状态',
-  'text-language-message':"语言"
+  'text-language-message':"语言",
+  'text-wallte-list':"钱包列表",
+  'text-create-multi-signature-wallet':"创建多重签名钱包",
+  'text-next-step':"下一步",
+  'text-select-type':"选择类型"
 };

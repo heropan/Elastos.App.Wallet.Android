@@ -18,6 +18,7 @@ import {LauncherComponent} from "../pages/launcher/launcher.component";
 //import {TestJniComponent} from '../pages/testjni/testjni.component';
 //import { AddressComponent } from '../pages/wallet/address/address.component'
 import {TabsComponent} from '../pages/tabs/tabs.component';
+import {WalltelistPage} from '../pages/walltelist/walltelist';
 import {LocalStorage} from "../providers/Localstorage";
 import { Config } from '../providers/Config';
 import { TranslateService } from '@ngx-translate/core';
@@ -53,7 +54,8 @@ export class AppComponent {
       function succeedCallback(message){
         Config.setDeviceID(message);
       }
-
+      //this.rootPage =  WalltelistPage;
+      //this.rootPage =  TabsComponent;
       localStorage.getWallet().then((val) => {
         if (val) {
           this.rootPage = TabsComponent;
@@ -142,8 +144,9 @@ export class AppComponent {
   initTranslateConfig() {
     this.translate.addLangs(['zh', 'en']);
     this.translate.setDefaultLang('zh');
-    const broswerLang = this.translate.getBrowserLang();
-    this.translate.use(broswerLang.match(/en|zh/) ? broswerLang : 'zh');
+    //const broswerLang = this.translate.getBrowserLang();
+    //this.translate.use(broswerLang.match(/en|zh/) ? broswerLang : 'zh');
+    this.translate.use('zh');
   }
 
 }

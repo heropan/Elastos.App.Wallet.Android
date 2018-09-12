@@ -100,6 +100,11 @@ import {IdentityauthPage} from '../pages/id/identityauth/identityauth';
 import {PhoneauthPage} from '../pages/id/phoneauth/phoneauth';
 import {BankcardauthPage} from '../pages/id/bankcardauth/bankcardauth';
 import {LanguagePage} from '../pages/wallet/language/language';
+import {WalltelistPage} from '../pages/walltelist/walltelist';
+import {CreatemultiwalltePage} from '../pages/createmultiwallte/createmultiwallte';
+import {WalltemodePage} from '../pages/walltemode/walltemode';
+import {AddpublickeyPage} from '../pages/addpublickey/addpublickey';
+import {AddprivatekeyPage} from '../pages/addprivatekey/addprivatekey';
 /*id相关页面*/
 
 /** 通过类引用方式解析国家化文件 */
@@ -188,7 +193,12 @@ export function TranslateLoaderFactory() {
     IdentityauthPage,
     PhoneauthPage,
     BankcardauthPage,
-    LanguagePage
+    LanguagePage,
+    WalltelistPage,
+    CreatemultiwalltePage,
+    WalltemodePage,
+    AddpublickeyPage,
+    AddprivatekeyPage
   ],
   imports: [
     BrowserModule,
@@ -273,7 +283,12 @@ export function TranslateLoaderFactory() {
     IdentityauthPage,
     PhoneauthPage,
     BankcardauthPage,
-    LanguagePage
+    LanguagePage,
+    WalltelistPage,
+    CreatemultiwalltePage,
+    WalltemodePage,
+    AddpublickeyPage,
+    AddprivatekeyPage
   ],
   providers: [
     StatusBar,
