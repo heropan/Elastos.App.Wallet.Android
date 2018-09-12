@@ -30,7 +30,7 @@ export class Util {
   static number = function (text) {
     // var numPattern = /^(([1-9]\d*)|0)(\.\d{1,2})?$"/;
     // var numPattern = /^-?\d*\.?\d+$/;
-    var numPattern = /^(([1-9]\d*)|\d)(\.\d{1,2})?$/;
+    var numPattern = /^(([1-9]\d*)|\d)(\.\d{1,9})?$/;
     return numPattern.test(text);
   };
 
