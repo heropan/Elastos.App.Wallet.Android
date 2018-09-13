@@ -57,37 +57,46 @@ export class Config {
   }
 
   public static setSerIds(serIds){
+        console.info("Elastjs setSerIds serIds " + JSON.stringify(serIds));
         this.serIds = serIds;
   }
 
- public static add(idObj,newIds,id,appName,appr){
-    if(idObj[appName][appr]){
-      if(idObj[appName][appr]["order"]){
-         for(let index in idObj[appName][appr]["order"]){
-          let data = idObj[appName][appr]["order"][index];
-          newIds[index] ={"id":id,"appName":appName,"appr":appr,"txHash":data["txHash"]};
-         }
-      }
+ public static add(idObj,newIds,id,path){
+  for(let index in idObj[id][path]){
+   let data = idObj[id][path][index];
+   newIds[index] ={"id":id,"path":path,"serialNum":data["serialNum"],"txHash":data["txHash"]};
   }
- }
+}
 
  public static getSertoId(ids){
   let newIds = {};
-  for(let key in ids){
+          for(let key in ids){
+             let id =  key;
+             let idObj = ids[id];
+             let path = "enterprise";
+               if(idObj[path]){
+                 this.add(ids,newIds,id,path);
+                }
 
-      let id =  key;
-      let idObj = ids[id];
-      let appName ="kyc";
-      if(!idObj[appName]){
-        break;
-      }
+             path = "identityCard";
+               if(idObj[path]){
+                 this.add(ids,newIds,id,path);
+               }
 
-      let appr = "person";
-      this.add(idObj,newIds,id,appName,appr);
-      appr = "company";
-      this.add(idObj,newIds,id,appName,appr);
-  }
-    return newIds;
+                path = "phone";
+               if(idObj[path]){
+                 this.add(ids,newIds,id,path);
+
+               }
+
+               path = "bankCard";
+               if(idObj[path]){
+                 this.add(ids,newIds,id,path);
+
+               }
+          }
+
+          return newIds;
   }
 }
 

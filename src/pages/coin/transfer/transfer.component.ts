@@ -21,7 +21,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
     amount: '',
     memo: '',
     fee: 0,
-    payPassword:'',
+    payPassword:'s12345678',//hptest
     remark:'',
   };
 
@@ -169,9 +169,9 @@ export class TransferComponent extends BaseComponent implements OnInit {
           this.toast('send-raw-transaction');
           this.Go(TabsComponent);
         }else if(this.appType === "kyc"){
-             if(this.selectType === "company"){
+             if(this.selectType === "enterprise"){
                   this.company();
-             }else if(this.selectType === "person"){
+             }else {
                   this.person();
              }
         }
@@ -196,26 +196,30 @@ export class TransferComponent extends BaseComponent implements OnInit {
     params["deviceID"] = Config.getdeviceID();
     let checksum = IDManager.getCheckSum(params,"asc");
     params["checksum"] = checksum;
+
+    console.info("ElastJs sendCompanyHttp params "+ JSON.stringify(params));
     this.getHttp().postByAuth(ApiUrl.AUTH,params).toPromise().then(data => {
          if(data["status"] === 200){
           let authData= JSON.parse(data["_body"]);
+          console.info("Elastjs sendCompanyHttp authData" + JSON.stringify(authData));
           if(authData["errorCode"] === "0"){
                let serialNum = authData["serialNum"];
                let serIds = Config.getSerIds();
-                   serIds[serialNum] = {
-                    "id":this.did,
-                    "appName": "kyc",
-                    "appr": "company",
-                    "txHash":this.txId
-                   }
+               serIds[serialNum] = {
+                "id":this.did,
+                "path":this.selectType,
+                "serialNum":serialNum,
+                "txHash":this.txId
+               };
               Config.setSerIds(serIds);
               this.saveKycSerialNum(serialNum);
           }else{
-              alert("错误码:"+authData["errorCode"]);
+              alert("sendCompanyHttp 错误码:"+authData["errorCode"]);
           }
          }
 
     }).catch(error => {
+      alert("错误码:"+ JSON.stringify(error));
          this.Go(IdResultComponent,{'status':'1'});
     });
 }
@@ -228,18 +232,25 @@ sendPersonAuth(parms){
       let checksum = IDManager.getCheckSum(parms,"asc");
       parms["checksum"] = checksum;
       console.log("---pesonParm---"+JSON.stringify(parms));
-      this.getHttp().postByAuth(ApiUrl.AUTH,parms).toPromise().then(data=>{
+      console.info("ElastJs sendPersonAuth params "+ JSON.stringify(parms));
+
+  this.getHttp().postByAuth(ApiUrl.AUTH,parms).toPromise().then(data=>{
         if(data["status"] === 200){
           let authData= JSON.parse(data["_body"])
-          console.log('---authData---'+JSON.stringify(authData));
+          console.log('ElastJs sendPersonAuth return data ---authData---'+JSON.stringify(authData));
           if(authData["errorCode"] === "0"){
-               let serialNum = authData["serialNum"];
+
+            console.log('ElastJs sendPersonAuth errorCode == 0');
+
+            let serialNum = authData["serialNum"];
                let serIds = Config.getSerIds();
                serIds[serialNum] = {
                 "id":this.did,
-                "appName": "kyc",
-                "appr": "person"
+                "path":this.selectType,
+                "serialNum":serialNum,
+                "txHash":this.txId
                }
+               console.log('ElastJs sendPersonAuth selectType '+ this.selectType +" serialNum " + serialNum);
                Config.setSerIds(serIds);
                this.saveKycSerialNum(serialNum);
           }else{
@@ -253,15 +264,15 @@ sendPersonAuth(parms){
 }
 
 saveKycSerialNum(serialNum){
-     this.localStorage.get("kycId").then((val)=>{
+  console.log('ElastJs saveKycSerialNum serialNum begin'+ serialNum);
+
+  this.localStorage.get("kycId").then((val)=>{
          let idsObj = JSON.parse(val);
-         let order = idsObj[this.did]["kyc"][this.selectType];
-         if(this.isNull(order["order"])){
-             order["order"] = {};
-         }
-         order["order"][serialNum] = {txHash:this.txId,serialNum:serialNum};
+         let serialNumObj = idsObj[this.did][this.selectType][serialNum];
+         serialNumObj["txHash"] = this.txId;
+         serialNumObj["pathStatus"] = 1;
          this.localStorage.set("kycId",idsObj).then((newVal)=>{
-          this.Go(IdResultComponent,{'status':'0',id:this.did,appType:this.appType,type:this.selectType});
+          this.Go(IdResultComponent,{'status':'0',id:this.did,path:this.selectType});
          });
      })
 }

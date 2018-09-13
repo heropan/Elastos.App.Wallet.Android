@@ -115,7 +115,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
                 this.messageBox("text-id-kyc-prompt-password");
                 return;
               }
-              this.passworld = val.toString();
+              this.passworld = val.toString();//
               this.caulmessageNew();
     }).catch(()=>{
 
@@ -408,7 +408,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
 
       for (let ele of rawTransactionObj["PayLoad"]["Contents"] ) {
 
-        console.log("ElastosJs ---sendRawTransaction--- ele " + JSON.stringify(ele));
+        console.log("ElastosJs result---sendRawTransaction--- ele " + JSON.stringify(ele));
         let arr = ele["Path"].split("/");
 
         if (arr[1]) {
@@ -416,7 +416,7 @@ export class IdKycResultComponent extends BaseComponent implements OnInit{
           let proofObj = JSON.parse(ele["Proof"]);
           let self = this;
 
-          this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id,"kyc", arr[1], function (reult : any) {
+          this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id, arr[1], function (reult : any) {
             console.info("ElastosJs reult" + JSON.stringify(reult) );
             self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
 

@@ -77,7 +77,7 @@ import {FileChooser} from "@ionic-native/file-chooser";
 
 import {TestJniComponent} from '../pages/testjni/testjni.component';
 import {kycSelectTypeComponent} from "../pages/id/kyc/selecttype/create"
-
+import {ComponentsModule} from "../components/components.module";
 /*id相关页面*/
 import {IdLauncherComponent} from '../pages/id/launcher/launcher';
 import {IdHomeComponent} from '../pages/id/home/home';
@@ -87,12 +87,27 @@ import {IdManagerComponent} from '../pages/id/manager/manager';
 import {IdKycPersonComponent} from '../pages/id/kyc/person/person';
 import {IdKycCompanyComponent} from '../pages/id/kyc/company/company';
 import {IdKycResultComponent} from '../pages/id/kyc/result/result';
-import {IdAppListComponent} from '../pages/id/app-list/app-list';
 import {IdResultComponent} from '../pages/id/result/result';
 import {KycOperationPage} from '../pages/id/kyc/kyc-operation/kyc-operation';
 import {KycOrderPage} from '../pages/id/kyc/kyc-order/kyc-order';
 import {CompanyWriteChainPage} from '../pages/id/kyc/company-write-chain/company-write-chain';
 import {PersonWriteChainPage} from '../pages/id/kyc/person-write-chain/person-write-chain';
+import {PathlistPage} from '../pages/id/pathlist/pathlist';
+import {PathdetailsPage} from '../pages/id/pathdetails/pathdetails';
+import {CompanypathinfoPage} from '../pages/id/companypathinfo/companypathinfo';
+import {BankcardpathinfoPage} from '../pages/id/bankcardpathinfo/bankcardpathinfo';
+import {PhonepathinfoPage} from '../pages/id/phonepathinfo/phonepathinfo';
+import {IdentitypathinfoPage} from '../pages/id/identitypathinfo/identitypathinfo';
+import {IdentityauthPage} from '../pages/id/identityauth/identityauth';
+import {PhoneauthPage} from '../pages/id/phoneauth/phoneauth';
+import {BankcardauthPage} from '../pages/id/bankcardauth/bankcardauth';
+import {LanguagePage} from '../pages/wallet/language/language';
+import {WalltelistPage} from '../pages/walltelist/walltelist';
+import {CreatemultiwalltePage} from '../pages/createmultiwallte/createmultiwallte';
+import {WalltemodePage} from '../pages/walltemode/walltemode';
+import {AddpublickeyPage} from '../pages/addpublickey/addpublickey';
+import {AddprivatekeyPage} from '../pages/addprivatekey/addprivatekey';
+import {ImportprivatekeyPage} from '../pages/importprivatekey/importprivatekey';
 /*id相关页面*/
 
 /** 通过类引用方式解析国家化文件 */
@@ -168,13 +183,28 @@ export function TranslateLoaderFactory() {
     IdKycPersonComponent,
     IdKycCompanyComponent,
     IdKycResultComponent,
-    IdAppListComponent,
     IdResultComponent,
     kycSelectTypeComponent,
     KycOperationPage,
     KycOrderPage,
     CompanyWriteChainPage,
-    PersonWriteChainPage
+    PersonWriteChainPage,
+    PathlistPage,
+    PathdetailsPage,
+    CompanypathinfoPage,
+    BankcardpathinfoPage,
+    PhonepathinfoPage,
+    IdentitypathinfoPage,
+    IdentityauthPage,
+    PhoneauthPage,
+    BankcardauthPage,
+    LanguagePage,
+    WalltelistPage,
+    CreatemultiwalltePage,
+    WalltemodePage,
+    AddpublickeyPage,
+    AddprivatekeyPage,
+    ImportprivatekeyPage
   ],
   imports: [
     BrowserModule,
@@ -193,6 +223,7 @@ export function TranslateLoaderFactory() {
       name: '__walletdb',
       driverOrder: ['localstorage','indexeddb', 'sqlite', 'websql']
     }),
+    ComponentsModule,
     WeUiModule.forRoot()
   ],
   bootstrap: [IonicApp],
@@ -245,13 +276,28 @@ export function TranslateLoaderFactory() {
     IdKycPersonComponent,
     IdKycCompanyComponent,
     IdKycResultComponent,
-    IdAppListComponent,
     IdResultComponent,
     kycSelectTypeComponent,
     KycOperationPage,
     KycOrderPage,
     CompanyWriteChainPage,
-    PersonWriteChainPage
+    PersonWriteChainPage,
+    PathlistPage,
+    PathdetailsPage,
+    CompanypathinfoPage,
+    BankcardpathinfoPage,
+    PhonepathinfoPage,
+    IdentitypathinfoPage,
+    IdentityauthPage,
+    PhoneauthPage,
+    BankcardauthPage,
+    LanguagePage,
+    WalltelistPage,
+    CreatemultiwalltePage,
+    WalltemodePage,
+    AddpublickeyPage,
+    AddprivatekeyPage,
+    ImportprivatekeyPage
   ],
   providers: [
     StatusBar,

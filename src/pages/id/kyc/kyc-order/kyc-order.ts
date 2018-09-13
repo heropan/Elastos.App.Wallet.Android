@@ -53,7 +53,7 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
 
     getAppAuth(serialNum,txHash){
     console.log("getAppAuth======= txHash type "+typeof(txHash));
-    console.log('ElastosJs----getAppAuth----'+"---serialNum---"+serialNum+"---txHash---"+txHash);
+    console.log('ElastosJs---kyc_order.ts-getAppAuth----'+"---serialNum---"+serialNum+"---txHash---"+txHash);
     let timestamp = this.getTimestamp();
     let parms ={"serialNum":serialNum,
                 "txHash":txHash,
@@ -61,10 +61,32 @@ export class KycOrderPage  extends BaseComponent implements OnInit{
                }
     let checksum = IDManager.getCheckSum(parms,"asc");
     parms["checksum"] = checksum;
+    console.info("ElastJs kyc_order.ts APP_AUTH "+ ApiUrl.APP_AUTH);
+    console.info("ElastJs kyc_order.ts parms "+ JSON.stringify(parms));
+
     this.getHttp().postByAuth(ApiUrl.APP_AUTH,parms).toPromise().then().then(data => {
+
+      console.log("Elastjs getAppAuth data======= "+JSON.stringify(data));
+
       if(data["status"] === 200){
-        console.log("sssss======="+JSON.stringify(data));
+
         let authResult = JSON.parse(data["_body"]);
+        console.log('ElastosJs----authResult----'+JSON.stringify(authResult));
+
+        if (authResult["data"].length > 0){
+          if (authResult["data"][0]["retdata"]) {
+            let signCont = authResult["data"];
+            if (signCont.length > 0){
+              delete signCont[0]["resultSign"];
+              console.log('ElastosJs----signCont----'+JSON.stringify(signCont));
+              this.dataManager.addSignCont(authResult["data"][0]["resultSign"], signCont[0]);
+            }
+
+          }
+
+        }
+
+
         if(authResult["errorCode"] === "1"){
           this.messageBox("text-id-kyc-auth-fee-fail");
           return;

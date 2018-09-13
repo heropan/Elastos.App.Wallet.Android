@@ -3,7 +3,7 @@ import {BaseComponent} from './../../../app/BaseComponent';
 import {ExprotPrikeyComponent} from "../exprot-prikey/exprot-prikey.component";
 import {PaypasswordResetComponent} from "../paypassword-reset/paypassword-reset.component";
 import {LauncherComponent} from "../../launcher/launcher.component";
-
+import {LanguagePage} from '../../../pages/wallet/language/language';
 @Component({
   selector: 'app-manager',
   templateUrl: './manager.component.html',
@@ -37,6 +37,9 @@ export class ManagerComponent extends BaseComponent implements OnInit {
           }
         });
         break;
+      case 3:
+        this.Go(LanguagePage);
+         break;
     }
   }
 
@@ -50,5 +53,22 @@ export class ManagerComponent extends BaseComponent implements OnInit {
       });
     });
   }
+
+  getDiD(){
+    this.walletManager.getDIDList((result)=>{
+                let list= result["list"];
+                if(list === null){
+                     return;
+                }
+    })
+  }
+
+  destroyDiD(did){
+     this.walletManager.destoryDID(did,(result)=>{
+
+     })
+  }
+
+
 
 }

@@ -46,16 +46,24 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
  orderStatus = 0;
  serialNum = "";
  ngOnInit(){
+   let self = this;
    this.events.subscribe("order:update",(orderStatus,appr)=>{
-    if(appr === "person"){
-      this.orderStatus = orderStatus;
-    }
+     console.log("ElastJs ngOnInit  orderStatus "+orderStatus + " appr " + appr);
+
+     if(appr != "enterprise"){
+
+       self.orderStatus = orderStatus;//
+       console.log("ElastJs ngOnInit 111 appr !=orderStatus "+orderStatus + " appr " + appr);
+
+     }
    });
     this.setTitleByAssets('text-kyc-result');
     this.idObj = this.getNavParams().data;
-    console.log("ngOnInit ====="+JSON.stringify(this.idObj));
-    this.did = this.idObj["id"];
-    this.orderStatus = this.idObj["orderStatus"];
+    console.log("ElastJs ngOnInit idObj"+JSON.stringify(this.idObj));
+   this.did = this.idObj["payObj"]["did"];
+
+   console.info("ElastJs ngOnInit pathStatus " +this.idObj["pathStatus"])
+    this.orderStatus = this.idObj["pathStatus"];
     this.serialNum = this.idObj["serialNum"];
     this.getPerson();
     if(this.isNull(status)){
@@ -66,7 +74,9 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
     this.setLeftIcon('',()=>{
            this.Go(IdHomeComponent);
     });
-  }
+   console.info("ElastJs ngOnInit end " )
+
+ }
   getPerson(){
     this.pageObj = this.getPageObj(this.idObj["adata"]);
     let index = this.idObj["adata"].length-1;
@@ -155,7 +165,7 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
      });
   }
 //////////////////////
-  getKycContent(authType, authData){
+  getKycContent( authData){
 
     let retContent = {};
 
@@ -191,27 +201,52 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
   getcontent(authType, authData){
 
     let retContent = {};
-    retContent["Path"] = 'kyc' +'/' +authType +'/'+ authData["type"];
-
+    retContent["Path"] = 'kyc' +'/'+ authData["type"];
+    retContent["Values"] =[];
     let proofObj = {
-      signature : authData["retdata"]["signature"],
+      signature : authData["resultSign"],
       notary : "COOIX"
     }
+/////////////////
 
-    retContent["Proof"] = JSON.stringify(proofObj);
+    let valueObj = {};
+    valueObj["Proof"] = JSON.stringify(proofObj);
 
-    console.info("getcontent Proof "+ retContent["Proof"]);
 
-    let kycContent = this.getKycContent(authType, authData);
+    let kycContent = this.getKycContent( authData);
+    console.info("ElastJs company getcontent kycContent "+ JSON.stringify(kycContent));
+    console.info("ElastJs company getcontent Proof "+ valueObj["Proof"]);
 
-    console.info("getcontent kycContent "+ JSON.stringify(kycContent));
+    let authDataHash = IDManager.hash(JSON.stringify(kycContent)+valueObj["Proof"]);
 
-    let authDataHash = IDManager.hash(JSON.stringify(kycContent)+retContent["Proof"]);
-    retContent["DataHash"] = IDManager.hash(authDataHash+retContent["Proof"]);
+    valueObj["DataHash"] = IDManager.hash(authDataHash+valueObj["Proof"]);
 
-    console.info("getcontent retContent "+ JSON.stringify(retContent));
+    let idJsonPart = {};
+    idJsonPart["hash"] = valueObj["DataHash"];
+    idJsonPart["KycContent"] = kycContent;
+    idJsonPart["Proof"] = valueObj["Proof"];
+    this.dataManager.addIdPathJson(this.did, retContent["Path"], idJsonPart)
 
+    console.info("ElastJs company getcontent retContent before push ");
+
+    retContent["Values"].push(valueObj)
+    console.info("ElastJs company getcontent retContent "+ JSON.stringify(retContent));
     return retContent;
+    ////////////////
+    // retContent["Proof"] = JSON.stringify(proofObj);
+    //
+    // console.info("getcontent Proof "+ retContent["Proof"]);
+    //
+    // let kycContent = this.getKycContent(authData);
+    //
+    // console.info("getcontent kycContent "+ JSON.stringify(kycContent));
+    //
+    // let authDataHash = IDManager.hash(JSON.stringify(kycContent)+retContent["Proof"]);
+    // retContent["DataHash"] = IDManager.hash(authDataHash+retContent["Proof"]);
+    //
+    // console.info("getcontent retContent "+ JSON.stringify(retContent));
+
+    //return retContent;
   }
 
   caulmessageNew(){
@@ -248,54 +283,7 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
 ////////////////////////
 
 
-  caulmessage(){
 
-     //kyc 内容
-     let kycContent={};
-    if(this.message["Path"] === "identityCard"){
-            kycContent = this.personObj;
-         this.message["Path"] = 'kyc'+"|"+"person"+"|"+"identityCard";
-     }else if(this.message["Path"] === "phone"){
-            kycContent = this.phoneObj;
-         this.message["Path"] = 'kyc'+"|"+"person"+"|"+"phone";
-     }else if(this.message["Path"] === "bankCard"){
-            kycContent = this.debitObj;
-          this.message["Path"] = 'kyc'+"|"+"person"+"|"+"bankCard";
-     }
-     //kyc 结果
-     let authSign = {
-                     signature:this.signature,
-                     notary:"COOIX"
-                    }
-    console.log("caulmessage this.signature " +this.signature);
-    console.log("caulmessage this.signature " +this.signature);
-
-    let authDataHash = IDManager.hash(JSON.stringify(kycContent)+JSON.stringify(authSign));
-
-    //console.log("caulmessage 2"+ authDataHash);
-
-
-    let kycChainDataHash = IDManager.hash(authDataHash+JSON.stringify(authSign));
-
-    console.log("caulmessage kycChainDataHash.length " +kycChainDataHash.length);
-
-    //console.log("caulmessage 3"+ kycChainDataHash);
-
-    let singObj = {Id:this.did,Path:this.message["Path"],Proof:authSign,DataHash:kycChainDataHash};
-
-     this.walletManager.didSign(this.did,JSON.stringify(singObj),this.passworld,(result)=>{
-      console.log("didSign 4"+ JSON.stringify(result));
-
-       let proofString = JSON.stringify(authSign);
-       //console.log("didSign proofString"+ proofString);
-
-       this.message = {Id:this.did,Path:this.message["Path"],Proof: proofString,DataHash:kycChainDataHash,Sign:result.value};
-       this.didGenerateProgram();
-       //console.log("caulmessage Sign " +result.value + " result.value length "+ result.value.length);
-       //console.log("didSign 5"+ JSON.stringify(this.message));
-
-     });
- }
 
   sendRawTransaction( rawTransaction){
     //alert("sendRawTransaction begin==");
@@ -305,7 +293,7 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
 
       let rawTransactionObj = JSON.parse(rawTransaction);
 
-      console.log("ElastosJs ---sendRawTransaction---"+"rawTransaction="+JSON.stringify(rawTransactionObj)+"fee="+this.fee);
+      console.log("ElastosJs person-write-chain.ts ---sendRawTransaction---"+"rawTransaction="+JSON.stringify(rawTransactionObj)+"fee="+this.fee);
       //console.log("ElastosJs ---sendRawTransaction--- PayLoad"+ JSON.stringify(rawTransactionObj.PayLoad));
 
       if (!rawTransactionObj.PayLoad) {
@@ -320,66 +308,43 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
 
       for (let ele of rawTransactionObj["PayLoad"]["Contents"] ) {
 
-        console.log("ElastosJs ---sendRawTransaction--- ele " + JSON.stringify(ele));
+        console.log("ElastosJs person-write-chain.ts ---sendRawTransaction--- ele " + JSON.stringify(ele));
         let arr = ele["Path"].split("/");
 
         if (arr[1]) {
 
-          let proofObj = JSON.parse(ele["Proof"]);
+
           let self = this;
+          //iterat values
+          for (let valueObj of ele["Values"]){
+            let proofObj = JSON.parse(valueObj["Proof"]);
 
-          this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id,"kyc", arr[1], function (reult : any) {
-            console.info("ElastosJs reult" + JSON.stringify(reult) );
-            self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
+            this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id, arr[1], function (reult : any) {
+              console.info("ElastosJs reult " + JSON.stringify(reult) );
+              self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
 
-          });
+            });
+          }
+          // let proofObj = JSON.parse(ele["Proof"]);
+          // let self = this;
+          //
+          // this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id, arr[1], function (reult : any) {
+          //   console.info("ElastosJs reult" + JSON.stringify(reult) );
+          //   self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
+          //
+          // });
+
+
         }
       }
 
-      this.setOrderStatus(2);
+      console.info("sendRawTransaction person-write-chain.ts setOrderStatus(4)")
+      this.setOrderStatus(4);
       //this.messageBox("text-id-kyc-china");
     })
   }
 
- // sendRawTransaction( rawTransaction){
- //    //alert("sendRawTransaction begin==");
- //
- //    this.walletManager.sendRawTransaction("IdChain",rawTransaction,this.fee,this.passworld,(result)=>{
- //
- //
- //     let rawTransactionObj = JSON.parse(rawTransaction);
- //
- //      console.log("ElastosJs ---sendRawTransaction---"+"rawTransaction="+JSON.stringify(rawTransactionObj)+"fee="+this.fee);
- //      //console.log("ElastosJs ---sendRawTransaction--- PayLoad"+ JSON.stringify(rawTransactionObj.PayLoad));
- //
- //      if (rawTransactionObj.PayLoad) {
- //        let arr = rawTransactionObj.PayLoad.Path.split("|");
- //        //
- //        if (arr[1]) {
- //
- //          //let proofStr = rawTransactionObj.PayLoad.Proof;
- //          let proofObj = JSON.parse(rawTransactionObj.PayLoad.Proof);
- //          let self = this;
- //          //console.info("ElastosJs this.dataManager 1111111 " + this.dataManager );
- //           this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id,"kyc", arr[1], function (reult : any) {
- //           console.info("ElastosJs reult" + JSON.stringify(reult) );
- //
- //            self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
- //            // if (reult) {
- //            //
- //            // }
- //          });
- //
- //
- //
- //        }
- //
- //      }
- //
- //
- //      this.messageBox("text-id-kyc-china");
- //    })
- // }
+
 
 
  //从主链转一批钱到测链
@@ -444,26 +409,27 @@ for(let index in obj){
 // }
 
 
-  setOrderStatus(status){
-    console.info("setOrderStatus status begin" + status);
-    let serids = Config.getSerIds();
-    let serid = serids[this.serialNum];
-    let did = serid["id"];
-    let appName = serid["appName"];
-    let appr = serid["appr"];
-    let idsObj = {};
-    this.localStorage.getKycList("kycId").then((val)=>{
+setOrderStatus(status){
+  console.info("ElastJs setOrderStatus status begin" + status);
+  let serids = Config.getSerIds();
+  console.info("ElastJs setOrderStatus status serids" + JSON.stringify(serids));
+
+  let serid = serids[this.serialNum];
+  let did = serid["id"];
+  let path = serid["path"];
+  let idsObj = {};
+  this.localStorage.getKycList("kycId").then((val)=>{
       if(val == null || val === undefined || val === {} || val === ''){
-        console.info("setOrderStatus val == null return ");
+        console.info("ElastJs setOrderStatus val == null return ");
         return;
       }
-      idsObj = JSON.parse(val);
-      idsObj[did][appName][appr]["order"][this.serialNum]["status"] = status;
-      this.localStorage.set("kycId",idsObj).then(()=>{
-        console.info("setOrderStatus  end  status " + status);
-        this.orderStatus = status;
-      });
-    });
-  }
+   idsObj = JSON.parse(val);
+   idsObj[did][path][this.serialNum]["pathStatus"] = status;
+   this.localStorage.set("kycId",idsObj).then(()=>{
+     console.info("ElastJs setOrderStatus  end  status " + status);
+            this.orderStatus = status;
+   });
+  });
+}
 }
 

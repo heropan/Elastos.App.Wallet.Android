@@ -10,7 +10,7 @@ import {LauncherComponent} from "../pages/launcher/launcher.component";
 //import {ImportComponent} from "../pages/wallet/import/import.component";
 //import {ExprotPrikeyComponent} from "../pages/wallet/exprot-prikey/exprot-prikey.component";
 //import {ReceiveComponent} from "../pages/coin/receive/receive.component";
-//import {TransferComponent} from "../pages/coin/transfer/transfer.component";
+import {TransferComponent} from "../pages/coin/transfer/transfer.component";
 //import {CoinComponent} from "../pages/coin/coin.component";
 //import {CoinListComponent} from "../pages/coin/coin-list/coin-list.component";
 //import {RecordinfoComponent} from "../pages/coin/recordinfo/recordinfo.component";
@@ -18,6 +18,8 @@ import {LauncherComponent} from "../pages/launcher/launcher.component";
 //import {TestJniComponent} from '../pages/testjni/testjni.component';
 //import { AddressComponent } from '../pages/wallet/address/address.component'
 import {TabsComponent} from '../pages/tabs/tabs.component';
+import {WalltelistPage} from '../pages/walltelist/walltelist';
+import {ImportprivatekeyPage} from '../pages/importprivatekey/importprivatekey';
 import {LocalStorage} from "../providers/Localstorage";
 import {PaymentConfirmComponent} from "../pages/coin/payment-confirm/payment-confirm.component";
 import {DidLoginComponent} from "../pages/third-party/did-login/did-login.component";
@@ -45,29 +47,19 @@ export class AppComponent {
       statusBar.styleDefault();
       splashScreen.hide();
       this.registerBackButtonAction();
+      this.initTranslateConfig();
       this.ls = localStorage;
       this.tr =  translate;
       //init java 2 js plugin
       cordova.plugins.Java2JSBridge.init(this);
 
-
-      //cordova.plugins.Java2JSBridge.getDeviceID();
-
-    //  cordova.plugins.Java2JSBridge.getDeviceID(succeedCallback);
-    //  function succeedCallback(message){
-    //   //alert(message);
-    //   console.log("-----setDeviceID------"+message);
-    //   Config.setDeviceID(message);
-    // }
-    //alert(devideID);
-
       cordova.plugins.Java2JSBridge.getRegistrationID(succeedCallback);
-      function succeedCallback(message){
-        //alert(message);
-        console.log("-----setDeviceID------"+message);
-        Config.setDeviceID(message);
-      }
-
+       function succeedCallback(message){
+         Config.setDeviceID(message);
+       }
+      //this.rootPage =  WalltelistPage;
+      //this.rootPage = ImportprivatekeyPage;
+      //this.rootPage =  TabsComponent;
       localStorage.getWallet().then((val) => {
         let type = this.GetQueryString("type");
         if (val) {
@@ -179,6 +171,14 @@ export class AppComponent {
       this.backButtonPressed = true;
       setTimeout(() => this.backButtonPressed = false, 2000);//2秒内没有再次点击返回则将触发标志标记为false
     }
+  }
+
+  initTranslateConfig() {
+    this.translate.addLangs(['zh', 'en']);
+    this.translate.setDefaultLang('zh');
+    //const broswerLang = this.translate.getBrowserLang();
+    //this.translate.use(broswerLang.match(/en|zh/) ? broswerLang : 'zh');
+    this.translate.use('zh');
   }
 
 }

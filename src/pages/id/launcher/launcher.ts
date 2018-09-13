@@ -40,16 +40,18 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
             if(data["path"] == "Added"){
 
               let valueObj = JSON.parse(data["value"]) ;
-              if((valueObj["Contents"].length > 0) && valueObj["Contents"][0]["Proof"]){
+              if((valueObj["Contents"].length > 0) && (valueObj["Contents"][0]["Values"].length > 0) && valueObj["Contents"][0]["Values"][0]["Proof"] ){
 
-                let proofObj = JSON.parse(valueObj["Contents"][0]["Proof"]);
+                let proofObj = JSON.parse(valueObj["Contents"][0]["Values"][0]["Proof"]);
 
                 console.info("lacucher.ts ElastosJs createDID proofObj[\"signature\"]  "+ proofObj["signature"]);
                 let seqNumObj = self.dataManager.getSeqNumObj(proofObj["signature"]);
 
                 let serialNum =  seqNumObj["serialNum"] ;
                 console.info("lacucher.ts ElastosJs createDID serialNum "+ serialNum);
-                self.setOrderStatus(3,serialNum);
+                self.setOrderStatus(5,serialNum);
+                self.dataManager.OutPutIDJson(data.id, valueObj["Contents"][0]["Path"], proofObj["signature"]);
+                //self.dataManager.addIdPathJson(data.id, valueObj["Contents"][0]["Path"], valueObj);
                // alert("lacucher.ts createDID registerIdListener  data  callback"+ JSON.stringify(data));
               }
             }
@@ -65,7 +67,6 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
     })
   }
 
-
   setOrderStatus(status,serialNum){
 
     console.info("setOrderStatus begin status " + status +" serialNum " + serialNum);
@@ -77,23 +78,21 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
     console.info("setOrderStatus serids" + JSON.stringify(serids));
 
     let did = serid["id"];
-    let appName = serid["appName"];
-    let appr = serid["appr"];
-
-    console.info("setOrderStatus appr" + appr);
+    let path = serid["path"];
+    console.info("setOrderStatus appr" + path);
 
     let idsObj = {};
     this.localStorage.getKycList("kycId").then((val)=>{
-      if(val == null || val === undefined || val === {} || val === ''){
-        return;
-      }
-      idsObj = JSON.parse(val);
-      idsObj[did][appName][appr]["order"][serialNum]["status"] = status;
-      this.localStorage.set("kycId",idsObj).then(()=>{
-         this.events.publish("order:update",3,appr);
-      });
+        if(val == null || val === undefined || val === {} || val === ''){
+             return;
+        }
+     idsObj = JSON.parse(val);
+     idsObj[did][path][serialNum]["pathStatus"] = status;
+     this.localStorage.set("kycId",idsObj).then(()=>{
+          this.events.publish("order:update",status,path);
+     });
     });
-  }
+}
 
 }
 

@@ -4,14 +4,17 @@ import {CoinComponent} from "../../coin/coin.component";
 import {CoinListComponent} from "../../coin/coin-list/coin-list.component";
 import { Config } from '../../../providers/Config';
 import { PaymentConfirmComponent } from '../../coin/payment-confirm/payment-confirm.component';
-
+import {WalltelistPage} from '../../../pages/walltelist/walltelist';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html'
 })
 export class HomeComponent extends BaseComponent implements OnInit {
-
+  elaPer:any;
+  tempElaPer:any;
+  idChainPer:any;
+  tempIdChinaPer:any;
   wallet = {
     name: 'myWallet',
     showBalance: true
@@ -21,16 +24,24 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.goPayment();
+    setInterval(()=>{
+      this.elaPer = this.tempElaPer;
+      this.idChainPer = this.tempIdChinaPer;
+    },0);
     this.getAllMasterWallets();
+    this.events.subscribe("wallte:update",(item)=>{
+      console.log("Selected Item", item);
+    });
     this.events.subscribe('home:update', () => {
            this.getElaBalance(this.ElaObj);
            this.localStorage.get('coinListCache').then((val)=>{
             let coinListCache = JSON.parse(val);
-            this.coinList = [];
+            //this.coinList = [];
             for (let coin in coinListCache) {
-              this.walletManager.getBalance(coin,(data)=>{
-                this.coinList.push({name: coin, balance: data.balance/Config.SELA});
-              })
+              // this.walletManager.getBalance(coin,(data)=>{
+              //   this.coinList.push({name: coin, balance: data.balance/Config.SELA});
+              // })
+              this.getSubBalance(coin);
             }
           });
     });
@@ -62,11 +73,12 @@ export class HomeComponent extends BaseComponent implements OnInit {
   onClick(type){
     switch (type){
       case 0:
-        this.native.scan().then((q)=>{
-         //this.Go(TransferComponent,{address:q.qrcode});
-        }).catch(err=>{
-          this.toast('error-address');
-        });
+        // this.native.scan().then((q)=>{
+        //  //this.Go(TransferComponent,{address:q.qrcode});
+        // }).catch(err=>{
+        //   this.toast('error-address');
+        // });
+        this.Go(WalltelistPage);
         break;
       case 1:
         this.Go(CoinListComponent);
@@ -75,7 +87,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   onItem(item) {
-    this.Go(CoinComponent, {name: item.name});
+    this.Go(CoinComponent, {name: item.name,"elaPer":this.tempElaPer,"idChainPer":this.tempIdChinaPer});
   }
 
   getElaBalance(item){
@@ -92,11 +104,13 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   getAllSubWallets(){
     this.walletManager.getAllSubWallets(()=>{
+      this.sycEla();
      this.getElaBalance(this.ElaObj);
          // wallet balance
     this.localStorage.get('coinListCache').then((val)=>{
       let coinListCache = JSON.parse(val);
       for (let coin in coinListCache) {
+         this.sycIdChain();
          this.getSubBalance(coin);
       }
     });
@@ -105,7 +119,61 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   getSubBalance(coin){
     this.walletManager.getBalance(coin, (data)=>{
-      this.coinList.push({name: coin, balance: data.balance/Config.SELA});
+      if(this.coinList.length === 0){
+          this.coinList.push({name: coin, balance: data.balance/Config.SELA});
+      }else{
+            let index = this.getCoinIndex(coin);
+            if(index!=-1){
+               let item = this.coinList[index];
+                   item["balance"] =  data.balance/Config.SELA;
+                   this.coinList.splice(index,1,item);
+
+            }else{
+                   this.coinList.push({name: coin, balance: data.balance/Config.SELA});
+            }
+      }
+
     })
+  }
+
+  getCoinIndex(coin){
+
+   for(let index = 0; index <this.coinList.length;index++){
+             let item = this.coinList[index];
+              if(coin === item["name"]){
+                    return index;
+              }
+   }
+   return -1;
+  }
+
+  sycEla(){
+
+    this.walletManager.registerWalletListener("ELA",(result)=>{
+           if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
+              this.tempElaPer = 1;
+           }else{
+            this.tempElaPer= result["progress"].toFixed(2);
+           }
+
+           if(this.tempElaPer === 1){
+            this.getElaBalance(this.ElaObj);
+           }
+
+    });
+  }
+
+  sycIdChain(){
+    this.walletManager.registerWalletListener("IdChain",(result)=>{
+      if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
+        this.tempIdChinaPer = 1;
+      }else{
+        this.tempIdChinaPer  = result["progress"].toFixed(2);
+      }
+
+      if(this.tempIdChinaPer === 1){
+               this.getSubBalance("IdChain");
+      }
+    });
   }
 }

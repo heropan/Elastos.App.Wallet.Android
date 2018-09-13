@@ -1,0 +1,26 @@
+<!--
+  Generated template for the WalltelistPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+        <ion-title style="text-align:center">{{'text-wallte-list' | translate}}</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content no-bounce>
+    <ion-list inset>
+        <button ion-item *ngFor="let item of items" (click)="itemSelected(item)">
+      {{ item }}
+    </button>
+    </ion-list>
+</ion-content>
+
+<ion-footer>
+    <button ion-button style="width: 100%" (click)="nextPage()">{{'text-create-multi-signature-wallet' | translate}}</button>
+</ion-footer>
