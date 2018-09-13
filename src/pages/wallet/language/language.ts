@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { NavController } from 'ionic-angular';
-
+import { NavController ,NavParams} from 'ionic-angular';
+import {LocalStorage} from "../../../providers/Localstorage";
 @Component({
   selector: 'page-language',
   templateUrl: 'language.html',
@@ -12,7 +12,9 @@ export class LanguagePage {
   public languages: any;
   constructor(
     private navCtrl: NavController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    public navParams: NavParams,
+    public localStorage: LocalStorage
   ) {
       this.languages =[{
         name: 'English',
@@ -22,15 +24,31 @@ export class LanguagePage {
         isoCode: 'zh',
         useIdeograms: true,
       }]
+
+      this.currentLanguage = this.navParams.data["isoCode"] || 'en';
+      this.translate.use(this.currentLanguage);
+      console.log("this.currentLanguage="+this.currentLanguage);
   }
 
 
 
   public save(newLang: string): void {
-
-         alert("newLang=="+newLang);
-         this.translate.use(newLang);
-         this.navCtrl.pop();
+         let item = {};
+         if(newLang === 'zh'){
+               item = {
+                name: '中文（简体）',
+                isoCode: 'zh',
+              };
+         }else{
+          item = {
+            name: 'English',
+            isoCode: 'en'
+          };
+         }
+         this.localStorage.set("wallte-language",item).then(()=>{
+          this.translate.use(newLang);
+          this.navCtrl.pop();
+         });
   }
 
 }

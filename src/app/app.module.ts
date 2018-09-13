@@ -43,8 +43,6 @@ import {ExprotPrikeyComponent} from '../pages/wallet/exprot-prikey/exprot-prikey
 import {MnemonicComponent} from '../pages/mnemonic/mnemonic.component';
 import {WriteComponent} from '../pages/mnemonic/write/write.component';
 import {AddressComponent} from '../pages/wallet/address/address.component';
-import {MultiSignedComponent} from '../pages/multi-signed/multi-signed.component';
-import {JoinComponent} from '../pages/multi-signed/join/join.component';
 import {ContactsComponent} from '../pages/contacts/contacts.component';
 import {SettingsComponent} from '../pages/universal/settings/settings.component';
 import {ResultComponent} from '../pages/universal/result/result.component';
@@ -149,8 +147,6 @@ export function TranslateLoaderFactory() {
     MnemonicComponent,
     WriteComponent,
     AddressComponent,
-    MultiSignedComponent,
-    JoinComponent,
     ContactsComponent,
     SettingsComponent,
     ResultComponent,
@@ -242,8 +238,6 @@ export function TranslateLoaderFactory() {
     MnemonicComponent,
     WriteComponent,
     AddressComponent,
-    MultiSignedComponent,
-    JoinComponent,
     ContactsComponent,
     SettingsComponent,
     ResultComponent,

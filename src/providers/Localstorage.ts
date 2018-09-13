@@ -122,6 +122,10 @@ export class LocalStorage {
       return this.storage.get(key);
   }
 
+  public getLanguage(key):any{
+      return this.storage.get(key);
+  }
+
 }
 
 

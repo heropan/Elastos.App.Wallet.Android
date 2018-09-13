@@ -23,6 +23,7 @@ import {ImportprivatekeyPage} from '../pages/importprivatekey/importprivatekey';
 import {LocalStorage} from "../providers/Localstorage";
 import {PaymentConfirmComponent} from "../pages/coin/payment-confirm/payment-confirm.component";
 import {DidLoginComponent} from "../pages/third-party/did-login/did-login.component";
+import {ManagerComponent} from "../pages/wallet/manager/manager.component"
 import { Config } from '../providers/Config';
 import { TranslateService } from '@ngx-translate/core';
 import { Native } from '../providers/Native';
@@ -40,7 +41,7 @@ export class AppComponent {
   ls:any;
   tr:any;
   backButtonPressed: boolean = false;  //用于判断返回键是否触发
-  constructor(public appCtrl: App,private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, localStorage: LocalStorage, private translate: TranslateService,private native: Native) {
+  constructor(public appCtrl: App,private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public localStorage: LocalStorage, private translate: TranslateService,private native: Native) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -61,6 +62,7 @@ export class AppComponent {
       //this.rootPage = ImportprivatekeyPage;
       //this.rootPage =  TabsComponent;
       //this.rootPage =  LauncherComponent;
+      //this.rootPage =  ManagerComponent;
       localStorage.getWallet().then((val) => {
         let type = this.GetQueryString("type");
         if (val) {
@@ -175,11 +177,24 @@ export class AppComponent {
   }
 
   initTranslateConfig() {
-    this.translate.addLangs(['zh', 'en']);
-    this.translate.setDefaultLang('zh');
-    //const broswerLang = this.translate.getBrowserLang();
-    //this.translate.use(broswerLang.match(/en|zh/) ? broswerLang : 'zh');
-    this.translate.use('zh');
+    this.translate.addLangs(["zh", "en"]);
+
+    this.localStorage.getLanguage("wallte-language").then((val)=>{
+           if(val == null ){
+              this.localStorage.set("wallte-language",{
+                name: 'English',
+                isoCode: 'en'
+              }).then(()=>{
+                  // 设置默认语言
+                  this.translate.setDefaultLang('en');
+                  this.translate.use('en');
+              });
+           }else{
+                let lang  = JSON.parse(val)["isoCode"];
+                this.translate.use(lang);
+           }
+    })
+
   }
 
 }

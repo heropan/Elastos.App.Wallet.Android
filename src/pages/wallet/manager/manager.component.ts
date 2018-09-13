@@ -38,7 +38,11 @@ export class ManagerComponent extends BaseComponent implements OnInit {
         });
         break;
       case 3:
-        this.Go(LanguagePage);
+      this.localStorage.getLanguage("wallte-language").then((val)=>{
+             let item =JSON.parse(val);
+             this.Go(LanguagePage,item);
+      })
+
          break;
     }
   }
