@@ -3,7 +3,7 @@ import {BaseComponent} from '../../../app/BaseComponent';
 import {CoinComponent} from "../../coin/coin.component";
 import {CoinListComponent} from "../../coin/coin-list/coin-list.component";
 import { Config } from '../../../providers/Config';
-
+import {WalltelistPage} from '../../../pages/walltelist/walltelist';
 
 @Component({
   selector: 'app-home',
@@ -27,6 +27,9 @@ export class HomeComponent extends BaseComponent implements OnInit {
                this.idChainPer = this.tempIdChinaPer;
         },0);
     this.getAllMasterWallets();
+    this.events.subscribe("wallte:update",(item)=>{
+      console.log("Selected Item", item);
+    });
     this.events.subscribe('home:update', () => {
            this.getElaBalance(this.ElaObj);
            this.localStorage.get('coinListCache').then((val)=>{
@@ -58,11 +61,12 @@ export class HomeComponent extends BaseComponent implements OnInit {
   onClick(type){
     switch (type){
       case 0:
-        this.native.scan().then((q)=>{
-         //this.Go(TransferComponent,{address:q.qrcode});
-        }).catch(err=>{
-          this.toast('error-address');
-        });
+        // this.native.scan().then((q)=>{
+        //  //this.Go(TransferComponent,{address:q.qrcode});
+        // }).catch(err=>{
+        //   this.toast('error-address');
+        // });
+        this.Go(WalltelistPage);
         break;
       case 1:
         this.Go(CoinListComponent);

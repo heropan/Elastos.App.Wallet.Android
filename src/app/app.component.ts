@@ -52,9 +52,9 @@ export class AppComponent {
       cordova.plugins.Java2JSBridge.init(this);
 
       cordova.plugins.Java2JSBridge.getRegistrationID(succeedCallback);
-      function succeedCallback(message){
-        Config.setDeviceID(message);
-      }
+       function succeedCallback(message){
+         Config.setDeviceID(message);
+       }
       //this.rootPage =  WalltelistPage;
       //this.rootPage = ImportprivatekeyPage;
       //this.rootPage =  TabsComponent;
