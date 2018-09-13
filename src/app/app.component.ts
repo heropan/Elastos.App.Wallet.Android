@@ -60,6 +60,7 @@ export class AppComponent {
       //this.rootPage =  WalltelistPage;
       //this.rootPage = ImportprivatekeyPage;
       //this.rootPage =  TabsComponent;
+      //this.rootPage =  LauncherComponent;
       localStorage.getWallet().then((val) => {
         let type = this.GetQueryString("type");
         if (val) {

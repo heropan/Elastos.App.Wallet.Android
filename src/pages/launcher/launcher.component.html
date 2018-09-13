@@ -1,9 +1,7 @@
-<div class="launcher-box">
+<div id="wrapper">
+    <div id="cell">
+        <button ion-button (click)="onNext(1)">{{'launcher-create-wallet' | translate }}</button>
 
-  <button class="button-default" (click)="onNext(1)">{{'launcher-create-wallet' | translate }}</button>
-
-  <button class="button-default" (click)="onNext(2)" style="margin-top: 40px;">{{'launcher-backup-import' | translate }}</button>
-
-  <!--<a routerLink="/wallet/0/import">{{'launcher-backup-import' | translate }}</a>-->
-
+        <button ion-button (click)="onNext(2)" class="jianju">{{'launcher-backup-import' | translate }}</button>
+    </div>
 </div>
