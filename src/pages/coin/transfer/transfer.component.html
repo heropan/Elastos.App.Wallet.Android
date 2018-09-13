@@ -4,13 +4,13 @@
 
     <div class="weui-cells">
         <div class="weui-cell">
-            <input class="weui-input" type="text" placeholder="{{ 'text-receiver-address' | translate}}" [(ngModel)]="transfer.toAddress" [(disabled)]="isInput" />
+            <!-- <input class="weui-input" type="text" placeholder="{{ 'text-receiver-address' | translate}}" [(ngModel)]="transfer.toAddress" [(disabled)]="isInput" /> -->
             <img (click)="onClick(1)" class="transfer-account" src="./assets/images/icon/icon-account.svg">
+            <textarea class="weui-textarea" placeholder="{{ 'text-receiver-address' | translate}}" rows="2" [(ngModel)]="transfer.toAddress" weui-textarea weui-cn="2"></textarea>
         </div>
         <div class="weui-cell">
-            <input class="weui-input" type="text" placeholder="{{ 'text-price' | translate}}" [(ngModel)]="transfer.amount" [(disabled)]="isInput" />
-
             <span class="transfer-balance">{{'text-balance' | translate}}：{{balance/SELA}}</span>
+            <input class="weui-input" type="text" placeholder="{{ 'text-price' | translate}}" [(ngModel)]="transfer.amount" [(disabled)]="isInput" />
         </div>
         <div class="weui-cell">
             <textarea class="weui-textarea" placeholder="{{ 'text-remark' | translate}}" rows="3" [(ngModel)]="transfer.remark" weui-textarea weui-cn="2" maxlength="20"></textarea>
