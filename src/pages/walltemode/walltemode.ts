@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {AddpublickeyPage} from '../../pages/addpublickey/addpublickey';
 import {AddprivatekeyPage} from '../../pages/addprivatekey/addprivatekey';
+import {ImportprivatekeyPage} from '../../pages/importprivatekey/importprivatekey';
 @Component({
   selector: 'page-walltemode',
   templateUrl: 'walltemode.html',
@@ -25,7 +26,7 @@ export class WalltemodePage {
   }
 
   wayTwo(){
-     //this.navCtrl.push(AddprivatekeyPage,this.navObj);
+     this.navCtrl.push(ImportprivatekeyPage,this.navObj);
   }
 
   wayThree(){

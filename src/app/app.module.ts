@@ -105,6 +105,7 @@ import {CreatemultiwalltePage} from '../pages/createmultiwallte/createmultiwallt
 import {WalltemodePage} from '../pages/walltemode/walltemode';
 import {AddpublickeyPage} from '../pages/addpublickey/addpublickey';
 import {AddprivatekeyPage} from '../pages/addprivatekey/addprivatekey';
+import {ImportprivatekeyPage} from '../pages/importprivatekey/importprivatekey';
 /*id相关页面*/
 
 /** 通过类引用方式解析国家化文件 */
@@ -198,7 +199,8 @@ export function TranslateLoaderFactory() {
     CreatemultiwalltePage,
     WalltemodePage,
     AddpublickeyPage,
-    AddprivatekeyPage
+    AddprivatekeyPage,
+    ImportprivatekeyPage
   ],
   imports: [
     BrowserModule,
@@ -288,7 +290,8 @@ export function TranslateLoaderFactory() {
     CreatemultiwalltePage,
     WalltemodePage,
     AddpublickeyPage,
-    AddprivatekeyPage
+    AddprivatekeyPage,
+    ImportprivatekeyPage
   ],
   providers: [
     StatusBar,

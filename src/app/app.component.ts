@@ -10,7 +10,7 @@ import {LauncherComponent} from "../pages/launcher/launcher.component";
 //import {ImportComponent} from "../pages/wallet/import/import.component";
 //import {ExprotPrikeyComponent} from "../pages/wallet/exprot-prikey/exprot-prikey.component";
 //import {ReceiveComponent} from "../pages/coin/receive/receive.component";
-//import {TransferComponent} from "../pages/coin/transfer/transfer.component";
+import {TransferComponent} from "../pages/coin/transfer/transfer.component";
 //import {CoinComponent} from "../pages/coin/coin.component";
 //import {CoinListComponent} from "../pages/coin/coin-list/coin-list.component";
 //import {RecordinfoComponent} from "../pages/coin/recordinfo/recordinfo.component";
@@ -19,6 +19,7 @@ import {LauncherComponent} from "../pages/launcher/launcher.component";
 //import { AddressComponent } from '../pages/wallet/address/address.component'
 import {TabsComponent} from '../pages/tabs/tabs.component';
 import {WalltelistPage} from '../pages/walltelist/walltelist';
+import {ImportprivatekeyPage} from '../pages/importprivatekey/importprivatekey';
 import {LocalStorage} from "../providers/Localstorage";
 import { Config } from '../providers/Config';
 import { TranslateService } from '@ngx-translate/core';
@@ -55,6 +56,7 @@ export class AppComponent {
         Config.setDeviceID(message);
       }
       //this.rootPage =  WalltelistPage;
+      //this.rootPage = ImportprivatekeyPage;
       //this.rootPage =  TabsComponent;
       localStorage.getWallet().then((val) => {
         if (val) {

@@ -249,5 +249,8 @@ export const zh = {
   'text-add-private-title':"添加私钥",
   'text-create-privatekyc':"创建私钥",
   'text-import-privatekyc':"导入私钥",
-  'text-observe-wallte':"观察钱包"
+  'text-observe-wallte':"观察钱包",
+  'text-import-privatekey':"导入私钥",
+  'text-import-privatekey-des':"输入Private Key文件内容至输入框。请留意字符大小写",
+  'text-import-privatekey-placeholder':"输入明文私钥"
 };
