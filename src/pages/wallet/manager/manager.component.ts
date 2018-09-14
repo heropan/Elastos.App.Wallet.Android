@@ -35,7 +35,6 @@ export class ManagerComponent {
     switch (i){
       case 0:
         this.Go(ExprotPrikeyComponent);
-        this.navCtrl.push(ExprotPrikeyComponent);
         break;
       case 1:
         this.Go(PaypasswordResetComponent);
