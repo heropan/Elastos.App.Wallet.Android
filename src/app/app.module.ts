@@ -44,7 +44,6 @@ import {MnemonicComponent} from '../pages/mnemonic/mnemonic.component';
 import {WriteComponent} from '../pages/mnemonic/write/write.component';
 import {AddressComponent} from '../pages/wallet/address/address.component';
 import {ContactsComponent} from '../pages/contacts/contacts.component';
-import {SettingsComponent} from '../pages/universal/settings/settings.component';
 import {ResultComponent} from '../pages/universal/result/result.component';
 import {CoinComponent} from '../pages/coin/coin.component';
 import {RecordComponent} from '../pages/coin/record/record.component';
@@ -148,7 +147,6 @@ export function TranslateLoaderFactory() {
     WriteComponent,
     AddressComponent,
     ContactsComponent,
-    SettingsComponent,
     ResultComponent,
     CoinComponent,
     RecordComponent,
@@ -239,7 +237,6 @@ export function TranslateLoaderFactory() {
     WriteComponent,
     AddressComponent,
     ContactsComponent,
-    SettingsComponent,
     ResultComponent,
     CoinComponent,
     RecordComponent,

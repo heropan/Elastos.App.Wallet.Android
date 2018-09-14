@@ -1,5 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {BaseComponent} from './../../../app/BaseComponent';
+import {Component} from '@angular/core';
+import { NavController, NavParams,Events,App} from 'ionic-angular';
+import {LocalStorage} from "../../../providers/Localstorage";
+import {PopupProvider} from "../../../providers/popup";
+import {WalletManager} from '../../../providers/WalletManager';
 import {ExprotPrikeyComponent} from "../exprot-prikey/exprot-prikey.component";
 import {PaypasswordResetComponent} from "../paypassword-reset/paypassword-reset.component";
 import {LauncherComponent} from "../../launcher/launcher.component";
@@ -8,17 +11,23 @@ import {LanguagePage} from '../../../pages/wallet/language/language';
   selector: 'app-manager',
   templateUrl: './manager.component.html',
 })
-export class ManagerComponent extends BaseComponent implements OnInit {
+export class ManagerComponent {
 
   walletName = ""
-
-  ngOnInit() {
-    this.setTitleByAssets('text-wallet-manager');
-    // wallet name
+  public currentLanguageName:string = "";
+  constructor(public navCtrl: NavController, public navParams: NavParams,public events: Events,public localStorage:LocalStorage,public popupProvider: PopupProvider, public walletManager: WalletManager,private app: App) {
     this.localStorage.getWallet().then((val) => {
       if (val) {
         this.walletName = JSON.parse(val).name;
       }
+    });
+
+    this.localStorage.getLanguage("wallte-language").then((val)=>{
+         this.currentLanguageName = JSON.parse(val)["name"] || "";
+    });
+
+    this.events.subscribe('language:update', (item) => {
+        this.currentLanguageName = item["name"] || "";
     });
   }
 
@@ -26,6 +35,7 @@ export class ManagerComponent extends BaseComponent implements OnInit {
     switch (i){
       case 0:
         this.Go(ExprotPrikeyComponent);
+        this.navCtrl.push(ExprotPrikeyComponent);
         break;
       case 1:
         this.Go(PaypasswordResetComponent);
@@ -51,28 +61,18 @@ export class ManagerComponent extends BaseComponent implements OnInit {
     this.localStorage.remove('coinListCache').then(()=>{
       this.localStorage.remove('ELA-Wallet').then(() => {
         this.walletManager.destroyWallet(masterWalletId, (result)=>{
-          //this.Go(LauncherComponent);
           this.setRootRouter(LauncherComponent);
         });
       });
     });
   }
 
-  getDiD(){
-    this.walletManager.getDIDList((result)=>{
-                let list= result["list"];
-                if(list === null){
-                     return;
-                }
-    })
+  Go(page: any, options: any = {}) {
+    this.navCtrl.push(page, options);
   }
 
-  destroyDiD(did){
-     this.walletManager.destoryDID(did,(result)=>{
-
-     })
+  setRootRouter(router){
+    this.app.getRootNav().setRoot(router);
   }
-
-
 
 }

@@ -1,40 +1,59 @@
-<app-header [header]="header"></app-header>
-<div class="weui-cells">
+<ion-header>
+    <ion-navbar>
+        <ion-title style="text-align:center">{{'text-wallet-manager' | translate}}</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content no-bounce>
+    <ion-list>
+        <button ion-item>
+      <ion-icon item-start>
+        <img src="assets/images/icon-wallet.svg" width="22">
+      </ion-icon>
+      <ion-label>
+        <span>{{'wallet-name' | translate}}</span>
+      </ion-label>
+      <ion-note *ngIf="walletName" item-end>
+        {{ walletName }}
+      </ion-note>
+    </button>
 
+        <button ion-item (click)="onItem(3)">
+      <ion-icon item-start>
+        <img src="assets/images/icon-language.svg" width="22">
+      </ion-icon>
+      <ion-label>
+        <span>{{'text-language-message' | translate}}</span>
+      </ion-label>
+      <ion-note *ngIf="currentLanguageName" item-end>
+        {{ currentLanguageName }}
+      </ion-note>
+    </button>
 
-    <a class="weui-cell weui-cell_access" href="javascript:;">
-        <div class="weui-cell__bd">
-            <p>{{'wallet-name' | translate}}</p>
-            <p>{{walletName}}</p>
-        </div>
-    </a>
+        <button ion-item (click)="onItem(0)">
+      <ion-icon item-start>
+        <img src=" assets/images/icon-export.svg " width="22 ">
+      </ion-icon>
+      <ion-label>
+        <span>{{'wallet-export' | translate}}</span>
+      </ion-label>
+    </button>
 
-    <a class="weui-cell weui-cell_access" href="javascript:;" (click)="onItem(3)">
-        <div class="weui-cell__bd">
-            <p>{{'text-language-message' | translate}}</p>
-        </div>
-        <div class="weui-cell__ft"></div>
-    </a>
+        <button ion-item (click)="onItem(1)">
+      <ion-icon item-start>
+        <img src=" assets/images/icon-aletr.svg " width="22 ">
+      </ion-icon>
+      <ion-label>
+        <span>{{'wallet-password-reset' | translate}}</span>
+      </ion-label>
+    </button>
 
-    <a class="weui-cell weui-cell_access" href="javascript:;" (click)="onItem(0)">
-        <div class="weui-cell__bd">
-            <p>{{'wallet-export' | translate}}</p>
-        </div>
-        <div class="weui-cell__ft"></div>
-    </a>
-
-    <a class="weui-cell weui-cell_access" href="javascript:;" (click)="onItem(1)">
-        <div class="weui-cell__bd">
-            <p>{{'wallet-password-reset' | translate}}</p>
-        </div>
-        <div class="weui-cell__ft"></div>
-    </a>
-
-    <a class="weui-cell weui-cell_access" style="color: red;" href="javascript:;" (click)="onItem(2)">
-        <div class="weui-cell__bd">
-            <p>{{'wallet-delete' | translate}}</p>
-        </div>
-        <div class="weui-cell__ft"></div>
-    </a>
-
-</div>
+        <button ion-item (click)="onItem(2)">
+      <ion-icon item-start>
+        <img src=" assets/images/icon-del.svg " width="22 ">
+      </ion-icon>
+      <ion-label>
+        <span style="color:#ff0000">{{'wallet-delete' | translate}}</span>
+      </ion-label>
+    </button>
+    </ion-list>
+</ion-content>

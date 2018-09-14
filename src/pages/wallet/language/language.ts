@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { NavController ,NavParams} from 'ionic-angular';
+import { NavController ,NavParams,Events} from 'ionic-angular';
 import {LocalStorage} from "../../../providers/Localstorage";
 @Component({
   selector: 'page-language',
@@ -14,7 +14,8 @@ export class LanguagePage {
     private navCtrl: NavController,
     private translate: TranslateService,
     public navParams: NavParams,
-    public localStorage: LocalStorage
+    public localStorage: LocalStorage,
+    public events: Events
   ) {
       this.languages =[{
         name: 'English',
@@ -47,6 +48,7 @@ export class LanguagePage {
          }
          this.localStorage.set("wallte-language",item).then(()=>{
           this.translate.use(newLang);
+          this.events.publish("language:update",item);
           this.navCtrl.pop();
          });
   }
