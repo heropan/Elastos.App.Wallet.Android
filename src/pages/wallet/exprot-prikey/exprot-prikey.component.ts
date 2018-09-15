@@ -1,12 +1,20 @@
-import {Component, OnInit} from '@angular/core';
-import {BaseComponent} from './../../../app/BaseComponent';
+import {Component} from '@angular/core';
+import { NavController, NavParams} from 'ionic-angular';
+import {WalletManager} from '../../../providers/WalletManager';
+import {Native} from "../../../providers/Native";
+import {Util} from "../../../providers/Util";
+import {LocalStorage} from "../../../providers/Localstorage";
 
 
 @Component({
   selector: 'app-exprot-prikey',
   templateUrl: './exprot-prikey.component.html'
 })
-export class ExprotPrikeyComponent extends BaseComponent implements OnInit {
+export class ExprotPrikeyComponent  {
+
+  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage) {
+           this.onWalletDatainit();
+  }
 
   public backupWalletPlainText:any;
   exprotObj = {
@@ -16,29 +24,30 @@ export class ExprotPrikeyComponent extends BaseComponent implements OnInit {
     payPassword: ''
   };
 
-  ngOnInit() {
-    this.setTitleByAssets('text-wallet-export');
-
-  }
-
   onWalletDatainit(){
-    this.exprotObj.name = this.walletData.name;
+    this.localStorage.getWallet().then((val)=>{
+      if(val === null){
+        this.exprotObj.name = "";
+        return;
+      }
+      this.exprotObj.name = JSON.parse(val)["name"];
+    });
   }
 
   checkparms(){
 
-    if(this.isNull(this.exprotObj.backupPassWord)){
-       this.messageBox("text-wallet-pwd");
+    if(Util.isNull(this.exprotObj.backupPassWord)){
+       this.native.toast_trans("text-wallet-pwd");
        return false;
     }
 
     if(this.exprotObj.backupPassWord != this.exprotObj.reBackupPassWord){
-      this.messageBox("text-passworld-compare");
+      this.native.toast_trans("text-passworld-compare");
        return false;
     }
 
-    if(this.isNull(this.exprotObj.payPassword)){
-      this.messageBox("text-pay-passworld-input");
+    if(Util.isNull(this.exprotObj.payPassword)){
+      this.native.toast_trans("text-pay-passworld-input");
       return false;
     }
 
@@ -59,7 +68,7 @@ export class ExprotPrikeyComponent extends BaseComponent implements OnInit {
 
   onCopay(){
     this.native.copyClipboard(this.backupWalletPlainText).then(()=>{
-             this.toast('text-copied-to-clipboard');
+      this.native.toast_trans('text-copied-to-clipboard');
     }).catch(()=>{
 
     });

@@ -1,9 +1,11 @@
+
 import {Injectable} from '@angular/core';
-import { ToastController } from 'ionic-angular';
+import { ToastController,App} from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { Clipboard } from '@ionic-native/clipboard';
 import { UUID } from 'angular2-uuid';
+import {TranslateService} from '@ngx-translate/core';
 /***
  * APP底层交互
  */
@@ -13,7 +15,9 @@ export class Native {
   constructor(public toastCtrl:ToastController,
               private barcodeScanner: BarcodeScanner,
               private fileChooser: FileChooser,
-              private clipboard: Clipboard) {
+              private clipboard: Clipboard,
+              public translate: TranslateService,
+              public app:App) {
 
   }
 
@@ -34,6 +38,16 @@ export class Native {
 
   toast(_message: string = '操作完成', duration: number = 2000): void {
     //this.toast.show(message, String(duration), 'bottom').subscribe();
+    this.toastCtrl.create({
+      message: _message,
+      duration: 2000,
+      position: 'top'
+    }).present();
+  }
+
+  toast_trans(_message: string = '', duration: number = 2000): void {
+    //this.toast.show(message, String(duration), 'bottom').subscribe();
+    _message = this.translate.instant(_message);
     this.toastCtrl.create({
       message: _message,
       duration: 2000,
@@ -147,6 +161,14 @@ export class Native {
    */
   public static payMoney(amount){
        return ;
+  }
+
+  public Go(navCtrl:any,page: any, options: any = {}) {
+        navCtrl.push(page, options);
+  }
+
+  public setRootRouter(router){
+    this.app.getRootNav().setRoot(router);
   }
 }
 

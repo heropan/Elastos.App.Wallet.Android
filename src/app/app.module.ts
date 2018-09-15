@@ -66,7 +66,6 @@ import {RecordinfoComponent} from '../pages/coin/recordinfo/recordinfo.component
 import {AboutComponent} from '../pages/other/about/about.component';
 import {HelpComponent} from '../pages/other/help/help.component';
 import {NoticeComponent} from '../pages/other/notice/notice.component';
-import {ChangePwdComponent} from '../pages/other/change-pwd/change-pwd.component';
 import {ChangeNameComponent} from '../pages/other/change-name/change-name.component';
 import {WalletManager} from "../providers/WalletManager";
 import {BarcodeScanner} from "@ionic-native/barcode-scanner";
@@ -166,7 +165,6 @@ export function TranslateLoaderFactory() {
     AboutComponent,
     HelpComponent,
     NoticeComponent,
-    ChangePwdComponent,
     ChangeNameComponent,
     TestJniComponent,
     IdLauncherComponent,
@@ -256,7 +254,6 @@ export function TranslateLoaderFactory() {
     AboutComponent,
     HelpComponent,
     NoticeComponent,
-    ChangePwdComponent,
     ChangeNameComponent,
     TestJniComponent,
     IdLauncherComponent,

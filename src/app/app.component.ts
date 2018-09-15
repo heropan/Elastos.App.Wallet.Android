@@ -8,7 +8,7 @@ import {LauncherComponent} from "../pages/launcher/launcher.component";
 //import {MnemonicComponent} from "../pages/mnemonic/mnemonic.component";
 //import {WriteComponent} from "../pages/mnemonic/write/write.component";
 //import {ImportComponent} from "../pages/wallet/import/import.component";
-//import {ExprotPrikeyComponent} from "../pages/wallet/exprot-prikey/exprot-prikey.component";
+import {ExprotPrikeyComponent} from "../pages/wallet/exprot-prikey/exprot-prikey.component";
 //import {ReceiveComponent} from "../pages/coin/receive/receive.component";
 import {TransferComponent} from "../pages/coin/transfer/transfer.component";
 //import {CoinComponent} from "../pages/coin/coin.component";
@@ -27,6 +27,7 @@ import {ManagerComponent} from "../pages/wallet/manager/manager.component"
 import { Config } from '../providers/Config';
 import { TranslateService } from '@ngx-translate/core';
 import { Native } from '../providers/Native';
+import {PaypasswordResetComponent} from "../pages/wallet/paypassword-reset/paypassword-reset.component";
 //add for plugin
 declare var cordova: any;
 
@@ -63,6 +64,7 @@ export class AppComponent {
       //this.rootPage =  TabsComponent;
       //this.rootPage =  LauncherComponent;
       //this.rootPage =  ManagerComponent;
+      //this.rootPage = ExprotPrikeyComponent;
       localStorage.getWallet().then((val) => {
         let type = this.GetQueryString("type");
         if (val) {

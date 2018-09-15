@@ -1,36 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import {BaseComponent} from './../../../app/BaseComponent';
+import { Component} from '@angular/core';
+import { NavController, NavParams} from 'ionic-angular';
+import {WalletManager} from '../../../providers/WalletManager';
 import {Util} from "../../../providers/Util";
-import {ManagerComponent} from "../../wallet/manager/manager.component";
-
+import {Native} from "../../../providers/Native";
 @Component({
   selector: 'app-paypassword-reset',
-  templateUrl: './paypassword-reset.component.html',
-  // styleUrls: ['./paypassword-reset.component.scss']
+  templateUrl: './paypassword-reset.component.html'
 })
-export class PaypasswordResetComponent  extends BaseComponent implements OnInit  {
+export class PaypasswordResetComponent {
 
   oldPayPassword: string;
   payPassword: string;
   rePayPassword: string;
+  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native) {
 
-  ngOnInit() {
-    this.setTitleByAssets('text-wallet-info');
   }
 
   onSubmit() {
     if (!Util.password(this.payPassword)) {
-      this.toast("text-pwd-validator");
+      this.native.toast_trans("text-pwd-validator");
       return;
     }
     if (this.payPassword != this.rePayPassword) {
-      this.toast("text-repwd-validator");
+      this.native.toast_trans("text-repwd-validator");
       return;
     }
     // reset pay password
     this.walletManager.changePassword(this.oldPayPassword, this.payPassword, ()=>{
-      this.toast("reset-pwd-success");
-      this.Go(ManagerComponent);
+      this.native.toast_trans("reset-pwd-success");
+      this.navCtrl.pop();
     });
   }
 
