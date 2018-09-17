@@ -7,8 +7,6 @@
 
 using namespace Elastos::DID;
 
-extern const char* ToStringFromJson(const nlohmann::json& jsonValue);
-
 //"(JLjava/lang/String;)J"
 static jlong JNICALL nativeCreateDID(JNIEnv *env, jobject clazz, jlong jDidMgrProxy, jstring jpassword)
 {
@@ -172,7 +170,7 @@ void ElaIdManagerCallback::OnIdStatusChanged(const std::string &id,
     jmethodID methodId = env->GetMethodID(clazz, "OnIdStatusChanged","(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
     jstring jid = env->NewStringUTF(id.c_str());
     jstring jpath = env->NewStringUTF(path.c_str());
-    jstring jvalue = env->NewStringUTF(ToStringFromJson(value));
+    jstring jvalue = env->NewStringUTF(value.dump().c_str());
 
     env->CallVoidMethod(mObj, methodId, jid, jpath, jvalue);
 
