@@ -46,6 +46,22 @@ public class Wallet extends CordovaPlugin {
 	private IDidManager mDidManager = null;
 	private String mRootPath = null;
 
+	private int errCodeInvalidArg                 = 10001;
+	private int errCodeInvalidMasterWallet        = 10002;
+	private int errCodeInvalidSubWallet           = 10003;
+	private int errCodeCreateMasterWallet         = 10004;
+	private int errCodeCreateSubWallet            = 10005;
+	private int errCodeRecoverSubWallet           = 10006;
+	private int errCodeInvalidMasterWalletManager = 10007;
+	private int errCodeImportFromKeyStore         = 10008;
+	private int errCodeImportFromMnemonic         = 10009;
+	private int errCodeSubWalletInstance          = 10010;
+	private int errCodeInvalidDIDManager          = 10011;
+	private int errCodeInvalidDID                 = 10012;
+	private int errCodeActionNotFound             = 10013;
+
+	private int errCodeWalletException     = 20000;
+
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
@@ -81,26 +97,40 @@ public class Wallet extends CordovaPlugin {
 		}
 	}
 
-	private JSONObject mkMsgJson(String key, Object msg) throws JSONException {
+	private JSONObject mkJson(String key, Object value) throws JSONException {
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put(key, msg);
+		jsonObject.put(key, value);
+
 		return jsonObject;
 	}
 
 	private void exceptionProcess(WalletException e, CallbackContext cc, Object msg) throws JSONException {
-		Log.e(TAG, "Exception: " + msg);
 		e.printStackTrace();
-		cc.error(mkMsgJson("Exception", e.GetErrorInfo()));
+
+		JSONObject errJson = new JSONObject();
+
+		errJson.put("code", errCodeWalletException);
+		errJson.put("message", msg);
+		errJson.put("exception", e.GetErrorInfo());
+
+		Log.e(TAG, errJson.toString());
+
+		cc.error(mkJson("error", errJson));
 	}
 
-	private void errorProcess(CallbackContext cc, Object msg) throws JSONException {
-		Log.e(TAG, "" + msg);
-		cc.error(mkMsgJson("Error", msg));
+	private void errorProcess(CallbackContext cc, int code, Object msg) throws JSONException {
+		JSONObject errJson = new JSONObject();
+
+		errJson.put("code", code);
+		errJson.put("message", msg);
+		Log.e(TAG, errJson.toString());
+
+		cc.error(mkJson("error", errJson));
 	}
 
 	private void successProcess(CallbackContext cc, Object msg) throws JSONException {
 		Log.i(TAG, "" + msg);
-		cc.success(mkMsgJson("Success", msg));
+		cc.success(mkJson("success", msg));
 	}
 
 	private IMasterWallet getMasterWallet(String masterWalletId) {
@@ -296,9 +326,7 @@ public class Wallet extends CordovaPlugin {
 					this.getGenesisAddress(args, cc);
 					break;
 				default:
-					String msg = "action '" + action + "' not found, please check!";
-					Log.e(TAG, msg);
-					cc.error(mkMsgJson("Error", msg));
+					errorProcess(cc, errCodeActionNotFound, "action '" + action + "' not found, please check!");
 					return false;
 			}
 		} catch (JSONException e) {
@@ -326,20 +354,20 @@ public class Wallet extends CordovaPlugin {
 		long feePerKb = args.getLong(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			IMasterWallet masterWallet = getMasterWallet(masterWalletId);
 			if (masterWallet == null) {
-				errorProcess(cc, "Get master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidMasterWallet, "Get master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
 			ISubWallet subWallet = masterWallet.CreateSubWallet(chainId, payPassword, singleAddress, feePerKb);
 			if (subWallet == null) {
-				errorProcess(cc, "Master wallet '" + masterWalletId + "' create subwallet '" + chainId + "' fail");
+				errorProcess(cc, errCodeCreateSubWallet, "Master wallet '" + masterWalletId + "' create subwallet '" + chainId + "' fail");
 				return;
 			}
 			successProcess(cc, "Master wallet '" + masterWalletId + "' create subwallet '" + chainId + "' successfully");
@@ -365,20 +393,20 @@ public class Wallet extends CordovaPlugin {
 		long feePerKb = args.getLong(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			IMasterWallet masterWallet = getMasterWallet(masterWalletId);
 			if (masterWallet == null) {
-				errorProcess(cc, "Get master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidMasterWallet, "Get master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
 			ISubWallet subWallet = masterWallet.RecoverSubWallet(chainId, payPassword, singleAddress, limitGap, feePerKb);
 			if (subWallet == null) {
-				errorProcess(cc, "Master wallet '" + masterWalletId + "' recover subwallet '" + chainId + "' fail");
+				errorProcess(cc, errCodeRecoverSubWallet, "Master wallet '" + masterWalletId + "' recover subwallet '" + chainId + "' fail");
 				return;
 			}
 			successProcess(cc, "Master wallet '" + masterWalletId + "' recover subwallet '" + chainId + "' successfully");
@@ -393,7 +421,7 @@ public class Wallet extends CordovaPlugin {
 			JSONArray masterWalletListJson = new JSONArray();
 
 			if (masterWalletList.size() == 0) {
-				errorProcess(cc, "don't have any master wallet");
+				errorProcess(cc, errCodeInvalidMasterWallet, "Don't have any master wallet");
 				return;
 			}
 
@@ -402,7 +430,7 @@ public class Wallet extends CordovaPlugin {
 			}
 			successProcess(cc, masterWalletListJson.toString());
 		} catch (WalletException e) {
-			exceptionProcess(e, cc, "get all master wallets exception");
+			exceptionProcess(e, cc, "Get all master wallets exception");
 		}
 	}
 
@@ -413,14 +441,14 @@ public class Wallet extends CordovaPlugin {
 		String masterWalletId = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			IMasterWallet masterWallet = getMasterWallet(masterWalletId);
 			if (masterWallet == null) {
-				errorProcess(cc, "Get master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidMasterWallet, "Get master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
@@ -437,20 +465,20 @@ public class Wallet extends CordovaPlugin {
 		String masterWalletId = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			IMasterWallet masterWallet = getMasterWallet(masterWalletId);
 			if (masterWallet == null) {
-				errorProcess(cc, "get master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidMasterWallet, "get master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
 			ArrayList<ISubWallet> subWalletList = masterWallet.GetAllSubWallets();
 			if (subWalletList.size() == 0) {
-				errorProcess(cc, "master wallet '" + masterWalletId + "' don't have any subwallet");
+				errorProcess(cc, errCodeInvalidSubWallet, "master wallet '" + masterWalletId + "' don't have any subwallet");
 				return;
 			}
 
@@ -466,7 +494,7 @@ public class Wallet extends CordovaPlugin {
 
 	public void saveConfigs(CallbackContext cc) throws JSONException {
 		if (mMasterWalletManager == null) {
-			errorProcess(cc, "Master wallet manager has not initialize");
+			errorProcess(cc, errCodeInvalidMasterWalletManager, "Master wallet manager has not initialize");
 			return;
 		}
 
@@ -485,19 +513,19 @@ public class Wallet extends CordovaPlugin {
 		String language = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		if (mMasterWalletManager == null) {
-			errorProcess(cc, "Master wallet manager has not initialize");
+			errorProcess(cc, errCodeInvalidMasterWalletManager, "Master wallet manager has not initialize");
 			return;
 		}
 
 		try {
 			String mnemonic = mMasterWalletManager.GenerateMnemonic(language);
 			Log.i(TAG, "Generate mnemonic in '" + language + "'");
-			cc.success(mkMsgJson("Success", mnemonic));
+			cc.success(mkJson("Success", mnemonic));
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, "Generate mnemonic in '" + language + "'");
 		}
@@ -512,14 +540,14 @@ public class Wallet extends CordovaPlugin {
 		String addr = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			IMasterWallet masterWallet = getMasterWallet(masterWalletId);
 			if (masterWallet == null) {
-				errorProcess(cc, "get master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidMasterWallet, "get master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
@@ -537,14 +565,14 @@ public class Wallet extends CordovaPlugin {
 		String masterWalletId = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			IMasterWallet masterWallet = getMasterWallet(masterWalletId);
 			if (masterWallet == null) {
-				errorProcess(cc, "get master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidMasterWallet, "get master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
@@ -570,7 +598,7 @@ public class Wallet extends CordovaPlugin {
 		String language       = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
@@ -579,7 +607,7 @@ public class Wallet extends CordovaPlugin {
 					masterWalletId, mnemonic, phrasePassword, payPassword, language);
 
 			if (masterWallet == null) {
-				errorProcess(cc, "create master wallet '" + masterWalletId + "' failed");
+				errorProcess(cc, errCodeCreateMasterWallet, "create master wallet '" + masterWalletId + "' failed");
 				return;
 			}
 			initDidManager(masterWallet);
@@ -605,7 +633,7 @@ public class Wallet extends CordovaPlugin {
 		String privKey = null;
 
 		if (args.length() != 4 && args.length() != 5) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
@@ -625,19 +653,19 @@ public class Wallet extends CordovaPlugin {
 				masterWallet = mMasterWalletManager.CreateMultiSignMasterWallet(
 						masterWalletId, privKey, payPassword, coSigners, requiredSignCount);
 			} else {
-				errorProcess(cc, "invalid args length");
+				errorProcess(cc, errCodeInvalidArg, "Invalid args length");
 				return;
 			}
 
 			if (masterWallet == null) {
-				errorProcess(cc, "create multi sign master wallet '" + masterWalletId + "' failed");
+				errorProcess(cc, errCodeCreateMasterWallet, "Create multi sign master wallet '" + masterWalletId + "' failed");
 				return;
 			}
 
 			initDidManager(masterWallet);
-			successProcess(cc, "create multi sign master wallet '" + masterWalletId + "' = " + masterWallet + " OK");
+			successProcess(cc, "Create multi sign master wallet '" + masterWalletId + "' = " + masterWallet + " OK");
 		} catch (WalletException e) {
-			exceptionProcess(e, cc, "create multi sign master wallet '" + masterWalletId + "'");
+			exceptionProcess(e, cc, "Create multi sign master wallet '" + masterWalletId + "'");
 		}
 	}
 
@@ -648,15 +676,15 @@ public class Wallet extends CordovaPlugin {
 		String masterWalletId = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			mMasterWalletManager.DestroyWallet(masterWalletId);
-			successProcess(cc, "destroy master wallet '" + masterWalletId + "' OK");
+			successProcess(cc, "Destroy master wallet '" + masterWalletId + "' OK");
 		} catch (WalletException e) {
-			exceptionProcess(e, cc, "destroy master wallet '" + masterWalletId + "'");
+			exceptionProcess(e, cc, "Destroy master wallet '" + masterWalletId + "'");
 		}
 	}
 
@@ -675,7 +703,7 @@ public class Wallet extends CordovaPlugin {
 		String phrasePassword  = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
@@ -683,15 +711,15 @@ public class Wallet extends CordovaPlugin {
 			IMasterWallet masterWallet = mMasterWalletManager.ImportWalletWithKeystore(
 					masterWalletId, keystoreContent, backupPassword, payPassword, phrasePassword);
 			if (masterWallet == null) {
-				errorProcess(cc, "import master wallet '" + masterWalletId + "' with keystore failed");
+				errorProcess(cc, errCodeImportFromKeyStore, "Import master wallet '" + masterWalletId + "' with keystore failed");
 				return;
 			}
 
 			initDidManager(masterWallet);
 
-			successProcess(cc, "import master wallet '" + masterWalletId + "' with keystore OK");
+			successProcess(cc, "Import master wallet '" + masterWalletId + "' with keystore OK");
 		} catch (WalletException e) {
-			exceptionProcess(e, cc, "import master wallet '" + masterWalletId + "' with keystore");
+			exceptionProcess(e, cc, "Import master wallet '" + masterWalletId + "' with keystore");
 		}
 	}
 
@@ -710,7 +738,7 @@ public class Wallet extends CordovaPlugin {
 		String language       = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
@@ -718,7 +746,7 @@ public class Wallet extends CordovaPlugin {
 			IMasterWallet masterWallet = mMasterWalletManager.ImportWalletWithMnemonic(
 					masterWalletId, mnemonic, phrasePassword, payPassword, language);
 			if (masterWallet == null) {
-				errorProcess(cc, "import master wallet '" + masterWalletId + "' with mnemonic failed");
+				errorProcess(cc, errCodeImportFromMnemonic, "import master wallet '" + masterWalletId + "' with mnemonic failed");
 				return;
 			}
 
@@ -740,14 +768,14 @@ public class Wallet extends CordovaPlugin {
 		String payPassword    = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			IMasterWallet masterWallet = getMasterWallet(masterWalletId);
 			if (masterWallet == null) {
-				errorProcess(cc, "get master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidMasterWallet, "get master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
@@ -767,19 +795,19 @@ public class Wallet extends CordovaPlugin {
 		String backupPassword = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			IMasterWallet masterWallet = getMasterWallet(masterWalletId);
 			if (masterWallet == null) {
-				errorProcess(cc, "get master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidMasterWallet, "get master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
 			String mnemonic = mMasterWalletManager.ExportWalletWithMnemonic(masterWallet, backupPassword);
-			cc.success(mkMsgJson("Success", mnemonic));
+			cc.success(mkJson("Success", mnemonic));
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, "export master wallet '" + masterWalletId + "' with mnemonic");
 		}
@@ -804,14 +832,14 @@ public class Wallet extends CordovaPlugin {
 		String remark         = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return ;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
@@ -839,14 +867,14 @@ public class Wallet extends CordovaPlugin {
 		String memo           = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return ;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
@@ -870,14 +898,14 @@ public class Wallet extends CordovaPlugin {
 		String payPassword    = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
@@ -901,14 +929,14 @@ public class Wallet extends CordovaPlugin {
 		long   fee            = args.getLong(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
@@ -934,14 +962,14 @@ public class Wallet extends CordovaPlugin {
 		String addressOrTxId  = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
@@ -961,14 +989,14 @@ public class Wallet extends CordovaPlugin {
 		String chainId        = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
@@ -1069,14 +1097,14 @@ public class Wallet extends CordovaPlugin {
 		String chainId        = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 			successProcess(cc, subWallet.GetBalanceInfo());
@@ -1094,14 +1122,14 @@ public class Wallet extends CordovaPlugin {
 		String chainId        = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
@@ -1120,20 +1148,20 @@ public class Wallet extends CordovaPlugin {
 		String chainId        = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
 			successProcess(cc, subWallet.CreateAddress());
 		} catch (WalletException e) {
-			exceptionProcess(e, cc, "master wallet '" + masterWalletId + "' subwallet ' " + chainId + "' create address");
+			exceptionProcess(e, cc, "Master wallet '" + masterWalletId + "' subwallet ' " + chainId + "' create address");
 		}
 	}
 
@@ -1150,14 +1178,14 @@ public class Wallet extends CordovaPlugin {
 		int    count          = args.getInt(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "Get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
@@ -1178,20 +1206,20 @@ public class Wallet extends CordovaPlugin {
 		String address        = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "Get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
 			successProcess(cc, subWallet.GetBalanceWithAddress(address));
 		} catch (WalletException e) {
-			exceptionProcess(e, cc, "master wallet '" + masterWalletId + "' subwallet '" + chainId + "' get balance with address");
+			exceptionProcess(e, cc, "Master wallet '" + masterWalletId + "' subwallet '" + chainId + "' get balance with address");
 		}
 	}
 
@@ -1208,20 +1236,20 @@ public class Wallet extends CordovaPlugin {
 		String payPassword    = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "Get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
 			successProcess(cc, subWallet.Sign(message, payPassword));
 		} catch (WalletException e) {
-			exceptionProcess(e, cc, "master wallet '" + masterWalletId + "' subWallet '" + chainId + "' sign");
+			exceptionProcess(e, cc, "Master wallet '" + masterWalletId + "' subWallet '" + chainId + "' sign");
 		}
 	}
 
@@ -1240,20 +1268,20 @@ public class Wallet extends CordovaPlugin {
 		String signature      = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "Get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
 			successProcess(cc, subWallet.CheckSign(publicKey, message, signature));
 		} catch (WalletException e) {
-			exceptionProcess(e, cc, "master wallet '" + masterWalletId + "' subwallet '" + chainId + "' check sign");
+			exceptionProcess(e, cc, "Master wallet '" + masterWalletId + "' subwallet '" + chainId + "' check sign");
 		}
 	}
 
@@ -1272,20 +1300,20 @@ public class Wallet extends CordovaPlugin {
 		String payPassword    = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "Get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
 			successProcess(cc, subWallet.SendRawTransaction(txJson, fee, payPassword));
 		} catch (WalletException e) {
-			exceptionProcess(e, cc, "master wallet '" + masterWalletId + "' subwallet '" + chainId + "' send raw tx");
+			exceptionProcess(e, cc, "Master wallet '" + masterWalletId + "' subwallet '" + chainId + "' send raw tx");
 		}
 	}
 
@@ -1302,20 +1330,20 @@ public class Wallet extends CordovaPlugin {
 		long   feePerKb       = args.getLong(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "Get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
 			successProcess(cc, subWallet.CalculateTransactionFee(rawTransaction, feePerKb));
 		} catch (WalletException e) {
-			exceptionProcess(e, cc, "master wallet '" + masterWalletId + "' subWallet '" + chainId + "' calculate tx fee");
+			exceptionProcess(e, cc, "Master wallet '" + masterWalletId + "' subWallet '" + chainId + "' calculate tx fee");
 		}
 	}
 
@@ -1338,19 +1366,19 @@ public class Wallet extends CordovaPlugin {
 		String remark         = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "Get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
 			if (! (subWallet instanceof IIdChainSubWallet)) {
-				errorProcess(cc, "subwallet '" + chainId + "' is not instance of IIdChainSubWallet");
+				errorProcess(cc, errCodeSubWalletInstance, "subwallet '" + chainId + "' is not instance of IIdChainSubWallet");
 				return;
 			}
 
@@ -1387,19 +1415,19 @@ public class Wallet extends CordovaPlugin {
 		String remark          = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "Get subwalelt '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "Get subwalelt '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
 			if (! (subWallet instanceof IMainchainSubWallet)) {
-				errorProcess(cc, "Subwallet '" + chainId + "' is not instance of IMainchainSubWallet");
+				errorProcess(cc, errCodeSubWalletInstance, "Subwallet '" + chainId + "' is not instance of IMainchainSubWallet");
 				return;
 			}
 
@@ -1420,14 +1448,14 @@ public class Wallet extends CordovaPlugin {
 		String masterWalletId = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			IMasterWallet masterWallet = getMasterWallet(masterWalletId);
 			if (masterWallet == null) {
-				errorProcess(cc, "Get master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidMasterWallet, "Get master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
@@ -1454,14 +1482,14 @@ public class Wallet extends CordovaPlugin {
 		String newPassword    = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			IMasterWallet masterWallet = getMasterWallet(masterWalletId);
 			if (masterWallet == null) {
-				errorProcess(cc, "Get master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidMasterWallet, "Get master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
@@ -1504,12 +1532,12 @@ public class Wallet extends CordovaPlugin {
 		String password = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		if (mDidManager == null) {
-			errorProcess(cc, "DID manager has not initialize");
+			errorProcess(cc, errCodeInvalidDIDManager, "DID manager has not initialize");
 			return;
 		}
 
@@ -1527,7 +1555,7 @@ public class Wallet extends CordovaPlugin {
 	// { "Exception": String message }
 	public void getDIDList(CallbackContext cc) throws JSONException {
 		if (mDidManager == null) {
-			errorProcess(cc, "DID manager has not initialize");
+			errorProcess(cc, errCodeInvalidDIDManager, "DID manager has not initialize");
 			return;
 		}
 
@@ -1545,12 +1573,12 @@ public class Wallet extends CordovaPlugin {
 		String didName = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		if (mDidManager == null) {
-			errorProcess(cc, "DID manager has not initialize");
+			errorProcess(cc, errCodeInvalidDIDManager, "DID manager has not initialize");
 			return;
 		}
 
@@ -1574,12 +1602,12 @@ public class Wallet extends CordovaPlugin {
 		String valueJson = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		if (mDidManager == null) {
-			errorProcess(cc, "DID manager has not initialize");
+			errorProcess(cc, errCodeInvalidDIDManager, "DID manager has not initialize");
 			return;
 		}
 
@@ -1587,7 +1615,7 @@ public class Wallet extends CordovaPlugin {
 
 			IDid did = mDidManager.GetDID(didName);
 			if (did == null) {
-				errorProcess(cc, "DID manager get DID '" + didName + "' fail");
+				errorProcess(cc, errCodeInvalidDID, "DID manager get DID '" + didName + "' fail");
 				return;
 			}
 
@@ -1607,19 +1635,19 @@ public class Wallet extends CordovaPlugin {
 		String keyPath   = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		if (mDidManager == null) {
-			errorProcess(cc, "DID manager has not initialize");
+			errorProcess(cc, errCodeInvalidDIDManager, "DID manager has not initialize");
 			return;
 		}
 
 		try {
 			IDid did = mDidManager.GetDID(didName);
 			if (did == null) {
-				errorProcess(cc, "DID manager get DID '" + didName + "' fail");
+				errorProcess(cc, errCodeInvalidDID, "DID manager get DID '" + didName + "' fail");
 				return;
 			}
 
@@ -1638,19 +1666,19 @@ public class Wallet extends CordovaPlugin {
 		String keyPath   = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		if (mDidManager == null) {
-			errorProcess(cc, "DID manager has not initialize");
+			errorProcess(cc, errCodeInvalidDIDManager, "DID manager has not initialize");
 			return;
 		}
 
 		try {
 			IDid did = mDidManager.GetDID(didName);
 			if (did == null) {
-				errorProcess(cc, "DID manager get DID '" + didName + "' fail");
+				errorProcess(cc, errCodeInvalidDID, "DID manager get DID '" + didName + "' fail");
 				return;
 			}
 
@@ -1671,19 +1699,19 @@ public class Wallet extends CordovaPlugin {
 		int    count   = args.getInt(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		if (mDidManager == null) {
-			errorProcess(cc, "DID manager has not initialize");
+			errorProcess(cc, errCodeInvalidDIDManager, "DID manager has not initialize");
 			return;
 		}
 
 		try {
 			IDid did = mDidManager.GetDID(didName);
 			if (did == null) {
-				errorProcess(cc, "DID manager get DID '" + didName + "' fail");
+				errorProcess(cc, errCodeInvalidDID, "DID manager get DID '" + didName + "' fail");
 				return;
 			}
 
@@ -1704,19 +1732,19 @@ public class Wallet extends CordovaPlugin {
 		String password = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		if (mDidManager == null) {
-			errorProcess(cc, "DID manager has not initialize");
+			errorProcess(cc, errCodeInvalidDIDManager, "DID manager has not initialize");
 			return;
 		}
 
 		try {
 			IDid did = mDidManager.GetDID(didName);
 			if (did == null) {
-				errorProcess(cc, "DID manager get DID '" + didName + "' fail");
+				errorProcess(cc, errCodeInvalidDID, "DID manager get DID '" + didName + "' fail");
 				return;
 			}
 
@@ -1737,19 +1765,19 @@ public class Wallet extends CordovaPlugin {
 		String password = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		if (mDidManager == null) {
-			errorProcess(cc, "DID manager has not initialize");
+			errorProcess(cc, errCodeInvalidDIDManager, "DID manager has not initialize");
 			return;
 		}
 
 		try {
 			IDid did = mDidManager.GetDID(didName);
 			if (did == null) {
-				errorProcess(cc, "DID manager get DID '" + didName + "' fail");
+				errorProcess(cc, errCodeInvalidDID, "DID manager get DID '" + didName + "' fail");
 				return;
 			}
 
@@ -1770,19 +1798,19 @@ public class Wallet extends CordovaPlugin {
 		String signature = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		if (mDidManager == null) {
-			errorProcess(cc, "DID manager has not initialize");
+			errorProcess(cc, errCodeInvalidDIDManager, "DID manager has not initialize");
 			return;
 		}
 
 		try {
 			IDid did = mDidManager.GetDID(didName);
 			if (did == null) {
-				errorProcess(cc, "DID manager get DID '" + didName + "' fail");
+				errorProcess(cc, errCodeInvalidDID, "DID manager get DID '" + didName + "' fail");
 				return;
 			}
 
@@ -1799,19 +1827,19 @@ public class Wallet extends CordovaPlugin {
 		String didName   = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		if (mDidManager == null) {
-			errorProcess(cc, "DID manager has not initialize");
+			errorProcess(cc, errCodeInvalidDIDManager, "DID manager has not initialize");
 			return;
 		}
 
 		try {
 			IDid did = mDidManager.GetDID(didName);
 			if (did == null) {
-				errorProcess(cc, "DID manager get DID '" + didName + "' fail");
+				errorProcess(cc, errCodeInvalidDID, "DID manager get DID '" + didName + "' fail");
 				return;
 			}
 
@@ -1828,12 +1856,12 @@ public class Wallet extends CordovaPlugin {
 		String didName   = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		if (mDidManager == null) {
-			errorProcess(cc, "DID manager has not initialize");
+			errorProcess(cc, errCodeInvalidDIDManager, "DID manager has not initialize");
 			return;
 		}
 
@@ -1887,19 +1915,19 @@ public class Wallet extends CordovaPlugin {
 		String remark                = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "Get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "Get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
 			if (! (subWallet instanceof ISidechainSubWallet)) {
-				errorProcess(cc, "Subwallet '" + chainId + "' is not instance of ISidechainSubWallet");
+				errorProcess(cc, errCodeSubWalletInstance, "Subwallet '" + chainId + "' is not instance of ISidechainSubWallet");
 				return;
 			}
 
@@ -1922,19 +1950,19 @@ public class Wallet extends CordovaPlugin {
 		String chainId        = args.getString(idx++);
 
 		if (args.length() != idx) {
-			errorProcess(cc, idx + " parameters are expected");
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
 			return;
 		}
 
 		try {
 			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
 			if (subWallet == null) {
-				errorProcess(cc, "Get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				errorProcess(cc, errCodeInvalidSubWallet, "Get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
 				return;
 			}
 
 			if (! (subWallet instanceof ISidechainSubWallet)) {
-				errorProcess(cc, "Subwallet '" + chainId + "' is not instance of ISidechainSubWallet");
+				errorProcess(cc, errCodeSubWalletInstance, "Subwallet '" + chainId + "' is not instance of ISidechainSubWallet");
 				return;
 			}
 
