@@ -8,6 +8,7 @@ import {Util} from "../../../providers/Util";
   templateUrl: './import.component.html'
 })
 export class ImportComponent extends BaseComponent implements OnInit {
+  masterWalletId:string = "1";
   public selectedTab: string="words";
   public showAdvOpts:boolean;
   public keyStoreContent:any;
@@ -65,7 +66,7 @@ export class ImportComponent extends BaseComponent implements OnInit {
                       this.keyStoreContent,this.importFileObj.backupPassWord,
                       this.importFileObj.payPassword,this.importFileObj.phrasePassword,
                       ()=>{
-                        this.walletManager.createSubWallet("ELA", this.importFileObj.payPassword, false, 0, (val)=>{
+                        this.walletManager.createSubWallet(this.masterWalletId,"ELA", this.importFileObj.payPassword, false, 0, (val)=>{
                         });
                         this.getAllCreatedSubWallets();
                       });
@@ -110,7 +111,7 @@ export class ImportComponent extends BaseComponent implements OnInit {
   importWalletWithMnemonic(){
     let mnemonic = this.normalizeMnemonic(this.normalizeMnemonic(this.mnemonicObj.mnemonic));
     this.walletManager.importWalletWithMnemonic("1",mnemonic,this.mnemonicObj.phrasePassword,this.mnemonicObj.payPassword,this.getMnemonicLang(),()=>{
-                this.walletManager.createSubWallet("ELA", this.mnemonicObj.payPassword, false, 0, (val)=>{
+                this.walletManager.createSubWallet(this.masterWalletId,"ELA", this.mnemonicObj.payPassword, false, 0, (val)=>{
                 });
                 this.messageBox('import-text-world-sucess');
                 this.localStorage.remove('coinListCache').then(()=>{
@@ -126,7 +127,7 @@ export class ImportComponent extends BaseComponent implements OnInit {
 
   getAllCreatedSubWallets(){
 
-      this.walletManager.getAllCreatedSubWallets((createdChains) => {
+      this.walletManager.getAllSubWallets(this.masterWalletId,(createdChains) => {
         console.log("====createdChains======"+JSON.stringify(createdChains));
         let chinas = this.getCoinListCache(createdChains);
         console.log("====getCoinListCache======"+JSON.stringify(chinas));

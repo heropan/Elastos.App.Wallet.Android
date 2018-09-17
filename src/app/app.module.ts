@@ -46,7 +46,6 @@ import {AddressComponent} from '../pages/wallet/address/address.component';
 import {ContactsComponent} from '../pages/contacts/contacts.component';
 import {ResultComponent} from '../pages/universal/result/result.component';
 import {CoinComponent} from '../pages/coin/coin.component';
-import {RecordComponent} from '../pages/coin/record/record.component';
 import {TransferComponent} from '../pages/coin/transfer/transfer.component';
 import {PaymentConfirmComponent} from "../pages/coin/payment-confirm/payment-confirm.component";
 import {DidLoginComponent} from "../pages/third-party/did-login/did-login.component";
@@ -58,15 +57,10 @@ import {ContactListComponent} from '../pages/contacts/contact-list/contact-list.
 import {ContactCreateComponent} from '../pages/contacts/contact-create/contact-create.component';
 import {CoinListComponent} from '../pages/coin/coin-list/coin-list.component';
 import {WalletCreateComponent} from '../pages/wallet/wallet-create/wallet-create.component';
-import {WalletInfoComponent} from '../pages/wallet/wallet-info/wallet-info.component';
 import {Native} from '../providers/Native';
 import {Logger} from '../providers/Logger';
 import {BaseComponent} from './BaseComponent';
 import {RecordinfoComponent} from '../pages/coin/recordinfo/recordinfo.component';
-import {AboutComponent} from '../pages/other/about/about.component';
-import {HelpComponent} from '../pages/other/help/help.component';
-import {NoticeComponent} from '../pages/other/notice/notice.component';
-import {ChangeNameComponent} from '../pages/other/change-name/change-name.component';
 import {WalletManager} from "../providers/WalletManager";
 import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 import {FileChooser} from "@ionic-native/file-chooser";
@@ -82,7 +76,6 @@ import {IdImportComponent} from '../pages/id/import/import';
 import {IdManagerComponent} from '../pages/id/manager/manager';
 import {IdKycPersonComponent} from '../pages/id/kyc/person/person';
 import {IdKycCompanyComponent} from '../pages/id/kyc/company/company';
-import {IdKycResultComponent} from '../pages/id/kyc/result/result';
 import {IdResultComponent} from '../pages/id/result/result';
 import {KycOperationPage} from '../pages/id/kyc/kyc-operation/kyc-operation';
 import {KycOrderPage} from '../pages/id/kyc/kyc-order/kyc-order';
@@ -148,7 +141,6 @@ export function TranslateLoaderFactory() {
     ContactsComponent,
     ResultComponent,
     CoinComponent,
-    RecordComponent,
     TransferComponent,
     PaymentConfirmComponent,
     DidLoginComponent,
@@ -160,12 +152,7 @@ export function TranslateLoaderFactory() {
     ContactCreateComponent,
     CoinListComponent,
     WalletCreateComponent,
-    WalletInfoComponent,
     RecordinfoComponent,
-    AboutComponent,
-    HelpComponent,
-    NoticeComponent,
-    ChangeNameComponent,
     TestJniComponent,
     IdLauncherComponent,
     IdHomeComponent,
@@ -174,7 +161,6 @@ export function TranslateLoaderFactory() {
     IdManagerComponent,
     IdKycPersonComponent,
     IdKycCompanyComponent,
-    IdKycResultComponent,
     IdResultComponent,
     kycSelectTypeComponent,
     KycOperationPage,
@@ -237,7 +223,6 @@ export function TranslateLoaderFactory() {
     ContactsComponent,
     ResultComponent,
     CoinComponent,
-    RecordComponent,
     TransferComponent,
     PaymentConfirmComponent,
     DidLoginComponent,
@@ -249,12 +234,7 @@ export function TranslateLoaderFactory() {
     ContactCreateComponent,
     CoinListComponent,
     WalletCreateComponent,
-    WalletInfoComponent,
     RecordinfoComponent,
-    AboutComponent,
-    HelpComponent,
-    NoticeComponent,
-    ChangeNameComponent,
     TestJniComponent,
     IdLauncherComponent,
     IdHomeComponent,
@@ -263,7 +243,6 @@ export function TranslateLoaderFactory() {
     IdManagerComponent,
     IdKycPersonComponent,
     IdKycCompanyComponent,
-    IdKycResultComponent,
     IdResultComponent,
     kycSelectTypeComponent,
     KycOperationPage,

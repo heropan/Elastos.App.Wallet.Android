@@ -11,7 +11,7 @@ import {LocalStorage} from "../../../providers/Localstorage";
   templateUrl: './exprot-prikey.component.html'
 })
 export class ExprotPrikeyComponent  {
-
+  masterWalletId:string ="1";
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage) {
            this.onWalletDatainit();
   }
@@ -61,7 +61,7 @@ export class ExprotPrikeyComponent  {
   }
 
   onExport() {
-    this.walletManager.exportWalletWithKeystore(this.exprotObj.backupPassWord,this.exprotObj.payPassword,(reslut) => {
+    this.walletManager.exportWalletWithKeystore(this.masterWalletId,this.exprotObj.backupPassWord,this.exprotObj.payPassword,(reslut) => {
                  this.backupWalletPlainText = reslut.keystoreContent;
     });
   }

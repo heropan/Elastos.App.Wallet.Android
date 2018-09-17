@@ -9,7 +9,7 @@ import {Util} from "../../../providers/Util";
   templateUrl: './receive.component.html'
 })
 export class ReceiveComponent extends BaseComponent implements OnInit {
-
+  masterWalletId:string ="1";
   qrcode: string=null;
   address: Number;
   amount: Number;
@@ -47,7 +47,7 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
   }
 
   createAddress(){
-    this.walletManager.createAddress(this.chinaId, (data)=>{
+    this.walletManager.createAddress(this.masterWalletId,this.chinaId, (data)=>{
         this.qrcode = data.address;
         this.address = data.address;
     });

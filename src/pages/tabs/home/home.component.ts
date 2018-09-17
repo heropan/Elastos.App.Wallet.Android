@@ -11,6 +11,7 @@ import {WalltelistPage} from '../../../pages/walltelist/walltelist';
   templateUrl: './home.component.html'
 })
 export class HomeComponent extends BaseComponent implements OnInit {
+  masterWalletId:string ="1";
   elaPer:any;
   tempElaPer:any;
   idChainPer:any;
@@ -91,7 +92,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   getElaBalance(item){
-    this.walletManager.getBalance(item.name,(data)=>{
+    this.walletManager.getBalance(this.masterWalletId,item.name,(data)=>{
       this.ElaObj.balance = data.balance/Config.SELA;
     })
   }
@@ -103,7 +104,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   getAllSubWallets(){
-    this.walletManager.getAllSubWallets(()=>{
+    this.walletManager.getAllSubWallets(this.masterWalletId,()=>{
       this.sycEla();
      this.getElaBalance(this.ElaObj);
          // wallet balance
@@ -118,7 +119,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   getSubBalance(coin){
-    this.walletManager.getBalance(coin, (data)=>{
+    this.walletManager.getBalance(this.masterWalletId,coin, (data)=>{
       if(this.coinList.length === 0){
           this.coinList.push({name: coin, balance: data.balance/Config.SELA});
       }else{
@@ -149,7 +150,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   sycEla(){
 
-    this.walletManager.registerWalletListener("ELA",(result)=>{
+    this.walletManager.registerWalletListener(this.masterWalletId,"ELA",(result)=>{
            if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
               this.tempElaPer = 1;
            }else{
@@ -164,7 +165,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   }
 
   sycIdChain(){
-    this.walletManager.registerWalletListener("IdChain",(result)=>{
+    this.walletManager.registerWalletListener(this.masterWalletId,"IdChain",(result)=>{
       if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
         this.tempIdChinaPer = 1;
       }else{

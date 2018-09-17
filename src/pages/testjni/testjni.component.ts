@@ -201,7 +201,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    changePassword(){
-      this.walletManager.changePassword(this.payPassword,this.newPassword,()=>{
+      this.walletManager.changePassword(this.masterWalletId,this.payPassword,this.newPassword,()=>{
                alert("修改成功");
       });
    }
@@ -220,14 +220,14 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    createSubWallet(key){
-      this.walletManager.createSubWallet(key,this.payPassword,false,0,(result)=>{
+      this.walletManager.createSubWallet(this.masterWalletId,key,this.payPassword,false,0,(result)=>{
         alert("子钱包");
         alert(JSON.stringify(result));
       });
    }
 
    recoverSubWallet(){
-    this.walletManager.recoverSubWallet(this.chinaId,this.payPassword,false,0,0,()=>{
+    this.walletManager.recoverSubWallet(this.masterWalletId,this.chinaId,this.payPassword,false,0,0,()=>{
       alert("恢复子钱包");
     });
    }
@@ -258,19 +258,19 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    exportWalletWithKeystore(backupPassword: string,payPassWord:string){
-       this.walletManager.exportWalletWithKeystore(backupPassword,payPassWord,(result)=>{
+       this.walletManager.exportWalletWithKeystore(this.masterWalletId,backupPassword,payPassWord,(result)=>{
         alert("导出keystore成功"+JSON.stringify(result));
        });
    }
 
    exportWalletWithMnemonic(backupPassword:string ){
-          this.walletManager.exportWalletWithMnemonic(backupPassword,(result)=>{
+          this.walletManager.exportWalletWithMnemonic(this.masterWalletId,backupPassword,(result)=>{
                    alert(JSON.stringify(result));
           });
    }
 
    createAddress(chinaId:string){
-         this.walletManager.createAddress(chinaId,(result)=>{
+         this.walletManager.createAddress(this.masterWalletId,chinaId,(result)=>{
                 this.adress = result.address;
                 alert(this.adress);
          });
@@ -278,50 +278,48 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
 
    getAllAddress(chinaId:string){
         alert("===chinaId===="+chinaId);
-        this.walletManager.getAllAddress(chinaId,0,(result)=>{
+        this.walletManager.getAllAddress(this.masterWalletId,chinaId,0,(result)=>{
             alert(JSON.stringify(result));
         });
    }
 
    getBalanceWithAddress(chinaId:string){
-        this.walletManager.getBalanceWithAddress(chinaId,"eeeeeeee",(result)=>{
+        this.walletManager.getBalanceWithAddress(this.masterWalletId,chinaId,"eeeeeeee",(result)=>{
             alert(JSON.stringify(result));
         });
    }
 
    generateMultiSignTransaction(){
-      this.walletManager.generateMultiSignTransaction(this.chinaId,this.fromAddress,this.toAddress,1*100000000,0.01*100000000,this.payPassword,"sssss",(result)=>{
-        alert(JSON.stringify(result));
-      });
+
    }
 
    getAllTransaction(){
-      this.walletManager.getAllTransaction(this.chinaId,0,"123455",(result)=>{
+      this.walletManager.getAllTransaction(this.masterWalletId,this.chinaId,0,"123455",(result)=>{
       alert(JSON.stringify(result));
      });
    }
 
    registerWalletListener(chinaId:string){
-     this.walletManager.registerWalletListener(chinaId,(resust)=>{
+     this.walletManager.registerWalletListener(this.masterWalletId,chinaId,(resust)=>{
              alert("监听注册成功");
      });
    }
 
    checkSign(address:string, message:string, signature:string, payPassword:string){
-         this.walletManager.checkSign(this.chinaId,address,message,signature,(result)=>{
+         this.walletManager.checkSign(this.masterWalletId,this.chinaId,address,message,signature,(result)=>{
           alert(JSON.stringify(result));
          });
    }
 
    sign(message:string,payPassword:string){
-    this.walletManager.sign(this.chinaId,message, payPassword,(result)=>{
+    this.walletManager.sign(this.masterWalletId,this.chinaId,message, payPassword,(result)=>{
          alert(JSON.stringify(result));
          this.singMessage = result;
     })
    }
 
    getBalance(){
-     this.walletManager.getBalance(this.chinaId,(result)=>{
+     this.walletManager.getBalance(this.masterWalletId,this.chinaId,(result)=>{
       alert("获取余额"+JSON.stringify(result));
      })
    }
@@ -339,13 +337,13 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    isAddressValid(address:string){
-     this.walletManager.isAddressValid(address,(result)=>{
+     this.walletManager.isAddressValid(this.masterWalletId,address,(result)=>{
         alert("isAddressValid===="+JSON.stringify(result));
      });
    }
 
    getBalanceInfo(chinaId:string){
-     this.walletManager.getBalanceInfo(chinaId,(result)=>{
+     this.walletManager.getBalanceInfo(this.masterWalletId,chinaId,(result)=>{
         alert("余额信息："+JSON.stringify(result));
      });
    }
@@ -357,9 +355,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    getWalletId(){
-     this.walletManager.getWalletId((result)=>{
-         alert("主钱包id=="+JSON.stringify(result));
-     });
+
    }
 
    getAllChainIds(){
@@ -369,7 +365,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    getSupportedChains(){
-    this.walletManager.getSupportedChains((result)=>{
+    this.walletManager.getSupportedChains(this.masterWalletId,(result)=>{
       alert("已经支持的所有子钱包=="+JSON.stringify(result));
       for(let key in result){;
         this.createSubWallet(key);
@@ -458,19 +454,19 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    createTransaction(){
-      this.walletManager.createTransaction(this.chinaId,"",this.toAddress,1*this.unit,"sssssss", "ssss",(result)=>{
+      this.walletManager.createTransaction(this.masterWalletId,this.chinaId,"",this.toAddress,1*this.unit,"sssssss", "ssss",(result)=>{
                       alert("=====createTransaction======"+JSON.stringify(result));
       });
    }
 
    calculateTransactionFee(){
-     this.walletManager.calculateTransactionFee(this.chinaId,this.rawTransaction,0,(result)=>{
+     this.walletManager.calculateTransactionFee(this.masterWalletId,this.chinaId,this.rawTransaction,0,(result)=>{
                     alert("===== calculateTransactionFee ====="+JSON.stringify(result));
      })
    }
 
    sendRawTransaction(){
-      this.walletManager.sendRawTransaction(this.chinaId,this.transactionJson,this.fee,this.payPassword,(result)=>{
+      this.walletManager.sendRawTransaction(this.masterWalletId,this.chinaId,this.transactionJson,this.fee,this.payPassword,(result)=>{
                      alert("===sendRawTransaction==="+JSON.stringify(result));
       });
    }

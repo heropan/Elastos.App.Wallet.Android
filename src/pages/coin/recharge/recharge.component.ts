@@ -10,7 +10,7 @@ import { Config } from '../../../providers/Config';
 export class RechargeComponent extends BaseComponent implements OnInit {
 
   @ViewChild('subscribe') subPopup: PopupComponent;
-
+  masterWalletId:string ="1";
 
   transfer: any = {
     toAddress: '',
@@ -63,7 +63,7 @@ export class RechargeComponent extends BaseComponent implements OnInit {
   }
 
   initData(){
-    this.walletManager.getBalance('ELA', (data)=>{
+    this.walletManager.getBalance(this.masterWalletId,'ELA', (data)=>{
       this.balance = data.balance;
     });
   }
@@ -103,7 +103,7 @@ export class RechargeComponent extends BaseComponent implements OnInit {
       this.toast('error-amount');
       return;
     }
-    this.walletManager.isAddressValid(this.sidechain.accounts, (data) => {
+    this.walletManager.isAddressValid(this.masterWalletId,this.sidechain.accounts, (data) => {
       if (!data['valid']) {
         this.toast("contact-address-digits");
         return;
@@ -120,7 +120,7 @@ export class RechargeComponent extends BaseComponent implements OnInit {
     let sidechainAddress = JSON.stringify([this.sidechain.accounts]);
     let sidechainAmounts = JSON.stringify([this.transfer.amount*Config.SELA - this.transfer.fee]);
     let sidechainIndex = JSON.stringify([this.sidechain.index]);
-    this.walletManager.createDepositTransaction('ELA', "",
+    this.walletManager.createDepositTransaction(this.masterWalletId,'ELA', "",
       this.transfer.toAddress, // genesisAddress
       this.transfer.amount*Config.SELA, // user input amount
       sidechainAddress, // user input address
@@ -141,7 +141,7 @@ export class RechargeComponent extends BaseComponent implements OnInit {
   }
 
   getFee(){
-    this.walletManager.calculateTransactionFee('ELA', this.rawTransaction, this.feePerKb, (data) => {
+    this.walletManager.calculateTransactionFee(this.masterWalletId,'ELA', this.rawTransaction, this.feePerKb, (data) => {
       this.transfer.fee = data['fee'];
     });
   }
@@ -155,13 +155,11 @@ export class RechargeComponent extends BaseComponent implements OnInit {
       this.toast("text-pwd-validator");
       return;
     }
-    this.walletManager.sendRawTransaction('ELA', this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
+    this.walletManager.sendRawTransaction(this.masterWalletId,'ELA', this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
       if (data['ERRORCODE'] == undefined) {
         this.Go(TabsComponent);
-        this.walletManager.registerWalletListener(this.chianId, (data) => {
+        this.walletManager.registerWalletListener(this.masterWalletId,this.chianId, (data) => {
           if (data['confirms'] == 1) {
-
-            alert("充值： " + JSON.stringify(data));
             this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
             });
           }

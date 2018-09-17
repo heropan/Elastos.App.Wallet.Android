@@ -12,7 +12,7 @@ import {TabsComponent} from "../../tabs/tabs.component";
 export class PaymentConfirmComponent extends BaseComponent implements OnInit {
 
   @ViewChild('subscribe') subPopup: PopupComponent;
-
+  masterWalletId:string = "1";
   transfer: any = {
     toAddress: '',
     amount: '',
@@ -29,9 +29,9 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
   rawTransaction: '';
 
   SELA = Config.SELA;
-  
+
   txId: string;
-  
+
   balance: 0;
 
   information: string;
@@ -59,7 +59,7 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
   }
 
   getAllSubWallets(){
-    this.walletManager.getAllSubWallets(()=>{
+    this.walletManager.getAllSubWallets(this.masterWalletId,()=>{
     })
   }
 
@@ -102,7 +102,7 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
       this.toast('error-amount');
       return;
     }
-    this.walletManager.isAddressValid(this.transfer.toAddress, (data) => {
+    this.walletManager.isAddressValid(this.masterWalletId,this.transfer.toAddress, (data) => {
       if (!data['valid']) {
         this.toast("contact-address-digits");
         return;
@@ -114,7 +114,7 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
   }
 
   createTransaction(){
-    this.walletManager.createTransaction(this.chianId, "",
+    this.walletManager.createTransaction(this.masterWalletId,this.chianId, "",
       this.transfer.toAddress,
       this.transfer.amount,
       this.transfer.memo,
@@ -126,7 +126,7 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
   }
 
   getFee(){
-    this.walletManager.calculateTransactionFee(this.chianId, this.rawTransaction, this.feePerKb, (data) => {
+    this.walletManager.calculateTransactionFee(this.masterWalletId,this.chianId, this.rawTransaction, this.feePerKb, (data) => {
       this.transfer.fee = data['fee'];
     });
   }
@@ -136,10 +136,10 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
       this.toast("text-pwd-validator");
       return;
     }
-    this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
+    this.walletManager.sendRawTransaction(this.masterWalletId,this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
       this.txId = JSON.parse(data["json"])["TxHash"];
       if (data['ERRORCODE'] == undefined) {
-        this.walletManager.registerWalletListener(this.chianId, (data) => {
+        this.walletManager.registerWalletListener(this.masterWalletId,this.chianId, (data) => {
           if (data['confirms'] == 1) {
             this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
             });

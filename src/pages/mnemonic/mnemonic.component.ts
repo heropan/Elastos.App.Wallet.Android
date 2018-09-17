@@ -9,7 +9,7 @@ import {Util} from "../../providers/Util";
   templateUrl: './mnemonic.component.html'
 })
 export class MnemonicComponent extends BaseComponent implements OnInit {
-
+  masterWalletId:string = "1";
   mnemonicList = [];
   mnemonicStr: string;
   mnemonicPassword: string="";
@@ -47,7 +47,7 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
       this.toast("text-repwd-validator");
       return;
     }
-    this.walletManager.createMasterWallet("1", this.mnemonicStr, this.mnemonicPassword, this.payPassword,this.getMnemonicLang(),(data) =>{
+    this.walletManager.createMasterWallet(this.masterWalletId, this.mnemonicStr, this.mnemonicPassword, this.payPassword,this.getMnemonicLang(),(data) =>{
            // this.getSupportedChains();
            this.createSubWallet('ELA');
            this.Go(WriteComponent, {mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList});
@@ -67,7 +67,7 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
 
   createSubWallet(chainId){
     // Sub Wallet
-    this.walletManager.createSubWallet(chainId, this.payPassword, this.singleAddress, 0, (val)=>{
+    this.walletManager.createSubWallet(this.masterWalletId,chainId, this.payPassword, this.singleAddress, 0, (val)=>{
 
     });
   }

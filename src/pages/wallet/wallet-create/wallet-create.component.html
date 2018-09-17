@@ -1,4 +1,4 @@
-<app-header [header]="header"></app-header>
+<!-- <app-header [header]="header"></app-header>
 
 
 <div>
@@ -37,8 +37,35 @@
 
     <button class="button-default bottom wallet-button" (click)="onCreate()">{{ 'confirm' | translate }}</button>
 
-</div>
+</div> -->
 
-<!--<weui-mask #mask ></weui-mask>-->
+<ion-header>
 
-<!--<weui-dialog #auto [config]="con"></weui-dialog>-->
+    <ion-navbar>
+        <ion-title style="text-align:center">{{'launcher-create-wallet' | translate}}</ion-title>
+    </ion-navbar>
+
+</ion-header>
+<ion-content>
+    <ion-list>
+        <ion-item>
+            <ion-input type="text" placeholder="{{ 'text-wallet-name' | translate }}" [(ngModel)]="wallet.name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-input type="password" placeholder="{{ 'text-pay-password' | translate }}" [(ngModel)]="wallet.payPassword"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-input type="password" placeholder="{{ 'text-pay-repassword' | translate }}" [(ngModel)]="wallet.rePayPassword"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>{{'text-signaddress' | translate }}</ion-label>
+            <ion-checkbox checked="wallet.singleAddress"></ion-checkbox>
+        </ion-item>
+    </ion-list>
+</ion-content>
+<ion-footer>
+    <button ion-button style="width: 100%" (click)="onCreate()">{{ 'confirm' | translate }}</button>
+</ion-footer>

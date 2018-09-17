@@ -9,7 +9,7 @@ import { Util } from '../../../providers/Util';
   // styleUrls: ['./recordinfo.component.scss']
 })
 export class RecordinfoComponent extends BaseComponent implements OnInit {
-
+  masterWalletId:string = "1";
   transactionRecord: any = {};
 
   start = 0;
@@ -20,7 +20,7 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
     this.setTitleByAssets('text-record');
     let txId = this.getNavParams().get("txId");
     let chainId = this.getNavParams().get("chainId");
-    this.walletManager.getAllTransaction(chainId, this.start, txId, (data) => {
+    this.walletManager.getAllTransaction(this.masterWalletId,chainId, this.start, txId, (data) => {
       let allTransaction = data['allTransaction'];
       let transactions = JSON.parse(allTransaction)['Transactions'];
       // alert("getAllTransaction" + JSON.stringify(transactions));
@@ -63,6 +63,6 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
         remark: summary["Remark"]
       }
     });
-  }  
+  }
 
 }

@@ -10,7 +10,7 @@ import { Config } from '../../../providers/Config';
 export class WithdrawComponent extends BaseComponent implements OnInit {
 
   @ViewChild('subscribe') subPopup: PopupComponent;
-
+  masterWalletId:string = "1";
   transfer: any = {
     toAddress: '',
     amount: '',
@@ -61,7 +61,7 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
   }
 
   initData(){
-    this.walletManager.getBalance(this.chianId, (data)=>{
+    this.walletManager.getBalance(this.masterWalletId,this.chianId, (data)=>{
       this.balance = data.balance;
     });
   }
@@ -101,7 +101,7 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
       this.toast('error-amount');
       return;
     }
-    this.walletManager.isAddressValid(this.mainchain.accounts, (data) => {
+    this.walletManager.isAddressValid(this.masterWalletId,this.mainchain.accounts, (data) => {
       if (!data['valid']) {
         this.toast("contact-address-digits");
         return;
@@ -117,7 +117,7 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
     let mainchainAddress = JSON.stringify([this.mainchain.accounts]);
     let mainchainAmounts = JSON.stringify([this.transfer.amount*Config.SELA - this.transfer.fee]);
     let mainchainIndex = JSON.stringify([this.mainchain.index]);
-    this.walletManager.createWithdrawTransaction(this.chianId, "",
+    this.walletManager.createWithdrawTransaction(this.masterWalletId,this.chianId, "",
       this.transfer.toAddress, // 销毁地址 34*0 ''
       this.transfer.amount*Config.SELA, // user input amount
       mainchainAddress, // user input address
@@ -138,7 +138,7 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
   }
 
   getFee(){
-    this.walletManager.calculateTransactionFee(this.chianId, this.rawTransaction, this.feePerKb, (data) => {
+    this.walletManager.calculateTransactionFee(this.masterWalletId,this.chianId, this.rawTransaction, this.feePerKb, (data) => {
       this.transfer.fee = data['fee'];
     });
   }
@@ -152,10 +152,10 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
       this.toast("text-pwd-validator");
       return;
     }
-    this.walletManager.sendRawTransaction(this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
+    this.walletManager.sendRawTransaction(this.masterWalletId,this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
       if (data['ERRORCODE'] == undefined) {
         this.Go(TabsComponent);
-        this.walletManager.registerWalletListener(this.chianId, (data) => {
+        this.walletManager.registerWalletListener(this.masterWalletId,this.chianId, (data) => {
           if (data['confirms'] == 1) {
             alert("提现： " + JSON.stringify(data));
             this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {

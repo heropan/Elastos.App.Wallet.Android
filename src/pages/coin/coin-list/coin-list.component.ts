@@ -10,7 +10,7 @@ import {Util} from "../../../providers/Util";
 export class CoinListComponent extends BaseComponent implements OnInit {
 
   @ViewChild('subscribe') subPopup: PopupComponent;
-
+  masterWalletId:string = "1";
   coinList = [];
   coinListCache = {};
   payPassword: string = "";
@@ -39,7 +39,7 @@ export class CoinListComponent extends BaseComponent implements OnInit {
       this.Back();
     });
     this.localStorage.get('coinListCache').then((val)=>{
-      this.walletManager.getSupportedChains((allChains) => {
+      this.walletManager.getSupportedChains(this.masterWalletId,(allChains) => {
         for (var chain in allChains) {
           let isOpen = false;
           let coinListCache = JSON.parse(val);
@@ -61,7 +61,7 @@ export class CoinListComponent extends BaseComponent implements OnInit {
 
   createSubWallet(chainId){
     // Sub Wallet IdChain
-    this.walletManager.createSubWallet(chainId, this.payPassword, this.singleAddress, 0, (val)=>{
+    this.walletManager.createSubWallet(this.masterWalletId,chainId, this.payPassword, this.singleAddress, 0, (val)=>{
       if (val['ERRORCODE'] == undefined) {
         if (!Util.password(this.payPassword)) {
           this.toast("text-pwd-validator");

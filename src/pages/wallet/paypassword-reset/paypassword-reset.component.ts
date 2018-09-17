@@ -8,7 +8,7 @@ import {Native} from "../../../providers/Native";
   templateUrl: './paypassword-reset.component.html'
 })
 export class PaypasswordResetComponent {
-
+  masterWalletId:string ="1";
   oldPayPassword: string;
   payPassword: string;
   rePayPassword: string;
@@ -26,7 +26,7 @@ export class PaypasswordResetComponent {
       return;
     }
     // reset pay password
-    this.walletManager.changePassword(this.oldPayPassword, this.payPassword, ()=>{
+    this.walletManager.changePassword(this.masterWalletId,this.oldPayPassword, this.payPassword, ()=>{
       this.native.toast_trans("reset-pwd-success");
       this.navCtrl.pop();
     });

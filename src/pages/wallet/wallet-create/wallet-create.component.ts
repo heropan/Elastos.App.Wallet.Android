@@ -1,15 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {BaseComponent} from './../../../app/BaseComponent';
+import {Component} from '@angular/core';
+import { NavController} from 'ionic-angular';
 import {Util} from "../../../providers/Util";
 import {MnemonicComponent} from "../../mnemonic/mnemonic.component";
-
+import {Native} from "../../../providers/Native";
 @Component({
   selector: 'app-wallet-create',
   templateUrl: './wallet-create.component.html',
 })
-export class WalletCreateComponent extends BaseComponent implements OnInit {
+export class WalletCreateComponent {
+ constructor(public navCtrl: NavController,public native:Native){
 
-  payPasswordType = 0;
+ }
   wallet = {
     name: '',
     singleAddress: false,
@@ -17,21 +18,18 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
     rePayPassword:''//houpeitest
   };
 
-  ngOnInit() {
-    this.setTitleByAssets('launcher-create-wallet');
-  }
 
   onCreate() {
     if (Util.isNull(this.wallet.name)) {
-      this.toast("text-wallet-name-validator");
+      this.native.toast_trans("text-wallet-name-validator");
       return;
     }
     if (!Util.password(this.wallet.payPassword)) {
-      this.toast("text-pwd-validator");
+      this.native.toast_trans("text-pwd-validator");
       return;
     }
     if (this.wallet.payPassword != this.wallet.rePayPassword) {
-      this.toast("text-repwd-validator");
+      this.native.toast_trans("text-repwd-validator");
       return;
     }
     this.createWallet();
@@ -39,6 +37,6 @@ export class WalletCreateComponent extends BaseComponent implements OnInit {
 
   createWallet(){
     // Master Wallet
-    this.Go(MnemonicComponent, {payPassword: this.wallet.payPassword, name: this.wallet.name, singleAddress: this.wallet.singleAddress});
+    this.native.Go(this.navCtrl,MnemonicComponent, {payPassword: this.wallet.payPassword, name: this.wallet.name, singleAddress: this.wallet.singleAddress});
   }
 }

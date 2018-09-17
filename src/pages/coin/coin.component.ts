@@ -16,7 +16,7 @@ import {RecordinfoComponent} from "./recordinfo/recordinfo.component";
 })
 export class CoinComponent extends BaseComponent implements OnInit {
 
-
+  masterWalletId:string = "1";
   transferList = [];
 
   coinCount = 0;
@@ -52,10 +52,10 @@ export class CoinComponent extends BaseComponent implements OnInit {
   }
 
   initData(){
-    this.walletManager.getBalance(this.coinName, (data)=>{
+    this.walletManager.getBalance(this.masterWalletId,this.coinName, (data)=>{
       this.coinCount = data.balance/Config.SELA;
     });
-    this.walletManager.getAllTransaction(this.coinName, this.start, '', (data) => {
+    this.walletManager.getAllTransaction(this.masterWalletId,this.coinName, this.start, '', (data) => {
       // alert("getAllTransaction" + JSON.stringify(data));
       let allTransaction = data['allTransaction'];
       let transactions = JSON.parse(allTransaction)['Transactions'];

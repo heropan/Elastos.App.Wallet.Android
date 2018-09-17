@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
 import {ManagerComponent} from "../../wallet/manager/manager.component";
 import {ContactListComponent} from "../../contacts/contact-list/contact-list.component";
-import {AboutComponent} from "../../other/about/about.component";
-import {HelpComponent} from "../../other/help/help.component";
-import {NoticeComponent} from "../../other/notice/notice.component";
 import {IdLauncherComponent} from "../../id/launcher/launcher";
 import {IdHomeComponent} from "../../id/home/home";
 @Component({
@@ -27,16 +24,16 @@ export class MyComponent  extends BaseComponent implements OnInit  {
          this.Go(ManagerComponent);
          break;
        case 1:
-         this.Go(NoticeComponent);
+         //this.Go(NoticeComponent);
          break;
        case 2:
          this.Go(ContactListComponent);
          break;
        case 4:
-         this.Go(AboutComponent);
+         //this.Go(AboutComponent);
          break;
        case 5:
-         this.Go(HelpComponent);
+         //this.Go(HelpComponent);
          break;
        case 6:
           this.getDIDList();

@@ -10,6 +10,7 @@ import { Config } from '../../../../providers/Config';
   templateUrl: 'company-write-chain.html',
 })
 export class CompanyWriteChainPage extends BaseComponent implements OnInit{
+  masterWalletId:string = "1";
   type: string;
   approdType:string="enterprise";
   businessObj={
@@ -98,7 +99,7 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
   }
 
   createfromAddress(){
-    this.walletManager.createAddress("IdChain",(result)=>{
+    this.walletManager.createAddress(this.masterWalletId,"IdChain",(result)=>{
               this.fromAddress = result.address;
               this.cauFee();
     });
@@ -107,7 +108,7 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
   cauFee(){
 
     //alert("createIdTransaction before" + this.fromAddress);
-    this.walletManager.createIdTransaction("IdChain","",this.message,this.programJson,"","",(result)=>{
+    this.walletManager.createIdTransaction(this.masterWalletId,"IdChain","",this.message,this.programJson,"","",(result)=>{
             console.log("---createIdTransaction---"+"fromAddress="+this.fromAddress+"message="+JSON.stringify(this.message)+"programJson="+this.programJson);
              let rawTransaction = result['json'].toString();
              console.log("createIdTransaction rawTransaction =="+rawTransaction);
@@ -116,7 +117,7 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
   }
 
   calculateTransactionFee(rawTransaction){
-     this.walletManager.calculateTransactionFee("IdChain", rawTransaction,10000, (data) => {
+     this.walletManager.calculateTransactionFee(this.masterWalletId,"IdChain", rawTransaction,10000, (data) => {
 
       this.fee = data['fee'];
       //console.log("Elastos 111111111111111");
@@ -318,7 +319,7 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
   sendRawTransaction( rawTransaction){
     //alert("sendRawTransaction begin==");
 
-    this.walletManager.sendRawTransaction("IdChain",rawTransaction,this.fee,this.passworld,(result)=>{
+    this.walletManager.sendRawTransaction(this.masterWalletId,"IdChain",rawTransaction,this.fee,this.passworld,(result)=>{
 
 
       let rawTransactionObj = JSON.parse(rawTransaction);
@@ -380,20 +381,20 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
  //从主链转一批钱到测链
 
 createDepositTransaction(){
-  this.walletManager.createDepositTransaction("ELA","","XQd1DCi6H62NQdWZQhJCRnrPn7sF9CTjaU",this.fee,this.fromAddress,"qq",this.fee+"","","",(result)=>{
+  this.walletManager.createDepositTransaction(this.masterWalletId,"ELA","","XQd1DCi6H62NQdWZQhJCRnrPn7sF9CTjaU",this.fee,this.fromAddress,"qq",this.fee+"","","",(result)=>{
             this.depositTransaction = result['transactionId'].toString();
             //this.getDepositTransaction();
   });
 }
 
 getDepositTransaction(){
-  this.walletManager.calculateTransactionFee("ELA",this.depositTransaction,10000, (data) => {
+  this.walletManager.calculateTransactionFee(this.masterWalletId,"ELA",this.depositTransaction,10000, (data) => {
     this.depositTransactionFee = data['fee'];
   });
 }
 
  sendDepositTransaction(){
-     this.walletManager.sendRawTransaction("ELA",this.depositTransaction,20000,this.passworld,(result)=>{
+     this.walletManager.sendRawTransaction(this.masterWalletId,"ELA",this.depositTransaction,20000,this.passworld,(result)=>{
        alert("sendDepositTransaction result"+JSON.stringify(result));
      })
  }
