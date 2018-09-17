@@ -20,17 +20,21 @@ public class IMasterWallet {
         return nativeGetId(mMasterProxy);
     }
 
+	public String GetBasicInfo() {
+		return nativeGetBasicInfo(mMasterProxy);
+	}
+
     public ArrayList<ISubWallet> GetAllSubWallets() {
         long[] subWalletProxies = nativeGetAllSubWallets(mMasterProxy);
         ArrayList<ISubWallet> list = new ArrayList<ISubWallet>();
         for (int i = 0; i < subWalletProxies.length; i++) {
             if (i == 0) {
                 list.add(new IMainchainSubWallet(subWalletProxies[i]));
-            }
-            else {
+            } else {
                 list.add(new IIdChainSubWallet(subWalletProxies[i]));
             }
         }
+
         return list;
     }
 
@@ -106,6 +110,7 @@ public class IMasterWallet {
     }
 
     private native String nativeGetId(long masterProxy);
+	private native String nativeGetBasicInfo(long masterProxy);
     private native long[] nativeGetAllSubWallets(long masterProxy);
     private native long nativeCreateSubWallet(long masterProxy, String chainID, String payPassword, boolean singleAddress, long feePerKb);
     private native long nativeRecoverSubWallet(long masterProxy, String chainID, String payPassword, boolean singleAddress, int limitGap, long feePerKb);

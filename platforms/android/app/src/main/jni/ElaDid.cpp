@@ -8,9 +8,6 @@
 
 using namespace Elastos::DID;
 
-extern const char* ToStringFromJson(const nlohmann::json& jsonValue);
-extern nlohmann::json ToJosnFromString(const char* str);
-
 //"(J)Ljava/lang/String;"
 static jstring JNICALL nativeGetDIDName(JNIEnv *env, jobject clazz, jlong jDidProxy)
 {
@@ -25,8 +22,7 @@ static void JNICALL nativeSetValue(JNIEnv *env, jobject clazz, jlong jDidProxy, 
     const char* keyPath = env->GetStringUTFChars(jkeyPath, NULL);
     const char* valueJson = env->GetStringUTFChars(jvalueJson, NULL);
     IDID* did = (IDID*)jDidProxy;
-    LOGD("FUNC=[%s]===================LINE=[%d], p=[%s], v=[%s]", __FUNCTION__, __LINE__, keyPath, valueJson);
-    did->SetValue(keyPath, ToJosnFromString(valueJson));
+    did->SetValue(keyPath, std::string(valueJson));
     env->ReleaseStringUTFChars(jkeyPath, keyPath);
     env->ReleaseStringUTFChars(jvalueJson, valueJson);
 }
@@ -39,8 +35,7 @@ static /*nlohmann::json*/ jstring JNICALL nativeGetValue(JNIEnv *env, jobject cl
     nlohmann::json jsonValue = did->GetValue(path);
     env->ReleaseStringUTFChars(jpath, path);
 
-    LOGD("FUNC=[%s]===================LINE=[%d], p=[%s], v=[%s]", __FUNCTION__, __LINE__, path, ToStringFromJson(jsonValue));
-    return env->NewStringUTF(ToStringFromJson(jsonValue));
+    return env->NewStringUTF(jsonValue.dump().c_str());
 }
 
 //"(JLjava/lang/String;)Ljava/lang/String;"
@@ -50,7 +45,7 @@ static /*nlohmann::json*/ jstring JNICALL nativeGetHistoryValue(JNIEnv *env, job
     IDID* did = (IDID*)jDidProxy;
     nlohmann::json jsonValue = did->GetHistoryValue(keyPath);
     env->ReleaseStringUTFChars(jkeyPath, keyPath);
-    return env->NewStringUTF(ToStringFromJson(jsonValue));
+    return env->NewStringUTF(jsonValue.dump().c_str());
 }
 
 //"(JII)Ljava/lang/String;"
@@ -58,10 +53,7 @@ static /*nlohmann::json*/ jstring JNICALL nativeGetAllKeys(JNIEnv *env, jobject 
 {
     IDID* did = (IDID*)jDidProxy;
     nlohmann::json jsonValue = did->GetAllKeys(jstart, jcount);
-    std::stringstream ss;
-    ss << jsonValue;
-    LOGD("FUNC=[%s]===================LINE=[%d], keys=[%s]", __FUNCTION__, __LINE__, ss.str().c_str());
-    return stringTojstring(env, ss.str());
+    return env->NewStringUTF(jsonValue.dump().c_str());
 }
 
 //"(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
@@ -87,7 +79,7 @@ static /*nlohmann::json*/ jstring JNICALL nativeCheckSign(JNIEnv *env, jobject c
     env->ReleaseStringUTFChars(jmessage, message);
     env->ReleaseStringUTFChars(jsignature, signature);
 
-    return env->NewStringUTF(ToStringFromJson(jsonValue));
+    return env->NewStringUTF(jsonValue.dump().c_str());
 }
 
 //"(J)Ljava/lang/String;"
@@ -107,7 +99,7 @@ static jstring JNICALL nativeGenerateProgram(JNIEnv *env, jobject clazz, jlong j
     nlohmann::json jsonValue = did->GenerateProgram(message, password);
     env->ReleaseStringUTFChars(jmessage, message);
     env->ReleaseStringUTFChars(jpassword, password);
-    return env->NewStringUTF(ToStringFromJson(jsonValue));
+    return env->NewStringUTF(jsonValue.dump().c_str());
 }
 
 static const JNINativeMethod gMethods[] = {
@@ -127,3 +119,4 @@ jint register_elastos_spv_IDid(JNIEnv *env)
     return jniRegisterNativeMethods(env, "com/elastos/spvcore/IDid",
         gMethods, NELEM(gMethods));
 }
+
