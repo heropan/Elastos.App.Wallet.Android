@@ -24,22 +24,6 @@ export class WalletManager {
     //this.wallet = {};
   }
 
-  /**通过android log 打印数据*/
-  print(text: string, Fun): void {
-    this.wallet.print(text, Fun, this.errorFun);
-  }
-
-  start() {
-    this.wallet.start([], () => {
-    }, this.errorFun);
-  }
-
-  stop() {
-    this.wallet.start([], () => {
-    }, this.errorFun);
-  }
-
-
   //--------------------------------------------------------------------------------子钱包操作
 
 

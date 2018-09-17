@@ -28,6 +28,7 @@ import { Config } from '../providers/Config';
 import { TranslateService } from '@ngx-translate/core';
 import { Native } from '../providers/Native';
 import {PaypasswordResetComponent} from "../pages/wallet/paypassword-reset/paypassword-reset.component";
+import {MyComponent} from '../pages/tabs/my/my.component';
 //add for plugin
 declare var cordova: any;
 
@@ -65,6 +66,7 @@ export class AppComponent {
       //this.rootPage =  LauncherComponent;
       //this.rootPage =  ManagerComponent;
       //this.rootPage = ExprotPrikeyComponent;
+      //this.rootPage = MyComponent;
       localStorage.getWallet().then((val) => {
         let type = this.GetQueryString("type");
         if (val) {
