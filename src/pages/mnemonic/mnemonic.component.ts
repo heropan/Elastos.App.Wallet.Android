@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../app/BaseComponent';
 import {WriteComponent} from "./write/write.component";
-//import {WalletModel} from "../../models/wallet.model";
 import {Util} from "../../providers/Util";
 
 @Component({
@@ -24,12 +23,16 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
     this.setTitleByAssets('text-mnemonic');
     this.walletManager.generateMnemonic(this.getMnemonicLang(),(data) => {
       //let data ={"mnemonic":"aaa bbb ccc ddd eee  fff ggg  ssss kkk lll zzz hhh"};
-      this.mnemonicStr = data.mnemonic.toString();
-      let mnemonicArr = this.mnemonicStr.split(/[\u3000\s]+/);
-      for (var i = 0; i < mnemonicArr.length; i++) {
-        this.mnemonicList.push({text: mnemonicArr[i], selected: false});
+      if(data["success"]){
+        console.log("====generateMnemonic===="+JSON.stringify(data));
+        this.mnemonicStr = data["success"].toString();
+        let mnemonicArr = this.mnemonicStr.split(/[\u3000\s]+/);
+        for (var i = 0; i < mnemonicArr.length; i++) {
+          this.mnemonicList.push({text: mnemonicArr[i], selected: false});
+        }
+      }else{
+             alert("generateMnemonic=error:"+JSON.stringify(data));
       }
-      // console.log(this.mnemonicList);
     });
     this.payPassword = this.getNavParams().get("payPassword");
     this.name = this.getNavParams().get("name");
@@ -48,27 +51,28 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
       return;
     }
     this.walletManager.createMasterWallet(this.masterWalletId, this.mnemonicStr, this.mnemonicPassword, this.payPassword,this.getMnemonicLang(),(data) =>{
-           // this.getSupportedChains();
-           this.createSubWallet('ELA');
-           this.Go(WriteComponent, {mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList});
-           this.localStorage.setWallet({
-            'name': this.name
-           });
+           if(data["success"]){
+            console.log("====createMasterWallet===="+JSON.stringify(data));
+            this.createSubWallet('ELA');
+           }else{
+             alert("createMasterWallet=error:"+JSON.stringify(data));
+           }
+
     })
   }
 
-  // getSupportedChains(){
-  //   this.walletManager.getSupportedChains((result)=>{
-  //     for(let key in result){
-  //        this.createSubWallet(key);
-  //     }
-  //    });
-  //  }
-
   createSubWallet(chainId){
     // Sub Wallet
-    this.walletManager.createSubWallet(this.masterWalletId,chainId, this.payPassword, this.singleAddress, 0, (val)=>{
-
+    this.walletManager.createSubWallet(this.masterWalletId,chainId, this.payPassword, this.singleAddress, 0, (data)=>{
+          if(data["success"]){
+               console.log("====createSubWallet===="+JSON.stringify(data));
+               this.Go(WriteComponent, {mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList});
+               this.localStorage.setWallet({
+                'name': this.name
+               });
+          }else{
+                alert("createSubWallet=error:"+JSON.stringify(data));
+          }
     });
   }
 }

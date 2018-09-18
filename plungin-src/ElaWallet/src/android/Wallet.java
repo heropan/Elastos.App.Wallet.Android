@@ -134,7 +134,7 @@ public class Wallet extends CordovaPlugin {
 	}
 
 	private IMasterWallet getMasterWallet(String masterWalletId) {
-		if (mMasterWalletManager != null) {
+		if (mMasterWalletManager == null) {
 			Log.e(TAG, "Master wallet manager has not initialize");
 			return null;
 		}
@@ -525,7 +525,7 @@ public class Wallet extends CordovaPlugin {
 		try {
 			String mnemonic = mMasterWalletManager.GenerateMnemonic(language);
 			Log.i(TAG, "Generate mnemonic in '" + language + "'");
-			cc.success(mkJson("Success", mnemonic));
+			cc.success(mkJson("success", mnemonic));
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, "Generate mnemonic in '" + language + "'");
 		}

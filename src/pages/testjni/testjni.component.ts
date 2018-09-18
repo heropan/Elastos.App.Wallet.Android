@@ -208,8 +208,9 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
 
    generateMnemonic(){
      this.walletManager.generateMnemonic(this.language,(result)=>{
-          this.mnemonic = result.mnemonic.toString();
-          alert("住记词"+JSON.stringify(result));
+          console.log("=====generateMnemonic====="+JSON.stringify(result));
+          //this.mnemonic = result.mnemonic.toString();
+          //alert("住记词"+JSON.stringify(result));
      });
    }
 
