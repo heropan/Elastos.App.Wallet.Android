@@ -7,7 +7,7 @@ import {LauncherComponent} from "../pages/launcher/launcher.component";
 //import {WalletCreateComponent} from "../pages/wallet/wallet-create/wallet-create.component";
 import {MnemonicComponent} from "../pages/mnemonic/mnemonic.component";
 //import {WriteComponent} from "../pages/mnemonic/write/write.component";
-//import {ImportComponent} from "../pages/wallet/import/import.component";
+import {ImportComponent} from "../pages/wallet/import/import.component";
 import {ExprotPrikeyComponent} from "../pages/wallet/exprot-prikey/exprot-prikey.component";
 //import {ReceiveComponent} from "../pages/coin/receive/receive.component";
 import {TransferComponent} from "../pages/coin/transfer/transfer.component";
@@ -54,13 +54,7 @@ export class AppComponent {
       this.initTranslateConfig();
       this.ls = localStorage;
       this.tr =  translate;
-      //init java 2 js plugin
-      cordova.plugins.Java2JSBridge.init(this);
 
-      cordova.plugins.Java2JSBridge.getRegistrationID(succeedCallback);
-       function succeedCallback(message){
-         Config.setDeviceID(message);
-       }
       //this.rootPage =  WalltelistPage;
       //this.rootPage = ImportprivatekeyPage;
       //this.rootPage =  TabsComponent;
@@ -71,6 +65,16 @@ export class AppComponent {
       // this.rootPage = WalletCreateComponent;
       //this.rootPage = TestJniComponent;
       //this.rootPage = MnemonicComponent;
+      //this.rootPage = ImportComponent;
+
+         //init java 2 js plugin
+         cordova.plugins.Java2JSBridge.init(this);
+
+         cordova.plugins.Java2JSBridge.getRegistrationID(succeedCallback);
+          function succeedCallback(message){
+            Config.setDeviceID(message);
+          }
+
       localStorage.getWallet().then((val) => {
         let type = this.GetQueryString("type");
         if (val) {
