@@ -21,7 +21,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
     amount: '',
     memo: '',
     fee: 0,
-    payPassword:'s12345678',//hptest
+    payPassword:'',//hptest
     remark:'',
   };
 
@@ -79,7 +79,12 @@ export class TransferComponent extends BaseComponent implements OnInit {
 
   initData(){
     this.walletManager.getBalance(this.masterWalletId,this.chianId, (data)=>{
-      this.balance = data.balance;
+      if(data["success"]){
+        console.log("===getBalance==="+JSON.stringify(data));
+        this.balance = data.balance;
+      }else{
+       alert("===getBalance===error"+JSON.stringify(data));
+      }
     });
   }
 

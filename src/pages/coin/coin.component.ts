@@ -53,21 +53,25 @@ export class CoinComponent extends BaseComponent implements OnInit {
 
   initData(){
     this.walletManager.getBalance(this.masterWalletId,this.coinName, (data)=>{
-      this.coinCount = data.balance/Config.SELA;
+      if(data["success"]){
+        console.log("====getBalance=="+JSON.stringify(data));
+        this.coinCount = data.balance/Config.SELA;
+      }else{
+         alert("====getBalance==error="+JSON.stringify(data));
+      }
+
     });
     this.walletManager.getAllTransaction(this.masterWalletId,this.coinName, this.start, '', (data) => {
-      // alert("getAllTransaction" + JSON.stringify(data));
-      let allTransaction = data['allTransaction'];
+      if(data["success"]){
+          console.log("====getAllTransaction===="+JSON.stringify(data));
+          let allTransaction = data['allTransaction'];
       let transactions = JSON.parse(allTransaction)['Transactions'];
-      // alert("getAllTransaction" + JSON.stringify(transactions));
       for (let key in transactions) {
         let transaction = transactions[key];
         let timestamp = transaction['Timestamp']*1000;
-        // alert(timestamp)
         let datetime = Util.dateFormat(new Date(timestamp));
         let txId = transaction['TxHash'];
         let summary = transaction['Summary'];
-        // alert("getAllTransaction" + JSON.stringify(summary));
         let incomingAmount = summary["Incoming"]['Amount'];
         let outcomingAmount = summary["Outcoming"]['Amount'];
         let balanceResult = incomingAmount - outcomingAmount;
@@ -94,6 +98,9 @@ export class CoinComponent extends BaseComponent implements OnInit {
           "txId": txId
         }
         this.transferList.push(transfer);
+      }
+      }else{
+          alert("====getAllTransaction====error");
       }
     });
   }

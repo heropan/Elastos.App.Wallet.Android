@@ -48,8 +48,13 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
 
   createAddress(){
     this.walletManager.createAddress(this.masterWalletId,this.chinaId, (data)=>{
-        this.qrcode = data.address;
-        this.address = data.address;
+        if(data["success"]){
+          console.log("===createAddress===="+JSON.stringify(data));
+          this.qrcode = data.address;
+          this.address = data.address;
+        }else{
+           alert("===createAddress===error"+JSON.stringify(data));
+        }
     });
   }
 
