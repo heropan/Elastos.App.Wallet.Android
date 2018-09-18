@@ -1,24 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import {BaseComponent} from './../../../app/BaseComponent';
+import { Component} from '@angular/core';
 import {ContactListComponent} from "../contact-list/contact-list.component";
 import {Util} from "../../../providers/Util";
-
+import { NavController, NavParams} from 'ionic-angular';
+import {WalletManager} from '../../../providers/WalletManager';
+import {Native} from "../../../providers/Native";
+import {LocalStorage} from "../../../providers/Localstorage";
 @Component({
   selector: 'app-contact-create',
   templateUrl: './contact-create.component.html',
-  // styleUrls: ['./contact-create.component.scss']
 })
-export class ContactCreateComponent  extends BaseComponent implements OnInit  {
+export class ContactCreateComponent{
+  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage) {
 
+  }
   name: String;
   address: String;
   phone: String;
   email: String;
   remark: String;
 
-  ngOnInit() {
-    this.setTitleByAssets('text-contacts-add');
-  }
 
   add(): void {
     let contactUsers = {
@@ -29,24 +29,24 @@ export class ContactCreateComponent  extends BaseComponent implements OnInit  {
       email: this.email,
       remark: this.remark
     }
-    if (this.isNull(this.name)) {
-      this.messageBox("contact-name-notnull");
+    if (Util.isNull(this.name)) {
+      this.native.toast_trans("contact-name-notnull");
       return;
     }
-    if (this.isNull(this.address)) {
-      this.messageBox("contact-address-notnull");
+    if (Util.isNull(this.address)) {
+      this.native.toast_trans("contact-address-notnull");
       return;
     }
     if (!Util.isAddressValid(this.address)) {
-      this.messageBox("contact-address-digits");
+      this.native.toast_trans("contact-address-digits");
       return;
     }
-    if (this.phone && this.checkCellphone(this.phone.toString())) {
-      this.messageBox("contact-phone-check");
+    if (this.phone && Util.checkCellphone(this.phone.toString())) {
+         this.native.toast_trans("contact-phone-check");
       return;
     }
     this.localStorage.add('contactUsers', contactUsers).then((val)=>{
-      this.Go(ContactListComponent);
+      this.native.Go(this.navCtrl,ContactListComponent);
     });
   }
 

@@ -202,7 +202,6 @@ export class BaseComponent {
   }
 
   public objtoarr(obj){
-    console.log(JSON.stringify(obj["__zone_symbol__value"]));
     let arr = [];
     for (let key in obj) {
       arr.push(obj[key]);

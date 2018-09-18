@@ -1,36 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import {BaseComponent} from './../../../app/BaseComponent';
+import { Component} from '@angular/core';
 import {ContactCreateComponent} from "../contact-create/contact-create.component";
 import {ContactsComponent} from "../contacts.component";
-
+import { NavController, NavParams} from 'ionic-angular';
+import {WalletManager} from '../../../providers/WalletManager';
+import {Native} from "../../../providers/Native";
+import {LocalStorage} from "../../../providers/Localstorage";
+import {Util} from "../../../providers/Util";
 @Component({
   selector: 'app-contact-list',
   templateUrl: './contact-list.component.html',
-  // styleUrls: ['./contact-list.component.scss']
 })
-export class ContactListComponent  extends BaseComponent implements OnInit  {
+export class ContactListComponent {
 
   contactUsers = [];
+  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage) {
+        this.init();
+  }
+  init() {
 
-  ngOnInit() {
-    this.setTitleByAssets('text-contacts');
-    this.setRightIcon('./assets/images/icon/icon-add.svg', () => {
-      this.rightHeader();
-    });
-    this.setHeadDisPlay({right: true});
     this.localStorage.get('contactUsers').then((val)=>{
       if (val) {
-        this.contactUsers = this.objtoarr(JSON.parse(val));
+        this.contactUsers = Util.objtoarr(JSON.parse(val));
       }
     });
   }
 
   rightHeader(): void {
-    this.Go(ContactCreateComponent);
+    this.native.Go(this.navCtrl,ContactCreateComponent);
   }
 
   onclick(id): void {
-    this.Go(ContactsComponent,{id: id});
+    this.native.Go(this.navCtrl,ContactsComponent,{id: id});
   }
 
 }

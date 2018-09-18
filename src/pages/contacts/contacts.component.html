@@ -1,49 +1,65 @@
 <ion-header>
-    <app-header [header]="header"></app-header>
+    <ion-navbar>
+        <ion-title style="text-align:center">{{'text-contacts' | translate}}</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="rightHeader()">
+              <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
 </ion-header>
 <ion-content>
-    <div class="conttacts">
-        <div class="weui-cells">
-            <div class="weui-cell">
-                <div class="weui-cell__bd conttacts-font-size-13">
-                    <p>{{'text-contacts-name' | translate }}</p>
-                </div>
-                <div class="weui-cell__ft conttacts-font-size-12"> {{contactUser["name"]}} </div>
-            </div>
+    <ion-list>
+        <button ion-item>
+      <ion-label>
+        <span>{{'text-contacts-name' | translate }}</span>
+      </ion-label>
+      <ion-note *ngIf="contactUser['name']" item-end>
+          {{contactUser["name"]}}
+      </ion-note>
+    </button>
 
-            <div class="weui-cell">
-                <div class="weui-cell__bd conttacts-font-size-13">
-                    <p>{{'text-contacts-address' | translate }}</p>
-                </div>
-                <div class="weui-cell__ft conttacts-font-size-12"> {{contactUser["address"]}} </div>
-            </div>
+        <button ion-item>
+        <ion-label>
+          <span>{{'text-contacts-address' | translate }}</span>
+        </ion-label>
+        <ion-note *ngIf="contactUser['address']" item-end style="font-size: 12px">
+            {{contactUser["address"]}}
+        </ion-note>
+      </button>
 
-            <div class="weui-cell">
-                <div class="weui-cell__bd conttacts-font-size-13">
-                    <p>{{'text-contacts-phone' | translate}}</p>
-                </div>
-                <div class="weui-cell__ft conttacts-font-size-12"> {{contactUser["phone"]}} </div>
-            </div>
+        <button ion-item>
+          <ion-label>
+            <span>{{'text-contacts-phone' | translate}}</span>
+          </ion-label>
+          <ion-note *ngIf="contactUser['phone']" item-end style="font-size: 12px">
+              {{contactUser["phone"]}}
+          </ion-note>
+        </button>
 
-            <div class="weui-cell">
-                <div class="weui-cell__bd conttacts-font-size-13">
-                    <p>{{'text-contacts-email' | translate}}</p>
-                </div>
-                <div class="weui-cell__ft conttacts-font-size-12"> {{contactUser["email"]}} </div>
-            </div>
+        <button ion-item>
+            <ion-label>
+              <span>{{'text-contacts-email' | translate}}</span>
+            </ion-label>
+            <ion-note *ngIf="contactUser['email']" item-end style="font-size: 12px">
+                {{contactUser["email"]}}
+            </ion-note>
+          </button>
 
-            <div class="weui-cell">
-                <div class="weui-cell__bd conttacts-font-size-13">
-                    <p>{{'text-remark' | translate}}</p>
-                </div>
-                <div class="weui-cell__ft conttacts-font-size-12"> {{contactUser["remark"]}} </div>
-            </div>
+
+        <button ion-item>
+            <ion-label>
+              <span>{{'text-remark' | translate}}</span>
+            </ion-label>
+            <ion-note *ngIf="contactUser['remark']" item-end style="font-size: 12px">
+                {{contactUser["remark"]}}
+            </ion-note>
+          </button>
+        <div style="text-align: center;width:100%;margin: 10px 0px">
+            <qrcode [qrdata]="qrcode" [size]="200" [level]="'M'" style="display:inline-block;"></qrcode>
         </div>
-        <div class="conttacts-row conttacts-row-top-30">
-            <qrcode class="conttacts-inline-block" [qrdata]="qrcode" [size]="200" [level]="'M'"></qrcode>
-        </div>
-        <div class="conttacts-row conttacts-row-top-30 conttacts-row-bottom-20">
-            <button weui-button [weui-mini]="'mini'" (click)="pay()">{{'text-transfer' | translate}}</button>
-        </div>
-    </div>
+    </ion-list>
 </ion-content>
+<ion-footer>
+    <button ion-button style="width: 100%" (click)="pay()">{{'text-transfer' | translate}}</button>
+</ion-footer>

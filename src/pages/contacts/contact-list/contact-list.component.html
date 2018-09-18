@@ -1,15 +1,17 @@
 <ion-header>
-    <app-header [header]="header"></app-header>
+    <ion-navbar>
+        <ion-title style="text-align:center">{{'text-contacts' | translate}}</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="rightHeader()">
+              <ion-icon name="add"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
 </ion-header>
 <ion-content>
-    <div class="weui-cells">
-
-        <a class="weui-cell weui-cell_access" *ngFor="let item of contactUsers" href="javascript:;" (click)="onclick(item.id)">
-            <div class="weui-cell__bd">
-                <p>{{ item.name }}</p>
-            </div>
-            <div class="weui-cell__ft"></div>
-        </a>
-
-    </div>
+    <ion-list>
+        <button ion-item *ngFor="let item of contactUsers" (click)="onclick(item.id)">
+          {{ item.name }}
+        </button>
+    </ion-list>
 </ion-content>

@@ -1,29 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import {BaseComponent} from '../../app/BaseComponent';
 import {TransferComponent} from "../coin/transfer/transfer.component";
-import {ContactListComponent} from "../contacts/contact-list/contact-list.component";
-// import {QrcodeModel} from './../../models/qrcode.model';
-
+import { NavController, NavParams} from 'ionic-angular';
+import {Native} from "../../providers/Native";
+import {LocalStorage} from "../../providers/Localstorage";
 @Component({
   selector: 'app-contacts',
-  templateUrl: './contacts.component.html',
-  // styleUrls: ['./contacts.component.scss']
+  templateUrl: './contacts.component.html'
 })
-export class ContactsComponent  extends BaseComponent implements OnInit {
+export class ContactsComponent{
 
   contactUser = {};
   qrcode: string = null;
+  constructor(public navCtrl: NavController,public navParams: NavParams,public native: Native,public localStorage:LocalStorage) {
+    this.init();
+}
+  init() {
 
-  ngOnInit() {
-    this.setTitleByAssets('text-contacts-info');
-    this.setRightIcon('./assets/images/icon/icon-delete.svg', () => {
-        this.rightHeader();
-    });
-    this.setHeadDisPlay({'right': true});
     this.localStorage.get('contactUsers').then((val)=>{
-      let id = this.getNavParams().get("id");
-      this.contactUser = JSON.parse(val)[id];
-      this.qrcode = this.contactUser["address"].toString();
+      if(val){
+        let id = this.navParams.get("id");
+        this.contactUser = JSON.parse(val)[id];
+        this.qrcode = this.contactUser["address"].toString();
+      }
     });
   }
 
@@ -32,12 +30,13 @@ export class ContactsComponent  extends BaseComponent implements OnInit {
       let contactUsers = JSON.parse(val);
       delete(contactUsers[this.contactUser["id"]]);
       this.localStorage.set('contactUsers', contactUsers);
+      this.navCtrl.pop();
       alert('删除成功');
-      this.Go(ContactListComponent);
+
     });
   }
 
-  pay(): void {
-    this.Go(TransferComponent,{id:1});
+  pay(id): void {
+    this.native.Go(this.navCtrl,TransferComponent,{id:this.contactUser['address']});
   }
 }

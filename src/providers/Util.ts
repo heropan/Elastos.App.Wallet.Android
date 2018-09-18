@@ -119,5 +119,20 @@ export class Util {
       .replace(/fff/ig, String(time.Millisecond))
   }
 
+  public static checkCellphone(cellphone: string): boolean {
+    if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(cellphone))){
+      return true;
+    }
+    return false;
+  }
+
+  public static objtoarr(obj){
+    let arr = [];
+    for (let key in obj) {
+      arr.push(obj[key]);
+    }
+    return arr;
+  }
+
 
 }

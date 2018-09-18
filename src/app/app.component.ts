@@ -30,6 +30,9 @@ import { Native } from '../providers/Native';
 import {PaypasswordResetComponent} from "../pages/wallet/paypassword-reset/paypassword-reset.component";
 import {MyComponent} from '../pages/tabs/my/my.component';
 import {WalletCreateComponent} from '../pages/wallet/wallet-create/wallet-create.component';
+import {ContactsComponent} from '../pages/contacts/contacts.component';
+import {ContactCreateComponent} from '../pages/contacts/contact-create/contact-create.component';
+import {ContactListComponent} from '../pages/contacts/contact-list/contact-list.component';
 //add for plugin
 declare var cordova: any;
 
@@ -66,7 +69,8 @@ export class AppComponent {
       //this.rootPage = TestJniComponent;
       //this.rootPage = MnemonicComponent;
       //this.rootPage = ImportComponent;
-
+      //this.rootPage = ContactCreateComponent;
+      //this.rootPage = ContactListComponent;
          //init java 2 js plugin
          cordova.plugins.Java2JSBridge.init(this);
 
