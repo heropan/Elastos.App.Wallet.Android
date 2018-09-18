@@ -30,7 +30,7 @@ export const zh = {
   'text-from-key': '来自私钥',
   'text-key-file': '私钥文件',
   'text-mnemonic-check': '验证助记词',
-  'text-mnemonic-label': '助记词密码',
+  'text-mnemonic-label': '添加助记词密码',
   'text-mnemonic-pwd': '请设置助记词密码',
   'text-mnemonic-repwd': '请再次设置助记词密码',
   'text-password-error': '密码错误',

@@ -1,13 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {BaseComponent} from '../../app/BaseComponent';
+import {Component} from '@angular/core';
+import { NavController,NavParams} from 'ionic-angular';
+import {Native} from "../../providers/Native";
+import {WalletManager} from '../../providers/WalletManager';
 import {WriteComponent} from "./write/write.component";
 import {Util} from "../../providers/Util";
+import {LocalStorage} from "../../providers/Localstorage";
 
 @Component({
   selector: 'app-mnemonic',
   templateUrl: './mnemonic.component.html'
 })
-export class MnemonicComponent extends BaseComponent implements OnInit {
+export class MnemonicComponent {
   masterWalletId:string = "1";
   mnemonicList = [];
   mnemonicStr: string;
@@ -18,11 +21,12 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
   singleAddress: boolean = false;
   defaultCointype = "Ela";
   isSelect:boolean = false;
+  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage){
+          this.init();
+  }
+  init() {
+    this.walletManager.generateMnemonic(this.native.getMnemonicLang(),(data) => {
 
-  ngOnInit() {
-    this.setTitleByAssets('text-mnemonic');
-    this.walletManager.generateMnemonic(this.getMnemonicLang(),(data) => {
-      //let data ={"mnemonic":"aaa bbb ccc ddd eee  fff ggg  ssss kkk lll zzz hhh"};
       if(data["success"]){
         console.log("====generateMnemonic===="+JSON.stringify(data));
         this.mnemonicStr = data["success"].toString();
@@ -31,34 +35,32 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
           this.mnemonicList.push({text: mnemonicArr[i], selected: false});
         }
       }else{
-             alert("generateMnemonic=error:"+JSON.stringify(data));
+            alert("generateMnemonic=error:"+JSON.stringify(data));
       }
     });
-    this.payPassword = this.getNavParams().get("payPassword");
-    this.name = this.getNavParams().get("name");
-    this.singleAddress = this.getNavParams().get("singleAddress");
+    this.payPassword = this.navParams.get("payPassword");
+    this.name = this.navParams.get("name");
+    this.singleAddress = this.navParams.get("singleAddress");
   }
 
   onNext() {
-
     if (!Util.password(this.mnemonicPassword) && this.isSelect) {
-      this.toast("text-pwd-validator");
+      this.native.toast_trans("text-pwd-validator");
       return;
     }
 
     if (this.mnemonicPassword != this.mnemonicRepassword && this.isSelect) {
-      this.toast("text-repwd-validator");
+      this.native.toast_trans("text-repwd-validator");
       return;
     }
-    this.walletManager.createMasterWallet(this.masterWalletId, this.mnemonicStr, this.mnemonicPassword, this.payPassword,this.getMnemonicLang(),(data) =>{
+    this.walletManager.createMasterWallet(this.masterWalletId, this.mnemonicStr, this.mnemonicPassword, this.payPassword,this.native.getMnemonicLang(),(data) =>{
            if(data["success"]){
             console.log("====createMasterWallet===="+JSON.stringify(data));
             this.createSubWallet('ELA');
            }else{
              alert("createMasterWallet=error:"+JSON.stringify(data));
            }
-
-    })
+    });
   }
 
   createSubWallet(chainId){
@@ -66,7 +68,7 @@ export class MnemonicComponent extends BaseComponent implements OnInit {
     this.walletManager.createSubWallet(this.masterWalletId,chainId, this.payPassword, this.singleAddress, 0, (data)=>{
           if(data["success"]){
                console.log("====createSubWallet===="+JSON.stringify(data));
-               this.Go(WriteComponent, {mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList});
+               this.native.Go(this.navCtrl,WriteComponent, {mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList});
                this.localStorage.setWallet({
                 'name': this.name
                });

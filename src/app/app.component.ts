@@ -5,7 +5,7 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 import {LauncherComponent} from "../pages/launcher/launcher.component";
 //import {Utils} from "../providers/Utils";
 //import {WalletCreateComponent} from "../pages/wallet/wallet-create/wallet-create.component";
-//import {MnemonicComponent} from "../pages/mnemonic/mnemonic.component";
+import {MnemonicComponent} from "../pages/mnemonic/mnemonic.component";
 //import {WriteComponent} from "../pages/mnemonic/write/write.component";
 //import {ImportComponent} from "../pages/wallet/import/import.component";
 import {ExprotPrikeyComponent} from "../pages/wallet/exprot-prikey/exprot-prikey.component";
@@ -69,7 +69,8 @@ export class AppComponent {
       //this.rootPage = ExprotPrikeyComponent;
       //this.rootPage = MyComponent;
       // this.rootPage = WalletCreateComponent;
-         //this.rootPage = TestJniComponent;
+      //this.rootPage = TestJniComponent;
+      //this.rootPage = MnemonicComponent;
       localStorage.getWallet().then((val) => {
         let type = this.GetQueryString("type");
         if (val) {

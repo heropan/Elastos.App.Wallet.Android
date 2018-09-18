@@ -30,7 +30,7 @@ export const en = {
   'text-from-key': 'from KeyStore',
   'text-key-file': 'from SecretKey',
   'text-mnemonic-check': 'Mnemonics Verification',
-  'text-mnemonic-label': 'Add an Optional Password for Mnemonics',
+  'text-mnemonic-label': 'Add Optional Password',
   'text-mnemonic-pwd': 'Set Mnemonic Password',
   'text-mnemonic-repwd': 'Repeat Mnemonic Password',
   'text-password-error': 'Wrong Password',

@@ -170,6 +170,28 @@ export class Native {
   public setRootRouter(router){
     this.app.getRootNav().setRoot(router);
   }
+
+  public getMnemonicLang(): string {
+    return "english";
+  }
+
+  public clone(myObj){
+    if(typeof(myObj) != 'object') return myObj;
+    if(myObj == null) return myObj;
+
+    let myNewObj;
+
+    if(myObj instanceof(Array)){
+      myNewObj= new Array();
+    }else{
+      myNewObj= new Object();
+    }
+
+    for(let i in myObj)
+      myNewObj[i] = this.clone(myObj[i]);
+
+    return myNewObj;
+  }
 }
 
 

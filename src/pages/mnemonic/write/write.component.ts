@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {BaseComponent} from './../../../app/BaseComponent';
+import {Component} from '@angular/core';
+import { NavController,NavParams} from 'ionic-angular';
+import {Native} from "../../../providers/Native";
 import {TabsComponent} from "../../tabs/tabs.component";
 import {Util} from "../../../providers/Util";
 
@@ -8,19 +9,19 @@ import {Util} from "../../../providers/Util";
   selector: 'app-write',
   templateUrl: './write.component.html',
 })
-export class WriteComponent extends BaseComponent implements OnInit {
+export class WriteComponent {
 
 
   mnemonicList: Array<any> = []
   selectList: Array<any> = [];
   mnemonicStr: string;
   selectComplete = false;
-
-  ngOnInit() {
-    // this.setHeadDisPlay({left:false});
-    this.setTitleByAssets('text-mnemonic-check');
-    this.mnemonicStr = this.clone(this.getNavParams().get("mnemonicStr"));
-    this.mnemonicList = this.clone(this.getNavParams().get("mnemonicList")).sort(function(){ return 0.5 - Math.random() });
+  constructor(public navCtrl: NavController,public navParams: NavParams,public native: Native){
+    this.init();
+}
+  init() {
+    this.mnemonicStr = this.native.clone(this.navParams.get("mnemonicStr"));
+    this.mnemonicList = this.native.clone(this.navParams.get("mnemonicList")).sort(function(){ return 0.5 - Math.random() });
   }
 
   onNext() {
@@ -28,16 +29,13 @@ export class WriteComponent extends BaseComponent implements OnInit {
     for(let i =0;i<this.selectList.length;i++){
       mn += this.selectList[i].text;
     }
-    //hptest
-    if(!Util.isNull(mn) && mn == this.mnemonicStr.replace(/\s+/g,"")){
-      this.toast('text-mnemonic-ok');
-      //this.Go(TabsComponent)
-      this.setRootRouter(TabsComponent);
-    }else{
-      this.toast('text-mnemonic-prompt3');
-    }
 
-    //this.Go(TabsComponent);
+    if(!Util.isNull(mn) && mn == this.mnemonicStr.replace(/\s+/g,"")){
+      this.native.toast_trans('text-mnemonic-ok');
+      this.native.setRootRouter(TabsComponent);
+    }else{
+      this.native.toast_trans('text-mnemonic-prompt3');
+    }
   }
 
   public addButton(index: number, item: any): void {
@@ -53,7 +51,6 @@ export class WriteComponent extends BaseComponent implements OnInit {
 
 
   public removeButton(index: number, item: any): void {
-    // if ($scope.loading) return;
     this.selectList.splice(index, 1);
     this.mnemonicList[item.prevIndex].selected = false;
     this.shouldContinue();
