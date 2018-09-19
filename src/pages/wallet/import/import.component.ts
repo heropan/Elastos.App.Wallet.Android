@@ -69,6 +69,7 @@ export class ImportComponent {
                       this.keyStoreContent,this.importFileObj.backupPassWord,
                       this.importFileObj.payPassword,this.importFileObj.phrasePassword,
                       (data)=>{
+                        console.log("this.keyStoreContent======"+this.keyStoreContent);
                         if(data["success"]){
                           this.walletManager.createSubWallet(this.masterWalletId,"ELA", this.importFileObj.payPassword, false, 0, (data)=>{
                                        if(data["success"]){
@@ -152,7 +153,7 @@ export class ImportComponent {
       this.walletManager.getAllSubWallets(this.masterWalletId,(data) => {
         if(data["success"]){
           console.log("====getAllSubWallets======"+JSON.stringify(data));
-          let chinas = this.getCoinListCache(data);
+          let chinas = this.getCoinListCache(data["success"]);
           console.log("====getCoinListCache======"+JSON.stringify(chinas));
            this.localStorage.set('coinListCache',chinas).then(()=>{
             this.native.toast_trans('import-text-keystroe-sucess');

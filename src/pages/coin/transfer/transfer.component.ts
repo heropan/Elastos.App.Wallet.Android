@@ -79,9 +79,9 @@ export class TransferComponent extends BaseComponent implements OnInit {
 
   initData(){
     this.walletManager.getBalance(this.masterWalletId,this.chianId, (data)=>{
-      if(data["success"]){
+      if(!Util.isNull(data["success"])){
         console.log("===getBalance==="+JSON.stringify(data));
-        this.balance = data.balance;
+        this.balance = data["success"];
       }else{
        alert("===getBalance===error"+JSON.stringify(data));
       }
@@ -125,7 +125,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
       return;
     }
     this.walletManager.isAddressValid(this.masterWalletId,this.transfer.toAddress, (data) => {
-      if (!data['valid']) {
+      if (!data['success']) {
         this.toast("contact-address-digits");
         return;
       }
@@ -142,15 +142,24 @@ export class TransferComponent extends BaseComponent implements OnInit {
       this.transfer.memo,
       this.transfer.remark,
       (data)=>{
-
-        this.rawTransaction = data['transactionId'].toString();
-        this.getFee();
+        if(data['success']){
+          console.log("=======createTransaction======"+JSON.stringify(data));
+          this.rawTransaction = data['success'];
+          this.getFee();
+        }else{
+          alert("====createTransaction====error"+JSON.stringify(data));
+        }
       });
   }
 
   getFee(){
     this.walletManager.calculateTransactionFee(this.masterWalletId,this.chianId, this.rawTransaction, this.feePerKb, (data) => {
-      this.transfer.fee = data['fee'];
+      if(data['success']){
+        console.log("=======calculateTransactionFee======"+JSON.stringify(data));
+        this.transfer.fee = data['fee'];
+      }else{
+        alert("====calculateTransactionFee====error"+JSON.stringify(data));
+      }
     });
   }
 
@@ -161,8 +170,9 @@ export class TransferComponent extends BaseComponent implements OnInit {
     }
 
     this.walletManager.sendRawTransaction(this.masterWalletId,this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
-      this.txId = JSON.parse(data["json"])["TxHash"];
-      if (data['ERRORCODE'] == undefined) {
+      console.log("=======calculateTransactionFee======"+JSON.stringify(data));
+      if(data['success']){
+        this.txId = JSON.parse(data["json"])["TxHash"];
         this.walletManager.registerWalletListener(this.masterWalletId,this.chianId, (data) => {
           if (data['confirms'] == 1) {
             //alert("转账： " + JSON.stringify(data));
@@ -170,6 +180,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
             });
           }
         });
+
         if(this.isNull(this.appType)){
           this.toast('send-raw-transaction');
           this.Go(TabsComponent);
@@ -180,9 +191,11 @@ export class TransferComponent extends BaseComponent implements OnInit {
                   this.person();
              }
         }
-      } else {
-        this.toast('text-password-error');
+
+      }else{
+        alert("====sendRawTransaction====error"+JSON.stringify(data));
       }
+
     });
   }
 

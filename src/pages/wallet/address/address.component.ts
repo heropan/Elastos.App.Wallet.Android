@@ -15,7 +15,7 @@ export class AddressComponent extends BaseComponent implements OnInit {
     this.walletManager.getAllAddress(this.masterWalletId,this.chinaId, 0, (data) => {
       if(data["success"]){
         console.log("===getAllAddress==="+JSON.stringify(data));
-        this.addrList = JSON.parse(data)['Addresses'];
+        this.addrList = JSON.parse(data["success"])['Addresses'];
       }else{
         alert("==getAllAddress==error"+JSON.stringify(data))
       }

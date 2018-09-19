@@ -61,8 +61,14 @@ export class ExprotPrikeyComponent  {
   }
 
   onExport() {
-    this.walletManager.exportWalletWithKeystore(this.masterWalletId,this.exprotObj.backupPassWord,this.exprotObj.payPassword,(reslut) => {
-                 this.backupWalletPlainText = reslut.keystoreContent;
+    this.walletManager.exportWalletWithKeystore(this.masterWalletId,this.exprotObj.backupPassWord,this.exprotObj.payPassword,(data) => {
+                 if(data["success"]){
+                  console.log("====exportWalletWithKeystore====="+JSON.stringify(data));
+                  this.backupWalletPlainText = data["success"];
+                 }else{
+                   alert("===exportWalletWithKeystore==error=="+JSON.stringify(data));
+                 }
+
     });
   }
 

@@ -62,7 +62,12 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
 
   initData(){
     this.walletManager.getBalance(this.masterWalletId,this.chianId, (data)=>{
-      this.balance = data.balance;
+      if(!Util.isNull(data["success"])){
+        this.balance = data["success"];
+      }else{
+         alert()
+      }
+
     });
   }
 

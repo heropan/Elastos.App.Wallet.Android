@@ -64,8 +64,8 @@ export class CoinComponent extends BaseComponent implements OnInit {
     this.walletManager.getAllTransaction(this.masterWalletId,this.coinName, this.start, '', (data) => {
       if(data["success"]){
           console.log("====getAllTransaction===="+JSON.stringify(data));
-          let allTransaction = data['success']['allTransaction'];
-      let transactions = JSON.parse(allTransaction)['Transactions'];
+          let allTransaction = JSON.parse(data['success'])['Transactions'];
+      let transactions = JSON.parse(allTransaction);
       for (let key in transactions) {
         let transaction = transactions[key];
         let timestamp = transaction['Timestamp']*1000;

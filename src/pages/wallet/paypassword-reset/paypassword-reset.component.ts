@@ -26,9 +26,15 @@ export class PaypasswordResetComponent {
       return;
     }
     // reset pay password
-    this.walletManager.changePassword(this.masterWalletId,this.oldPayPassword, this.payPassword, ()=>{
-      this.native.toast_trans("reset-pwd-success");
-      this.navCtrl.pop();
+    this.walletManager.changePassword(this.masterWalletId,this.oldPayPassword, this.payPassword, (data)=>{
+      if(data["success"]){
+        console.log("=====changePassword======"+JSON.stringify(data));
+        this.native.toast_trans("reset-pwd-success");
+        this.navCtrl.pop();
+      }else{
+        console.log("=====changePassword===error==="+JSON.stringify(data));
+      }
+
     });
   }
 
