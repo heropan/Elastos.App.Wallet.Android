@@ -5,7 +5,7 @@ import {CoinListComponent} from "../../coin/coin-list/coin-list.component";
 import { Config } from '../../../providers/Config';
 import { PaymentConfirmComponent } from '../../coin/payment-confirm/payment-confirm.component';
 import {WalltelistPage} from '../../../pages/walltelist/walltelist';
-
+import {Util} from '../../../providers/Util';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html'
@@ -83,14 +83,13 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   getElaBalance(item){
     this.walletManager.getBalance(this.masterWalletId,item.name,(data)=>{
-      if(data["success"]){
+      if(!Util.isNull(data["success"])){
         console.log("getBalance="+JSON.stringify(data));
-        this.ElaObj.balance = data.balance/Config.SELA;
+        this.ElaObj.balance = data["success"]/Config.SELA;
       }else{
         alert("getElaBalance=error:"+JSON.stringify(data));
       }
-
-    })
+    });
   }
 
   getAllMasterWallets(){
@@ -127,18 +126,18 @@ export class HomeComponent extends BaseComponent implements OnInit {
   getSubBalance(coin){
     this.walletManager.getBalance(this.masterWalletId,coin, (data)=>{
       console.log("getSubBalance="+JSON.stringify(data));
-      if(data["success"]){
+      if(!Util.isNull(data["success"])){
          if(this.coinList.length === 0){
-          this.coinList.push({name: coin, balance: data.balance/Config.SELA});
+          this.coinList.push({name: coin, balance: data["success"]/Config.SELA});
          }else{
             let index = this.getCoinIndex(coin);
             if(index!=-1){
                let item = this.coinList[index];
-                   item["balance"] =  data.balance/Config.SELA;
+                   item["balance"] =  data["success"]/Config.SELA;
                    this.coinList.splice(index,1,item);
 
             }else{
-                   this.coinList.push({name: coin, balance: data.balance/Config.SELA});
+                   this.coinList.push({name: coin, balance: data["success"]/Config.SELA});
             }
          }
       }else{
@@ -161,7 +160,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   sycEla(){
 
     this.walletManager.registerWalletListener(this.masterWalletId,"ELA",(result)=>{
-           if(result["success"]){
+
             console.log("===registerWalletListener+ELA"+JSON.stringify(result));
             if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
               this.tempElaPer = 1;
@@ -172,15 +171,11 @@ export class HomeComponent extends BaseComponent implements OnInit {
            if(this.tempElaPer === 1){
             this.getElaBalance(this.ElaObj);
            }
-           }else{
-             alert("===registerWalletListener+ELA=error"+JSON.stringify(result));
-           }
     });
   }
 
   sycIdChain(){
     this.walletManager.registerWalletListener(this.masterWalletId,"IdChain",(result)=>{
-      if(result["success"]){
         console.log("===registerWalletListener+ELA+Id"+JSON.stringify(result));
         if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
           this.tempIdChinaPer = 1;
@@ -191,9 +186,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
         if(this.tempIdChinaPer === 1){
                  this.getSubBalance("IdChain");
         }
-      }else{
-        alert("===registerWalletListener+ELA=error"+JSON.stringify(result));
-      }
     });
   }
 }

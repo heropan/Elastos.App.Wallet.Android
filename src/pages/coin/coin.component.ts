@@ -53,9 +53,9 @@ export class CoinComponent extends BaseComponent implements OnInit {
 
   initData(){
     this.walletManager.getBalance(this.masterWalletId,this.coinName, (data)=>{
-      if(data["success"]){
+      if(!Util.isNull(data["success"])){
         console.log("====getBalance=="+JSON.stringify(data));
-        this.coinCount = data.balance/Config.SELA;
+        this.coinCount = data["success"]/Config.SELA;
       }else{
          alert("====getBalance==error="+JSON.stringify(data));
       }
@@ -64,7 +64,7 @@ export class CoinComponent extends BaseComponent implements OnInit {
     this.walletManager.getAllTransaction(this.masterWalletId,this.coinName, this.start, '', (data) => {
       if(data["success"]){
           console.log("====getAllTransaction===="+JSON.stringify(data));
-          let allTransaction = data['allTransaction'];
+          let allTransaction = data['success']['allTransaction'];
       let transactions = JSON.parse(allTransaction)['Transactions'];
       for (let key in transactions) {
         let transaction = transactions[key];
