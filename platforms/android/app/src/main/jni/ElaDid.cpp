@@ -18,6 +18,8 @@ static jstring JNICALL nativeGetDIDName(JNIEnv *env, jobject clazz, jlong jDidPr
 	} catch (std::exception &e) {
 		ThrowWalletException(env, e.what());
 	}
+
+	return env->NewStringUTF("");
 }
 
 //"(JLjava/lang/String;Ljava/lang/String;)V"

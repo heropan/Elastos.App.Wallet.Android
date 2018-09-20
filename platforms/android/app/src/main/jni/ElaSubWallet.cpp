@@ -21,6 +21,8 @@ static jstring JNICALL nativeGetChainId(JNIEnv *env, jobject clazz, jlong jSubPr
 	} catch (std::exception &e) {
 		ThrowWalletException(env, e.what());
 	}
+
+	return env->NewStringUTF("");
 }
 
 static jstring JNICALL nativeGetBasicInfo(JNIEnv *env, jobject clazz, jlong jSubProxy)
@@ -32,6 +34,8 @@ static jstring JNICALL nativeGetBasicInfo(JNIEnv *env, jobject clazz, jlong jSub
 	} catch (std::exception &e) {
 		ThrowWalletException(env, e.what());
 	}
+
+	return env->NewStringUTF("");
 }
 
 static jstring JNICALL nativeGetBalanceInfo(JNIEnv *env, jobject clazz, jlong jSubProxy)
@@ -43,6 +47,8 @@ static jstring JNICALL nativeGetBalanceInfo(JNIEnv *env, jobject clazz, jlong jS
 	} catch (std::exception &e) {
 		ThrowWalletException(env, e.what());
 	}
+
+	return env->NewStringUTF("");
 }
 
 static jlong JNICALL nativeGetBalance(JNIEnv *env, jobject clazz, jlong jSubProxy)
@@ -53,6 +59,8 @@ static jlong JNICALL nativeGetBalance(JNIEnv *env, jobject clazz, jlong jSubProx
 	} catch (std::exception &e) {
 		ThrowWalletException(env, e.what());
 	}
+
+	return 0;
 }
 
 static jstring JNICALL nativeCreateAddress(JNIEnv *env, jobject clazz, jlong jSubProxy)
@@ -64,6 +72,8 @@ static jstring JNICALL nativeCreateAddress(JNIEnv *env, jobject clazz, jlong jSu
 	} catch (std::exception &e) {
 		ThrowWalletException(env, e.what());
 	}
+
+	return env->NewStringUTF("");
 }
 
 static jstring JNICALL nativeGetAllAddress(JNIEnv *env, jobject clazz, jlong jSubProxy, jint jStart, jint jCount)
@@ -75,6 +85,8 @@ static jstring JNICALL nativeGetAllAddress(JNIEnv *env, jobject clazz, jlong jSu
 	} catch (std::exception &e) {
 		ThrowWalletException(env, e.what());
 	}
+
+	return env->NewStringUTF("");
 }
 
 static jlong JNICALL nativeGetBalanceWithAddress(JNIEnv *env, jobject clazz, jlong jSubProxy, jstring jaddress)
@@ -462,12 +474,14 @@ static jstring JNICALL nativeGetPublicKey(JNIEnv *env, jobject clazz, jlong jSub
 	std::string msgException;
 
 	try {
-		ISubWallet* subWallet = (ISubWallet*)jSubProxy;
+		ISubWallet *subWallet = (ISubWallet *)jSubProxy;
 		std::string result = subWallet->GetPublicKey();
 		return env->NewStringUTF(result.c_str());
 	} catch (std::exception &e) {
 		ThrowWalletException(env, e.what());
 	}
+
+	return env->NewStringUTF("");
 }
 
 static const JNINativeMethod gMethods[] = {
