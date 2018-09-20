@@ -63,11 +63,11 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
   initData(){
     this.walletManager.getBalance(this.masterWalletId,this.chianId, (data)=>{
       if(!Util.isNull(data["success"])){
+        console.log("===getBalance==="+JSON.stringify(data));
         this.balance = data["success"];
       }else{
-         alert()
+       alert("===getBalance===error"+JSON.stringify(data));
       }
-
     });
   }
 
@@ -107,7 +107,7 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
       return;
     }
     this.walletManager.isAddressValid(this.masterWalletId,this.mainchain.accounts, (data) => {
-      if (!data['valid']) {
+      if (!data['success']) {
         this.toast("contact-address-digits");
         return;
       }
@@ -131,8 +131,13 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
       this.transfer.memo,
       this.transfer.remark,
       (data)=>{
-        this.rawTransaction = data['json'].toString();
-        this.getFee();
+        if(data['success']){
+          console.log("=======createTransaction======"+JSON.stringify(data));
+          this.rawTransaction = data['success'];
+          this.getFee();
+        }else{
+          alert("====createTransaction====error"+JSON.stringify(data));
+        }
       });
   }
 
@@ -144,7 +149,12 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
 
   getFee(){
     this.walletManager.calculateTransactionFee(this.masterWalletId,this.chianId, this.rawTransaction, this.feePerKb, (data) => {
-      this.transfer.fee = data['fee'];
+      if(data['success']){
+        console.log("=======calculateTransactionFee======"+JSON.stringify(data));
+        this.transfer.fee = data['success'];
+      }else{
+        alert("====calculateTransactionFee====error"+JSON.stringify(data));
+      }
     });
   }
 
@@ -158,17 +168,11 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
       return;
     }
     this.walletManager.sendRawTransaction(this.masterWalletId,this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
-      if (data['ERRORCODE'] == undefined) {
+      if(data['success']){
+        console.log("===sendRawTransaction===="+JSON.stringify(data));
         this.Go(TabsComponent);
-        this.walletManager.registerWalletListener(this.masterWalletId,this.chianId, (data) => {
-          if (data['confirms'] == 1) {
-            alert("提现： " + JSON.stringify(data));
-            this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
-            });
-          }
-        });
-      } else {
-        this.toast('text-password-error');
+      }else{
+        alert("===sendRawTransaction==error=="+JSON.stringify(data));
       }
     });
   }
