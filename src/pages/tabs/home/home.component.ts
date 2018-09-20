@@ -36,13 +36,16 @@ export class HomeComponent extends BaseComponent implements OnInit {
     this.events.subscribe('home:update', () => {
            this.getElaBalance(this.ElaObj);
            this.localStorage.get('coinListCache').then((val)=>{
+            if(Util.isEmptyObject(JSON.parse(val))){
+               this.coinList = [];
+               return;
+            }
             let coinListCache = JSON.parse(val);
             for (let coin in coinListCache) {
               this.getSubBalance(coin);
             }
           });
     });
-
 
     // wallet name
     this.localStorage.getWallet().then((val) => {

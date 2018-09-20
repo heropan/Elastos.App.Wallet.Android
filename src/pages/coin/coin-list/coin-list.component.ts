@@ -92,7 +92,6 @@ export class CoinListComponent {
       console.log("==333==="+JSON.stringify(data));
       if(data['success']){
          console.log("createSubWallet==="+JSON.stringify(data));
-        //this.currentCoin["open"] = true;
         let coin = {};
         coin["id"] = chainId;
         this.localStorage.add('coinListCache', coin);
