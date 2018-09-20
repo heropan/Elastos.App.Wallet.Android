@@ -48,7 +48,7 @@ export class Util {
 
 
   public static isEmptyObject(obj): boolean {
-    for (let key of obj ) {
+    for (let key in obj ) {
       if(obj.hasOwnProperty(key)){
         return false;
       }
