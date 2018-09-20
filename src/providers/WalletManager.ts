@@ -345,6 +345,14 @@ export class WalletManager {
      this.wallet.masterWalletGetBasicInfo([masterWalletId],Fun,this.errorFun);
   }
 
+  createMultiSignMasterWallet(masterWalletId:string,coSigners:string,requiredSignCount:number,Fun){
+                   this.wallet.createMultiSignMasterWallet([masterWalletId,coSigners,requiredSignCount],Fun,this.errorFun);
+  }
+
+  createMultiSignMasterWalletWithPrivKey(masterWalletId:string,privKey:string,payPassword:string,coSigners:string,requiredSignCount:number,Fun){
+      this.wallet.createMultiSignMasterWalletWithPrivKey([masterWalletId,privKey,payPassword,coSigners,requiredSignCount],Fun,this.errorFun);
+  }
+
   errorFun(error) {
     alert("错误信息：" + JSON.stringify(error));
     //this.native.toast(error);

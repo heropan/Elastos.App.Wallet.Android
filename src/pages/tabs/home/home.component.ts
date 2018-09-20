@@ -114,8 +114,10 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.sycEla();
         this.getElaBalance(this.ElaObj);
         this.localStorage.get('coinListCache').then((val)=>{
+          console.log("====coin111===="+val);
           let coinListCache = JSON.parse(val);
           for (let coin in coinListCache) {
+            console.log("====coin===="+coin);
              this.sycIdChain();
              this.getSubBalance(coin);
           }
@@ -168,7 +170,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
         });
       }
-            console.log("===registerWalletListener+ELA"+JSON.stringify(result));
             if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
               this.tempElaPer = 1;
            }else{
@@ -183,7 +184,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   sycIdChain(){
     this.walletManager.registerWalletListener(this.masterWalletId,"IdChain",(result)=>{
-        console.log("===registerWalletListener+ELA+Id"+JSON.stringify(result));
+
         if (result['confirms'] == 1) {
           //alert("转账： " + JSON.stringify(data));
           this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {

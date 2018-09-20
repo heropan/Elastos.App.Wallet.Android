@@ -246,7 +246,7 @@ export const zh = {
   'text-sycn-message':'同步状态',
   'text-language-message':"语言",
   'text-wallte-list':"钱包列表",
-  'text-create-multi-signature-wallet':"创建多重签名钱包",
+  'signature-wallet':"创建多签钱包",
   'text-next-step':"下一步",
   'text-select-type':"选择类型",
   'text-publickey-placeholder':"请输入参与者的公钥",

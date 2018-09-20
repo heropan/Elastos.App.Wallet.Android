@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {AddpublickeyPage} from '../../pages/addpublickey/addpublickey';
-import {AddprivatekeyPage} from '../../pages/addprivatekey/addprivatekey';
 import {ImportprivatekeyPage} from '../../pages/importprivatekey/importprivatekey';
 @Component({
   selector: 'page-walltemode',

@@ -200,12 +200,12 @@ export class AppComponent {
     this.localStorage.getLanguage("wallte-language").then((val)=>{
            if(val == null ){
               this.localStorage.set("wallte-language",{
-                name: 'English',
-                isoCode: 'en'
+                name: '中文（简体）',
+                isoCode: 'zh'
               }).then(()=>{
                   // 设置默认语言
-                  this.translate.setDefaultLang('en');
-                  this.translate.use('en');
+                  this.translate.setDefaultLang('zh');
+                  this.translate.use('zh');
               });
            }else{
                 let lang  = JSON.parse(val)["isoCode"];

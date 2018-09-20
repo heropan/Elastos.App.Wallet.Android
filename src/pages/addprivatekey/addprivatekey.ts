@@ -13,13 +13,8 @@ export class AddprivatekeyPage {
     console.log("=========AddpublickeyPage"+JSON.stringify(this.navParams.data));
     this.msobj = this.navParams.data;
     let totalCopayers = this.msobj["totalCopayers"];
-    for(let index=0 ;index<totalCopayers;index++){
-          let item = {};
-          if(index === 0){
-              item ={index:index,publicKey:this.publicKey};
-          }else{
-              item ={index:index,publicKey:""};
-          }
+    for(let index=0 ;index<totalCopayers-1;index++){
+        let item ={index:index,publicKey:index};
         this.publicKeyArr.push(item);
     }
   }

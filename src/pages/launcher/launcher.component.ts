@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {WalletCreateComponent} from "../wallet/wallet-create/wallet-create.component";
 import {ImportComponent} from "../wallet/import/import.component";
 import { NavController, NavParams } from 'ionic-angular';
+import {CreatemultiwalltePage} from '../../pages/createmultiwallte/createmultiwallte';
 @Component({
   selector: 'app-launcher',
   templateUrl: './launcher.component.html',
@@ -17,10 +18,16 @@ export class LauncherComponent {
   }
 
   onNext(type) {
-    if (type === 1) {
-      this.navCtrl.push(WalletCreateComponent);
-    } else {
-      this.navCtrl.push(ImportComponent);
+    switch(type){
+       case 1:
+       this.navCtrl.push(WalletCreateComponent);
+       break;
+       case 2:
+       this.navCtrl.push(ImportComponent);
+       break;
+       case 3:
+       this.navCtrl.push(CreatemultiwalltePage);
+       break;
     }
   }
 }
