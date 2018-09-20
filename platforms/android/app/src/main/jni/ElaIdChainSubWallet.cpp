@@ -9,45 +9,58 @@
 using namespace Elastos::ElaWallet;
 
 //"(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
-static jstring JNICALL nativeCreateIdTransaction(JNIEnv *env, jobject clazz, jlong jIdSubWalletProxy, jstring jfromAddress,
-        jstring jpayloadJson, jstring jprogramJson, jstring jmemo, jstring jremark)
+static jstring JNICALL nativeCreateIdTransaction(JNIEnv *env, jobject clazz, jlong jIdSubWalletProxy,
+		jstring jfromAddress,
+		jstring jpayloadJson,
+		jstring jprogramJson,
+		jstring jmemo,
+		jstring jremark)
 {
-    const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
-    const char* payloadJson = env->GetStringUTFChars(jpayloadJson, NULL);
-    const char* programJson = env->GetStringUTFChars(jprogramJson, NULL);
-    const char* memo = env->GetStringUTFChars(jmemo, NULL);
-    const char* remark = env->GetStringUTFChars(jremark, NULL);
+	bool exception = false;
+	std::string msgException;
 
-    IIdChainSubWallet* wallet = (IIdChainSubWallet*)jIdSubWalletProxy;
-    nlohmann::json tx;
+	const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
+	const char* payloadJson = env->GetStringUTFChars(jpayloadJson, NULL);
+	const char* programJson = env->GetStringUTFChars(jprogramJson, NULL);
+	const char* memo = env->GetStringUTFChars(jmemo, NULL);
+	const char* remark = env->GetStringUTFChars(jremark, NULL);
 
-    try {
-        tx = wallet->CreateIdTransaction(fromAddress , std::string(payloadJson),
-				std::string(programJson), memo, remark);
-        return env->NewStringUTF(tx.dump().c_str());
-    } catch (std::exception& e) {
-        ThrowWalletException(env, e.what());
-    }
+	IIdChainSubWallet* wallet = (IIdChainSubWallet*)jIdSubWalletProxy;
+	nlohmann::json tx;
 
-    env->ReleaseStringUTFChars(jfromAddress, fromAddress);
-    env->ReleaseStringUTFChars(jpayloadJson, payloadJson);
-    env->ReleaseStringUTFChars(jprogramJson, programJson);
-    env->ReleaseStringUTFChars(jmemo, memo);
-    env->ReleaseStringUTFChars(jremark, remark);
+	try {
+		tx = wallet->CreateIdTransaction(fromAddress , nlohmann::json::parse(payloadJson),
+				nlohmann::json::parse(programJson), memo, remark);
+	} catch (std::exception& e) {
+		exception = true;
+		msgException = e.what();
+	}
 
-    return NULL;
+	env->ReleaseStringUTFChars(jfromAddress, fromAddress);
+	env->ReleaseStringUTFChars(jpayloadJson, payloadJson);
+	env->ReleaseStringUTFChars(jprogramJson, programJson);
+	env->ReleaseStringUTFChars(jmemo, memo);
+	env->ReleaseStringUTFChars(jremark, remark);
+
+	if (exception)
+		ThrowWalletException(env, msgException.c_str());
+
+	return env->NewStringUTF(tx.dump().c_str());
 }
 
 
 static const JNINativeMethod gMethods[] = {
-    {"nativeCreateIdTransaction",
-    "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
-    (void*)nativeCreateIdTransaction},
+	{
+		"nativeCreateIdTransaction",
+		"(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
+		(void*)nativeCreateIdTransaction
+	},
 };
 
 jint register_elastos_spv_IIdChainSubWallet(JNIEnv *env)
 {
-    return jniRegisterNativeMethods(env, "com/elastos/spvcore/IIdChainSubWallet",
-        gMethods, NELEM(gMethods));
+	return jniRegisterNativeMethods(env,
+			"com/elastos/spvcore/IIdChainSubWallet",
+			gMethods, NELEM(gMethods));
 }
 

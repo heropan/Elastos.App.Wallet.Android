@@ -24,18 +24,16 @@ public class MasterWalletManager {
         return new IMasterWallet(masterProxy);
     }
 
-    public ArrayList<IMasterWallet> GetAllMasterWallets() throws WalletException {
+	public ArrayList<IMasterWallet> GetAllMasterWallets() throws WalletException {
 		ArrayList<IMasterWallet> list = new ArrayList<IMasterWallet>();
-        long[] masterWalletProxies = nativeGetAllMasterWallets(mManagerProxy);
+		long[] masterWalletProxies = nativeGetAllMasterWallets(mManagerProxy);
 
-        if (masterWalletProxies != null) {
-            for (int i = 0; i < masterWalletProxies.length; i++) {
-                list.add(new IMasterWallet(masterWalletProxies[i]));
-            }
-        }
+		for (int i = 0; i < masterWalletProxies.length; i++) {
+			list.add(new IMasterWallet(masterWalletProxies[i]));
+		}
 
 		return list;
-    }
+	}
 
     public void DestroyWallet(String masterWalletId) throws WalletException {
         nativeDestroyWallet(mManagerProxy, masterWalletId);

@@ -11,20 +11,41 @@ using namespace Elastos::DID;
 //"(J)J"
 static jlong JNICALL nativeCreateIdManager(JNIEnv *env, jobject clazz, jlong jmasterWalletProxy, jstring jrootPath)
 {
-    const char* rootPath = env->GetStringUTFChars(jrootPath, NULL);
-    IMasterWallet* masterWallet = (IMasterWallet*)jmasterWalletProxy;
-    IdManagerFactory idManagerFactory;
-    IDIDManager* idManager = idManagerFactory.CreateIdManager(masterWallet, rootPath);
-    env->ReleaseStringUTFChars(jrootPath, rootPath);
-    return (jlong)idManager;
+	bool exception = false;
+	std::string msgException;
+
+	const char *rootPath = env->GetStringUTFChars(jrootPath, NULL);
+	IDIDManager *idManager = NULL;
+
+	try {
+		IMasterWallet* masterWallet = (IMasterWallet*)jmasterWalletProxy;
+		IdManagerFactory idManagerFactory;
+		idManager = idManagerFactory.CreateIdManager(masterWallet, rootPath);
+	} catch (std::exception &e) {
+		exception = true;
+		msgException = e.what();
+	}
+
+	env->ReleaseStringUTFChars(jrootPath, rootPath);
+
+	if (exception)
+		ThrowWalletException(env, msgException.c_str());
+
+	return (jlong)idManager;
 }
 
 static const JNINativeMethod gMethods[] = {
-    {"nativeCreateIdManager", "(JLjava/lang/String;)J", (void*)nativeCreateIdManager},
+	{
+		"nativeCreateIdManager",
+		"(JLjava/lang/String;)J",
+		(void*)nativeCreateIdManager
+	},
 };
 
 jint register_elastos_spv_IdManagerFactory(JNIEnv *env)
 {
-    return jniRegisterNativeMethods(env, "com/elastos/spvcore/IdManagerFactory",
-        gMethods, NELEM(gMethods));
+	return jniRegisterNativeMethods(env,
+			"com/elastos/spvcore/IdManagerFactory",
+			gMethods, NELEM(gMethods));
 }
+

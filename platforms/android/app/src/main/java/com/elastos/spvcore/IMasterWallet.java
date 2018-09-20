@@ -27,6 +27,7 @@ public class IMasterWallet {
     public ArrayList<ISubWallet> GetAllSubWallets() {
         long[] subWalletProxies = nativeGetAllSubWallets(mMasterProxy);
         ArrayList<ISubWallet> list = new ArrayList<ISubWallet>();
+		// TODO fix me later
         for (int i = 0; i < subWalletProxies.length; i++) {
             if (i == 0) {
                 list.add(new IMainchainSubWallet(subWalletProxies[i]));
@@ -47,8 +48,7 @@ public class IMasterWallet {
         long subProxy = nativeCreateSubWallet(mMasterProxy, chainID, payPassword, singleAddress, feePerKb);
         if (CHAINID.MAIN.equals(chainID)) {
             return new IMainchainSubWallet(subProxy);
-        }
-        else if (CHAINID.ID.equals(chainID)) {
+        } else if (CHAINID.ID.equals(chainID)) {
             return new IIdChainSubWallet(subProxy);
         }
 
