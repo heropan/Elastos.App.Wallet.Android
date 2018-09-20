@@ -9,7 +9,7 @@ import {AddprivatekeyPage} from '../../pages/addprivatekey/addprivatekey';
 })
 export class ImportprivatekeyPage {
   public msobj:any;
-  public importText:string="ss";
+  public importText:string="xprv9s21ZrQH143K2UGVHfyyduzwS2ce8YN7WDVcDUh2bo8crhGbjnBjtfHugXpe9zUvjzwoDvcWX81ePnKDCJG7uN3Sqg15SXcGntzfTb42ayi";
   public passWord:string="s12345678";
   public rePassWorld:string="s12345678";
   constructor(public navCtrl: NavController, public navParams: NavParams,public native:Native) {
