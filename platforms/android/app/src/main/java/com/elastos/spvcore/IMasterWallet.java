@@ -24,20 +24,16 @@ public class IMasterWallet {
 		return nativeGetBasicInfo(mMasterProxy);
 	}
 
-    public ArrayList<ISubWallet> GetAllSubWallets() {
-        long[] subWalletProxies = nativeGetAllSubWallets(mMasterProxy);
-        ArrayList<ISubWallet> list = new ArrayList<ISubWallet>();
-		// TODO fix me later
-        for (int i = 0; i < subWalletProxies.length; i++) {
-            if (i == 0) {
-                list.add(new IMainchainSubWallet(subWalletProxies[i]));
-            } else {
-                list.add(new IIdChainSubWallet(subWalletProxies[i]));
-            }
-        }
+	public ArrayList<ISubWallet> GetAllSubWallets() {
+		Object[] allSubWallets = nativeGetAllSubWallets(mMasterProxy);
 
-        return list;
-    }
+		ArrayList<ISubWallet> list = new ArrayList<ISubWallet>();
+		for (int i = 0; i < allSubWallets.length; i++) {
+			list.add((ISubWallet)allSubWallets[i]);
+		}
+
+		return list;
+	}
 
     public ISubWallet CreateSubWallet(String chainID, String payPassword, boolean singleAddress, long feePerKb) throws WalletException {
         if ((!CHAINID.MAIN.equals(chainID)) && (!CHAINID.ID.equals(chainID))) {
@@ -111,7 +107,7 @@ public class IMasterWallet {
 
     private native String nativeGetId(long masterProxy);
 	private native String nativeGetBasicInfo(long masterProxy);
-    private native long[] nativeGetAllSubWallets(long masterProxy);
+    private native Object[] nativeGetAllSubWallets(long masterProxy);
     private native long nativeCreateSubWallet(long masterProxy, String chainID, String payPassword, boolean singleAddress, long feePerKb);
     private native long nativeRecoverSubWallet(long masterProxy, String chainID, String payPassword, boolean singleAddress, int limitGap, long feePerKb);
     private native String nativeGetPublicKey(long masterProxy);

@@ -7,6 +7,10 @@
 #include "nlohmann/json.hpp"
 
 using namespace Elastos::ElaWallet;
+#define CLASS_MCSUBWALLET   "com/elastos/spvcore/IMainchainSubWallet"
+#define CLASS_IDSUBWALLET   "com/elastos/spvcore/IIdChainSubWallet"
+#define CHAINID_MAINCHAIN "ELA"
+#define CHAINID_IDCHAIN "IdChain"
 
 //"(J)Ljava/lang/String;"
 static jstring JNICALL nativeGetId(JNIEnv *env, jobject clazz, jlong jMasterProxy)
@@ -37,24 +41,43 @@ static jstring JNICALL nativeGetBasicInfo(JNIEnv *env, jobject clazz, jlong jMas
 	return env->NewStringUTF("");
 }
 
-//"(J)[J"
-static jlongArray JNICALL nativeGetAllSubWallets(JNIEnv *env, jobject clazz, jlong jMasterProxy)
+//"(J)[Lcom/elastos/spvcore/ISubWallet;"
+static jobjectArray JNICALL nativeGetAllSubWallets(JNIEnv *env, jobject clazz, jlong jMasterProxy)
 {
-	// TODO fix return value later
-	IMasterWallet* masterWallet = (IMasterWallet*)jMasterProxy;
-	std::vector<ISubWallet *> subWalletArray = masterWallet->GetAllSubWallets();
+	try {
+		IMasterWallet* masterWallet = (IMasterWallet*)jMasterProxy;
+		std::vector<ISubWallet *> allSubWallets = masterWallet->GetAllSubWallets();
 
-	const int length = subWalletArray.size();
-	jlongArray jarray = env->NewLongArray(length);
-	jlong subWallets[length];
+		jclass clazzSubWallet;
+		jmethodID subWalletConstructor;
+		jobject subWallet;
 
-	for (int i = 0; i < length; ++i) {
-		subWallets[i] = (jlong) subWalletArray[i];
+		jclass clazzObject = env->FindClass("java/lang/Object");
+		jobjectArray subWalletArray = env->NewObjectArray(allSubWallets.size(), clazzObject, NULL);
+
+		for (int i = 0; i < allSubWallets.size(); i++) {
+			std::string id = allSubWallets[i]->GetChainId();
+			if (id == CHAINID_MAINCHAIN) {
+				clazzSubWallet = env->FindClass(CLASS_MCSUBWALLET);
+				subWalletConstructor = env->GetMethodID(clazzSubWallet, "<init>", "(J)V");
+				subWallet = env->NewObject(clazzSubWallet, subWalletConstructor, (jlong) allSubWallets[i]);
+				env->SetObjectArrayElement(subWalletArray, i, subWallet);
+			} else if (id == CHAINID_IDCHAIN) {
+				clazzSubWallet = env->FindClass(CLASS_IDSUBWALLET);
+				subWalletConstructor = env->GetMethodID(clazzSubWallet, "<init>", "(J)V");
+				subWallet = env->NewObject(clazzSubWallet, subWalletConstructor, (jlong) allSubWallets[i]);
+				env->SetObjectArrayElement(subWalletArray, i, subWallet);
+			} else {
+				ThrowWalletException(env, "Unknow chain id");
+			}
+		}
+
+		return subWalletArray;
+	} catch (std::exception &e) {
+		ThrowWalletException(env, e.what());
 	}
 
-	env->SetLongArrayRegion(jarray, 0, length, subWallets);
-
-	return jarray;
+	return env->NewObjectArray(0, env->FindClass("java/lang/Object"), NULL);
 }
 
 //"(JLjava/lang/String;Ljava/lang/String;ZJ)J"
@@ -298,7 +321,7 @@ static const JNINativeMethod gMethods[] = {
 	},
 	{
 		"nativeGetAllSubWallets",
-		"(J)[J",
+		"(J)[Ljava/lang/Object;",
 		(void*)nativeGetAllSubWallets
 	},
 	{

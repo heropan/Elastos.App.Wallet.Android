@@ -36,8 +36,12 @@ static jstring JNICALL nativeGenerateMnemonic(JNIEnv *env, jobject clazz, jlong 
 }
 
 //"(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)J"
-static jlong JNICALL nativeCreateMasterWallet(JNIEnv *env, jobject clazz, jlong jWalletMgr, jstring jmasterWalletId
-		, jstring jmnemonic, jstring jphrasePassword, jstring jpayPassword, jstring jlanguage)
+static jlong JNICALL nativeCreateMasterWallet(JNIEnv *env, jobject clazz, jlong jWalletMgr,
+		jstring jmasterWalletId,
+		jstring jmnemonic,
+		jstring jphrasePassword,
+		jstring jpayPassword,
+		jstring jlanguage)
 {
 	bool exception = false;
 	std::string msgException;
@@ -164,8 +168,12 @@ static void JNICALL nativeDestroyWallet(JNIEnv *env, jobject clazz, jlong jWalle
 		ThrowWalletException(env, msgException.c_str());
 }
 
-static jlong JNICALL nativeImportWalletWithKeystore(JNIEnv *env, jobject clazz, jlong jWalletMgr, jstring jmasterWalletId, jstring jkeystoreContent,
-		jstring jbackupPassword, jstring jpayPassword, jstring jphrasePassword)
+static jlong JNICALL nativeImportWalletWithKeystore(JNIEnv *env, jobject clazz, jlong jWalletMgr,
+		jstring jmasterWalletId,
+		jstring jkeystoreContent,
+		jstring jbackupPassword,
+		jstring jpayPassword,
+		jstring jphrasePassword)
 {
 	bool exception = false;
 	std::string msgException;
@@ -199,8 +207,12 @@ static jlong JNICALL nativeImportWalletWithKeystore(JNIEnv *env, jobject clazz, 
 	return (jlong)masterWallet;
 }
 
-static jlong JNICALL nativeImportWalletWithMnemonic(JNIEnv *env, jobject clazz, jlong jWalletMgr, jstring jmasterWalletId,
-		jstring jmnemonic, jstring jphrasePassword, jstring jpayPassword, jstring jlanguage)
+static jlong JNICALL nativeImportWalletWithMnemonic(JNIEnv *env, jobject clazz, jlong jWalletMgr,
+		jstring jmasterWalletId,
+		jstring jmnemonic,
+		jstring jphrasePassword,
+		jstring jpayPassword,
+		jstring jlanguage)
 {
 	bool exception = false;
 	std::string msgException;

@@ -218,6 +218,9 @@ public class Wallet extends CordovaPlugin {
 				case "createMultiSignMasterWallet":
 					this.createMultiSignMasterWallet(args, cc);
 					break;
+				case "createMultiSignMasterWalletWithPrivKey":
+					this.createMultiSignMasterWalletWithPrivKey(args, cc);
+					break;
 				case "recoverSubWallet":
 					this.recoverSubWallet(args, cc);
 					break;
@@ -644,45 +647,62 @@ public class Wallet extends CordovaPlugin {
 		}
 	}
 
-	// args.length() == 4
-	//		args[0]: String masterWalletId
-	//		args[1]: String payPassword
-	//		args[2]: String coSigners
-	//		args[3]: int requiredSignCount
-	// args.length() == 5
-	//		args[0]: String masterWalletId
-	//		args[1]: String privKey
-	//		args[2]: String payPassword
-	//		args[3]: String coSigners
-	//		args[4]: int requiredSignCount
+	// args[0]: String masterWalletId
+	// args[1]: String payPassword
+	// args[2]: String coSigners
+	// args[3]: int requiredSignCount
 	public void createMultiSignMasterWallet(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 		String privKey = null;
 
-		if (args.length() != 4 && args.length() != 5) {
-			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
-			return;
-		}
-
 		String masterWalletId = args.getString(idx++);
-		if (args.length() == 5)
-			privKey           = args.getString(idx++);
 		String payPassword    = args.getString(idx++);
 		String coSigners      = args.getString(idx++);
 		int requiredSignCount = args.getInt(idx++);
 
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+
 		try {
-			IMasterWallet masterWallet = null;
-			if (args.length() == 4) {
-				masterWallet = mMasterWalletManager.CreateMultiSignMasterWallet(
+			IMasterWallet masterWallet = mMasterWalletManager.CreateMultiSignMasterWallet(
 						masterWalletId, payPassword, coSigners, requiredSignCount);
-			} else if (args.length() == 5) {
-				masterWallet = mMasterWalletManager.CreateMultiSignMasterWallet(
-						masterWalletId, privKey, payPassword, coSigners, requiredSignCount);
-			} else {
-				errorProcess(cc, errCodeInvalidArg, "Invalid args length");
+
+			if (masterWallet == null) {
+				errorProcess(cc, errCodeCreateMasterWallet, "Create multi sign master wallet '" + masterWalletId + "' failed");
 				return;
 			}
+
+			createDIDManager(masterWallet);
+			successProcess(cc, "Create multi sign master wallet '" + masterWalletId + "' OK");
+		} catch (WalletException e) {
+			exceptionProcess(e, cc, "Create multi sign master wallet '" + masterWalletId + "'");
+		}
+	}
+
+	// args[0]: String masterWalletId
+	// args[1]: String privKey
+	// args[2]: String payPassword
+	// args[3]: String coSigners
+	// args[4]: int requiredSignCount
+	public void createMultiSignMasterWalletWithPrivKey(JSONArray args, CallbackContext cc) throws JSONException {
+		int idx = 0;
+
+		String masterWalletId = args.getString(idx++);
+		String privKey        = args.getString(idx++);
+		String payPassword    = args.getString(idx++);
+		String coSigners      = args.getString(idx++);
+		int requiredSignCount = args.getInt(idx++);
+
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+
+		try {
+			IMasterWallet masterWallet = mMasterWalletManager.CreateMultiSignMasterWallet(
+						masterWalletId, privKey, payPassword, coSigners, requiredSignCount);
 
 			if (masterWallet == null) {
 				errorProcess(cc, errCodeCreateMasterWallet, "Create multi sign master wallet '" + masterWalletId + "' failed");
@@ -1069,7 +1089,6 @@ public class Wallet extends CordovaPlugin {
 				@Override
 				public void OnBlockHeightIncreased(int currentBlockHeight, double progress) {
 					JSONObject jsonObject = new JSONObject();
-					Log.i(TAG, "OnBlockHeightIncreased");
 					try {
 						jsonObject.put("currentBlockHeight", currentBlockHeight);
 						jsonObject.put("progress", progress);
