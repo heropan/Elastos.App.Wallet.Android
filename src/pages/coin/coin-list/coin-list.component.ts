@@ -1,78 +1,104 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {BaseComponent} from '../../../app/BaseComponent';
-import { PopupComponent } from "ngx-weui";
+import {Component,ViewChild} from '@angular/core';
 import {Util} from "../../../providers/Util";
-
+import {CoinlistpasswordPage} from '../../../pages/coinlistpassword/coinlistpassword';
+import { NavController, NavParams,ModalController,Navbar,Events } from 'ionic-angular';
+import {WalletManager} from '../../../providers/WalletManager';
+import {Native} from "../../../providers/Native";
+import {LocalStorage} from "../../../providers/Localstorage";
 @Component({
   selector: 'app-coin-list',
   templateUrl: './coin-list.component.html'
 })
-export class CoinListComponent extends BaseComponent implements OnInit {
-
-  @ViewChild('subscribe') subPopup: PopupComponent;
+export class CoinListComponent {
+  @ViewChild(Navbar) navBar: Navbar;
   masterWalletId:string = "1";
   coinList = [];
   coinListCache = {};
   payPassword: string = "";
   singleAddress: boolean = false;
-  currentCoin: string;
+  currentCoin:any;
+  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,
+              public native: Native,public localStorage:LocalStorage,public modalCtrl: ModalController,public events :Events ) {
+             this.init();
+  }
 
+  ionViewDidLoad() {
+    this.navBar.backButtonClick = (e)=>{
+      console.log("========back=======");
+      this.events.publish("home:update");
+      this.navCtrl.pop();
+    };
+  }
+
+  createMode(){
+    let modal = this.modalCtrl.create(CoinlistpasswordPage);
+        modal.onDidDismiss((data)=>{
+              if(!Util.isEmptyObject(data)){
+                console.log("==1111==="+JSON.stringify(data));
+                this.createSubWallet(data);
+              }else{
+                console.log("==2222==="+JSON.stringify(data));
+                this.currentCoin["open"] = false;
+              }
+        });
+        modal.present();
+  }
   onSelect(item) {
-    item.open = ! item.open;
-    if (item.open) {
-      this.currentCoin = item.name;
-      this.subPopup.show().subscribe((res: boolean) => {
-      });
-    } else {
-      this.localStorage.get('coinListCache').then((val)=>{
+     console.log("====item===="+JSON.stringify(item));
+     if(item.open){
+      this.currentCoin = item;
+      this.createMode();
+     }else{
+        this.localStorage.get('coinListCache').then((val)=>{
         let coinListCache = JSON.parse(val);
         delete(coinListCache[item.name]);
-        this.localStorage.set('coinListCache', coinListCache);
+        this.localStorage.set('coinListCache',coinListCache);
       });
-    }
+     }
   }
 
-  ngOnInit() {
-    this.setTitleByAssets('text-coin-list');
-    this.setLeftIcon("",()=>{
-      this.events.publish("home:update");
-      this.Back();
-    });
+  init() {
     this.localStorage.get('coinListCache').then((val)=>{
-      this.walletManager.getSupportedChains(this.masterWalletId,(allChains) => {
-        for (var chain in allChains) {
-          let isOpen = false;
-          let coinListCache = JSON.parse(val);
-          if (coinListCache) {
-            isOpen = chain in coinListCache ? true : false;
+      this.walletManager.getSupportedChains(this.masterWalletId,(data) => {
+        if(data['success']){
+          console.log("====getSupportedChains===="+JSON.stringify(data));
+          let allChains = data['success'];
+          for (let index in allChains) {
+            let chain = allChains[index];
+            let isOpen = false;
+            let coinListCache = JSON.parse(val);
+            if (coinListCache) {
+              isOpen = chain in coinListCache ? true : false;
+            }
+            if (chain == "ELA") {
+              isOpen = true;
+            }
+            this.coinList.push({name: chain, open: isOpen});
           }
-          if (chain == "ELA") {
-            isOpen = true;
-          }
-          this.coinList.push({name: chain, open: isOpen});
+        }else{
+            alert("====getSupportedChains==error=="+JSON.stringify(data));
         }
       });
     });
   }
 
-  onClick() {
-    this.createSubWallet(this.currentCoin);
-  }
-
-  createSubWallet(chainId){
+  createSubWallet(data){
     // Sub Wallet IdChain
-    this.walletManager.createSubWallet(this.masterWalletId,chainId, this.payPassword, this.singleAddress, 0, (val)=>{
-      if (val['ERRORCODE'] == undefined) {
-        if (!Util.password(this.payPassword)) {
-          this.toast("text-pwd-validator");
-          return;
-        }
+    let chainId = this.currentCoin["name"];
+    let payPassword = data["password"];
+    let singleAddress= data["singleAddress"];
+    //this.currentCoin["open"] = false;
+    this.walletManager.createSubWallet(this.masterWalletId,chainId,payPassword,singleAddress, 0, (data)=>{
+      console.log("==333==="+JSON.stringify(data));
+      if(data['success']){
+         console.log("createSubWallet==="+JSON.stringify(data));
+        //this.currentCoin["open"] = true;
         let coin = {};
         coin["id"] = chainId;
         this.localStorage.add('coinListCache', coin);
-        this.subPopup.hide();
       }else{
-        this.toast("text-password-error");
+        this.currentCoin["open"] = false;
+        alert("createSubWallet===error=="+JSON.stringify(data));
       }
     });
   }

@@ -1,30 +1,13 @@
 <ion-header>
-    <app-header [header]="header"></app-header>
+    <ion-navbar>
+        <ion-title style="text-align:center">{{'text-coin-list' | translate}}</ion-title>
+    </ion-navbar>
 </ion-header>
 <ion-content>
-    <div class="coin-list">
-        <ul>
-            <li class="weui-cell weui-cell_switch" *ngFor="let item of coinList">
-                <div class="weui-cell__bd">{{item.name}}</div>
-                <div class="weui-cell__ft">
-                    <input class="weui-switch" [checked]="item.open" type="checkbox" (click)="onSelect(item)" *ngIf="item.name!='ELA'">
-                </div>
-            </li>
-        </ul>
-
-        <weui-popup #subscribe>
-            <div class="pop-box">
-                <div class="weui-cell" style="margin: 10px; padding: 0px">
-                    <input class="weui-input" type="password" placeholder="{{ 'text-pay-passworld-input' | translate }}" [(ngModel)]="payPassword">
-                </div>
-                <label for="weuiAgree" class="weui-agree">
-      <input id="weuiAgree" type="checkbox" class="weui-agree__checkbox" [(ngModel)]="singleAddress" name="agree">
-      <span class="weui-agree__text">
-                 &nbsp;&nbsp;{{'text-signaddress' | translate }}
-              </span>
-    </label>
-                <div class="button-default " style="margin: 20px auto" (click)="onClick()">{{ 'confirm' | translate }}</div>
-            </div>
-        </weui-popup>
-    </div>
+    <ion-list>
+        <ion-item *ngFor="let item of coinList">
+            <ion-label>{{item.name}}</ion-label>
+            <ion-toggle *ngIf="item.name!='ELA'" [(ngModel)]="item.open" (ionChange)="onSelect(item)"></ion-toggle>
+        </ion-item>
+    </ion-list>
 </ion-content>

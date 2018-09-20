@@ -144,7 +144,9 @@ export class TransferComponent extends BaseComponent implements OnInit {
       (data)=>{
         if(data['success']){
           console.log("=======createTransaction======"+JSON.stringify(data));
+          console.log("=======typeof======"+typeof(data['success']));
           this.rawTransaction = data['success'];
+          console.log("=======this.rawTransaction======"+this.rawTransaction);
           this.getFee();
         }else{
           alert("====createTransaction====error"+JSON.stringify(data));

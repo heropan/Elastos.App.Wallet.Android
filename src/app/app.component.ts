@@ -12,7 +12,7 @@ import {ExprotPrikeyComponent} from "../pages/wallet/exprot-prikey/exprot-prikey
 //import {ReceiveComponent} from "../pages/coin/receive/receive.component";
 import {TransferComponent} from "../pages/coin/transfer/transfer.component";
 //import {CoinComponent} from "../pages/coin/coin.component";
-//import {CoinListComponent} from "../pages/coin/coin-list/coin-list.component";
+import {CoinListComponent} from "../pages/coin/coin-list/coin-list.component";
 //import {RecordinfoComponent} from "../pages/coin/recordinfo/recordinfo.component";
 //import {RecordComponent} from "../pages/coin/record/record.component";
 import {TestJniComponent} from '../pages/testjni/testjni.component';
@@ -33,6 +33,7 @@ import {WalletCreateComponent} from '../pages/wallet/wallet-create/wallet-create
 import {ContactsComponent} from '../pages/contacts/contacts.component';
 import {ContactCreateComponent} from '../pages/contacts/contact-create/contact-create.component';
 import {ContactListComponent} from '../pages/contacts/contact-list/contact-list.component';
+import {CoinlistpasswordPage} from '../pages/coinlistpassword/coinlistpassword';
 //add for plugin
 declare var cordova: any;
 
@@ -71,6 +72,7 @@ export class AppComponent {
       //this.rootPage = ImportComponent;
       //this.rootPage = ContactCreateComponent;
       //this.rootPage = ContactListComponent;
+      //this.rootPage = CoinListComponent;
          //init java 2 js plugin
          cordova.plugins.Java2JSBridge.init(this);
 
