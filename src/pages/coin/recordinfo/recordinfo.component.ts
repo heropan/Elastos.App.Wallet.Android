@@ -23,8 +23,8 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
     this.walletManager.getAllTransaction(this.masterWalletId,chainId, this.start, txId, (data) => {
       if(data["success"]){
         console.log("====getAllTransaction====="+JSON.stringify(data));
-        let allTransaction = data['allTransaction'];
-        let transactions = JSON.parse(allTransaction)['Transactions'];
+        let allTransaction = JSON.parse(data['success']);
+        let transactions = allTransaction['Transactions'];
         let transaction = transactions[0];
         let timestamp = transaction['Timestamp']*1000;
         let datetime = Util.dateFormat(new Date(timestamp), 'yyyy-MM-dd hh:mm:ss');

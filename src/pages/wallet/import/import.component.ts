@@ -153,7 +153,7 @@ export class ImportComponent {
       this.walletManager.getAllSubWallets(this.masterWalletId,(data) => {
         if(data["success"]){
           console.log("====getAllSubWallets======"+JSON.stringify(data));
-          let chinas = this.getCoinListCache(data["success"]);
+          let chinas = this.getCoinListCache(JSON.parse(data["success"]));
           console.log("====getCoinListCache======"+JSON.stringify(chinas));
            this.localStorage.set('coinListCache',chinas).then(()=>{
             this.native.toast_trans('import-text-keystroe-sucess');
@@ -173,7 +173,8 @@ export class ImportComponent {
 
    getCoinListCache(createdChains){
     let chinas = {};
-    for (let chain in createdChains) {
+    for (let index in createdChains) {
+           let chain = createdChains[index];
            if(chain != "ELA"){
             chinas[chain] = chain;
            }

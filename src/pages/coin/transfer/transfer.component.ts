@@ -144,9 +144,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
       (data)=>{
         if(data['success']){
           console.log("=======createTransaction======"+JSON.stringify(data));
-          console.log("=======typeof======"+typeof(data['success']));
           this.rawTransaction = data['success'];
-          console.log("=======this.rawTransaction======"+this.rawTransaction);
           this.getFee();
         }else{
           alert("====createTransaction====error"+JSON.stringify(data));
@@ -158,7 +156,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
     this.walletManager.calculateTransactionFee(this.masterWalletId,this.chianId, this.rawTransaction, this.feePerKb, (data) => {
       if(data['success']){
         console.log("=======calculateTransactionFee======"+JSON.stringify(data));
-        this.transfer.fee = data['fee'];
+        this.transfer.fee = data['success'];
       }else{
         alert("====calculateTransactionFee====error"+JSON.stringify(data));
       }
@@ -172,18 +170,13 @@ export class TransferComponent extends BaseComponent implements OnInit {
     }
 
     this.walletManager.sendRawTransaction(this.masterWalletId,this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
-      console.log("=======calculateTransactionFee======"+JSON.stringify(data));
-      if(data['success']){
-        this.txId = JSON.parse(data["json"])["TxHash"];
-        this.walletManager.registerWalletListener(this.masterWalletId,this.chianId, (data) => {
-          if (data['confirms'] == 1) {
-            //alert("转账： " + JSON.stringify(data));
-            this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
-            });
-          }
-        });
 
+      if(data['success']){
+        this.txId = JSON.parse(data['success'])["TxHash"];
+        console.log("=======sendRawTransaction======"+JSON.stringify(data));
+        console.log("=======this.appType======"+JSON.stringify(data));
         if(this.isNull(this.appType)){
+          console.log("===TabsComponent====");
           this.toast('send-raw-transaction');
           this.Go(TabsComponent);
         }else if(this.appType === "kyc"){

@@ -160,7 +160,11 @@ export class HomeComponent extends BaseComponent implements OnInit {
   sycEla(){
 
     this.walletManager.registerWalletListener(this.masterWalletId,"ELA",(result)=>{
-
+      if (result['confirms'] == 1) {
+        //alert("转账： " + JSON.stringify(data));
+        this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
+        });
+      }
             console.log("===registerWalletListener+ELA"+JSON.stringify(result));
             if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
               this.tempElaPer = 1;
@@ -177,6 +181,11 @@ export class HomeComponent extends BaseComponent implements OnInit {
   sycIdChain(){
     this.walletManager.registerWalletListener(this.masterWalletId,"IdChain",(result)=>{
         console.log("===registerWalletListener+ELA+Id"+JSON.stringify(result));
+        if (result['confirms'] == 1) {
+          //alert("转账： " + JSON.stringify(data));
+          this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
+          });
+        }
         if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
           this.tempIdChinaPer = 1;
         }else{

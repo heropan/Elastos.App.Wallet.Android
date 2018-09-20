@@ -53,13 +53,23 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
   }
 
   getAllMasterWallets(){
-    this.walletManager.getAllMasterWallets((result)=>{
-      this.getAllSubWallets();
+    this.walletManager.getAllMasterWallets((data)=>{
+      if(data["success"]){
+        console.log("=getAllMasterWallets="+JSON.stringify(data));
+        this.getAllSubWallets();
+      }else{
+        alert("getAllMasterWallets=error:"+JSON.stringify(data));
+      }
     });
   }
 
   getAllSubWallets(){
-    this.walletManager.getAllSubWallets(this.masterWalletId,()=>{
+    this.walletManager.getAllSubWallets(this.masterWalletId,(data)=>{
+      if(data["success"]){
+        console.log("getAllSubWallets="+JSON.stringify(data));
+      }else{
+        alert("====getAllSubWallets=error==="+JSON.stringify(data));
+      }
     })
   }
 
@@ -103,7 +113,7 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
       return;
     }
     this.walletManager.isAddressValid(this.masterWalletId,this.transfer.toAddress, (data) => {
-      if (!data['valid']) {
+      if (!data['success']) {
         this.toast("contact-address-digits");
         return;
       }
@@ -120,14 +130,24 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
       this.transfer.memo,
       this.transfer.remark,
       (data)=>{
-        this.rawTransaction = data['transactionId'].toString();
-        this.getFee();
+        if(data['success']){
+          console.log("=======createTransaction======"+JSON.stringify(data));
+          this.rawTransaction = data['success'];
+          this.getFee();
+        }else{
+          alert("====createTransaction====error"+JSON.stringify(data));
+        }
       });
   }
 
   getFee(){
     this.walletManager.calculateTransactionFee(this.masterWalletId,this.chianId, this.rawTransaction, this.feePerKb, (data) => {
-      this.transfer.fee = data['fee'];
+      if(data['success']){
+        console.log("=======calculateTransactionFee======"+JSON.stringify(data));
+        this.transfer.fee = data['success'];
+      }else{
+        alert("====calculateTransactionFee====error"+JSON.stringify(data));
+      }
     });
   }
 
@@ -137,8 +157,9 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
       return;
     }
     this.walletManager.sendRawTransaction(this.masterWalletId,this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
-      this.txId = JSON.parse(data["json"])["TxHash"];
-      if (data['ERRORCODE'] == undefined) {
+
+      if(data['success']){
+        this.txId = JSON.parse(data['success'])["TxHash"];
         this.walletManager.registerWalletListener(this.masterWalletId,this.chianId, (data) => {
           if (data['confirms'] == 1) {
             this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
@@ -149,11 +170,10 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
           txId: this.txId
         }
         return result;
-      } else {
+      }else{
         this.toast('text-password-error');
       }
       this.Go(TabsComponent);
-      // this.platform.exitApp();
     });
   }
 
