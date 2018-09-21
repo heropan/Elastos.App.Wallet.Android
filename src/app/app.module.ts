@@ -59,6 +59,7 @@ import {ContactCreateComponent} from '../pages/contacts/contact-create/contact-c
 import {CoinListComponent} from '../pages/coin/coin-list/coin-list.component';
 import {WalletCreateComponent} from '../pages/wallet/wallet-create/wallet-create.component';
 import {CoinlistpasswordPage} from '../pages/coinlistpassword/coinlistpassword';
+import {ScancodePage} from '../pages/scancode/scancode';
 import {Native} from '../providers/Native';
 import {Logger} from '../providers/Logger';
 import {BaseComponent} from './BaseComponent';
@@ -186,7 +187,8 @@ export function TranslateLoaderFactory() {
     AddpublickeyPage,
     AddprivatekeyPage,
     ImportprivatekeyPage,
-    CoinlistpasswordPage
+    CoinlistpasswordPage,
+    ScancodePage,
   ],
   imports: [
     BrowserModule,
@@ -270,7 +272,8 @@ export function TranslateLoaderFactory() {
     AddpublickeyPage,
     AddprivatekeyPage,
     ImportprivatekeyPage,
-    CoinlistpasswordPage
+    CoinlistpasswordPage,
+    ScancodePage
   ],
   providers: [
     StatusBar,

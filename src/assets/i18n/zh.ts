@@ -258,5 +258,8 @@ export const zh = {
   'text-import-privatekey':"导入私钥",
   'text-import-privatekey-des':"输入Private Key文件内容至输入框。请留意字符大小写",
   'text-import-privatekey-placeholder':"输入明文私钥",
-  'text-check-publickey':"查看公钥"
+  'text-check-publickey':"查看公钥",
+  'text-send-tx':"发送交易",
+  'text-sing-tx':"签名交易",
+  'text-scan-code':"查看二维码"
 };

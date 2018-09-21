@@ -12,10 +12,9 @@ import {IdResultComponent} from "../../../pages/id/result/result";
   selector: 'app-transfer',
   templateUrl: './transfer.component.html'})
 export class TransferComponent extends BaseComponent implements OnInit {
-
   @ViewChild('subscribe') subPopup: PopupComponent;
   masterWalletId:string = "1";
-
+  walletType = "";
   transfer: any = {
     toAddress: '',
     amount: '',

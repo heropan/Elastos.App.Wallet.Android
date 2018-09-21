@@ -5,6 +5,7 @@ import {ContactListComponent} from "../../contacts/contact-list/contact-list.com
 import {IdLauncherComponent} from "../../id/launcher/launcher";
 import {IdHomeComponent} from "../../id/home/home";
 import {PublickeyPage} from '../../../pages/publickey/publickey';
+import {ScancodePage} from '../../../pages/scancode/scancode';
 @Component({
   selector: 'app-my',
   templateUrl: 'my.component.html',
@@ -30,11 +31,11 @@ export class MyComponent  extends BaseComponent implements OnInit  {
        case 2:
          this.Go(ContactListComponent);
          break;
-       case 4:
-         //this.Go(AboutComponent);
+       case 3:
+         this.sendTX();
          break;
-       case 5:
-         //this.Go(HelpComponent);
+       case 4:
+         this.singTx();
          break;
        case 6:
           this.getDIDList();
@@ -50,5 +51,33 @@ export class MyComponent  extends BaseComponent implements OnInit  {
       }
       this.Go(IdHomeComponent);
     });
+   }
+
+   singTx(){
+    this.native.scan().then((data)=>{
+      this.getPassWord(data);
+    }).catch((err)=>{
+
+    });
+   }
+
+   sendTX(){
+      this.native.scan().then((data)=>{
+
+      }).catch((err)=>{
+
+      });
+   }
+
+   getPassWord(content){
+     this.popupProvider.presentPrompt().then((data)=>{
+      if(this.isNull(data)){
+        this.messageBox("text-id-kyc-prompt-password");
+        return;
+      }
+      this.Go(ScancodePage,{"txContent":data});
+     }).catch(err=>{
+       alert(JSON.stringify(err));
+     })
    }
 }
