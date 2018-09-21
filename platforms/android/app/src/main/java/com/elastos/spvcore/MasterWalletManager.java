@@ -103,9 +103,9 @@ public class MasterWalletManager {
         nativeSaveConfigs(mManagerProxy);
     }
 
-	public IMasterWallet CreateMultiSignMasterWallet(String masterWallet, String payPassword,
+	public IMasterWallet CreateMultiSignMasterWallet(String masterWallet,
 			String coSigners, int requiredSignCount) throws WalletException {
-		long masterProxy = nativeCreateMultiSignMasterWallet(mManagerProxy, masterWallet, payPassword, coSigners, requiredSignCount);
+		long masterProxy = nativeCreateMultiSignMasterWallet(mManagerProxy, masterWallet, coSigners, requiredSignCount);
 		return new IMasterWallet(masterProxy);
 	}
 
@@ -119,7 +119,7 @@ public class MasterWalletManager {
     private native String nativeGenerateMnemonic(long proxy, String language);
     private native long nativeCreateMasterWallet(long proxy, String masterWalletId, String mnemonic,
 			String phrasePassword, String payPassword, String language);
-	private native long nativeCreateMultiSignMasterWallet(long proxy, String masterWalletId, String payPassword,
+	private native long nativeCreateMultiSignMasterWallet(long proxy, String masterWalletId,
 			String coSigners, int requiredSignCount);
 	private native long nativeCreateMultiSignMasterWalletWithPrivKey(long proxy, String masterWalletId, String privKey,
 			String payPassword, String coSigners, int requiredSignCount);

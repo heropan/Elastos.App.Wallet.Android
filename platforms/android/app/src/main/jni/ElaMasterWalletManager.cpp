@@ -76,7 +76,6 @@ static jlong JNICALL nativeCreateMasterWallet(JNIEnv *env, jobject clazz, jlong 
 
 static jlong JNICALL nativeCreateMultiSignMasterWallet(JNIEnv *env, jobject clazz, jlong jWalletMgr,
 		jstring jMasterWalletId,
-		jstring jPayPassword,
 		jstring jCoSigners,
 		jint jRequiredSignCount)
 {
@@ -84,7 +83,6 @@ static jlong JNICALL nativeCreateMultiSignMasterWallet(JNIEnv *env, jobject claz
 	std::string msgException;
 
 	const char* masterWalletId = env->GetStringUTFChars(jMasterWalletId, NULL);
-	const char* payPassword = env->GetStringUTFChars(jPayPassword, NULL);
 	const char* coSigners = env->GetStringUTFChars(jCoSigners, NULL);
 
 	MasterWalletManager* walletManager = (MasterWalletManager*)jWalletMgr;
@@ -92,14 +90,13 @@ static jlong JNICALL nativeCreateMultiSignMasterWallet(JNIEnv *env, jobject claz
 	nlohmann::json coSignersJson = nlohmann::json::parse(coSigners);
 
 	try {
-		masterWallet = walletManager->CreateMultiSignMasterWallet(masterWalletId, payPassword, coSignersJson, jRequiredSignCount);
+		masterWallet = walletManager->CreateMultiSignMasterWallet(masterWalletId, coSignersJson, jRequiredSignCount);
 	} catch (std::exception &e) {
 		exception = true;
 		msgException = e.what();
 	}
 
 	env->ReleaseStringUTFChars(jMasterWalletId, masterWalletId);
-	env->ReleaseStringUTFChars(jPayPassword, payPassword);
 	env->ReleaseStringUTFChars(jCoSigners, coSigners);
 
 	if (exception)
@@ -382,7 +379,7 @@ static const JNINativeMethod gMethods[] = {
 	},
 	{
 		"nativeCreateMultiSignMasterWallet",
-		"(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;I)J",
+		"(JLjava/lang/String;Ljava/lang/String;I)J",
 		(void*)nativeCreateMultiSignMasterWallet
 	},
 	{

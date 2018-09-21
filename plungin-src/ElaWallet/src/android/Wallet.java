@@ -648,7 +648,6 @@ public class Wallet extends CordovaPlugin {
 	}
 
 	// args[0]: String masterWalletId
-	// args[1]: String payPassword
 	// args[2]: String coSigners
 	// args[3]: int requiredSignCount
 	public void createMultiSignMasterWallet(JSONArray args, CallbackContext cc) throws JSONException {
@@ -656,7 +655,6 @@ public class Wallet extends CordovaPlugin {
 		String privKey = null;
 
 		String masterWalletId = args.getString(idx++);
-		String payPassword    = args.getString(idx++);
 		String coSigners      = args.getString(idx++);
 		int requiredSignCount = args.getInt(idx++);
 
@@ -667,7 +665,7 @@ public class Wallet extends CordovaPlugin {
 
 		try {
 			IMasterWallet masterWallet = mMasterWalletManager.CreateMultiSignMasterWallet(
-						masterWalletId, payPassword, coSigners, requiredSignCount);
+						masterWalletId, coSigners, requiredSignCount);
 
 			if (masterWallet == null) {
 				errorProcess(cc, errCodeCreateMasterWallet, "Create multi sign master wallet '" + masterWalletId + "' failed");
