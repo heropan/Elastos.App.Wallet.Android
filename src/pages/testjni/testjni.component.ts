@@ -234,7 +234,7 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    getPublicKey(){
-     this.walletManager.getPublicKey((result)=>{
+     this.walletManager.getPublicKey(this.masterWalletId,(result)=>{
        alert("获取公钥成功");
        alert(JSON.stringify(result));
      })

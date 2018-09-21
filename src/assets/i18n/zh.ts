@@ -257,5 +257,6 @@ export const zh = {
   'text-observe-wallte':"观察钱包",
   'text-import-privatekey':"导入私钥",
   'text-import-privatekey-des':"输入Private Key文件内容至输入框。请留意字符大小写",
-  'text-import-privatekey-placeholder':"输入明文私钥"
+  'text-import-privatekey-placeholder':"输入明文私钥",
+  'text-check-publickey':"查看公钥"
 };

@@ -4,6 +4,7 @@ import {ManagerComponent} from "../../wallet/manager/manager.component";
 import {ContactListComponent} from "../../contacts/contact-list/contact-list.component";
 import {IdLauncherComponent} from "../../id/launcher/launcher";
 import {IdHomeComponent} from "../../id/home/home";
+import {PublickeyPage} from '../../../pages/publickey/publickey';
 @Component({
   selector: 'app-my',
   templateUrl: 'my.component.html',
@@ -24,7 +25,7 @@ export class MyComponent  extends BaseComponent implements OnInit  {
          this.Go(ManagerComponent);
          break;
        case 1:
-         //this.Go(NoticeComponent);
+         this.Go(PublickeyPage);
          break;
        case 2:
          this.Go(ContactListComponent);

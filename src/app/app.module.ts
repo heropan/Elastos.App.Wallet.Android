@@ -54,6 +54,7 @@ import {RechargeComponent} from '../pages/coin/recharge/recharge.component';
 import {CoinSelectComponent} from '../pages/coin/coin-select/coin-select.component';
 import {WithdrawComponent} from '../pages/coin/withdraw/withdraw.component';
 import {ContactListComponent} from '../pages/contacts/contact-list/contact-list.component';
+import {PublickeyPage} from '../pages/publickey/publickey';
 import {ContactCreateComponent} from '../pages/contacts/contact-create/contact-create.component';
 import {CoinListComponent} from '../pages/coin/coin-list/coin-list.component';
 import {WalletCreateComponent} from '../pages/wallet/wallet-create/wallet-create.component';
@@ -150,6 +151,7 @@ export function TranslateLoaderFactory() {
     CoinSelectComponent,
     WithdrawComponent,
     ContactListComponent,
+    PublickeyPage,
     ContactCreateComponent,
     CoinListComponent,
     WalletCreateComponent,
@@ -233,6 +235,7 @@ export function TranslateLoaderFactory() {
     CoinSelectComponent,
     WithdrawComponent,
     ContactListComponent,
+    PublickeyPage,
     ContactCreateComponent,
     CoinListComponent,
     WalletCreateComponent,

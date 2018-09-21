@@ -240,5 +240,26 @@ walletFunc.prototype.createMultiSignMasterWalletWithPrivKey = function(arg0, suc
 
 };
 
+walletFunc.prototype.createMultiSignMasterWallet = function(arg0, success, error) {
+    exec(success, error, "Wallet", "createMultiSignMasterWallet", arg0);
+
+};
+
+
+walletFunc.prototype.masterWalletGetBasicInfo = function(arg0, success, error) {
+    exec(success, error, "Wallet", "masterWalletGetBasicInfo", arg0);
+};
+
+walletFunc.prototype.createMultiSignTransaction = function(arg0, success, error) {
+    exec(success, error, "Wallet", "createMultiSignTransaction", arg0);
+};
+
+walletFunc.prototype.appendSignToTransaction = function(arg0, success, error) {
+    exec(success, error, "Wallet", "appendSignToTransaction", arg0);
+};
+
+walletFunc.prototype.publishMultiSignTransaction = function(arg0, success, error) {
+    exec(success, error, "Wallet", "appendSignToTransaction", arg0);
+};
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;

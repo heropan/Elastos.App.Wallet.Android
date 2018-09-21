@@ -53,11 +53,11 @@ export class WalletManager {
   }
 
   /***
-   * 获取子钱包公钥
+   * 获取钱包公钥
    * @param Fun
    */
-  getPublicKey(Fun) {
-    this.wallet.getPublicKey([], Fun, this.errorFun);
+  getPublicKey(masterWalletId,Fun) {
+    this.wallet.getPublicKey([masterWalletId], Fun, this.errorFun);
   }
 
 
@@ -345,8 +345,8 @@ export class WalletManager {
      this.wallet.masterWalletGetBasicInfo([masterWalletId],Fun,this.errorFun);
   }
 
-  createMultiSignMasterWallet(masterWalletId:string,coSigners:string,requiredSignCount:number,Fun){
-                   this.wallet.createMultiSignMasterWallet([masterWalletId,coSigners,requiredSignCount],Fun,this.errorFun);
+  createMultiSignMasterWallet(masterWalletId:string,payPassword:string,coSigners:string,requiredSignCount:number,Fun){
+                   this.wallet.createMultiSignMasterWallet([masterWalletId,payPassword,coSigners,requiredSignCount],Fun,this.errorFun);
   }
 
   createMultiSignMasterWalletWithPrivKey(masterWalletId:string,privKey:string,payPassword:string,coSigners:string,requiredSignCount:number,Fun){
