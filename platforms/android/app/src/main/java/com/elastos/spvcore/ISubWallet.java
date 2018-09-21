@@ -7,35 +7,39 @@ package com.elastos.spvcore;
 public class ISubWallet {
     private long mSubProxy;
 
-    public String GetChainId() {
+    public String GetChainId() throws WalletException {
         return nativeGetChainId(mSubProxy);
     }
 
-    public String GetBalanceInfo() {
+	public String GetBasicInfo() throws WalletException {
+		return nativeGetBasicInfo(mSubProxy);
+	}
+
+    public String GetBalanceInfo() throws WalletException {
         return nativeGetBalanceInfo(mSubProxy);
     }
 
-    public long GetBalance() {
+    public long GetBalance() throws WalletException {
         return nativeGetBalance(mSubProxy);
     }
 
-    public String CreateAddress() {
+    public String CreateAddress() throws WalletException {
         return nativeCreateAddress(mSubProxy);
     }
 
-    public String GetAllAddress(int start, int count) {
+    public String GetAllAddress(int start, int count) throws WalletException {
         return nativeGetAllAddress(mSubProxy, start, count);
     }
 
-    public long GetBalanceWithAddress(String address) {
+    public long GetBalanceWithAddress(String address) throws WalletException {
         return nativeGetBalanceWithAddress(mSubProxy, address);
     }
 
-    public void AddCallback(ISubWalletCallback subCallback) {
+    public void AddCallback(ISubWalletCallback subCallback) throws WalletException {
         nativeAddCallback(mSubProxy, subCallback);
     }
 
-    public void RemoveCallback(ISubWalletCallback subCallback) {
+    public void RemoveCallback(ISubWalletCallback subCallback) throws WalletException {
         nativeRemoveCallback(mSubProxy, subCallback);
     }
 
@@ -47,19 +51,23 @@ public class ISubWallet {
         return nativeCreateMultiSignTransaction(mSubProxy, fromAddress, toAddress, amount, memo);
     }
 
-	public String AppendSignToTransaction(String rawTransaction, String jPayPassword) {
-		return nativeAppendSignToTransaction(mSubProxy, rawTransaction, jPayPassword);
-	}
-
-	public String PublishMultiSignTransaction(String rawTransaction, long fee) {
-		return nativePublishMultiSignTransaction(mSubProxy, rawTransaction, fee);
-	}
-
-    public String SendRawTransaction(String transactionJson, long fee, String payPassword) throws WalletException {
-        return nativeSendRawTransaction(mSubProxy, transactionJson, fee, payPassword);
+    public long CalculateTransactionFee(String rawTransaction, long feePerKb) throws WalletException {
+        return nativeCalculateTransactionFee(mSubProxy, rawTransaction, feePerKb);
     }
 
-    public String GetAllTransaction(int start, int count, String addressOrTxId) {
+	public String UpdateTransactionFee(String rawTransaction, long fee) throws WalletException {
+		return nativeUpdateTransactionFee(mSubProxy, rawTransaction, fee);
+	}
+
+	public String SignTransaction(String rawTransaction, String payPassword) throws WalletException {
+		return nativeSignTransaction(mSubProxy, rawTransaction, payPassword);
+	}
+
+	public String PublishTransaction(String rawTransaction) throws WalletException {
+		return nativePublishTransaction(mSubProxy, rawTransaction);
+	}
+
+    public String GetAllTransaction(int start, int count, String addressOrTxId) throws WalletException {
         return nativeGetAllTransaction(mSubProxy, start, count, addressOrTxId);
     }
 
@@ -71,13 +79,9 @@ public class ISubWallet {
         return nativeCheckSign(mSubProxy, publicKey, message, signature);
     }
 
-	public String GetPublicKey() {
+	public String GetPublicKey() throws WalletException {
 		return nativeGetPublicKey(mSubProxy);
 	}
-
-    public long CalculateTransactionFee(String rawTransaction, long feePerKb) throws WalletException {
-        return nativeCalculateTransactionFee(mSubProxy, rawTransaction, feePerKb);
-    }
 
     public ISubWallet(long proxy) {
         mSubProxy = proxy;
@@ -98,11 +102,10 @@ public class ISubWallet {
     private native void nativeRemoveCallback(long subProxy, ISubWalletCallback subCallback);
     private native String nativeCreateTransaction(long subProxy, String fromAddress, String toAddress, long amount, String memo, String remark);
     private native String nativeCreateMultiSignTransaction(long subProxy, String fromAddress, String toAddress, long amount, String memo);
-	private native String nativeAppendSignToTransaction(long subProxy, String rawTransaction, String jPayPassword);
-	private native String nativePublishMultiSignTransaction(long subProxy, String rawTransaction, long fee);
-
     private native long nativeCalculateTransactionFee(long subProxy, String rawTransaction, long feePerKb);
-    private native String nativeSendRawTransaction(long subProxy, String transactionJson, long fee, String payPassword);
+	private native String nativeUpdateTransactionFee(long subProxy, String rawTransaction, long fee);
+	private native String nativeSignTransaction(long subProxy, String rawTransaction, String payPassword);
+	private native String nativePublishTransaction(long subProxy, String rawTransaction);
     private native String nativeGetAllTransaction(long subProxy, int start, int count, String addressOrTxId);
     private native String nativeSign(long subProxy, String message, String payPassword);
     private native String nativeCheckSign(long subProxy, String publicKey, String message, String signature);
