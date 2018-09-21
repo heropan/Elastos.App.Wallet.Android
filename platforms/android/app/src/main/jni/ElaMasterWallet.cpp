@@ -41,7 +41,7 @@ static jstring JNICALL nativeGetBasicInfo(JNIEnv *env, jobject clazz, jlong jMas
 	return env->NewStringUTF("");
 }
 
-//"(J)[Lcom/elastos/spvcore/ISubWallet;"
+//"(J)[Ljava/lang/Object;"
 static jobjectArray JNICALL nativeGetAllSubWallets(JNIEnv *env, jobject clazz, jlong jMasterProxy)
 {
 	try {
