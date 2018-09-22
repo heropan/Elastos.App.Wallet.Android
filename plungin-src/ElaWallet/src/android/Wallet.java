@@ -133,9 +133,8 @@ public class Wallet extends CordovaPlugin {
 
 	private boolean parametersCheck(JSONArray args) throws JSONException {
 		for (int i = 0; i < args.length(); i++) {
-			Object arg = args.get(i);
-			Log.i(TAG, "arg[" + i + "] = " + arg);
-			if (null == arg) {
+			if (args.isNull(i)) {
+				Log.e(TAG, "arg[" + i + "] = " + args.get(i));
 				return false;
 			}
 		}
