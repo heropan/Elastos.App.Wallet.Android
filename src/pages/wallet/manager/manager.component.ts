@@ -60,8 +60,13 @@ export class ManagerComponent {
   destroyWallet(masterWalletId: string){
     this.localStorage.remove('coinListCache').then(()=>{
       this.localStorage.remove('ELA-Wallet').then(() => {
-        this.walletManager.destroyWallet(masterWalletId, (result)=>{
-          this.native.setRootRouter(LauncherComponent);
+        this.walletManager.destroyWallet(masterWalletId, (data)=>{
+          if(data["success"]){
+            console.log("===destroyWallet===="+JSON.stringify(data));
+            this.native.setRootRouter(LauncherComponent);
+          }else{
+            alert("====destroyWallet==error=="+JSON.stringify(data));
+          }
         });
       });
     });

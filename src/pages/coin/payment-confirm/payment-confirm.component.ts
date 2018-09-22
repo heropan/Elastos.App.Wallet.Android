@@ -156,25 +156,52 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
       this.toast("text-pwd-validator");
       return;
     }
-    this.walletManager.sendRawTransaction(this.masterWalletId,this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
+    this.updateTxFee();
+  }
 
-      if(data['success']){
-        this.txId = JSON.parse(data['success'])["TxHash"];
-        this.walletManager.registerWalletListener(this.masterWalletId,this.chianId, (data) => {
-          if (data['confirms'] == 1) {
-            this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
-            });
-          }
-        });
-        let result = {
-          txId: this.txId
-        }
-        return result;
-      }else{
-        this.toast('text-password-error');
-      }
-      this.Go(TabsComponent);
+
+  updateTxFee(){
+    this.walletManager.updateTransactionFee(this.masterWalletId,this.chianId,this.rawTransaction, this.transfer.fee,(data)=>{
+                       if(data["success"]){
+                        console.log("===updateTransactionFee===="+JSON.stringify(data));
+                        this.singTx(data["success"]);
+                       }else{
+                         alert("=====updateTransactionFee=error==="+JSON.stringify(data));
+                       }
     });
   }
+
+  singTx(rawTransaction){
+    this.walletManager.signTransaction(this.masterWalletId,this.chianId,rawTransaction,this.transfer.payPassword,(data)=>{
+      if(data["success"]){
+        console.log("===signTransaction===="+JSON.stringify(data));
+        this.sendTx(data["succcess"]);
+       }else{
+         alert("=====signTransaction=error==="+JSON.stringify(data));
+       }
+    });
+  }
+
+  sendTx(rawTransaction){
+    this.walletManager.publishTransaction(this.masterWalletId,this.chianId,rawTransaction,(data)=>{
+     if(data["success"]){
+       console.log("======publishTransaction========"+JSON.stringify(data));
+       this.txId = JSON.parse(data['success'])["TxHash"];
+       this.walletManager.registerWalletListener(this.masterWalletId,this.chianId, (data) => {
+         if (data['confirms'] == 1) {
+           this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
+           });
+         }
+       });
+       let result = {
+         txId: this.txId
+       }
+       return result;
+      }else{
+        alert("========publishTransaction=====error==="+JSON.stringify(data));
+      }
+      this.setRootRouter(TabsComponent);
+    })
+ }
 
 }

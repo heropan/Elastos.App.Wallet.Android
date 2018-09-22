@@ -159,9 +159,7 @@ export class WalletManager {
     this.wallet.reateMultiSignTransaction([masterWalletId,chainId,rawTransaction,payPassword],Fun,this.errorFun);
   }
 
-  publishMultiSignTransaction(masterWalletId:string,chainId:string,rawTransaction:string,fee,Fun){
-    this.wallet.reateMultiSignTransaction([masterWalletId,chainId,rawTransaction,fee],Fun,this.errorFun);
-  }
+
   /**
    * @param {string} masterWalletId
    * @param {string} chainId
@@ -272,9 +270,9 @@ export class WalletManager {
     this.wallet.calculateTransactionFee([masterWalletId,chainId,rawTransaction,feePerKb],Fun,this.errorFun);
   }
 
-  sendRawTransaction(masterWalletId:string,chainId:string,transactionJson:string ,fee:number, payPassword:string,Fun){
-    this.wallet.sendRawTransaction([masterWalletId,chainId,transactionJson,fee,payPassword],Fun,this.errorFun);
-  }
+  // sendRawTransaction(masterWalletId:string,chainId:string,transactionJson:string ,fee:number, payPassword:string,Fun){
+  //   this.wallet.sendRawTransaction([masterWalletId,chainId,transactionJson,fee,payPassword],Fun,this.errorFun);
+  // }
 
   createDID(password:string,Fun){
     this.wallet.createDID([password],Fun,this.errorFun);
@@ -351,6 +349,18 @@ export class WalletManager {
 
   createMultiSignMasterWalletWithPrivKey(masterWalletId:string,privKey:string,payPassword:string,coSigners:string,requiredSignCount:number,Fun){
       this.wallet.createMultiSignMasterWalletWithPrivKey([masterWalletId,privKey,payPassword,coSigners,requiredSignCount],Fun,this.errorFun);
+  }
+
+  updateTransactionFee(masterWalletId:string,chainId:string,rawTransaction:string,fee:number,Fun){
+      this.wallet.updateTransactionFee([masterWalletId,chainId,rawTransaction,fee],Fun,this.errorFun);
+  }
+
+  signTransaction(masterWalletId:string,chainId:string,rawTransaction:string,payPassword:string,Fun){
+    this.wallet.signTransaction([masterWalletId,chainId,rawTransaction,payPassword],Fun,this.errorFun);
+  }
+
+  publishTransaction(masterWalletId:string,chainId:string,rawTransaction:string,Fun){
+    this.wallet.publishTransaction([masterWalletId,chainId,rawTransaction],Fun,this.errorFun);
   }
 
   errorFun(error) {

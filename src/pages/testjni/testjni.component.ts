@@ -467,9 +467,9 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    sendRawTransaction(){
-      this.walletManager.sendRawTransaction(this.masterWalletId,this.chinaId,this.transactionJson,this.fee,this.payPassword,(result)=>{
-                     alert("===sendRawTransaction==="+JSON.stringify(result));
-      });
+      // this.walletManager.sendRawTransaction(this.masterWalletId,this.chinaId,this.transactionJson,this.fee,this.payPassword,(result)=>{
+      //                alert("===sendRawTransaction==="+JSON.stringify(result));
+      // });
    }
 
 }

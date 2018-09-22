@@ -104,14 +104,11 @@ walletFunc.prototype.getBalanceInfo = function(arg0, success, error) {
 
 };
 
+
 walletFunc.prototype.registerWalletListener = function(arg0, success, error) {
     exec(success, error, "Wallet", "registerWalletListener", arg0);
 
 };
-
-
-//
-
 
 
 walletFunc.prototype.isAddressValid = function(arg0, success, error) {
@@ -254,12 +251,16 @@ walletFunc.prototype.createMultiSignTransaction = function(arg0, success, error)
     exec(success, error, "Wallet", "createMultiSignTransaction", arg0);
 };
 
-walletFunc.prototype.appendSignToTransaction = function(arg0, success, error) {
-    exec(success, error, "Wallet", "appendSignToTransaction", arg0);
+walletFunc.prototype.updateTransactionFee = function(arg0, success, error) {
+    exec(success, error, "Wallet", "updateTransactionFee", arg0);
 };
 
-walletFunc.prototype.publishMultiSignTransaction = function(arg0, success, error) {
-    exec(success, error, "Wallet", "appendSignToTransaction", arg0);
+walletFunc.prototype.signTransaction = function(arg0, success, error) {
+    exec(success, error, "Wallet", "signTransaction", arg0);
+};
+
+walletFunc.prototype.publishTransaction = function(arg0, success, error) {
+    exec(success, error, "Wallet", "publishTransaction", arg0);
 };
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;

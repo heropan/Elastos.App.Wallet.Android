@@ -167,17 +167,42 @@ export class TransferComponent extends BaseComponent implements OnInit {
       this.toast("text-pwd-validator");
       return;
     }
+    this.updateTxFee();
+  }
 
-    this.walletManager.sendRawTransaction(this.masterWalletId,this.chianId, this.rawTransaction, this.transfer.fee, this.transfer.payPassword, (data) => {
+  updateTxFee(){
+    this.walletManager.updateTransactionFee(this.masterWalletId,this.chianId,this.rawTransaction, this.transfer.fee,(data)=>{
+                       if(data["success"]){
+                        console.log("===updateTransactionFee===="+JSON.stringify(data));
+                        this.singTx(data["success"]);
+                       }else{
+                         alert("=====updateTransactionFee=error==="+JSON.stringify(data));
+                       }
+    });
+  }
 
-      if(data['success']){
+  singTx(rawTransaction){
+    this.walletManager.signTransaction(this.masterWalletId,this.chianId,rawTransaction,this.transfer.payPassword,(data)=>{
+      if(data["success"]){
+        console.log("===signTransaction===="+JSON.stringify(data));
+        this.sendTx(data["succcess"]);
+       }else{
+         alert("=====signTransaction=error==="+JSON.stringify(data));
+       }
+    });
+  }
+
+  sendTx(rawTransaction){
+     this.walletManager.publishTransaction(this.masterWalletId,this.chianId,rawTransaction,(data)=>{
+      if(data["success"]){
+        console.log("===publishTransaction===="+JSON.stringify(data));
         this.txId = JSON.parse(data['success'])["TxHash"];
         console.log("=======sendRawTransaction======"+JSON.stringify(data));
         console.log("=======this.appType======"+JSON.stringify(data));
         if(this.isNull(this.appType)){
           console.log("===TabsComponent====");
           this.toast('send-raw-transaction');
-          this.Go(TabsComponent);
+          this.setRootRouter(TabsComponent);
         }else if(this.appType === "kyc"){
              if(this.selectType === "enterprise"){
                   this.company();
@@ -185,12 +210,10 @@ export class TransferComponent extends BaseComponent implements OnInit {
                   this.person();
              }
         }
-
-      }else{
-        alert("====sendRawTransaction====error"+JSON.stringify(data));
-      }
-
-    });
+       }else{
+         alert("=====signTransaction=error==="+JSON.stringify(data));
+       }
+     })
   }
 
   company(){

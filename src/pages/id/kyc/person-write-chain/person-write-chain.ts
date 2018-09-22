@@ -289,86 +289,61 @@ export class PersonWriteChainPage extends BaseComponent implements OnInit{
   sendRawTransaction( rawTransaction){
     //alert("sendRawTransaction begin==");
 
-    this.walletManager.sendRawTransaction(this.masterWalletId,"IdChain",rawTransaction,this.fee,this.passworld,(result)=>{
+    // this.walletManager.sendRawTransaction(this.masterWalletId,"IdChain",rawTransaction,this.fee,this.passworld,(result)=>{
 
 
-      let rawTransactionObj = JSON.parse(rawTransaction);
+    //   let rawTransactionObj = JSON.parse(rawTransaction);
 
-      console.log("ElastosJs person-write-chain.ts ---sendRawTransaction---"+"rawTransaction="+JSON.stringify(rawTransactionObj)+"fee="+this.fee);
-      //console.log("ElastosJs ---sendRawTransaction--- PayLoad"+ JSON.stringify(rawTransactionObj.PayLoad));
+    //   console.log("ElastosJs person-write-chain.ts ---sendRawTransaction---"+"rawTransaction="+JSON.stringify(rawTransactionObj)+"fee="+this.fee);
+    //   //console.log("ElastosJs ---sendRawTransaction--- PayLoad"+ JSON.stringify(rawTransactionObj.PayLoad));
 
-      if (!rawTransactionObj.PayLoad) {
-        console.log("ElastosJs ---sendRawTransaction--- PayLoad NULL");
-        return;
-      }
+    //   if (!rawTransactionObj.PayLoad) {
+    //     console.log("ElastosJs ---sendRawTransaction--- PayLoad NULL");
+    //     return;
+    //   }
 
-      if (!rawTransactionObj["PayLoad"]["Contents"]){
-        console.log("ElastosJs ---sendRawTransaction--- Contents NULL");
-        return ;
-      }
+    //   if (!rawTransactionObj["PayLoad"]["Contents"]){
+    //     console.log("ElastosJs ---sendRawTransaction--- Contents NULL");
+    //     return ;
+    //   }
 
-      for (let ele of rawTransactionObj["PayLoad"]["Contents"] ) {
+    //   for (let ele of rawTransactionObj["PayLoad"]["Contents"] ) {
 
-        console.log("ElastosJs person-write-chain.ts ---sendRawTransaction--- ele " + JSON.stringify(ele));
-        let arr = ele["Path"].split("/");
+    //     console.log("ElastosJs person-write-chain.ts ---sendRawTransaction--- ele " + JSON.stringify(ele));
+    //     let arr = ele["Path"].split("/");
 
-        if (arr[1]) {
-
-
-          let self = this;
-          //iterat values
-          for (let valueObj of ele["Values"]){
-            let proofObj = JSON.parse(valueObj["Proof"]);
-
-            this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id, arr[1], function (reult : any) {
-              console.info("ElastosJs reult " + JSON.stringify(reult) );
-              self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
-
-            });
-          }
-          // let proofObj = JSON.parse(ele["Proof"]);
-          // let self = this;
-          //
-          // this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id, arr[1], function (reult : any) {
-          //   console.info("ElastosJs reult" + JSON.stringify(reult) );
-          //   self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
-          //
-          // });
+    //     if (arr[1]) {
 
 
-        }
-      }
+    //       let self = this;
+    //       //iterat values
+    //       for (let valueObj of ele["Values"]){
+    //         let proofObj = JSON.parse(valueObj["Proof"]);
 
-      console.info("sendRawTransaction person-write-chain.ts setOrderStatus(4)")
-      this.setOrderStatus(4);
-      //this.messageBox("text-id-kyc-china");
-    })
+    //         this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id, arr[1], function (reult : any) {
+    //           console.info("ElastosJs reult " + JSON.stringify(reult) );
+    //           self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
+
+    //         });
+    //       }
+    //       // let proofObj = JSON.parse(ele["Proof"]);
+    //       // let self = this;
+    //       //
+    //       // this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id, arr[1], function (reult : any) {
+    //       //   console.info("ElastosJs reult" + JSON.stringify(reult) );
+    //       //   self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
+    //       //
+    //       // });
+
+
+    //     }
+    //   }
+
+    //   console.info("sendRawTransaction person-write-chain.ts setOrderStatus(4)")
+    //   this.setOrderStatus(4);
+    //   //this.messageBox("text-id-kyc-china");
+    // })
   }
-
-
-
-
- //从主链转一批钱到测链
-
-createDepositTransaction(){
-  this.walletManager.createDepositTransaction(this.masterWalletId,"ELA","","XQd1DCi6H62NQdWZQhJCRnrPn7sF9CTjaU",this.fee,this.fromAddress,"qq",this.fee+"","","",(result)=>{
-            this.depositTransaction = result['transactionId'].toString();
-            //this.getDepositTransaction();
-  });
-}
-
-getDepositTransaction(){
-  this.walletManager.calculateTransactionFee(this.masterWalletId,"ELA",this.depositTransaction,10000, (data) => {
-    this.depositTransactionFee = data['fee'];
-  });
-}
-
- sendDepositTransaction(){
-     this.walletManager.sendRawTransaction(this.masterWalletId,"ELA",this.depositTransaction,20000,this.passworld,(result)=>{
-       alert("sendDepositTransaction result"+JSON.stringify(result));
-     })
- }
-
 
 
 getPageObj(obj){

@@ -319,73 +319,65 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
   sendRawTransaction( rawTransaction){
     //alert("sendRawTransaction begin==");
 
-    this.walletManager.sendRawTransaction(this.masterWalletId,"IdChain",rawTransaction,this.fee,this.passworld,(result)=>{
+  //   this.walletManager.sendRawTransaction(this.masterWalletId,"IdChain",rawTransaction,this.fee,this.passworld,(result)=>{
 
 
-      let rawTransactionObj = JSON.parse(rawTransaction);
+  //     let rawTransactionObj = JSON.parse(rawTransaction);
 
-      console.log("ElastosJs ---sendRawTransaction---"+"rawTransaction="+JSON.stringify(rawTransactionObj)+"fee="+this.fee);
-      //console.log("ElastosJs ---sendRawTransaction--- PayLoad"+ JSON.stringify(rawTransactionObj.PayLoad));
+  //     console.log("ElastosJs ---sendRawTransaction---"+"rawTransaction="+JSON.stringify(rawTransactionObj)+"fee="+this.fee);
+  //     //console.log("ElastosJs ---sendRawTransaction--- PayLoad"+ JSON.stringify(rawTransactionObj.PayLoad));
 
-      if (!rawTransactionObj.PayLoad) {
-        console.log("ElastosJs ---sendRawTransaction--- PayLoad NULL");
-        return;
-      }
+  //     if (!rawTransactionObj.PayLoad) {
+  //       console.log("ElastosJs ---sendRawTransaction--- PayLoad NULL");
+  //       return;
+  //     }
 
-      if (!rawTransactionObj["PayLoad"]["Contents"]){
-        console.log("ElastosJs ---sendRawTransaction--- Contents NULL");
-        return ;
-      }
-      /*
-      *
-      *
-      "PayLoad": {
-		"Contents": [{
-			"Path": "kyc/company/enterprise",
-			"Values": [{
-				"DataHash": "7f6d1d62480d06e939999f33cc9f3802602236dccfb8243a2e74176b9fb905ab",
-				"Proof": "{\"signature\":\"c82657ce310aa4313fd95272f3e52a28b6c4ec9fd2461d1047db5e86edf289995576d9bd3304d938a7bb66cab196258751b6a3c7e7d76b4867588fa827d4de58\",\"notary\":\"COOIX\"}"
-			}]
-		}],
-		"Id": "ifrQqG7kiqqSxGfHN62QPyRZD88ggK6MdD",
-		"Sign": "4029d9695dfd5919de9f05b4bd48beb93b33fcb960276cfbbc29ae47365cbb601ea68eceb98ed3c888474b01e66231fccfcef9d633c76e6d513af995e7fd60bd66"
-	} */
+  //     if (!rawTransactionObj["PayLoad"]["Contents"]){
+  //       console.log("ElastosJs ---sendRawTransaction--- Contents NULL");
+  //       return ;
+  //     }
+  //     /*
+  //     *
+  //     *
+  //     "PayLoad": {
+	// 	"Contents": [{
+	// 		"Path": "kyc/company/enterprise",
+	// 		"Values": [{
+	// 			"DataHash": "7f6d1d62480d06e939999f33cc9f3802602236dccfb8243a2e74176b9fb905ab",
+	// 			"Proof": "{\"signature\":\"c82657ce310aa4313fd95272f3e52a28b6c4ec9fd2461d1047db5e86edf289995576d9bd3304d938a7bb66cab196258751b6a3c7e7d76b4867588fa827d4de58\",\"notary\":\"COOIX\"}"
+	// 		}]
+	// 	}],
+	// 	"Id": "ifrQqG7kiqqSxGfHN62QPyRZD88ggK6MdD",
+	// 	"Sign": "4029d9695dfd5919de9f05b4bd48beb93b33fcb960276cfbbc29ae47365cbb601ea68eceb98ed3c888474b01e66231fccfcef9d633c76e6d513af995e7fd60bd66"
+	// } */
 
-      for (let ele of rawTransactionObj["PayLoad"]["Contents"] ) {
-        console.log("ElastosJs company-write-chain ---sendRawTransaction--- ele " + JSON.stringify(ele));
-        let arr = ele["Path"].split("/");
+  //     for (let ele of rawTransactionObj["PayLoad"]["Contents"] ) {
+  //       console.log("ElastosJs company-write-chain ---sendRawTransaction--- ele " + JSON.stringify(ele));
+  //       let arr = ele["Path"].split("/");
 
-        if (arr[1]) {
-          let self = this;
-          //iterat values
-          for (let valueObj of ele["Values"]){
-            let proofObj = JSON.parse(valueObj["Proof"]);
+  //       if (arr[1]) {
+  //         let self = this;
+  //         //iterat values
+  //         for (let valueObj of ele["Values"]){
+  //           let proofObj = JSON.parse(valueObj["Proof"]);
 
-            this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id, arr[1], function (reult : any) {
-              console.info("ElastosJs reult " + JSON.stringify(reult) );
-              self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
+  //           this.localStorage.getSeqNumObj(proofObj["signature"], rawTransactionObj.PayLoad.Id, arr[1], function (reult : any) {
+  //             console.info("ElastosJs reult " + JSON.stringify(reult) );
+  //             self.dataManager.addSeqNumObj(proofObj["signature"] , reult );
 
-            });
-          }
-        }
-      }
-      console.log("ElastosJs company-write-chain setOrderStatus(4) ");
+  //           });
+  //         }
+  //       }
+  //     }
+  //     console.log("ElastosJs company-write-chain setOrderStatus(4) ");
 
-      this.setOrderStatus(4);
-      //this.messageBox("text-id-kyc-china");
-    })
+  //     this.setOrderStatus(4);
+  //     //this.messageBox("text-id-kyc-china");
+  //   })
   }
 
 
 
- //从主链转一批钱到测链
-
-createDepositTransaction(){
-  this.walletManager.createDepositTransaction(this.masterWalletId,"ELA","","XQd1DCi6H62NQdWZQhJCRnrPn7sF9CTjaU",this.fee,this.fromAddress,"qq",this.fee+"","","",(result)=>{
-            this.depositTransaction = result['transactionId'].toString();
-            //this.getDepositTransaction();
-  });
-}
 
 getDepositTransaction(){
   this.walletManager.calculateTransactionFee(this.masterWalletId,"ELA",this.depositTransaction,10000, (data) => {
@@ -393,11 +385,6 @@ getDepositTransaction(){
   });
 }
 
- sendDepositTransaction(){
-     this.walletManager.sendRawTransaction(this.masterWalletId,"ELA",this.depositTransaction,20000,this.passworld,(result)=>{
-       alert("sendDepositTransaction result"+JSON.stringify(result));
-     })
- }
 
  setOrderStatus(status){
        console.info("ElastJs setOrderStatus status begin" + status);
