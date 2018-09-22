@@ -26,8 +26,9 @@ static jlong JNICALL nativeCreateDID(JNIEnv *env, jobject clazz, jlong jDidMgrPr
 
 	env->ReleaseStringUTFChars(jpassword, password);
 
-	if (exception)
+	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
+	}
 
 	return (jlong)did;
 }
@@ -51,8 +52,9 @@ static jlong JNICALL nativeGetDID(JNIEnv *env, jobject clazz, jlong jDidMgrProxy
 
 	env->ReleaseStringUTFChars(jdidName, didName);
 
-	if (exception)
+	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
+	}
 
 	return (jlong)did;
 }
@@ -60,15 +62,17 @@ static jlong JNICALL nativeGetDID(JNIEnv *env, jobject clazz, jlong jDidMgrProxy
 //"(J)Ljava/lang/String;"
 static /*nlohmann::json*/ jstring JNICALL nativeGetDIDList(JNIEnv *env, jobject clazz, jlong jDidMgrProxy)
 {
+	jstring list = NULL;
+
 	try {
 		IDIDManager* didMgr = (IDIDManager*)jDidMgrProxy;
 		nlohmann::json jsonValue = didMgr->GetDIDList();
-		return env->NewStringUTF(jsonValue.dump().c_str());
+		list = env->NewStringUTF(jsonValue.dump().c_str());
 	} catch (std::exception &e) {
 		ThrowWalletException(env, e.what());
 	}
 
-	return env->NewStringUTF("");
+	return list;
 }
 
 //"(JLjava/lang/String;)V"
@@ -89,8 +93,9 @@ static void JNICALL nativeDestoryDID(JNIEnv *env, jobject clazz, jlong jDidMgrPr
 
 	env->ReleaseStringUTFChars(jdidName, didName);
 
-	if (exception)
+	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
+	}
 }
 
 static void JNICALL nativeDisposeNative(JNIEnv *env, jobject clazz, jlong jDidMgrProxy)
@@ -181,8 +186,9 @@ static jboolean JNICALL nativeUnregisterCallback(JNIEnv *env, jobject clazz, jlo
 
 	env->ReleaseStringUTFChars(jdidName, didName);
 
-	if (exception)
+	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
+	}
 
 	return status;
 }

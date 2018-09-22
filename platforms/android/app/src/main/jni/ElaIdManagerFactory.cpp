@@ -28,8 +28,9 @@ static jlong JNICALL nativeCreateIdManager(JNIEnv *env, jobject clazz, jlong jma
 
 	env->ReleaseStringUTFChars(jrootPath, rootPath);
 
-	if (exception)
+	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
+	}
 
 	return (jlong)idManager;
 }

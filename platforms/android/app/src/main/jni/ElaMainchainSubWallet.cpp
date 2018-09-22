@@ -31,11 +31,12 @@ static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz
 	const char* remark = env->GetStringUTFChars(jremark, NULL);
 
 	IMainchainSubWallet* wallet = (IMainchainSubWallet*)jMainSubWalletProxy;
-	nlohmann::json tx;
+	jstring tx = NULL;
 
 	try {
-		tx = wallet->CreateDepositTransaction(fromAddress, toAddress, amount, nlohmann::json::parse(sidechainAccounts),
+		nlohmann::json txJson = wallet->CreateDepositTransaction(fromAddress, toAddress, amount, nlohmann::json::parse(sidechainAccounts),
 				nlohmann::json::parse(sidechainAmounts), nlohmann::json::parse(sidechainIndexs), memo, remark);
+		tx = env->NewStringUTF(txJson.dump().c_str());
 	} catch (std::exception &e) {
 		exception = true;
 		msgException = e.what();
@@ -49,10 +50,11 @@ static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz
 	env->ReleaseStringUTFChars(jmemo, memo);
 	env->ReleaseStringUTFChars(jremark, remark);
 
-	if (exception)
+	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
+	}
 
-	return env->NewStringUTF(tx.dump().c_str());
+	return tx;
 }
 
 static const JNINativeMethod gMethods[] = {

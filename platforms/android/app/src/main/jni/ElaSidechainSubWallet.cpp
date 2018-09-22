@@ -31,15 +31,14 @@ static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject claz
 	const char* remark = env->GetStringUTFChars(jremark, NULL);
 
 	ISidechainSubWallet* wallet = (ISidechainSubWallet*)jSideSubWalletProxy;
-	nlohmann::json tx;
-	jstring retValue;
+	jstring tx = NULL;
 
 	try {
-		tx = wallet->CreateWithdrawTransaction(fromAddress, toAddress, amount,
+		nlohmann::json txJson = wallet->CreateWithdrawTransaction(fromAddress, toAddress, amount,
 				nlohmann::json::parse(mainchainAccounts), nlohmann::json::parse(mainchainAmounts),
 				nlohmann::json::parse(mainchainIndexs), memo, remark);
 
-		retValue = env->NewStringUTF(tx.dump().c_str());
+		tx = env->NewStringUTF(txJson.dump().c_str());
 	} catch (std::exception &e) {
 		exception = true;
 		msgException = e.what();
@@ -53,10 +52,11 @@ static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject claz
 	env->ReleaseStringUTFChars(jmemo, memo);
 	env->ReleaseStringUTFChars(jremark, remark);
 
-	if (exception)
+	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
+	}
 
-	return retValue;
+	return tx;
 }
 
 //"(J)Ljava/lang/String;"
@@ -66,19 +66,21 @@ static jstring JNICALL nativeGetGenesisAddress(JNIEnv *env, jobject clazz, jlong
 	std::string msgException;
 
 	ISidechainSubWallet *wallet = (ISidechainSubWallet *)jSideSubWalletProxy;
-	std::string address;
+	jstring addr = NULL;
 
 	try {
-		address = wallet->GetGenesisAddress();
+		std::string address = wallet->GetGenesisAddress();
+		addr = env->NewStringUTF(address.c_str());
 	} catch (std::exception &e) {
 		exception = true;
 		msgException = e.what();
 	}
 
-	if (exception)
+	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
+	}
 
-	return env->NewStringUTF(address.c_str());
+	return addr;
 }
 
 

@@ -11,15 +11,17 @@ using namespace Elastos::DID;
 //"(J)Ljava/lang/String;"
 static jstring JNICALL nativeGetDIDName(JNIEnv *env, jobject clazz, jlong jDidProxy)
 {
+	jstring idName = NULL;
+
 	try {
 		IDID *did = (IDID*)jDidProxy;
 		std::string value = did->GetDIDName();
-		return env->NewStringUTF(value.c_str());
+		idName = env->NewStringUTF(value.c_str());
 	} catch (std::exception &e) {
 		ThrowWalletException(env, e.what());
 	}
 
-	return env->NewStringUTF("");
+	return idName;
 }
 
 //"(JLjava/lang/String;Ljava/lang/String;)V"
@@ -44,8 +46,9 @@ static void JNICALL nativeSetValue(JNIEnv *env, jobject clazz, jlong jDidProxy,
 	env->ReleaseStringUTFChars(jkeyPath, keyPath);
 	env->ReleaseStringUTFChars(jvalueJson, valueJson);
 
-	if (exception)
+	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
+	}
 }
 
 //"(JLjava/lang/String;)Ljava/lang/String;"
@@ -56,11 +59,12 @@ static /*nlohmann::json*/ jstring JNICALL nativeGetValue(JNIEnv *env, jobject cl
 	std::string msgException;
 
 	const char* path = env->GetStringUTFChars(jpath, NULL);
-	nlohmann::json jsonValue;
+	jstring value = NULL;
 
 	try {
 		IDID* did = (IDID*)jDidProxy;
-		jsonValue = did->GetValue(path);
+		nlohmann::json jsonValue = did->GetValue(path);
+		value = env->NewStringUTF(jsonValue.dump().c_str());
 	} catch (std::exception &e) {
 		exception = true;
 		msgException = e.what();
@@ -68,10 +72,11 @@ static /*nlohmann::json*/ jstring JNICALL nativeGetValue(JNIEnv *env, jobject cl
 
 	env->ReleaseStringUTFChars(jpath, path);
 
-	if (exception)
+	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
+	}
 
-	return env->NewStringUTF(jsonValue.dump().c_str());
+	return value;
 }
 
 //"(JLjava/lang/String;)Ljava/lang/String;"
@@ -82,11 +87,12 @@ static /*nlohmann::json*/ jstring JNICALL nativeGetHistoryValue(JNIEnv *env, job
 	std::string msgException;
 
 	const char* keyPath = env->GetStringUTFChars(jkeyPath, NULL);
-	nlohmann::json jsonValue;
+	jstring value = NULL;
 
 	try {
 		IDID* did = (IDID*)jDidProxy;
-		jsonValue = did->GetHistoryValue(keyPath);
+		nlohmann::json jsonValue = did->GetHistoryValue(keyPath);
+		value = env->NewStringUTF(jsonValue.dump().c_str());
 	} catch (std::exception &e) {
 		exception = true;
 		msgException = e.what();
@@ -94,10 +100,11 @@ static /*nlohmann::json*/ jstring JNICALL nativeGetHistoryValue(JNIEnv *env, job
 
 	env->ReleaseStringUTFChars(jkeyPath, keyPath);
 
-	if (exception)
+	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
+	}
 
-	return env->NewStringUTF(jsonValue.dump().c_str());
+	return value;
 }
 
 //"(JII)Ljava/lang/String;"
@@ -105,15 +112,17 @@ static /*nlohmann::json*/ jstring JNICALL nativeGetAllKeys(JNIEnv *env, jobject 
 		jint jstart,
 		jint jcount)
 {
+	jstring keys = NULL;
+
 	try {
 		IDID* did = (IDID*)jDidProxy;
 		nlohmann::json jsonValue = did->GetAllKeys(jstart, jcount);
-		return env->NewStringUTF(jsonValue.dump().c_str());
+		keys = env->NewStringUTF(jsonValue.dump().c_str());
 	} catch (std::exception &e) {
 		ThrowWalletException(env, e.what());
 	}
 
-	return env->NewStringUTF("");
+	return keys;
 }
 
 //"(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
@@ -126,11 +135,12 @@ static jstring JNICALL nativeSign(JNIEnv *env, jobject clazz, jlong jDidProxy,
 
 	const char* message = env->GetStringUTFChars(jmessage, NULL);
 	const char* password = env->GetStringUTFChars(jpassword, NULL);
-	std::string value = "";
+	jstring result = NULL;
 
 	try {
 		IDID* did = (IDID*)jDidProxy;
-		value = did->Sign(message, password);
+		std::string r = did->Sign(message, password);
+		result = env->NewStringUTF(r.c_str());
 	} catch (std::exception &e) {
 		exception = true;
 		msgException = e.what();
@@ -139,10 +149,11 @@ static jstring JNICALL nativeSign(JNIEnv *env, jobject clazz, jlong jDidProxy,
 	env->ReleaseStringUTFChars(jmessage, message);
 	env->ReleaseStringUTFChars(jpassword, password);
 
-	if (exception)
+	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
+	}
 
-	return env->NewStringUTF(value.c_str());
+	return result;
 }
 
 //"(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
@@ -155,11 +166,13 @@ static /*nlohmann::json*/ jstring JNICALL nativeCheckSign(JNIEnv *env, jobject c
 
 	const char *message = env->GetStringUTFChars(jmessage, NULL);
 	const char *signature = env->GetStringUTFChars(jsignature, NULL);
-	nlohmann::json jsonValue;
+
+	jstring result = NULL;
 
 	try {
 		IDID *did = (IDID *)jDidProxy;
-		jsonValue = did->CheckSign(message, signature);
+		nlohmann::json r = did->CheckSign(message, signature);
+		result = env->NewStringUTF(r.dump().c_str());
 	} catch (std::exception &e) {
 		exception = true;
 		msgException = e.what();
@@ -168,24 +181,27 @@ static /*nlohmann::json*/ jstring JNICALL nativeCheckSign(JNIEnv *env, jobject c
 	env->ReleaseStringUTFChars(jmessage, message);
 	env->ReleaseStringUTFChars(jsignature, signature);
 
-	if (exception)
+	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
+	}
 
-	return env->NewStringUTF(jsonValue.dump().c_str());
+	return result;
 }
 
 //"(J)Ljava/lang/String;"
 static jstring JNICALL nativeGetPublicKey(JNIEnv *env, jobject clazz, jlong jDidProxy)
 {
+	jstring key = NULL;
+
 	try {
 		IDID *did = (IDID *)jDidProxy;
 		std::string value = did->GetPublicKey();
-		return env->NewStringUTF(value.c_str());
+		key = env->NewStringUTF(value.c_str());
 	} catch (std::exception &e) {
 		ThrowWalletException(env, e.what());
 	}
 
-	return env->NewStringUTF("");
+	return key;
 }
 
 //"(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
@@ -198,11 +214,12 @@ static jstring JNICALL nativeGenerateProgram(JNIEnv *env, jobject clazz, jlong j
 
 	const char *message = env->GetStringUTFChars(jmessage, NULL);
 	const char *password = env->GetStringUTFChars(jpassword, NULL);
-	nlohmann::json jsonValue;
+	jstring program = NULL;
 
 	try {
 		IDID* did = (IDID *)jDidProxy;
-		jsonValue = did->GenerateProgram(message, password);
+		nlohmann::json jsonValue = did->GenerateProgram(message, password);
+		program = env->NewStringUTF(jsonValue.dump().c_str());
 	} catch (std::exception &e) {
 		exception = true;
 		msgException = e.what();
@@ -211,10 +228,11 @@ static jstring JNICALL nativeGenerateProgram(JNIEnv *env, jobject clazz, jlong j
 	env->ReleaseStringUTFChars(jmessage, message);
 	env->ReleaseStringUTFChars(jpassword, password);
 
-	if (exception)
+	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
+	}
 
-	return env->NewStringUTF(jsonValue.dump().c_str());
+	return program;
 }
 
 static const JNINativeMethod gMethods[] = {

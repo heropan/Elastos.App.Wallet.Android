@@ -26,11 +26,12 @@ static jstring JNICALL nativeCreateIdTransaction(JNIEnv *env, jobject clazz, jlo
 	const char* remark = env->GetStringUTFChars(jremark, NULL);
 
 	IIdChainSubWallet* wallet = (IIdChainSubWallet*)jIdSubWalletProxy;
-	nlohmann::json tx;
+	jstring tx = NULL;
 
 	try {
-		tx = wallet->CreateIdTransaction(fromAddress , nlohmann::json::parse(payloadJson),
+		nlohmann::json txJson = wallet->CreateIdTransaction(fromAddress , nlohmann::json::parse(payloadJson),
 				nlohmann::json::parse(programJson), memo, remark);
+		tx = env->NewStringUTF(txJson.dump().c_str());
 	} catch (std::exception& e) {
 		exception = true;
 		msgException = e.what();
@@ -42,10 +43,11 @@ static jstring JNICALL nativeCreateIdTransaction(JNIEnv *env, jobject clazz, jlo
 	env->ReleaseStringUTFChars(jmemo, memo);
 	env->ReleaseStringUTFChars(jremark, remark);
 
-	if (exception)
+	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
+	}
 
-	return env->NewStringUTF(tx.dump().c_str());
+	return tx;
 }
 
 

@@ -131,6 +131,18 @@ public class Wallet extends CordovaPlugin {
 		return jsonObject;
 	}
 
+	private boolean parametersCheck(JSONArray args) throws JSONException {
+		for (int i = 0; i < args.length(); i++) {
+			Object arg = args.get(i);
+			Log.i(TAG, "arg[" + i + "] = " + arg);
+			if (null == arg) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	private void exceptionProcess(WalletException e, CallbackContext cc, Object msg) throws JSONException {
 		e.printStackTrace();
 
@@ -198,6 +210,10 @@ public class Wallet extends CordovaPlugin {
 	public boolean execute(String action, JSONArray args, CallbackContext cc) {
 		Log.i(TAG, "execute: action=" + action);
 		try {
+			if (false == parametersCheck(args)) {
+				errorProcess(cc, errCodeInvalidArg, "Parameters contain 'null' value in action '" + action + "'");
+				return false;
+			}
 			switch (action) {
 				case "coolMethod":
 					String message = args.getString(0);
@@ -222,6 +238,9 @@ public class Wallet extends CordovaPlugin {
 					break;
 				case "createMultiSignMasterWalletWithPrivKey":
 					this.createMultiSignMasterWalletWithPrivKey(args, cc);
+					break;
+				case "createMultiSignMasterWalletWithMnemonic":
+					this.createMultiSignMasterWalletWithMnemonic(args, cc);
 					break;
 				case "getAllMasterWallets":
 					this.getAllMasterWallets(args, cc);
@@ -707,9 +726,48 @@ public class Wallet extends CordovaPlugin {
 			}
 
 			createDIDManager(masterWallet);
-			successProcess(cc, "Create multi sign master wallet '" + masterWalletId + "' OK");
+			successProcess(cc, "Create multi sign master wallet '" + masterWalletId + "' with private key OK");
 		} catch (WalletException e) {
-			exceptionProcess(e, cc, "Create multi sign master wallet '" + masterWalletId + "'");
+			exceptionProcess(e, cc, "Create multi sign master wallet '" + masterWalletId + "' with private key");
+		}
+	}
+
+	// args[0]: String masterWalletId
+	// args[1]: String mnemonic
+	// args[2]: String phrasePassword
+	// args[3]: String payPassword
+	// args[4]: String coSignersJson
+	// args[5]: int requiredSignCount
+	// args[6]: String language
+	public void createMultiSignMasterWalletWithMnemonic(JSONArray args, CallbackContext cc) throws JSONException {
+		int idx = 0;
+
+		String masterWalletId = args.getString(idx++);
+		String mnemonic       = args.getString(idx++);
+		String phrasePassword = args.getString(idx++);
+		String payPassword    = args.getString(idx++);
+		String coSigners      = args.getString(idx++);
+		int requiredSignCount = args.getInt(idx++);
+		String language       = args.getString(idx++);
+
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+
+		try {
+			IMasterWallet masterWallet = mMasterWalletManager.CreateMultiSignMasterWallet(
+						masterWalletId, mnemonic, phrasePassword, payPassword, coSigners, requiredSignCount, language);
+
+			if (masterWallet == null) {
+				errorProcess(cc, errCodeCreateMasterWallet, "Create multi sign master wallet '" + masterWalletId + "' failed");
+				return;
+			}
+
+			createDIDManager(masterWallet);
+			successProcess(cc, "Create multi sign master wallet '" + masterWalletId + "' with mnemonic OK");
+		} catch (WalletException e) {
+			exceptionProcess(e, cc, "Create multi sign master wallet '" + masterWalletId + "' with mnemonic");
 		}
 	}
 
