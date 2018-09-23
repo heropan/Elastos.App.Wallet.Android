@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import {CreatemultiwalltePage} from '../../pages/createmultiwallte/createmultiwallte';
+import {LauncherComponent} from "../launcher/launcher.component";
 import { Events } from 'ionic-angular';
+
 @Component({
   selector: 'page-walltelist',
   templateUrl: 'walltelist.html',
@@ -25,7 +26,7 @@ export class WalltelistPage {
   }
 
   nextPage(){
-    this.navCtrl.push(CreatemultiwalltePage);
+    this.navCtrl.push(LauncherComponent);
   }
 
 }
