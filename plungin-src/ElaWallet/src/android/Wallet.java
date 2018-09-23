@@ -53,6 +53,7 @@ public class Wallet extends CordovaPlugin {
 	private String keyMessage   = "message";
 	private String keyException = "exception";
 
+	private int errCodeParseJsonInAction          = 10000;
 	private int errCodeInvalidArg                 = 10001;
 	private int errCodeInvalidMasterWallet        = 10002;
 	private int errCodeInvalidSubWallet           = 10003;
@@ -156,14 +157,20 @@ public class Wallet extends CordovaPlugin {
 		cc.error(mkJson(keyError, errJson));
 	}
 
-	private void errorProcess(CallbackContext cc, int code, Object msg) throws JSONException {
-		JSONObject errJson = new JSONObject();
+	private void errorProcess(CallbackContext cc, int code, Object msg) {
+		try {
+			JSONObject errJson = new JSONObject();
 
-		errJson.put(keyCode, code);
-		errJson.put(keyMessage, msg);
-		Log.e(TAG, errJson.toString());
+			errJson.put(keyCode, code);
+			errJson.put(keyMessage, msg);
+			Log.e(TAG, errJson.toString());
 
-		cc.error(mkJson(keyError, errJson));
+			cc.error(mkJson(keyError, errJson));
+		} catch (JSONException e) {
+			String m = "Make json error message exception: " + e.toString();
+			Log.e(TAG, m);
+			cc.error(m);
+		}
 	}
 
 	private void successProcess(CallbackContext cc, Object msg) throws JSONException {
@@ -207,7 +214,7 @@ public class Wallet extends CordovaPlugin {
 
 	@Override
 	public boolean execute(String action, JSONArray args, CallbackContext cc) {
-		Log.i(TAG, "execute: action=" + action);
+		Log.i(TAG, "execute: action = '" + action + "'");
 		try {
 			if (false == parametersCheck(args)) {
 				errorProcess(cc, errCodeInvalidArg, "Parameters contain 'null' value in action '" + action + "'");
@@ -402,9 +409,8 @@ public class Wallet extends CordovaPlugin {
 					return false;
 			}
 		} catch (JSONException e) {
-			Log.e(TAG, "Action execute exception");
 			e.printStackTrace();
-			cc.error("{" + keyError + ": \"json parse execute error\"}");
+			errorProcess(cc, errCodeParseJsonInAction, "Execute action '" + action + "' exception: " + e.toString());
 			return false;
 		}
 
@@ -665,8 +671,8 @@ public class Wallet extends CordovaPlugin {
 	}
 
 	// args[0]: String masterWalletId
-	// args[2]: String coSigners
-	// args[3]: int requiredSignCount
+	// args[1]: String coSigners
+	// args[2]: int requiredSignCount
 	public void createMultiSignMasterWallet(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 		String privKey = null;
