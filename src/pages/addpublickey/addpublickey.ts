@@ -37,7 +37,7 @@ export class AddpublickeyPage {
   createWallet(){
     let copayers = this.getTotalCopayers();
     console.log("====mastId===="+"1"+"====copayers===="+copayers+"==requiredCopayers=="+this.msobj["requiredCopayers"]);
-    this.walletManager.createMultiSignMasterWallet("1","",copayers,this.msobj["requiredCopayers"],(data)=>{
+    this.walletManager.createMultiSignMasterWallet("1",copayers,this.msobj["requiredCopayers"],(data)=>{
               if(data['success']){
                 console.log("=====createMultiSignMasterWallet======"+JSON.stringify(data));
               }else{

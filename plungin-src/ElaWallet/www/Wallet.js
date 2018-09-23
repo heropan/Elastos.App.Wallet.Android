@@ -243,8 +243,8 @@ walletFunc.prototype.createMultiSignMasterWallet = function(arg0, success, error
 };
 
 
-walletFunc.prototype.masterWalletGetBasicInfo = function(arg0, success, error) {
-    exec(success, error, "Wallet", "masterWalletGetBasicInfo", arg0);
+walletFunc.prototype.getMasterWalletBasicInfo = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getMasterWalletBasicInfo", arg0);
 };
 
 walletFunc.prototype.createMultiSignTransaction = function(arg0, success, error) {

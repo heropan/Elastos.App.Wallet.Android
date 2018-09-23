@@ -186,7 +186,7 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
     this.walletManager.signTransaction(this.masterWalletId,this.chianId,rawTransaction,this.transfer.payPassword,(data)=>{
       if(data["success"]){
         console.log("===signTransaction===="+JSON.stringify(data));
-        this.sendTx(data["succcess"]);
+        this.sendTx(data["success"]);
        }else{
          alert("=====signTransaction=error==="+JSON.stringify(data));
        }

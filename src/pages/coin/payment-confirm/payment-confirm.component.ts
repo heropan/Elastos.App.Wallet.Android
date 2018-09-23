@@ -175,7 +175,7 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
     this.walletManager.signTransaction(this.masterWalletId,this.chianId,rawTransaction,this.transfer.payPassword,(data)=>{
       if(data["success"]){
         console.log("===signTransaction===="+JSON.stringify(data));
-        this.sendTx(data["succcess"]);
+        this.sendTx(data["success"]);
        }else{
          alert("=====signTransaction=error==="+JSON.stringify(data));
        }
@@ -183,6 +183,7 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
   }
 
   sendTx(rawTransaction){
+    console.log("====publishTransaction===="+"rawTransaction="+rawTransaction);
     this.walletManager.publishTransaction(this.masterWalletId,this.chianId,rawTransaction,(data)=>{
      if(data["success"]){
        console.log("======publishTransaction========"+JSON.stringify(data));

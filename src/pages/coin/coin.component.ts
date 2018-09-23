@@ -35,6 +35,13 @@ export class CoinComponent extends BaseComponent implements OnInit {
   idChainPer:any;
 
   ngOnInit() {
+    this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
+                 if(data["success"]){
+                    console.log("===getMasterWalletBasicInfo==="+JSON.stringify(data));
+                 }else{
+                    alert("=======getMasterWalletBasicInfo====error====="+JSON.stringify(data));
+                 }
+    });
     this.setLeftIcon("",()=>{
       this.events.publish("home:update");
       this.Back();

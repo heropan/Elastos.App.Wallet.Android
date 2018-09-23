@@ -339,12 +339,12 @@ export class WalletManager {
  /**
    * @param {string} masterWalletId
    */
-  masterWalletGetBasicInfo(masterWalletId:string,Fun){
-     this.wallet.masterWalletGetBasicInfo([masterWalletId],Fun,this.errorFun);
+  getMasterWalletBasicInfo(masterWalletId:string,Fun){
+     this.wallet.getMasterWalletBasicInfo([masterWalletId],Fun,this.errorFun);
   }
 
-  createMultiSignMasterWallet(masterWalletId:string,payPassword:string,coSigners:string,requiredSignCount:number,Fun){
-                   this.wallet.createMultiSignMasterWallet([masterWalletId,payPassword,coSigners,requiredSignCount],Fun,this.errorFun);
+  createMultiSignMasterWallet(masterWalletId:string,coSigners:string,requiredSignCount:number,Fun){
+                   this.wallet.createMultiSignMasterWallet([masterWalletId,coSigners,requiredSignCount],Fun,this.errorFun);
   }
 
   createMultiSignMasterWalletWithPrivKey(masterWalletId:string,privKey:string,payPassword:string,coSigners:string,requiredSignCount:number,Fun){
