@@ -24,6 +24,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   coinList = []
 
   ngOnInit() {
+    this.masterWalletId =  Config.getCurMasterWalletId();
     this.goPayment();
     setInterval(()=>{
       this.elaPer = this.tempElaPer;
@@ -32,6 +33,9 @@ export class HomeComponent extends BaseComponent implements OnInit {
     this.getAllMasterWallets();
     this.events.subscribe("wallte:update",(item)=>{
       console.log("Selected Item", item);
+      this.masterWalletId = item;
+      Config.setCurMasterWalletId(this.masterWalletId);
+      this.getAllMasterWallets();
     });
     this.events.subscribe('home:update', () => {
            this.getElaBalance(this.ElaObj);

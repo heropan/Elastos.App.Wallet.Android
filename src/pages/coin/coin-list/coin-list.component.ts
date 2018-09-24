@@ -5,6 +5,7 @@ import { NavController, NavParams,ModalController,Navbar,Events } from 'ionic-an
 import {WalletManager} from '../../../providers/WalletManager';
 import {Native} from "../../../providers/Native";
 import {LocalStorage} from "../../../providers/Localstorage";
+import { Config } from '../../../providers/Config';
 @Component({
   selector: 'app-coin-list',
   templateUrl: './coin-list.component.html'
@@ -58,6 +59,7 @@ export class CoinListComponent {
   }
 
   init() {
+    this.masterWalletId =Config.getCurMasterWalletId();
     this.localStorage.get('coinListCache').then((val)=>{
       this.walletManager.getSupportedChains(this.masterWalletId,(data) => {
         if(data['success']){

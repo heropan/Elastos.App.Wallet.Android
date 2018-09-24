@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {Native} from "../../providers/Native";
 import {WalletManager} from '../../providers/WalletManager';
+import {Config} from '../../providers/Config';
 @Component({
   selector: 'page-publickey',
   templateUrl: 'publickey.html',
@@ -23,6 +24,7 @@ export class PublickeyPage {
   }
 
   getPublicKey(){
+    this.masterWalletId = Config.getCurMasterWalletId();
     this.walletManager.getPublicKey(this.masterWalletId,(data)=>{
       if(data["success"]){
         this.qrcode = data["success"];

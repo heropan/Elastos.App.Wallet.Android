@@ -126,6 +126,29 @@ export class LocalStorage {
       return this.storage.get(key);
   }
 
+  public setWalletList(value: any): any {
+    // TODO
+    let key = "ELA-WalletList";
+    return this.storage.set(key, JSON.stringify(value));
+  }
+
+  public getWalletList(): any {
+    // TODO
+    let key = "ELA-WalletList";
+    return this.storage.get(key);
+  }
+
+  public saveCurMasterId(value){
+    // {masterId:"123"}
+    let key = "cur-masterId";
+    return this.storage.set(key, JSON.stringify(value));
+  }
+
+  public getCurMasterId(){
+    let key = "cur-masterId";
+    return this.storage.get(key);
+  }
+
 }
 
 

@@ -38,6 +38,7 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
   SELA = Config.SELA;
 
   ngOnInit() {
+    this.masterWalletId = Config.getCurMasterWalletId();
     this.setTitleByAssets('text-withdraw');
     let transferObj =this.getNavParams().data;
     this.chianId = transferObj["chianId"];

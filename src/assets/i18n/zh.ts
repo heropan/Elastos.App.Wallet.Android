@@ -261,5 +261,6 @@ export const zh = {
   'text-check-publickey':"查看公钥",
   'text-send-tx':"发送交易",
   'text-sing-tx':"签名交易",
-  'text-scan-code':"查看二维码"
+  'text-scan-code':"查看二维码",
+  'text-tx-details':"交易详情"
 };

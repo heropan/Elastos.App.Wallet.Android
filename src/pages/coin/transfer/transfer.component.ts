@@ -8,6 +8,7 @@ import { Config } from '../../../providers/Config';
 import {IDManager} from "../../../providers/IDManager";
 import {ApiUrl} from "../../../providers/ApiUrl"
 import {IdResultComponent} from "../../../pages/id/result/result";
+import {ScancodePage} from '../../../pages/scancode/scancode';
 @Component({
   selector: 'app-transfer',
   templateUrl: './transfer.component.html'})
@@ -39,8 +40,11 @@ export class TransferComponent extends BaseComponent implements OnInit {
   txId:string;
   did:string;
   isInput = true;
+  walletInfo = {};
   ngOnInit() {
+    this.masterWalletId = Config.getCurMasterWalletId();
     this.setTitleByAssets('text-transfer');
+    this.masterWalletId = Config.getCurMasterWalletId();
     let transferObj =this.getNavParams().data;
     console.log("=====pf==="+JSON.stringify(transferObj));
     this.chianId = transferObj["chianId"];
@@ -55,6 +59,8 @@ export class TransferComponent extends BaseComponent implements OnInit {
     this.selectType = transferObj["selectType"] || "";
     this.parms = transferObj["parms"] || "";
     this.did = transferObj["did"] || "";
+    this.walletInfo = transferObj["walletInfo"] || {};
+    console.log("====walletInfo====="+JSON.stringify(this.walletInfo));
     this.initData();
 
     this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
@@ -128,7 +134,13 @@ export class TransferComponent extends BaseComponent implements OnInit {
         this.toast("contact-address-digits");
         return;
       }
-      this.createTransaction();
+
+      if(this.walletInfo["Type"] === "Standard"){
+          this.createTransaction();
+      }else{
+          this.createMultTx();
+      }
+
       this.subPopup.show().subscribe((res: boolean) => {
       });
     })
@@ -185,7 +197,11 @@ export class TransferComponent extends BaseComponent implements OnInit {
     this.walletManager.signTransaction(this.masterWalletId,this.chianId,rawTransaction,this.transfer.payPassword,(data)=>{
       if(data["success"]){
         console.log("===signTransaction===="+JSON.stringify(data));
-        this.sendTx(data["success"]);
+        if(this.walletInfo["Type"] === "Standard"){
+             this.sendTx(data["success"]);
+        }else{
+            this.Go(ScancodePage,{"txContent":{"masterWalletId":this.masterWalletId,"chianId":this.chianId,"address":this.transfer.toAddress, "amount": this.transfer.amount, "memo": "", "fee":this.transfer.fee, "rawTransaction": data["success"]}});
+        }
        }else{
          alert("=====signTransaction=error==="+JSON.stringify(data));
        }
@@ -311,6 +327,23 @@ saveKycSerialNum(serialNum){
           this.Go(IdResultComponent,{'status':'0',id:this.did,path:this.selectType});
          });
      })
+}
+
+createMultTx(){
+  this.walletManager.createMultiSignTransaction(this.masterWalletId,this.chianId,"",
+  this.transfer.toAddress,
+  this.transfer.amount*Config.SELA,
+  this.transfer.memo,
+  (data)=>{
+    if(data["success"]){
+      console.log("====createMultiSignTransaction======"+JSON.stringify(data));
+      this.rawTransaction = data['success'];
+      this.getFee();
+    }else{
+      alert("====createMultiSignTransaction==error===="+JSON.stringify(data));
+    }
+  }
+)
 }
 
 }

@@ -15,7 +15,7 @@ import {RecordinfoComponent} from "./recordinfo/recordinfo.component";
   encapsulation: ViewEncapsulation.None
 })
 export class CoinComponent extends BaseComponent implements OnInit {
-
+  public masterWalletInfo = {};
   masterWalletId:string = "1";
   transferList = [];
 
@@ -35,9 +35,12 @@ export class CoinComponent extends BaseComponent implements OnInit {
   idChainPer:any;
 
   ngOnInit() {
+    this.masterWalletId = Config.getCurMasterWalletId();
     this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
                  if(data["success"]){
                     console.log("===getMasterWalletBasicInfo==="+JSON.stringify(data));
+                    let item = JSON.parse(data["success"])["Account"];
+                    this.masterWalletInfo = item;
                  }else{
                     alert("=======getMasterWalletBasicInfo====error====="+JSON.stringify(data));
                  }
@@ -123,32 +126,32 @@ export class CoinComponent extends BaseComponent implements OnInit {
         break;
       case 2:
       if (this.coinName == 'ELA') {
-        if(this.elaPer != 1){
-          this.messageBox("text-ela-per-message");
-          return;
-        }
-        this.Go(TransferComponent, {id: this.coinId, chianId: this.coinName});
+        // if(this.elaPer != 1){
+        //   this.messageBox("text-ela-per-message");
+        //   return;
+        // }
+        this.Go(TransferComponent, {id: this.coinId, chianId: this.coinName,"walletInfo":this.masterWalletInfo});
       }else{
-        if(this.idChainPer != 1){
-          this.messageBox("text-ela-per-message");
-          return;
-        }
+        // if(this.idChainPer != 1){
+        //   this.messageBox("text-ela-per-message");
+        //   return;
+        // }
         this.Go(TransferComponent, {id: this.coinId, chianId: this.coinName});
       }
 
         break;
       case 3:
         if (this.coinName == 'ELA') {
-          if(this.elaPer != 1){
-            this.messageBox("text-ela-per-message");
-            return;
-          }
+          // if(this.elaPer != 1){
+          //   this.messageBox("text-ela-per-message");
+          //   return;
+          // }
           this.Go(CoinSelectComponent, {chianId: this.coinName});
         }else{
-          if(this.idChainPer != 1){
-            this.messageBox("text-ela-per-message");
-            return;
-          }
+          // if(this.idChainPer != 1){
+          //   this.messageBox("text-ela-per-message");
+          //   return;
+          // }
           this.Go(WithdrawComponent, {chianId: this.coinName});
         }
         break;

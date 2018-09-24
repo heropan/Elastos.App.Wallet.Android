@@ -40,6 +40,7 @@ export class RechargeComponent extends BaseComponent implements OnInit {
   SELA = Config.SELA;
 
   ngOnInit() {
+    this.masterWalletId = Config.getCurMasterWalletId();
     this.setTitleByAssets('text-recharge');
     let transferObj =this.getNavParams().data;
     this.chianId = transferObj["chianId"];

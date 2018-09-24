@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import { NavController, NavParams} from 'ionic-angular';
 import {WalletManager} from '../../../providers/WalletManager';
+import {Config} from '../../../providers/Config';
 import {Native} from "../../../providers/Native";
 import {Util} from "../../../providers/Util";
 import {LocalStorage} from "../../../providers/Localstorage";
@@ -25,6 +26,7 @@ export class ExprotPrikeyComponent  {
   };
 
   onWalletDatainit(){
+    this.masterWalletId = Config.getCurMasterWalletId();
     this.localStorage.getWallet().then((val)=>{
       if(val === null){
         this.exprotObj.name = "";

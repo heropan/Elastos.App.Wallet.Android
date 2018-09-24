@@ -60,6 +60,7 @@ import {CoinListComponent} from '../pages/coin/coin-list/coin-list.component';
 import {WalletCreateComponent} from '../pages/wallet/wallet-create/wallet-create.component';
 import {CoinlistpasswordPage} from '../pages/coinlistpassword/coinlistpassword';
 import {ScancodePage} from '../pages/scancode/scancode';
+import {TxdetailsPage} from '../pages/txdetails/txdetails';
 import {Native} from '../providers/Native';
 import {Logger} from '../providers/Logger';
 import {BaseComponent} from './BaseComponent';
@@ -189,6 +190,7 @@ export function TranslateLoaderFactory() {
     ImportprivatekeyPage,
     CoinlistpasswordPage,
     ScancodePage,
+    TxdetailsPage
   ],
   imports: [
     BrowserModule,
@@ -273,7 +275,8 @@ export function TranslateLoaderFactory() {
     AddprivatekeyPage,
     ImportprivatekeyPage,
     CoinlistpasswordPage,
-    ScancodePage
+    ScancodePage,
+    TxdetailsPage
   ],
   providers: [
     StatusBar,

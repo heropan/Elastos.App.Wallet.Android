@@ -17,6 +17,7 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
   blockchain_url = Config.BLOCKCHAIN_URL;
 
   ngOnInit() {
+    this.masterWalletId = Config.getCurMasterWalletId();
     this.setTitleByAssets('text-record');
     let txId = this.getNavParams().get("txId");
     let chainId = this.getNavParams().get("chainId");

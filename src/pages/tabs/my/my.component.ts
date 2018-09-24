@@ -5,7 +5,7 @@ import {ContactListComponent} from "../../contacts/contact-list/contact-list.com
 import {IdLauncherComponent} from "../../id/launcher/launcher";
 import {IdHomeComponent} from "../../id/home/home";
 import {PublickeyPage} from '../../../pages/publickey/publickey';
-import {ScancodePage} from '../../../pages/scancode/scancode';
+import {TxdetailsPage} from '../../../pages/txdetails/txdetails';
 @Component({
   selector: 'app-my',
   templateUrl: 'my.component.html',
@@ -55,29 +55,21 @@ export class MyComponent  extends BaseComponent implements OnInit  {
 
    singTx(){
     this.native.scan().then((data)=>{
-      this.getPassWord(data);
+      //this.getPassWord(data);
+      this.Go(TxdetailsPage,{"txContent":data});
     }).catch((err)=>{
 
     });
+    //this.Go(TxdetailsPage,{"txContent":{ "address": "XKUh4GLhFJiqAMTF6HyWQrV9pK9HcGUdfJ", "amount": "1", "memo": "", "fee": "0.0001", "rawTransaction": "" }});
    }
 
    sendTX(){
       this.native.scan().then((data)=>{
-
+        this.Go(TxdetailsPage,{"txContent":data});
       }).catch((err)=>{
 
       });
    }
 
-   getPassWord(content){
-     this.popupProvider.presentPrompt().then((data)=>{
-      if(this.isNull(data)){
-        this.messageBox("text-id-kyc-prompt-password");
-        return;
-      }
-      this.Go(ScancodePage,{"txContent":data});
-     }).catch(err=>{
-       alert(JSON.stringify(err));
-     })
-   }
+
 }

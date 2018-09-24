@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from './../../../app/BaseComponent';
 import {AddressComponent} from "../../wallet/address/address.component";
 import {Util} from "../../../providers/Util";
-
+import { Config } from '../../../providers/Config';
 
 @Component({
   selector: 'app-receive',
@@ -15,6 +15,7 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
   amount: Number;
   chinaId: string;
   ngOnInit() {
+    this.masterWalletId =Config.getCurMasterWalletId();
     this.setTitleByAssets('text-receive');
     this.chinaId = this.getNavParams().get("chianId");
     this.createAddress();

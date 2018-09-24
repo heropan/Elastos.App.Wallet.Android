@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import { NavController,NavParams} from 'ionic-angular';
 import {Native} from "../../providers/Native";
 import {WalletManager} from '../../providers/WalletManager';
+import {Config} from '../../providers/Config';
 import {WriteComponent} from "./write/write.component";
 import {Util} from "../../providers/Util";
 import {LocalStorage} from "../../providers/Localstorage";
@@ -25,6 +26,7 @@ export class MnemonicComponent {
           this.init();
   }
   init() {
+    this.masterWalletId = Config.uuid(6,16);
     this.walletManager.generateMnemonic(this.native.getMnemonicLang(),(data) => {
 
       if(data["success"]){
@@ -67,14 +69,26 @@ export class MnemonicComponent {
     // Sub Wallet
     this.walletManager.createSubWallet(this.masterWalletId,chainId, this.payPassword, this.singleAddress, 0, (data)=>{
           if(data["success"]){
-               console.log("====createSubWallet===="+JSON.stringify(data));
-               this.native.Go(this.navCtrl,WriteComponent, {mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList});
-               this.localStorage.setWallet({
-                'name': this.name
-               });
+              //  console.log("====createSubWallet===="+JSON.stringify(data));
+              //  Config.setCurMasterWalletId(this.masterWalletId);
+              //  this.native.Go(this.navCtrl,WriteComponent, {mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList});
+              //  this.localStorage.setWallet({
+              //   'name': this.name
+              //  });
+              this.saveWalletList();
           }else{
                 alert("createSubWallet=error:"+JSON.stringify(data));
           }
     });
+  }
+
+  saveWalletList(){
+    Config.getMasterWalletIdList().push(this.masterWalletId);
+    this.localStorage.setWalletList(Config.getMasterWalletIdList()).then((data)=>{
+            this.localStorage.saveCurMasterId({masterId:this.masterWalletId}).then((data)=>{
+              Config.setCurMasterWalletId(this.masterWalletId);
+              this.native.Go(this.navCtrl,WriteComponent, {mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList});
+            });
+    })
   }
 }

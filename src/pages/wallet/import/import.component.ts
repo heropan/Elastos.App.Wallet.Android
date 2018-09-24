@@ -5,6 +5,7 @@ import {Native} from "../../../providers/Native";
 import {LocalStorage} from "../../../providers/Localstorage";
 import {TabsComponent} from '../../../pages/tabs/tabs.component';
 import {Util} from "../../../providers/Util";
+import {Config} from '../../../providers/Config';
 
 @Component({
   selector: 'app-import',
@@ -18,7 +19,7 @@ export class ImportComponent {
   public importFileObj:any={payPassword: "",rePayPassword: "", backupPassWord: "",phrasePassword:""};
   public mnemonicObj:any={mnemonic:"",payPassword: "", rePayPassword: "",phrasePassword:""}
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage) {
-
+         this.masterWalletId = Config.uuid(6,16);
   }
   public toggleShowAdvOpts(): void {
     this.showAdvOpts = !this.showAdvOpts;
@@ -65,6 +66,7 @@ export class ImportComponent {
   }
 
   importWalletWithKeystore(){
+    console.log("====importWalletWithKeystore======"+this.masterWalletId);
     this.walletManager.importWalletWithKeystore(this.masterWalletId,
                       this.keyStoreContent,this.importFileObj.backupPassWord,
                       this.importFileObj.payPassword,this.importFileObj.phrasePassword,
@@ -132,11 +134,7 @@ export class ImportComponent {
                               console.log("createSubWallet=="+JSON.stringify(data));
                               this.native.toast_trans('import-text-world-sucess');
                               this.localStorage.remove('coinListCache').then(()=>{
-                              this.localStorage.setWallet({
-                              'name': "ELA-Wallet"
-                               }).then(()=>{
-                                this.native.setRootRouter(TabsComponent);
-                              });
+                              this.saveWalletList();
                             });
                             }else{
                                  alert("createSubWallet==error"+JSON.stringify(data));
@@ -157,11 +155,7 @@ export class ImportComponent {
           console.log("====getCoinListCache======"+JSON.stringify(chinas));
            this.localStorage.set('coinListCache',chinas).then(()=>{
             this.native.toast_trans('import-text-keystroe-sucess');
-            this.localStorage.setWallet({
-              'name': "ELA-Wallet"
-             }).then(()=>{
-              this.native.setRootRouter(TabsComponent);
-             });
+            this.saveWalletList();
            });
         }else{
             alert("==getAllSubWallets==error"+JSON.stringify(data));
@@ -180,6 +174,16 @@ export class ImportComponent {
            }
     }
          return chinas;
+  }
+
+  saveWalletList(){
+    Config.getMasterWalletIdList().push(this.masterWalletId);
+    this.localStorage.setWalletList(Config.getMasterWalletIdList()).then((data)=>{
+            this.localStorage.saveCurMasterId({masterId:this.masterWalletId}).then((data)=>{
+              Config.setCurMasterWalletId(this.masterWalletId);
+              this.native.setRootRouter(TabsComponent);
+            });
+    })
   }
 
 }

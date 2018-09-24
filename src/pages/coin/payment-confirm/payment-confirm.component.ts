@@ -37,6 +37,7 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
   information: string;
 
   ngOnInit(){
+    this.masterWalletId =Config.getCurMasterWalletId();
     this.setTitleByAssets('text-payment-confirm');
     this.setHeadDisPlay({left:false});
     this.subPopup.config = {cancel:'',confirm:'',backdrop:false,is_full:false};
