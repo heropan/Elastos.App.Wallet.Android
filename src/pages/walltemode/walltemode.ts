@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {AddpublickeyPage} from '../../pages/addpublickey/addpublickey';
 import {ImportprivatekeyPage} from '../../pages/importprivatekey/importprivatekey';
+import {WalletCreateComponent} from '../../pages/wallet/wallet-create/wallet-create.component';
 @Component({
   selector: 'page-walltemode',
   templateUrl: 'walltemode.html',
@@ -21,6 +22,8 @@ export class WalltemodePage {
   }
 
   wayOne(){
+    this.navObj["type"] = 2;
+    this.navCtrl.push(WalletCreateComponent,this.navObj);
      //this.navCtrl.push(AddpublickeyPage,this.navObj);
   }
 

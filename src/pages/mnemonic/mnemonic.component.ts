@@ -6,6 +6,7 @@ import {Config} from '../../providers/Config';
 import {WriteComponent} from "./write/write.component";
 import {Util} from "../../providers/Util";
 import {LocalStorage} from "../../providers/Localstorage";
+import {AddpublickeyPage} from '../../pages/addpublickey/addpublickey';
 
 @Component({
   selector: 'app-mnemonic',
@@ -22,6 +23,7 @@ export class MnemonicComponent {
   singleAddress: boolean = false;
   defaultCointype = "Ela";
   isSelect:boolean = false;
+  multType:any;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage){
           this.init();
   }
@@ -43,6 +45,8 @@ export class MnemonicComponent {
     this.payPassword = this.navParams.get("payPassword");
     this.name = this.navParams.get("name");
     this.singleAddress = this.navParams.get("singleAddress");
+    this.multType = this.navParams.get("mult");
+    console.log("====this.multType====="+this.navParams.get("mult"));
   }
 
   onNext() {
@@ -54,6 +58,11 @@ export class MnemonicComponent {
     if (this.mnemonicPassword != this.mnemonicRepassword && this.isSelect) {
       this.native.toast_trans("text-repwd-validator");
       return;
+    }
+
+    if(!Util.isEmptyObject(this.multType)){
+        this.native.Go(this.navCtrl,AddpublickeyPage,{"totalCopayers":this.multType["totalCopayers"],"requiredCopayers":this.multType["requiredCopayers"],"mnemonicStr":this.mnemonicStr,"mnemonicPassword":this.mnemonicPassword,"payPassword":this.payPassword})
+        return;
     }
     this.walletManager.createMasterWallet(this.masterWalletId, this.mnemonicStr, this.mnemonicPassword, this.payPassword,this.native.getMnemonicLang(),(data) =>{
            if(data["success"]){

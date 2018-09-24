@@ -18,7 +18,13 @@ export class AddpublickeyPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager:WalletManager,public native :Native,public localStorage:LocalStorage) {
     console.log("=========AddpublickeyPage"+JSON.stringify(this.navParams.data));
     this.msobj = this.navParams.data;
-    let totalCopayers = this.msobj["totalCopayers"];
+    let totalCopayers = 0;
+    if(this.msobj["payPassword"]){
+      totalCopayers = this.msobj["totalCopayers"]-1;
+    }else{
+      totalCopayers = this.msobj["totalCopayers"];
+    }
+
     for(let index=0 ;index<totalCopayers;index++){
           let  item = {};
           if(index === 0){
@@ -37,7 +43,12 @@ export class AddpublickeyPage {
 
   nextPage(){
     console.log("========"+JSON.stringify(this.publicKeyArr));
-    this.createWallet();
+    if(this.msobj["payPassword"]){
+       console.log("======payPassword======"+this.msobj["payPassword"]);
+     }else{
+      this.createWallet();
+     }
+
   }
 
   createWallet(){

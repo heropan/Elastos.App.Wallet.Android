@@ -4,13 +4,14 @@ import {LauncherComponent} from "../launcher/launcher.component";
 import { Events } from 'ionic-angular';
 import {LocalStorage} from "../../providers/Localstorage";
 import {Config} from "../../providers/Config";
+import {Native} from "../../providers/Native";
 @Component({
   selector: 'page-walltelist',
   templateUrl: 'walltelist.html',
 })
 export class WalltelistPage {
    items = [];
-  constructor(public navCtrl: NavController, public navParams: NavParams,public events: Events,public localStorage:LocalStorage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public events: Events,public localStorage:LocalStorage,public native:Native) {
         this.init();
   }
 
@@ -31,7 +32,7 @@ export class WalltelistPage {
   }
 
   nextPage(){
-    this.navCtrl.push(LauncherComponent);
+    this.native.setRootRouter(LauncherComponent);
   }
 
 }

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import { NavController} from 'ionic-angular';
+import { NavController,NavParams} from 'ionic-angular';
 import {Util} from "../../../providers/Util";
 import {MnemonicComponent} from "../../mnemonic/mnemonic.component";
 import {Native} from "../../../providers/Native";
@@ -8,8 +8,10 @@ import {Native} from "../../../providers/Native";
   templateUrl: './wallet-create.component.html',
 })
 export class WalletCreateComponent {
- constructor(public navCtrl: NavController,public native:Native){
-
+ MultObj:any;
+ constructor(public navCtrl: NavController,public navParams:NavParams,public native:Native){
+      this.MultObj = this.navParams.data;
+      console.log("====WalletCreateComponent====="+JSON.stringify(this.MultObj));
  }
   wallet = {
     name: '',
@@ -37,6 +39,6 @@ export class WalletCreateComponent {
 
   createWallet(){
     // Master Wallet
-    this.native.Go(this.navCtrl,MnemonicComponent, {payPassword: this.wallet.payPassword, name: this.wallet.name, singleAddress: this.wallet.singleAddress});
+    this.native.Go(this.navCtrl,MnemonicComponent, {payPassword: this.wallet.payPassword, name: this.wallet.name, singleAddress: this.wallet.singleAddress,mult:this.MultObj});
   }
 }
