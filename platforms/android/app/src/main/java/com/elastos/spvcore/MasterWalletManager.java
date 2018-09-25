@@ -8,6 +8,14 @@ public class MasterWalletManager {
 	private long mManagerProxy = 0;
 	private String mRootPath = null;
 
+	public MasterWalletManager(String rootPath) {
+		mRootPath = rootPath;
+		mManagerProxy = nativeInitMasterWalletManager(mRootPath);
+	}
+
+	public void finalize() {
+		nativeDisposeNative(mManagerProxy);
+	}
 
 	public IMasterWallet CreateMasterWallet(String masterWalletId, String mnemonic,
 			String phrasePassword, String payPassword, String language) throws WalletException {
@@ -64,17 +72,8 @@ public class MasterWalletManager {
 		return nativeExportWalletWithMnemonic(mManagerProxy, masterWallet, payPassWord);
 	}
 
-	public MasterWalletManager(String rootPath) {
-		mRootPath = rootPath;
-		mManagerProxy = nativeInitMasterWalletManager(mRootPath);
-	}
-
 	public String GenerateMnemonic(String language) throws WalletException {
 		return nativeGenerateMnemonic(mManagerProxy, language);
-	}
-
-	public void finalize() {
-		nativeDisposeNative(mManagerProxy);
 	}
 
 	public void SaveConfigs() {

@@ -29,7 +29,7 @@ add_library( # Sets the name of the library.
              src/main/jni/ElaMainchainSubWallet.cpp
              src/main/jni/ElaSidechainSubWallet.cpp
              src/main/jni/ElaIdChainSubWallet.cpp
-             src/main/jni/ElaIdManagerFactory.cpp
+			 src/main/jni/ElaDIDManagerSupervisor.cpp
              src/main/jni/ElaDidManager.cpp
              src/main/jni/ElaDid.cpp
              src/main/jni/ElaUtils.cpp)

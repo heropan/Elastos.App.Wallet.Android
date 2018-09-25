@@ -375,7 +375,7 @@ static jstring JNICALL nativeExportWalletWithMnemonic(JNIEnv *env, jobject clazz
 	return result;
 }
 
-//"(J)[J"
+#define SIG_GET_ALL_MASTER_WALLETS "(J)[J"
 static jlongArray JNICALL nativeGetAllMasterWallets(JNIEnv *env, jobject clazz, jlong jWalletMgr)
 {
 	MasterWalletManager* walletManager = (MasterWalletManager*)jWalletMgr;
@@ -416,11 +416,25 @@ static void JNICALL nativeSaveConfigs(JNIEnv *env, jobject clazz, jlong jWalletM
 #define SIG_INIT_MASTER_WALLET_MANAGER "(Ljava/lang/String;)J"
 static jlong JNICALL nativeInitMasterWalletManager(JNIEnv *env, jobject clazz, jstring jrootPath)
 {
+	bool exception = false;
+	std::string msgException;
+
+	MasterWalletManager* walletManager = NULL;
 	const char* rootPath = env->GetStringUTFChars(jrootPath, NULL);
 
-	MasterWalletManager* walletManager = new MasterWalletManager(rootPath);
+	try {
+		walletManager = new MasterWalletManager(rootPath);
+	} catch (std::exception &e) {
+		exception = true;
+		msgException = e.what();
+	}
 
 	env->ReleaseStringUTFChars(jrootPath, rootPath);
+
+	if (exception) {
+		ThrowWalletException(env, msgException.c_str());
+	}
+
 	return (jlong)walletManager;
 }
 
@@ -464,7 +478,7 @@ static const JNINativeMethod gMethods[] = {
 	},
 	{
 		"nativeGetAllMasterWallets",
-		"(J)[J",
+		SIG_GET_ALL_MASTER_WALLETS,
 		(void *)nativeGetAllMasterWallets
 	},
 	{

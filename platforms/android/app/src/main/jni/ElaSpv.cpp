@@ -15,7 +15,7 @@ extern int register_elastos_spv_IIdChainSubWallet(JNIEnv* env);
 //did
 extern int register_elastos_spv_IDid(JNIEnv* env);
 extern int register_elastos_spv_IDidManager(JNIEnv* env);
-extern int register_elastos_spv_IdManagerFactory(JNIEnv* env);
+extern int register_elastos_spv_DIDManagerSupervisor(JNIEnv* env);
 
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved){
     JNIEnv * env;
@@ -35,7 +35,7 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved){
     //did
     register_elastos_spv_IDid(env);
     register_elastos_spv_IDidManager(env);
-    register_elastos_spv_IdManagerFactory(env);
+    register_elastos_spv_DIDManagerSupervisor(env);
 
     return JNI_VERSION_1_6;
 }
@@ -89,3 +89,4 @@ jlong GetJavaLongField(JNIEnv* env, jclass klass, jobject jobj, const char* fiel
     CheckErrorAndLog(env, "Fail get long field: %s : %d!\n", fieldName, __LINE__);
     return value;
 }
+
