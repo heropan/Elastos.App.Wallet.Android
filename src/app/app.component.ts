@@ -78,7 +78,7 @@ export class AppComponent {
         //this.rootPage = TxdetailsPage;
         //this.rootPage = WalltemodePage;
          //init java 2 js plugin
-      //    cordova.plugins.Java2JSBridge.init(this);
+         cordova.plugins.Java2JSBridge.init(this);
 
          cordova.plugins.Java2JSBridge.getRegistrationID(succeedCallback);
           function succeedCallback(message){

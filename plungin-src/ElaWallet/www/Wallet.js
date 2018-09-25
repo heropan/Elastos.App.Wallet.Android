@@ -268,5 +268,10 @@ walletFunc.prototype.getSubWalletPublicKey = function(arg0, success, error) {
     exec(success, error, "Wallet", "getSubWalletPublicKey", arg0);
 };
 
+walletFunc.prototype.createMultiSignMasterWalletWithMnemonic = function(arg0, success, error) {
+    exec(success, error, "Wallet", "createMultiSignMasterWalletWithMnemonic", arg0);
+};
+
+
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;

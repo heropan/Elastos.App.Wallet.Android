@@ -20,7 +20,7 @@ export class WalletManager {
   public static PAGECOUNT = 100;
 
   constructor(public native: Native) {
-    this.wallet = cordova.plugins.Wallet;
+     this.wallet = cordova.plugins.Wallet;
     //this.wallet = {};
   }
 
@@ -360,6 +360,10 @@ export class WalletManager {
 
   getSubWalletPublicKey(masterWalletId:string,chainId:string,Fun){
     this.wallet.getSubWalletPublicKey([masterWalletId,chainId],Fun,this.errorFun);
+  }
+
+  createMultiSignMasterWalletWithMnemonic(masterWalletId:string,mnemonic:string,phrasePassword:string,payPassword:string,coSignersJson:string,requiredSignCount:string,language:string,Fun){
+     this.wallet.createMultiSignMasterWalletWithMnemonic([masterWalletId,mnemonic,phrasePassword,payPassword,coSignersJson,requiredSignCount,language],Fun,this.errorFun);
   }
 
   errorFun(error) {

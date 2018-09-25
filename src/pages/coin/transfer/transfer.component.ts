@@ -137,7 +137,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
 
       if(this.walletInfo["Type"] === "Standard"){
           this.createTransaction();
-      }else{
+      }else if(this.walletInfo["Type"] === "Multi-Sign"){
           this.createMultTx();
       }
 
@@ -199,7 +199,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
         console.log("===signTransaction===="+JSON.stringify(data));
         if(this.walletInfo["Type"] === "Standard"){
              this.sendTx(data["success"]);
-        }else{
+        }else if(this.walletInfo["Type"] === "Multi-Sign"){
             this.Go(ScancodePage,{"txContent":{"masterWalletId":this.masterWalletId,"chianId":this.chianId,"address":this.transfer.toAddress, "amount": this.transfer.amount, "memo": "", "fee":this.transfer.fee, "rawTransaction": data["success"]}});
         }
        }else{

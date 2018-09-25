@@ -45,6 +45,7 @@ export class AddpublickeyPage {
     console.log("========"+JSON.stringify(this.publicKeyArr));
     if(this.msobj["payPassword"]){
        console.log("======payPassword======"+this.msobj["payPassword"]);
+       this.createWalletWithMnemonic();
      }else{
       this.createWallet();
      }
@@ -93,6 +94,28 @@ export class AddpublickeyPage {
             });
     })
   }
+  createWalletWithMnemonic(){
+      let copayers = this.getTotalCopayers();
+      this.walletManager.createMultiSignMasterWalletWithMnemonic(this.masterWalletId,this.msobj["mnemonicStr"],this.msobj["mnemonicPassword"],this.msobj["payPassword"],copayers,this.msobj["requiredCopayers"],this.native.getMnemonicLang(),(data)=>{
+          if(data['success']){
+            console.log("=====createMultiSignMasterWalletWithMnemonic======"+JSON.stringify(data));
+            this.createMnemonicSubWallet("ELA",this.msobj["payPassword"]);
+          }else{
+            alert("=====createMultiSignMasterWalletWithMnemonic=======error"+JSON.stringify(data));
+          }
+      });
+  }
 
+  createMnemonicSubWallet(chainId,password){
+    // Sub Wallet
+    this.walletManager.createSubWallet(this.masterWalletId,chainId,password,true, 0, (data)=>{
+          if(data["success"]){
+               console.log("====createSubWallet===="+JSON.stringify(data));
+               this.saveWalletList();
+          }else{
+                alert("createSubWallet=error:"+JSON.stringify(data));
+          }
+    });
+  }
 
 }
