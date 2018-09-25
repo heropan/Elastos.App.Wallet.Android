@@ -52,17 +52,8 @@ export class WalletManager {
       this.wallet.recoverSubWallet([masterWalletId,chainID,payPassword,singleAddress,limitGap,feePerKb], Fun, this.errorFun);
   }
 
-  /***
-   * 获取钱包公钥
-   * @param Fun
-   */
-  getPublicKey(masterWalletId,Fun) {
-    this.wallet.getPublicKey([masterWalletId], Fun, this.errorFun);
-  }
-
 
   //----------------------------------------------------------------------- 主钱包操作
-
 
   /**
    * 创建主钱包
@@ -361,6 +352,14 @@ export class WalletManager {
 
   publishTransaction(masterWalletId:string,chainId:string,rawTransaction:string,Fun){
     this.wallet.publishTransaction([masterWalletId,chainId,rawTransaction],Fun,this.errorFun);
+  }
+
+  getMasterWalletPublicKey(masterWalletId:string,Fun){
+    this.wallet.getMasterWalletPublicKey([masterWalletId],Fun,this.errorFun);
+  }
+
+  getSubWalletPublicKey(masterWalletId:string,chainId:string,Fun){
+    this.wallet.getSubWalletPublicKey([masterWalletId,chainId],Fun,this.errorFun);
   }
 
   errorFun(error) {

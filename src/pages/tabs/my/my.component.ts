@@ -56,7 +56,8 @@ export class MyComponent  extends BaseComponent implements OnInit  {
    singTx(){
     this.native.scan().then((data)=>{
       //this.getPassWord(data);
-      this.Go(TxdetailsPage,{"txContent":data});
+      let senddata = {"content":data["text"],type:4}
+      this.Go(TxdetailsPage,senddata);
     }).catch((err)=>{
 
     });
@@ -65,7 +66,8 @@ export class MyComponent  extends BaseComponent implements OnInit  {
 
    sendTX(){
       this.native.scan().then((data)=>{
-        this.Go(TxdetailsPage,{"txContent":data});
+        let senddata = {"content":data["text"],type:3};
+        this.Go(TxdetailsPage,{"txContent":senddata});
       }).catch((err)=>{
 
       });

@@ -47,7 +47,6 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
                 {id:39,name:"didCheckSign"},
                 {id:40,name:"didGetPublicKey"},
                 {id:28,name:"getSupportedChains"},
-                {id:2,name:"getPublicKey"},
                 {id:8,name:"getBalance"},
                 {id:29,name:"changePassword"},
                 {id:19,name:"getAllMasterWallets"},
@@ -119,9 +118,6 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
          break;
        case 1:
          this.recoverSubWallet();
-       case 2:
-         this.getPublicKey();
-         break;
          case 3:
          this.createMasterWallet(this.masterWalletId,this.mnemonic,this.phrasePassword,this.payPassword,this.language);
         break;
@@ -233,12 +229,6 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
     });
    }
 
-   getPublicKey(){
-     this.walletManager.getPublicKey(this.masterWalletId,(result)=>{
-       alert("获取公钥成功");
-       alert(JSON.stringify(result));
-     })
-   }
 
    createMasterWallet(masterWalletId,mnemonic,phrasePassword,payPassWord,language){
     this.walletManager.createMasterWallet(masterWalletId,mnemonic,phrasePassword,payPassWord,language,(result)=>{

@@ -25,7 +25,7 @@ export class PublickeyPage {
 
   getPublicKey(){
     this.masterWalletId = Config.getCurMasterWalletId();
-    this.walletManager.getPublicKey(this.masterWalletId,(data)=>{
+    this.walletManager.getMasterWalletPublicKey(this.masterWalletId,(data)=>{
       if(data["success"]){
         this.qrcode = data["success"];
         console.log("==========getPublicKey==============="+JSON.stringify(data));

@@ -22,7 +22,6 @@ export class WalltemodePage {
   }
 
   wayOne(){
-    this.navObj["type"] = 2;
     this.navCtrl.push(WalletCreateComponent,this.navObj);
      //this.navCtrl.push(AddpublickeyPage,this.navObj);
   }

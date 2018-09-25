@@ -32,9 +32,6 @@ walletFunc.prototype.recoverSubWallet = function(arg0, success, error) {
     exec(success, error, "Wallet", "createSubWallet", arg0);
 };
 
-walletFunc.prototype.getPublicKey = function(arg0, success, error) {
-    exec(success, error, "Wallet", "getPublicKey", arg0);
-};
 
 walletFunc.prototype.createMasterWallet = function(arg0, success, error) {
     exec(success, error, "Wallet", "createMasterWallet", arg0);
@@ -262,5 +259,14 @@ walletFunc.prototype.signTransaction = function(arg0, success, error) {
 walletFunc.prototype.publishTransaction = function(arg0, success, error) {
     exec(success, error, "Wallet", "publishTransaction", arg0);
 };
+
+walletFunc.prototype.getMasterWalletPublicKey = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getMasterWalletPublicKey", arg0);
+};
+
+walletFunc.prototype.getSubWalletPublicKey = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getSubWalletPublicKey", arg0);
+};
+
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;
