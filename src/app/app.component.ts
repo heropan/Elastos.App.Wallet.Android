@@ -35,6 +35,7 @@ import {ContactCreateComponent} from '../pages/contacts/contact-create/contact-c
 import {ContactListComponent} from '../pages/contacts/contact-list/contact-list.component';
 import {CoinlistpasswordPage} from '../pages/coinlistpassword/coinlistpassword';
 import {TxdetailsPage} from '../pages/txdetails/txdetails';
+import {WalltemodePage} from '../pages/walltemode/walltemode';
 //add for plugin
 declare var cordova: any;
 
@@ -75,8 +76,9 @@ export class AppComponent {
       //this.rootPage = ContactListComponent;
       //this.rootPage = CoinListComponent;
         //this.rootPage = TxdetailsPage;
+        //this.rootPage = WalltemodePage;
          //init java 2 js plugin
-         cordova.plugins.Java2JSBridge.init(this);
+      //    cordova.plugins.Java2JSBridge.init(this);
 
          cordova.plugins.Java2JSBridge.getRegistrationID(succeedCallback);
           function succeedCallback(message){
