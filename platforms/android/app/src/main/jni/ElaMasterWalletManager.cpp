@@ -405,12 +405,70 @@ static jlongArray JNICALL nativeGetAllMasterWallets(JNIEnv *env, jobject clazz, 
 #define SIG_SAVE_CONFIGS "(J)V"
 static void JNICALL nativeSaveConfigs(JNIEnv *env, jobject clazz, jlong jWalletMgr)
 {
-	MasterWalletManager* walletManager = (MasterWalletManager*)jWalletMgr;
+	MasterWalletManager *walletManager = (MasterWalletManager *)jWalletMgr;
 	try {
 		walletManager->SaveConfigs();
 	} catch (std::exception &e) {
 		ThrowWalletException(env, e.what());
 	}
+}
+
+#define SIG_CONVERT_TO_HEXSTRING "(JLjava/lang/String;)Ljava/lang/String;"
+static jstring JNICALL nativeConvertToHexString(JNIEnv *env, jobject clazz, jlong jWalletMgr,
+		jstring jtxJson)
+{
+	bool exception = false;
+	std::string msgException;
+
+	jstring result = NULL;
+	const char *txJson = env->GetStringUTFChars(jtxJson, NULL);
+
+	try {
+		MasterWalletManager *walletManager = (MasterWalletManager *)jWalletMgr;
+
+		std::string hexString = walletManager->ConvertToHexString(nlohmann::json::parse(txJson));
+		result = env->NewStringUTF(hexString.c_str());
+	} catch (std::exception &e) {
+		exception = true;
+		msgException = e.what();
+	}
+
+	env->ReleaseStringUTFChars(jtxJson, txJson);
+
+	if (exception) {
+		ThrowWalletException(env, msgException.c_str());
+	}
+
+	return result;
+}
+
+#define SIG_CONVERT_FROM_HEXSTRING "(JLjava/lang/String;)Ljava/lang/String;"
+static jstring JNICALL nativeConvertFromHexString(JNIEnv *env, jobject clazz, jlong jWalletMgr,
+		jstring jHexString)
+{
+	bool exception = false;
+	std::string msgException;
+
+	jstring result = NULL;
+	const char *hexString = env->GetStringUTFChars(jHexString, NULL);
+
+	try {
+		MasterWalletManager *walletManager = (MasterWalletManager *) jWalletMgr;
+
+		nlohmann::json txJson = walletManager->ConvertFromHexString(hexString);
+		result = env->NewStringUTF(txJson.dump().c_str());
+	} catch (std::exception &e) {
+		exception = true;
+		msgException = e.what();
+	}
+
+	env->ReleaseStringUTFChars(jHexString, hexString);
+
+	if (exception) {
+		ThrowWalletException(env, msgException.c_str());
+	}
+
+	return result;
 }
 
 #define SIG_INIT_MASTER_WALLET_MANAGER "(Ljava/lang/String;)J"
@@ -505,6 +563,16 @@ static const JNINativeMethod gMethods[] = {
 		"nativeExportWalletWithMnemonic",
 		SIG_EXPORT_WALLET_WITH_MNEMONIC,
 		(void *)nativeExportWalletWithMnemonic
+	},
+	{
+		"nativeConvertToHexString",
+		SIG_CONVERT_TO_HEXSTRING,
+		(void *)nativeConvertToHexString
+	},
+	{
+		"nativeConvertFromHexString",
+		SIG_CONVERT_FROM_HEXSTRING,
+		(void *)nativeConvertFromHexString
 	},
 	{
 		"nativeInitMasterWalletManager",
