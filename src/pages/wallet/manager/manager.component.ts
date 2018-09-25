@@ -8,15 +8,18 @@ import {PaypasswordResetComponent} from "../paypassword-reset/paypassword-reset.
 import {LauncherComponent} from "../../launcher/launcher.component";
 import {LanguagePage} from '../../../pages/wallet/language/language';
 import {Native} from "../../../providers/Native";
+import {Config} from "../../../providers/Config";
 @Component({
   selector: 'app-manager',
   templateUrl: './manager.component.html',
 })
 export class ManagerComponent {
 
-  walletName = ""
+  walletName = "";
+  masterWalletId:string = "1";
   public currentLanguageName:string = "";
   constructor(public navCtrl: NavController, public navParams: NavParams,public events: Events,public localStorage:LocalStorage,public popupProvider: PopupProvider, public walletManager: WalletManager,private app: App,public native:Native) {
+    this.masterWalletId = Config.getCurMasterWalletId();
     this.localStorage.getWallet().then((val) => {
       if (val) {
         this.walletName = JSON.parse(val).name;
@@ -43,7 +46,7 @@ export class ManagerComponent {
       case 2:
         this.popupProvider.ionicConfirm('confirmTitle', 'confirmSubTitle').then((data) => {
           if (data) {
-            this.destroyWallet("1");
+            this.destroyWallet(this.masterWalletId);
           }
         });
         break;
