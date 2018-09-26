@@ -135,9 +135,12 @@ export class TransferComponent extends BaseComponent implements OnInit {
         return;
       }
 
+      console.log("====this.walletInfoType======"+this.walletInfo["Type"]);
+
       if(this.walletInfo["Type"] === "Standard"){
           this.createTransaction();
       }else if(this.walletInfo["Type"] === "Multi-Sign"){
+        console.log("====this.walletInfoType======"+this.walletInfo["Type"]);
           this.createMultTx();
       }
 

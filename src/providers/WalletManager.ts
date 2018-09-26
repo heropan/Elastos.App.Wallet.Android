@@ -143,13 +143,8 @@ export class WalletManager {
   }
 
   createMultiSignTransaction(masterWalletId:string,chainId:string,fromAddress:string,toAddress:string,amount,memo:string,Fun){
-    this.wallet.reateMultiSignTransaction([masterWalletId,chainId,fromAddress,toAddress,amount,memo],Fun,this.errorFun);
+    this.wallet.createMultiSignTransaction([masterWalletId,chainId,fromAddress,toAddress,amount,memo],Fun,this.errorFun);
   }
-
-  appendSignToTransaction(masterWalletId:string,chainId:string,rawTransaction:string,payPassword:string,Fun){
-    this.wallet.reateMultiSignTransaction([masterWalletId,chainId,rawTransaction,payPassword],Fun,this.errorFun);
-  }
-
 
   /**
    * @param {string} masterWalletId

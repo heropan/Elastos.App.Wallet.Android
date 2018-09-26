@@ -9,7 +9,7 @@ import { NavController, NavParams } from 'ionic-angular';
 export class ScancodePage {
   public qrcode: string=null;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-           this.qrcode = this.navParams.data["txContent"];
+           this.qrcode = JSON.stringify(this.navParams.data["txContent"]);
            console.log("=====this.qrcode====="+this.qrcode);
   }
 
