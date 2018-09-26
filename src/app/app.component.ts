@@ -36,6 +36,8 @@ import {ContactListComponent} from '../pages/contacts/contact-list/contact-list.
 import {CoinlistpasswordPage} from '../pages/coinlistpassword/coinlistpassword';
 import {TxdetailsPage} from '../pages/txdetails/txdetails';
 import {WalltemodePage} from '../pages/walltemode/walltemode';
+import {ScancodePage} from '../pages/scancode/scancode';
+
 //add for plugin
 declare var cordova: any;
 
@@ -77,6 +79,7 @@ export class AppComponent {
       //this.rootPage = CoinListComponent;
         //this.rootPage = TxdetailsPage;
         //this.rootPage = WalltemodePage;
+        //this.rootPage = ScancodePage;
          //init java 2 js plugin
          cordova.plugins.Java2JSBridge.init(this);
 

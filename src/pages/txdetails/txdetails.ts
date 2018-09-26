@@ -5,6 +5,7 @@ import {Util} from "../../providers/Util";
 import {Native} from "../../providers/Native";
 import {ScancodePage} from '../../pages/scancode/scancode';
 import {WalletManager} from '../../providers/WalletManager'
+import { Config } from '../../providers/Config';
 @Component({
   selector: 'page-txdetails',
   templateUrl: 'txdetails.html',
@@ -12,9 +13,11 @@ import {WalletManager} from '../../providers/WalletManager'
 export class TxdetailsPage {
   public txDetails:any;
   public type:any;
+  public masterWalletId:string="1";
   constructor(public navCtrl: NavController, public navParams: NavParams,public popupProvider:PopupProvider,public native:Native,public walletManager:WalletManager) {
     this.type = this.navParams.data["type"];
     this.txDetails = JSON.parse(this.navParams.data['content'])['txContent'];
+    this.masterWalletId = Config.getCurMasterWalletId();
     console.log("========this.txDetails=========="+JSON.stringify(this.txDetails));
   }
 
@@ -26,7 +29,7 @@ export class TxdetailsPage {
      if(this.type === 4){
         this.getPassWord();
      }else if(this.type === 3){
-        this.sendTx(this.txDetails["masterWalletId"],this.txDetails["chianId"],this.txDetails["rawTransaction"]);
+        this.sendTx(this.masterWalletId,this.txDetails["chianId"],this.txDetails["rawTransaction"]);
      }
   }
 
@@ -37,7 +40,7 @@ export class TxdetailsPage {
        return;
      }
 
-     this.singTx(this.txDetails["masterWalletId"],this.txDetails["chianId"],this.txDetails["rawTransaction"],data.toString());
+     this.singTx(this.masterWalletId,this.txDetails["chianId"],this.txDetails["rawTransaction"],data.toString());
 
     }).catch(err=>{
       alert(JSON.stringify(err));
@@ -47,7 +50,8 @@ export class TxdetailsPage {
   singTx(masterWalletId:string,chain:string,rawTransaction:string,payPassWord:string){
     this.walletManager.signTransaction(masterWalletId,chain,rawTransaction,payPassWord,(data)=>{
               if(data["success"]){
-                this.native.Go(this.navCtrl,ScancodePage,{"txContent":JSON.stringify(this.txDetails)});
+                console.log("========signTransaction========="+JSON.stringify(data));
+                this.native.Go(this.navCtrl,ScancodePage,{"txContent":{"chianId":this.txDetails["chianId"],"address":this.txDetails["address"], "amount": this.txDetails["amount"],"fee":this.txDetails["fee"], "rawTransaction": data["success"]}});
               }else{
                  alert("======signTransaction===error==="+JSON.stringify(data));
               }
@@ -59,6 +63,7 @@ export class TxdetailsPage {
       this.walletManager.publishTransaction(masterWalletId,chain,rawTransaction,(data)=>{
 
         if(data["success"]){
+          console.log("========publishTransaction========="+JSON.stringify(data));
           this.native.toast_trans('send-raw-transaction');
         }else{
           alert("======publishTransaction==error======"+JSON.stringify(data));

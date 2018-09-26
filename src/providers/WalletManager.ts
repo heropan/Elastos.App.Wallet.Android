@@ -20,8 +20,8 @@ export class WalletManager {
   public static PAGECOUNT = 100;
 
   constructor(public native: Native) {
-     this.wallet = cordova.plugins.Wallet;
-    //this.wallet = {};
+      this.wallet = cordova.plugins.Wallet;
+      //this.wallet = {};
   }
 
   //--------------------------------------------------------------------------------子钱包操作
