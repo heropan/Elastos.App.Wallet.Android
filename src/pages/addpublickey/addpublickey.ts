@@ -11,8 +11,6 @@ import {LocalStorage} from "../../providers/Localstorage";
 })
 export class AddpublickeyPage {
   masterWalletId:string = "1";
-  public  publicKey1:string="xpub6DXoyYMMVE2snF2A51DfVrKikRqMbMmw6JQbS5wSHVVPj7SrBR3QHXeqjGU5rb1TA3hNE7SoJhdRGpRLJg2ntRiKJiRs37jnD2kPxScTzZB";
-  public  publicKey2:string="xpub6DBsmXRSKmrkVEZ5kd25mq4mwGxSWr66QY9MajeSH5nSj2hHWVDYKgT1MMHehfMhVqsqwtmqs13qgzJC7SwWUKGmwJDESXM62QUaNCTJ4vP";
   private msobj:any;
   public  publicKeyArr:any=[];
   constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager:WalletManager,public native :Native,public localStorage:LocalStorage) {
@@ -26,12 +24,7 @@ export class AddpublickeyPage {
     }
 
     for(let index=0 ;index<totalCopayers;index++){
-          let  item = {};
-          if(index === 0){
-            item = {index:index,publicKey:this.publicKey1};
-          }else if(index === 1){
-            item = {index:index,publicKey:this.publicKey2};
-          }
+          let item = {index:index,publicKey:""};
           this.publicKeyArr.push(item);
     }
     this.masterWalletId = Config.uuid(6,16);

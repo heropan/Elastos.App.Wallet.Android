@@ -11,7 +11,7 @@ import {LocalStorage} from "../../providers/Localstorage";
 })
 export class AddprivatekeyPage {
   masterWalletId:string = "1";
-  public  publicKey:string="xpub6DXoyYMMVE2snF2A51DfVrKikRqMbMmw6JQbS5wSHVVPj7SrBR3QHXeqjGU5rb1TA3hNE7SoJhdRGpRLJg2ntRiKJiRs37jnD2kPxScTzZB";
+  public  publicKey:string="";
   private msobj:any;
   public  publicKeyArr:any=[];
   constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager: WalletManager,public native:Native,public localStorage:LocalStorage) {

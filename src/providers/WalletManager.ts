@@ -360,6 +360,15 @@ export class WalletManager {
   createMultiSignMasterWalletWithMnemonic(masterWalletId:string,mnemonic:string,phrasePassword:string,payPassword:string,coSignersJson:string,requiredSignCount:string,language:string,Fun){
      this.wallet.createMultiSignMasterWalletWithMnemonic([masterWalletId,mnemonic,phrasePassword,payPassword,coSignersJson,requiredSignCount,language],Fun,this.errorFun);
   }
+  //String txJson
+  convertToHexString(txJson:string,Fun){
+    this.wallet.convertToHexString([txJson],Fun,this.errorFun);
+  }
+
+   //String txHexString
+   convertFromHexString(txHexString:string,Fun){
+    this.wallet.convertFromHexString([txHexString],Fun,this.errorFun);
+   }
 
   errorFun(error) {
     alert("错误信息：" + JSON.stringify(error));

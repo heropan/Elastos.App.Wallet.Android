@@ -273,5 +273,14 @@ walletFunc.prototype.createMultiSignMasterWalletWithMnemonic = function(arg0, su
 };
 
 
+walletFunc.prototype.convertToHexString = function(arg0, success, error) {
+    exec(success, error, "Wallet", "convertToHexString", arg0);
+};
+
+walletFunc.prototype.convertFromHexString = function(arg0, success, error) {
+    exec(success, error, "Wallet", "convertFromHexString", arg0);
+};
+
+
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;
