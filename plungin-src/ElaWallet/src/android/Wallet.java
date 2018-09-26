@@ -284,6 +284,12 @@ public class Wallet extends CordovaPlugin {
 				case "exportWalletWithMnemonic":
 					this.exportWalletWithMnemonic(args, cc);
 					break;
+				case "convertToHexString":
+					this.convertToHexString(args, cc);
+					break;
+				case "convertFromHexString":
+					this.convertFromHexString(args, cc);
+					break;
 
 					// Master wallet
 				case "getMasterWalletBasicInfo":
@@ -942,6 +948,44 @@ public class Wallet extends CordovaPlugin {
 			cc.success(mkJson(keySuccess, mnemonic));
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, "Export master wallet '" + masterWalletId + "' with mnemonic");
+		}
+	}
+
+	// args[0]: String txJson
+	public void convertToHexString(JSONArray args, CallbackContext cc) throws JSONException {
+		int idx = 0;
+
+		String txJson = args.getString(idx++);
+
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+
+		try {
+			String hexString = mMasterWalletManager.ConvertToHexString(txJson);
+			successProcess(cc, hexString);
+		} catch (WalletException e) {
+			exceptionProcess(e, cc, "Tx convert from json to hex string");
+		}
+	}
+
+	// args[0]: String txHexString
+	public void convertFromHexString(JSONArray args, CallbackContext cc) throws JSONException {
+		int idx = 0;
+
+		String txHexString = args.getString(idx++);
+
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+
+		try {
+			String txJson = mMasterWalletManager.ConvertFromHexString(txHexString);
+			successProcess(cc, txJson);
+		} catch (WalletException e) {
+			exceptionProcess(e, cc, "Tx convert from hex string to json");
 		}
 	}
 
