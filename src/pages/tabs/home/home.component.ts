@@ -42,6 +42,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
       this.getAllMasterWallets();
     });
     this.events.subscribe('home:update', () => {
+           this.masterWalletId =  Config.getCurMasterWalletId();
            this.getElaBalance(this.ElaObj);
            this.localStorage.get('coinListCache').then((val)=>{
             if(Util.isEmptyObject(JSON.parse(val))){
