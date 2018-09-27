@@ -9,6 +9,7 @@ import {LauncherComponent} from "../../launcher/launcher.component";
 import {LanguagePage} from '../../../pages/wallet/language/language';
 import {Native} from "../../../providers/Native";
 import {Config} from "../../../providers/Config";
+import {TabsComponent} from "../../tabs/tabs.component"
 @Component({
   selector: 'app-manager',
   templateUrl: './manager.component.html',
@@ -62,34 +63,49 @@ export class ManagerComponent {
 
   destroyWallet(masterWalletId: string){
     this.localStorage.remove('coinListCache').then(()=>{
-      this.localStorage.remove('ELA-Wallet').then(() => {
         this.walletManager.destroyWallet(masterWalletId, (data)=>{
           if(data["success"]){
             console.log("===destroyWallet===="+JSON.stringify(data));
-            this.native.setRootRouter(LauncherComponent);
+            this.delWalletListOne(masterWalletId);
           }else{
             alert("====destroyWallet==error=="+JSON.stringify(data));
           }
         });
-      });
     });
   }
 
   delWalletListOne(masterWalletId){
-
+    console.log("===delWalletListOne===="+JSON.stringify(masterWalletId));
     let arr = Config.getMasterWalletIdList();
      let index = arr.indexOf(masterWalletId);
-
+     console.log("===index===="+index);
      if (index > -1) {
          arr.splice(index, 1);
      }
 
      if(arr.length === 0){
-      this.native.setRootRouter(LauncherComponent);
+      this.saveWalletList1();
+      return;
      }
+     console.log("===index===="+JSON.stringify(arr));
+     Config.setCurMasterWalletId(arr[0]);
+     Config.setMasterWalletIdList(arr);
+     this.saveWalletList(arr[0]);
+  }
 
-     this.localStorage.setWalletList(arr).then(()=>{
+  saveWalletList(masterWalletId){
 
-     });
+    this.localStorage.setWalletList(Config.getMasterWalletIdList()).then((data)=>{
+            this.localStorage.saveCurMasterId({masterId:masterWalletId}).then((data)=>{
+              Config.setCurMasterWalletId(masterWalletId);
+              this.native.setRootRouter(TabsComponent);
+            });
+    })
+  }
+
+  saveWalletList1(){
+    this.localStorage.setWalletList(Config.getMasterWalletIdList()).then((data)=>{
+              this.native.setRootRouter(LauncherComponent);
+    });
   }
 }

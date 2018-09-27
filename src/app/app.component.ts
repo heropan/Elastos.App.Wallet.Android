@@ -90,9 +90,9 @@ export class AppComponent {
 
 
        this.localStorage.getWalletList().then((data)=>{
-           let type = this.GetQueryString("type");
+            let type = this.GetQueryString("type");
             let walletList = JSON.parse(data);
-            if(walletList == null || walletList === undefined || walletList === {} || walletList === '' || walletList === []){
+            if(walletList == null || walletList === undefined || walletList === {} || walletList === '' || walletList.length === 0){
             if (type == 'payment') {
                 let account = this.GetQueryString("account");
                 let toAddress = this.GetQueryString("address");
