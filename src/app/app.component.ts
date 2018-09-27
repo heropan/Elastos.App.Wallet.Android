@@ -27,6 +27,7 @@ import {ManagerComponent} from "../pages/wallet/manager/manager.component"
 import { Config } from '../providers/Config';
 import { TranslateService } from '@ngx-translate/core';
 import { Native } from '../providers/Native';
+//import { WalletManager } from '../providers/WalletManager';
 import {PaypasswordResetComponent} from "../pages/wallet/paypassword-reset/paypassword-reset.component";
 import {MyComponent} from '../pages/tabs/my/my.component';
 import {WalletCreateComponent} from '../pages/wallet/wallet-create/wallet-create.component';
@@ -37,6 +38,7 @@ import {CoinlistpasswordPage} from '../pages/coinlistpassword/coinlistpassword';
 import {TxdetailsPage} from '../pages/txdetails/txdetails';
 import {WalltemodePage} from '../pages/walltemode/walltemode';
 import {ScancodePage} from '../pages/scancode/scancode';
+
 
 //add for plugin
 declare var cordova: any;
@@ -62,7 +64,7 @@ export class AppComponent {
       this.initTranslateConfig();
       this.ls = localStorage;
       this.tr =  translate;
-
+      //this.initializeApp();
       //this.rootPage =  WalltelistPage;
       //this.rootPage = ImportprivatekeyPage;
       //this.rootPage =  TabsComponent;
@@ -128,37 +130,6 @@ export class AppComponent {
             });
         });
 
-
-
-      // localStorage.getWallet().then((val) => {
-      //   let type = this.GetQueryString("type");
-      //   if (val) {
-      //     switch (type) {
-      //       case "payment":
-      //         this.rootPage = PaymentConfirmComponent;
-      //         break;
-      //       case "did_login":
-      //         this.rootPage = DidLoginComponent;
-      //         break;
-      //       default:
-      //         this.rootPage = TabsComponent;
-      //         break;
-      //     }
-      //   } else {
-      //     if (type == 'payment') {
-      //       let account = this.GetQueryString("account");
-      //       let toAddress = this.GetQueryString("address");
-      //       let memo = this.GetQueryString("memo");
-      //       let payment_params = {
-      //         account: account,
-      //         toAddress: toAddress,
-      //         memo: memo
-      //       }
-      //       localStorage.set('payment', payment_params);
-      //     }
-      //     this.rootPage = LauncherComponent;
-      //   }
-      // });
 
       localStorage.getKycList("kycId").then((val)=>{
 
@@ -262,6 +233,29 @@ export class AppComponent {
            }
     })
 
+  }
+
+  initializeApp(){
+    console.log("============initializeApp============1111");
+     this.load().then((data)=>{
+      console.log("============initializeApp============33333");
+       this.rootPage =  LauncherComponent;
+     });
+  }
+
+  public load(): Promise<any>{
+    console.log("============initializeApp============222222");
+     return  new Promise((resolve, reject) =>{
+          // this.walletManager.getAllMasterWallets((data)=>{
+          //        if(data["success"]){
+          //           console.log("==========getAllMasterWallets==========="+JSON.stringify(data));
+          //           resolve(data);
+          //        }else{
+          //         console.log("==========getAllMasterWallets====error======="+JSON.stringify(data));
+          //         reject(data);
+          //        }
+          // })
+     });
   }
 
 }

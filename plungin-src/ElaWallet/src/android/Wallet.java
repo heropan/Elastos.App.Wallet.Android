@@ -82,15 +82,8 @@ public class Wallet extends CordovaPlugin {
 //		mDIDManagerSupervisor = new DIDManagerSupervisor(mRootPath);
 
 		mMasterWalletManager = new MasterWalletManager(mRootPath);
-		MyUtil.SetCurrentMasterWalletManager(mMasterWalletManager);
-		ArrayList<IMasterWallet> masterWalletList = mMasterWalletManager.GetAllMasterWallets();
-		for (int i = 0; i < masterWalletList.size(); i++) {
-			createDIDManager(masterWalletList.get(i));
-		}
-
-		if (masterWalletList.size() == 0) {
-			Log.w(TAG, "Without master wallet: you should create one at least");
-		}
+    MyUtil.SetCurrentMasterWalletManager(mMasterWalletManager);
+    Log.i(TAG, "MasterWalletManager = " + MasterWalletManager);
 	}
 
 	private boolean createDIDManager(IMasterWallet masterWallet) {

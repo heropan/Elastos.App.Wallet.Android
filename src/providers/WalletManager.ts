@@ -20,6 +20,7 @@ export class WalletManager {
   public static PAGECOUNT = 100;
 
   constructor(public native: Native) {
+      console.log("========wal=======");
       this.wallet = cordova.plugins.Wallet;
       //this.wallet = {};
   }

@@ -51,6 +51,7 @@ export class AddpublickeyPage {
     this.walletManager.createMultiSignMasterWallet(this.masterWalletId,copayers,this.msobj["requiredCopayers"],(data)=>{
               if(data['success']){
                 console.log("=====createMultiSignMasterWallet======"+JSON.stringify(data));
+                this.createSubWallet("ELA");
               }else{
                 alert("=====createMultiSignMasterWallet===error=="+JSON.stringify(data));
               }
