@@ -63,6 +63,10 @@ public class ISubWallet {
 		return nativeSignTransaction(mSubProxy, rawTransaction, payPassword);
 	}
 
+	public String GetTransactionSignedSigners(String rawTransaction) throws WalletException {
+		return nativeGetTransactionSignedSigners(mSubProxy, rawTransaction);
+	}
+
 	public String PublishTransaction(String rawTransaction) throws WalletException {
 		return nativePublishTransaction(mSubProxy, rawTransaction);
 	}
@@ -105,6 +109,7 @@ public class ISubWallet {
     private native long nativeCalculateTransactionFee(long subProxy, String rawTransaction, long feePerKb);
 	private native String nativeUpdateTransactionFee(long subProxy, String rawTransaction, long fee);
 	private native String nativeSignTransaction(long subProxy, String rawTransaction, String payPassword);
+	private native String nativeGetTransactionSignedSigners(long subProxy, String rawTransaction);
 	private native String nativePublishTransaction(long subProxy, String rawTransaction);
     private native String nativeGetAllTransaction(long subProxy, int start, int count, String addressOrTxId);
     private native String nativeSign(long subProxy, String message, String payPassword);

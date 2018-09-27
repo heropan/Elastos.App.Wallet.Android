@@ -38,6 +38,20 @@ public class MasterWalletManager {
 		return list;
 	}
 
+	public String[] GetAllMasterWalletIds() throws WalletException {
+		return nativeGetAllMasterWalletIds(mManagerProxy);
+	}
+
+	public IMasterWallet GetWallet(String masterWalletId) throws WalletException {
+		long masterWalletProxy = nativeGetWallet(mManagerProxy, masterWalletId);
+
+		if (masterWalletProxy == 0) {
+			return null;
+		}
+
+		return new IMasterWallet(masterWalletProxy);
+	}
+
 	public void DestroyWallet(String masterWalletId) throws WalletException {
 		nativeDestroyWallet(mManagerProxy, masterWalletId);
 	}
@@ -145,6 +159,10 @@ public class MasterWalletManager {
 	private native void nativeDestroyWallet(long proxy, String masterWalletId);
 
 	private native long[] nativeGetAllMasterWallets(long proxy);
+
+	private native String[] nativeGetAllMasterWalletIds(long proxy);
+
+	private native long nativeGetWallet(long proxy, String masterWalletId);
 
 	private native String nativeConvertToHexString(long proxy, String txJson);
 

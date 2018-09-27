@@ -402,6 +402,53 @@ static jlongArray JNICALL nativeGetAllMasterWallets(JNIEnv *env, jobject clazz, 
 	return jarray;
 }
 
+#define SIG_GET_ALL_MASTER_WALLET_IDS "(J)[Ljava/lang/String;"
+static jobjectArray JNICALL nativeGetAllMasterWalletIds(JNIEnv *env, jobject clazz, jlong jWalletMgr)
+{
+	try {
+		MasterWalletManager *walletManager = (MasterWalletManager *)jWalletMgr;
+		std::vector<std::string> allIds = walletManager->GetAllMasterWalletIds();
+
+		jclass objClass = env->FindClass("java/lang/String");
+		jobjectArray objArray = env->NewObjectArray(allIds.size(), objClass, 0);
+		for (int i = 0; i < allIds.size(); i++) {
+			env->SetObjectArrayElement(objArray, i, env->NewStringUTF(allIds[i].c_str()));
+		}
+
+		return objArray;
+	} catch (std::exception &e) {
+		ThrowWalletException(env, e.what());
+		return NULL;
+	}
+}
+
+#define SIG_GET_WALLET "(JLjava/lang/String;)J"
+static jlong JNICALL nativeGetWallet(JNIEnv *env, jobject clazz, jlong jWalletMgr,
+		jstring jMasterWalletId)
+{
+	bool exception = false;
+	std::string msgException;
+
+	const char *masterWalletId = env->GetStringUTFChars(jMasterWalletId, NULL);
+	IMasterWallet *masterWallet = NULL;
+
+	try {
+		MasterWalletManager *walletManager = (MasterWalletManager *)jWalletMgr;
+		masterWallet = walletManager->GetWallet(masterWalletId);
+	} catch (std::exception &e) {
+		exception = true;
+		msgException = e.what();
+	}
+
+	env->ReleaseStringUTFChars(jMasterWalletId, masterWalletId);
+
+	if (exception) {
+		ThrowWalletException(env, msgException.c_str());
+	}
+
+	return (jlong)masterWallet;
+}
+
 #define SIG_SAVE_CONFIGS "(J)V"
 static void JNICALL nativeSaveConfigs(JNIEnv *env, jobject clazz, jlong jWalletMgr)
 {
@@ -504,86 +551,24 @@ static void JNICALL nativeDisposeNative(JNIEnv *env, jobject clazz, jlong jWalle
 }
 
 static const JNINativeMethod gMethods[] = {
-	{
-		"nativeSaveConfigs",
-		SIG_SAVE_CONFIGS,
-		(void *)nativeSaveConfigs
-	},
-	{
-		"nativeGenerateMnemonic",
-		SIG_GENERATE_MNEMONIC,
-		(void *)nativeGenerateMnemonic
-	},
-	{
-		"nativeCreateMasterWallet",
-		SIG_CREATE_MASTER_WALLET,
-		(void *)nativeCreateMasterWallet
-	},
-	{
-		"nativeCreateMultiSignMasterWallet",
-		SIG_MULTISIGN_WALLET,
-		(void *)nativeCreateMultiSignMasterWallet
-	},
-	{
-		"nativeCreateMultiSignMasterWalletWithPrivKey",
-		SIG_MULTISIGN_WALLET_PRIV,
-		(void *)nativeCreateMultiSignMasterWalletWithPrivKey
-	},
-	{
-		"nativeCreateMultiSignMasterWalletWithMnemonic",
-		SIG_MULTISIGN_WALLET_MNEMONIC,
-		(void *)nativeCreateMultiSignMasterWalletWithMnemonic
-	},
-	{
-		"nativeGetAllMasterWallets",
-		SIG_GET_ALL_MASTER_WALLETS,
-		(void *)nativeGetAllMasterWallets
-	},
-	{
-		"nativeDestroyWallet",
-		SIG_DESTROY_WALLET,
-		(void *)nativeDestroyWallet
-	},
-	{
-		"nativeImportWalletWithKeystore",
-		SIG_IMPORT_WALLET_WITH_KEYSTORE,
-		(void *)nativeImportWalletWithKeystore
-	},
-	{
-		"nativeImportWalletWithMnemonic",
-		SIG_IMPORT_WALLET_WITH_MNEMONIC,
-		(void *)nativeImportWalletWithMnemonic
-	},
-	{
-		"nativeExportWalletWithKeystore",
-		SIG_EXPORT_WALLET_WITH_KEYSTORE,
-		(void *)nativeExportWalletWithKeystore
-	},
-	{
-		"nativeExportWalletWithMnemonic",
-		SIG_EXPORT_WALLET_WITH_MNEMONIC,
-		(void *)nativeExportWalletWithMnemonic
-	},
-	{
-		"nativeConvertToHexString",
-		SIG_CONVERT_TO_HEXSTRING,
-		(void *)nativeConvertToHexString
-	},
-	{
-		"nativeConvertFromHexString",
-		SIG_CONVERT_FROM_HEXSTRING,
-		(void *)nativeConvertFromHexString
-	},
-	{
-		"nativeInitMasterWalletManager",
-		SIG_INIT_MASTER_WALLET_MANAGER,
-		(void *)nativeInitMasterWalletManager
-	},
-	{
-		"nativeDisposeNative",
-		SIG_DISPOSE_NATIVE,
-		(void *)nativeDisposeNative
-	},
+	{ "nativeSaveConfigs", SIG_SAVE_CONFIGS, (void *)nativeSaveConfigs },
+	{ "nativeGenerateMnemonic", SIG_GENERATE_MNEMONIC, (void *)nativeGenerateMnemonic },
+	{ "nativeCreateMasterWallet", SIG_CREATE_MASTER_WALLET, (void *)nativeCreateMasterWallet },
+	{ "nativeCreateMultiSignMasterWallet", SIG_MULTISIGN_WALLET, (void *)nativeCreateMultiSignMasterWallet },
+	{ "nativeCreateMultiSignMasterWalletWithPrivKey", SIG_MULTISIGN_WALLET_PRIV, (void *)nativeCreateMultiSignMasterWalletWithPrivKey },
+	{ "nativeCreateMultiSignMasterWalletWithMnemonic", SIG_MULTISIGN_WALLET_MNEMONIC, (void *)nativeCreateMultiSignMasterWalletWithMnemonic },
+	{ "nativeGetAllMasterWallets", SIG_GET_ALL_MASTER_WALLETS, (void *)nativeGetAllMasterWallets },
+	{ "nativeGetAllMasterWalletIds", SIG_GET_ALL_MASTER_WALLET_IDS, (void *)nativeGetAllMasterWalletIds },
+	{ "nativeGetWallet", SIG_GET_WALLET, (void *)nativeGetWallet},
+	{ "nativeDestroyWallet", SIG_DESTROY_WALLET, (void *)nativeDestroyWallet },
+	{ "nativeImportWalletWithKeystore", SIG_IMPORT_WALLET_WITH_KEYSTORE, (void *)nativeImportWalletWithKeystore },
+	{ "nativeImportWalletWithMnemonic", SIG_IMPORT_WALLET_WITH_MNEMONIC, (void *)nativeImportWalletWithMnemonic },
+	{ "nativeExportWalletWithKeystore", SIG_EXPORT_WALLET_WITH_KEYSTORE, (void *)nativeExportWalletWithKeystore },
+	{ "nativeExportWalletWithMnemonic", SIG_EXPORT_WALLET_WITH_MNEMONIC, (void *)nativeExportWalletWithMnemonic },
+	{ "nativeConvertToHexString", SIG_CONVERT_TO_HEXSTRING, (void *)nativeConvertToHexString },
+	{ "nativeConvertFromHexString", SIG_CONVERT_FROM_HEXSTRING, (void *)nativeConvertFromHexString },
+	{ "nativeInitMasterWalletManager", SIG_INIT_MASTER_WALLET_MANAGER, (void *)nativeInitMasterWalletManager },
+	{ "nativeDisposeNative", SIG_DISPOSE_NATIVE, (void *)nativeDisposeNative },
 };
 
 int register_elastos_spv_IMasterWalletManager(JNIEnv *env)
