@@ -74,4 +74,22 @@ export class ManagerComponent {
       });
     });
   }
+
+  delWalletListOne(masterWalletId){
+
+    let arr = Config.getMasterWalletIdList();
+     let index = arr.indexOf(masterWalletId);
+
+     if (index > -1) {
+         arr.splice(index, 1);
+     }
+
+     if(arr.length === 0){
+      this.native.setRootRouter(LauncherComponent);
+     }
+
+     this.localStorage.setWalletList(arr).then(()=>{
+
+     });
+  }
 }
