@@ -83,7 +83,7 @@ public class Wallet extends CordovaPlugin {
 
 		mMasterWalletManager = new MasterWalletManager(mRootPath);
     MyUtil.SetCurrentMasterWalletManager(mMasterWalletManager);
-    Log.i(TAG, "MasterWalletManager = " + MasterWalletManager);
+    Log.i(TAG, "MasterWalletManager = " + mMasterWalletManager);
 	}
 
 	private boolean createDIDManager(IMasterWallet masterWallet) {
