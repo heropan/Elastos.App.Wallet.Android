@@ -72,6 +72,7 @@ import {FileChooser} from "@ionic-native/file-chooser";
 import {TestJniComponent} from '../pages/testjni/testjni.component';
 import {kycSelectTypeComponent} from "../pages/id/kyc/selecttype/create"
 import {ComponentsModule} from "../components/components.module";
+import {InitializepagePage} from "../pages/initializepage/initializepage"
 /*id相关页面*/
 import {IdLauncherComponent} from '../pages/id/launcher/launcher';
 import {IdHomeComponent} from '../pages/id/home/home';
@@ -190,7 +191,8 @@ export function TranslateLoaderFactory() {
     ImportprivatekeyPage,
     CoinlistpasswordPage,
     ScancodePage,
-    TxdetailsPage
+    TxdetailsPage,
+    InitializepagePage
   ],
   imports: [
     BrowserModule,
@@ -276,7 +278,8 @@ export function TranslateLoaderFactory() {
     ImportprivatekeyPage,
     CoinlistpasswordPage,
     ScancodePage,
-    TxdetailsPage
+    TxdetailsPage,
+    InitializepagePage
   ],
   providers: [
     StatusBar,
