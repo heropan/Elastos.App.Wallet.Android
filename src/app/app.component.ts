@@ -84,7 +84,7 @@ export class AppComponent {
         //this.rootPage = ScancodePage;
         //this.rootPage = InitializepagePage;
          //init java 2 js plugin
-      //    cordova.plugins.Java2JSBridge.init(this);
+        cordova.plugins.Java2JSBridge.init(this);
 
          cordova.plugins.Java2JSBridge.getRegistrationID(succeedCallback);
           function succeedCallback(message){
