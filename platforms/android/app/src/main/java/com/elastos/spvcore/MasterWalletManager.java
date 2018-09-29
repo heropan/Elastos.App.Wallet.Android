@@ -121,12 +121,12 @@ public class MasterWalletManager {
 		return new IMasterWallet(masterProxy);
 	}
 
-	public String ConvertToHexString(String txJson) {
-		return nativeConvertToHexString(mManagerProxy, txJson);
+	public String EncodeTransactionToString(String txJson) {
+		return nativeEncodeTransactionToString(mManagerProxy, txJson);
 	}
 
-	public String ConvertFromHexString(String hexString) {
-		return nativeConvertFromHexString(mManagerProxy, hexString);
+	public String DecodeTransactionFromString(String cipher) {
+		return nativeDecodeTransactionFromString(mManagerProxy, cipher);
 	}
 
 	private native void nativeSaveConfigs(long proxy);
@@ -164,9 +164,9 @@ public class MasterWalletManager {
 
 	private native long nativeGetWallet(long proxy, String masterWalletId);
 
-	private native String nativeConvertToHexString(long proxy, String txJson);
+	private native String nativeEncodeTransactionToString(long proxy, String txJson);
 
-	private native String nativeConvertFromHexString(long proxy, String hexString);
+	private native String nativeDecodeTransactionFromString(long proxy, String cipher);
 
 	private native long nativeInitMasterWalletManager(String rootPath);
 

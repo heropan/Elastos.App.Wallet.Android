@@ -460,8 +460,8 @@ static void JNICALL nativeSaveConfigs(JNIEnv *env, jobject clazz, jlong jWalletM
 	}
 }
 
-#define SIG_CONVERT_TO_HEXSTRING "(JLjava/lang/String;)Ljava/lang/String;"
-static jstring JNICALL nativeConvertToHexString(JNIEnv *env, jobject clazz, jlong jWalletMgr,
+#define SIG_EncodeTransactionToString "(JLjava/lang/String;)Ljava/lang/String;"
+static jstring JNICALL nativeEncodeTransactionToString(JNIEnv *env, jobject clazz, jlong jWalletMgr,
 		jstring jtxJson)
 {
 	bool exception = false;
@@ -473,8 +473,8 @@ static jstring JNICALL nativeConvertToHexString(JNIEnv *env, jobject clazz, jlon
 	try {
 		MasterWalletManager *walletManager = (MasterWalletManager *)jWalletMgr;
 
-		std::string hexString = walletManager->ConvertToHexString(nlohmann::json::parse(txJson));
-		result = env->NewStringUTF(hexString.c_str());
+		nlohmann::json stringJson = walletManager->EncodeTransactionToString(nlohmann::json::parse(txJson));
+		result = env->NewStringUTF(stringJson.dump().c_str());
 	} catch (std::exception &e) {
 		exception = true;
 		msgException = e.what();
@@ -489,27 +489,27 @@ static jstring JNICALL nativeConvertToHexString(JNIEnv *env, jobject clazz, jlon
 	return result;
 }
 
-#define SIG_CONVERT_FROM_HEXSTRING "(JLjava/lang/String;)Ljava/lang/String;"
-static jstring JNICALL nativeConvertFromHexString(JNIEnv *env, jobject clazz, jlong jWalletMgr,
-		jstring jHexString)
+#define SIG_DecodeTransactionFromString "(JLjava/lang/String;)Ljava/lang/String;"
+static jstring JNICALL nativeDecodeTransactionFromString(JNIEnv *env, jobject clazz, jlong jWalletMgr,
+		jstring jCipher)
 {
 	bool exception = false;
 	std::string msgException;
 
 	jstring result = NULL;
-	const char *hexString = env->GetStringUTFChars(jHexString, NULL);
+	const char *cipher = env->GetStringUTFChars(jCipher, NULL);
 
 	try {
 		MasterWalletManager *walletManager = (MasterWalletManager *) jWalletMgr;
 
-		nlohmann::json txJson = walletManager->ConvertFromHexString(hexString);
+		nlohmann::json txJson = walletManager->DecodeTransactionFromString(nlohmann::json::parse(cipher));
 		result = env->NewStringUTF(txJson.dump().c_str());
 	} catch (std::exception &e) {
 		exception = true;
 		msgException = e.what();
 	}
 
-	env->ReleaseStringUTFChars(jHexString, hexString);
+	env->ReleaseStringUTFChars(jCipher, cipher);
 
 	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
@@ -565,8 +565,8 @@ static const JNINativeMethod gMethods[] = {
 	{ "nativeImportWalletWithMnemonic", SIG_IMPORT_WALLET_WITH_MNEMONIC, (void *)nativeImportWalletWithMnemonic },
 	{ "nativeExportWalletWithKeystore", SIG_EXPORT_WALLET_WITH_KEYSTORE, (void *)nativeExportWalletWithKeystore },
 	{ "nativeExportWalletWithMnemonic", SIG_EXPORT_WALLET_WITH_MNEMONIC, (void *)nativeExportWalletWithMnemonic },
-	{ "nativeConvertToHexString", SIG_CONVERT_TO_HEXSTRING, (void *)nativeConvertToHexString },
-	{ "nativeConvertFromHexString", SIG_CONVERT_FROM_HEXSTRING, (void *)nativeConvertFromHexString },
+	{ "nativeEncodeTransactionToString", SIG_EncodeTransactionToString, (void *)nativeEncodeTransactionToString},
+	{ "nativeDecodeTransactionFromString", SIG_DecodeTransactionFromString, (void *)nativeDecodeTransactionFromString},
 	{ "nativeInitMasterWalletManager", SIG_INIT_MASTER_WALLET_MANAGER, (void *)nativeInitMasterWalletManager },
 	{ "nativeDisposeNative", SIG_DISPOSE_NATIVE, (void *)nativeDisposeNative },
 };

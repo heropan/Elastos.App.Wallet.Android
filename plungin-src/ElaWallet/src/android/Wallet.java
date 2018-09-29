@@ -272,11 +272,11 @@ public class Wallet extends CordovaPlugin {
 				case "exportWalletWithMnemonic":
 					this.exportWalletWithMnemonic(args, cc);
 					break;
-				case "convertToHexString":
-					this.convertToHexString(args, cc);
+				case "encodeTransactionToString":
+					this.encodeTransactionToString(args, cc);
 					break;
-				case "convertFromHexString":
-					this.convertFromHexString(args, cc);
+				case "decodeTransactionFromString":
+					this.decodeTransactionFromString(args, cc);
 					break;
 
 					// Master wallet
@@ -986,7 +986,7 @@ public class Wallet extends CordovaPlugin {
 	}
 
 	// args[0]: String txJson
-	public void convertToHexString(JSONArray args, CallbackContext cc) throws JSONException {
+	public void encodeTransactionToString(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
 		String txJson = args.getString(idx++);
@@ -997,18 +997,18 @@ public class Wallet extends CordovaPlugin {
 		}
 
 		try {
-			String hexString = mMasterWalletManager.ConvertToHexString(txJson);
-			successProcess(cc, hexString);
+			String cipherJson = mMasterWalletManager.EncodeTransactionToString(txJson);
+			successProcess(cc, cipherJson);
 		} catch (WalletException e) {
-			exceptionProcess(e, cc, "Tx convert from json to hex string");
+			exceptionProcess(e, cc, "Tx convert from json to cipher string");
 		}
 	}
 
-	// args[0]: String txHexString
-	public void convertFromHexString(JSONArray args, CallbackContext cc) throws JSONException {
+	// args[0]: String cipherJson
+	public void decodeTransactionFromString(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
-		String txHexString = args.getString(idx++);
+		String cipherJson = args.getString(idx++);
 
 		if (args.length() != idx) {
 			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
@@ -1016,10 +1016,10 @@ public class Wallet extends CordovaPlugin {
 		}
 
 		try {
-			String txJson = mMasterWalletManager.ConvertFromHexString(txHexString);
+			String txJson = mMasterWalletManager.DecodeTransactionFromString(cipherJson);
 			successProcess(cc, txJson);
 		} catch (WalletException e) {
-			exceptionProcess(e, cc, "Tx convert from hex string to json");
+			exceptionProcess(e, cc, "Tx convert from cipher string to json");
 		}
 	}
 
