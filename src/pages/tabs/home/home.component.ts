@@ -174,16 +174,15 @@ export class HomeComponent extends BaseComponent implements OnInit {
   sycEla(){
 
     this.walletManager.registerWalletListener(this.masterWalletId,"ELA",(result)=>{
-      console.log("====确认数ELA==="+result['confirms']);
+      console.log("====ELA==="+result['confirms']);
       if (result['confirms'] == 1) {
-        //alert("转账： " + JSON.stringify(data));
         this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
         });
       }
             if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
               this.tempElaPer = 1;
            }else{
-            this.tempElaPer= result["progress"].toFixed(2);
+            this.tempElaPer= result["progress"];
            }
 
            if(this.tempElaPer === 1){
@@ -194,16 +193,15 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   sycIdChain(){
     this.walletManager.registerWalletListener(this.masterWalletId,"IdChain",(result)=>{
-      console.log("====确认数IdChain==="+result['confirms']);
+      console.log("====IdChain==="+result['confirms']);
         if (result['confirms'] == 1) {
-          //alert("转账： " + JSON.stringify(data));
           this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
           });
         }
         if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
           this.tempIdChinaPer = 1;
         }else{
-          this.tempIdChinaPer  = result["progress"].toFixed(2);
+          this.tempIdChinaPer  = result["progress"];
         }
 
         if(this.tempIdChinaPer === 1){
