@@ -20,7 +20,7 @@ export class TxdetailsPage {
     this.txDetails = JSON.parse(this.navParams.data['content'])['txContent'];
     this.masterWalletId = Config.getCurMasterWalletId();
     console.log("========this.txDetails=========="+JSON.stringify(this.txDetails));
-    this.walletManager.convertFromHexString(this.txDetails["rawTransaction"],(raw)=>{
+    this.walletManager.decodeTransactionFromString(this.txDetails["rawTransaction"],(raw)=>{
                    if(raw["success"]){
                        console.log("======convertFromHexString======"+JSON.stringify(raw));
                        this.raw = raw["success"];
@@ -60,7 +60,7 @@ export class TxdetailsPage {
     this.walletManager.signTransaction(masterWalletId,chain,rawTransaction,payPassWord,(data)=>{
               if(data["success"]){
                 console.log("========signTransaction========="+JSON.stringify(data));
-                this.walletManager.convertToHexString(data["success"],(raw)=>{
+                this.walletManager.encodeTransactionToString(data["success"],(raw)=>{
                              if(raw["success"]){
                               this.native.Go(this.navCtrl,ScancodePage,{"txContent":{"chianId":this.txDetails["chianId"],"address":this.txDetails["address"], "amount": this.txDetails["amount"],"fee":this.txDetails["fee"], "rawTransaction": raw["success"]}});
                                }

@@ -211,12 +211,11 @@ export class TransferComponent extends BaseComponent implements OnInit {
         if(this.walletInfo["Type"] === "Standard"){
              this.sendTx(data["success"]);
         }else if(this.walletInfo["Type"] === "Multi-Sign"){
-            this.walletManager.convertToHexString(data["success"],(raw)=>{
+            this.walletManager.encodeTransactionToString(data["success"],(raw)=>{
                      if(raw["success"]){
-                      console.log("=======convertToHexString========="+JSON.stringify(raw));
                       this.Go(ScancodePage,{"txContent":{"chianId":this.chianId,"address":this.transfer.toAddress, "amount": this.transfer.amount,"fee":this.transfer.fee, "rawTransaction":raw["success"]}});
                      }else{
-                      alert("=====convertToHexString===error==="+JSON.stringify(raw));
+                      alert("=====encodeTransactionToString===error==="+JSON.stringify(raw));
                      }
             });
         }
@@ -365,12 +364,11 @@ createMultTx(){
 }
 
 readWallet(raws){
-  this.walletManager.convertToHexString(raws,(raw)=>{
+  this.walletManager.encodeTransactionToString(raws,(raw)=>{
     if(raw["success"]){
-     console.log("=======convertToHexString========="+JSON.stringify(raw));
      this.Go(ScancodePage,{"txContent":{"chianId":this.chianId,"address":this.transfer.toAddress, "amount": this.transfer.amount,"fee":this.transfer.fee, "rawTransaction":raw["success"]}});
     }else{
-     alert("=====convertToHexString===error==="+JSON.stringify(raw));
+     alert("=====encodeTransactionToString===error==="+JSON.stringify(raw));
     }
 });
 }

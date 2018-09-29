@@ -362,13 +362,13 @@ export class WalletManager {
      this.wallet.createMultiSignMasterWalletWithMnemonic([masterWalletId,mnemonic,phrasePassword,payPassword,coSignersJson,requiredSignCount,language],Fun,this.errorFun);
   }
   //String txJson
-  convertToHexString(txJson:string,Fun){
-    this.wallet.convertToHexString([txJson],Fun,this.errorFun);
+  encodeTransactionToString(txJson:string,Fun){
+    this.wallet.encodeTransactionToString([txJson],Fun,this.errorFun);
   }
 
    //String txHexString
-   convertFromHexString(txHexString:string,Fun){
-    this.wallet.convertFromHexString([txHexString],Fun,this.errorFun);
+   decodeTransactionFromString(txHexString:string,Fun){
+    this.wallet.decodeTransactionFromString([txHexString],Fun,this.errorFun);
    }
 
   errorFun(error) {
