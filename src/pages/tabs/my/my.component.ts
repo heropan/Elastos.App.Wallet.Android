@@ -14,6 +14,7 @@ import { Config } from '../../../providers/Config';
 export class MyComponent  extends BaseComponent implements OnInit  {
   public masterWalletId:string = "1";
   public masterWalletType:string = "";
+  public readonly:boolean = false;
   ngOnInit() {
     this.events.subscribe("wallte:update",(item)=>{
         console.log("=====MyComponent=======");
@@ -34,6 +35,7 @@ export class MyComponent  extends BaseComponent implements OnInit  {
          console.log("===getMasterWalletBasicInfo==="+JSON.stringify(data));
          let item = JSON.parse(data["success"])["Account"];
          this.masterWalletType = item["Type"];
+         this.readonly = item["Readonly"];
       }else{
          alert("=======getMasterWalletBasicInfo====error====="+JSON.stringify(data));
       }
@@ -80,9 +82,8 @@ export class MyComponent  extends BaseComponent implements OnInit  {
       console.log("=======senddata======="+JSON.stringify(senddata));
       this.Go(TxdetailsPage,senddata);
     }).catch((err)=>{
-
+      console.log("=======scan()===error====");
     });
-    //this.Go(TxdetailsPage,{"txContent":{ "address": "XKUh4GLhFJiqAMTF6HyWQrV9pK9HcGUdfJ", "amount": "1", "memo": "", "fee": "0.0001", "rawTransaction": "" }});
    }
 
    sendTX(){
@@ -91,7 +92,7 @@ export class MyComponent  extends BaseComponent implements OnInit  {
         console.log("=======senddata======="+JSON.stringify(senddata));
         this.Go(TxdetailsPage,senddata);
       }).catch((err)=>{
-
+        console.log("=======scan()===error====");
       });
    }
 
