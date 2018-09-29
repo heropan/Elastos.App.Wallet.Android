@@ -23,7 +23,7 @@ export class ImportprivatekeyPage {
   import(){
 
         if(this.checkParms()){
-            this.msobj["importText"] = this.importText;
+            this.msobj["importText"] = this.importText.replace(/^\s+|\s+$/g,"");
             this.msobj["passWord"] = this.passWord;
             this.navCtrl.push(AddprivatekeyPage,this.msobj);
         }

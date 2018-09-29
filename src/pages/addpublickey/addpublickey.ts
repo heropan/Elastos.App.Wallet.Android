@@ -62,7 +62,8 @@ export class AddpublickeyPage {
     let arr = [];
     for(let index = 0;index<this.publicKeyArr.length;index++){
           let item = this.publicKeyArr[index];
-          arr.push(item["publicKey"]);
+          let publicKey =item["publicKey"].replace(/^\s+|\s+$/g,"");
+          arr.push(publicKey);
     }
     return JSON.stringify(arr);
   }
