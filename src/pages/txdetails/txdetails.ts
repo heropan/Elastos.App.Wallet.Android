@@ -17,13 +17,15 @@ export class TxdetailsPage {
   public raw:string;
   constructor(public navCtrl: NavController, public navParams: NavParams,public popupProvider:PopupProvider,public native:Native,public walletManager:WalletManager) {
     this.type = this.navParams.data["type"];
-    this.txDetails = JSON.parse(this.navParams.data['content'])['txContent'];
+    this.txDetails = JSON.parse(this.navParams.data['content'])['tx'];
     this.masterWalletId = Config.getCurMasterWalletId();
     console.log("========this.txDetails=========="+JSON.stringify(this.txDetails));
-    this.walletManager.decodeTransactionFromString(this.txDetails["rawTransaction"],(raw)=>{
+    this.walletManager.decodeTransactionFromString(this.txDetails["raw"],(raw)=>{
                    if(raw["success"]){
                        console.log("======convertFromHexString======"+JSON.stringify(raw));
                        this.raw = raw["success"];
+                       this.txDetails["address"] ="xxxxxxxxxx";
+                       this.txDetails["amount"] = "xxx";
                    }else{
                         alert("======convertFromHexString==error===="+JSON.stringify(raw));
                    }
@@ -62,7 +64,7 @@ export class TxdetailsPage {
                 console.log("========signTransaction========="+JSON.stringify(data));
                 this.walletManager.encodeTransactionToString(data["success"],(raw)=>{
                              if(raw["success"]){
-                              this.native.Go(this.navCtrl,ScancodePage,{"txContent":{"chianId":this.txDetails["chianId"],"address":this.txDetails["address"], "amount": this.txDetails["amount"],"fee":this.txDetails["fee"], "rawTransaction": raw["success"]}});
+                              this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":this.txDetails["chianId"],"fee":this.txDetails["fee"], "raw": raw["success"]}});
                                }
                 });
               }else{

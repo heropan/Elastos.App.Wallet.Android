@@ -174,6 +174,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   sycEla(){
 
     this.walletManager.registerWalletListener(this.masterWalletId,"ELA",(result)=>{
+      alert("====确认数ELA==="+result['confirms']);
       if (result['confirms'] == 1) {
         //alert("转账： " + JSON.stringify(data));
         this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
@@ -193,7 +194,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   sycIdChain(){
     this.walletManager.registerWalletListener(this.masterWalletId,"IdChain",(result)=>{
-
+        alert("====确认数IdChain==="+result['confirms']);
         if (result['confirms'] == 1) {
           //alert("转账： " + JSON.stringify(data));
           this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {

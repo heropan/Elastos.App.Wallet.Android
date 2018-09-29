@@ -213,7 +213,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
         }else if(this.walletInfo["Type"] === "Multi-Sign"){
             this.walletManager.encodeTransactionToString(data["success"],(raw)=>{
                      if(raw["success"]){
-                      this.Go(ScancodePage,{"txContent":{"chianId":this.chianId,"address":this.transfer.toAddress, "amount": this.transfer.amount,"fee":this.transfer.fee, "rawTransaction":raw["success"]}});
+                      this.Go(ScancodePage,{"tx":{"chianId":this.chianId,"fee":this.transfer.fee, "rawTransaction":raw["success"]}});
                      }else{
                       alert("=====encodeTransactionToString===error==="+JSON.stringify(raw));
                      }
@@ -366,7 +366,7 @@ createMultTx(){
 readWallet(raws){
   this.walletManager.encodeTransactionToString(raws,(raw)=>{
     if(raw["success"]){
-     this.Go(ScancodePage,{"txContent":{"chianId":this.chianId,"address":this.transfer.toAddress, "amount": this.transfer.amount,"fee":this.transfer.fee, "rawTransaction":raw["success"]}});
+     this.Go(ScancodePage,{"tx":{"chianId":this.chianId,"fee":this.transfer.fee, "raw":raw["success"]}});
     }else{
      alert("=====encodeTransactionToString===error==="+JSON.stringify(raw));
     }
