@@ -24,8 +24,10 @@ export class TxdetailsPage {
                    if(raw["success"]){
                        console.log("======convertFromHexString======"+JSON.stringify(raw));
                        this.raw = raw["success"];
-                       this.txDetails["address"] ="xxxxxxxxxx";
-                       this.txDetails["amount"] = "xxx";
+                       console.log("=====raw======"+typeof(this.raw));
+                       this.txDetails["address"] =JSON.parse(raw["success"])["Outputs"][0]["Address"];
+                       this.txDetails["amount"] = JSON.parse(raw["success"])["Outputs"][0]["Amount"]/Config.SELA;
+
                    }else{
                         alert("======convertFromHexString==error===="+JSON.stringify(raw));
                    }
