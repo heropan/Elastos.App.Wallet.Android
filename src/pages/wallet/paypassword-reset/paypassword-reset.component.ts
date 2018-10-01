@@ -3,6 +3,7 @@ import { NavController, NavParams} from 'ionic-angular';
 import {WalletManager} from '../../../providers/WalletManager';
 import {Util} from "../../../providers/Util";
 import {Native} from "../../../providers/Native";
+import {Config} from "../../../providers/Config";
 @Component({
   selector: 'app-paypassword-reset',
   templateUrl: './paypassword-reset.component.html'
@@ -13,7 +14,7 @@ export class PaypasswordResetComponent {
   payPassword: string;
   rePayPassword: string;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native) {
-
+        this.masterWalletId = Config.getCurMasterWalletId();
   }
 
   onSubmit() {
