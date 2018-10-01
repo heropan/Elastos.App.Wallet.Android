@@ -153,18 +153,31 @@ public class Wallet extends CordovaPlugin {
 		return true;
 	}
 
-	private void exceptionProcess(WalletException e, CallbackContext cc, Object msg) throws JSONException {
+	private void exceptionProcess(WalletException e, CallbackContext cc, String msg) throws JSONException {
 		e.printStackTrace();
 
-		JSONObject errJson = new JSONObject();
+		try {
+			JSONObject exceptionJson = new JSONObject(e.GetErrorInfo());
+			long exceptionCode = exceptionJson.getLong("Code");
+			String exceptionMsg = exceptionJson.getString("Message");
 
-		errJson.put(keyCode, errCodeWalletException);
-		errJson.put(keyMessage, msg);
-		errJson.put(keyException, e.GetErrorInfo());
+			JSONObject errJson = new JSONObject();
+			errJson.put(keyCode, exceptionCode);
+			errJson.put(keyMessage, msg + ": " + exceptionMsg);
 
-		Log.e(TAG, errJson.toString());
+			Log.e(TAG, errJson.toString());
+			cc.error(mkJson(keyError, errJson));
+		} catch (JSONException je) {
+			JSONObject errJson = new JSONObject();
 
-		cc.error(mkJson(keyError, errJson));
+			errJson.put(keyCode, errCodeWalletException);
+			errJson.put(keyMessage, msg);
+			errJson.put(keyException, e.GetErrorInfo());
+
+			Log.e(TAG, errJson.toString());
+
+			cc.error(mkJson(keyError, errJson));
+		}
 	}
 
 	private void errorProcess(CallbackContext cc, int code, Object msg) {
