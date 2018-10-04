@@ -30,7 +30,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
       this.elaPer = this.tempElaPer;
       this.idChainPer = this.tempIdChinaPer;
     },0);
-    this.getAllMasterWallets();
+    this.getAllSubWallets();
     this.events.subscribe("wallte:update",(item)=>{
       setInterval(()=>{
         this.elaPer = this.tempElaPer;
@@ -39,7 +39,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
       console.log("Selected Item", item);
       this.masterWalletId = item;
       Config.setCurMasterWalletId(this.masterWalletId);
-      this.getAllMasterWallets();
+      this.getAllSubWallets();
     });
     this.events.subscribe('home:update', () => {
            this.masterWalletId =  Config.getCurMasterWalletId();
@@ -101,18 +101,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
       }else{
         alert("getElaBalance=error:"+JSON.stringify(data));
       }
-    });
-  }
-
-  getAllMasterWallets(){
-    this.walletManager.getAllMasterWallets((data)=>{
-      if(data["success"]){
-        console.log("=getAllMasterWallets="+JSON.stringify(data));
-        this.getAllSubWallets();
-      }else{
-        alert("getAllMasterWallets=error:"+JSON.stringify(data));
-      }
-
     });
   }
 

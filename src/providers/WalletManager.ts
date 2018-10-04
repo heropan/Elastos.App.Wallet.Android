@@ -201,8 +201,8 @@ export class WalletManager {
     this.wallet.deriveIdAndKeyForPurpose([purpose,index,payPassword], Fun, this.errorFun);
   }
 
-  getAllMasterWallets(Fun){
-    this.wallet.getAllMasterWallets([], Fun, this.errorFun);
+  getAllMasterWallets(Fun,error){
+    this.wallet.getAllMasterWallets([], Fun, error);
   }
    /**
    * @param {string} masterWalletId

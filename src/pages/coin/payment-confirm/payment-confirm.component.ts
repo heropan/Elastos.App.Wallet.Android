@@ -41,8 +41,7 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
     this.setTitleByAssets('text-payment-confirm');
     this.setHeadDisPlay({left:false});
     this.subPopup.config = {cancel:'',confirm:'',backdrop:false,is_full:false};
-
-    this.getAllMasterWallets();
+    this.getAllSubWallets();
     let account = this.GetQueryString("account") || this.getNavParams().get("account");
     let toAddress = this.GetQueryString("address") || this.getNavParams().get("address");
     let memo = this.GetQueryString("memo") || this.getNavParams().get("memo");
@@ -51,17 +50,6 @@ export class PaymentConfirmComponent extends BaseComponent implements OnInit {
     this.transfer.toAddress = toAddress;
     this.transfer.memo = memo;
     this.information = information;
-  }
-
-  getAllMasterWallets(){
-    this.walletManager.getAllMasterWallets((data)=>{
-      if(data["success"]){
-        console.log("=getAllMasterWallets="+JSON.stringify(data));
-        this.getAllSubWallets();
-      }else{
-        alert("getAllMasterWallets=error:"+JSON.stringify(data));
-      }
-    });
   }
 
   getAllSubWallets(){

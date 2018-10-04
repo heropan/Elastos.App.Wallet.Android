@@ -324,6 +324,8 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    getAllMasterWallets(){
        this.walletManager.getAllMasterWallets((result)=>{
             alert("allAllMasterWallets"+JSON.stringify(result));
+       },(error)=>{
+
        });
    }
 
