@@ -81,13 +81,11 @@ export class AddpublickeyPage {
   }
 
   saveWalletList(){
-    Config.getMasterWalletIdList().push(this.masterWalletId);
-    this.localStorage.setWalletList(Config.getMasterWalletIdList()).then((data)=>{
+        Config.getMasterWalletIdList().push(this.masterWalletId);
             this.localStorage.saveCurMasterId({masterId:this.masterWalletId}).then((data)=>{
               Config.setCurMasterWalletId(this.masterWalletId);
               this.native.setRootRouter(TabsComponent);
             });
-    })
   }
   createWalletWithMnemonic(){
       let copayers = this.getTotalCopayers();

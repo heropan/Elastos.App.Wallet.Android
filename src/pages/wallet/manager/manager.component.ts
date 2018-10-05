@@ -94,18 +94,13 @@ export class ManagerComponent {
   }
 
   saveWalletList(masterWalletId){
-
-    this.localStorage.setWalletList(Config.getMasterWalletIdList()).then((data)=>{
             this.localStorage.saveCurMasterId({masterId:masterWalletId}).then((data)=>{
               Config.setCurMasterWalletId(masterWalletId);
               this.native.setRootRouter(TabsComponent);
             });
-    })
   }
 
   saveWalletList1(){
-    this.localStorage.setWalletList(Config.getMasterWalletIdList()).then((data)=>{
-              this.native.setRootRouter(LauncherComponent);
-    });
+        this.native.setRootRouter(LauncherComponent);
   }
 }

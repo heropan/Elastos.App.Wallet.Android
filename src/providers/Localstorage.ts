@@ -126,17 +126,6 @@ export class LocalStorage {
       return this.storage.get(key);
   }
 
-  public setWalletList(value: any): any {
-    // TODO
-    let key = "ELA-WalletList";
-    return this.storage.set(key, JSON.stringify(value));
-  }
-
-  public getWalletList(): any {
-    // TODO
-    let key = "ELA-WalletList";
-    return this.storage.get(key);
-  }
 
   public saveCurMasterId(value){
     // {masterId:"123"}

@@ -73,12 +73,10 @@ export class AddprivatekeyPage {
 
   saveWalletList(){
     Config.getMasterWalletIdList().push(this.masterWalletId);
-    this.localStorage.setWalletList(Config.getMasterWalletIdList()).then((data)=>{
-            this.localStorage.saveCurMasterId({masterId:this.masterWalletId}).then((data)=>{
+     this.localStorage.saveCurMasterId({masterId:this.masterWalletId}).then((data)=>{
               Config.setCurMasterWalletId(this.masterWalletId);
               this.native.setRootRouter(TabsComponent);
-            });
-    })
+      });
   }
 
 }

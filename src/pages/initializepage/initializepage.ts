@@ -98,7 +98,7 @@ export class InitializepagePage {
         toAddress: toAddress,
         memo: memo
       }
-      localStorage.set('payment', payment_params).then(()=>{
+      this.localStorage.set('payment', payment_params).then(()=>{
           Config.setMasterWalletIdList([]);
           this.native.setRootRouter(LauncherComponent);
       });
