@@ -18,7 +18,6 @@ export class InitializepagePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad InitializepagePage');
     this.initializeApp();
   }
 
@@ -33,7 +32,6 @@ export class InitializepagePage {
   }
 
   public load(): Promise<any>{
-    console.log("============initializeApp============222222");
      return  new Promise((resolve, reject) =>{
           this.walletManager.getAllMasterWallets((data)=>{
                  if(data["success"]){
@@ -52,7 +50,6 @@ export class InitializepagePage {
 
   successHandle(data){
       let idList = JSON.parse(data);
-      console.log("===idList ===="+data);
       let type = Util.GetQueryString("type");
       if(idList.length === 0){
          this.handleNull(type);
