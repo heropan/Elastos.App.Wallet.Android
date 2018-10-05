@@ -529,11 +529,6 @@ public class Wallet extends CordovaPlugin {
 			ArrayList<IMasterWallet> masterWalletList = mMasterWalletManager.GetAllMasterWallets();
 			JSONArray masterWalletListJson = new JSONArray();
 
-			if (masterWalletList.size() == 0) {
-				errorProcess(cc, errCodeInvalidMasterWallet, "Don't have any master wallet");
-				return;
-			}
-
 			for (int i = 0; i < masterWalletList.size(); i++) {
 				masterWalletListJson.put(masterWalletList.get(i).GetId());
 			}
@@ -629,10 +624,6 @@ public class Wallet extends CordovaPlugin {
 			}
 
 			ArrayList<ISubWallet> subWalletList = masterWallet.GetAllSubWallets();
-			if (subWalletList.size() == 0) {
-				errorProcess(cc, errCodeInvalidSubWallet, "Master wallet '" + masterWalletId + "' don't have any subwallet");
-				return;
-			}
 
 			JSONArray subWalletJsonArray = new JSONArray();
 			for (int i = 0; i < subWalletList.size(); i++) {
