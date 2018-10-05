@@ -38,7 +38,8 @@ import { CoinlistpasswordPage } from '../pages/coinlistpassword/coinlistpassword
 import { TxdetailsPage } from '../pages/txdetails/txdetails';
 import { WalltemodePage } from '../pages/walltemode/walltemode';
 import { ScancodePage } from '../pages/scancode/scancode';
-import { InitializepagePage } from "../pages/initializepage/initializepage"
+import { InitializepagePage } from "../pages/initializepage/initializepage";
+import {PaymentboxPage} from '../pages/paymentbox/paymentbox';
 
 //add for plugin
 declare var cordova: any;
@@ -63,6 +64,7 @@ export class AppComponent {
       this.initJsPush();
       this.getKycIdList();
       this.rootPage = InitializepagePage;
+      //this.rootPage = PaymentboxPage
       //this.initializeApp();
       //this.rootPage =  WalltelistPage;
       //this.rootPage = ImportprivatekeyPage;

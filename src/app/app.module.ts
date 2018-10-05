@@ -102,6 +102,8 @@ import {WalltemodePage} from '../pages/walltemode/walltemode';
 import {AddpublickeyPage} from '../pages/addpublickey/addpublickey';
 import {AddprivatekeyPage} from '../pages/addprivatekey/addprivatekey';
 import {ImportprivatekeyPage} from '../pages/importprivatekey/importprivatekey';
+import {PaymentboxPage} from '../pages/paymentbox/paymentbox';
+
 /*id相关页面*/
 
 /** 通过类引用方式解析国家化文件 */
@@ -192,7 +194,8 @@ export function TranslateLoaderFactory() {
     CoinlistpasswordPage,
     ScancodePage,
     TxdetailsPage,
-    InitializepagePage
+    InitializepagePage,
+    PaymentboxPage
   ],
   imports: [
     BrowserModule,
@@ -279,7 +282,8 @@ export function TranslateLoaderFactory() {
     CoinlistpasswordPage,
     ScancodePage,
     TxdetailsPage,
-    InitializepagePage
+    InitializepagePage,
+    PaymentboxPage
   ],
   providers: [
     StatusBar,
