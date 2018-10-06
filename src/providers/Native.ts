@@ -1,6 +1,6 @@
 
 import {Injectable} from '@angular/core';
-import { ToastController,App} from 'ionic-angular';
+import { ToastController,LoadingController,App, Loading} from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { Clipboard } from '@ionic-native/clipboard';
@@ -11,13 +11,15 @@ import {TranslateService} from '@ngx-translate/core';
  */
 @Injectable()
 export class Native {
-
+  private loading: Loading;
+  private loadingIsOpen: boolean = false;
   constructor(public toastCtrl:ToastController,
               private barcodeScanner: BarcodeScanner,
               private fileChooser: FileChooser,
               private clipboard: Clipboard,
               public translate: TranslateService,
-              public app:App) {
+              public app:App,
+              private loadingCtrl: LoadingController) {
 
   }
 
@@ -192,6 +194,32 @@ export class Native {
 
     return myNewObj;
   }
+
+    /**
+   * 统一调用此方法显示loading
+   * @param content 显示的内容
+   */
+  public showLoading(content: string = ''): void {
+    if (!this.loadingIsOpen) {
+      this.loadingIsOpen = true;
+      this.loading = this.loadingCtrl.create({
+        content: content
+      });
+      this.loading.present();
+      setTimeout(() => {//最长显示10秒
+        this.loadingIsOpen && this.loading.dismiss();
+        this.loadingIsOpen = false;
+      }, 20000);
+    }
+  };
+
+  /**
+   * 关闭loading
+   */
+  public hideLoading(): void {
+    this.loadingIsOpen && this.loading.dismiss();
+    this.loadingIsOpen = false;
+  };
 }
 
 

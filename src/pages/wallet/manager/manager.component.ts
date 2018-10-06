@@ -47,7 +47,8 @@ export class ManagerComponent {
       case 2:
         this.popupProvider.ionicConfirm('confirmTitle', 'confirmSubTitle').then((data) => {
           if (data) {
-            this.destroyWallet(this.masterWalletId);
+            //this.destroyWallet(this.masterWalletId);
+            this.getAllCreatedSubWallets();
           }
         });
         break;
@@ -59,6 +60,38 @@ export class ManagerComponent {
 
          break;
     }
+  }
+
+
+  getAllCreatedSubWallets(){
+
+    this.walletManager.getAllSubWallets(this.masterWalletId,(data) => {
+      if(data["success"]){
+        let chinas = JSON.parse(data["success"]);
+        let maxLen = chinas.length;
+        for (let index in chinas) {
+          let chain = chinas[index];
+          this.destroyWalletListener(index,maxLen,this.masterWalletId,chain);
+        }
+      }else{
+          this.native.hideLoading();
+          alert("==getAllSubWallets==error"+JSON.stringify(data));
+      }
+
+    });
+
+}
+
+  destroyWalletListener(index,maxLen,masterWalletId,chainId){
+      this.walletManager.removeWalletListener(masterWalletId,chainId,(data)=>{
+                if(data["success"]){
+                    if(parseInt(index) === (maxLen-1)){
+                        this.destroyWallet(masterWalletId);
+                    }
+                }else{
+                  alert("==getAllSubWallets==error"+JSON.stringify(data));
+                }
+      });
   }
 
   destroyWallet(masterWalletId: string){

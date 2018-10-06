@@ -23,6 +23,7 @@ export class InitializepagePage {
 
 
   initializeApp(){
+    this.native.showLoading();
      this.load().then((data)=>{
       this.successHandle(data["success"]);
      }).catch((data)=>{
@@ -35,14 +36,11 @@ export class InitializepagePage {
      return  new Promise((resolve, reject) =>{
           this.walletManager.getAllMasterWallets((data)=>{
                  if(data["success"]){
-                    console.log("==========getAllMasterWallets==========="+JSON.stringify(data));
                     resolve(data);
                  }else{
-                  console.log("==========getAllMasterWallets====error======="+JSON.stringify(data));
                   reject(data);
                  }
           },(data)=>{
-            console.log("====error======="+JSON.stringify(data));
             reject(data);
           })
      });
@@ -60,6 +58,7 @@ export class InitializepagePage {
           console.log("====getCurMasterId====" + JSON.stringify(item));
           Config.setCurMasterWalletId(item["masterId"]);
           Config.setMasterWalletIdList(idList);
+          this.native.hideLoading();
           switch (type) {
             case "payment":
               this.native.setRootRouter(PaymentConfirmComponent);
@@ -77,7 +76,6 @@ export class InitializepagePage {
   }
 
   public errorHandle(data){
-
        let error = data["error"];
        console.log("====error ====="+JSON.stringify(error));
 
@@ -85,6 +83,8 @@ export class InitializepagePage {
         console.log("====code ====="+error["code"]);
         let type = Util.GetQueryString("type");
          this.handleNull(type);
+       }else{
+         this.native.hideLoading();
        }
   }
 
@@ -99,10 +99,12 @@ export class InitializepagePage {
         memo: memo
       }
       this.localStorage.set('payment', payment_params).then(()=>{
+         this.native.hideLoading();
           Config.setMasterWalletIdList([]);
           this.native.setRootRouter(LauncherComponent);
       });
     }else{
+      this.native.hideLoading();
       Config.setMasterWalletIdList([]);
       this.native.setRootRouter(LauncherComponent);
     }

@@ -371,9 +371,14 @@ export class WalletManager {
     this.wallet.decodeTransactionFromString([txHexString],Fun,this.errorFun);
    }
 
+   removeWalletListener(masterWalletId:string,chainId:string,Fun){
+     this.wallet.removeWalletListener([masterWalletId,chainId],Fun,this.errorFun);
+   }
+
   errorFun(error) {
+    this.native.hideLoading();
     alert("错误信息：" + JSON.stringify(error));
-    //this.native.toast(error);
+    //this.native.toast(JSON.stringify(error));
   }
 
 

@@ -31,6 +31,7 @@ export class ImportComponent {
 
 
   onImport() {
+     this.native.showLoading();
      switch(this.selectedTab){
        case "words":
             if(this.checkWorld()){
@@ -47,19 +48,23 @@ export class ImportComponent {
 
   checkImportFile(){
    if(Util.isNull(this.keyStoreContent)){
+      this.native.hideLoading();
       this.native.toast_trans('import-text-keystroe-message');
           return false;
     }
     if(Util.isNull(this.importFileObj.backupPassWord)){
+      this.native.hideLoading();
       this.native.toast_trans('text-backup-passworld-input');
       return false;
     }
     if(Util.isNull(this.importFileObj.payPassword)){
+      this.native.hideLoading();
       this.native.toast_trans('text-pay-passworld-input');
       return false;
     }
 
     if(this.importFileObj.payPassword!=this.importFileObj.rePayPassword){
+      this.native.hideLoading();
       this.native.toast_trans('text-passworld-compare');
       return false;
     }
@@ -67,12 +72,10 @@ export class ImportComponent {
   }
 
   importWalletWithKeystore(){
-    console.log("====importWalletWithKeystore======"+this.masterWalletId);
     this.walletManager.importWalletWithKeystore(this.masterWalletId,
                       this.keyStoreContent,this.importFileObj.backupPassWord,
                       this.importFileObj.payPassword,this.importFileObj.phrasePassword,
                       (data)=>{
-                        console.log("this.keyStoreContent======"+this.keyStoreContent);
                         if(data["success"]){
                             this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
                             if(data["success"]){
@@ -87,15 +90,18 @@ export class ImportComponent {
                                 if(data["success"]){
                                    this.getAllCreatedSubWallets();
                                  }else{
+                                   this.native.hideLoading();
                                    alert("=====createSubWallet=error"+JSON.stringify(data));
                                  }
                                });
                             }else{
+                               this.native.hideLoading();
                                alert("=======getMasterWalletBasicInfo====error====="+JSON.stringify(data));
                             }
                           });
 
                         }else{
+                           this.native.hideLoading();
                            alert("=====importWalletWithKeystore=error"+JSON.stringify(data));
                         }
                       });
@@ -103,21 +109,25 @@ export class ImportComponent {
 
   checkWorld(){
     if(Util.isNull(this.mnemonicObj.mnemonic)){
+      this.native.hideLoading();
         this.native.toast_trans('text-input-mnemonic');
         return false;
     }
 
     let mnemonic = this.normalizeMnemonic(this.normalizeMnemonic(this.mnemonicObj.mnemonic));
     if(mnemonic.split(/[\u3000\s]+/).length != 12){
+      this.native.hideLoading();
       this.native.toast_trans('text-mnemonic-validator');
       return false;
     }
 
     if(Util.isNull(this.mnemonicObj.payPassword)){
+      this.native.hideLoading();
       this.native.toast_trans('text-pay-password');
       return false;
     }
     if (!Util.password(this.mnemonicObj.payPassword)) {
+      this.native.hideLoading();
       this.native.toast_trans("text-pwd-validator");
       return;
     }
@@ -141,10 +151,8 @@ export class ImportComponent {
     let mnemonic = this.normalizeMnemonic(this.normalizeMnemonic(this.mnemonicObj.mnemonic));
     this.walletManager.importWalletWithMnemonic(this.masterWalletId,mnemonic,this.mnemonicObj.phrasePassword,this.mnemonicObj.payPassword,this.native.getMnemonicLang(),(data)=>{
                 if(data["success"]){
-                   console.log("importWalletWithMnemonic=="+JSON.stringify(data));
                    this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
                     if(data["success"]){
-                       console.log("===getMasterWalletBasicInfo==="+JSON.stringify(data));
                        this.walletType = JSON.parse(data["success"])["Account"]["Type"];
                        let single = false;
                        if(this.walletType === "Multi-Sign"){
@@ -152,20 +160,22 @@ export class ImportComponent {
                        }
                        this.walletManager.createSubWallet(this.masterWalletId,"ELA", this.mnemonicObj.payPassword,single, 0, (data)=>{
                         if(data["success"]){
-                          console.log("createSubWallet=="+JSON.stringify(data));
                           this.native.toast_trans('import-text-world-sucess');
                           this.localStorage.remove('coinListCache').then(()=>{
                           this.saveWalletList();
                         });
                         }else{
+                             this.native.hideLoading();
                              alert("createSubWallet==error"+JSON.stringify(data));
                         }
                          });
                       }else{
+                        this.native.hideLoading();
                         alert("=======getMasterWalletBasicInfo====error====="+JSON.stringify(data));
                       }
                     });
                 }else{
+                    this.native.hideLoading();
                     alert("importWalletWithMnemonic==error"+JSON.stringify(data));
                 }
             });
@@ -175,14 +185,13 @@ export class ImportComponent {
 
       this.walletManager.getAllSubWallets(this.masterWalletId,(data) => {
         if(data["success"]){
-          console.log("====getAllSubWallets======"+JSON.stringify(data));
           let chinas = this.getCoinListCache(JSON.parse(data["success"]));
-          console.log("====getCoinListCache======"+JSON.stringify(chinas));
            this.localStorage.set('coinListCache',chinas).then(()=>{
             this.native.toast_trans('import-text-keystroe-sucess');
             this.saveWalletList();
            });
         }else{
+            this.native.hideLoading();
             alert("==getAllSubWallets==error"+JSON.stringify(data));
         }
 
@@ -204,13 +213,10 @@ export class ImportComponent {
   saveWalletList(){
     Config.getMasterWalletIdList().push(this.masterWalletId);
             this.localStorage.saveCurMasterId({masterId:this.masterWalletId}).then((data)=>{
+              this.native.hideLoading();
               Config.setCurMasterWalletId(this.masterWalletId);
               this.native.setRootRouter(TabsComponent);
             });
-  }
-
-  getBase(){
-
   }
 
 }

@@ -31,19 +31,18 @@ export class AddprivatekeyPage {
   }
 
   nextPage(){
-     //this.navCtrl.push(AddpublickeyPage);
+     this.native.showLoading();
      this.createWallet();
   }
 
   createWallet(){
      let copayers = this.getTotalCopayers();
-     console.log("====mastId===="+this.masterWalletId+"====importText===="+this.msobj["importText"]+"====passWord===="+this.msobj["passWord"]+"====copayers===="+copayers+"==requiredCopayers=="+this.msobj["requiredCopayers"]);
      this.walletManager.createMultiSignMasterWalletWithPrivKey(this.masterWalletId,this.msobj["importText"],this.msobj["passWord"],copayers,this.msobj["requiredCopayers"],(data)=>{
                if(data['success']){
-                 console.log("=====createMultiSignMasterWalletWithPrivKey======"+JSON.stringify(data));
                  //this.native.setRootRouter(TabsComponent);
                  this.createSubWallet("ELA");
                }else{
+                 this.native.hideLoading();
                  alert("=====createMultiSignMasterWalletWithPrivKey===error==="+JSON.stringify(data));
                }
      });
@@ -66,6 +65,7 @@ export class AddprivatekeyPage {
                console.log("====createSubWallet===="+JSON.stringify(data));
                this.saveWalletList();
           }else{
+                this.native.hideLoading();
                 alert("createSubWallet=error:"+JSON.stringify(data));
           }
     });
@@ -74,6 +74,7 @@ export class AddprivatekeyPage {
   saveWalletList(){
     Config.getMasterWalletIdList().push(this.masterWalletId);
      this.localStorage.saveCurMasterId({masterId:this.masterWalletId}).then((data)=>{
+              this.native.hideLoading();
               Config.setCurMasterWalletId(this.masterWalletId);
               this.native.setRootRouter(TabsComponent);
       });
