@@ -379,6 +379,9 @@ public class Wallet extends CordovaPlugin {
 				case "registerWalletListener":
 					this.registerWalletListener(args, cc);
 					break;
+				case "removeWalletListener":
+					this.removeWalletListener(args, cc);
+					break;
 
 					// ID chain subwallet
 				case "createIdTransaction":
@@ -1683,24 +1686,37 @@ public class Wallet extends CordovaPlugin {
 					pluginResult.setKeepCallback(true);
 					cc.sendPluginResult(pluginResult);
 				}
-
-				@Override
-				public void OnDestroyWallet() {
-					JSONObject jsonObject = new JSONObject();
-					Log.i(TAG, "OnDestroyWallet");
-					try {
-						jsonObject.put("OnDestroyWallet", "OnDestroyWallet");
-					} catch (JSONException e) {
-						e.printStackTrace();
-					}
-
-					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK,jsonObject);
-					pluginResult.setKeepCallback(true);
-					cc.sendPluginResult(pluginResult);
-				}
 			});
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, "Add callback for subwallet '" + chainId + "' of master wallet '" + masterWalletId + "'");
+		}
+	}
+
+	// args[0]: String masterWalletId
+	// args[1]: String chainId
+	public void removeWalletListener(JSONArray args, CallbackContext cc) throws JSONException {
+		int idx = 0;
+
+		String masterWalletId = args.getString(idx++);
+		String chainId        = args.getString(idx++);
+
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+		try {
+			ISubWallet subWallet = getSubWallet(masterWalletId, chainId);
+			if (subWallet == null) {
+				errorProcess(cc, errCodeInvalidSubWallet, "Get subwallet '" + chainId + "' of master wallet '" + masterWalletId + "' fail");
+				return;
+			}
+
+			subWallet.RemoveCallback();
+
+			successProcess(cc, "[" + masterWalletId + ":" + chainId + "] remove listener");
+
+		} catch (WalletException e) {
+			exceptionProcess(e, cc,  "[" + masterWalletId + ":" + chainId + "] remove listener");
 		}
 	}
 

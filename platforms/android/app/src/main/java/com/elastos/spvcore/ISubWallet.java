@@ -39,8 +39,8 @@ public class ISubWallet {
         nativeAddCallback(mSubProxy, subCallback);
     }
 
-    public void RemoveCallback(ISubWalletCallback subCallback) throws WalletException {
-        nativeRemoveCallback(mSubProxy, subCallback);
+    public void RemoveCallback() throws WalletException {
+        nativeRemoveCallback(mSubProxy);
     }
 
     public String CreateTransaction(String fromAddress, String toAddress, long amount, String memo, String remark) throws WalletException {
@@ -103,7 +103,7 @@ public class ISubWallet {
     private native String nativeGetAllAddress(long subProxy, int start,int count);
     private native long nativeGetBalanceWithAddress(long subProxy, String address);
     private native void nativeAddCallback(long subProxy, ISubWalletCallback subCallback);
-    private native void nativeRemoveCallback(long subProxy, ISubWalletCallback subCallback);
+    private native void nativeRemoveCallback(long subProxy);
     private native String nativeCreateTransaction(long subProxy, String fromAddress, String toAddress, long amount, String memo, String remark);
     private native String nativeCreateMultiSignTransaction(long subProxy, String fromAddress, String toAddress, long amount, String memo);
     private native long nativeCalculateTransactionFee(long subProxy, String rawTransaction, long feePerKb);
