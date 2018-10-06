@@ -75,7 +75,7 @@ export class ManagerComponent {
   }
 
   delWalletListOne(masterWalletId){
-    console.log("===delWalletListOne===="+JSON.stringify(masterWalletId));
+    console.log("===delWalletListOne===="+masterWalletId);
     let arr = Config.getMasterWalletIdList();
      let index = arr.indexOf(masterWalletId);
      console.log("===index===="+index);

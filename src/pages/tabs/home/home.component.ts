@@ -167,14 +167,14 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
         });
       }
-            if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
-              this.tempElaPer = 1;
+          if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
+              //this.tempElaPer = 1;
            }else{
             this.tempElaPer= result["progress"];
            }
 
            if(this.tempElaPer === 1){
-            this.getElaBalance(this.ElaObj);
+             //this.getElaBalance(this.ElaObj);
            }
     });
   }
@@ -187,13 +187,13 @@ export class HomeComponent extends BaseComponent implements OnInit {
           });
         }
         if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
-          this.tempIdChinaPer = 1;
+          //this.tempIdChinaPer = 1;
         }else{
           this.tempIdChinaPer  = result["progress"];
         }
 
         if(this.tempIdChinaPer === 1){
-                 this.getSubBalance("IdChain");
+                 //this.getSubBalance("IdChain");
         }
     });
   }
