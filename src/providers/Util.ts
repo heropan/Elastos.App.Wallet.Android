@@ -24,8 +24,13 @@ export class Util {
   };
 
   static password = function (text) {
-    var pPattern = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/;
-    return pPattern.test(text);
+    if(text.length < 8){
+        return false;
+    }
+    return true;
+    //var pPattern = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/;
+    //return pPattern.test(text);
+
   };
   static number = function (text) {
     // var numPattern = /^(([1-9]\d*)|0)(\.\d{1,2})?$"/;
