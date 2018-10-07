@@ -159,9 +159,7 @@ class ElaSubWalletCallback: public ISubWalletCallback
 		 */
 		virtual void OnBlockSyncStopped();
 
-		/**
-		 * Callback method fired when subwallet was destroyed.
-		 */
+		virtual void OnBalanceChanged(uint64_t balance);
 
 		ElaSubWalletCallback(
 				/* [in] */ JNIEnv* env,
@@ -649,7 +647,7 @@ void ElaSubWalletCallback::OnBlockHeightIncreased(uint32_t currentBlockHeight, d
 	JNIEnv* env = GetEnv();
 
 	jclass clazz = env->GetObjectClass(mObj);
-	jmethodID methodId = env->GetMethodID(clazz, "OnBlockHeightIncreased","(ID)V");
+	jmethodID methodId = env->GetMethodID(clazz, "OnBlockHeightIncreased", "(ID)V");
 	env->CallVoidMethod(mObj, methodId, currentBlockHeight, progress);
 
 	Detach();
@@ -660,8 +658,19 @@ void ElaSubWalletCallback::OnBlockSyncStopped()
 	JNIEnv* env = GetEnv();
 
 	jclass clazz = env->GetObjectClass(mObj);
-	jmethodID methodId = env->GetMethodID(clazz, "OnBlockSyncStopped","()V");
+	jmethodID methodId = env->GetMethodID(clazz, "OnBlockSyncStopped", "()V");
 	env->CallVoidMethod(mObj, methodId);
+
+	Detach();
+}
+
+void ElaSubWalletCallback::OnBalanceChanged(uint64_t balance)
+{
+	JNIEnv *env = GetEnv();
+
+	jclass clazz = env->GetObjectClass(mObj);
+	jmethodID methodId = env->GetMethodID(clazz, "OnBalanceChanged", "(J)V");
+	env->CallVoidMethod(mObj, methodId, balance);
 
 	Detach();
 }

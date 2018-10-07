@@ -1638,13 +1638,17 @@ public class Wallet extends CordovaPlugin {
 						jsonObject.put("status", status);
 						jsonObject.put("desc", desc);
 						jsonObject.put("confirms", confirms);
+
+						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
+						pluginResult.setKeepCallback(true);
+						cc.sendPluginResult(pluginResult);
 					} catch (JSONException e) {
 						e.printStackTrace();
-					}
 
-					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK,jsonObject);
-					pluginResult.setKeepCallback(true);
-					cc.sendPluginResult(pluginResult);
+						PluginResult pluginResult = new PluginResult(PluginResult.Status.JSON_EXCEPTION, e.toString());
+						pluginResult.setKeepCallback(true);
+						cc.sendPluginResult(pluginResult);
+					}
 				}
 
 				@Override
@@ -1653,14 +1657,17 @@ public class Wallet extends CordovaPlugin {
 					Log.i(TAG, "OnBlockSyncStarted");
 					try {
 						jsonObject.put("OnBlockSyncStarted", "OnBlockSyncStarted");
-					}
-					catch (JSONException e) {
-						e.printStackTrace();
-					}
 
-					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK,jsonObject);
-					pluginResult.setKeepCallback(true);
-					cc.sendPluginResult(pluginResult);
+						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
+						pluginResult.setKeepCallback(true);
+						cc.sendPluginResult(pluginResult);
+					} catch (JSONException e) {
+						e.printStackTrace();
+
+						PluginResult pluginResult = new PluginResult(PluginResult.Status.JSON_EXCEPTION, e.toString());
+						pluginResult.setKeepCallback(true);
+						cc.sendPluginResult(pluginResult);
+					}
 				}
 
 				@Override
@@ -1669,14 +1676,17 @@ public class Wallet extends CordovaPlugin {
 					try {
 						jsonObject.put("currentBlockHeight", currentBlockHeight);
 						jsonObject.put("progress", progress);
-					}
-					catch (JSONException e) {
-						e.printStackTrace();
-					}
 
-					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK,jsonObject);
-					pluginResult.setKeepCallback(true);
-					cc.sendPluginResult(pluginResult);
+						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
+						pluginResult.setKeepCallback(true);
+						cc.sendPluginResult(pluginResult);
+					} catch (JSONException e) {
+						e.printStackTrace();
+
+						PluginResult pluginResult = new PluginResult(PluginResult.Status.JSON_EXCEPTION, e.toString());
+						pluginResult.setKeepCallback(true);
+						cc.sendPluginResult(pluginResult);
+					}
 				}
 
 				@Override
@@ -1685,14 +1695,36 @@ public class Wallet extends CordovaPlugin {
 					Log.i(TAG, "OnBlockSyncStopped");
 					try {
 						jsonObject.put("OnBlockSyncStopped", "OnBlockSyncStopped");
-					}
-					catch (JSONException e) {
-						e.printStackTrace();
-					}
 
-					PluginResult pluginResult = new PluginResult(PluginResult.Status.OK,jsonObject);
-					pluginResult.setKeepCallback(true);
-					cc.sendPluginResult(pluginResult);
+						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
+						pluginResult.setKeepCallback(true);
+						cc.sendPluginResult(pluginResult);
+					} catch (JSONException e) {
+						e.printStackTrace();
+
+						PluginResult pluginResult = new PluginResult(PluginResult.Status.JSON_EXCEPTION, e.toString());
+						pluginResult.setKeepCallback(true);
+						cc.sendPluginResult(pluginResult);
+					}
+				}
+
+				@Override
+				public void OnBalanceChanged(long balance) {
+					JSONObject jsonObject = new JSONObject();
+					Log.i(TAG, "balance change: " + balance);
+					try {
+						jsonObject.put("Balance", balance);
+
+						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
+						pluginResult.setKeepCallback(true);
+						cc.sendPluginResult(pluginResult);
+					} catch(JSONException e) {
+						e.printStackTrace();
+
+						PluginResult pluginResult = new PluginResult(PluginResult.Status.JSON_EXCEPTION, e.toString());
+						pluginResult.setKeepCallback(true);
+						cc.sendPluginResult(pluginResult);
+					}
 				}
 			});
 		} catch (WalletException e) {
