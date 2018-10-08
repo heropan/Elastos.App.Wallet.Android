@@ -167,6 +167,11 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
         });
       }
+          if(!Util.isNull(result["Balance"])){
+            console.log("getBalance="+JSON.stringify(result));
+            this.ElaObj.balance = result["Balance"]/Config.SELA;
+          }
+
           if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
               //this.tempElaPer = 1;
            }else{
@@ -182,10 +187,28 @@ export class HomeComponent extends BaseComponent implements OnInit {
   sycIdChain(){
     this.walletManager.registerWalletListener(this.masterWalletId,"IdChain",(result)=>{
       console.log("====IdChain==="+result['confirms']);
+
+      if(!Util.isNull(result["Balance"])){
+        if(this.coinList.length === 0){
+          this.coinList.push({name:"IdChain", balance: result["Balance"]/Config.SELA});
+         }else{
+            let index = this.getCoinIndex("IdChain");
+            if(index!=-1){
+               let item = this.coinList[index];
+                   item["balance"] = result["Balance"]/Config.SELA;
+                   this.coinList.splice(index,1,item);
+
+            }else{
+                  this.coinList.push({name: "IdChain", balance: result["Balance"]/Config.SELA});
+            }
+         }
+      }
+
         if (result['confirms'] == 1) {
           this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
           });
         }
+
         if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
           //this.tempIdChinaPer = 1;
         }else{
