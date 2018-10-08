@@ -262,5 +262,8 @@ export const zh = {
   'text-send-tx':"发送交易",
   'text-sing-tx':"签名交易",
   'text-scan-code':"查看二维码",
-  'text-tx-details':"交易详情"
+  'text-tx-details':"交易详情",
+  'text-multi-title1':"公钥数量",
+  'text-multi-title2':"签名数量",
+  'text-multi-error':"签名数不能大于公钥数量"
 };

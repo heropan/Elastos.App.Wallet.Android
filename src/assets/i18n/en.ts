@@ -230,4 +230,6 @@ export const en = {
   'text-data-chain1':'please wait',
   'text-data-chain2':'success',
   'text-exit-message':'repeat to exit application',
+  'text-multi-title1':"Total number of copayers",
+  'text-multi-title2':"Required number of signatures",
 };

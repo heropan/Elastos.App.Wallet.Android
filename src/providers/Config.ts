@@ -160,14 +160,26 @@ export class Config {
   }
 
 
-  public static setMasterPer(masterId,per){
+  public static setMasterPer(masterId,coin,per){
       console.log("==========setMasterPer==============="+per);
-      this.perObj[masterId] = per;
+      if(this.perObj[masterId]){
+        this.perObj[masterId][coin] = per;
+      }else{
+         this.perObj[masterId] = {};
+         this.perObj[masterId][coin] = per;
+      }
+      console.log("==========setMasterPer==============="+this.perObj[masterId][coin]);
   }
 
-  public static getMasterPer(masterId){
-    console.log("==========getMasterPer==============="+this.perObj[masterId]);
-    return this.perObj[masterId] || 0;
+  public static getMasterPer(masterId,coin){
+
+    if(this.perObj[masterId]){
+      console.log("==========getMasterPer==============="+this.perObj[masterId][coin]);
+      return this.perObj[masterId][coin] || 0;
+    }else{
+         console.log("==========getMasterPer==============="+this.perObj[masterId][coin]);
+         return 0;
+    }
   }
 }
 

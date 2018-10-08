@@ -32,9 +32,9 @@ export class HomeComponent extends BaseComponent implements OnInit {
     },100);
     this.getAllSubWallets();
     this.events.subscribe("wallte:update",(item)=>{
-      this.tempElaPer = Config.getMasterPer(this.masterWalletId);
+      this.tempElaPer = Config.getMasterPer(this.masterWalletId,"ELA");
       this.tempIdChinaPer =this.tempIdChinaPer;
-      this.elaPer = Config.getMasterPer(this.masterWalletId);
+      this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");
       this.idChainPer =this.tempIdChinaPer;
       setInterval(()=>{
         this.elaPer = this.tempElaPer;
@@ -167,26 +167,36 @@ export class HomeComponent extends BaseComponent implements OnInit {
       if(this.masterWalletId != result["MasterWalletID"] && "ELA" === result["ChaiID"]){
         return;
       }
-      if (result['confirms'] == 1) {
-        this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
-        });
-      }
-          if(!Util.isNull(result["Balance"])){
-            console.log("getBalance="+JSON.stringify(result));
-            this.ElaObj.balance = result["Balance"]/Config.SELA;
-          }
 
-          if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
+      if(result["Action"] === "OnTransactionStatusChanged"){
+        if (result['confirms'] == 1) {
+          this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
+          });
+         }
+      }
+
+      if(result["Action"] === "OnBalanceChanged"){
+        if(!Util.isNull(result["Balance"])){
+          console.log("getBalance="+JSON.stringify(result));
+          this.ElaObj.balance = result["Balance"]/Config.SELA;
+         }
+       }
+       if(result["Action"] === "OnBlockSyncStopped"){
               //this.tempElaPer = 1;
-              this.tempElaPer = Config.getMasterPer(this.masterWalletId);
-           }else{
-            this.tempElaPer= result["progress"];
-            Config.setMasterPer(this.masterWalletId,this.tempElaPer);
+              this.tempElaPer = Config.getMasterPer(this.masterWalletId,"ELA");
+           }else if(result["Action"] === "OnBlockSyncStarted"){
+              this.tempElaPer = Config.getMasterPer(this.masterWalletId,"ELA");
+           }else if(result["Action"] === "OnBlockHeightIncreased"){
+             if(result["progress"]){
+              this.tempElaPer= result["progress"];
+              Config.setMasterPer(this.masterWalletId,"ELA",this.tempElaPer);
+             }
+
            }
 
            if(this.tempElaPer === 1){
              //this.getElaBalance(this.ElaObj);
-             this.tempElaPer = Config.getMasterPer(this.masterWalletId);
+             this.tempElaPer = Config.getMasterPer(this.masterWalletId,"ELA");
            }
     });
   }
@@ -198,39 +208,44 @@ export class HomeComponent extends BaseComponent implements OnInit {
       if(this.masterWalletId != result["MasterWalletID"] && coin === result["ChaiID"]){
                    return;
       }
+      if(result["Action"] === "OnBalanceChanged"){
+        if(!Util.isNull(result["Balance"])){
+          if(this.coinList.length === 0){
+            this.coinList.push({name:coin, balance: result["Balance"]/Config.SELA});
+           }else{
+              let index = this.getCoinIndex(coin);
+              if(index!=-1){
+                 let item = this.coinList[index];
+                     item["balance"] = result["Balance"]/Config.SELA;
+                     this.coinList.splice(index,1,item);
 
-      if(!Util.isNull(result["Balance"])){
-        if(this.coinList.length === 0){
-          this.coinList.push({name:coin, balance: result["Balance"]/Config.SELA});
-         }else{
-            let index = this.getCoinIndex(coin);
-            if(index!=-1){
-               let item = this.coinList[index];
-                   item["balance"] = result["Balance"]/Config.SELA;
-                   this.coinList.splice(index,1,item);
-
-            }else{
-                  this.coinList.push({name: coin, balance: result["Balance"]/Config.SELA});
-            }
-         }
+              }else{
+                    this.coinList.push({name: coin, balance: result["Balance"]/Config.SELA});
+              }
+           }
+        }
       }
 
+      if(result["Action"] === "OnTransactionStatusChanged"){
         if (result['confirms'] == 1) {
           this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
           });
         }
+       }
 
-        if(result["OnBlockSyncStopped"] === "OnBlockSyncStopped"){
+        if(result["Action"] === "OnBlockSyncStopped"){
           //this.tempIdChinaPer = 1;
-          this.tempElaPer = Config.getMasterPer(this.masterWalletId);
-        }else{
+          this.tempElaPer = Config.getMasterPer(this.masterWalletId,coin);
+        }else if(result["Action"] === "OnBlockSyncStarted"){
+          this.tempElaPer = Config.getMasterPer(this.masterWalletId,coin);
+        }else if(result["Action"] === "OnBlockHeightIncreased"){
           this.tempIdChinaPer  = result["progress"];
-          Config.setMasterPer(this.masterWalletId,this.tempElaPer);
+          Config.setMasterPer(this.masterWalletId,coin,this.tempElaPer);
         }
 
         if(this.tempIdChinaPer === 1){
                  //this.getSubBalance("IdChain");
-          this.tempElaPer = Config.getMasterPer(this.masterWalletId);
+          this.tempElaPer = Config.getMasterPer(this.masterWalletId,coin);
         }
     });
   }
