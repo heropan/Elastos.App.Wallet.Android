@@ -11,7 +11,6 @@ import {Native} from "../providers/Native";
 import {DialogService, ToastService} from 'ngx-weui';
 
 import {zh} from "../assets/i18n/zh";
-import {WalletModel} from "../models/wallet.model";
 import {LocalStorage} from "../providers/Localstorage";
 import { NavParams } from 'ionic-angular';
 import {BackupProvider} from "../providers/backup";
@@ -29,13 +28,7 @@ import { Events } from 'ionic-angular';
 
 })
 export class BaseComponent {
-
-
   header: Header;
-
-  public walletData: WalletModel;
-
-
   public constructor(public log: Logger,
                      public translate: TranslateService,
                      public location: Location,

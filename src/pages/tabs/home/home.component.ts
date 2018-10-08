@@ -29,7 +29,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
     setInterval(()=>{
       this.elaPer = this.tempElaPer;
       this.idChainPer = this.tempIdChinaPer;
-    },0);
+    },100);
     this.getAllSubWallets();
     this.events.subscribe("wallte:update",(item)=>{
       this.tempElaPer = 0;
@@ -115,11 +115,9 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.sycEla();
         this.getElaBalance(this.ElaObj);
         this.localStorage.get('coinListCache').then((val)=>{
-          console.log("====coin111===="+val);
           let coinListCache = JSON.parse(val);
           for (let coin in coinListCache) {
-            console.log("====coin===="+coin);
-             this.sycIdChain();
+             this.sycIdChain(coin);
              this.getSubBalance(coin);
           }
         });
@@ -166,7 +164,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   sycEla(){
 
     this.walletManager.registerWalletListener(this.masterWalletId,"ELA",(result)=>{
-      console.log("====ELA==="+result['confirms']);
+
       if (result['confirms'] == 1) {
         this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
         });
@@ -188,22 +186,22 @@ export class HomeComponent extends BaseComponent implements OnInit {
     });
   }
 
-  sycIdChain(){
-    this.walletManager.registerWalletListener(this.masterWalletId,"IdChain",(result)=>{
+  sycIdChain(coin){
+    this.walletManager.registerWalletListener(this.masterWalletId,coin,(result)=>{
       console.log("====IdChain==="+result['confirms']);
 
       if(!Util.isNull(result["Balance"])){
         if(this.coinList.length === 0){
-          this.coinList.push({name:"IdChain", balance: result["Balance"]/Config.SELA});
+          this.coinList.push({name:coin, balance: result["Balance"]/Config.SELA});
          }else{
-            let index = this.getCoinIndex("IdChain");
+            let index = this.getCoinIndex(coin);
             if(index!=-1){
                let item = this.coinList[index];
                    item["balance"] = result["Balance"]/Config.SELA;
                    this.coinList.splice(index,1,item);
 
             }else{
-                  this.coinList.push({name: "IdChain", balance: result["Balance"]/Config.SELA});
+                  this.coinList.push({name: coin, balance: result["Balance"]/Config.SELA});
             }
          }
       }
