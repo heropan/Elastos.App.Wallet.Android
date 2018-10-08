@@ -32,10 +32,14 @@ export class HomeComponent extends BaseComponent implements OnInit {
     },0);
     this.getAllSubWallets();
     this.events.subscribe("wallte:update",(item)=>{
+      this.tempElaPer = 0;
+      this.tempIdChinaPer = 0;
+      this.elaPer = 0;
+      this.idChainPer = 0;
       setInterval(()=>{
         this.elaPer = this.tempElaPer;
         this.idChainPer = this.tempIdChinaPer;
-      },0);
+      },100);
       console.log("Selected Item", item);
       this.masterWalletId = item;
       Config.setCurMasterWalletId(this.masterWalletId);
