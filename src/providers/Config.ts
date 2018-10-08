@@ -9,6 +9,7 @@ import {Injectable} from '@angular/core';
  */
 @Injectable()
 export class Config {
+  public static perObj = {};
   public static masterWalletId:string = "1";
   public static masterWalletList = [];
   public static COIN_LIST = {"ELA": {id: 0, name: 'ELA', balance: 0}};
@@ -156,6 +157,17 @@ export class Config {
     }
 
     return uuid.join('');
+  }
+
+
+  public static setMasterPer(masterId,per){
+      console.log("==========setMasterPer==============="+per);
+      this.perObj[masterId] = per;
+  }
+
+  public static getMasterPer(masterId){
+    console.log("==========getMasterPer==============="+this.perObj[masterId]);
+    return this.perObj[masterId] || 0;
   }
 }
 
