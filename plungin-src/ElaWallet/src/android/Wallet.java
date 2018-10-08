@@ -1640,6 +1640,7 @@ public class Wallet extends CordovaPlugin {
 						jsonObject.put("confirms", confirms);
 						jsonObject.put("MasterWalletID", masterWalletID);
 						jsonObject.put("ChaiID", chainID);
+						jsonObject.put("Action", "OnTransactionStatusChanged");
 
 						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
 						pluginResult.setKeepCallback(true);
@@ -1658,9 +1659,9 @@ public class Wallet extends CordovaPlugin {
 					JSONObject jsonObject = new JSONObject();
 					Log.i(TAG, "OnBlockSyncStarted");
 					try {
-						jsonObject.put("OnBlockSyncStarted", "OnBlockSyncStarted");
 						jsonObject.put("MasterWalletID", masterWalletID);
 						jsonObject.put("ChaiID", chainID);
+						jsonObject.put("Action", "OnBlockSyncStarted");
 
 						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
 						pluginResult.setKeepCallback(true);
@@ -1682,6 +1683,7 @@ public class Wallet extends CordovaPlugin {
 						jsonObject.put("progress", progress);
 						jsonObject.put("MasterWalletID", masterWalletID);
 						jsonObject.put("ChaiID", chainID);
+						jsonObject.put("Action", "OnBlockHeightIncreased");
 
 						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
 						pluginResult.setKeepCallback(true);
@@ -1700,9 +1702,9 @@ public class Wallet extends CordovaPlugin {
 					JSONObject jsonObject = new JSONObject();
 					Log.i(TAG, "OnBlockSyncStopped");
 					try {
-						jsonObject.put("OnBlockSyncStopped", "OnBlockSyncStopped");
 						jsonObject.put("MasterWalletID", masterWalletID);
 						jsonObject.put("ChaiID", chainID);
+						jsonObject.put("Action", "OnBlockSyncStopped");
 
 						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
 						pluginResult.setKeepCallback(true);
@@ -1724,6 +1726,7 @@ public class Wallet extends CordovaPlugin {
 						jsonObject.put("Balance", balance);
 						jsonObject.put("MasterWalletID", masterWalletID);
 						jsonObject.put("ChaiID", chainID);
+						jsonObject.put("Action", "OnBalanceChanged");
 
 						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
 						pluginResult.setKeepCallback(true);
