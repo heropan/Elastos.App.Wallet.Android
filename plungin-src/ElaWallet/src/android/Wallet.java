@@ -1638,6 +1638,8 @@ public class Wallet extends CordovaPlugin {
 						jsonObject.put("status", status);
 						jsonObject.put("desc", desc);
 						jsonObject.put("confirms", confirms);
+						jsonObject.put("MasterWalletID", masterWalletID);
+						jsonObject.put("ChaiID", chainID);
 
 						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
 						pluginResult.setKeepCallback(true);
@@ -1657,6 +1659,8 @@ public class Wallet extends CordovaPlugin {
 					Log.i(TAG, "OnBlockSyncStarted");
 					try {
 						jsonObject.put("OnBlockSyncStarted", "OnBlockSyncStarted");
+						jsonObject.put("MasterWalletID", masterWalletID);
+						jsonObject.put("ChaiID", chainID);
 
 						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
 						pluginResult.setKeepCallback(true);
@@ -1676,6 +1680,8 @@ public class Wallet extends CordovaPlugin {
 					try {
 						jsonObject.put("currentBlockHeight", currentBlockHeight);
 						jsonObject.put("progress", progress);
+						jsonObject.put("MasterWalletID", masterWalletID);
+						jsonObject.put("ChaiID", chainID);
 
 						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
 						pluginResult.setKeepCallback(true);
@@ -1695,6 +1701,8 @@ public class Wallet extends CordovaPlugin {
 					Log.i(TAG, "OnBlockSyncStopped");
 					try {
 						jsonObject.put("OnBlockSyncStopped", "OnBlockSyncStopped");
+						jsonObject.put("MasterWalletID", masterWalletID);
+						jsonObject.put("ChaiID", chainID);
 
 						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
 						pluginResult.setKeepCallback(true);
@@ -1714,6 +1722,8 @@ public class Wallet extends CordovaPlugin {
 					Log.i(TAG, "balance change: " + balance);
 					try {
 						jsonObject.put("Balance", balance);
+						jsonObject.put("MasterWalletID", masterWalletID);
+						jsonObject.put("ChaiID", chainID);
 
 						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
 						pluginResult.setKeepCallback(true);
