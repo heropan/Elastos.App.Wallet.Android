@@ -17,7 +17,7 @@ export class WalletManager {
   public static COINTYPE_ID = 1;
   public static LIMITGAP = 500;
   public static FEEPERKb = 500;
-  public static PAGECOUNT = 100;
+  public static PAGECOUNT = 10;
 
   constructor(public native: Native) {
       console.log("========wal=======");
