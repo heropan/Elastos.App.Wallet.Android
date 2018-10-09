@@ -27,22 +27,20 @@ export class HomeComponent extends BaseComponent implements OnInit {
     this.masterWalletId =  Config.getCurMasterWalletId();
     this.goPayment();
     setInterval(()=>{
-      this.elaPer = this.tempElaPer;
-      this.idChainPer = this.tempIdChinaPer;
-    },100);
+      this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");;
+      this.idChainPer = Config.getMasterPer(this.masterWalletId,"IdChain");
+    },500);
     this.getAllSubWallets();
     this.events.subscribe("wallte:update",(item)=>{
-      this.tempElaPer = Config.getMasterPer(this.masterWalletId,"ELA");
-      this.tempIdChinaPer =this.tempIdChinaPer;
-      this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");
-      this.idChainPer =this.tempIdChinaPer;
-      setInterval(()=>{
-        this.elaPer = this.tempElaPer;
-        this.idChainPer = this.tempIdChinaPer;
-      },500);
-      console.log("Selected Item", item);
       this.masterWalletId = item;
       Config.setCurMasterWalletId(this.masterWalletId);
+      this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");
+      this.idChainPer =Config.getMasterPer(this.masterWalletId,"IdChain");
+      setInterval(()=>{
+        this.masterWalletId =  Config.getCurMasterWalletId();
+        this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");
+        this.idChainPer = Config.getMasterPer(this.masterWalletId,"IdChain");
+      },500);
       this.getAllSubWallets();
     });
     this.events.subscribe('home:update', () => {
@@ -111,7 +109,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
   getAllSubWallets(){
     this.walletManager.getAllSubWallets(this.masterWalletId,(data)=>{
       if(data["success"]){
-        console.log("getAllSubWallets="+JSON.stringify(data));
         this.sycEla();
         this.getElaBalance(this.ElaObj);
         this.localStorage.get('coinListCache').then((val)=>{

@@ -17,11 +17,11 @@ export class CreatemultiwalltePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CreatemultiwalltePage');
+
   }
 
   public setTotalCopayers(): void {
-    console.log('====sssssssss====='+this.totalCopayers);
+
   }
 
   nextPage(){
@@ -29,7 +29,7 @@ export class CreatemultiwalltePage {
            this.native.toast_trans("text-multi-error");
            return;
       }
-      this.native.Go(WalltemodePage,{totalCopayers:this.totalCopayers,requiredCopayers:this.requiredCopayers});
+      this.native.Go(this.navCtrl,WalltemodePage,{totalCopayers:this.totalCopayers,requiredCopayers:this.requiredCopayers});
   }
 
 }

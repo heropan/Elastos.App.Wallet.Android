@@ -17,7 +17,6 @@ export class MyComponent  extends BaseComponent implements OnInit  {
   public readonly:boolean = false;
   ngOnInit() {
     this.events.subscribe("wallte:update",(item)=>{
-        console.log("=====MyComponent=======");
           this.masterWalletId = item;
           this.getMasterWalletBasicInfo();
     });

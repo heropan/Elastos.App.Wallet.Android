@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-
+import {Logger} from "../providers/Logger";
 
 
 
@@ -9,24 +9,14 @@ import {Injectable} from '@angular/core';
  */
 @Injectable()
 export class Config {
+
   public static perObj = {};
   public static masterWalletId:string = "1";
   public static masterWalletList = [];
-  public static COIN_LIST = {"ELA": {id: 0, name: 'ELA', balance: 0}};
-
-  public static WalletKey = "wallet";
-
-  public static LIST_COUNT = 20;
 
   public static SELA = 100000000;
 
   public static BLOCKCHAIN_URL: String = 'https://blockchain.elastos.org/';
-
-  public static appList=[{"id":0,"appkeyName":"kyc"}];
-
-  private static smsSecretKey = "";
-
-  public static test: any = '';
 
   private static kycObj:any={};
 
@@ -40,10 +30,6 @@ export class Config {
 
   public static setKycObj(obj){
         this.kycObj = obj;
-  }
-
-  public static getSmsSecretKey(){
-      return this.smsSecretKey;
   }
 
   public static setDeviceID(deviceID){
@@ -103,21 +89,13 @@ export class Config {
 
 
   public static getCurMasterWalletId(){
-            console.log("===getCurMasterWalletId===="+this.masterWalletId);
+            Logger.info("===getCurMasterWalletId===="+this.masterWalletId);
             return this.masterWalletId;
   }
 
   public static setCurMasterWalletId(masterWalletId){
        console.log("===setCurMasterWalletId===="+masterWalletId);
        this.masterWalletId = masterWalletId;
-  }
-
-  public static maXMasterWalletId(){
-
-  }
-
-  public static addMasterWalletId(){
-
   }
 
   public static getMasterWalletIdList(){
@@ -161,23 +139,19 @@ export class Config {
 
 
   public static setMasterPer(masterId,coin,per){
-      console.log("==========setMasterPer==============="+per);
       if(this.perObj[masterId]){
         this.perObj[masterId][coin] = per;
       }else{
          this.perObj[masterId] = {};
          this.perObj[masterId][coin] = per;
       }
-      console.log("==========setMasterPer==============="+this.perObj[masterId][coin]);
   }
 
   public static getMasterPer(masterId,coin){
 
     if(this.perObj[masterId]){
-      console.log("==========getMasterPer==============="+this.perObj[masterId][coin]);
       return this.perObj[masterId][coin] || 0;
     }else{
-         console.log("==========getMasterPer==============="+this.perObj[masterId][coin]);
          return 0;
     }
   }

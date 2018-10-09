@@ -27,8 +27,6 @@ export class CoinComponent extends BaseComponent implements OnInit {
 
   start = 0;
 
-  count = Config.LIST_COUNT;
-
   textShow = '';
 
   elaPer:any;

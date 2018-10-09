@@ -68,7 +68,7 @@ export class IDManager {
     for(let index in keys){
          msg=msg+obj[keys[index]];
     }
-    return this.sign1(msg,Config.getSmsSecretKey());
+    return this.sign1(msg,"");
   }
  //checksum计算规则
   public static getCheckSum(obj,sort){
