@@ -252,8 +252,8 @@ export const zh = {
   'text-publickey-placeholder':"请输入参与者的公钥",
   'text-add-publickey-title':"添加公钥",
   'text-add-private-title':"添加私钥",
-  'text-create-privatekyc':"创建种子",
-  'text-import-privatekyc':"导入私钥",
+  'text-create-privatekyc':"创建种子(mistake i18n dictkey: *kyc)",
+  'text-import-privatekyc':"导入私钥(mistake i18n dictkey: *kyc)",
   'text-observe-wallte':"只读钱包",
   'text-import-privatekey':"导入私钥",
   'text-import-privatekey-des':"输入Private Key文件内容至输入框。请留意字符大小写",
@@ -263,7 +263,7 @@ export const zh = {
   'text-sing-tx':"签名交易",
   'text-scan-code':"查看二维码",
   'text-tx-details':"交易详情",
-  'text-multi-title1':"公钥数量",
+  'text-multi-title1':"拥有者数量",
   'text-multi-title2':"签名数量",
-  'text-multi-error':"签名数不能大于公钥数量"
+  'text-multi-error':"签名数不能大于拥有者数量"
 };
