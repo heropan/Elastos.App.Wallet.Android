@@ -114,7 +114,7 @@ export class ImportComponent {
         return false;
     }
 
-    let mnemonic = this.normalizeMnemonic(this.normalizeMnemonic(this.mnemonicObj.mnemonic));
+    let mnemonic = this.normalizeMnemonic(this.mnemonicObj.mnemonic).replace(/^\s+|\s+$/g,"");
     if(mnemonic.split(/[\u3000\s]+/).length != 12){
       this.native.hideLoading();
       this.native.toast_trans('text-mnemonic-validator');
@@ -148,7 +148,8 @@ export class ImportComponent {
   };
 
   importWalletWithMnemonic(){
-    let mnemonic = this.normalizeMnemonic(this.normalizeMnemonic(this.mnemonicObj.mnemonic));
+    let mnemonic = this.normalizeMnemonic(this.mnemonicObj.mnemonic);
+    console.log("====mnemonic ===="+mnemonic);
     this.walletManager.importWalletWithMnemonic(this.masterWalletId,mnemonic,this.mnemonicObj.phrasePassword,this.mnemonicObj.payPassword,this.native.getMnemonicLang(),(data)=>{
                 if(data["success"]){
                    this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
