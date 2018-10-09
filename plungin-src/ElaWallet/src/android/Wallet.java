@@ -205,7 +205,7 @@ public class Wallet extends CordovaPlugin {
 	}
 
 	private void successProcess(CallbackContext cc, Object msg) throws JSONException {
-		//Log.i(TAG, "" + msg);
+		Log.i(TAG, "" + msg);
 		cc.success(mkJson(keySuccess, msg));
 	}
 
@@ -1676,7 +1676,7 @@ public class Wallet extends CordovaPlugin {
 				}
 
 				@Override
-				public void OnBlockHeightIncreased(int currentBlockHeight, double progress) {
+				public void OnBlockHeightIncreased(int currentBlockHeight, int progress) {
 					JSONObject jsonObject = new JSONObject();
 					try {
 						jsonObject.put("currentBlockHeight", currentBlockHeight);

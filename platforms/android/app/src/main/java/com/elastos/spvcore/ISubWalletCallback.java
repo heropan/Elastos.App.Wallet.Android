@@ -22,7 +22,7 @@ public interface ISubWalletCallback {
      * @param currentBlockHeight is the of current block when callback fired.
      * @param progress is current progress when block height increased.
      */
-    public void OnBlockHeightIncreased(int currentBlockHeight, double progress);
+    public void OnBlockHeightIncreased(int currentBlockHeight, int progress);
 
     /**
      * Callback method fired when block end synchronizing with a peer. This callback could be used to show progress.
