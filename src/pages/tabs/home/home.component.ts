@@ -174,8 +174,10 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
       if(result["Action"] === "OnBalanceChanged"){
         if(!Util.isNull(result["Balance"])){
-          console.log("getBalance="+JSON.stringify(result));
+          console.log("OnBalanceChanged="+JSON.stringify(result));
+          console.log("OnBalanceChanged="+result["Balance"]);
           this.ElaObj.balance = result["Balance"]/Config.SELA;
+          this.updateValue();
          }
        }
        if(result["Action"] === "OnBlockSyncStopped"){

@@ -18,6 +18,7 @@ import {HttpService} from "../providers/HttpService";
 import {PopupProvider} from "../providers/popup";
 import {DataManager} from "../providers/DataManager";
 
+
 import { App } from 'ionic-angular';
 import {Platform} from 'ionic-angular';
 import { Events } from 'ionic-angular';
