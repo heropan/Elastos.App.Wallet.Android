@@ -14,9 +14,11 @@ export class AddprivatekeyPage {
   public  publicKey:string="";
   private msobj:any;
   public  publicKeyArr:any=[];
+  public  name:string = "";
   constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager: WalletManager,public native:Native,public localStorage:LocalStorage) {
     console.log("=========AddpublickeyPage"+JSON.stringify(this.navParams.data));
     this.msobj = this.navParams.data;
+    this.name = this.msobj["name"];
     let totalCopayers = this.msobj["totalCopayers"];
     for(let index=0 ;index<totalCopayers-1;index++){
         let item ={index:index,publicKey:this.publicKey};
@@ -42,8 +44,8 @@ export class AddprivatekeyPage {
                  //this.native.setRootRouter(TabsComponent);
                  this.createSubWallet("ELA");
                }else{
-                 this.native.hideLoading();
-                 alert("=====createMultiSignMasterWalletWithPrivKey===error==="+JSON.stringify(data));
+                this.native.hideLoading();
+                alert("=====createMultiSignMasterWalletWithPrivKey===error==="+JSON.stringify(data));
                }
      });
   }
@@ -72,11 +74,23 @@ export class AddprivatekeyPage {
   }
 
   saveWalletList(){
+
     Config.getMasterWalletIdList().push(this.masterWalletId);
      this.localStorage.saveCurMasterId({masterId:this.masterWalletId}).then((data)=>{
-              this.native.hideLoading();
-              Config.setCurMasterWalletId(this.masterWalletId);
-              this.native.setRootRouter(TabsComponent);
+      let walletObj = this.native.clone(Config.masterWallObj);
+      walletObj["id"]   = this.masterWalletId;
+      walletObj["wallname"] = this.name;
+
+      this.localStorage.saveMappingTable(walletObj).then((data)=>{
+        let mappingList = this.native.clone(Config.getMappingList());
+            mappingList[this.masterWalletId] = walletObj;
+           console.log("=====mappingList===="+JSON.stringify(mappingList));
+            Config.setMappingList(mappingList);
+            this.native.hideLoading();
+            Config.setCurMasterWalletId(this.masterWalletId);
+            this.native.setRootRouter(TabsComponent);
+      });
+
       });
   }
 

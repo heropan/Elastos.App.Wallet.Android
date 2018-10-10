@@ -13,9 +13,11 @@ export class AddpublickeyPage {
   masterWalletId:string = "1";
   private msobj:any;
   public  publicKeyArr:any=[];
+  public  name:string ="";
   constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager:WalletManager,public native :Native,public localStorage:LocalStorage) {
     console.log("=========AddpublickeyPage"+JSON.stringify(this.navParams.data));
     this.msobj = this.navParams.data;
+    this.name = this.msobj["name"];
     let totalCopayers = 0;
     if(this.msobj["payPassword"]){
       totalCopayers = this.msobj["totalCopayers"]-1;
@@ -82,11 +84,26 @@ export class AddpublickeyPage {
   saveWalletList(){
         Config.getMasterWalletIdList().push(this.masterWalletId);
             this.localStorage.saveCurMasterId({masterId:this.masterWalletId}).then((data)=>{
-              this.native.hideLoading();
-              Config.setCurMasterWalletId(this.masterWalletId);
-              this.native.setRootRouter(TabsComponent);
+              let walletObj = this.native.clone(Config.masterWallObj);
+              walletObj["id"]   = this.masterWalletId;
+              walletObj["wallname"] = this.name;
+              this.localStorage.saveMappingTable(walletObj).then((data)=>{
+                let mappingList = this.native.clone(Config.getMappingList());
+                    mappingList[this.masterWalletId] = walletObj;
+                    console.log("=====mappingList===="+JSON.stringify(mappingList));
+                    Config.setMappingList(mappingList);
+                    this.native.hideLoading();
+                    Config.setCurMasterWalletId(this.masterWalletId);
+                    this.native.setRootRouter(TabsComponent);
+              });
             });
   }
+
+
+
+
+
+
   createWalletWithMnemonic(){
       let copayers = this.getTotalCopayers();
       this.walletManager.createMultiSignMasterWalletWithMnemonic(this.masterWalletId,this.msobj["mnemonicStr"],this.msobj["mnemonicPassword"],this.msobj["payPassword"],copayers,this.msobj["requiredCopayers"],this.native.getMnemonicLang(),(data)=>{

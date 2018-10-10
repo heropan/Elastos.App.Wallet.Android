@@ -138,6 +138,16 @@ export class LocalStorage {
     return this.storage.get(key);
   }
 
+  public saveMappingTable(obj){
+     let key = "map-table";
+     return this.add(key,obj);
+  }
+
+  public getMappingTable(){
+    let key = "map-table";
+    return this.storage.get(key);
+  }
+
 }
 
 

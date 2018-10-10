@@ -9,10 +9,12 @@ import {Logger} from "../providers/Logger";
  */
 @Injectable()
 export class Config {
-
+  public static masterWallObj={id:"",wallname:""};
   public static perObj = {};
   public static masterWalletId:string = "1";
   public static masterWalletList = [];
+
+  public static mappingList = {};
 
   public static SELA = 100000000;
 
@@ -154,6 +156,26 @@ export class Config {
     }else{
          return 0;
     }
+  }
+
+  public static setMappingList(list){
+      this.mappingList = list;
+  }
+
+  public static getMappingList(){
+       return this.mappingList;
+  }
+
+  public static objtoarr(obj){
+    let arr = [];
+    for (let key in obj) {
+      arr.push(obj[key]);
+    }
+    return arr;
+  }
+
+  public static getWalletName(id){
+          return this.mappingList[id]["wallname"];
   }
 }
 

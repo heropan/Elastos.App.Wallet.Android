@@ -20,19 +20,27 @@ export class WalltelistPage {
   }
 
   init(){
-     this.items = Config.getMasterWalletIdList();
+     //this.items = Config.getMasterWalletIdList();
+     let mappList = Config.getMappingList();
+     console.log("=========mappList==========="+JSON.stringify(mappList));
+     //let mappList ={"2C66B4":{"id":"2C66B4","wallname":"ss","name":"ss"}};
+     this.items = Config.objtoarr(mappList);
+     console.log("=========this.items==========="+JSON.stringify(this.items));
   }
 
   itemSelected(item: string) {
     console.log("Selected Item", item);
-    this.localStorage.saveCurMasterId({masterId:item}).then((data)=>{
+    let id = item["id"];
+    this.localStorage.saveCurMasterId({masterId:id}).then((data)=>{
       this.navCtrl.pop();
-      this.events.publish("wallte:update",item);
+      this.events.publish("wallte:update",id);
     })
   }
 
   nextPage(){
     this.native.setRootRouter(LauncherComponent);
   }
+
+
 
 }

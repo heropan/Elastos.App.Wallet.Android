@@ -21,6 +21,9 @@
     <div>
         <ion-list>
             <ion-item>
+                <ion-input type="text" placeholder="{{ 'text-wallet-name' | translate }}" [(ngModel)]="name"></ion-input>
+            </ion-item>
+            <ion-item>
                 <ion-input type="password" placeholder="{{ 'text-pay-password' | translate }}" [(ngModel)]="passWord"></ion-input>
             </ion-item>
 

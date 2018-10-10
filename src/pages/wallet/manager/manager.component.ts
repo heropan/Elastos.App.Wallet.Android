@@ -21,11 +21,13 @@ export class ManagerComponent {
   public currentLanguageName:string = "";
   constructor(public navCtrl: NavController, public navParams: NavParams,public events: Events,public localStorage:LocalStorage,public popupProvider: PopupProvider, public walletManager: WalletManager,private app: App,public native:Native) {
     this.masterWalletId = Config.getCurMasterWalletId();
-    this.localStorage.getWallet().then((val) => {
-      if (val) {
-        this.walletName = JSON.parse(val).name;
-      }
-    });
+    // this.localStorage.getWallet().then((val) => {
+    //   if (val) {
+    //     this.walletName = JSON.parse(val).name;
+    //   }
+    // });
+
+    this.walletName = Config.getWalletName(this.masterWalletId);
 
     this.localStorage.getLanguage("wallte-language").then((val)=>{
          this.currentLanguageName = JSON.parse(val)["name"] || "";

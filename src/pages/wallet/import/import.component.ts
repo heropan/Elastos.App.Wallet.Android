@@ -16,8 +16,8 @@ export class ImportComponent {
   public selectedTab: string="words";
   public showAdvOpts:boolean;
   public keyStoreContent:any;
-  public importFileObj:any={payPassword: "",rePayPassword: "", backupPassWord: "",phrasePassword:""};
-  public mnemonicObj:any={mnemonic:"",payPassword: "", rePayPassword: "",phrasePassword:""};
+  public importFileObj:any={payPassword: "",rePayPassword: "", backupPassWord: "",phrasePassword:"",name:""};
+  public mnemonicObj:any={mnemonic:"",payPassword: "", rePayPassword: "",phrasePassword:"",name:""};
   public walletType:string;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage) {
          this.masterWalletId = Config.uuid(6,16);
@@ -47,10 +47,17 @@ export class ImportComponent {
   }
 
   checkImportFile(){
+
    if(Util.isNull(this.keyStoreContent)){
       this.native.hideLoading();
       this.native.toast_trans('import-text-keystroe-message');
           return false;
+    }
+
+    if(Util.isNull(this.importFileObj.name)){
+      this.native.hideLoading();
+      this.native.toast_trans("text-wallet-name-validator");
+      return false;
     }
     if(Util.isNull(this.importFileObj.backupPassWord)){
       this.native.hideLoading();
@@ -108,6 +115,11 @@ export class ImportComponent {
   }
 
   checkWorld(){
+    if(Util.isNull(this.mnemonicObj.name)){
+        this.native.hideLoading();
+        this.native.toast_trans("text-wallet-name-validator");
+        return false;
+    }
     if(Util.isNull(this.mnemonicObj.mnemonic)){
       this.native.hideLoading();
         this.native.toast_trans('text-input-mnemonic');
@@ -214,9 +226,25 @@ export class ImportComponent {
   saveWalletList(){
     Config.getMasterWalletIdList().push(this.masterWalletId);
             this.localStorage.saveCurMasterId({masterId:this.masterWalletId}).then((data)=>{
-              this.native.hideLoading();
-              Config.setCurMasterWalletId(this.masterWalletId);
-              this.native.setRootRouter(TabsComponent);
+              let name ="";
+              if(this.selectedTab === "words"){
+                    name = this.mnemonicObj.name;
+              }else if(this.selectedTab === "file"){
+                    name = this.importFileObj.name;
+              }
+              let walletObj = this.native.clone(Config.masterWallObj);
+              walletObj["id"]   = this.masterWalletId;
+              walletObj["wallname"] = name;
+              this.localStorage.saveMappingTable(walletObj).then((data)=>{
+              let  mappingList = this.native.clone(Config.getMappingList());
+            mappingList[this.masterWalletId] = walletObj;
+           console.log("=====mappingList===="+JSON.stringify(mappingList));
+            Config.setMappingList(mappingList);
+                    this.native.hideLoading();
+                    Config.setCurMasterWalletId(this.masterWalletId);
+                    this.native.setRootRouter(TabsComponent);
+              });
+
             });
   }
 

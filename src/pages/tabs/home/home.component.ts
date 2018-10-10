@@ -25,6 +25,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.masterWalletId =  Config.getCurMasterWalletId();
+    this.wallet["name"] = Config.getWalletName(this.masterWalletId);
     this.goPayment();
     setInterval(()=>{
       this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");;
@@ -33,6 +34,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
     this.getAllSubWallets();
     this.events.subscribe("wallte:update",(item)=>{
       this.masterWalletId = item;
+      this.wallet["name"] = Config.getWalletName(this.masterWalletId);
       Config.setCurMasterWalletId(this.masterWalletId);
       this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");
       this.idChainPer =Config.getMasterPer(this.masterWalletId,"IdChain");
@@ -56,13 +58,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
               this.getSubBalance(coin);
             }
           });
-    });
-
-    // wallet name
-    this.localStorage.getWallet().then((val) => {
-      if (val) {
-        this.wallet.name = JSON.parse(val).name;
-      }
     });
 
    }
@@ -234,17 +229,17 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
         if(result["Action"] === "OnBlockSyncStopped"){
           //this.tempIdChinaPer = 1;
-          this.tempElaPer = Config.getMasterPer(this.masterWalletId,coin);
+          this.tempIdChinaPer = Config.getMasterPer(this.masterWalletId,coin);
         }else if(result["Action"] === "OnBlockSyncStarted"){
-          this.tempElaPer = Config.getMasterPer(this.masterWalletId,coin);
+          this.tempIdChinaPer = Config.getMasterPer(this.masterWalletId,coin);
         }else if(result["Action"] === "OnBlockHeightIncreased"){
           this.tempIdChinaPer  = result["progress"];
-          Config.setMasterPer(this.masterWalletId,coin,this.tempElaPer);
+          Config.setMasterPer(this.masterWalletId,coin,this.tempIdChinaPer);
         }
 
         if(this.tempIdChinaPer === 1){
                  //this.getSubBalance("IdChain");
-          this.tempElaPer = Config.getMasterPer(this.masterWalletId,coin);
+          this.tempIdChinaPer = Config.getMasterPer(this.masterWalletId,coin);
         }
     });
   }

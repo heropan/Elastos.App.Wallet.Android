@@ -63,7 +63,14 @@ export class AppComponent {
       this.initTranslateConfig();
       this.initJsPush();
       this.getKycIdList();
-      this.rootPage = InitializepagePage;
+      this.localStorage.getMappingTable().then((data)=>{
+         console.log("===getMappingTable===="+data);
+         if(data){
+           Config.setMappingList(JSON.parse(data));
+          }
+          this.rootPage = InitializepagePage;
+      });
+
       //this.rootPage = PaymentboxPage
       //this.initializeApp();
       //this.rootPage =  WalltelistPage;

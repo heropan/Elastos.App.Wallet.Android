@@ -12,6 +12,7 @@ export class ImportprivatekeyPage {
   public importText:string="";
   public passWord:string="";
   public rePassWorld:string="";
+  public name:string ="";
   constructor(public navCtrl: NavController, public navParams: NavParams,public native:Native) {
     this.msobj = this.navParams.data;
   }
@@ -25,10 +26,15 @@ export class ImportprivatekeyPage {
         if(this.checkParms()){
             this.msobj["importText"] = this.importText.replace(/^\s+|\s+$/g,"");
             this.msobj["passWord"] = this.passWord;
+            this.msobj["name"] = this.name;
             this.navCtrl.push(AddprivatekeyPage,this.msobj);
         }
   }
   checkParms(){
+    if (Util.isNull(this.name)) {
+      this.native.toast_trans("text-wallet-name-validator");
+      return;
+    }
     if(Util.isNull(this.importText)){
       this.native.toast_trans('text-import-privatekey-placeholder');
       return false;

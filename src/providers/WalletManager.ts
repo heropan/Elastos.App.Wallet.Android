@@ -376,8 +376,9 @@ export class WalletManager {
    }
 
   errorFun(error) {
-    this.native.hideLoading();
+    console.log("error = "+JSON.stringify(error));
     alert("错误信息：" + JSON.stringify(error));
+    this.native.hideLoading();
     //this.native.toast(JSON.stringify(error));
   }
 

@@ -23,6 +23,9 @@
         </div>
         <ion-list>
             <ion-item>
+                <ion-input type="text" placeholder="{{ 'text-wallet-name' | translate }}" [(ngModel)]="importFileObj.name"></ion-input>
+            </ion-item>
+            <ion-item>
                 <ion-input type="password" placeholder="{{ 'text-backup-passworld-input' | translate }}" [(ngModel)]="importFileObj.backupPassWord"></ion-input>
             </ion-item>
             <ion-item>
@@ -42,6 +45,9 @@
             <textarea class="backupWalletTextArea" placeholder="{{ 'text-mnemonic-format' | translate}}" rows="4" [(ngModel)]="mnemonicObj.mnemonic"></textarea>
         </div>
         <ion-list>
+            <ion-item>
+                <ion-input type="text" placeholder="{{ 'text-wallet-name' | translate }}" [(ngModel)]="mnemonicObj.name"></ion-input>
+            </ion-item>
             <ion-item>
                 <ion-input type="password" placeholder="{{ 'text-pay-password' | translate }}" [(ngModel)]="mnemonicObj.payPassword"></ion-input>
             </ion-item>

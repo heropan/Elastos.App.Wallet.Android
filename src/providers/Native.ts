@@ -115,7 +115,7 @@ export class Native {
    * 关闭loading
    */
   public hideLoading(): void {
-    this.loadingIsOpen && this.loading.dismiss();
+    this.loading.dismiss();
     this.loadingIsOpen = false;
   };
 }

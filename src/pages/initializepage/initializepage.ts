@@ -50,6 +50,7 @@ export class InitializepagePage {
       let idList = JSON.parse(data);
       let type = Util.GetQueryString("type");
       if(idList.length === 0){
+         Config.setMappingList({});
          this.handleNull(type);
        }else{
          this.localStorage.getCurMasterId().then((data) => {
@@ -58,6 +59,7 @@ export class InitializepagePage {
           console.log("====getCurMasterId====" + JSON.stringify(item));
           Config.setCurMasterWalletId(item["masterId"]);
           Config.setMasterWalletIdList(idList);
+          this.handleMappingdata(idList);
           this.native.hideLoading();
           switch (type) {
             case "payment":
@@ -108,6 +110,17 @@ export class InitializepagePage {
       Config.setMasterWalletIdList([]);
       this.native.setRootRouter(LauncherComponent);
     }
+  }
+
+  handleMappingdata(idList){
+    let mappList = Config.getMappingList();
+    let list = {};
+    for(let index in idList){
+        let id = idList[index];
+        list[id] = mappList[id];
+    }
+    Config.setMappingList(list);
+    console.log("===setMappingList===="+JSON.stringify(Config.getMappingList()));
   }
 
 }

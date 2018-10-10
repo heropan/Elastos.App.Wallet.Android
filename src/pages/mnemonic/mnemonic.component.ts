@@ -61,7 +61,7 @@ export class MnemonicComponent {
     }
 
     if(!Util.isEmptyObject(this.multType)){
-        this.native.Go(this.navCtrl,AddpublickeyPage,{"totalCopayers":this.multType["totalCopayers"],"requiredCopayers":this.multType["requiredCopayers"],"mnemonicStr":this.mnemonicStr,"mnemonicPassword":this.mnemonicPassword,"payPassword":this.payPassword})
+        this.native.Go(this.navCtrl,AddpublickeyPage,{"totalCopayers":this.multType["totalCopayers"],"requiredCopayers":this.multType["requiredCopayers"],"mnemonicStr":this.mnemonicStr,"mnemonicPassword":this.mnemonicPassword,"payPassword":this.payPassword,name:this.name})
         return;
     }
     this.walletManager.createMasterWallet(this.masterWalletId, this.mnemonicStr, this.mnemonicPassword, this.payPassword,this.native.getMnemonicLang(),(data) =>{
@@ -84,7 +84,16 @@ export class MnemonicComponent {
               //  this.localStorage.setWallet({
               //   'name': this.name
               //  });
-              this.saveWalletList();
+              let walletObj = this.native.clone(Config.masterWallObj);
+                  walletObj["id"]   = this.masterWalletId;
+                  walletObj["wallname"] = this.name;
+              this.localStorage.saveMappingTable(walletObj).then((data)=>{
+                let mappingList = this.native.clone(Config.getMappingList());
+                mappingList[this.masterWalletId] = walletObj;
+               console.log("=====mappingList===="+JSON.stringify(mappingList));
+                Config.setMappingList(mappingList);
+                  this.saveWalletList();
+              });
           }else{
                 alert("createSubWallet=error:"+JSON.stringify(data));
           }
