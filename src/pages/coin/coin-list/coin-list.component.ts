@@ -72,7 +72,8 @@ export class CoinListComponent {
   init() {
     this.masterWalletId =Config.getCurMasterWalletId();
     //this.localStorage.get('coinListCache').then((val)=>{
-      let subWallte= Config.getSubWallet(this.masterWalletId)
+      let subWallte= Config.getSubWallet(this.masterWalletId);
+      console.log("=====subWallte======")
       this.walletManager.getSupportedChains(this.masterWalletId,(data) => {
         if(data['success']){
           console.log("====getSupportedChains===="+JSON.stringify(data));
@@ -103,11 +104,15 @@ export class CoinListComponent {
     let singleAddress= data["singleAddress"];
     //this.currentCoin["open"] = false;
     this.walletManager.createSubWallet(this.masterWalletId,chainId,payPassword,singleAddress, 0, (data)=>{
-      console.log("==333==="+JSON.stringify(data));
       if(data['success']){
-         console.log("createSubWallet==="+JSON.stringify(data));
         let coin = this.native.clone(Config.getSubWallet(this.masterWalletId));
-        coin["id"] = chainId;
+        if(coin){
+          coin[chainId] = {id:chainId};
+        }else{
+          coin = {};
+          coin[chainId] = {id:chainId};
+        }
+
         //this.localStorage.add('coinListCache', coin);
         let walletObj = this.native.clone(Config.masterWallObj);
         walletObj["id"]   = this.masterWalletId;
@@ -116,7 +121,6 @@ export class CoinListComponent {
         this.localStorage.saveMappingTable(walletObj).then((data)=>{
           let  mappingList = this.native.clone(Config.getMappingList());
           mappingList[this.masterWalletId] = walletObj;
-         console.log("=====mappingList===="+JSON.stringify(mappingList));
           Config.setMappingList(mappingList);
         });
       }else{
