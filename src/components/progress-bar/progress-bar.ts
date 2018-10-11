@@ -29,7 +29,7 @@ export class ProgressBarComponent implements OnInit, OnChanges {
     this.proportion = this.proportion;
     console.log("======this.proportion111======="+typeof(this.proportion));
     if (this.proportion) {
-      if(this.proportion === 0 ){
+      if(this.proportion === "0" ){
         this.proportion = 0;
       }else{
         console.log("======this.proportion======="+typeof(this.proportion));
