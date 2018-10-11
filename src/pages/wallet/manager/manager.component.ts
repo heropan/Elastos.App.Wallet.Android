@@ -97,7 +97,7 @@ export class ManagerComponent {
   }
 
   destroyWallet(masterWalletId: string){
-    this.localStorage.remove('coinListCache').then(()=>{
+    //this.localStorage.remove('coinListCache').then(()=>{
         this.walletManager.destroyWallet(masterWalletId, (data)=>{
           if(data["success"]){
             console.log("===destroyWallet===="+JSON.stringify(data));
@@ -106,7 +106,7 @@ export class ManagerComponent {
             alert("====destroyWallet==error=="+JSON.stringify(data));
           }
         });
-    });
+    //});
   }
 
   delWalletListOne(masterWalletId){

@@ -6,6 +6,7 @@ import {LocalStorage} from "../../../providers/Localstorage";
 import {TabsComponent} from '../../../pages/tabs/tabs.component';
 import {Util} from "../../../providers/Util";
 import {Config} from '../../../providers/Config';
+import { Chain } from '@angular/compiler';
 
 @Component({
   selector: 'app-import',
@@ -174,9 +175,9 @@ export class ImportComponent {
                        this.walletManager.createSubWallet(this.masterWalletId,"ELA", this.mnemonicObj.payPassword,single, 0, (data)=>{
                         if(data["success"]){
                           this.native.toast_trans('import-text-world-sucess');
-                          this.localStorage.remove('coinListCache').then(()=>{
-                          this.saveWalletList();
-                        });
+                          //this.localStorage.remove('coinListCache').then(()=>{
+                          this.saveWalletList(null);
+                        //});
                         }else{
                              this.native.hideLoading();
                              alert("createSubWallet==error"+JSON.stringify(data));
@@ -199,10 +200,10 @@ export class ImportComponent {
       this.walletManager.getAllSubWallets(this.masterWalletId,(data) => {
         if(data["success"]){
           let chinas = this.getCoinListCache(JSON.parse(data["success"]));
-           this.localStorage.set('coinListCache',chinas).then(()=>{
+           //this.localStorage.set('coinListCache',chinas).then(()=>{
             this.native.toast_trans('import-text-keystroe-sucess');
-            this.saveWalletList();
-           });
+            this.saveWalletList(chinas);
+           //});
         }else{
             this.native.hideLoading();
             alert("==getAllSubWallets==error"+JSON.stringify(data));
@@ -223,7 +224,7 @@ export class ImportComponent {
          return chinas;
   }
 
-  saveWalletList(){
+  saveWalletList(subchains){
     Config.getMasterWalletIdList().push(this.masterWalletId);
             this.localStorage.saveCurMasterId({masterId:this.masterWalletId}).then((data)=>{
               let name ="";
@@ -235,6 +236,9 @@ export class ImportComponent {
               let walletObj = this.native.clone(Config.masterWallObj);
               walletObj["id"]   = this.masterWalletId;
               walletObj["wallname"] = name;
+              if(subchains){
+                walletObj["coinListCache"] = subchains;
+              }
               this.localStorage.saveMappingTable(walletObj).then((data)=>{
               let  mappingList = this.native.clone(Config.getMappingList());
             mappingList[this.masterWalletId] = walletObj;

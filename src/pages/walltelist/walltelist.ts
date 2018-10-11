@@ -32,10 +32,10 @@ export class WalltelistPage {
     console.log("Selected Item", item);
     let id = item["id"];
     this.localStorage.saveCurMasterId({masterId:id}).then((data)=>{
-      this.localStorage.remove("coinListCache").then((data)=>{
+      //this.localStorage.remove("coinListCache").then((data)=>{
         this.navCtrl.pop();
         this.events.publish("wallte:update",id);
-      });
+      //});
     })
   }
 
