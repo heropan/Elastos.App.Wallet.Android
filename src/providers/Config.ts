@@ -177,6 +177,10 @@ export class Config {
   public static getWalletName(id){
           return this.mappingList[id]["wallname"];
   }
+
+  public static getSubWallet(id){
+          return this.mappingList[id]["subWallet"];
+  }
 }
 
 
