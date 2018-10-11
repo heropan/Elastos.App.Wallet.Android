@@ -63,6 +63,7 @@ export class AppComponent {
       this.initTranslateConfig();
       this.initJsPush();
       this.getKycIdList();
+
       this.localStorage.getMappingTable().then((data)=>{
          console.log("===getMappingTable===="+data);
          if(data){

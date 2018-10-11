@@ -107,10 +107,19 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.sycEla();
         this.getElaBalance(this.ElaObj);
         this.localStorage.get('coinListCache').then((val)=>{
-          let coinListCache = JSON.parse(val);
-          for (let coin in coinListCache) {
-             this.sycIdChain(coin);
-             this.getSubBalance(coin);
+          console.log("====coinListCache======"+val)
+          if(val){
+            let coinListCache = JSON.parse(val);
+            if(Util.isEmptyObject(JSON.parse(val))){
+              this.coinList = [];
+              return;
+            }
+            for (let coin in coinListCache) {
+               this.sycIdChain(coin);
+               this.getSubBalance(coin);
+            }
+          }else{
+            this.coinList = [];
           }
         });
       }else{
