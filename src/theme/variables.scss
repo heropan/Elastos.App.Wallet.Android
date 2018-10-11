@@ -62,7 +62,7 @@ $color-back: #fff;
 $color-font-default :#030303;
 $color-gray-dark :#706F73;
 $color-gray-light :#B2B1B5;
-$size-font : 0.8em;
+$size-font : 1em;
 $size-radius :5px;
 $size-radius :5px;
 $header-height: 48px;
@@ -167,7 +167,7 @@ example-tarbar,
 example-layout {
     height: 100%;
     display: block;
-    font-size: $size-font;
+    // font-size: $size-font;
     color: $color-font-default;
     overflow: auto;
 }
@@ -184,7 +184,7 @@ textarea {
 }
 
 ion-app.md {
-    font-size: 0.8em;
+    font-size: 1em;
 }
 
 //html, body {
