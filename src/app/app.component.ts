@@ -13,7 +13,7 @@ import { ExprotPrikeyComponent } from "../pages/wallet/exprot-prikey/exprot-prik
 import { TransferComponent } from "../pages/coin/transfer/transfer.component";
 //import {CoinComponent} from "../pages/coin/coin.component";
 import { CoinListComponent } from "../pages/coin/coin-list/coin-list.component";
-//import {RecordinfoComponent} from "../pages/coin/recordinfo/recordinfo.component";
+import {RecordinfoComponent} from "../pages/coin/recordinfo/recordinfo.component";
 //import {RecordComponent} from "../pages/coin/record/record.component";
 import { TestJniComponent } from '../pages/testjni/testjni.component';
 //import { AddressComponent } from '../pages/wallet/address/address.component'
@@ -92,6 +92,7 @@ export class AppComponent {
       //this.rootPage = WalltemodePage;
       //this.rootPage = ScancodePage;
       //this.rootPage = InitializepagePage;
+      //this.rootPage = RecordinfoComponent;
       //init java 2 js plugin
     });
 
