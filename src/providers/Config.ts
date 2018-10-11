@@ -179,7 +179,7 @@ export class Config {
   }
 
   public static getSubWallet(id){
-          return this.mappingList[id]["subWallet"];
+          return this.mappingList[id]["coinListCache"] || null;
   }
 }
 
