@@ -11,7 +11,7 @@
                 <textarea class="weui-textarea" placeholder="{{ 'text-receiver-address' | translate}}" rows="2" [(ngModel)]="transfer.toAddress" weui-textarea weui-cn="2"></textarea>
             </div>
             <div class="weui-cell">
-                <span class="transfer-balance">{{'text-balance' | translate}}：{{(balance - transfer.fee)/SELA}}</span>
+                <span class="transfer-balance">{{'text-balance' | translate}}：{{balance/SELA}}</span>
                 <input class="weui-input" type="text" placeholder="{{ 'text-price' | translate}}" [(ngModel)]="transfer.amount" [(disabled)]="isInput" />
             </div>
             <div class="weui-cell">
