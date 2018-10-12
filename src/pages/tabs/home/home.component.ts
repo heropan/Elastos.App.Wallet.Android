@@ -32,6 +32,9 @@ export class HomeComponent extends BaseComponent implements OnInit {
       this.idChainPer = Config.getMasterPer(this.masterWalletId,"IdChain");
     },500);
     this.getAllSubWallets();
+    this.events.subscribe("balance:update",()=>{
+          this.updateValue();
+    });
     this.events.subscribe("wallte:update",(item)=>{
       this.masterWalletId = item;
       this.wallet["name"] = Config.getWalletName(this.masterWalletId);
@@ -183,7 +186,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
           console.log("OnBalanceChanged="+JSON.stringify(result));
           console.log("OnBalanceChanged="+result["Balance"]);
           this.ElaObj.balance = result["Balance"]/Config.SELA;
-          this.updateValue();
+          this.events.publish("balance:update");
          }
        }
        if(result["Action"] === "OnBlockSyncStopped"){
