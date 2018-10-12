@@ -76,7 +76,7 @@ export class MnemonicComponent {
 
   createSubWallet(chainId){
     // Sub Wallet
-    alert("===========" + this.singleAddress);
+    console.log("===========singleAddress: ", this.singleAddress);
     this.walletManager.createSubWallet(this.masterWalletId,chainId, this.payPassword, this.singleAddress, 0, (data)=>{
           if(data["success"]){
               //  console.log("====createSubWallet===="+JSON.stringify(data));
