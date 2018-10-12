@@ -18,7 +18,7 @@ export class ImportComponent {
   public showAdvOpts:boolean;
   public keyStoreContent:any;
   public importFileObj:any={payPassword: "",rePayPassword: "", backupPassWord: "",phrasePassword:"",name:""};
-  public mnemonicObj:any={mnemonic:"",payPassword: "", rePayPassword: "",phrasePassword:"",name:""};
+  public mnemonicObj:any={mnemonic:"",payPassword: "", rePayPassword: "",phrasePassword:"",name:"",singleAddress:false};
   public walletType:string;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage) {
          this.masterWalletId = Config.uuid(6,16);
@@ -162,13 +162,12 @@ export class ImportComponent {
 
   importWalletWithMnemonic(){
     let mnemonic = this.normalizeMnemonic(this.mnemonicObj.mnemonic);
-    console.log("====mnemonic ===="+mnemonic);
     this.walletManager.importWalletWithMnemonic(this.masterWalletId,mnemonic,this.mnemonicObj.phrasePassword,this.mnemonicObj.payPassword,this.native.getMnemonicLang(),(data)=>{
                 if(data["success"]){
                    this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
                     if(data["success"]){
                        this.walletType = JSON.parse(data["success"])["Account"]["Type"];
-                       let single = false;
+                       let single = this.mnemonicObj.singleAddress;
                        if(this.walletType === "Multi-Sign"){
                            single = true;
                        }

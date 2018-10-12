@@ -54,6 +54,11 @@
             <ion-item>
                 <ion-input type="password" placeholder="{{ 'text-pay-repassword' | translate }}" [(ngModel)]="mnemonicObj.rePayPassword"></ion-input>
             </ion-item>
+
+            <ion-item>
+                <ion-label>{{'text-signaddress' | translate }}</ion-label>
+                <ion-checkbox [(ngModel)]="mnemonicObj.singleAddress"></ion-checkbox>
+            </ion-item>
         </ion-list>
 
         <ion-item (click)="toggleShowAdvOpts()">

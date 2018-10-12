@@ -21,7 +21,7 @@
 
         <ion-item>
             <ion-label>{{'text-signaddress' | translate }}</ion-label>
-            <ion-checkbox checked="wallet.singleAddress"></ion-checkbox>
+            <ion-checkbox [(ngModel)]="wallet.singleAddress"></ion-checkbox>
         </ion-item>
     </ion-list>
 </ion-content>
