@@ -18,7 +18,8 @@ export class Config {
 
   public static SELA = 100000000;
 
-  public static BLOCKCHAIN_URL: String = 'https://blockchain.elastos.org/';
+//  public static BLOCKCHAIN_URL: String = 'https://blockchain.elastos.org/';
+    public static BLOCKCHAIN_URL: String = 'https://blockchain-beta.elastos.org/';
 
   private static kycObj:any={};
 

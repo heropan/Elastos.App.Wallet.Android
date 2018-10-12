@@ -40,7 +40,7 @@ export class WalltelistPage {
   }
 
   nextPage(){
-    this.native.setRootRouter(LauncherComponent);
+    this.native.Go(this.navCtrl,LauncherComponent);
   }
 
 
