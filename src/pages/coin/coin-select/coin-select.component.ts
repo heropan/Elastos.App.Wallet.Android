@@ -2,7 +2,8 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {BaseComponent} from '../../../app/BaseComponent';
 import { PopupComponent } from "ngx-weui";
 import {RechargeComponent} from "../recharge/recharge.component";
-
+import {Config} from "../../../providers/Config";
+import {Util} from "../../../providers/Util";
 
 @Component({
   selector: 'app-coin-list',
@@ -16,15 +17,21 @@ export class CoinSelectComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.setTitleByAssets('text-coin-list');
-    this.localStorage.get('coinListCache').then((val)=>{
-      let coinListCache = JSON.parse(val);
-      this.coinList = [];
-      for (let coin in coinListCache) {
+    let mastId = Config.getCurMasterWalletId();
+    let subwallet = Config.getSubWallet(mastId);
+    if(subwallet){
+      if(Util.isEmptyObject(subwallet)){
+        this.coinList = [];
+        return;
+      }
+      for (let coin in subwallet) {
         if (coin != 'ELA') {
           this.coinList.push({name: coin});
         }
       }
-    });
+    }else{
+      this.coinList = [];
+    }
   }
 
   onItem(item) {
