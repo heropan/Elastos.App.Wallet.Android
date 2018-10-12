@@ -3,7 +3,7 @@ export const zh = {
   'hello': '你好',
   'get-lang': '获取语言类型',
   'tab-home': '首页',
-  'tab-my': '我的',
+  'tab-setting': '设置',
   'launcher-create-wallet': '创建钱包',
   'launcher-backup-import': '导入钱包',
   'text-wallet-export': '导出钱包',
