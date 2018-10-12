@@ -246,6 +246,7 @@ export const zh = {
   'text-sycn-message':'同步状态',
   'text-language-message':"语言",
   'text-wallte-list':"钱包列表",
+  'text-add-wallet':"添加钱包",
   'signature-wallet':"创建多签钱包",
   'text-next-step':"下一步",
   'text-select-type':"选择类型",
@@ -264,6 +265,5 @@ export const zh = {
   'text-tx-details':"交易详情",
   'text-multi-title1':"拥有者数量",
   'text-multi-title2':"签名数量",
-  'text-multi-error':"签名数不能大于拥有者数量",
-  'text-add-wallet':"添加钱包"
+  'text-multi-error':"签名数不能大于拥有者数量"
 };
