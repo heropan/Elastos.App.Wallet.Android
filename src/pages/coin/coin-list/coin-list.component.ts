@@ -101,31 +101,42 @@ export class CoinListComponent {
     // Sub Wallet IdChain
     let chainId = this.currentCoin["name"];
     let payPassword = data["password"];
-    let singleAddress= data["singleAddress"];
-    //this.currentCoin["open"] = false;
-    this.walletManager.createSubWallet(this.masterWalletId,chainId,payPassword,singleAddress, 0, (data)=>{
-      if(data['success']){
-        let coin = this.native.clone(Config.getSubWallet(this.masterWalletId));
-        if(coin){
-          coin[chainId] = {id:chainId};
-        }else{
-          coin = {};
-          coin[chainId] = {id:chainId};
+    // let singleAddress= data["singleAddress"];
+    this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
+      if(data["success"]){
+        let single = false;
+        let walletType = JSON.parse(data["success"])["Account"]["Type"];
+        if(walletType === "Multi-Sign" || walletType === "Simple"){
+          single = true;
         }
+        //this.currentCoin["open"] = false;
+        this.walletManager.createSubWallet(this.masterWalletId,chainId,payPassword,single, 0, (data)=>{
+          if(data['success']){
+            let coin = this.native.clone(Config.getSubWallet(this.masterWalletId));
+            if(coin){
+              coin[chainId] = {id:chainId};
+            }else{
+              coin = {};
+              coin[chainId] = {id:chainId};
+            }
 
-        //this.localStorage.add('coinListCache', coin);
-        let walletObj = this.native.clone(Config.masterWallObj);
-        walletObj["id"]   = this.masterWalletId;
-        walletObj["wallname"] = Config.getWalletName(this.masterWalletId);
-        walletObj["coinListCache"] = coin;
-        this.localStorage.saveMappingTable(walletObj).then((data)=>{
-          let  mappingList = this.native.clone(Config.getMappingList());
-          mappingList[this.masterWalletId] = walletObj;
-          Config.setMappingList(mappingList);
+            //this.localStorage.add('coinListCache', coin);
+            let walletObj = this.native.clone(Config.masterWallObj);
+            walletObj["id"]   = this.masterWalletId;
+            walletObj["wallname"] = Config.getWalletName(this.masterWalletId);
+            walletObj["coinListCache"] = coin;
+            this.localStorage.saveMappingTable(walletObj).then((data)=>{
+              let  mappingList = this.native.clone(Config.getMappingList());
+              mappingList[this.masterWalletId] = walletObj;
+              Config.setMappingList(mappingList);
+            });
+          }else{
+            this.currentCoin["open"] = false;
+            alert("createSubWallet===error=="+JSON.stringify(data));
+          }
         });
       }else{
-        this.currentCoin["open"] = false;
-        alert("createSubWallet===error=="+JSON.stringify(data));
+        alert("=======getMasterWalletBasicInfo====error====="+JSON.stringify(data));
       }
     });
   }
