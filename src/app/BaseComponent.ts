@@ -1,4 +1,4 @@
-import {Component, ChangeDetectorRef, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, ChangeDetectorRef, ViewChild, ViewEncapsulation,NgZone} from '@angular/core';
 import {WalletManager} from '../providers/WalletManager';
 import {Logger} from '../providers/Logger';
 import {Location} from '@angular/common';
@@ -47,7 +47,8 @@ export class BaseComponent {
                      public dataManager  : DataManager,
                      public events: Events,
                      public platform  : Platform,
-                     private app: App) {
+                     private app: App,
+                     private zone:NgZone) {
     this.header = new Header(location, '');
     this.header.backClick = () => {
       this.Back();
@@ -260,5 +261,9 @@ export class BaseComponent {
 
   setRootRouter(router){
     this.app.getRootNav().setRoot(router);
+  }
+
+  public getZone(){
+    return this.zone;
   }
 }
