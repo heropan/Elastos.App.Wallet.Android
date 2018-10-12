@@ -90,7 +90,7 @@ export class ImportComponent {
                                console.log("===getMasterWalletBasicInfo==="+JSON.stringify(data));
                                this.walletType = JSON.parse(data["success"])["Account"]["Type"];
                                let single = false;
-                               if(this.walletType === "Multi-Sign"){
+                               if(this.walletType === "Multi-Sign" || this.walletType == "Simple"){
                                    single = true;
                                }
 
