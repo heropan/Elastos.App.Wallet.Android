@@ -45,6 +45,8 @@ export class MnemonicComponent {
     this.payPassword = this.navParams.get("payPassword");
     this.name = this.navParams.get("name");
     this.singleAddress = this.navParams.get("singleAddress");
+    console.log("===========singleAddress1: ", this.singleAddress);
+    console.log("===========singleAddress2: ", this.navParams.get("singleAddress"));
     this.multType = this.navParams.get("mult");
     console.log("====this.multType====="+this.navParams.get("mult"));
   }
@@ -76,7 +78,7 @@ export class MnemonicComponent {
 
   createSubWallet(chainId){
     // Sub Wallet
-    console.log("===========singleAddress: ", this.singleAddress);
+    console.log("===========singleAddress3: ", this.singleAddress);
     this.walletManager.createSubWallet(this.masterWalletId,chainId, this.payPassword, this.singleAddress, 0, (data)=>{
           if(data["success"]){
               //  console.log("====createSubWallet===="+JSON.stringify(data));
