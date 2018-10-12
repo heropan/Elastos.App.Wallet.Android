@@ -40,7 +40,7 @@ import io.ionic.starter.MyUtil;
  * wallet webview jni
  */
 public class Wallet extends CordovaPlugin {
-	private static final String TAG = "Wallet.java";
+	private static final String TAG = "Wallet";
 
 	private Map<String, IDidManager> mDIDManagerMap = new HashMap<String, IDidManager>();
 	private DIDManagerSupervisor mDIDManagerSupervisor = null;
@@ -461,16 +461,12 @@ public class Wallet extends CordovaPlugin {
 
 	// args[0]: String masterWalletID
 	// args[1]: String chainID
-	// args[2]: String payPassword
-	// args[3]: boolean singleAddress
-	// args[4]: long feePerKb
+	// args[2]: long feePerKb
 	public void createSubWallet(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
 		String masterWalletID = args.getString(idx++);
 		String chainID        = args.getString(idx++);
-		String payPassword    = args.getString(idx++);
-		boolean singleAddress = args.getBoolean(idx++);
 		long feePerKb         = args.getLong(idx++);
 
 		if (args.length() != idx) {
@@ -485,7 +481,7 @@ public class Wallet extends CordovaPlugin {
 				return;
 			}
 
-			ISubWallet subWallet = masterWallet.CreateSubWallet(chainID, payPassword, singleAddress, feePerKb);
+			ISubWallet subWallet = masterWallet.CreateSubWallet(chainID, feePerKb);
 			if (subWallet == null) {
 				errorProcess(cc, errCodeCreateSubWallet, "Create " + formatWalletName(masterWalletID, chainID));
 				return;
@@ -498,17 +494,13 @@ public class Wallet extends CordovaPlugin {
 
 	// args[0]: String masterWalletID
 	// args[1]: String chainID
-	// args[2]: String payPassword
-	// args[3]: boolean singleAddress
-	// args[4]: int limitGap
-	// args[5]: long feePerKb
+	// args[2]: int limitGap
+	// args[3]: long feePerKb
 	public void recoverSubWallet(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
 		String masterWalletID = args.getString(idx++);
 		String chainID        = args.getString(idx++);
-		String payPassword    = args.getString(idx++);
-		boolean singleAddress = args.getBoolean(idx++);
 		int limitGap          = args.getInt(idx++);
 		long feePerKb         = args.getLong(idx++);
 
@@ -524,7 +516,7 @@ public class Wallet extends CordovaPlugin {
 				return;
 			}
 
-			ISubWallet subWallet = masterWallet.RecoverSubWallet(chainID, payPassword, singleAddress, limitGap, feePerKb);
+			ISubWallet subWallet = masterWallet.RecoverSubWallet(chainID, limitGap, feePerKb);
 			if (subWallet == null) {
 				errorProcess(cc, errCodeRecoverSubWallet, "Recover " + formatWalletName(masterWalletID, chainID));
 				return;
@@ -716,7 +708,8 @@ public class Wallet extends CordovaPlugin {
 	// args[1]: String mnemonic
 	// args[2]: String phrasePassword
 	// args[3]: String payPassword
-	// args[4]: String language
+	// args[4]: boolean singleAddress
+	// args[5]: String language
 	public void createMasterWallet(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
@@ -724,6 +717,7 @@ public class Wallet extends CordovaPlugin {
 		String mnemonic       = args.getString(idx++);
 		String phrasePassword = args.getString(idx++);
 		String payPassword    = args.getString(idx++);
+		boolean singleAddress = args.getBoolean(idx++);
 		String language       = args.getString(idx++);
 
 		if (args.length() != idx) {
@@ -733,7 +727,7 @@ public class Wallet extends CordovaPlugin {
 
 		try {
 			IMasterWallet masterWallet = mMasterWalletManager.CreateMasterWallet(
-					masterWalletID, mnemonic, phrasePassword, payPassword, language);
+					masterWalletID, mnemonic, phrasePassword, payPassword, singleAddress, language);
 
 			if (masterWallet == null) {
 				errorProcess(cc, errCodeCreateMasterWallet, "Create " + formatWalletName(masterWalletID));
@@ -879,7 +873,6 @@ public class Wallet extends CordovaPlugin {
 	// args[1]: String keystoreContent
 	// args[2]: String backupPassword
 	// args[3]: String payPassword
-	// args[4]: String phrasePassword
 	public void importWalletWithKeystore(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
@@ -887,7 +880,6 @@ public class Wallet extends CordovaPlugin {
 		String keystoreContent = args.getString(idx++);
 		String backupPassword  = args.getString(idx++);
 		String payPassword     = args.getString(idx++);
-		String phrasePassword  = args.getString(idx++);
 
 		if (args.length() != idx) {
 			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
@@ -896,7 +888,7 @@ public class Wallet extends CordovaPlugin {
 
 		try {
 			IMasterWallet masterWallet = mMasterWalletManager.ImportWalletWithKeystore(
-					masterWalletID, keystoreContent, backupPassword, payPassword, phrasePassword);
+					masterWalletID, keystoreContent, backupPassword, payPassword);
 			if (masterWallet == null) {
 				errorProcess(cc, errCodeImportFromKeyStore, "Import " + formatWalletName(masterWalletID) + " with keystore");
 				return;
@@ -914,7 +906,8 @@ public class Wallet extends CordovaPlugin {
 	// args[1]: String mnemonic
 	// args[2]: String phrasePassword
 	// args[3]: String payPassword
-	// args[4]: String language
+	// args[4]: boolean singleAddress
+	// args[5]: String language
 	public void importWalletWithMnemonic(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
@@ -922,6 +915,7 @@ public class Wallet extends CordovaPlugin {
 		String mnemonic       = args.getString(idx++);
 		String phrasePassword = args.getString(idx++);
 		String payPassword    = args.getString(idx++);
+		boolean singleAddress = args.getBoolean(idx++);
 		String language       = args.getString(idx++);
 
 		if (args.length() != idx) {
@@ -931,7 +925,7 @@ public class Wallet extends CordovaPlugin {
 
 		try {
 			IMasterWallet masterWallet = mMasterWalletManager.ImportWalletWithMnemonic(
-					masterWalletID, mnemonic, phrasePassword, payPassword, language);
+					masterWalletID, mnemonic, phrasePassword, payPassword, singleAddress, language);
 			if (masterWallet == null) {
 				errorProcess(cc, errCodeImportFromMnemonic, "Import " + formatWalletName(masterWalletID) + " with mnemonic");
 				return;

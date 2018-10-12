@@ -35,37 +35,42 @@ public class IMasterWallet {
 		return list;
 	}
 
-    public ISubWallet CreateSubWallet(String chainID, String payPassword, boolean singleAddress, long feePerKb) throws WalletException {
-        if ((!CHAINID.MAIN.equals(chainID)) && (!CHAINID.ID.equals(chainID))) {
-            throw new WalletException("Not support the other sidechain now.");
-        }
-        Log.i(TAG, "CreateSubWallet: chainID=" + chainID + ", singleAddress=" + singleAddress + ", feePerKb=" + feePerKb);
+	public ISubWallet CreateSubWallet(String chainID, long feePerKb) throws WalletException {
+		if ((!CHAINID.MAIN.equals(chainID)) && (!CHAINID.ID.equals(chainID))) {
+			throw new WalletException("Not support the other sidechain now.");
+		}
 
-        long subProxy = nativeCreateSubWallet(mMasterProxy, chainID, payPassword, singleAddress, feePerKb);
-        if (CHAINID.MAIN.equals(chainID)) {
-            return new IMainchainSubWallet(subProxy);
-        } else if (CHAINID.ID.equals(chainID)) {
-            return new IIdChainSubWallet(subProxy);
-        }
+		long subProxy = nativeCreateSubWallet(mMasterProxy, chainID, feePerKb);
+		if (subProxy == 0) {
+			Log.e(TAG, "Native create subwallet fail: subProxy is 0");
+			throw new WalletException("Native create subwallet fail");
+		}
 
-        Log.e(TAG, "CreateSubWallet error: unsupport chainID="+chainID);
-        throw new WalletException("Not support the other sidechain now..");
-        // return new ISubWallet(subProxy);
-    }
+		if (CHAINID.MAIN.equals(chainID)) {
+			return new IMainchainSubWallet(subProxy);
+		} else if (CHAINID.ID.equals(chainID)) {
+			return new IIdChainSubWallet(subProxy);
+		}
 
-    public ISubWallet RecoverSubWallet(String chainID, String payPassword, boolean singleAddress, int limitGap, long feePerKb) throws WalletException {
-        long subProxy = nativeRecoverSubWallet(mMasterProxy, chainID, payPassword, singleAddress, limitGap, feePerKb);
-		Log.i(TAG, "RecoverSubWallet: chainID="+chainID+", singleAddress=" +
-				singleAddress + ", limitGap=" + limitGap + ", feePerKb=" + feePerKb);
-        if (CHAINID.MAIN.equals(chainID)) {
-            return new IMainchainSubWallet(subProxy);
-        }
-        else if (CHAINID.ID.equals(chainID)) {
-            return new IIdChainSubWallet(subProxy);
-        }
-		Log.e(TAG, "RecoverSubWallet error: unsupport chainID=" + chainID);
-        throw new WalletException("Not support the other sidechain now..");
-    }
+		Log.e(TAG, "CreateSubWallet error: unsupport chainID = " + chainID);
+		throw new WalletException("Not support the other sidechain now");
+	}
+
+	public ISubWallet RecoverSubWallet(String chainID, int limitGap, long feePerKb) throws WalletException {
+		long subProxy = nativeRecoverSubWallet(mMasterProxy, chainID, limitGap, feePerKb);
+		if (subProxy == 0) {
+			throw new WalletException("Native recover subwallet fail: subProxy is 0");
+		}
+
+		if (CHAINID.MAIN.equals(chainID)) {
+			return new IMainchainSubWallet(subProxy);
+		} else if (CHAINID.ID.equals(chainID)) {
+			return new IIdChainSubWallet(subProxy);
+		}
+
+		Log.e(TAG, "RecoverSubWallet error: unsupport chainID = " + chainID);
+		throw new WalletException("Not support the other sidechain now");
+	}
 
     public void DestroyWallet(ISubWallet wallet)
     {
@@ -108,8 +113,8 @@ public class IMasterWallet {
     private native String nativeGetId(long masterProxy);
 	private native String nativeGetBasicInfo(long masterProxy);
     private native Object[] nativeGetAllSubWallets(long masterProxy);
-    private native long nativeCreateSubWallet(long masterProxy, String chainID, String payPassword, boolean singleAddress, long feePerKb);
-    private native long nativeRecoverSubWallet(long masterProxy, String chainID, String payPassword, boolean singleAddress, int limitGap, long feePerKb);
+    private native long nativeCreateSubWallet(long masterProxy, String chainID, long feePerKb);
+    private native long nativeRecoverSubWallet(long masterProxy, String chainID, int limitGap, long feePerKb);
     private native String nativeGetPublicKey(long masterProxy);
     private native void nativeDestroyWallet(long masterProxy, long subWalletProxy);
     private native String nativeSign(long masterProxy, String message, String payPassword);

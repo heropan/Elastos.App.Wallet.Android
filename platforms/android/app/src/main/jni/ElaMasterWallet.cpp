@@ -12,7 +12,7 @@ using namespace Elastos::ElaWallet;
 #define CHAINID_MAINCHAIN "ELA"
 #define CHAINID_IDCHAIN "IdChain"
 
-//"(J)Ljava/lang/String;"
+#define SIG_nativeGetId "(J)Ljava/lang/String;"
 static jstring JNICALL nativeGetId(JNIEnv *env, jobject clazz, jlong jMasterProxy)
 {
 	jstring id = NULL;
@@ -27,7 +27,7 @@ static jstring JNICALL nativeGetId(JNIEnv *env, jobject clazz, jlong jMasterProx
 	return id;
 }
 
-// "(J)Ljava/lang/String;"
+#define SIG_nativeGetBasicInfo "(J)Ljava/lang/String;"
 static jstring JNICALL nativeGetBasicInfo(JNIEnv *env, jobject clazz, jlong jMasterProxy)
 {
 	IMasterWallet *masterWallet = (IMasterWallet *)jMasterProxy;
@@ -43,7 +43,7 @@ static jstring JNICALL nativeGetBasicInfo(JNIEnv *env, jobject clazz, jlong jMas
 	return info;
 }
 
-//"(J)[Ljava/lang/Object;"
+#define SIG_nativeGetAllSubWallets "(J)[Ljava/lang/Object;"
 static jobjectArray JNICALL nativeGetAllSubWallets(JNIEnv *env, jobject clazz, jlong jMasterProxy)
 {
 	try {
@@ -82,31 +82,27 @@ static jobjectArray JNICALL nativeGetAllSubWallets(JNIEnv *env, jobject clazz, j
 	}
 }
 
-//"(JLjava/lang/String;Ljava/lang/String;ZJ)J"
+#define SIG_nativeCreateSubWallet "(JLjava/lang/String;J)J"
 static jlong JNICALL nativeCreateSubWallet(JNIEnv *env, jobject clazz, jlong jMasterProxy,
 		jstring jChainID,
-		jstring jpayPassword,
-		jboolean jSingleAddress,
 		jlong jFeePerKb)
 {
 	bool exception = false;
 	std::string msgException;
 
 	const char* chainID = env->GetStringUTFChars(jChainID, NULL);
-	const char* payPassword = env->GetStringUTFChars(jpayPassword, NULL);
 
 	IMasterWallet *masterWallet = (IMasterWallet *)jMasterProxy;
 	ISubWallet *subWallet = NULL;
 
 	try {
-		subWallet = masterWallet->CreateSubWallet(chainID, payPassword, jSingleAddress, jFeePerKb);
+		subWallet = masterWallet->CreateSubWallet(chainID, jFeePerKb);
 	} catch (std::exception& e) {
 		exception = true;
 		msgException = e.what();
 	}
 
 	env->ReleaseStringUTFChars(jChainID, chainID);
-	env->ReleaseStringUTFChars(jpayPassword, payPassword);
 
 	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
@@ -115,11 +111,9 @@ static jlong JNICALL nativeCreateSubWallet(JNIEnv *env, jobject clazz, jlong jMa
 	return (jlong)subWallet;
 }
 
-//"(JLjava/lang/String;Ljava/lang/String;ZIJ)J"
+#define SIG_nativeRecoverSubWallet "(JLjava/lang/String;IJ)J"
 static jlong JNICALL nativeRecoverSubWallet(JNIEnv *env, jobject clazz, jlong jMasterProxy,
 		jstring jChainID,
-		jstring jpayPassword,
-		jboolean jSingleAddress,
 		jint limitGap,
 		jlong jFeePerKb)
 {
@@ -127,20 +121,18 @@ static jlong JNICALL nativeRecoverSubWallet(JNIEnv *env, jobject clazz, jlong jM
 	std::string msgException;
 
 	const char* chainID = env->GetStringUTFChars(jChainID, NULL);
-	const char* payPassword = env->GetStringUTFChars(jpayPassword, NULL);
 
 	IMasterWallet *masterWallet = (IMasterWallet *)jMasterProxy;
 	ISubWallet *subWallet = NULL;
 
 	try {
-		subWallet = masterWallet->RecoverSubWallet(chainID, payPassword, jSingleAddress, limitGap, jFeePerKb);
+		subWallet = masterWallet->RecoverSubWallet(chainID, limitGap, jFeePerKb);
 	} catch (std::exception &e) {
 		exception = true;
 		msgException = e.what();
 	}
 
 	env->ReleaseStringUTFChars(jChainID, chainID);
-	env->ReleaseStringUTFChars(jpayPassword, payPassword);
 
 	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
@@ -149,7 +141,7 @@ static jlong JNICALL nativeRecoverSubWallet(JNIEnv *env, jobject clazz, jlong jM
 	return (jlong)subWallet;
 }
 
-//"(JJ)V"
+#define SIG_nativeDestroyWallet "(JJ)V"
 static void JNICALL nativeDestroyWallet(JNIEnv *env, jobject clazz, jlong jMasterProxy,
 		jlong jsubWalletProxy)
 {
@@ -162,7 +154,7 @@ static void JNICALL nativeDestroyWallet(JNIEnv *env, jobject clazz, jlong jMaste
 	}
 }
 
-//"(J)Ljava/lang/String;"
+#define SIG_nativeGetPublicKey "(J)Ljava/lang/String;"
 static jstring JNICALL nativeGetPublicKey(JNIEnv *env, jobject clazz, jlong jMasterProxy)
 {
 	jstring key = NULL;
@@ -178,7 +170,7 @@ static jstring JNICALL nativeGetPublicKey(JNIEnv *env, jobject clazz, jlong jMas
 	return key;
 }
 
-//"(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+#define SIG_nativeSign "(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeSign(JNIEnv *env, jobject clazz, jlong jMasterProxy,
 		jstring jmessage,
 		jstring jpayPassword)
@@ -210,7 +202,7 @@ static jstring JNICALL nativeSign(JNIEnv *env, jobject clazz, jlong jMasterProxy
 	return result;
 }
 
-//"(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+#define SIG_nativeCheckSign "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
 static /*nlohmann::json*/jstring JNICALL nativeCheckSign(JNIEnv *env, jobject clazz, jlong jMasterProxy,
 		jstring jaddress,
 		jstring jmessage,
@@ -245,7 +237,7 @@ static /*nlohmann::json*/jstring JNICALL nativeCheckSign(JNIEnv *env, jobject cl
 	return result;
 }
 
-//"(JLjava/lang/String;)Z"
+#define SIG_nativeIsAddressValid "(JLjava/lang/String;)Z"
 static jboolean JNICALL nativeIsAddressValid(JNIEnv *env, jobject clazz, jlong jMasterProxy, jstring jaddress)
 {
 	bool exception = false;
@@ -272,7 +264,7 @@ static jboolean JNICALL nativeIsAddressValid(JNIEnv *env, jobject clazz, jlong j
 	return (jboolean)valid;
 }
 
-//"(J)[Ljava/lang/String;"
+#define SIG_nativeGetSupportedChains "(J)[Ljava/lang/String;"
 static jobjectArray JNICALL nativeGetSupportedChains(JNIEnv *env, jobject clazz, jlong jMasterProxy)
 {
 	IMasterWallet* masterWallet = (IMasterWallet*)jMasterProxy;
@@ -294,7 +286,7 @@ static jobjectArray JNICALL nativeGetSupportedChains(JNIEnv *env, jobject clazz,
 	return objArray;
 }
 
-//"(JLjava/lang/String;Ljava/lang/String;)V"
+#define SIG_nativeChangePassword "(JLjava/lang/String;Ljava/lang/String;)V"
 static void JNICALL nativeChangePassword(JNIEnv *env, jobject clazz, jlong jMasterProxy, jstring joldPassword, jstring jnewPassword)
 {
 	bool exception = false;
@@ -320,67 +312,21 @@ static void JNICALL nativeChangePassword(JNIEnv *env, jobject clazz, jlong jMast
 	}
 }
 
+#define REGISTER_METHOD(name) { #name, SIG_##name, (void *)name }
+
 static const JNINativeMethod gMethods[] = {
-	{
-		"nativeGetId",
-		"(J)Ljava/lang/String;",
-		(void*)nativeGetId
-	},
-	{
-		"nativeGetBasicInfo",
-		"(J)Ljava/lang/String;",
-		(void*)nativeGetBasicInfo
-	},
-	{
-		"nativeGetAllSubWallets",
-		"(J)[Ljava/lang/Object;",
-		(void*)nativeGetAllSubWallets
-	},
-	{
-		"nativeCreateSubWallet",
-		"(JLjava/lang/String;Ljava/lang/String;ZJ)J",
-		(void*)nativeCreateSubWallet
-	},
-	{
-		"nativeRecoverSubWallet",
-		"(JLjava/lang/String;Ljava/lang/String;ZIJ)J",
-		(void*)nativeRecoverSubWallet
-	},
-	{
-		"nativeDestroyWallet",
-		"(JJ)V",
-		(void*)nativeDestroyWallet
-	},
-	{
-		"nativeGetPublicKey",
-		"(J)Ljava/lang/String;",
-		(void*)nativeGetPublicKey
-	},
-	{
-		"nativeSign",
-		"(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
-		(void*)nativeSign
-	},
-	{
-		"nativeCheckSign",
-		"(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
-		(void*)nativeCheckSign
-	},
-	{
-		"nativeIsAddressValid",
-		"(JLjava/lang/String;)Z",
-		(void*)nativeIsAddressValid
-	},
-	{
-		"nativeGetSupportedChains",
-		"(J)[Ljava/lang/String;",
-		(void*)nativeGetSupportedChains
-	},
-	{
-		"nativeChangePassword",
-		"(JLjava/lang/String;Ljava/lang/String;)V",
-		(void*)nativeChangePassword
-	},
+	REGISTER_METHOD(nativeGetId),
+	REGISTER_METHOD(nativeGetBasicInfo),
+	REGISTER_METHOD(nativeGetAllSubWallets),
+	REGISTER_METHOD(nativeCreateSubWallet),
+	REGISTER_METHOD(nativeRecoverSubWallet),
+	REGISTER_METHOD(nativeDestroyWallet),
+	REGISTER_METHOD(nativeGetPublicKey),
+	REGISTER_METHOD(nativeSign),
+	REGISTER_METHOD(nativeCheckSign),
+	REGISTER_METHOD(nativeIsAddressValid),
+	REGISTER_METHOD(nativeGetSupportedChains),
+	REGISTER_METHOD(nativeChangePassword),
 };
 
 jint register_elastos_spv_IMasterWallet(JNIEnv *env)
