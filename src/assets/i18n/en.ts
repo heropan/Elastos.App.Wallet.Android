@@ -3,7 +3,7 @@ export const en = {
   'hello': 'Hello!',
   'get-lang': 's_get_Lang',
   'tab-home': 'Home',
-  'tab-my': 'Setting',
+  'tab-setting': 'Settings',
   'launcher-create-wallet': 'Create Wallet',
   'launcher-backup-import': 'Import Wallet',
   'text-wallet-export': 'Export Wallet',
