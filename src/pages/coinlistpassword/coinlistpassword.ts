@@ -7,8 +7,8 @@ import {Native} from "../../providers/Native";
 })
 export class CoinlistpasswordPage {
 
-  private payPassword: string;
-  private singleAddress: boolean = false;
+  public payPassword: string;
+  public singleAddress: boolean = false;
 
   constructor(public viewCtrl: ViewController,public native:Native) {
 
