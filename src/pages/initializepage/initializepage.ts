@@ -40,9 +40,7 @@ export class InitializepagePage {
                  }else{
                   reject(data);
                  }
-          },(data)=>{
-            reject(data);
-          })
+          });
      });
   }
 

@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
+import { Component,NgZone} from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {LauncherComponent} from "../launcher/launcher.component";
 import { Events } from 'ionic-angular';
 import {LocalStorage} from "../../providers/Localstorage";
 import {Config} from "../../providers/Config";
 import {Native} from "../../providers/Native";
+
 @Component({
   selector: 'page-walltelist',
   templateUrl: 'walltelist.html',
 })
 export class WalltelistPage {
    items = [];
-  constructor(public navCtrl: NavController, public navParams: NavParams,public events: Events,public localStorage:LocalStorage,public native:Native) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public events: Events,public localStorage:LocalStorage,public native:Native,private zone:NgZone) {
         this.init();
   }
 
@@ -24,7 +25,9 @@ export class WalltelistPage {
      let mappList = Config.getMappingList();
      console.log("=========mappList==========="+JSON.stringify(mappList));
      //let mappList ={"2C66B4":{"id":"2C66B4","wallname":"ss","name":"ss"}};
-     this.items = Config.objtoarr(mappList);
+     this.zone.run(()=>{
+      this.items = Config.objtoarr(mappList);
+     })
      console.log("=========this.items==========="+JSON.stringify(this.items));
   }
 

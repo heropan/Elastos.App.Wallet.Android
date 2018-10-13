@@ -104,10 +104,10 @@ export class Native {
         content: content
       });
       this.loading.present();
-      setTimeout(() => {//最长显示10秒
-        this.loadingIsOpen && this.loading.dismiss();
-        this.loadingIsOpen = false;
-      }, 20000);
+      // setTimeout(() => {//最长显示10秒
+      //   this.loadingIsOpen && this.loading.dismiss();
+      //   this.loadingIsOpen = false;
+      // }, 20000);
     }
   };
 
@@ -115,7 +115,7 @@ export class Native {
    * 关闭loading
    */
   public hideLoading(): void {
-    this.loading.dismiss();
+    this.loadingIsOpen && this.loading.dismiss();
     this.loadingIsOpen = false;
   };
 }

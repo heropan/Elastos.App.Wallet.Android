@@ -124,7 +124,11 @@ export class ManagerComponent {
      }
      console.log("===index===="+JSON.stringify(arr));
      Config.setCurMasterWalletId(arr[0]);
-     Config.setMasterWalletIdList(arr);
+     //Config.setMasterWalletIdList(arr);
+     let allmastwalle = this.native.clone(Config.getMappingList());
+     delete(allmastwalle[this.masterWalletId]);
+     console.log("=====allmastwalle===="+JSON.stringify[allmastwalle]);
+     Config.setMappingList(allmastwalle);
      this.saveWalletList(arr[0]);
   }
 

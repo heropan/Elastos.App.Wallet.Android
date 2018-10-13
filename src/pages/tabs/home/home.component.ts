@@ -153,6 +153,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
       if(result["Action"] === "OnBalanceChanged"){
         if(!Util.isNull(result["Balance"])){
+          console.log("Ela===Balance"+result["Balance"]/Config.SELA);
           this.getZone().run(() => {
             this.ElaObj.balance = result["Balance"]/Config.SELA;
           });
