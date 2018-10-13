@@ -70,7 +70,7 @@ export class AddpublickeyPage {
 
   createSubWallet(chainId){
     // Sub Wallet
-    this.walletManager.createSubWallet(this.masterWalletId,chainId,"s12345678",true, 0, (data)=>{
+    this.walletManager.createSubWallet(this.masterWalletId,chainId,0, (data)=>{
           if(data["success"]){
                console.log("====createSubWallet===="+JSON.stringify(data));
                this.saveWalletList();
@@ -119,7 +119,7 @@ export class AddpublickeyPage {
 
   createMnemonicSubWallet(chainId,password){
     // Sub Wallet
-    this.walletManager.createSubWallet(this.masterWalletId,chainId,password,true, 0, (data)=>{
+    this.walletManager.createSubWallet(this.masterWalletId,chainId,0, (data)=>{
           if(data["success"]){
                this.native.hideLoading();
                console.log("====createSubWallet===="+JSON.stringify(data));

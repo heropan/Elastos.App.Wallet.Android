@@ -217,33 +217,33 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
    }
 
    createSubWallet(key){
-      this.walletManager.createSubWallet(this.masterWalletId,key,this.payPassword,false,0,(result)=>{
+      this.walletManager.createSubWallet(this.masterWalletId,key,0,(result)=>{
         alert("子钱包");
         alert(JSON.stringify(result));
       });
    }
 
    recoverSubWallet(){
-    this.walletManager.recoverSubWallet(this.masterWalletId,this.chinaId,this.payPassword,false,0,0,()=>{
+    this.walletManager.recoverSubWallet(this.masterWalletId,this.chinaId,0,0,()=>{
       alert("恢复子钱包");
     });
    }
 
 
    createMasterWallet(masterWalletId,mnemonic,phrasePassword,payPassWord,language){
-    this.walletManager.createMasterWallet(masterWalletId,mnemonic,phrasePassword,payPassWord,language,(result)=>{
+    this.walletManager.createMasterWallet(masterWalletId,mnemonic,phrasePassword,payPassWord,false,language,(result)=>{
                    alert("创建主钱包成功");
      });
    }
 
    importWalletWithKeystore(masterWalletId:string,keystoreContent:string,backupPassWord:string,payPassWord:string,phrasePassword:string){
-         this.walletManager.importWalletWithKeystore(masterWalletId,keystoreContent,backupPassWord,payPassWord,phrasePassword,()=>{
+         this.walletManager.importWalletWithKeystore(masterWalletId,keystoreContent,backupPassWord,payPassWord,()=>{
                       alert("导入keystore成功");
          })
    }
 
    importWalletWithMnemonic(masterWalletId:string,mnemonic:string ,phrasePassword:string ,payPassWord:string,language:string){
-       this.walletManager.importWalletWithMnemonic(masterWalletId,mnemonic,phrasePassword,payPassWord,language,()=>{
+       this.walletManager.importWalletWithMnemonic(masterWalletId,mnemonic,phrasePassword,payPassWord,false,language,()=>{
         alert("导入住记词成功");
        });
    }

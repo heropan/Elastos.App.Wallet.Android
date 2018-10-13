@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Native} from "./Native";
+import { Events } from 'ionic-angular';
 declare var cordova: any;
 
 
@@ -18,7 +19,7 @@ export class WalletManager {
   public static FEEPERKb = 500;
   public static PAGECOUNT = 10;
 
-  constructor(public native: Native) {
+  constructor(public native: Native,public event: Events) {
       console.log("========wal=======");
       this.wallet = cordova.plugins.Wallet;
       //this.wallet = {};
@@ -31,12 +32,10 @@ export class WalletManager {
    * 创建子钱包
    * @param {string} masterWalletId
    * @param {string} chainID
-   * @param {string} payPassword
-   * @param {boolean} singleAddress
    * @param {long} feePerKb
    */
-  createSubWallet(masterWalletId:string,chainID:string,payPassword: string, singleAddress: boolean, feePerKb: number, Fun) {
-      this.wallet.createSubWallet([masterWalletId,chainID,payPassword, singleAddress,feePerKb], Fun,(error)=>{
+  createSubWallet(masterWalletId:string,chainID:string,feePerKb: number, Fun) {
+      this.wallet.createSubWallet([masterWalletId,chainID,feePerKb], Fun,(error)=>{
         this.errorFun(error);
       });
   }
@@ -45,13 +44,11 @@ export class WalletManager {
    * 恢复子钱包
    * @param {string} masterWalletId
    * @param {string} chainID
-   * @param {string} payPassword
-   * @param {boolean} singleAddress
    * @param {int} limitGap
    * @param {long} feePerKb
    */
-  recoverSubWallet(masterWalletId:string,chainID:string,payPassword: string, singleAddress: boolean,limitGap: number,feePerKb: number, Fun) {
-      this.wallet.recoverSubWallet([masterWalletId,chainID,payPassword,singleAddress,limitGap,feePerKb], Fun,(error)=>{
+  recoverSubWallet(masterWalletId:string,chainID:string,limitGap: number,feePerKb: number, Fun) {
+      this.wallet.recoverSubWallet([masterWalletId,chainID,limitGap,feePerKb], Fun,(error)=>{
         this.errorFun(error);
       });
   }
@@ -62,11 +59,15 @@ export class WalletManager {
   /**
    * 创建主钱包
    * @param {string} masterWalletId
+   * @param {string} mnemonic
+   * @param {string} phrasePassword
+   * @param {string} payPassword
+   * @param {boolean} singleAddress
    * @param {string} language
    * @param Fun
    */
-  createMasterWallet(masterWalletId: string,mnemonic:string,phrasePassword:string,payPassword:string,language:string, Fun) {
-    this.wallet.createMasterWallet([masterWalletId,mnemonic,phrasePassword,payPassword,language], Fun,(error)=>{
+  createMasterWallet(masterWalletId: string,mnemonic:string,phrasePassword:string,payPassword:string,singleAddress:boolean,language:string, Fun) {
+    this.wallet.createMasterWallet([masterWalletId,mnemonic,phrasePassword,payPassword,singleAddress,language], Fun,(error)=>{
       this.errorFun(error);
     });
   }
@@ -75,11 +76,10 @@ export class WalletManager {
    * @param {string} keystoreContent
    * @param {string} backupPassword
    * @param {string} payPassword
-   * @param {string} phrasePassword
    * @param Fun
    */
-  importWalletWithKeystore(masterWalletId:string,keystoreContent: string, backupPassword: string, payPassword: string,phrasePassword:string, Fun) {
-    this.wallet.importWalletWithKeystore([masterWalletId,keystoreContent, backupPassword, payPassword,phrasePassword], Fun,(error)=>{
+  importWalletWithKeystore(masterWalletId:string,keystoreContent: string, backupPassword: string, payPassword: string,Fun) {
+    this.wallet.importWalletWithKeystore([masterWalletId,keystoreContent, backupPassword, payPassword], Fun,(error)=>{
       this.errorFun(error);
     });
   }
@@ -89,11 +89,12 @@ export class WalletManager {
    * @param {string} mnemonic
    * @param {string} phrasePassword
    * @param {string} payPassword
+   * @param {string} singleAddress
    * @param {string} language
    * @param Fun
    */
-  importWalletWithMnemonic(masterWalletId:string,mnemonic: string, phrasePassword: string, payPassword,language:string, Fun) {
-    this.wallet.importWalletWithMnemonic([masterWalletId,mnemonic,phrasePassword, payPassword,language], Fun,(error)=>{
+  importWalletWithMnemonic(masterWalletId:string,mnemonic: string, phrasePassword: string, payPassword,singleAddress:boolean,language:string, Fun) {
+    this.wallet.importWalletWithMnemonic([masterWalletId,mnemonic,phrasePassword, payPassword,singleAddress,language], Fun,(error)=>{
       this.errorFun(error);
     });
   }
@@ -147,7 +148,7 @@ export class WalletManager {
    * @param Fun
    */
   getAllAddress(masterWalletId:string,chainId:string,start:number,Fun) {
-    this.wallet.getAllAddress([masterWalletId,chainId,start, WalletManager.PAGECOUNT], Fun ,(error)=>{
+    this.wallet.getAllAddress([masterWalletId,chainId,start,500], Fun ,(error)=>{
       this.errorFun(error);
     });
   }
@@ -488,6 +489,7 @@ export class WalletManager {
     console.log("error = "+JSON.stringify(error));
     this.native.hideLoading();
     alert("错误信息：" + JSON.stringify(error));
+    this.event.publish("error:update");
   }
 
 

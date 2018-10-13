@@ -17,7 +17,7 @@ export class ImportComponent {
   public selectedTab: string="words";
   public showAdvOpts:boolean;
   public keyStoreContent:any;
-  public importFileObj:any={payPassword: "",rePayPassword: "", backupPassWord: "",phrasePassword:"",name:""};
+  public importFileObj:any={payPassword: "",rePayPassword: "", backupPassWord: "",name:""};
   public mnemonicObj:any={mnemonic:"",payPassword: "", rePayPassword: "",phrasePassword:"",name:"",singleAddress:false};
   public walletType:string;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage) {
@@ -82,30 +82,16 @@ export class ImportComponent {
   importWalletWithKeystore(){
     this.walletManager.importWalletWithKeystore(this.masterWalletId,
                       this.keyStoreContent,this.importFileObj.backupPassWord,
-                      this.importFileObj.payPassword,this.importFileObj.phrasePassword,
+                      this.importFileObj.payPassword,
                       (data)=>{
                         if(data["success"]){
-                            this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
-                            if(data["success"]){
-                               console.log("===getMasterWalletBasicInfo==="+JSON.stringify(data));
-                               this.walletType = JSON.parse(data["success"])["Account"]["Type"];
-                               let single = false;
-                               if(this.walletType === "Multi-Sign" || this.walletType === "Simple"){
-                                   single = true;
-                               }
-
-                               this.walletManager.createSubWallet(this.masterWalletId,"ELA", this.importFileObj.payPassword,single, 0, (data)=>{
+                               this.walletManager.createSubWallet(this.masterWalletId,"ELA",0, (data)=>{
                                 if(data["success"]){
                                    this.getAllCreatedSubWallets();
                                  }else{
                                    this.native.hideLoading();
                                    alert("=====createSubWallet=error"+JSON.stringify(data));
                                  }
-                               });
-                            }else{
-                               this.native.hideLoading();
-                               alert("=======getMasterWalletBasicInfo====error====="+JSON.stringify(data));
-                            }
                           });
 
                         }else{
@@ -162,16 +148,10 @@ export class ImportComponent {
 
   importWalletWithMnemonic(){
     let mnemonic = this.normalizeMnemonic(this.mnemonicObj.mnemonic);
-    this.walletManager.importWalletWithMnemonic(this.masterWalletId,mnemonic,this.mnemonicObj.phrasePassword,this.mnemonicObj.payPassword,this.native.getMnemonicLang(),(data)=>{
+    this.walletManager.importWalletWithMnemonic(this.masterWalletId,mnemonic,this.mnemonicObj.phrasePassword,this.mnemonicObj.payPassword,this.mnemonicObj.singleAddress,this.native.getMnemonicLang(),(data)=>{
                 if(data["success"]){
-                   this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
-                    if(data["success"]){
-                       this.walletType = JSON.parse(data["success"])["Account"]["Type"];
-                       let single = this.mnemonicObj.singleAddress;
-                       if(this.walletType === "Multi-Sign"){
-                           single = true;
-                       }
-                       this.walletManager.createSubWallet(this.masterWalletId,"ELA", this.mnemonicObj.payPassword,single, 0, (data)=>{
+
+                       this.walletManager.createSubWallet(this.masterWalletId,"ELA",0, (data)=>{
                         if(data["success"]){
                           this.native.toast_trans('import-text-world-sucess');
                           //this.localStorage.remove('coinListCache').then(()=>{
@@ -182,11 +162,6 @@ export class ImportComponent {
                              alert("createSubWallet==error"+JSON.stringify(data));
                         }
                          });
-                      }else{
-                        this.native.hideLoading();
-                        alert("=======getMasterWalletBasicInfo====error====="+JSON.stringify(data));
-                      }
-                    });
                 }else{
                     this.native.hideLoading();
                     alert("importWalletWithMnemonic==error"+JSON.stringify(data));

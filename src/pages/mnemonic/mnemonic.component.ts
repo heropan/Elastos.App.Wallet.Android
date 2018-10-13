@@ -66,7 +66,7 @@ export class MnemonicComponent {
         this.native.Go(this.navCtrl,AddpublickeyPage,{"totalCopayers":this.multType["totalCopayers"],"requiredCopayers":this.multType["requiredCopayers"],"mnemonicStr":this.mnemonicStr,"mnemonicPassword":this.mnemonicPassword,"payPassword":this.payPassword,name:this.name})
         return;
     }
-    this.walletManager.createMasterWallet(this.masterWalletId, this.mnemonicStr, this.mnemonicPassword, this.payPassword,this.native.getMnemonicLang(),(data) =>{
+    this.walletManager.createMasterWallet(this.masterWalletId, this.mnemonicStr, this.mnemonicPassword, this.payPassword,this.singleAddress,this.native.getMnemonicLang(),(data) =>{
            if(data["success"]){
             console.log("====createMasterWallet===="+JSON.stringify(data));
             this.createSubWallet('ELA');
@@ -78,15 +78,8 @@ export class MnemonicComponent {
 
   createSubWallet(chainId){
     // Sub Wallet
-    console.log("===========singleAddress3: ", this.singleAddress);
-    this.walletManager.createSubWallet(this.masterWalletId,chainId, this.payPassword, this.singleAddress, 0, (data)=>{
+    this.walletManager.createSubWallet(this.masterWalletId,chainId,0, (data)=>{
           if(data["success"]){
-              //  console.log("====createSubWallet===="+JSON.stringify(data));
-              //  Config.setCurMasterWalletId(this.masterWalletId);
-              //  this.native.Go(this.navCtrl,WriteComponent, {mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList});
-              //  this.localStorage.setWallet({
-              //   'name': this.name
-              //  });
               let walletObj = this.native.clone(Config.masterWallObj);
                   walletObj["id"]   = this.masterWalletId;
                   walletObj["wallname"] = this.name;

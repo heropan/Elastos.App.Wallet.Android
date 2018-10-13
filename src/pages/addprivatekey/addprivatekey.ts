@@ -62,7 +62,7 @@ export class AddprivatekeyPage {
 
   createSubWallet(chainId){
     // Sub Wallet
-    this.walletManager.createSubWallet(this.masterWalletId,chainId, this.msobj["passWord"],true, 0, (data)=>{
+    this.walletManager.createSubWallet(this.masterWalletId,chainId,0, (data)=>{
           if(data["success"]){
                console.log("====createSubWallet===="+JSON.stringify(data));
                this.saveWalletList();

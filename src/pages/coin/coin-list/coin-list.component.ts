@@ -31,24 +31,25 @@ export class CoinListComponent {
     };
   }
 
-  createMode(){
-    let modal = this.modalCtrl.create(CoinlistpasswordPage);
-        modal.onDidDismiss((data)=>{
-              if(!Util.isEmptyObject(data)){
-                console.log("==1111==="+JSON.stringify(data));
-                this.createSubWallet(data);
-              }else{
-                console.log("==2222==="+JSON.stringify(data));
-                this.currentCoin["open"] = false;
-              }
-        });
-        modal.present();
-  }
+  // createMode(){
+  //   let modal = this.modalCtrl.create(CoinlistpasswordPage);
+  //       modal.onDidDismiss((data)=>{
+  //             if(!Util.isEmptyObject(data)){
+  //               console.log("==1111==="+JSON.stringify(data));
+  //               this.createSubWallet(data);
+  //             }else{
+  //               console.log("==2222==="+JSON.stringify(data));
+  //               this.currentCoin["open"] = false;
+  //             }
+  //       });
+  //       modal.present();
+  // }
   onSelect(item) {
      console.log("====item===="+JSON.stringify(item));
      if(item.open){
       this.currentCoin = item;
-      this.createMode();
+      //this.createMode();
+      this.createSubWallet();
      }else{
         let subWallte = Config.getSubWallet(this.masterWalletId);
         //this.localStorage.get('coinListCache').then((val)=>{
@@ -70,6 +71,9 @@ export class CoinListComponent {
   }
 
   init() {
+    this.events.subscribe("error:update",()=>{
+      this.currentCoin["open"] = false;
+    });
     this.masterWalletId =Config.getCurMasterWalletId();
     //this.localStorage.get('coinListCache').then((val)=>{
       let subWallte= Config.getSubWallet(this.masterWalletId);
@@ -97,14 +101,11 @@ export class CoinListComponent {
     //});
   }
 
-  createSubWallet(data){
+  createSubWallet(){
     // Sub Wallet IdChain
     let chainId = this.currentCoin["name"];
-    let payPassword = data["password"];
-    let singleAddress= data["singleAddress"];
-
     //this.currentCoin["open"] = false;
-    this.walletManager.createSubWallet(this.masterWalletId,chainId,payPassword,singleAddress, 0, (data)=>{
+    this.walletManager.createSubWallet(this.masterWalletId,chainId,0, (data)=>{
       if(data['success']){
         let coin = this.native.clone(Config.getSubWallet(this.masterWalletId));
         if(coin){
