@@ -62,7 +62,7 @@ export class HttpService {
     for (let key in paramMap) {
       let val = paramMap[key];
       if (val instanceof Date) {
-        val = Util.dateFormat(val, 'yyyy-MM-dd hh:mm:ss')
+        val = Util.dateFormat(val, 'yyyy-MM-dd HH:mm:ss')
       }
       params.set(key, val);
     }

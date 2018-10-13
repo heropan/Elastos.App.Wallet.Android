@@ -82,7 +82,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
   getElaBalance(item){
     this.walletManager.getBalance(this.masterWalletId,item.name,(data)=>{
       if(!Util.isNull(data["success"])){
-        console.log("getBalance="+JSON.stringify(data));
         this.getZone().run(()=>{
           this.ElaObj.balance = data["success"]/Config.SELA;
         });
@@ -154,8 +153,6 @@ export class HomeComponent extends BaseComponent implements OnInit {
 
       if(result["Action"] === "OnBalanceChanged"){
         if(!Util.isNull(result["Balance"])){
-          console.log("OnBalanceChanged="+JSON.stringify(result));
-          console.log("OnBalanceChanged="+result["Balance"]);
           this.getZone().run(() => {
             this.ElaObj.balance = result["Balance"]/Config.SELA;
           });
