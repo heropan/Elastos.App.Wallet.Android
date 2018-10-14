@@ -1,6 +1,4 @@
 import {Component,ViewChild} from '@angular/core';
-import {Util} from "../../../providers/Util";
-import {CoinlistpasswordPage} from '../../../pages/coinlistpassword/coinlistpassword';
 import { NavController, NavParams,ModalController,Navbar,Events } from 'ionic-angular';
 import {WalletManager} from '../../../providers/WalletManager';
 import {Native} from "../../../providers/Native";
@@ -31,19 +29,6 @@ export class CoinListComponent {
     };
   }
 
-  // createMode(){
-  //   let modal = this.modalCtrl.create(CoinlistpasswordPage);
-  //       modal.onDidDismiss((data)=>{
-  //             if(!Util.isEmptyObject(data)){
-  //               console.log("==1111==="+JSON.stringify(data));
-  //               this.createSubWallet(data);
-  //             }else{
-  //               console.log("==2222==="+JSON.stringify(data));
-  //               this.currentCoin["open"] = false;
-  //             }
-  //       });
-  //       modal.present();
-  // }
   onSelect(item) {
      console.log("====item===="+JSON.stringify(item));
      if(item.open){
@@ -130,6 +115,10 @@ export class CoinListComponent {
         alert("createSubWallet===error=="+JSON.stringify(data));
       }
     });
+  }
+
+  ionViewDidLeave() {
+     this.events.unsubscribe("error:update");
   }
 
 }

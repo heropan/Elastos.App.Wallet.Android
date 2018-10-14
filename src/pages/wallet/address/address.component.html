@@ -1,16 +1,25 @@
 <ion-header>
-    <app-header [header]="header"></app-header>
+    <ion-navbar>
+        <ion-title style="text-align:center">{{'text-contacts-address' | translate}}</ion-title>
+    </ion-navbar>
 </ion-header>
-<ion-content>
-    <div class="address-whole">
+<ion-content style="width:100%">
+    <ion-refresher (ionRefresh)='doRefresh($event)'>
 
-        <div class="weui-cells" *ngFor="let item of addrList" (click)="onItem(item)">
-            <div class="weui-cell">
-                <div class="weui-cell__bd">
-                    <p>{{item}}</p>
-                </div>
-            </div>
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉刷新" refreshingSpinner="circles" refreshingText="...">
 
-        </div>
-    </div>
+        </ion-refresher-content>
+
+    </ion-refresher>
+
+    <ion-list>
+        <ion-item *ngFor="let item of addrList" (click)="onItem(item)">
+            {{item}}
+        </ion-item>
+    </ion-list>
+
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="加载更多...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>

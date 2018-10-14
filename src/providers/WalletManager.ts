@@ -148,7 +148,7 @@ export class WalletManager {
    * @param Fun
    */
   getAllAddress(masterWalletId:string,chainId:string,start:number,Fun) {
-    this.wallet.getAllAddress([masterWalletId,chainId,start,500], Fun ,(error)=>{
+    this.wallet.getAllAddress([masterWalletId,chainId,start,20], Fun ,(error)=>{
       this.errorFun(error);
     });
   }

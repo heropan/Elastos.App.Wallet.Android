@@ -70,6 +70,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
         this.Go(WalltelistPage);
         break;
       case 1:
+        console.log("====CoinListComponent===");
         this.Go(CoinListComponent);
         break;
     }

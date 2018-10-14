@@ -1,33 +1,32 @@
-import {Component, OnInit} from '@angular/core';
-import {BaseComponent} from './../../../app/BaseComponent';
+import {Component} from '@angular/core';
 import {AddressComponent} from "../../wallet/address/address.component";
 import {Util} from "../../../providers/Util";
 import { Config } from '../../../providers/Config';
-
+import { NavController, NavParams} from 'ionic-angular';
+import {WalletManager} from '../../../providers/WalletManager';
+import {Native} from "../../../providers/Native";
 @Component({
   selector: 'app-receive',
   templateUrl: './receive.component.html'
 })
-export class ReceiveComponent extends BaseComponent implements OnInit {
+export class ReceiveComponent{
   masterWalletId:string ="1";
   qrcode: string=null;
   address: Number;
   amount: Number;
   chinaId: string;
-  ngOnInit() {
+  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native :Native){
+        this.init();
+  }
+  init() {
     this.masterWalletId =Config.getCurMasterWalletId();
-    this.setTitleByAssets('text-receive');
-    this.chinaId = this.getNavParams().get("chianId");
+    this.chinaId = this.navParams.get("chianId");
     this.createAddress();
-    this.setHeadDisPlay({left:true,title:true,right:false});
-    // this.setRightIcon('./assets/images/icon/icon-s.svg', () => {
-    //   Logger.info('分享');
-    // });
   }
 
   onChange(){
     if(!Util.number(this.amount)){
-      this.toast('correct-amount');
+      this.native.toast_trans('correct-amount');
     }
   }
 
@@ -36,13 +35,13 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
     switch (type){
       case 0:
         this.native.copyClipboard(this.qrcode);
-        this.toast('copy-ok');
+        this.native.toast_trans('copy-ok');
         break;
       case 1:
         this.createAddress();
         break;
       case 2:
-        this.Go(AddressComponent, {chinaId: this.chinaId});
+        this.native.Go(this.navCtrl,AddressComponent, {chinaId: this.chinaId});
         break;
     }
   }
@@ -50,7 +49,6 @@ export class ReceiveComponent extends BaseComponent implements OnInit {
   createAddress(){
     this.walletManager.createAddress(this.masterWalletId,this.chinaId, (data)=>{
         if(data["success"]){
-          console.log("===createAddress===="+JSON.stringify(data));
           this.qrcode = data["success"];
           this.address = data["success"];
         }else{
