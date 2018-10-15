@@ -103,6 +103,7 @@ export class CoinComponent extends BaseComponent implements OnInit {
           "balance": balanceResult/Config.SELA,
           "datetime": datetime,
           "timestamp": timestamp,
+          "payfees": summary['Fee']/Config.SELA,
           "txId": txId
         }
         this.transferList.push(transfer);
