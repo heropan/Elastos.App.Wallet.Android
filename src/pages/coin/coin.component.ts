@@ -24,7 +24,7 @@ export class CoinComponent extends BaseComponent implements OnInit {
   coinId = 0;
 
   coinName = "";
-
+  pageNo =0;
   start = 0;
 
   textShow = '';
@@ -159,7 +159,8 @@ export class CoinComponent extends BaseComponent implements OnInit {
   }
 
   clickMore(){
-    this.start++;
+    this.pageNo++;
+    this.start = this.pageNo*20;
     this.getAllTx();
   }
 }

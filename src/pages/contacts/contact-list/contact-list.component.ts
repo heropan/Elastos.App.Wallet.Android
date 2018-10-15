@@ -20,7 +20,6 @@ export class ContactListComponent {
   init() {
 
     this.events.subscribe("contanctList:update",()=>{
-      console.log("====qqqqqq====");
       this.localStorage.get('contactUsers').then((val)=>{
         if (val) {
           this.contactUsers = Util.objtoarr(JSON.parse(val));
@@ -44,7 +43,7 @@ export class ContactListComponent {
   }
 
   ionViewDidLeave() {
-    this.events.unsubscribe("contanctList:update");
+    //this.events.unsubscribe("contanctList:update");
  }
 
 }
