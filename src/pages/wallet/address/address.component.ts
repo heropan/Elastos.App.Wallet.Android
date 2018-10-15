@@ -13,6 +13,7 @@ export class AddressComponent {
   addrList = [];
   chinaId: string;
   pageNo = 0;
+  start = 0;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public events :Events,public native :Native){
          this.init();
   }
@@ -23,7 +24,7 @@ export class AddressComponent {
   }
 
   getAddressList(){
-    this.walletManager.getAllAddress(this.masterWalletId,this.chinaId,this.pageNo, (data) => {
+    this.walletManager.getAllAddress(this.masterWalletId,this.chinaId,this.start, (data) => {
       if(data["success"]){
         console.log("===getAllAddress==="+JSON.stringify(data));
         if(this.pageNo != 0){
@@ -44,6 +45,7 @@ export class AddressComponent {
 
   doRefresh(refresher){
      this.pageNo = 0;
+     this.start = 0;
      this.getAddressList();
      setTimeout(() => {
       refresher.complete();
@@ -55,6 +57,7 @@ export class AddressComponent {
   doInfinite(infiniteScroll){
     setTimeout(() => {
       this.pageNo++;
+      this.start  = this.pageNo*20;
       this.getAddressList();
       infiniteScroll.complete();
     },2000);
