@@ -27,9 +27,10 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
         let allTransaction = JSON.parse(data['success']);
         let transactions = allTransaction['Transactions'];
         let transaction = transactions[0];
-        let timestamp = transaction['Timestamp']*1000;
+        // let timestamp = transaction['Timestamp']*1000;
         let datetime = Util.dateFormat(new Date(timestamp), 'yyyy-MM-dd HH:mm:ss');
         let summary = transaction['Summary'];
+        let timestamp = summary['Timestamp']*1000;
         let incomingAmount = summary["Incoming"]['Amount'];
         let outcomingAmount = summary["Outcoming"]['Amount'];
         let incomingAddress = summary["Incoming"]['ToAddress'];
