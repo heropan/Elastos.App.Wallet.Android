@@ -31,7 +31,6 @@ export class CoinComponent extends BaseComponent implements OnInit {
 
   elaPer:any;
   idChainPer:any;
-
   ngOnInit() {
     this.masterWalletId = Config.getCurMasterWalletId();
     this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
@@ -50,7 +49,6 @@ export class CoinComponent extends BaseComponent implements OnInit {
     this.coinName = this.getNavParams().get("name");
     this.elaPer = this.getNavParams().get("elaPer") || 0;
     this.idChainPer = this.getNavParams().get("idChainPer") || 0;
-    this.setTitle(this.coinName);
     if (this.coinName == 'ELA') {
       this.textShow = 'text-recharge';
     }else{
@@ -67,8 +65,11 @@ export class CoinComponent extends BaseComponent implements OnInit {
       }else{
          alert("====getBalance==error="+JSON.stringify(data));
       }
-
     });
+    this.getAllTx();
+  }
+
+  getAllTx(){
     this.walletManager.getAllTransaction(this.masterWalletId,this.coinName, this.start, '', (data) => {
       if(data["success"]){
           console.log("====getAllTransaction===="+JSON.stringify(data));
@@ -157,5 +158,8 @@ export class CoinComponent extends BaseComponent implements OnInit {
     }
   }
 
-
+  clickMore(){
+    this.start++;
+    this.getAllTx();
+  }
 }

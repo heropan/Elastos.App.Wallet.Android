@@ -15,6 +15,7 @@ import { DidLoginComponent } from "../../pages/third-party/did-login/did-login.c
 })
 export class InitializepagePage {
   constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager: WalletManager,public native: Native,public localStorage: LocalStorage) {
+       this.native.showLoading();
   }
 
   ionViewDidLoad() {
@@ -23,7 +24,6 @@ export class InitializepagePage {
 
 
   initializeApp(){
-    this.native.showLoading();
      this.load().then((data)=>{
       this.successHandle(data["success"]);
      }).catch((data)=>{
@@ -52,9 +52,7 @@ export class InitializepagePage {
          this.handleNull(type);
        }else{
          this.localStorage.getCurMasterId().then((data) => {
-          console.log("=====getCurMasterId=====" + data);
           let item = JSON.parse(data);
-          console.log("====getCurMasterId====" + JSON.stringify(item));
           Config.setCurMasterWalletId(item["masterId"]);
           Config.setMasterWalletIdList(idList);
           this.handleMappingdata(idList);
