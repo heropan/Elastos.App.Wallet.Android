@@ -110,7 +110,7 @@
         <div class="weui-form-preview__hd">
             <div class="weui-form-preview__item">
                 <label class="weui-form-preview__label font-size-1" style="line-height: 40px">{{'transaction-price' | translate}}</label>
-                <em class="weui-form-preview__value">{{transactionRecord.balance > 0 ? '+' : ''}}  {{transactionRecord.balance}} {{transactionRecord.name}}</em>
+                <em class="weui-form-preview__value">{{transactionRecord.balance > 0 ? '+' : ''}}  {{transactionRecord.balance - transactionRecord.payfees}} {{transactionRecord.name}}</em>
             </div>
         </div>
         <div class="weui-form-preview__bd">
