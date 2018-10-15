@@ -265,5 +265,6 @@ export const zh = {
   'text-tx-details':"交易详情",
   'text-multi-title1':"拥有者数量",
   'text-multi-title2':"签名数量",
-  'text-multi-error':"签名数不能大于拥有者数量"
+  'text-multi-error':"签名数不能大于拥有者数量",
+  'text-delete-contact-confirm':"确定要删除吗？"
 };

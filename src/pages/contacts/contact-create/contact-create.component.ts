@@ -1,7 +1,6 @@
 import { Component} from '@angular/core';
-import {ContactListComponent} from "../contact-list/contact-list.component";
 import {Util} from "../../../providers/Util";
-import { NavController, NavParams} from 'ionic-angular';
+import { NavController, NavParams,Events} from 'ionic-angular';
 import {WalletManager} from '../../../providers/WalletManager';
 import {Native} from "../../../providers/Native";
 import {LocalStorage} from "../../../providers/Localstorage";
@@ -10,7 +9,7 @@ import {LocalStorage} from "../../../providers/Localstorage";
   templateUrl: './contact-create.component.html',
 })
 export class ContactCreateComponent{
-  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage) {
+  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage,public events:Events) {
 
   }
   name: String;
@@ -46,7 +45,8 @@ export class ContactCreateComponent{
       return;
     }
     this.localStorage.add('contactUsers', contactUsers).then((val)=>{
-      this.native.Go(this.navCtrl,ContactListComponent);
+      this.events.publish("contanctList:update");
+      this.navCtrl.pop();
     });
   }
 

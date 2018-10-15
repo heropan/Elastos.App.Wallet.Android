@@ -15,7 +15,7 @@
           </ion-label>
         </button>
 
-        <button *ngIf="masterWalletType === 'Multi-Sign' && !readonly" ion-item (click)="onNext(1)">
+        <button *ngIf="!readonly" ion-item (click)="onNext(1)">
           <ion-label>
             <span>{{'text-check-publickey' | translate }}</span>
           </ion-label>
@@ -37,6 +37,6 @@
           <ion-label>
             <span>{{'text-id-my' | translate }}</span>
           </ion-label>
-        </button>-->    
+        </button>-->
     </ion-list>
 </ion-content>
