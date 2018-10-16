@@ -7,7 +7,7 @@
     <div class='address-whole'>
         <div class="coin-info-top-box">
             <img src="./assets/images/logo-maincolor.svg">
-            <div style="font-size: 1.6em;">{{coinCount}}&nbsp; {{ coinName }}</div>
+            <div style="font-size: 1.6em;">{{coinCount}} </div>
         </div>
 
         <div class="weui-cells__title">{{ 'coin-recent-transfer' | translate }}</div>
@@ -18,7 +18,7 @@
                 <div class="weui-cell__bd">
                     <p><br/> {{item.status | translate}} <span class="transfer-list-date" *ngIf="item.timestamp!='0'"> {{item.datetime}} </span></p>
                 </div>
-                <div class="weui-cell__ft">{{item.balance - item.payfees > 0 ? '+' : ''}} {{item.balance - item.payfees}} {{item.name}}</div>
+                <div class="weui-cell__ft">{{item.balance - item.payfees > 0 ? '+' : ''}} {{item.balance - item.payfees}} </div>
             </li>
             <p style="text-align: center;font-size: 16px;height:30px;line-height:30px;margin-top: 5px" (click)="clickMore()">点击加载更多</p>
         </ul>
