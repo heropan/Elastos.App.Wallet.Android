@@ -32,16 +32,23 @@ export class ImportComponent {
 
 
   onImport() {
-     this.native.showLoading();
+     //this.native.showLoading();
      switch(this.selectedTab){
        case "words":
             if(this.checkWorld()){
-               this.importWalletWithMnemonic();
-            }
+               this.native.showLoading();
+               setTimeout(() => {
+                this.importWalletWithMnemonic();
+               },100);
+
+             }
        break;
        case "file":
           if(this.checkImportFile()){
-               this.importWalletWithKeystore();
+               this.native.showLoading();
+               setTimeout(()=>{
+                this.importWalletWithKeystore();
+               },100);
           }
        break;
      }
@@ -50,29 +57,29 @@ export class ImportComponent {
   checkImportFile(){
 
    if(Util.isNull(this.keyStoreContent)){
-      this.native.hideLoading();
+      //this.native.hideLoading();
       this.native.toast_trans('import-text-keystroe-message');
           return false;
     }
 
     if(Util.isNull(this.importFileObj.name)){
-      this.native.hideLoading();
+      //this.native.hideLoading();
       this.native.toast_trans("text-wallet-name-validator");
       return false;
     }
     if(Util.isNull(this.importFileObj.backupPassWord)){
-      this.native.hideLoading();
+      //this.native.hideLoading();
       this.native.toast_trans('text-backup-passworld-input');
       return false;
     }
     if(Util.isNull(this.importFileObj.payPassword)){
-      this.native.hideLoading();
+      //this.native.hideLoading();
       this.native.toast_trans('text-pay-passworld-input');
       return false;
     }
 
     if(this.importFileObj.payPassword!=this.importFileObj.rePayPassword){
-      this.native.hideLoading();
+      //this.native.hideLoading();
       this.native.toast_trans('text-passworld-compare');
       return false;
     }
@@ -103,34 +110,35 @@ export class ImportComponent {
 
   checkWorld(){
     if(Util.isNull(this.mnemonicObj.name)){
-        this.native.hideLoading();
+        //this.native.hideLoading();
         this.native.toast_trans("text-wallet-name-validator");
         return false;
     }
     if(Util.isNull(this.mnemonicObj.mnemonic)){
-      this.native.hideLoading();
+      //this.native.hideLoading();
         this.native.toast_trans('text-input-mnemonic');
         return false;
     }
 
     let mnemonic = this.normalizeMnemonic(this.mnemonicObj.mnemonic).replace(/^\s+|\s+$/g,"");
     if(mnemonic.split(/[\u3000\s]+/).length != 12){
-      this.native.hideLoading();
+      //this.native.hideLoading();
       this.native.toast_trans('text-mnemonic-validator');
       return false;
     }
 
     if(Util.isNull(this.mnemonicObj.payPassword)){
-      this.native.hideLoading();
+      //this.native.hideLoading();
       this.native.toast_trans('text-pay-password');
       return false;
     }
     if (!Util.password(this.mnemonicObj.payPassword)) {
-      this.native.hideLoading();
+      //this.native.hideLoading();
       this.native.toast_trans("text-pwd-validator");
-      return;
+      return false;
     }
     if(this.mnemonicObj.payPassword!=this.mnemonicObj.rePayPassword){
+      //this.native.hideLoading();
       this.native.toast_trans('text-passworld-compare');
       return false;
     }
@@ -154,9 +162,7 @@ export class ImportComponent {
                        this.walletManager.createSubWallet(this.masterWalletId,"ELA",0, (data)=>{
                         if(data["success"]){
                           this.native.toast_trans('import-text-world-sucess');
-                          //this.localStorage.remove('coinListCache').then(()=>{
                           this.saveWalletList(null);
-                        //});
                         }else{
                              this.native.hideLoading();
                              alert("createSubWallet==error"+JSON.stringify(data));

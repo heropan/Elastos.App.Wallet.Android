@@ -19,7 +19,9 @@ export class InitializepagePage {
   }
 
   ionViewDidLoad() {
-    this.initializeApp();
+    setTimeout(()=>{
+      this.initializeApp();
+    },0);
   }
 
 
