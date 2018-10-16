@@ -39,7 +39,7 @@ export class ImportComponent {
                this.native.showLoading();
                setTimeout(() => {
                 this.importWalletWithMnemonic();
-               },0);
+               },100);
 
              }
        break;
@@ -48,7 +48,7 @@ export class ImportComponent {
                this.native.showLoading();
                setTimeout(()=>{
                 this.importWalletWithKeystore();
-               });
+               },100);
           }
        break;
      }

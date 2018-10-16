@@ -7,6 +7,7 @@ import {CoinSelectComponent} from "./coin-select/coin-select.component";
 import {WithdrawComponent} from "./withdraw/withdraw.component";
 import {ReceiveComponent} from "./receive/receive.component";
 import {RecordinfoComponent} from "./recordinfo/recordinfo.component";
+import { max } from 'rxjs/operators';
 
 
 @Component({
@@ -31,6 +32,8 @@ export class CoinComponent extends BaseComponent implements OnInit {
 
   elaPer:any;
   idChainPer:any;
+  isShowMore = false;
+  MaxCount = 0;
   ngOnInit() {
     this.masterWalletId = Config.getCurMasterWalletId();
     this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
@@ -75,6 +78,11 @@ export class CoinComponent extends BaseComponent implements OnInit {
           console.log("====getAllTransaction===="+JSON.stringify(data));
       let allTransaction = JSON.parse(data['success']);
       let transactions = allTransaction['Transactions'];
+      this.MaxCount = allTransaction['MaxCount'];
+      if(!transactions){
+          this.isShowMore = false;
+          return;
+      }
       for (let key in transactions) {
         let transaction = transactions[key];
         // let timestamp = transaction['Timestamp']*1000;
@@ -164,6 +172,11 @@ export class CoinComponent extends BaseComponent implements OnInit {
   clickMore(){
     this.pageNo++;
     this.start = this.pageNo*20;
+    if(this.start >= this.MaxCount){
+      this.isShowMore = false;
+      return;
+    }
+    this.isShowMore = true;
     this.getAllTx();
   }
 }

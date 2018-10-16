@@ -40,6 +40,7 @@ import { WalltemodePage } from '../pages/walltemode/walltemode';
 import { ScancodePage } from '../pages/scancode/scancode';
 import { InitializepagePage } from "../pages/initializepage/initializepage";
 import {PaymentboxPage} from '../pages/paymentbox/paymentbox';
+import { CoinSelectComponent } from "../pages/coin/coin-select/coin-select.component";
 
 //add for plugin
 declare var cordova: any;
@@ -94,6 +95,7 @@ export class AppComponent {
       //this.rootPage = InitializepagePage;
       //this.rootPage = RecordinfoComponent;
       //this.rootPage = CoinComponent;
+      //this.rootPage = CoinSelectComponent;
       //init java 2 js plugin
     });
 

@@ -20,7 +20,7 @@
                 </div>
                 <div class="weui-cell__ft">{{item.balance - item.payfees > 0 ? '+' : ''}} {{item.balance - item.payfees}} {{item.name}}</div>
             </li>
-            <p style="text-align: center;font-size: 16px;height:30px;line-height:30px;margin-top: 5px" (click)="clickMore()">点击加载更多</p>
+            <p style="text-align: center;font-size: 16px;height:30px;line-height:30px;margin-top: 5px" (click)="clickMore()" *ngIf="isShowMore">点击加载更多</p>
         </ul>
     </div>
 </ion-content>
