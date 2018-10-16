@@ -172,6 +172,9 @@ public class Wallet extends CordovaPlugin {
 			JSONObject errJson = new JSONObject();
 			errJson.put(keyCode, exceptionCode);
 			errJson.put(keyMessage, msg + ": " + exceptionMsg);
+			if (exceptionJson.has("Data")) {
+				errJson.put("Data", exceptionJson.getInt("Data"));
+			}
 
 			Log.e(TAG, errJson.toString());
 			cc.error(mkJson(keyError, errJson));
