@@ -9,152 +9,97 @@
         <p>{{transactionRecord.status | translate}}</p>
     </div>
 
-    <!-- <ion-list>
-        <ion-item>
-            <ion-row class="row">
-                <ion-col col-2>
-                    {{'transaction-price' | translate}}
-                </ion-col>
-                <ion-col col-10 class="text-right">
-                    {{transactionRecord.balance > 0 ? '+' : ''}} {{transactionRecord.balance}} {{transactionRecord.name}}
-                </ion-col>
-            </ion-row>
+    <ion-grid>
+        <ion-row class="font-size-1">
+            <ion-col col-4>
+                {{'transaction-price' | translate}}
+            </ion-col>
+            <ion-col col-8 class="text-right">
+                {{transactionRecord.balance - transactionRecord.payfees > 0 ? '+' : ''}} {{transactionRecord.balance - transactionRecord.payfees}} {{transactionRecord.name}}
+            </ion-col>
+        </ion-row>
 
-            <ion-row class="row">
-                <ion-col col-2>
-                    {{'transaction-id' | translate}}
-                </ion-col>
-                <ion-col col-10 class="text-right">
-                    {{transactionRecord.txId}}
-                </ion-col>
-            </ion-row>
-
-
-            <ion-row *ngIf="transactionRecord.balance > 0" class="row">
-                <ion-col col-2>
-                    {{'utxo-incoming' | translate}}
-                </ion-col>
-                <ion-col col-10 class="text-right">
-                    {{transactionRecord.incomingAmount}}
-                </ion-col>
-            </ion-row>
-
-            <ion-row *ngIf="transactionRecord.balance > 0" class="row">
-                <ion-col col-2>
-                    {{'utxo-incoming-address' | translate}}
-                </ion-col>
-                <ion-col col-10 class="text-right huan-hang">
-                    {{transactionRecord.incomingAddress}}
-                </ion-col>
-            </ion-row>
-
-            <ion-row *ngIf="transactionRecord.balance < 0" class="row">
-                <ion-col col-2>
-                    {{'utxo-outcoming' | translate}}
-                </ion-col>
-                <ion-col col-10 class="text-right">
-                    {{transactionRecord.outcomingAmount}}
-                </ion-col>
-            </ion-row>
-
-            <ion-row *ngIf="transactionRecord.balance < 0" class="row">
-                <ion-col col-2>
-                    {{'utxo-outcoming-address' | translate}}
-                </ion-col>
-                <ion-col col-10 class="text-right huan-hang">
-                    {{transactionRecord.outcomingAddress}}
-                </ion-col>
-            </ion-row>
-
-            <ion-row class="row">
-                <ion-col col-2>
-                    {{'transaction-time' | translate}}
-                </ion-col>
-                <ion-col col-10 *ngIf="transactionRecord.timestamp!='0'" class="text-right">
-                    {{transactionRecord.transactionTime}}
-                </ion-col>
-            </ion-row>
-
-            <ion-row class="row">
-                <ion-col col-2>
-                    {{'text-fees' | translate}}
-                </ion-col>
-                <ion-col col-10 class="text-right">
-                    {{transactionRecord.payfees}}
-                </ion-col>
-            </ion-row>
+        <ion-row class="font-size-1">
+            <ion-col col-4>
+                {{'transaction-id' | translate}}
+            </ion-col>
+            <ion-col col-8 (click)="tiaozhuan(transactionRecord.txId)">
+                {{transactionRecord.txId}}
+            </ion-col>
+        </ion-row>
 
 
-            <ion-row class="row">
-                <ion-col col-2>
-                    {{'confirm-count' | translate}}
-                </ion-col>
-                <ion-col col-10 class="text-right">
-                    {{transactionRecord.confirmCount}}
-                </ion-col>
-            </ion-row>
+        <ion-row *ngIf="transactionRecord.balance > 0" class="font-size-1">
+            <ion-col col-4>
+                {{'utxo-incoming' | translate}}
+            </ion-col>
+            <ion-col col-8 class="text-right" (click)="onNext(transactionRecord.incomingAddress)">
+                {{transactionRecord.incomingAmount}}
+            </ion-col>
+        </ion-row>
 
-            <ion-row class="row">
-                <ion-col col-2>
-                    {{'text-remark' | translate}}
-                </ion-col>
-                <ion-col col-10 class="text-right">
-                    {{transactionRecord.remark}}
-                </ion-col>
-            </ion-row>
-        </ion-item>
-    </ion-list> -->
+        <ion-row *ngIf="transactionRecord.balance > 0" class="font-size-1">
+            <ion-col col-4>
+                {{'utxo-incoming-address' | translate}}
+            </ion-col>
+            <ion-col col-8 class="text-right huan-hang" (click)="onNext(transactionRecord.incomingAddress)">
+                {{transactionRecord.incomingAddress}}
+            </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="transactionRecord.balance < 0" class="font-size-1">
+            <ion-col col-4>
+                {{'utxo-outcoming' | translate}}
+            </ion-col>
+            <ion-col col-8 class="text-right" (click)="onNext(transactionRecord.outcomingAddress)">
+                {{transactionRecord.outcomingAmount}}
+            </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="transactionRecord.balance < 0" class="font-size-1">
+            <ion-col col-4>
+                {{'utxo-outcoming-address' | translate}}
+            </ion-col>
+            <ion-col col-8 class="text-right huan-hang" (click)="onNext(transactionRecord.outcomingAddress)">
+                {{transactionRecord.outcomingAddress}}
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="font-size-1">
+            <ion-col col-4>
+                {{'transaction-time' | translate}}
+            </ion-col>
+            <ion-col col-8 *ngIf="transactionRecord.timestamp!='0'" class="text-right">
+                {{transactionRecord.transactionTime}}
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="row" class="font-size-1">
+            <ion-col col-4>
+                {{'text-fees' | translate}}
+            </ion-col>
+            <ion-col col-8 class="text-right">
+                {{transactionRecord.payfees}}
+            </ion-col>
+        </ion-row>
 
 
-    <div class="weui-form-preview">
-        <div class="weui-form-preview__hd">
-            <div class="weui-form-preview__item">
-                <label class="weui-form-preview__label font-size-1" style="line-height: 40px">{{'transaction-price' | translate}}</label>
-                <em class="weui-form-preview__value">{{transactionRecord.balance - transactionRecord.payfees > 0 ? '+' : ''}}  {{transactionRecord.balance - transactionRecord.payfees}} {{transactionRecord.name}}</em>
-            </div>
-        </div>
-        <div class="weui-form-preview__bd">
-            <div class="weui-form-preview__item">
-                <label class="weui-form-preview__label  font-size-1">{{'transaction-id' | translate}}</label>
-                <a href="{{blockchain_url + 'tx/' + transactionRecord.txId}}">
-                    <span class="weui-form-preview__value font-size-1">{{transactionRecord.txId}}</span>
-                </a>
-            </div>
+        <ion-row class="row" class="font-size-1">
+            <ion-col col-4>
+                {{'confirm-count' | translate}}
+            </ion-col>
+            <ion-col col-8 class="text-right">
+                {{transactionRecord.confirmCount}}
+            </ion-col>
+        </ion-row>
 
-            <div class="weui-form-preview__item" *ngIf="transactionRecord.balance > 0">
-                <label class="weui-form-preview__label font-size-1">{{'utxo-incoming' | translate}}</label>
-                <span class="weui-form-preview__value font-size-1">{{transactionRecord.incomingAmount}}</span>
-            </div>
-            <div class="weui-form-preview__item" *ngIf="transactionRecord.balance > 0">
-                <label class="weui-form-preview__label font-size-1">{{'utxo-incoming-address' | translate}}</label>
-                <span class="weui-form-preview__value font-size-1" (click)="onNext(transactionRecord.incomingAddress)">{{transactionRecord.incomingAddress}}</span>
-            </div>
-
-            <div class="weui-form-preview__item" *ngIf="transactionRecord.balance < 0">
-                <label class="weui-form-preview__label font-size-1">{{'utxo-outcoming' | translate}}</label>
-                <span class="weui-form-preview__value font-size-1">{{transactionRecord.outcomingAmount}}</span>
-            </div>
-            <div class="weui-form-preview__item" *ngIf="transactionRecord.balance < 0">
-                <label class="weui-form-preview__label font-size-1">{{'utxo-outcoming-address' | translate}}</label>
-                <span class="weui-form-preview__value font-size-1" (click)="onNext(transactionRecord.outcomingAddress)">{{transactionRecord.outcomingAddress}}</span>
-            </div>
-
-            <div class="weui-form-preview__item">
-                <label class="weui-form-preview__label font-size-1">{{'transaction-time' | translate}}</label>
-                <span class="weui-form-preview__value font-size-1" *ngIf="transactionRecord.timestamp!='0'">{{transactionRecord.transactionTime}}</span>
-            </div>
-            <div class="weui-form-preview__item">
-                <label class="weui-form-preview__label font-size-1">{{'text-fees' | translate}}</label>
-                <span class="weui-form-preview__value font-size-1">{{transactionRecord.payfees}}</span>
-            </div>
-            <div class="weui-form-preview__item">
-                <label class="weui-form-preview__label font-size-1">{{'confirm-count' | translate}}</label>
-                <span class="weui-form-preview__value font-size-1">{{transactionRecord.confirmCount}}</span>
-            </div>
-            <div class="weui-form-preview__item">
-                <label class="weui-form-preview__label font-size-1">{{'text-remark' | translate}}</label>
-                <span class="weui-form-preview__value font-size-1">{{transactionRecord.remark}}</span>
-            </div>
-        </div>
-    </div>
+        <ion-row class="row" class="font-size-1">
+            <ion-col col-4>
+                {{'text-remark' | translate}}
+            </ion-col>
+            <ion-col col-8 class="text-right">
+                {{transactionRecord.remark}}
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>

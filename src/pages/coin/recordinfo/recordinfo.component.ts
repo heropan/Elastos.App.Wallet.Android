@@ -1,26 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import {BaseComponent} from './../../../app/BaseComponent';
+import { Component} from '@angular/core';
 import {Config} from '../../../providers/Config';
 import { Util } from '../../../providers/Util';
-
+import { NavController, NavParams} from 'ionic-angular';
+import {WalletManager} from '../../../providers/WalletManager';
+import {Native} from "../../../providers/Native";
 @Component({
   selector: 'app-recordinfo',
   templateUrl: './recordinfo.component.html',
-  // styleUrls: ['./recordinfo.component.scss']
 })
-export class RecordinfoComponent extends BaseComponent implements OnInit {
+export class RecordinfoComponent{
   masterWalletId:string = "1";
   transactionRecord: any = {};
-
   start = 0;
-
   blockchain_url = Config.BLOCKCHAIN_URL;
-
-  ngOnInit() {
+  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native :Native){
+    this.init();
+  }
+  init() {
     this.masterWalletId = Config.getCurMasterWalletId();
-    this.setTitleByAssets('text-record');
-    let txId = this.getNavParams().get("txId");
-    let chainId = this.getNavParams().get("chainId");
+    let txId = this.navParams.get("txId");
+    let chainId = this.navParams.get("chainId");
     this.walletManager.getAllTransaction(this.masterWalletId,chainId, this.start, txId, (data) => {
       if(data["success"]){
         console.log("====getAllTransaction====="+JSON.stringify(data));
@@ -73,7 +72,11 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
 
   onNext(address){
     this.native.copyClipboard(address);
-    this.toast('copy-ok');
+    this.native.toast_trans('copy-ok');
+  }
+
+  tiaozhuan(txId){
+   self.location.href=this.blockchain_url + 'tx/' + txId;
   }
 
 }
