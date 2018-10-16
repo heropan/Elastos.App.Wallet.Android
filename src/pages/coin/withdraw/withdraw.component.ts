@@ -39,26 +39,23 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.masterWalletId = Config.getCurMasterWalletId();
-    this.setTitleByAssets('text-withdraw');
     let transferObj =this.getNavParams().data;
     this.chianId = transferObj["chianId"];
     this.initData();
-
-    this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
-      this.native.scan().then((q)=>{
-        let result = q.text;
-        if (result.indexOf('elastos') != -1) {
-          this.mainchain.accounts = result.split(":")[1];
-        } else {
-          this.mainchain.accounts = result.split(":")[0];
-        }
-      }).catch(err=>{
-          this.toast('error-address');
-      });
-    });
-
-    this.setHeadDisPlay({right: true});
     this.subPopup.config = {cancel:'',confirm:'',backdrop:false,is_full:false};
+  }
+
+  rightHeader(){
+    this.native.scan().then((q)=>{
+      let result = q.text;
+      if (result.indexOf('elastos') != -1) {
+        this.mainchain.accounts = result.split(":")[1];
+      } else {
+        this.mainchain.accounts = result.split(":")[0];
+      }
+    }).catch(err=>{
+        this.toast('error-address');
+    });
   }
 
   initData(){

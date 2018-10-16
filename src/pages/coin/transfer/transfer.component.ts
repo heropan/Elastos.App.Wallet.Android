@@ -43,7 +43,6 @@ export class TransferComponent extends BaseComponent implements OnInit {
   walletInfo = {};
   ngOnInit() {
     this.masterWalletId = Config.getCurMasterWalletId();
-    this.setTitleByAssets('text-transfer');
     this.masterWalletId = Config.getCurMasterWalletId();
     let transferObj =this.getNavParams().data;
     console.log("=====pf==="+JSON.stringify(transferObj));
@@ -62,24 +61,21 @@ export class TransferComponent extends BaseComponent implements OnInit {
     this.walletInfo = transferObj["walletInfo"] || {};
     console.log("====walletInfo====="+JSON.stringify(this.walletInfo));
     this.initData();
-
-    this.setRightIcon('./assets/images/icon/ico-scan.svg', () => {
-      this.native.scan().then((q)=>{
-        let result = q.text;
-        if (result.indexOf('elastos') != -1) {
-          this.transfer.toAddress = result.split(":")[1];
-        } else {
-          this.transfer.toAddress = result.split(":")[0];
-        }
-      }).catch(err=>{
-          this.toast('error-address');
-      });
-    });
-
-    this.setHeadDisPlay({right: true});
-
     //Logger.info(this.autoAS);
     this.subPopup.config = {cancel:'',confirm:'',backdrop:false,is_full:false};
+  }
+
+  rightHeader(){
+    this.native.scan().then((q)=>{
+      let result = q.text;
+      if (result.indexOf('elastos') != -1) {
+        this.transfer.toAddress = result.split(":")[1];
+      } else {
+        this.transfer.toAddress = result.split(":")[0];
+      }
+    }).catch(err=>{
+        this.toast('error-address');
+    });
   }
 
   initData(){
