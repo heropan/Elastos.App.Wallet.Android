@@ -63,6 +63,9 @@ export class TransferComponent extends BaseComponent implements OnInit {
     this.initData();
     //Logger.info(this.autoAS);
     this.subPopup.config = {cancel:'',confirm:'',backdrop:false,is_full:false};
+    this.events.subscribe("error:update", ()=>{
+      this.Back();
+    });
   }
 
   rightHeader(){
@@ -368,5 +371,10 @@ readWallet(raws){
     }
 });
 }
+
+  ionViewDidLeave() {
+     this.events.unsubscribe("error:update");
+  }
+
 
 }
