@@ -265,5 +265,6 @@ export const en = {
   'text-multi-title2':"Required number of signatures",
   'text-multi-error':"Number of signatures should less than number of public-keys",
   'text-add-wallet':"Add Wallet",
-  'text-delete-contact-confirm':"Delete this contact ?"
+  'text-delete-contact-confirm':"Delete this contact ?",
+  'click-to-load-more':"click to load more"
 };

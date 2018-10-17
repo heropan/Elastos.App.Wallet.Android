@@ -12,4 +12,15 @@ app-exprot-prikey {
         padding-left: 10px;
         padding-top: 10px;
     }
+    .coin-info-top-box {
+        text-align: center;
+        padding: 30px;
+        &>img {
+            width: 50px;
+        }
+    }
+    .coin-info-top-box img {
+        width: 30px;
+        height: 40px;
+    }
 }

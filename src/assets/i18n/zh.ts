@@ -266,5 +266,6 @@ export const zh = {
   'text-multi-title1':"拥有者数量",
   'text-multi-title2':"签名数量",
   'text-multi-error':"签名数不能大于拥有者数量",
-  'text-delete-contact-confirm':"确定要删除吗？"
+  'text-delete-contact-confirm':"确定要删除吗？",
+  'click-to-load-more':"点击加载更多"
 };

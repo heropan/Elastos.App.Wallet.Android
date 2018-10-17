@@ -27,13 +27,7 @@ export class ExprotPrikeyComponent  {
 
   onWalletDatainit(){
     this.masterWalletId = Config.getCurMasterWalletId();
-    this.localStorage.getWallet().then((val)=>{
-      if(val === null){
-        this.exprotObj.name = "";
-        return;
-      }
-      this.exprotObj.name = JSON.parse(val)["name"];
-    });
+    this.exprotObj.name = Config.getWalletName(this.masterWalletId);
   }
 
   checkparms(){

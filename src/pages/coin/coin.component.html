@@ -10,18 +10,32 @@
             <div style="font-size: 1.6em;">{{coinCount}} </div>
         </div>
 
-        <div class="weui-cells__title">{{ 'coin-recent-transfer' | translate }}</div>
-        <ul class="weui-cells transfer-list">
-            <li class="weui-cell weui-cell_access" *ngFor="let item of transferList" (click)="onItem(item)">
-                <div class="weui-cell__hd">
-                    <img src="./assets/images/tx-state/icon-tx-moved.svg" alt="" class="transfer-list-img"></div>
-                <div class="weui-cell__bd">
-                    <p><br/> {{item.status | translate}} <span class="transfer-list-date" *ngIf="item.timestamp!='0'"> {{item.datetime}} </span></p>
-                </div>
-                <div class="weui-cell__ft">{{item.resultAmount > 0 ? '+' : ''}} {{item.resultAmount}} </div>
-            </li>
-            <p style="text-align: center;font-size: 16px;height:30px;line-height:30px;margin-top: 5px" (click)="clickMore()" *ngIf="isShowMore">点击加载更多</p>
-        </ul>
+        <ion-grid>
+            <ion-row>
+                <ion-col col-12 class="row-title">
+                    {{ 'coin-recent-transfer' | translate }}
+                </ion-col>
+            </ion-row>
+            <ion-row *ngFor="let item of transferList; let i = index" (click)="onItem(item)" class="hang" [ngClass]="{'bottom-border': i==transferList.length-1}">
+                <ion-col col-2 align-self-center>
+                    <img src="./assets/images/tx-state/icon-tx-moved.svg" alt="" class="transfer-list-img">
+                </ion-col>
+                <ion-col col-5 align-self-center class="text-left">
+                    <span class="font-size-2">{{item.status | translate}}</span> <span class="transfer-list-date" *ngIf="item.timestamp!='0'" class="font-size-2"> {{item.datetime}} </span>
+                </ion-col>
+                <ion-col col-5 align-self-center class="text-right font-size-1">
+                    {{item.resultAmount > 0 ? '+' : ''}} {{item.resultAmount}}
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col col-12>
+                    <p class="more" (click)="clickMore()" *ngIf="isShowMore">{{ 'click-to-load-more' | translate }}</p>
+                </ion-col>
+            </ion-row>
+
+        </ion-grid>
+
     </div>
 </ion-content>
 <ion-footer>

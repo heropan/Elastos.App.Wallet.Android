@@ -12,36 +12,51 @@
 
         </div>
 
-        <div class="weui-cells__title">
-            {{'text-coin-list' | translate}}
-            <div class="home-eye" (click)="onOpen()" [ngClass]="{'home-eye-on':wallet.showBalance,'home-eye-off':!wallet.showBalance }"></div>
+        <ion-grid>
+            <ion-row>
+                <ion-col col-5 class="row-title">
+                    {{'text-coin-list' | translate}}
+                </ion-col>
+                <ion-col col-7 class="text-right">
+                    <div class="home-eye" (click)="onOpen()" [ngClass]="{'home-eye-on':wallet.showBalance,'home-eye-off':!wallet.showBalance }"></div>
+                </ion-col>
+            </ion-row>
 
-        </div>
-
-        <ul class="weui-cells">
-
-            <li class="weui-cell weui-cell_access" (click)="onItem(ElaObj)">
-                <div class="weui-cell__hd">
-                    <img src="./assets/images/logo-maincolor.svg" alt="" class="home-list-img">
-                </div>
-                <div class="weui-cell__bd home-list-title">
+            <ion-row class="hang" (click)="onItem(ElaObj)">
+                <ion-col col-2 align-self-center class="text-center">
+                    <img src="./assets/images/logo-maincolor.svg" alt="" style="display: inline;">
+                </ion-col>
+                <ion-col col-3 align-self-center class="text-left font-size-1">
                     {{ElaObj.name}}
-                </div>
-                <div class="weui-cell__ft"><span [hidden]="!wallet.showBalance">{{ElaObj.balance}}</span></div>
-            </li>
+                </ion-col>
+                <ion-col col-7 class="text-right font-size-1" align-self-center>
+                    <div class="weui-cell__ft"><span [hidden]="!wallet.showBalance">{{ElaObj.balance}}</span></div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col col-12>
+                    <progress-bar proportion="{{elaPer}}"></progress-bar>
+                </ion-col>
+            </ion-row>
 
-            <progress-bar proportion="{{elaPer}}"></progress-bar>
             <div *ngFor="let item of coinList" (click)="onItem(item)">
-                <li class="weui-cell weui-cell_access">
-                    <div class="weui-cell__hd">
-                        <img src="./assets/images/logo-maincolor.svg" alt="" class="home-list-img"></div>
-                    <div class="weui-cell__bd home-list-title">
+                <ion-row class="hang">
+                    <ion-col col-2 align-self-center class="text-center">
+                        <img src="./assets/images/logo-maincolor.svg" alt="" style="display: inline;">
+                    </ion-col>
+                    <ion-col col-3 align-self-center class="text-left font-size-1">
                         {{item.name}}
-                    </div>
-                    <div class="weui-cell__ft"><span [hidden]="!wallet.showBalance">{{item.balance}}</span></div>
-                </li>
-                <progress-bar proportion="{{idChainPer}}"></progress-bar>
+                    </ion-col>
+                    <ion-col col-7 class="text-right font-size-1" align-self-center>
+                        <div class="weui-cell__ft"><span [hidden]="!wallet.showBalance">{{item.balance}}</span></div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col col-12>
+                        <progress-bar proportion="{{idChainPer}}"></progress-bar>
+                    </ion-col>
+                </ion-row>
             </div>
-        </ul>
+        </ion-grid>
     </div>
 </ion-content>

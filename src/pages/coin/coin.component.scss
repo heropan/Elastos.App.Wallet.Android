@@ -50,4 +50,32 @@ coin {
         overflow: auto;
         height: 100%;
     }
+    .row-title {
+        font-size: 14px;
+    }
+    .hang {
+        border-top: 1px solid #dddddd;
+    }
+    .bottom-border {
+        border-bottom: 1px solid #dddddd;
+    }
+    .text-right {
+        text-align: right;
+    }
+    .text-left {
+        text-align: left;
+    }
+    .more {
+        text-align: center;
+        font-size: 16px;
+        height: 30px;
+        line-height: 30px;
+        margin-top: 5px
+    }
+    .font-size-1 {
+        font-size: 16px;
+    }
+    .font-size-2 {
+        font-size: 14px;
+    }
 }
