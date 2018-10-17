@@ -15,13 +15,15 @@ import { DidLoginComponent } from "../../pages/third-party/did-login/did-login.c
 })
 export class InitializepagePage {
   constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager: WalletManager,public native: Native,public localStorage: LocalStorage) {
-       this.native.showLoading();
+
   }
 
   ionViewDidLoad() {
-    setTimeout(()=>{
+
+    this.native.showLoading().then(()=>{
       this.initializeApp();
-    },0);
+    });
+
   }
 
 

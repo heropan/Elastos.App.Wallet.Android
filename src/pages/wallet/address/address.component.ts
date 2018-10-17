@@ -14,6 +14,8 @@ export class AddressComponent {
   chinaId: string;
   pageNo = 0;
   start = 0;
+  infinites;
+  MaxCount;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public events :Events,public native :Native){
          this.init();
   }
@@ -27,6 +29,12 @@ export class AddressComponent {
     this.walletManager.getAllAddress(this.masterWalletId,this.chinaId,this.start, (data) => {
       if(data["success"]){
         console.log("===getAllAddress==="+JSON.stringify(data));
+        let address = JSON.parse(data["success"])['Addresses'];
+        this.MaxCount = JSON.parse(data["success"])['MaxCount'];
+        if(!address){
+          this.infinites.enable(false);
+          return;
+        }
         if(this.pageNo != 0){
         this.addrList = this.addrList.concat(JSON.parse(data["success"])['Addresses']);
         }else{
@@ -43,21 +51,26 @@ export class AddressComponent {
     this.native.toast_trans('copy-ok');
   }
 
-  doRefresh(refresher){
-     this.pageNo = 0;
-     this.start = 0;
-     this.getAddressList();
-     setTimeout(() => {
-      refresher.complete();
-      //toast提示
-      this.native.toast("加载成功");
-  },2000);
-  }
+  // doRefresh(refresher){
+  //    this.pageNo = 0;
+  //    this.start = 0;
+  //    this.getAddressList();
+  //    setTimeout(() => {
+  //     refresher.complete();
+  //     //toast提示
+  //     this.native.toast("加载成功");
+  // },2000);
+  // }
 
   doInfinite(infiniteScroll){
+    this.infinites = infiniteScroll;
     setTimeout(() => {
       this.pageNo++;
       this.start  = this.pageNo*20;
+      if(this.start >= this.MaxCount){
+        this.infinites.enable(false);
+        return;
+      }
       this.getAddressList();
       infiniteScroll.complete();
     },2000);

@@ -63,10 +63,11 @@ export class TransferComponent extends BaseComponent implements OnInit {
     this.initData();
     //Logger.info(this.autoAS);
     this.subPopup.config = {cancel:'',confirm:'',backdrop:false,is_full:false};
-    this.events.subscribe("error:update", ()=>{
-      this.subPopup.close();
-      // this.Back();
-    });
+    // this.events.subscribe("error:update", ()=>{
+    //   //this.subPopup.close();
+    //   this.updateValue();
+    //   // this.Back();
+    // });
   }
 
   rightHeader(){
@@ -144,8 +145,6 @@ export class TransferComponent extends BaseComponent implements OnInit {
           this.createMultTx();
       }
 
-      this.subPopup.show().subscribe((res: boolean) => {
-      });
     })
   }
 
@@ -171,6 +170,8 @@ export class TransferComponent extends BaseComponent implements OnInit {
       if(data['success']){
         console.log("=======calculateTransactionFee======"+JSON.stringify(data));
         this.transfer.fee = data['success'];
+        this.subPopup.show().subscribe((res: boolean) => {
+        });
       }else{
         alert("====calculateTransactionFee====error"+JSON.stringify(data));
       }
@@ -373,9 +374,9 @@ readWallet(raws){
 });
 }
 
-  ionViewDidLeave() {
-     this.events.unsubscribe("error:update");
-  }
+  // ionViewDidLeave() {
+  //    this.events.unsubscribe("error:update");
+  // }
 
 
 }

@@ -36,19 +36,16 @@ export class ImportComponent {
      switch(this.selectedTab){
        case "words":
             if(this.checkWorld()){
-               this.native.showLoading();
-               setTimeout(() => {
+               this.native.showLoading().then(()=>{
                 this.importWalletWithMnemonic();
-               },100);
-
+               });
              }
        break;
        case "file":
           if(this.checkImportFile()){
-               this.native.showLoading();
-               setTimeout(()=>{
+               this.native.showLoading().then(()=>{
                 this.importWalletWithKeystore();
-               },100);
+               });
           }
        break;
      }
