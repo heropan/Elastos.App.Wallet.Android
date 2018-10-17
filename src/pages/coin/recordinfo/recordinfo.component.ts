@@ -36,6 +36,7 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
         let incomingAddress = summary["Incoming"]['ToAddress'];
         let outcomingAddress = summary["Outcoming"]['ToAddress'];
         let balanceResult = incomingAmount - outcomingAmount;
+        let resultAmount = balanceResult - summary['Fee'];
         let status = '';
         switch(summary["Status"])
         {
@@ -55,6 +56,7 @@ export class RecordinfoComponent extends BaseComponent implements OnInit {
           balance: balanceResult/Config.SELA,
           incomingAmount: incomingAmount/Config.SELA,
           outcomingAmount: outcomingAmount/Config.SELA,
+          resultAmount: resultAmount/Config.SELA,
           incomingAddress: incomingAddress,
           outcomingAddress: outcomingAddress,
           txId: txId,

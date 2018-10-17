@@ -18,7 +18,7 @@
                 <div class="weui-cell__bd">
                     <p><br/> {{item.status | translate}} <span class="transfer-list-date" *ngIf="item.timestamp!='0'"> {{item.datetime}} </span></p>
                 </div>
-                <div class="weui-cell__ft">{{item.balance - item.payfees > 0 ? '+' : ''}} {{item.balance - item.payfees}} </div>
+                <div class="weui-cell__ft">{{item.resultAmount > 0 ? '+' : ''}} {{item.resultAmount}} </div>
             </li>
             <p style="text-align: center;font-size: 16px;height:30px;line-height:30px;margin-top: 5px" (click)="clickMore()" *ngIf="isShowMore">点击加载更多</p>
         </ul>

@@ -95,6 +95,7 @@ export class CoinComponent extends BaseComponent implements OnInit {
         let incomingAmount = summary["Incoming"]['Amount'];
         let outcomingAmount = summary["Outcoming"]['Amount'];
         let balanceResult = incomingAmount - outcomingAmount;
+        let resultAmount = balanceResult - summary['Fee'];
         let status = '';
         switch(summary["Status"])
         {
@@ -113,6 +114,7 @@ export class CoinComponent extends BaseComponent implements OnInit {
           "status": status,
           "type": summary["Type"],
           "balance": balanceResult/Config.SELA,
+          "resultAmount": resultAmount/Config.SELA,
           "datetime": datetime,
           "timestamp": timestamp,
           "payfees": summary['Fee']/Config.SELA,
