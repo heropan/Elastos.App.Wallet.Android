@@ -33,8 +33,9 @@ export class AddprivatekeyPage {
   }
 
   nextPage(){
-     this.native.showLoading();
-     this.createWallet();
+     this.native.showLoading().then(()=>{
+      this.createWallet();
+     });
   }
 
   createWallet(){

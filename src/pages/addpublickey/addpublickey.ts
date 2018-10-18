@@ -37,13 +37,13 @@ export class AddpublickeyPage {
   }
 
   nextPage(){
-    this.native.showLoading();
-    if(this.msobj["payPassword"]){
-       this.createWalletWithMnemonic();
-     }else{
-      this.createWallet();
-     }
-
+    this.native.showLoading().then(()=>{
+      if(this.msobj["payPassword"]){
+        this.createWalletWithMnemonic();
+      }else{
+       this.createWallet();
+      }
+    });
   }
 
   createWallet(){

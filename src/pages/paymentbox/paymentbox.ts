@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-
+import { NavController, NavParams ,ViewController} from 'ionic-angular';
 import {Config} from "../../providers/Config";
-
+import {Native} from "../../providers/Native";
 @Component({
   selector: 'page-paymentbox',
   templateUrl: 'paymentbox.html',
@@ -10,14 +9,16 @@ import {Config} from "../../providers/Config";
 export class PaymentboxPage {
   public SELA = Config.SELA;
   public transfer: any = {
-    toAddress: '7d2883d021d2fdcea15757a98762edcec7d5185a',
-    amount: '0.1',
+    toAddress: '',
+    amount: '',
     memo: '',
-    fee: 10000,
+    fee:0,
     payPassword:'',//hptest
     remark:'',
+    rate:''
   };
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl: ViewController,public native:Native) {
+            this.transfer = this.navParams.data;
   }
 
   ionViewDidLoad() {
@@ -25,11 +26,16 @@ export class PaymentboxPage {
   }
 
   click_close(){
-
+    this.viewCtrl.dismiss(null);
   }
 
   click_button(){
-
+    //this.viewCtrl.dismiss(this.transfer);
+    if(this.transfer.payPassword){
+      this.viewCtrl.dismiss(this.transfer);
+    }else{
+      this.native.toast_trans('text-pwd-validator');
+    }
   }
 
 }

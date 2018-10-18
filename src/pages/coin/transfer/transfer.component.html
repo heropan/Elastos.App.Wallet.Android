@@ -9,78 +9,34 @@
     </ion-navbar>
 </ion-header>
 <ion-content>
-    <div>
+    <ion-grid class="margin-top:10px">
+        <ion-row>
+            <ion-col col-12 class="font-size-1" col-auto>
+                <ion-item>
+                    <ion-input type="text" placeholder="{{ 'text-receiver-address' | translate}}" [(ngModel)]="transfer.toAddress" [(disabled)]="isInput"></ion-input>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-8 align-self-center class="font-size-1">
+                <ion-item>
+                    <ion-input type="text" placeholder="{{ 'text-price' | translate}}" [(ngModel)]="transfer.amount" col-auto></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col col-4 align-self-center class="text-right font-size-1">
+                {{'text-balance' | translate}}：{{balance/SELA}}
+            </ion-col>
+        </ion-row>
 
-        <div class="weui-cells">
-            <div class="weui-cell">
-                <!-- <input class="weui-input" type="text" placeholder="{{ 'text-receiver-address' | translate}}" [(ngModel)]="transfer.toAddress" [(disabled)]="isInput" /> -->
-                <!-- <img (click)="onClick(1)" class="transfer-account" src="./assets/images/icon/icon-account.svg"> -->
-                <textarea class="weui-textarea" placeholder="{{ 'text-receiver-address' | translate}}" rows="2" [(ngModel)]="transfer.toAddress" weui-textarea weui-cn="2"></textarea>
-            </div>
-            <div class="weui-cell">
-                <span class="transfer-balance">{{'text-balance' | translate}}：{{balance/SELA}}</span>
-                <input class="weui-input" type="text" placeholder="{{ 'text-price' | translate}}" [(ngModel)]="transfer.amount" [(disabled)]="isInput" />
-            </div>
-            <div class="weui-cell">
-                <textarea class="weui-textarea" placeholder="{{ 'text-remark' | translate}}" rows="3" [(ngModel)]="transfer.remark" weui-textarea weui-cn="2" maxlength="20"></textarea>
-            </div>
-
-        </div>
-        <!-- <div class="weui-cells__tips">{{ 'text-fees' | translate}}：0.001ELA</div> -->
-        <!--<div class="weui-cells__title">{{'text-fees-pay' | translate}}</div>-->
-
-        <!--<div class="weui-cells weui-cells_radio">-->
-        <!--<label class="weui-cell weui-check__label" >-->
-        <!--<div class="weui-cell__bd">-->
-        <!--<p>{{'text-fees-pay-sender' | translate}}</p>-->
-        <!--</div>-->
-        <!--<div class="weui-cell__ft">-->
-        <!--<input type="radio" class="weui-check" [(ngModel)]="transfer.payfees" name="radio1" [value]="1">-->
-        <!--<span class="weui-icon-checked"></span>-->
-        <!--</div>-->
-        <!--</label>-->
-        <!--<label class="weui-cell weui-check__label" >-->
-        <!--<div class="weui-cell__bd">-->
-        <!--<p>{{'text-fees-receiver' | translate}}</p>-->
-        <!--</div>-->
-        <!--<div class="weui-cell__ft">-->
-        <!--<input type="radio" class="weui-check" [(ngModel)]="transfer.payfees" name="radio1" [value]="2">-->
-        <!--<span class="weui-icon-checked"></span>-->
-        <!--</div>-->
-        <!--</label>-->
-        <!--</div>-->
-
-
-        <button class="button-default bottom transfer-button" (click)="onClick(2)">{{ 'text-transfer' | translate }}</button>
-    </div>
-    <weui-popup #subscribe>
-        <div class="pop-box">
-            <div class="weui-cells" style="margin: 0px;padding: 0px">
-
-                <div class="pop-title">{{'transfer-info' | translate}}<img class="close" src="./assets/images/icon/icon-close.svg" (click)="onClick(3)"></div>
-                <div class="weui-cell">
-                    <p><span>{{'transfer-address' | translate}}</span><span>{{transfer.toAddress}}</span></p>
-
-                </div>
-                <div class="weui-cell">
-
-                    <p><span>{{'text-price' | translate}}</span><span>{{transfer.amount}}</span></p>
-                </div>
-                <div class="weui-cell">
-
-                    <p><span>{{'text-fees' | translate}}</span><span>{{transfer.fee/SELA}}</span></p>
-                </div>
-
-            </div>
-
-            <div class="weui-cell">
-                <input class="weui-input" type="password" placeholder="{{ 'text-pay-passworld-input' | translate }}" [(ngModel)]="transfer.payPassword">
-            </div>
-            <div class="button-default " style="margin: 20px auto" (click)="onClick(4)">{{ 'confirm' | translate }}</div>
-
-        </div>
-
-    </weui-popup>
+        <ion-row>
+            <ion-col col-12 align-self-center class="text-right font-size-1">
+                <ion-item>
+                    <textarea placeholder="{{ 'text-remark' | translate}}" rows="3" [(ngModel)]="transfer.remark" maxlength="20"></textarea>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>
-<!--<weui-dialog #auto [config]="con"></weui-dialog>-->
-<!--<weui-toptips #toptips></weui-toptips>-->
+<ion-footer>
+    <button ion-button style="width: 100%" (click)="onClick(2)">{{ 'text-transfer' | translate }}</button>
+</ion-footer>

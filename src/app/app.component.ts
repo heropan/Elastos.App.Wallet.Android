@@ -73,7 +73,7 @@ export class AppComponent {
           this.rootPage = InitializepagePage;
       });
 
-      //this.rootPage = PaymentboxPage
+      //this.rootPage = PaymentboxPage;
       //this.initializeApp();
       //this.rootPage =  WalltelistPage;
       //this.rootPage = ImportprivatekeyPage;
@@ -96,6 +96,7 @@ export class AppComponent {
       //this.rootPage = RecordinfoComponent;
       //this.rootPage = CoinComponent;
       //this.rootPage = CoinSelectComponent;
+      //this.rootPage = TransferComponent;
       //init java 2 js plugin
     });
 

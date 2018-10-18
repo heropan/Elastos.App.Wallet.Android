@@ -1,19 +1,21 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {BaseComponent} from './../../../app/BaseComponent';
+import {Component} from '@angular/core';
+import {WalletManager} from '../../../providers/WalletManager';
+import {Native} from "../../../providers/Native";
+import {LocalStorage} from "../../../providers/Localstorage";
 import {ContactListComponent} from "../../contacts/contact-list/contact-list.component";
 import {TabsComponent} from "../../tabs/tabs.component";
 import {Util} from "../../../providers/Util";
-import { PopupComponent } from "ngx-weui";
 import { Config } from '../../../providers/Config';
 import {IDManager} from "../../../providers/IDManager";
 import {ApiUrl} from "../../../providers/ApiUrl"
 import {IdResultComponent} from "../../../pages/id/result/result";
 import {ScancodePage} from '../../../pages/scancode/scancode';
+import { NavController, NavParams,ModalController,Events } from 'ionic-angular';
+import {PaymentboxPage} from '../../../pages/paymentbox/paymentbox';
 @Component({
   selector: 'app-transfer',
   templateUrl: './transfer.component.html'})
-export class TransferComponent extends BaseComponent implements OnInit {
-  @ViewChild('subscribe') subPopup: PopupComponent;
+export class TransferComponent {
   masterWalletId:string = "1";
   walletType = "";
   transfer: any = {
@@ -39,12 +41,15 @@ export class TransferComponent extends BaseComponent implements OnInit {
   parms:any;
   txId:string;
   did:string;
-  isInput = true;
+  isInput = false;
   walletInfo = {};
-  ngOnInit() {
+  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,
+    public native: Native,public localStorage:LocalStorage,public modalCtrl: ModalController,public events :Events ){
+         this.init();
+    }
+  init() {
     this.masterWalletId = Config.getCurMasterWalletId();
-    this.masterWalletId = Config.getCurMasterWalletId();
-    let transferObj =this.getNavParams().data;
+    let transferObj =this.navParams.data;
     console.log("=====pf==="+JSON.stringify(transferObj));
     this.chianId = transferObj["chianId"];
     this.transfer.toAddress = transferObj["addr"] || "";
@@ -61,13 +66,6 @@ export class TransferComponent extends BaseComponent implements OnInit {
     this.walletInfo = transferObj["walletInfo"] || {};
     console.log("====walletInfo====="+JSON.stringify(this.walletInfo));
     this.initData();
-    //Logger.info(this.autoAS);
-    this.subPopup.config = {cancel:'',confirm:'',backdrop:false,is_full:false};
-    // this.events.subscribe("error:update", ()=>{
-    //   //this.subPopup.close();
-    //   this.updateValue();
-    //   // this.Back();
-    // });
   }
 
   rightHeader(){
@@ -79,7 +77,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
         this.transfer.toAddress = result.split(":")[0];
       }
     }).catch(err=>{
-        this.toast('error-address');
+        this.native.toast_trans('error-address');
     });
   }
 
@@ -98,16 +96,10 @@ export class TransferComponent extends BaseComponent implements OnInit {
   onClick(type) {
     switch (type) {
       case 1:
-        this.Go(ContactListComponent);
+        this.native.Go(this.navCtrl,ContactListComponent);
         break;
       case 2:   // 转账
         this.checkValue();
-        break;
-      case 3:
-        this.subPopup.close();
-        break;
-      case 4:
-        this.sendRawTransaction();
         break;
     }
 
@@ -115,37 +107,37 @@ export class TransferComponent extends BaseComponent implements OnInit {
 
   checkValue() {
     if(Util.isNull(this.transfer.toAddress)){
-      this.toast('correct-address');
+      this.native.toast_trans('correct-address');
       return;
     }
     if(Util.isNull(this.transfer.amount)){
-      this.toast('amount-null');
+      this.native.toast_trans('amount-null');
       return;
     }
     if(!Util.number(this.transfer.amount)){
-      this.toast('correct-amount');
+      this.native.toast_trans('correct-amount');
       return;
     }
     if(this.transfer.amount > this.balance){
-      this.toast('error-amount');
+      this.native.toast_trans('error-amount');
       return;
     }
     this.walletManager.isAddressValid(this.masterWalletId,this.transfer.toAddress, (data) => {
       if (!data['success']) {
-        this.toast("contact-address-digits");
+        this.native.toast_trans("contact-address-digits");
         return;
       }
 
       console.log("====this.walletInfoType======"+this.walletInfo["Type"]);
-
-      if(this.walletInfo["Type"] === "Standard"){
+      this.native.showLoading().then(()=>{
+        if(this.walletInfo["Type"] === "Standard"){
           this.createTransaction();
       }else if(this.walletInfo["Type"] === "Multi-Sign"){
         console.log("====this.walletInfoType======"+this.walletInfo["Type"]);
           this.createMultTx();
       }
-
-    })
+      });
+    });
   }
 
   createTransaction(){
@@ -168,10 +160,10 @@ export class TransferComponent extends BaseComponent implements OnInit {
   getFee(){
     this.walletManager.calculateTransactionFee(this.masterWalletId,this.chianId,this.rawTransaction, this.feePerKb, (data) => {
       if(data['success']){
+        this.native.hideLoading();
         console.log("=======calculateTransactionFee======"+JSON.stringify(data));
         this.transfer.fee = data['success'];
-        this.subPopup.show().subscribe((res: boolean) => {
-        });
+        this.openPayModal(this.transfer);
       }else{
         alert("====calculateTransactionFee====error"+JSON.stringify(data));
       }
@@ -183,10 +175,10 @@ export class TransferComponent extends BaseComponent implements OnInit {
         this.updateTxFee();
         return;
     }
-    if (!Util.password(this.transfer.payPassword)) {
-      this.toast("text-pwd-validator");
-      return;
-    }
+    // if (!Util.password(this.transfer.payPassword)) {
+    //   this.native.toast_trans("text-pwd-validator");
+    //   return;
+    // }
     this.updateTxFee();
   }
 
@@ -214,7 +206,8 @@ export class TransferComponent extends BaseComponent implements OnInit {
         }else if(this.walletInfo["Type"] === "Multi-Sign"){
             this.walletManager.encodeTransactionToString(data["success"],(raw)=>{
                      if(raw["success"]){
-                      this.Go(ScancodePage,{"tx":{"chianId":this.chianId,"fee":this.transfer.fee/Config.SELA, "rawTransaction":raw["success"]}});
+                      this.native.hideLoading();
+                      this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":this.chianId,"fee":this.transfer.fee/Config.SELA, "rawTransaction":raw["success"]}});
                      }else{
                       alert("=====encodeTransactionToString===error==="+JSON.stringify(raw));
                      }
@@ -230,14 +223,15 @@ export class TransferComponent extends BaseComponent implements OnInit {
     console.log("===publishTransaction====rawTransaction"+rawTransaction);
      this.walletManager.publishTransaction(this.masterWalletId,this.chianId,rawTransaction,(data)=>{
       if(data["success"]){
+        this.native.hideLoading();
         console.log("===publishTransaction===="+JSON.stringify(data));
         this.txId = JSON.parse(data['success'])["TxHash"];
         console.log("=======sendRawTransaction======"+JSON.stringify(data));
         console.log("=======this.appType======"+JSON.stringify(data));
-        if(this.isNull(this.appType)){
+        if(Util.isNull(this.appType)){
           console.log("===TabsComponent====");
-          this.toast('send-raw-transaction');
-          this.setRootRouter(TabsComponent);
+          this.native.toast_trans('send-raw-transaction');
+          this.native.setRootRouter(TabsComponent);
         }else if(this.appType === "kyc"){
              if(this.selectType === "enterprise"){
                   this.company();
@@ -260,7 +254,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
   }
 
   sendCompanyHttp(params){
-    let timestamp = this.getTimestamp();
+    let timestamp = this.native.getTimestamp();
     params["timestamp"] = timestamp;
     params["txHash"] = this.txId;
     params["deviceID"] = Config.getdeviceID();
@@ -268,7 +262,7 @@ export class TransferComponent extends BaseComponent implements OnInit {
     params["checksum"] = checksum;
 
     console.info("ElastJs sendCompanyHttp params "+ JSON.stringify(params));
-    this.getHttp().postByAuth(ApiUrl.AUTH,params).toPromise().then(data => {
+    this.native.getHttp().postByAuth(ApiUrl.AUTH,params).toPromise().then(data => {
          if(data["status"] === 200){
           let authData= JSON.parse(data["_body"]);
           console.info("Elastjs sendCompanyHttp authData" + JSON.stringify(authData));
@@ -290,12 +284,12 @@ export class TransferComponent extends BaseComponent implements OnInit {
 
     }).catch(error => {
       alert("错误码:"+ JSON.stringify(error));
-         this.Go(IdResultComponent,{'status':'1'});
+         this.native.Go(this.navCtrl,IdResultComponent,{'status':'1'});
     });
 }
 
 sendPersonAuth(parms){
-      let timestamp = this.getTimestamp();
+      let timestamp = this.native.getTimestamp();
       parms["timestamp"] = timestamp;
       parms["txHash"] = this.txId;
       parms["deviceID"] = Config.getdeviceID();
@@ -304,7 +298,7 @@ sendPersonAuth(parms){
       console.log("---pesonParm---"+JSON.stringify(parms));
       console.info("ElastJs sendPersonAuth params "+ JSON.stringify(parms));
 
-  this.getHttp().postByAuth(ApiUrl.AUTH,parms).toPromise().then(data=>{
+  this.native.getHttp().postByAuth(ApiUrl.AUTH,parms).toPromise().then(data=>{
         if(data["status"] === 200){
           let authData= JSON.parse(data["_body"])
           console.log('ElastJs sendPersonAuth return data ---authData---'+JSON.stringify(authData));
@@ -330,7 +324,7 @@ sendPersonAuth(parms){
       }).catch(error => {
 
       });
-      this.Go(IdResultComponent,{'status':'0'});
+      this.native.Go(this.navCtrl,IdResultComponent,{'status':'0'});
 }
 
 saveKycSerialNum(serialNum){
@@ -342,7 +336,7 @@ saveKycSerialNum(serialNum){
          serialNumObj["txHash"] = this.txId;
          serialNumObj["pathStatus"] = 1;
          this.localStorage.set("kycId",idsObj).then((newVal)=>{
-          this.Go(IdResultComponent,{'status':'0',id:this.did,path:this.selectType});
+          this.native.Go(this.navCtrl,IdResultComponent,{'status':'0',id:this.did,path:this.selectType});
          });
      })
 }
@@ -367,7 +361,8 @@ createMultTx(){
 readWallet(raws){
   this.walletManager.encodeTransactionToString(raws,(raw)=>{
     if(raw["success"]){
-     this.Go(ScancodePage,{"tx":{"chianId":this.chianId,"fee":this.transfer.fee/Config.SELA, "raw":raw["success"]}});
+      this.native.hideLoading();
+      this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":this.chianId,"fee":this.transfer.fee/Config.SELA, "raw":raw["success"]}});
     }else{
      alert("=====encodeTransactionToString===error==="+JSON.stringify(raw));
     }
@@ -377,6 +372,18 @@ readWallet(raws){
   // ionViewDidLeave() {
   //    this.events.unsubscribe("error:update");
   // }
-
+  openPayModal(data){
+    let transfer = this.native.clone(data);
+    const modal = this.modalCtrl.create(PaymentboxPage,transfer);
+    modal.onDidDismiss(data => {
+      if(data){
+        this.native.showLoading().then(()=>{
+          this.transfer = this.native.clone(data);
+          this.sendRawTransaction();
+        });
+      }
+    });
+    modal.present();
+  }
 
 }

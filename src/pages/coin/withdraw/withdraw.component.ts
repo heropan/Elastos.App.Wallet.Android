@@ -4,12 +4,16 @@ import {TabsComponent} from "../../tabs/tabs.component";
 import {Util} from "../../../providers/Util";
 import { PopupComponent } from "ngx-weui";
 import { Config } from '../../../providers/Config';
+import { NavController, NavParams,ModalController,Events } from 'ionic-angular';
+import {PaymentboxPage} from '../../../pages/paymentbox/paymentbox';
+import {WalletManager} from '../../../providers/WalletManager';
+import {Native} from "../../../providers/Native";
+import {LocalStorage} from "../../../providers/Localstorage";
 @Component({
-  selector: 'app-transfer',
+  selector: 'app-withdraw',
   templateUrl: './withdraw.component.html'})
-export class WithdrawComponent extends BaseComponent implements OnInit {
+export class WithdrawComponent{
 
-  @ViewChild('subscribe') subPopup: PopupComponent;
   masterWalletId:string = "1";
   transfer: any = {
     toAddress: '',
@@ -36,13 +40,15 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
   rawTransaction: '';
 
   SELA = Config.SELA;
-
-  ngOnInit() {
+  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,
+    public native: Native,public localStorage:LocalStorage,public modalCtrl: ModalController,public events :Events ){
+         this.init();
+    }
+   init() {
     this.masterWalletId = Config.getCurMasterWalletId();
-    let transferObj =this.getNavParams().data;
+    let transferObj =this. navParams.data;
     this.chianId = transferObj["chianId"];
     this.initData();
-    this.subPopup.config = {cancel:'',confirm:'',backdrop:false,is_full:false};
   }
 
   rightHeader(){
@@ -54,7 +60,7 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
         this.mainchain.accounts = result.split(":")[0];
       }
     }).catch(err=>{
-        this.toast('error-address');
+        this.native.toast('error-address');
     });
   }
 
@@ -78,40 +84,35 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
       case 2:   // 转账
         this.checkValue();
         break;
-      case 3:
-        this.subPopup.close();
-        break;
-      case 4:
-        this.sendRawTransaction();
-        break;
     }
   }
 
   checkValue() {
     if(Util.isNull(this.mainchain.accounts)){
-      this.toast('correct-address');
+      this.native.toast_trans('correct-address');
       return;
     }
     if(Util.isNull(this.transfer.amount)){
-      this.toast('amount-null');
+      this.native.toast_trans('amount-null');
       return;
     }
     if(!Util.number(this.transfer.amount)){
-      this.toast('correct-amount');
+      this.native.toast_trans('correct-amount');
       return;
     }
     if(this.transfer.amount > this.balance){
-      this.toast('error-amount');
+      this.native.toast_trans('error-amount');
       return;
     }
     this.walletManager.isAddressValid(this.masterWalletId,this.mainchain.accounts, (data) => {
       if (!data['success']) {
-        this.toast("contact-address-digits");
+        this.native.toast_trans("contact-address-digits");
         return;
       }
-      this.createWithdrawTransaction();
-      this.subPopup.show().subscribe((res: boolean) => {
-      });
+      this.native.showLoading().then(()=>{
+        this.createWithdrawTransaction();
+      })
+
     })
   }
 
@@ -148,8 +149,11 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
   getFee(){
     this.walletManager.calculateTransactionFee(this.masterWalletId,this.chianId, this.rawTransaction, this.feePerKb, (data) => {
       if(data['success']){
+        this.native.hideLoading();
         console.log("=======calculateTransactionFee======"+JSON.stringify(data));
         this.transfer.fee = data['success'];
+        let transfer = this.native.clone(this.transfer);
+        this.openPayModal(transfer);
       }else{
         alert("====calculateTransactionFee====error"+JSON.stringify(data));
       }
@@ -161,11 +165,6 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
   // }
 
   sendRawTransaction(){
-    if (!Util.password(this.transfer.payPassword)) {
-      this.toast("text-pwd-validator");
-      return;
-    }
-
     this.updateTxFee();
   }
 
@@ -194,14 +193,30 @@ export class WithdrawComponent extends BaseComponent implements OnInit {
   sendTx(rawTransaction){
     this.walletManager.publishTransaction(this.masterWalletId,this.chianId,rawTransaction,(data)=>{
      if(data["success"]){
+       this.native.hideLoading();
        console.log("======publishTransaction========"+JSON.stringify(data));
-       this.setRootRouter(TabsComponent);
+       this.native.setRootRouter(TabsComponent);
       }else{
         alert("========publishTransaction=====error==="+JSON.stringify(data));
       }
 
     })
  }
+
+ openPayModal(data){
+  let transfer = this.native.clone(data);
+      transfer["accounts"] = this.mainchain.accounts;
+  const modal = this.modalCtrl.create(PaymentboxPage,transfer);
+  modal.onDidDismiss(data => {
+    if(data){
+      this.native.showLoading().then(()=>{
+        this.transfer = data;
+        this.sendRawTransaction();
+      });
+    }
+  });
+  modal.present();
+}
 
 
 

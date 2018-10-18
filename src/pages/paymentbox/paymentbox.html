@@ -21,8 +21,15 @@
                 <td class="right">{{transfer.fee/SELA}}</td>
             </tr>
 
-            <tr class="item">
-                <ion-input type="password" placeholder="{{ 'text-pay-passworld-input' | translate }}" [(ngModel)]="transfer.payPassword"></ion-input>
+            <tr class="item" *ngIf="transfer.rate">
+                <td class="left">{{'text-rate' | translate}}</td>
+                <td class="right">1 : {{transfer.rate}}</td>
+            </tr>
+
+            <tr class="item" class="font-size-1">
+                <ion-item>
+                    <ion-input type="password" placeholder="{{ 'text-pay-passworld-input' | translate }}" [(ngModel)]="transfer.payPassword"></ion-input>
+                </ion-item>
             </tr>
 
         </table>

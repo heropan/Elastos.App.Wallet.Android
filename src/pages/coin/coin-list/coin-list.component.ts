@@ -4,6 +4,7 @@ import {WalletManager} from '../../../providers/WalletManager';
 import {Native} from "../../../providers/Native";
 import {LocalStorage} from "../../../providers/Localstorage";
 import { Config } from '../../../providers/Config';
+
 @Component({
   selector: 'app-coin-list',
   templateUrl: './coin-list.component.html'
@@ -34,7 +35,9 @@ export class CoinListComponent {
      if(item.open){
       this.currentCoin = item;
       //this.createMode();
-      this.createSubWallet();
+      this.native.showLoading().then(()=>{
+        this.createSubWallet();
+      });
      }else{
         let subWallte = Config.getSubWallet(this.masterWalletId);
         //this.localStorage.get('coinListCache').then((val)=>{
@@ -92,6 +95,7 @@ export class CoinListComponent {
     //this.currentCoin["open"] = false;
     this.walletManager.createSubWallet(this.masterWalletId,chainId,0, (data)=>{
       if(data['success']){
+        this.native.hideLoading();
         let coin = this.native.clone(Config.getSubWallet(this.masterWalletId));
         if(coin){
           coin[chainId] = {id:chainId};

@@ -50,7 +50,9 @@ export class ManagerComponent {
         this.popupProvider.ionicConfirm('confirmTitle', 'confirmSubTitle').then((data) => {
           if (data) {
             //this.destroyWallet(this.masterWalletId);
-            this.getAllCreatedSubWallets();
+            this.native.showLoading().then(()=>{
+              this.getAllCreatedSubWallets();
+            });
           }
         });
         break;
@@ -134,12 +136,14 @@ export class ManagerComponent {
 
   saveWalletList(masterWalletId){
             this.localStorage.saveCurMasterId({masterId:masterWalletId}).then((data)=>{
+              this.native.hideLoading();
               Config.setCurMasterWalletId(masterWalletId);
               this.native.setRootRouter(TabsComponent);
             });
   }
 
   saveWalletList1(){
+        this.native.hideLoading();
         this.native.setRootRouter(LauncherComponent);
   }
 }
