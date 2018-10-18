@@ -41,6 +41,8 @@ import { ScancodePage } from '../pages/scancode/scancode';
 import { InitializepagePage } from "../pages/initializepage/initializepage";
 import {PaymentboxPage} from '../pages/paymentbox/paymentbox';
 import { CoinSelectComponent } from "../pages/coin/coin-select/coin-select.component";
+import {IdHomeComponent} from "../pages/id/home/home";
+import {IdLauncherComponent} from "../pages/id/launcher/launcher";
 
 //add for plugin
 declare var cordova: any;
@@ -97,6 +99,7 @@ export class AppComponent {
       //this.rootPage = CoinComponent;
       //this.rootPage = CoinSelectComponent;
       //this.rootPage = TransferComponent;
+      //this.rootPage = IdLauncherComponent;
       //init java 2 js plugin
     });
 

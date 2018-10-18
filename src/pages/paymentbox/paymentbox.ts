@@ -8,6 +8,7 @@ import {Native} from "../../providers/Native";
 })
 export class PaymentboxPage {
   public SELA = Config.SELA;
+  public toAddress = "";
   public transfer: any = {
     toAddress: '',
     amount: '',
@@ -19,6 +20,11 @@ export class PaymentboxPage {
   };
   constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl: ViewController,public native:Native) {
             this.transfer = this.navParams.data;
+            if(this.transfer["rate"]){
+               this.toAddress = this.transfer["accounts"];
+            }else{
+               this.toAddress = this.transfer["toAddress"];
+            }
   }
 
   ionViewDidLoad() {

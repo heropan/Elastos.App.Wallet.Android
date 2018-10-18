@@ -37,7 +37,7 @@ export class CoinComponent{
   isShowMore = false;
   MaxCount = 0;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public events: Events) {
-          this.init();
+          //this.init();
   }
   init() {
     this.masterWalletId = Config.getCurMasterWalletId();

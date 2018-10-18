@@ -77,7 +77,6 @@ import {CreatewalletnamePage} from "../pages/createwalletname/createwalletname";
 /*id相关页面*/
 import {IdLauncherComponent} from '../pages/id/launcher/launcher';
 import {IdHomeComponent} from '../pages/id/home/home';
-import {IdCreateComponent} from '../pages/id/create/create';
 import {IdImportComponent} from '../pages/id/import/import';
 import {IdManagerComponent} from '../pages/id/manager/manager';
 import {IdKycPersonComponent} from '../pages/id/kyc/person/person';
@@ -165,7 +164,6 @@ export function TranslateLoaderFactory() {
     TestJniComponent,
     IdLauncherComponent,
     IdHomeComponent,
-    IdCreateComponent,
     IdImportComponent,
     IdManagerComponent,
     IdKycPersonComponent,
@@ -254,7 +252,6 @@ export function TranslateLoaderFactory() {
     TestJniComponent,
     IdLauncherComponent,
     IdHomeComponent,
-    IdCreateComponent,
     IdImportComponent,
     IdManagerComponent,
     IdKycPersonComponent,

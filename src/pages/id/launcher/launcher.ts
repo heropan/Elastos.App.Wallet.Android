@@ -1,25 +1,29 @@
-import { Component,OnInit } from '@angular/core';
-import {BaseComponent} from "../../../app/BaseComponent";
+import { Component} from '@angular/core';
 import {IdImportComponent} from "../../../pages/id/import/import";
 import {IdHomeComponent} from "../../../pages/id/home/home";
 import {Config} from "../../../providers/Config";
+import { NavController, NavParams,Events } from 'ionic-angular';
+import {WalletManager} from '../../../providers/WalletManager';
+import {Native} from "../../../providers/Native";
+import {LocalStorage} from "../../../providers/Localstorage";
+import {DataManager} from "../../../providers/DataManager";
 
 @Component({
   selector: 'id-launcher',
   templateUrl: 'launcher.html',
 })
-export class IdLauncherComponent extends BaseComponent implements OnInit{
-  ngOnInit(){
-      this.setTitleByAssets('text-id-my');
-  }
+export class IdLauncherComponent{
 
+  constructor(public navCtrl: NavController,public navParams: NavParams,public native :Native,public walletManager :WalletManager,public localStorage: LocalStorage,public events: Events,public dataManager :DataManager){
+
+  }
   onNext(type){
     switch (type){
       case 0:
         this.createId();
         break;
       case 1:
-        this.Go(IdImportComponent);
+        this.native.Go(this.navCtrl,this,IdImportComponent);
         break;
     }
   }
@@ -62,7 +66,7 @@ export class IdLauncherComponent extends BaseComponent implements OnInit{
 
           });
           this.localStorage.add("kycId",idObj).then(()=>{
-               this.Go(IdHomeComponent);
+               this.native.Go(this.navCtrl,IdHomeComponent);
           });
     })
   }
