@@ -78,7 +78,6 @@ import {IdLauncherComponent} from '../pages/id/launcher/launcher';
 import {IdHomeComponent} from '../pages/id/home/home';
 import {IdImportComponent} from '../pages/id/import/import';
 import {IdManagerComponent} from '../pages/id/manager/manager';
-import {IdKycPersonComponent} from '../pages/id/kyc/person/person';
 import {IdKycCompanyComponent} from '../pages/id/kyc/company/company';
 import {IdResultComponent} from '../pages/id/result/result';
 import {CompanyWriteChainPage} from '../pages/id/kyc/company-write-chain/company-write-chain';
@@ -162,7 +161,6 @@ export function TranslateLoaderFactory() {
     IdHomeComponent,
     IdImportComponent,
     IdManagerComponent,
-    IdKycPersonComponent,
     IdKycCompanyComponent,
     IdResultComponent,
     CompanyWriteChainPage,
@@ -246,7 +244,6 @@ export function TranslateLoaderFactory() {
     IdHomeComponent,
     IdImportComponent,
     IdManagerComponent,
-    IdKycPersonComponent,
     IdKycCompanyComponent,
     IdResultComponent,
     CompanyWriteChainPage,
