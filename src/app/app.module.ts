@@ -70,7 +70,6 @@ import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 import {FileChooser} from "@ionic-native/file-chooser";
 
 import {TestJniComponent} from '../pages/testjni/testjni.component';
-import {kycSelectTypeComponent} from "../pages/id/kyc/selecttype/create"
 import {ComponentsModule} from "../components/components.module";
 import {InitializepagePage} from "../pages/initializepage/initializepage";
 import {CreatewalletnamePage} from "../pages/createwalletname/createwalletname";
@@ -82,8 +81,6 @@ import {IdManagerComponent} from '../pages/id/manager/manager';
 import {IdKycPersonComponent} from '../pages/id/kyc/person/person';
 import {IdKycCompanyComponent} from '../pages/id/kyc/company/company';
 import {IdResultComponent} from '../pages/id/result/result';
-import {KycOperationPage} from '../pages/id/kyc/kyc-operation/kyc-operation';
-import {KycOrderPage} from '../pages/id/kyc/kyc-order/kyc-order';
 import {CompanyWriteChainPage} from '../pages/id/kyc/company-write-chain/company-write-chain';
 import {PersonWriteChainPage} from '../pages/id/kyc/person-write-chain/person-write-chain';
 import {PathlistPage} from '../pages/id/pathlist/pathlist';
@@ -168,9 +165,6 @@ export function TranslateLoaderFactory() {
     IdKycPersonComponent,
     IdKycCompanyComponent,
     IdResultComponent,
-    kycSelectTypeComponent,
-    KycOperationPage,
-    KycOrderPage,
     CompanyWriteChainPage,
     PersonWriteChainPage,
     PathlistPage,
@@ -255,9 +249,6 @@ export function TranslateLoaderFactory() {
     IdKycPersonComponent,
     IdKycCompanyComponent,
     IdResultComponent,
-    kycSelectTypeComponent,
-    KycOperationPage,
-    KycOrderPage,
     CompanyWriteChainPage,
     PersonWriteChainPage,
     PathlistPage,
