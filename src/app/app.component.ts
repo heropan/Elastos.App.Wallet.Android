@@ -43,6 +43,7 @@ import {PaymentboxPage} from '../pages/paymentbox/paymentbox';
 import { CoinSelectComponent } from "../pages/coin/coin-select/coin-select.component";
 import {IdHomeComponent} from "../pages/id/home/home";
 import {IdLauncherComponent} from "../pages/id/launcher/launcher";
+import {PathlistPage} from '../pages/id/pathlist/pathlist';
 
 //add for plugin
 declare var cordova: any;
@@ -100,6 +101,7 @@ export class AppComponent {
       //this.rootPage = CoinSelectComponent;
       //this.rootPage = TransferComponent;
       //this.rootPage = IdLauncherComponent;
+      //this.rootPage = PathlistPage;
       //init java 2 js plugin
     });
 
