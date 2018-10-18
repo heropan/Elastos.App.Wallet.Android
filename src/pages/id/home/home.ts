@@ -1,28 +1,38 @@
-import { Component,OnInit } from '@angular/core';
-import {BaseComponent} from "./../../../app/BaseComponent";
+import { Component,ViewChild} from '@angular/core';
 import {IdImportComponent} from "../../../pages/id/import/import";
 import {IdManagerComponent} from "../../../pages/id/manager/manager";
 import {TabsComponent} from "../../../pages/tabs/tabs.component";
 import { Config } from '../../../providers/Config';
 import {PathlistPage} from '../../../pages/id/pathlist/pathlist';
 import {IDManager} from "../../../providers/IDManager";
+import { NavController, NavParams,Events,Navbar} from 'ionic-angular';
+import {WalletManager} from '../../../providers/WalletManager';
+import {Native} from "../../../providers/Native";
+import {LocalStorage} from "../../../providers/Localstorage";
+import {DataManager} from "../../../providers/DataManager";
+import {Util} from "../../../providers/Util";
 @Component({
   selector: 'id-home',
   templateUrl: 'home.html',
 })
-export class IdHomeComponent extends BaseComponent implements OnInit{
+export class IdHomeComponent{
   public kycIdArr:any;
-  ngOnInit(){
-    this.setTitleByAssets('text-id-home');
-    this.setLeftIcon("",()=>{
-       this.Go(TabsComponent);
-    });
+  @ViewChild(Navbar) navBar: Navbar;
+  constructor(public navCtrl: NavController,public navParams: NavParams,public native :Native,public walletManager :WalletManager,public localStorage: LocalStorage,public events: Events,public dataManager :DataManager){
+          this.init();
+  }
 
+  ionViewDidLoad() {
+    this.navBar.backButtonClick = (e)=>{
+      this.native.setRootRouter(TabsComponent);
+    };
+  }
+  init(){
     var self = this;
     this.localStorage.get("kycId").then((val)=>{
 
              let seqNumJsonObj = JSON.parse(val);
-             this.kycIdArr = this.objtoarr(seqNumJsonObj);
+             this.kycIdArr = Util.objtoarr(seqNumJsonObj);
 
              console.info("ElastosJs IdHomeComponent val" + val);
              self.initSeqObj(seqNumJsonObj);
@@ -78,7 +88,7 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
 
     this.events.subscribe('idhome:update', () => {
       this.localStorage.get("kycId").then((val)=>{
-        this.kycIdArr = this.objtoarr(JSON.parse(val));
+        this.kycIdArr = Util.objtoarr(JSON.parse(val));
       });
     });
   }
@@ -180,17 +190,17 @@ export class IdHomeComponent extends BaseComponent implements OnInit{
         this.createDID();
         break;
       case 1:
-        this.Go(IdImportComponent);
+        this.native.Go(this.navCtrl,IdImportComponent);
         break;
       case 2:
-        this.Go(IdManagerComponent);
+      this.native.Go(this.navCtrl,IdManagerComponent);
         break;
     }
   }
 
   onItem(item){
      //this.Go(IdAppListComponent,{"id":item.id});
-     this.Go(PathlistPage,{"id":item.id});
+     this.native.Go(this.navCtrl,PathlistPage,{"id":item.id});
   }
 
   createDID(){

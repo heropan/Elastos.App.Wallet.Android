@@ -1,5 +1,10 @@
-import { Component,OnInit } from '@angular/core';
-import {BaseComponent} from "./../../../app/BaseComponent";
+import { Component,ViewChild } from '@angular/core';
+import { NavController, NavParams,Events,Navbar} from 'ionic-angular';
+import {WalletManager} from '../../../providers/WalletManager';
+import {Native} from "../../../providers/Native";
+import {LocalStorage} from "../../../providers/Localstorage";
+import {DataManager} from "../../../providers/DataManager";
+import {Util} from "../../../providers/Util";
 /**
  * Generated class for the LauncherPage page.
  *
@@ -11,32 +16,37 @@ import {BaseComponent} from "./../../../app/BaseComponent";
   selector: 'app-manager',
   templateUrl: 'manager.html',
 })
-export class IdManagerComponent extends BaseComponent implements OnInit{
+export class IdManagerComponent{
   public kycIdArr:any=[];
   public isSelectObj:any={};
   selectAll = false;
   public backupWalletPlainText:any;
   idsObj:any;
-  ngOnInit(){
-    this.setTitleByAssets('text-id-manager');
+  @ViewChild(Navbar) navBar: Navbar;
+  constructor(public navCtrl: NavController,public navParams: NavParams,public native :Native,public walletManager :WalletManager,public localStorage: LocalStorage,public events: Events,public dataManager :DataManager){
+          this.init();
+  }
+
+  ionViewDidLoad() {
+    this.navBar.backButtonClick = (e)=>{
+      this.events.publish("idhome:update");
+      this.navCtrl.pop();
+    };
+  }
+   init(){
         this.localStorage.get('kycId').then((val)=>{
         if(val === null){
           this.kycIdArr = [];
         }else{
-          this.kycIdArr = this.objtoarr(JSON.parse(val));
+          this.kycIdArr = Util.objtoarr(JSON.parse(val));
           this.idsObj = JSON.parse(val);
         }
-      });
-
-      this.setLeftIcon("",()=>{
-        this.events.publish("idhome:update");
-        this.Back();
       });
   }
 
   onItem(id){
 
-      if(this.isNull(this.isSelectObj[id])){
+      if(Util.isNull(this.isSelectObj[id])){
         this.isSelectObj[id] = true;
         this.selectAll=this.setAllButton();
         return;
@@ -100,7 +110,7 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
   downButton(ids){
 
     if(ids.length===0){
-      this.messageBox("text-down-please-message");
+      this.native.toast_trans("text-down-please-message");
          return;
     }
      let idsObj = {};
@@ -114,7 +124,7 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
 
   onCopay(){
     this.native.copyClipboard(this.backupWalletPlainText).then(()=>{
-             this.toast('text-copied-to-clipboard');
+      this.native.toast_trans('text-copied-to-clipboard');
     }).catch(()=>{
 
     });
@@ -123,7 +133,7 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
   delIds(ids){
 
       if(ids.length===0){
-        this.messageBox("text-id-kyc-import-text-del-please-message");
+        this.native.toast_trans("text-id-kyc-import-text-del-please-message");
            return;
       }
       for(let id in ids){
@@ -131,8 +141,8 @@ export class IdManagerComponent extends BaseComponent implements OnInit{
         delete this.idsObj[key];
       }
       this.localStorage.set("kycId",this.idsObj).then(()=>{
-               this.kycIdArr = this.objtoarr(this.idsObj);
-               this.messageBox('text-id-kyc-import-text-del-message');
+               this.kycIdArr = Util.objtoarr(this.idsObj);
+               this.native.toast_trans('text-id-kyc-import-text-del-message');
       });
   }
 }
