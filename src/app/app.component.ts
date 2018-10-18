@@ -44,7 +44,8 @@ import { CoinSelectComponent } from "../pages/coin/coin-select/coin-select.compo
 import {IdHomeComponent} from "../pages/id/home/home";
 import {IdLauncherComponent} from "../pages/id/launcher/launcher";
 import {PathlistPage} from '../pages/id/pathlist/pathlist';
-
+import {PhonepathinfoPage} from '../pages/id/phonepathinfo/phonepathinfo';
+import {PhoneauthPage} from '../pages/id/phoneauth/phoneauth';
 //add for plugin
 declare var cordova: any;
 
@@ -102,6 +103,7 @@ export class AppComponent {
       //this.rootPage = TransferComponent;
       //this.rootPage = IdLauncherComponent;
       //this.rootPage = PathlistPage;
+      //this.rootPage = PhoneauthPage;
       //init java 2 js plugin
     });
 

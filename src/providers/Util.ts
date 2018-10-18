@@ -145,5 +145,12 @@ export class Util {
     if (r != null) return decodeURI(r[2]); return null;
   }
 
+  public static isCardNo(card:string): boolean{
+    if(!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(card))){
+      return true;
+    }
+    return false;
+  }
+
 
 }

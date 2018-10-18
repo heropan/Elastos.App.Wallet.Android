@@ -87,7 +87,6 @@ import {KycOrderPage} from '../pages/id/kyc/kyc-order/kyc-order';
 import {CompanyWriteChainPage} from '../pages/id/kyc/company-write-chain/company-write-chain';
 import {PersonWriteChainPage} from '../pages/id/kyc/person-write-chain/person-write-chain';
 import {PathlistPage} from '../pages/id/pathlist/pathlist';
-import {PathdetailsPage} from '../pages/id/pathdetails/pathdetails';
 import {CompanypathinfoPage} from '../pages/id/companypathinfo/companypathinfo';
 import {BankcardpathinfoPage} from '../pages/id/bankcardpathinfo/bankcardpathinfo';
 import {PhonepathinfoPage} from '../pages/id/phonepathinfo/phonepathinfo';
@@ -175,7 +174,6 @@ export function TranslateLoaderFactory() {
     CompanyWriteChainPage,
     PersonWriteChainPage,
     PathlistPage,
-    PathdetailsPage,
     CompanypathinfoPage,
     BankcardpathinfoPage,
     PhonepathinfoPage,
@@ -263,7 +261,6 @@ export function TranslateLoaderFactory() {
     CompanyWriteChainPage,
     PersonWriteChainPage,
     PathlistPage,
-    PathdetailsPage,
     CompanypathinfoPage,
     BankcardpathinfoPage,
     PhonepathinfoPage,
