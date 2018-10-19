@@ -1,27 +1,30 @@
 <ion-header>
-    <app-header [header]="header"></app-header>
+    <ion-navbar>
+        <ion-title style="text-align:center">{{'text-certified-identity' | translate}}</ion-title>
+    </ion-navbar>
 </ion-header>
 <ion-content no-bounce>
-    <div class="person">
-        <div class="certified-identity">
-            <div class="weui-cells__title">{{'text-certified-identity' | translate }}</div>
-            <div class="weui-cells">
-                <div class="weui-cell">
-                    <div class="weui-cell__hd"><label for="" class="weui-label">{{'text-name' | translate }}</label></div>
-                    <div class="weui-cell__bd">
-                        <input class="weui-input" type="text" [(ngModel)]="personValidate.fullName" placeholder="{{'text-input-please' | translate }}">
-                    </div>
-                </div>
 
-                <div class="weui-cell">
-                    <div class="weui-cell__hd"><label for="" class="weui-label">{{'text-identity' | translate }}</label></div>
-                    <div class="weui-cell__bd">
-                        <input class="weui-input" type="tel" [(ngModel)]="personValidate.identityNumber" placeholder="{{'text-input-please' | translate }}">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <ion-grid>
+
+        <ion-row>
+            <ion-col col-2 align-self-center class="font-size-1 text-left">{{ 'text-name' | translate }} </ion-col>
+            <ion-col col-10 align-self-center>
+                <ion-item>
+                    <ion-input type="text" [(ngModel)]="personValidate.fullName" placeholder="{{'text-input-please' | translate }}"></ion-input>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col col-2 align-self-center class="font-size-1 text-left">{{'text-identity' | translate }}</ion-col>
+            <ion-col col-10 align-self-center>
+                <ion-item>
+                    <ion-input type="tel" [(ngModel)]="personValidate.identityNumber" placeholder="{{'text-input-please' | translate }}"></ion-input>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>
 
 <ion-footer>

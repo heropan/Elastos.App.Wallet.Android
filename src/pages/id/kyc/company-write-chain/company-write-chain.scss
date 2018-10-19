@@ -21,17 +21,13 @@ page-company-write-chain {
             vertical-align: middle;
             // display: inline-block;
         }
-        .btn-commit {
-            background: #097AD3;
-            text-align: center;
-            line-height: 45px;
-            border-radius: 22px;
-            width: 85%;
-            height: 45px;
-            margin: 25px auto;
-            color: #fff;
-            display: block;
-            font-size: 1em;
-        }
+    }
+    .font-size-1 {
+        font-size: 16px;
+    }
+    .title {
+        text-align: center;
+        font-size: 16px;
+        padding: 10px 0px;
     }
 }

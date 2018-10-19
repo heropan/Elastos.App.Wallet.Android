@@ -152,5 +152,14 @@ export class Util {
     return false;
   }
 
+  public static isBankCard(bankCard:string): boolean {
+    var regex = /^(998801|998802|622525|622526|435744|435745|483536|528020|526855|622156|622155|356869|531659|622157|627066|627067|627068|627069|622588)\d{10}$/;
+    if(!regex.test(bankCard)) {
+        return true;
+    }
+    return false;
+  }
+
+
 
 }

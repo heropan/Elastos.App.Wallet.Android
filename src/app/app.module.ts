@@ -4,7 +4,6 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import {HttpModule} from '@angular/http';
-import {WeUiModule} from 'ngx-weui';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {Observable} from 'rxjs/Observable';
 
@@ -31,7 +30,6 @@ import { DataManager } from '../providers/DataManager';
 
 /**pages*/
 import {AppComponent} from './app.component';
-import {HeaderComponent} from './header/app.header';
 import {TabsComponent} from './../pages/tabs/tabs.component';
 import {HomeComponent} from './../pages/tabs/home/home.component';
 import {MyComponent} from './../pages/tabs/my/my.component';
@@ -44,7 +42,6 @@ import {MnemonicComponent} from '../pages/mnemonic/mnemonic.component';
 import {WriteComponent} from '../pages/mnemonic/write/write.component';
 import {AddressComponent} from '../pages/wallet/address/address.component';
 import {ContactsComponent} from '../pages/contacts/contacts.component';
-import {ResultComponent} from '../pages/universal/result/result.component';
 import {CoinComponent} from '../pages/coin/coin.component';
 import {TransferComponent} from '../pages/coin/transfer/transfer.component';
 import {PaymentConfirmComponent} from "../pages/coin/payment-confirm/payment-confirm.component";
@@ -63,7 +60,6 @@ import {ScancodePage} from '../pages/scancode/scancode';
 import {TxdetailsPage} from '../pages/txdetails/txdetails';
 import {Native} from '../providers/Native';
 import {Logger} from '../providers/Logger';
-import {BaseComponent} from './BaseComponent';
 import {RecordinfoComponent} from '../pages/coin/recordinfo/recordinfo.component';
 import {WalletManager} from "../providers/WalletManager";
 import {BarcodeScanner} from "@ionic-native/barcode-scanner";
@@ -127,8 +123,6 @@ export function TranslateLoaderFactory() {
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    BaseComponent,
     TabsComponent,
     HomeComponent,
     MyComponent,
@@ -141,7 +135,6 @@ export function TranslateLoaderFactory() {
     WriteComponent,
     AddressComponent,
     ContactsComponent,
-    ResultComponent,
     CoinComponent,
     TransferComponent,
     PaymentConfirmComponent,
@@ -199,19 +192,20 @@ export function TranslateLoaderFactory() {
     }),
     QRCodeModule,
     BrowserAnimationsModule,
-    IonicModule.forRoot(AppComponent,{tabsHideOnSubPages: 'true'}),
+    IonicModule.forRoot(AppComponent,{
+    backButtonText: "",
+    iconMode: "ios",
+    mode: "ios",
+    tabsHideOnSubPages: 'true'}),
     IonicStorageModule.forRoot({
       name: '__walletdb',
       driverOrder: ['localstorage','indexeddb', 'sqlite', 'websql']
     }),
-    ComponentsModule,
-    WeUiModule.forRoot()
+    ComponentsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     AppComponent,
-    HeaderComponent,
-    BaseComponent,
     TabsComponent,
     HomeComponent,
     MyComponent,
@@ -224,7 +218,6 @@ export function TranslateLoaderFactory() {
     WriteComponent,
     AddressComponent,
     ContactsComponent,
-    ResultComponent,
     CoinComponent,
     TransferComponent,
     PaymentConfirmComponent,
@@ -280,7 +273,6 @@ export function TranslateLoaderFactory() {
     LocalStorage,
     Native,
     Logger,
-    HeaderComponent,
     WalletManager,
     BackupProvider,
     HttpService,

@@ -1,14 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {BaseComponent} from "../../../../app/BaseComponent";
+import {Component} from '@angular/core';
 import {ApiUrl} from "../../../../providers/ApiUrl";
 import {IDManager} from "../../../../providers/IDManager";
 import {TransferComponent} from "../../../../pages/coin/transfer/transfer.component";
-
+import { NavController, NavParams,Events } from 'ionic-angular';
+import {WalletManager} from '../../../../providers/WalletManager';
+import {Native} from "../../../../providers/Native";
+import {LocalStorage} from "../../../../providers/Localstorage";
+import {DataManager} from "../../../../providers/DataManager";
+import { Util } from '../../../../providers/Util';
 @Component({
   selector: 'id-company',
   templateUrl: 'company.html',
 })
-export class IdKycCompanyComponent extends BaseComponent implements OnInit {
+export class IdKycCompanyComponent{
   businessObj={
               "type":"enterprise",
               "word":"北京比特大陆科技有限公司",
@@ -22,9 +26,12 @@ export class IdKycCompanyComponent extends BaseComponent implements OnInit {
   parms:any;
   did:any;
   path:string = "";
-  ngOnInit() {
-    this.setTitleByAssets('text-certified-company');
-    this.parms = this.getNavParams().data;
+  constructor(public navCtrl: NavController,public navParams: NavParams,public native :Native,public walletManager :WalletManager,public localStorage: LocalStorage,public events: Events,public dataManager :DataManager){
+    this.init();
+  }
+  init() {
+
+    this.parms = this.navParams.data;
     this.did = this.parms["id"];
     this.path = this.parms["path"] || "";
     this.getPrice();
@@ -43,24 +50,24 @@ export class IdKycCompanyComponent extends BaseComponent implements OnInit {
         let order = idsObj[this.did][this.path];
         order[serialNum] = {serialNum:serialNum,pathStatus:0,payObj:{did:this.did,addr:"EKZCcfqBP1YXiDtJVNdnLQR74QRHKrgFYD",money:this.payMoney,appType:"kyc",chianId:"ELA",selectType:this.path,parms:this.businessObj}};
         this.localStorage.set("kycId",idsObj).then((newVal)=>{
-          this.Go(TransferComponent,{did:this.did,addr:"EKZCcfqBP1YXiDtJVNdnLQR74QRHKrgFYD",money:this.payMoney,appType:"kyc",chianId:"ELA",selectType:this.path,parms:this.businessObj});
+          this.native.Go(this.navCtrl,TransferComponent,{did:this.did,addr:"EKZCcfqBP1YXiDtJVNdnLQR74QRHKrgFYD",money:this.payMoney,appType:"kyc",chianId:"ELA",selectType:this.path,parms:this.businessObj});
         });
     })
 }
 
   checkParms(): boolean{
-     if(this.isNull(this.businessObj.word)){
-         this.messageBox('text-word-message');
+     if(Util.isNull(this.businessObj.word)){
+         this.native.toast_trans('text-word-message');
          return false;
      }
 
-     if(this.isNull(this.businessObj.legalPerson)){
-      this.messageBox('text-legalPerson-message');
+     if(Util.isNull(this.businessObj.legalPerson)){
+      this.native.toast_trans('text-legalPerson-message');
       return false;
      }
 
-     if(this.isNull(this.businessObj.registrationNum)){
-      this.messageBox('text-registrationN-message');
+     if(Util.isNull(this.businessObj.registrationNum)){
+      this.native.toast_trans('text-registrationN-message');
       return false;
      }
 
@@ -68,11 +75,11 @@ export class IdKycCompanyComponent extends BaseComponent implements OnInit {
   }
 
   getPrice(){
-    let timestamp = this.getTimestamp();
+    let timestamp = this.native.getTimestamp();
     let parms ={"appid":"elastid","timestamp":timestamp};
     let checksum = IDManager.getCheckSum(parms,"asc");
     parms["checksum"] = checksum;
-    this.getHttp().postByAuth(ApiUrl.GET_PRICE,parms).toPromise().then().then(data => {
+    this.native.getHttp().postByAuth(ApiUrl.GET_PRICE,parms).toPromise().then().then(data => {
         if(data["status"] === 200){
           this.priceObj = JSON.parse(data["_body"]);
           this.payMoney = this.priceObj["price"] || 0.1;

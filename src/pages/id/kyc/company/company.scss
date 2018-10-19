@@ -1,4 +1,14 @@
-.company {
-    padding-top: 30px;
-    text-align: center;
+id-company {
+    .font-size-1 {
+        font-size: 16px;
+    }
+    .text-center {
+        text-align: center;
+    }
+    .text-right {
+        text-align: right;
+    }
+    .text-left {
+        text-align: left;
+    }
 }

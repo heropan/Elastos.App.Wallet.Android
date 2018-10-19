@@ -200,7 +200,8 @@
                 width: 60%;
                 margin: 0 auto;
                 padding-top: 20px;
-                color: $color-gray-dark;
+                //color: $color-gray-dark;
+                color: #999999;
                 &>div {
                     display: flex;
                     display: -webkit-box;
@@ -304,7 +305,7 @@
         }
         .item-text-title {
             font-size: 1em;
-            color: $color-gray-dark;
+            color: #999999;
             line-height: 2em;
         }
         .item-text {

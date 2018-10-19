@@ -1,5 +1,7 @@
 <ion-header>
-    <app-header [header]="header"></app-header>
+    <ion-navbar>
+        <ion-title style="text-align:center">{{'text-kyc-result' | translate}}</ion-title>
+    </ion-navbar>
 </ion-header>
 <ion-content no-bounce>
     <div class="company-result" style="height:100%;overflow: auto;">
@@ -10,57 +12,55 @@
         <div class="result-title" *ngIf="type==='1'">
             <p>{{'text-kyc-failure' | translate }} <img src='./assets/images/icon/icon-failure.svg' class="result-img" /></p>
         </div>
-        <div class="weui-cells__title">{{'text-kyc-message' | translate }}</div>
-        <div class="weui-cells" *ngIf="pageObj['identityCard']">
-            <div class="weui-cells__title">{{'text-certified-identity' | translate }}</div>
-            <div class="weui-cell">
-                <div class="weui-cell__bd">
-                    <p>{{'text-name' | translate }}：</p>
-                </div>
-                <div class="weui-cell__ft">{{pageObj["identityCard"]["fullName"]}}</div>
-            </div>
 
-            <div class="weui-cell">
-                <div class="weui-cell__bd">
-                    <p>{{'text-identity' | translate }}：</p>
-                </div>
-                <div class="weui-cell__ft">{{pageObj["identityCard"]["identityNumber"]}}</div>
-            </div>
-        </div>
-        <div class="weui-cells" *ngIf="pageObj['phone']">
-            <div class="weui-cells__title">{{'text-certified-phone' | translate }}</div>
-            <div class="weui-cell">
-                <div class="weui-cell__bd">
-                    <p>{{'text-phone' | translate }}：</p>
-                </div>
-                <div class="weui-cell__ft">{{pageObj["phone"]["mobile"]}}</div>
-            </div>
-        </div>
+        <ion-grid>
+            <ion-col col-2 class="font-size-1">
+                {{'text-name' | translate }}
+            </ion-col>
 
-        <div class="weui-cells" *ngIf="pageObj['bankCard']">
-            <div class="weui-cells__title">{{'text-card-debit' | translate }}</div>
-            <div class="weui-cell">
-                <div class="weui-cell__bd">
-                    <p>{{'text-phone' | translate }}：</p>
-                </div>
-                <div class="weui-cell__ft">{{pageObj["bankCard"]["cardMobile"]}}</div>
-            </div>
+            <ion-col col-10 class="font-size-1">
+                {{pageObj["identityCard"]["fullName"]}}
+            </ion-col>
 
-            <div class="weui-cell">
-                <div class="weui-cell__bd">
-                    <p>{{'text-card' | translate }}：</p>
-                </div>
-                <div class="weui-cell__ft">{{pageObj["bankCard"]["cardNumber"]}}</div>
-            </div>
-        </div>
+            <ion-col col-2 class="font-size-1">
+                {{'text-identity' | translate }}
+            </ion-col>
+
+            <ion-col col-10 class="font-size-1">
+                {{pageObj["identityCard"]["identityNumber"]}}
+            </ion-col>
+
+            <ion-col col-2 class="font-size-1" *ngIf="pageObj['phone']">
+                {{'text-certified-phone' | translate }}
+            </ion-col>
+
+            <ion-col col-10 class="font-size-1" *ngIf="pageObj['phone']">
+                {{pageObj["phone"]["mobile"]}}
+            </ion-col>
+
+            <ion-col col-2 class="font-size-1" *ngIf="pageObj['bankCard']">
+                {{'text-card-debit' | translate }}
+            </ion-col>
+
+            <ion-col col-10 class="font-size-1" *ngIf="pageObj['bankCard']">
+                {{pageObj["bankCard"]["cardMobile"]}}
+            </ion-col>
+
+
+            <ion-col col-2 class="font-size-1">
+                {{'text-card' | translate }}
+            </ion-col>
+
+            <ion-col col-10 class="font-size-1">
+                {{pageObj["bankCard"]["cardNumber"]}}
+            </ion-col>
+        </ion-grid>
     </div>
 </ion-content>
 
 <ion-footer>
-    <div class="weui-cells_checkbox" style="text-align: center;margin-top: 30px">
-        <div class="weui-cell__bd">
-            <p class="text-person-agreement-wenzi">{{ 'text-id-chain-prompt1' | translate }}</p>
-        </div>
+    <div class="title">
+        <p class="text-person-agreement-wenzi">{{ 'text-id-chain-prompt1' | translate }}</p>
     </div>
     <button ion-button full class="button-footer" (click)="onCommit()" style="width: 100%" *ngIf="orderStatus===2"> {{'text-data-chain' | translate}}</button>
     <button ion-button full class="button-footer" style="width: 100%" *ngIf="orderStatus===4">{{'text-data-chain1' | translate}}</button>

@@ -1,22 +1,29 @@
-import { Component,OnInit } from '@angular/core';
-import {BaseComponent} from "../../../../app/BaseComponent";
+import { Component,ViewChild,NgZone} from '@angular/core';
 import {IdHomeComponent} from "../../../../pages/id/home/home";
 import {IDManager} from "../../../../providers/IDManager";
 import { Config } from '../../../../providers/Config';
+import { NavController, NavParams,Events,Navbar } from 'ionic-angular';
+import {WalletManager} from '../../../../providers/WalletManager';
+import {Native} from "../../../../providers/Native";
+import {LocalStorage} from "../../../../providers/Localstorage";
+import {DataManager} from "../../../../providers/DataManager";
+import { Util } from '../../../../providers/Util';
+import { PopupProvider } from '../../../../providers/popup';
 //{notary:"COOIX"}
 
 @Component({
   selector: 'page-company-write-chain',
   templateUrl: 'company-write-chain.html',
 })
-export class CompanyWriteChainPage extends BaseComponent implements OnInit{
+export class CompanyWriteChainPage{
+  @ViewChild(Navbar) navBar: Navbar;
   masterWalletId:string = "1";
   type: string;
   approdType:string="enterprise";
   businessObj={
-    "word":"",
-    "legalPerson":"",
-    "registrationNum":"",
+    "word":"xxxxx",
+    "legalPerson":"xxxxx",
+    "registrationNum":"xxxxxxxx",
   }
 
   message:any={Id:"",Path:"",Proof:"",DataHash:"",Sign:""};
@@ -31,14 +38,19 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
  signature:string;
  orderStatus = 0;
  serialNum = "";
- ngOnInit(){
+ constructor(public navCtrl: NavController,public navParams: NavParams,public native :Native,public walletManager :WalletManager,public localStorage: LocalStorage,public events: Events,public dataManager :DataManager,public popupProvider:PopupProvider,public ngzone: NgZone){
+    this.init();
+}
+ init(){
     this.events.subscribe("order:update",(orderStatus,appr)=>{
            if(appr === "enterprise"){
-             this.orderStatus = orderStatus;
+             this.ngzone.run(()=>{
+              this.orderStatus = orderStatus;
+             });
            }
     });
-    this.setTitleByAssets('text-kyc-result');
-    this.idObj = this.getNavParams().data;
+
+    this.idObj = this.navParams.data;
 
 
     console.info("ElastJs ngOnInit this.idObj " + JSON.stringify(this.idObj));
@@ -48,14 +60,18 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
     console.log("ngOnInit ====="+JSON.stringify(this.idObj));
     this.did = this.idObj["payObj"]["did"];
     this.getCompany();
-    if(this.isNull(status)){
+    if(Util.isNull(status)){
       this.type = '0';
     }else{
       this.type = status;
     }
-    this.setLeftIcon('',()=>{
-           this.Go(IdHomeComponent);
-    });
+  }
+
+  ionViewDidLoad() {
+    this.navBar.backButtonClick = (e)=>{
+      this.navCtrl.pop();
+      this.native.Go(this.navCtrl,IdHomeComponent);
+    };
   }
 
   getCompany(){
@@ -71,8 +87,8 @@ export class CompanyWriteChainPage extends BaseComponent implements OnInit{
 
   onCommit(){
     this.popupProvider.presentPrompt().then((val)=>{
-              if(this.isNull(val)){
-                this.messageBox("text-id-kyc-prompt-password");
+              if(Util.isNull(val)){
+                this.native.toast_trans("text-id-kyc-prompt-password");
                 return;
               }
               this.passworld = val.toString();

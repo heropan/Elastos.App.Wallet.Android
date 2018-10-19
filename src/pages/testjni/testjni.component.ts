@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import {BaseComponent} from '../../app/BaseComponent';
+import { Component} from '@angular/core';
+import {WalletManager} from '../../providers/WalletManager';
 
 
 @Component({
   selector: 'app-testjni',
   templateUrl: './testjni.component.html',
 })
-export class TestJniComponent  extends BaseComponent implements OnInit  {
+export class TestJniComponent {
   masterWalletId:string ="1";
   phrasePassword:string ="66666666";
   newPassword:string ="66666666";
@@ -70,7 +70,8 @@ export class TestJniComponent  extends BaseComponent implements OnInit  {
                 {id:27,name:"getAllChainIds"},
                 {id:7,name:"exportWalletWithMnemonic"},
               ];
-  ngOnInit() {
+  constructor(public walletManager:WalletManager){
+
   }
 
   onNext(type): void {

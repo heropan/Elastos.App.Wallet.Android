@@ -46,6 +46,14 @@ import {IdLauncherComponent} from "../pages/id/launcher/launcher";
 import {PathlistPage} from '../pages/id/pathlist/pathlist';
 import {PhonepathinfoPage} from '../pages/id/phonepathinfo/phonepathinfo';
 import {PhoneauthPage} from '../pages/id/phoneauth/phoneauth';
+import {IdentityauthPage} from '../pages/id/identityauth/identityauth';
+import {IdentitypathinfoPage} from '../pages/id/identitypathinfo/identitypathinfo';
+import {BankcardauthPage} from '../pages/id/bankcardauth/bankcardauth';
+import {BankcardpathinfoPage} from '../pages/id/bankcardpathinfo/bankcardpathinfo';
+import {CompanypathinfoPage} from '../pages/id/companypathinfo/companypathinfo';
+import {IdKycCompanyComponent} from '../pages/id/kyc/company/company';
+import {CompanyWriteChainPage} from '../pages/id/kyc/company-write-chain/company-write-chain';
+import {PersonWriteChainPage} from '../pages/id/kyc/person-write-chain/person-write-chain';
 //add for plugin
 declare var cordova: any;
 
@@ -104,6 +112,15 @@ export class AppComponent {
       //this.rootPage = IdLauncherComponent;
       //this.rootPage = PathlistPage;
       //this.rootPage = PhoneauthPage;
+      //this.rootPage = PhonepathinfoPage;
+      //this.rootPage = IdentityauthPage;
+      //this.rootPage = IdentitypathinfoPage;
+      //this.rootPage = BankcardauthPage;
+      //this.rootPage = BankcardpathinfoPage;
+      //this.rootPage = CompanypathinfoPage;
+      //this.rootPage = IdKycCompanyComponent;
+      //this.rootPage = CompanyWriteChainPage;
+      //this.rootPage = PersonWriteChainPage;
       //init java 2 js plugin
     });
 

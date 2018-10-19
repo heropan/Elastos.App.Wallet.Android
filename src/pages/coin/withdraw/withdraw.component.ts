@@ -1,8 +1,6 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {BaseComponent} from './../../../app/BaseComponent';
+import {Component,ViewChild} from '@angular/core';
 import {TabsComponent} from "../../tabs/tabs.component";
 import {Util} from "../../../providers/Util";
-import { PopupComponent } from "ngx-weui";
 import { Config } from '../../../providers/Config';
 import { NavController, NavParams,ModalController,Events } from 'ionic-angular';
 import {PaymentboxPage} from '../../../pages/paymentbox/paymentbox';

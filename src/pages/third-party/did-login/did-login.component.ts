@@ -1,5 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {BaseComponent} from '../../../app/BaseComponent';
+import {Component} from '@angular/core';
 import {Util} from "../../../providers/Util";
 import {IdLauncherComponent} from "../../id/launcher/launcher";
 import {LocalStorage} from "../../../providers/Localstorage";
@@ -41,7 +40,7 @@ export class DidLoginComponent{
   }
 
   onItem(itemId){
-    this.popupProvider.presentPrompt().then((val)=>{              
+    this.popupProvider.presentPrompt().then((val)=>{
       if(Util.isNull(val)){
         this.native.toast_trans("text-id-kyc-prompt-password");
         return;

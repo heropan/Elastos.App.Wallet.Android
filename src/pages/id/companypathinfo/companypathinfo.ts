@@ -1,22 +1,28 @@
-import { Component ,OnInit} from '@angular/core';
-import {BaseComponent} from "../../../app/BaseComponent";
+import { Component} from '@angular/core';
 import {IdKycCompanyComponent} from "../../../pages/id/kyc/company/company";
 import {IDManager} from "../../../providers/IDManager";
 import {ApiUrl} from "../../../providers/ApiUrl";
 import {CompanyWriteChainPage} from "../../../pages/id/kyc/company-write-chain/company-write-chain";
-
+import { NavController, NavParams,Events } from 'ionic-angular';
+import {WalletManager} from '../../../providers/WalletManager';
+import {Native} from "../../../providers/Native";
+import {LocalStorage} from "../../../providers/Localstorage";
+import {DataManager} from "../../../providers/DataManager";
 @Component({
   selector: 'page-companypathinfo',
   templateUrl: 'companypathinfo.html',
 })
-export class CompanypathinfoPage extends BaseComponent implements OnInit{
+export class CompanypathinfoPage{
+       //public companyPathList = [{'pathStatus':4,payObj:{parms:{"word":"sss","legalPerson":"zzxxxxx","registrationNum":"ccccccccccc"}}}];
        public companyPathList = [];
        private parmar ={};
        public idsObj ={};
-       ngOnInit(){
-        this.parmar = this.getNavParams().data;
+       constructor(public navCtrl: NavController,public navParams: NavParams,public native :Native,public walletManager :WalletManager,public localStorage: LocalStorage,public events: Events,public dataManager :DataManager){
+          this.init();
+     }
+       init(){
+        this.parmar = this.navParams.data;
         console.log("---path---"+JSON.stringify(this.parmar));
-        this.setTitleByAssets("text-company-path-deatils");
         this.localStorage.get("kycId").then((val)=>{
           if(val == null || val === undefined || val === {} || val === ''){
             return;
@@ -38,7 +44,7 @@ export class CompanypathinfoPage extends BaseComponent implements OnInit{
       }
 
       onCommit(){
-          this.Go(IdKycCompanyComponent,this.parmar);
+          this.native.Go(this.navCtrl,IdKycCompanyComponent,this.parmar);
       }
 
       jumpPage(item){
@@ -49,7 +55,7 @@ export class CompanypathinfoPage extends BaseComponent implements OnInit{
                    this.getAppAuth(item);
                     break;
                 case 2 :
-                   this.Go(CompanyWriteChainPage,item);
+                this.native.Go(this.navCtrl,CompanyWriteChainPage,item);
                     break;
           }
       }
@@ -77,14 +83,14 @@ export class CompanypathinfoPage extends BaseComponent implements OnInit{
         let txHash =  item["txHash"];
         console.log("getAppAuth======= txHash type "+typeof(txHash));
         console.log('ElastosJs companypathinfo.ts----getAppAuth----'+"---serialNum---"+serialNum+"---txHash---"+txHash);
-        let timestamp = this.getTimestamp();
+        let timestamp = this.native.getTimestamp();
         let parms ={"serialNum":serialNum,
                     "txHash":txHash,
                     "timestamp":timestamp,
                    }
         let checksum = IDManager.getCheckSum(parms,"asc");
         parms["checksum"] = checksum;
-        this.getHttp().postByAuth(ApiUrl.APP_AUTH,parms).toPromise().then().then(data => {
+        this.native.getHttp().postByAuth(ApiUrl.APP_AUTH,parms).toPromise().then().then(data => {
           if(data["status"] === 200){
             console.log("ElastosJs companypathinfo.ts data ======="+JSON.stringify(data));
             let authResult = JSON.parse(data["_body"]);
@@ -92,15 +98,15 @@ export class CompanypathinfoPage extends BaseComponent implements OnInit{
             console.log("ElastosJs companypathinfo.ts authResult ======="+JSON.stringify(authResult));
 
             if(authResult["errorCode"] === "1"){
-              this.messageBox("text-id-kyc-auth-fee-fail");
+              this.native.toast_trans("text-id-kyc-auth-fee-fail");
               return;
             }
             if(authResult["errorCode"] === "2"){
-                     this.messageBox("text-id-kyc-auth-query-timeout");
+              this.native.toast_trans("text-id-kyc-auth-query-timeout");
                      return;
             }
             if(authResult["errorCode"] === "4"){
-                this.messageBox("text-id-kyc-auth-uncompleted");
+              this.native.toast_trans("text-id-kyc-auth-uncompleted");
                    return;
             }
             if(authResult["errorCode"] === "0"){
@@ -130,7 +136,7 @@ export class CompanypathinfoPage extends BaseComponent implements OnInit{
          item["pathStatus"] = 2;
          this.idsObj[this.parmar["id"]][this.parmar["path"]][serialNum]= item;
          this.localStorage.set("kycId",this.idsObj).then(()=>{
-            this.Go(CompanyWriteChainPage,item);
+            this.native.Go(this.navCtrl,CompanyWriteChainPage,item);
          });
       }
 }
