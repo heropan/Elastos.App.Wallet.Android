@@ -194,6 +194,7 @@ export function TranslateLoaderFactory() {
     BrowserAnimationsModule,
     IonicModule.forRoot(AppComponent,{
     backButtonText: "",
+    backButtonIcon: 'arrow-dropleft-circle',//按钮图标样式
     iconMode: "ios",
     mode: "ios",
     tabsHideOnSubPages: 'true'}),

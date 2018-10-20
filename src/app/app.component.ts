@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Platform, App } from 'ionic-angular';
+import { Component,ViewChild } from '@angular/core';
+import {Platform, IonicApp, Nav, App,Tabs} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LauncherComponent } from "../pages/launcher/launcher.component";
@@ -25,6 +25,7 @@ import { PaymentConfirmComponent } from "../pages/coin/payment-confirm/payment-c
 import { DidLoginComponent } from "../pages/third-party/did-login/did-login.component";
 import { ManagerComponent } from "../pages/wallet/manager/manager.component"
 import { Config } from '../providers/Config';
+import { Util } from '../providers/Util';
 import { TranslateService } from '@ngx-translate/core';
 import { Native } from '../providers/Native';
 //import { WalletManager } from '../providers/WalletManager';
@@ -64,15 +65,16 @@ declare var cordova: any;
 
 
 export class AppComponent {
+  @ViewChild('myNav') nav:Tabs;
   rootPage: any;
   backButtonPressed: boolean = false;  //用于判断返回键是否触发
-  constructor(public appCtrl: App, private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public localStorage: LocalStorage, private translate: TranslateService, private native: Native) {
+  constructor(public onicApp:IonicApp,public appCtrl: App, private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public localStorage: LocalStorage, private translate: TranslateService, private native: Native) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
-      this.registerBackButtonAction();
+      this.registerBackButtonAction(this.nav);
       this.initTranslateConfig();
       this.initJsPush();
       this.getKycIdList();
@@ -157,14 +159,20 @@ export class AppComponent {
     //  });
   }
 
-  registerBackButtonAction() {
+  registerBackButtonAction(tabRef: Tabs) {
     this.platform.registerBackButtonAction(() => {
       this.showExit();
       // let activeNav = this.appCtrl.getActiveNavs()[0];
       // if(activeNav.canGoBack()){
       //     activeNav.pop();
       //  }else{
+      //   if (tabRef == null || tabRef._selectHistory[tabRef._selectHistory.length - 1] === tabRef.getByIndex(0).id) {
+      //     //执行退出
       //     this.showExit();
+      //   } else {
+      //     //选择首页第一个的标签
+      //     tabRef.select(0);
+      //   }
       //  }
       // let activePortal = this.ionicApp._modalPortal.getActive();
       // console.log("---activePortal---"+JSON.stringify(activePortal));
@@ -176,7 +184,7 @@ export class AppComponent {
       //   return;
       // }
       // console.log("---activeVC---"+JSON.stringify(this.nav.getActive()));
-      //let activeVC = this.nav.getActive();
+      // let activeVC = this.nav.getActive();
       // if (Util.isEmptyObject(activeVC.instance.tabs)) {
       //   this.showExit();
       // } else {

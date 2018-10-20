@@ -16,9 +16,15 @@
 <ion-content padding style="text-align: center;">
     <div id="wrapper">
         <div id="cell">
-            <button ion-button (click)="wayOne()">{{'text-create-privatekey'|translate}}</button>
-            <button ion-button (click)="wayTwo()">{{'text-import-privatekey'|translate}}</button>
-            <button ion-button (click)="wayThree()">{{'text-observe-wallte'|translate}}</button>
+            <div>
+                <button ion-button full (click)="wayOne()">{{'text-create-privatekey'|translate}}</button>
+            </div>
+            <div>
+                <button ion-button full (click)="wayTwo()">{{'text-import-privatekey'|translate}}</button>
+            </div>
+            <div>
+                <button ion-button full (click)="wayThree()">{{'text-observe-wallte'|translate}}</button>
+            </div>
         </div>
     </div>
 </ion-content>
