@@ -108,7 +108,11 @@ export class CoinComponent{
         let incomingAmount = summary["Incoming"]['Amount'];
         let outcomingAmount = summary["Outcoming"]['Amount'];
         let balanceResult = incomingAmount - outcomingAmount;
-        let resultAmount = balanceResult - summary['Fee'];
+        if (outcomingAmount = 0 && outcomingAddress = "") {
+          let resultAmount = 0;
+        } else {
+          let resultAmount = balanceResult - summary['Fee'];
+        }
         let status = '';
         switch(summary["Status"])
         {
