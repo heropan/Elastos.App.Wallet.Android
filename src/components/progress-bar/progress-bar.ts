@@ -11,6 +11,7 @@ export class ProgressBarComponent implements OnInit, OnChanges {
   des:any;
 
 
+
   constructor( private translate: TranslateService) {
     this.des = this.translate.instant("text-sycn-message");
     this.length = {
@@ -26,16 +27,18 @@ export class ProgressBarComponent implements OnInit, OnChanges {
 
   setData(){
     //this.proportion = Math.round(this.amount / this.total * 100);
-    //this.proportion = this.proportion;
+    this.proportion = this.proportion.replace(/%/g,"");
     if (this.proportion) {
       if(this.proportion === "0" || this.proportion === 0){
         this.proportion = '0';
       }else{
         this.proportion += '%';
+        console.log("--------Ela------"+this.proportion);
       }
     } else {
       this.proportion = '0';
     }
+    //let width = this.proportion;
     this.length.width = this.proportion;
     // setTimeout(() => { this.length.width = this.proportion; }
     // , 200);
@@ -46,7 +49,7 @@ export class ProgressBarComponent implements OnInit, OnChanges {
    */
   ngOnChanges(changes: SimpleChanges) {
     //重新更新数据
-    console.log("--------Ela------"+this.proportion);
+    //console.log("--------Ela------"+this.proportion);
     this.setData();
   }
 }
