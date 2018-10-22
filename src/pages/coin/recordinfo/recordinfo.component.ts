@@ -35,7 +35,7 @@ export class RecordinfoComponent{
         let incomingAddress = summary["Incoming"]['ToAddress'];
         let outcomingAddress = summary["Outcoming"]['ToAddress'];
         let balanceResult = incomingAmount - outcomingAmount;
-        if (outcomingAmount = 0 && outcomingAddress = "") {
+        if (outcomingAmount == 0 && outcomingAddress == "") {
           let resultAmount = 0;
         } else {
           let resultAmount = balanceResult - summary['Fee'];
