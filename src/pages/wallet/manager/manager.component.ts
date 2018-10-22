@@ -20,6 +20,7 @@ export class ManagerComponent {
   walletName = "";
   masterWalletId:string = "1";
   public currentLanguageName:string = "";
+  public readonly:boolean = false;
   constructor(public navCtrl: NavController, public navParams: NavParams,public events: Events,public localStorage:LocalStorage,public popupProvider: PopupProvider, public walletManager: WalletManager,private app: App,public native:Native) {
     this.masterWalletId = Config.getCurMasterWalletId();
     // this.localStorage.getWallet().then((val) => {
@@ -154,5 +155,18 @@ export class ManagerComponent {
   saveWalletList1(){
         this.native.hideLoading();
         this.native.setRootRouter(LauncherComponent);
+  }
+
+  getMasterWalletBasicInfo(){
+    this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
+      if(data["success"]){
+         console.log("===getMasterWalletBasicInfo==="+JSON.stringify(data));
+         let item = JSON.parse(data["success"])["Account"];
+         //this.masterWalletType = item["Type"];
+         this.readonly = item["Readonly"];
+      }else{
+         alert("=======getMasterWalletBasicInfo====error====="+JSON.stringify(data));
+      }
+    });
   }
 }
