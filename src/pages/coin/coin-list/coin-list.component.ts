@@ -47,7 +47,7 @@ export class CoinListComponent {
         walletObj["id"]   = this.masterWalletId;
         walletObj["wallname"] = Config.getWalletName(this.masterWalletId);
         walletObj["coinListCache"] = subWallte;
-        this.localStorage.saveMappingTable(walletObj).then((walletObj)).then((data)=>{
+        this.localStorage.saveMappingTable(walletObj).then((data)=>{
           let  mappingList = this.native.clone(Config.getMappingList());
           mappingList[this.masterWalletId] = walletObj;
          console.log("=====mappingList===="+JSON.stringify(mappingList));

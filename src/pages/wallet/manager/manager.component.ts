@@ -10,6 +10,7 @@ import {LanguagePage} from '../../../pages/wallet/language/language';
 import {Native} from "../../../providers/Native";
 import {Config} from "../../../providers/Config";
 import {TabsComponent} from "../../tabs/tabs.component"
+import {ModifywalletnamePage} from '../../../pages/modifywalletname/modifywalletname';
 @Component({
   selector: 'app-manager',
   templateUrl: './manager.component.html',
@@ -35,6 +36,10 @@ export class ManagerComponent {
 
     this.events.subscribe('language:update', (item) => {
         this.currentLanguageName = item["name"] || "";
+    });
+
+    this.events.subscribe("walletname:update",()=>{
+      this.walletName = Config.getWalletName(this.masterWalletId);
     });
   }
 
@@ -62,6 +67,9 @@ export class ManagerComponent {
              this.native.Go(this.navCtrl,LanguagePage,item);
       })
 
+         break;
+      case 4:
+         this.native.Go(this.navCtrl,ModifywalletnamePage);
          break;
     }
   }

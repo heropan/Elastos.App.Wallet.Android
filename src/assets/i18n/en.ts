@@ -315,4 +315,5 @@ export const en = {
   'error-20030': 'Sign type error',
   'error-20031': 'Address error',
   'error-20032': 'Sign error',
+  'modify-wallet-name':'modify wallet name'
 };

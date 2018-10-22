@@ -40,6 +40,9 @@ export class HomeComponent {
       this.idChainPer = Config.getMasterPer(this.masterWalletId,"IdChain");
     });
     this.getAllSubWallets();
+    this.events.subscribe("walletname:update",()=>{
+      this.wallet["name"] = Config.getWalletName(this.masterWalletId);
+    });
     this.events.subscribe("wallte:update",(item)=>{
       this.masterWalletId = item;
       this.wallet["name"] = Config.getWalletName(this.masterWalletId);
