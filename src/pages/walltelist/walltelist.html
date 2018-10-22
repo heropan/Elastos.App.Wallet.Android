@@ -14,10 +14,13 @@
 
 
 <ion-content no-bounce>
-    <ion-list inset>
-        <button ion-item *ngFor="let item of items" (click)="itemSelected(item)">
-      {{ item.wallname }}
-    </button>
+    <ion-list radio-group [(ngModel)]="masterWalletId">
+        <ion-item *ngFor="let item of items">
+            <ion-label>
+                {{ item.wallname }}
+            </ion-label>
+            <ion-radio (click)="itemSelected(item)" [value]="item.id"></ion-radio>
+        </ion-item>
     </ion-list>
 </ion-content>
 

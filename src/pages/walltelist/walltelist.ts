@@ -12,6 +12,7 @@ import {Native} from "../../providers/Native";
 })
 export class WalltelistPage {
    items = [];
+   masterWalletId:string = "1";
   constructor(public navCtrl: NavController, public navParams: NavParams,public events: Events,public localStorage:LocalStorage,public native:Native,private zone:NgZone) {
         this.init();
   }
@@ -22,6 +23,7 @@ export class WalltelistPage {
 
   init(){
      //this.items = Config.getMasterWalletIdList();
+     this.masterWalletId = Config.getCurMasterWalletId();
      let mappList = Config.getMappingList();
      console.log("=========mappList==========="+JSON.stringify(mappList));
      //let mappList ={"2C66B4":{"id":"2C66B4","wallname":"ss","name":"ss"}};
@@ -36,6 +38,9 @@ export class WalltelistPage {
     let id = item["id"];
     this.localStorage.saveCurMasterId({masterId:id}).then((data)=>{
       //this.localStorage.remove("coinListCache").then((data)=>{
+        console.log("qiehuam========="+id);
+        Config.setCurMasterWalletId(id);
+        this.masterWalletId = Config.getCurMasterWalletId();
         this.navCtrl.pop();
         this.events.publish("wallte:update",id);
       //});

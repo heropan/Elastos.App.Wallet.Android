@@ -3,6 +3,16 @@
         <p style="font-size: 1.6em;">{{'tab-setting' | translate }}</p>
     </div>
     <ion-list>
+
+        <button ion-item (click)="onNext(5)">
+              <ion-label>
+                <span>{{'text-language-message' | translate}}</span>
+              </ion-label>
+              <ion-note *ngIf="currentLanguageName" item-end>
+                {{ currentLanguageName }}
+              </ion-note>
+        </button>
+
         <button ion-item (click)="onNext(0)">
           <ion-label>
             <span>{{'text-wallet-manager' | translate }}</span>
@@ -15,11 +25,11 @@
           </ion-label>
         </button>
 
-        <button *ngIf="!readonly" ion-item (click)="onNext(1)">
+        <!-- <button *ngIf="!readonly" ion-item (click)="onNext(1)">
           <ion-label>
             <span>{{'text-check-publickey' | translate }}</span>
           </ion-label>
-        </button>
+        </button> -->
 
         <button *ngIf="masterWalletType === 'Multi-Sign' && !readonly" ion-item (click)="onNext(4)">
           <ion-label>

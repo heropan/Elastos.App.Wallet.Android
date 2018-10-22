@@ -36,3 +36,10 @@ body,
 html {
     height: 100%;
 }
+
+.tabs-ios .tab-button-text {
+    margin-top: 0;
+    margin-bottom: 1px;
+    min-height: 11px;
+    font-size: 18px;
+}

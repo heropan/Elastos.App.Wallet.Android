@@ -6,11 +6,11 @@ import {WalletManager} from '../../../providers/WalletManager';
 import {ExprotPrikeyComponent} from "../exprot-prikey/exprot-prikey.component";
 import {PaypasswordResetComponent} from "../paypassword-reset/paypassword-reset.component";
 import {LauncherComponent} from "../../launcher/launcher.component";
-import {LanguagePage} from '../../../pages/wallet/language/language';
 import {Native} from "../../../providers/Native";
 import {Config} from "../../../providers/Config";
 import {TabsComponent} from "../../tabs/tabs.component"
 import {ModifywalletnamePage} from '../../../pages/modifywalletname/modifywalletname';
+import {PublickeyPage} from '../../../pages/publickey/publickey';
 @Component({
   selector: 'app-manager',
   templateUrl: './manager.component.html',
@@ -30,13 +30,13 @@ export class ManagerComponent {
 
     this.walletName = Config.getWalletName(this.masterWalletId);
 
-    this.localStorage.getLanguage("wallte-language").then((val)=>{
-         this.currentLanguageName = JSON.parse(val)["name"] || "";
-    });
+    // this.localStorage.getLanguage("wallte-language").then((val)=>{
+    //      this.currentLanguageName = JSON.parse(val)["name"] || "";
+    // });
 
-    this.events.subscribe('language:update', (item) => {
-        this.currentLanguageName = item["name"] || "";
-    });
+    // this.events.subscribe('language:update', (item) => {
+    //     this.currentLanguageName = item["name"] || "";
+    // });
 
     this.events.subscribe("walletname:update",()=>{
       this.walletName = Config.getWalletName(this.masterWalletId);
@@ -62,11 +62,12 @@ export class ManagerComponent {
         });
         break;
       case 3:
-      this.localStorage.getLanguage("wallte-language").then((val)=>{
-             let item =JSON.parse(val);
-             this.native.Go(this.navCtrl,LanguagePage,item);
-      })
+      // this.localStorage.getLanguage("wallte-language").then((val)=>{
+      //        let item =JSON.parse(val);
+      //        this.native.Go(this.navCtrl,LanguagePage,item);
+      // })
 
+        this.native.Go(this.navCtrl,PublickeyPage);
          break;
       case 4:
          this.native.Go(this.navCtrl,ModifywalletnamePage);
