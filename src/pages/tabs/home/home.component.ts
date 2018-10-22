@@ -44,10 +44,13 @@ export class HomeComponent {
       this.wallet["name"] = Config.getWalletName(this.masterWalletId);
     });
     this.events.subscribe("wallte:update",(item)=>{
+      console.log("qiehuam========="+11111111111111111111);
       this.masterWalletId = item;
-      this.wallet["name"] = Config.getWalletName(this.masterWalletId);
       Config.setCurMasterWalletId(this.masterWalletId);
+
       this.zone.run(()=>{
+        this.wallet["name"] = Config.getWalletName(this.masterWalletId);
+        console.log("qiehuam========="+this.wallet["name"]);
         this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");
         this.idChainPer =Config.getMasterPer(this.masterWalletId,"IdChain");
       });
@@ -254,12 +257,13 @@ export class HomeComponent {
 
   handleSubwallet(){
       let subwall  = Config.getSubWallet(this.masterWalletId);
+
       if(subwall){
         if(Util.isEmptyObject(subwall)){
           this.coinList = [];
           return;
         }
-
+      console.log("qiehuam========="+JSON.stringify(subwall))
       for(let coin in subwall) {
           this.sycIdChain(coin);
           this.getSubBalance(coin);

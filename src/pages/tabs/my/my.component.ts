@@ -11,6 +11,7 @@ import {WalletManager} from '../../../providers/WalletManager';
 import {Native} from "../../../providers/Native";
 import {LocalStorage} from "../../../providers/Localstorage";
 import { Util } from '../../../providers/Util';
+import {LanguagePage} from '../../../pages/wallet/language/language';
 
 @Component({
   selector: 'app-my',
@@ -21,10 +22,19 @@ export class MyComponent{
   public masterWalletId:string = "1";
   public masterWalletType:string = "";
   public readonly:boolean = false;
+  public currentLanguageName:string = "";
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public events :Events,public native :Native,public localStorage:LocalStorage){
       this.init();
   }
   init() {
+    this.localStorage.getLanguage("wallte-language").then((val)=>{
+      this.currentLanguageName = JSON.parse(val)["name"] || "";
+    });
+
+    this.events.subscribe('language:update', (item) => {
+     this.currentLanguageName = item["name"] || "";
+    });
+
     this.events.subscribe("wallte:update",(item)=>{
           this.masterWalletId = item;
           this.getMasterWalletBasicInfo();
@@ -66,6 +76,9 @@ export class MyComponent{
        case 6:
           this.getDIDList();
          break;
+        case 5:
+         this.setLanguage();
+         break;
      }
    }
 
@@ -99,5 +112,12 @@ export class MyComponent{
 
    ionViewDidLeave() {
     this.events.unsubscribe("wallte:update");
+   }
+
+   setLanguage(){
+    this.localStorage.getLanguage("wallte-language").then((val)=>{
+      let item =JSON.parse(val);
+      this.native.Go(this.navCtrl,LanguagePage,item);
+     });
    }
 }
