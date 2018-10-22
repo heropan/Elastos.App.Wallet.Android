@@ -179,6 +179,10 @@ export class Config {
           return this.mappingList[id]["wallname"];
   }
 
+  public static setWalletName(id,walletname){
+    this.mappingList[id]["wallname"] = walletname;
+  }
+
   public static getSubWallet(id){
           return this.mappingList[id]["coinListCache"] || null;
   }
