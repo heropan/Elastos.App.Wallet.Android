@@ -47,7 +47,7 @@
             </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="transactionRecord.balance < 0" class="font-size-1">
+        <ion-row *ngIf="transactionRecord.balance <= 0" class="font-size-1">
             <ion-col col-4>
                 {{'utxo-outcoming' | translate}}
             </ion-col>
@@ -56,7 +56,7 @@
             </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="transactionRecord.balance < 0" class="font-size-1">
+        <ion-row *ngIf="transactionRecord.balance <= 0" class="font-size-1">
             <ion-col col-4>
                 {{'utxo-outcoming-address' | translate}}
             </ion-col>
