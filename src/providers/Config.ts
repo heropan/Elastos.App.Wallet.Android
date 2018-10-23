@@ -27,6 +27,8 @@ export class Config {
 
   private static serIds:any ={};
 
+  private static walletResregister:any ={};
+
   public static getKycObj(){
        return this.kycObj;
   }
@@ -185,6 +187,29 @@ export class Config {
 
   public static getSubWallet(id){
           return this.mappingList[id]["coinListCache"] || null;
+  }
+
+  public static isResregister(id,coin){
+          if(this.walletResregister[id]){
+              if(this.walletResregister[id][coin]){
+                return this.walletResregister[id][coin];
+              }else{
+                return false;
+              }
+
+          }else{
+                return false;
+          }
+  }
+
+  public static setResregister(id,coin,isOpen){
+        if(this.walletResregister[id]){
+          this.walletResregister[id][coin] = isOpen;
+        }else{
+          this.walletResregister[id] = {};
+          this.walletResregister[id][coin] = isOpen;
+        }
+
   }
 }
 

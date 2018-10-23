@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Events} from 'ionic-angular';
 import {LauncherComponent} from "../../pages/launcher/launcher.component";
 import {WalletManager} from "../../providers/WalletManager";
 import {Native} from "../../providers/Native";
@@ -9,12 +9,13 @@ import { TabsComponent } from '../../pages/tabs/tabs.component';
 import { LocalStorage } from "../../providers/Localstorage";
 import { PaymentConfirmComponent } from "../../pages/coin/payment-confirm/payment-confirm.component";
 import { DidLoginComponent } from "../../pages/third-party/did-login/did-login.component";
+
 @Component({
   selector: 'page-initializepage',
   templateUrl: 'initializepage.html',
 })
 export class InitializepagePage {
-  constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager: WalletManager,public native: Native,public localStorage: LocalStorage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager: WalletManager,public native: Native,public localStorage: LocalStorage,public events: Events) {
 
   }
 
@@ -60,18 +61,7 @@ export class InitializepagePage {
           Config.setCurMasterWalletId(item["masterId"]);
           Config.setMasterWalletIdList(idList);
           this.handleMappingdata(idList);
-          this.native.hideLoading();
-          switch (type) {
-            case "payment":
-              this.native.setRootRouter(PaymentConfirmComponent);
-              break;
-            case "did_login":
-              this.native.setRootRouter(DidLoginComponent);
-              break;
-            default:
-              this.native.setRootRouter(TabsComponent);
-              break;
-          }
+          this.getAllsubWallet(item["masterId"],type);
         });
 
        }
@@ -121,6 +111,44 @@ export class InitializepagePage {
     }
     Config.setMappingList(list);
     console.log("===setMappingList===="+JSON.stringify(Config.getMappingList()));
+  }
+
+  getAllsubWallet(masterId,type){
+      this.walletManager.getAllSubWallets(masterId,(data)=>{
+        if(data["success"]){
+
+          let chinas = JSON.parse(data["success"]);
+          for (let index in chinas) {
+            let chain =  chinas[index];
+            this.registerWalletListener(masterId,chain);
+          }
+
+          this.native.hideLoading();
+          switch (type) {
+            case "payment":
+              this.native.setRootRouter(PaymentConfirmComponent);
+              break;
+            case "did_login":
+              this.native.setRootRouter(DidLoginComponent);
+              break;
+            default:
+              this.native.setRootRouter(TabsComponent);
+              break;
+          }
+        }
+      });
+  }
+
+  registerWalletListener(masterId,coin){
+
+    this.walletManager.registerWalletListener(masterId,coin,(data)=>{
+            console.log("==========="+Config.isResregister(masterId,coin))
+            if(!Config.isResregister(masterId,coin)){
+              //console.log("==========="+Config.isResregister(masterId,coin))
+              Config.setResregister(masterId,coin,true);
+            }
+            this.events.publish("register:update",masterId,coin,data);
+    });
   }
 
 }

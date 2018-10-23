@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams ,Events} from 'ionic-angular';
 import {WalletManager} from '../../providers/WalletManager';
 import {TabsComponent} from "../tabs/tabs.component";
 import {Native} from "../../providers/Native";
@@ -14,7 +14,7 @@ export class AddpublickeyPage {
   private msobj:any;
   public  publicKeyArr:any=[];
   public  name:string ="";
-  constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager:WalletManager,public native :Native,public localStorage:LocalStorage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager:WalletManager,public native :Native,public localStorage:LocalStorage,public events:Events) {
     console.log("=========AddpublickeyPage"+JSON.stringify(this.navParams.data));
     this.msobj = this.navParams.data;
     this.name = this.msobj["name"];
@@ -73,6 +73,7 @@ export class AddpublickeyPage {
     this.walletManager.createSubWallet(this.masterWalletId,chainId,0, (data)=>{
           if(data["success"]){
                console.log("====createSubWallet===="+JSON.stringify(data));
+               this.registerWalletListener(this.masterWalletId,chainId);
                this.saveWalletList();
           }else{
                 this.native.hideLoading();
@@ -123,11 +124,21 @@ export class AddpublickeyPage {
           if(data["success"]){
                this.native.hideLoading();
                console.log("====createSubWallet===="+JSON.stringify(data));
+               this.registerWalletListener(this.masterWalletId,chainId);
                this.saveWalletList();
           }else{
                 this.native.hideLoading();
                 alert("createSubWallet=error:"+JSON.stringify(data));
           }
+    });
+  }
+
+  registerWalletListener(masterId,coin){
+    this.walletManager.registerWalletListener(masterId,coin,(data)=>{
+          if(!Config.isResregister(masterId,coin)){
+            Config.setResregister(masterId,coin,true);
+          }
+           this.events.publish("register:update",masterId,coin,data);
     });
   }
 

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import { NavController,NavParams} from 'ionic-angular';
+import { NavController,NavParams,Events} from 'ionic-angular';
 import {Native} from "../../providers/Native";
 import {WalletManager} from '../../providers/WalletManager';
 import {Config} from '../../providers/Config';
@@ -24,7 +24,7 @@ export class MnemonicComponent {
   defaultCointype = "Ela";
   isSelect:boolean = false;
   multType:any;
-  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage){
+  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage,public events :Events){
           native.showLoading().then(()=>{
                  this.init();
           })
@@ -95,6 +95,8 @@ export class MnemonicComponent {
                console.log("=====mappingList===="+JSON.stringify(mappingList));
                 Config.setMappingList(mappingList);
                   this.saveWalletList();
+                  this.registerWalletListener(this.masterWalletId,chainId);
+
               });
           }else{
                 alert("createSubWallet=error:"+JSON.stringify(data));
@@ -109,5 +111,15 @@ export class MnemonicComponent {
               Config.setCurMasterWalletId(this.masterWalletId);
               this.native.Go(this.navCtrl,WriteComponent, {mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList});
             });
+  }
+
+  registerWalletListener(masterId,coin){
+    this.walletManager.registerWalletListener(masterId,coin,(data)=>{
+          if(!Config.isResregister(masterId,coin)){
+            Config.setResregister(masterId,coin,true);
+          }
+           this.events.publish("register:update",masterId,coin,data);
+           //this.saveWalletList();
+    });
   }
 }
