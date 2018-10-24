@@ -38,36 +38,36 @@
         </ion-row>
 
 
-        <ion-row *ngIf="transactionRecord.balance > 0" class="font-size-1">
+        <ion-row *ngIf="transactionRecord.resultAmount > 0" class="font-size-1">
             <ion-col col-4>
-                {{'utxo-incoming' | translate}}
+                {{'txinfo-receive-amount' | translate}}
             </ion-col>
             <ion-col col-8 class="text-right" (click)="onNext(transactionRecord.incomingAddress)">
                 {{transactionRecord.incomingAmount}} {{transactionRecord.name}}
             </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="transactionRecord.balance > 0" class="font-size-1">
+        <ion-row *ngIf="transactionRecord.resultAmount > 0" class="font-size-1">
             <ion-col col-4>
-                {{'utxo-incoming-address' | translate}}
+                {{'txinfo-receive-addr' | translate}}
             </ion-col>
             <ion-col col-8 class="text-right huan-hang" (click)="onNext(transactionRecord.incomingAddress)">
                 {{transactionRecord.incomingAddress}}
             </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="transactionRecord.balance <= 0" class="font-size-1">
+        <ion-row *ngIf="transactionRecord.resultAmount <= 0" class="font-size-1">
             <ion-col col-4>
-                {{'utxo-outcoming' | translate}}
+                {{'txinfo-send-amount' | translate}}
             </ion-col>
             <ion-col col-8 class="text-right" (click)="onNext(transactionRecord.outcomingAddress)">
                 {{transactionRecord.outcomingAmount}} {{transactionRecord.name}}
             </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="transactionRecord.balance <= 0" class="font-size-1">
+        <ion-row *ngIf="transactionRecord.resultAmount <= 0" class="font-size-1">
             <ion-col col-4>
-                {{'utxo-outcoming-address' | translate}}
+                {{'txinfo-send-addr' | translate}}
             </ion-col>
             <ion-col col-8 class="text-right huan-hang" (click)="onNext(transactionRecord.outcomingAddress)">
                 {{transactionRecord.outcomingAddress}}
