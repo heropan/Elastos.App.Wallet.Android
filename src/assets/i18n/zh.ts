@@ -317,8 +317,8 @@ export const zh = {
   'error-20032': '(ERR-20032)签名错误',
   'modify-wallet-name':'修改钱包名字',
   'load-more':'加载更多',
-  'txinfo-receive-amount': 'receive amount',
-  'txinfo-send-amount': 'send amount',
-  'txinfo-receive-addr': 'receive address',
-  'txinfo-send-addr': 'send address',
+  'txinfo-receive-amount': '接收金额',
+  'txinfo-send-amount': '发送金额',
+  'txinfo-receive-addr': '接收地址',
+  'txinfo-send-addr': '发送地址',
 };
