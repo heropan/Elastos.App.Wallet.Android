@@ -200,4 +200,12 @@ export class CoinComponent{
     this.isShowMore = true;
     this.getAllTx();
   }
+
+  doRefresh(refresher){
+    this.pageNo = 0;
+    this.clickMore();
+    setTimeout(() => {
+      refresher.complete();
+    },1000);
+  }
 }

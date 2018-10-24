@@ -384,4 +384,11 @@ export class HomeComponent {
                   });
           }
       }
+
+      doRefresh(refresher){
+        this.init();
+        setTimeout(() => {
+          refresher.complete();
+        },1000);
+      }
 }

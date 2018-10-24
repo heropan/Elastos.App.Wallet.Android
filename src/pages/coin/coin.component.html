@@ -4,6 +4,12 @@
     </ion-navbar>
 </ion-header>
 <ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="" refreshingSpinner="circles" refreshingText="">
+        </ion-refresher-content>
+        <ion-refresher-content>
+        </ion-refresher-content>
+    </ion-refresher>
     <div class='address-whole'>
         <div class="coin-info-top-box">
             <img src="./assets/images/logo-maincolor.svg">
