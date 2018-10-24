@@ -8,7 +8,7 @@
 using namespace Elastos::ElaWallet;
 using namespace Elastos::DID;
 
-#define SIG_NEW_IDMANAGER_SUPERVISOR "(Ljava/lang/String;)J"
+#define SIG_nativeNewDIDManagerSupervisor "(Ljava/lang/String;)J"
 static jlong JNICALL nativeNewDIDManagerSupervisor(JNIEnv *env, jobject clazz, jstring jrootPath)
 {
 	bool exception = false;
@@ -31,7 +31,7 @@ static jlong JNICALL nativeNewDIDManagerSupervisor(JNIEnv *env, jobject clazz, j
 	return (jlong) supervisor;
 }
 
-#define SIG_DISPOSE_NATIVE "(J)V"
+#define SIG_nativeDisposeNative "(J)V"
 static void JNICALL nativeDisposeNative(JNIEnv *env, jobject clazz, jlong jSupervisor)
 {
 	bool exception = false;
@@ -50,7 +50,7 @@ static void JNICALL nativeDisposeNative(JNIEnv *env, jobject clazz, jlong jSuper
 	}
 }
 
-#define SIG_CREATE_DIDMANAGER "(JJLjava/lang/String;)J"
+#define SIG_nativeCreateDIDManager "(JJLjava/lang/String;)J"
 static jlong JNICALL nativeCreateDIDManager(JNIEnv *env, jobject clazz, jlong jSupervisor,
 		jlong jMasterWallet, jstring jrootPath)
 {
@@ -79,7 +79,7 @@ static jlong JNICALL nativeCreateDIDManager(JNIEnv *env, jobject clazz, jlong jS
 	return (jlong)manager;
 }
 
-#define SIG_DESTROY_IDMANAGER "(JJ)V"
+#define SIG_nativeDestroyDIDManager "(JJ)V"
 static void JNICALL nativeDestroyDIDManager(JNIEnv *env, jobject clazz, jlong jSupervisor,
 		jlong jIDManager)
 {
@@ -102,26 +102,10 @@ static void JNICALL nativeDestroyDIDManager(JNIEnv *env, jobject clazz, jlong jS
 }
 
 static const JNINativeMethod gMethods[] = {
-	{
-		"nativeNewDIDManagerSupervisor",
-		SIG_NEW_IDMANAGER_SUPERVISOR,
-		(void *)nativeNewDIDManagerSupervisor
-	},
-	{
-		"nativeDisposeNative",
-		SIG_DISPOSE_NATIVE,
-		(void *)nativeDisposeNative
-	},
-	{
-		"nativeCreateDIDManager",
-		SIG_CREATE_DIDMANAGER,
-		(void *)nativeCreateDIDManager
-	},
-	{
-		"nativeDestroyDIDManager",
-		SIG_DESTROY_IDMANAGER,
-		(void *)nativeDestroyDIDManager
-	}
+	REGISTER_METHOD(nativeNewDIDManagerSupervisor),
+	REGISTER_METHOD(nativeDisposeNative),
+	REGISTER_METHOD(nativeCreateDIDManager),
+	REGISTER_METHOD(nativeDestroyDIDManager),
 };
 
 jint register_elastos_spv_DIDManagerSupervisor(JNIEnv *env)

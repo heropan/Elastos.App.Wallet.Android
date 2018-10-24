@@ -9,6 +9,7 @@
 using namespace Elastos::ElaWallet;
 
 //"(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+#define SIG_nativeCreateIdTransaction "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeCreateIdTransaction(JNIEnv *env, jobject clazz, jlong jIdSubWalletProxy,
 		jstring jfromAddress,
 		jstring jpayloadJson,
@@ -52,11 +53,7 @@ static jstring JNICALL nativeCreateIdTransaction(JNIEnv *env, jobject clazz, jlo
 
 
 static const JNINativeMethod gMethods[] = {
-	{
-		"nativeCreateIdTransaction",
-		"(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
-		(void*)nativeCreateIdTransaction
-	},
+	REGISTER_METHOD(nativeCreateIdTransaction),
 };
 
 jint register_elastos_spv_IIdChainSubWallet(JNIEnv *env)

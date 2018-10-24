@@ -312,8 +312,6 @@ static void JNICALL nativeChangePassword(JNIEnv *env, jobject clazz, jlong jMast
 	}
 }
 
-#define REGISTER_METHOD(name) { #name, SIG_##name, (void *)name }
-
 static const JNINativeMethod gMethods[] = {
 	REGISTER_METHOD(nativeGetId),
 	REGISTER_METHOD(nativeGetBasicInfo),
