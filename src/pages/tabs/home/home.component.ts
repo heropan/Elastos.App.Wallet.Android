@@ -44,7 +44,6 @@ export class HomeComponent {
     this.events.subscribe("register:update",(walletId,coin,result)=>{
 
                 if(result["MasterWalletID"] ===  this.masterWalletId && result["ChaiID"] === "ELA"){
-                    console.log("222222===========MasterWalletID"+ result["ChaiID"]);
                     this.handleEla(result);
                 }
 
