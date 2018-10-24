@@ -1,4 +1,10 @@
 <ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="" refreshingSpinner="circles" refreshingText="">
+        </ion-refresher-content>
+        <ion-refresher-content>
+        </ion-refresher-content>
+    </ion-refresher>
     <div class="home-top">
         <!-- <img src="./assets/images/icon/ion-list.svg" class="home-top-button-left" (click)="onClick(0)">
         <img src="" class="home-top-button-left" style="color: #fff;"> -->
@@ -9,9 +15,7 @@
         <div class="home-top-box" (click)="onClick(0)">
             <img src="./assets/images/icon/icon-wallet.svg">
             <div style="font-size: 1.6em;">{{wallet.name}}</div>
-
         </div>
-
         <ion-grid>
             <ion-row>
                 <ion-col col-5 class="row-title">
@@ -30,7 +34,7 @@
                     {{ElaObj.name}}
                 </ion-col>
                 <ion-col col-7 class="text-right font-size-1" align-self-center>
-                    <div class="weui-cell__ft"><span [hidden]="!wallet.showBalance">{{ElaObj.balance}}</span></div>
+                    <div><span [hidden]="!wallet.showBalance">{{ElaObj.balance}}</span></div>
                 </ion-col>
             </ion-row>
             <ion-row>
@@ -48,7 +52,7 @@
                         {{item.name}}
                     </ion-col>
                     <ion-col col-7 class="text-right font-size-1" align-self-center>
-                        <div class="weui-cell__ft"><span [hidden]="!wallet.showBalance">{{item.balance}}</span></div>
+                        <div><span [hidden]="!wallet.showBalance">{{item.balance}}</span></div>
                     </ion-col>
                 </ion-row>
                 <ion-row>

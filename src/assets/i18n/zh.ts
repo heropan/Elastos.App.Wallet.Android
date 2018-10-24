@@ -315,5 +315,6 @@ export const zh = {
   'error-20030': '签名类型错误',
   'error-20031': '地址错误',
   'error-20032': '签名错误',
-  'modify-wallet-name':'修改钱包名字'
+  'modify-wallet-name':'修改钱包名字',
+  'load-more':'加载更多'
 };

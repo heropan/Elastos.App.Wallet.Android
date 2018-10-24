@@ -7,7 +7,7 @@
 
 using namespace Elastos::DID;
 
-//"(JLjava/lang/String;)J"
+#define SIG_nativeCreateDID "(JLjava/lang/String;)J"
 static jlong JNICALL nativeCreateDID(JNIEnv *env, jobject clazz, jlong jDidMgrProxy, jstring jpassword)
 {
 	bool exception = false;
@@ -33,7 +33,7 @@ static jlong JNICALL nativeCreateDID(JNIEnv *env, jobject clazz, jlong jDidMgrPr
 	return (jlong)did;
 }
 
-//"(JLjava/lang/String;)J"
+#define SIG_nativeGetDID "(JLjava/lang/String;)J"
 static jlong JNICALL nativeGetDID(JNIEnv *env, jobject clazz, jlong jDidMgrProxy, jstring jdidName)
 {
 	bool exception = false;
@@ -59,7 +59,7 @@ static jlong JNICALL nativeGetDID(JNIEnv *env, jobject clazz, jlong jDidMgrProxy
 	return (jlong)did;
 }
 
-//"(J)Ljava/lang/String;"
+#define SIG_nativeGetDIDList "(J)Ljava/lang/String;"
 static /*nlohmann::json*/ jstring JNICALL nativeGetDIDList(JNIEnv *env, jobject clazz, jlong jDidMgrProxy)
 {
 	jstring list = NULL;
@@ -75,7 +75,7 @@ static /*nlohmann::json*/ jstring JNICALL nativeGetDIDList(JNIEnv *env, jobject 
 	return list;
 }
 
-//"(JLjava/lang/String;)V"
+#define SIG_nativeDestoryDID "(JLjava/lang/String;)V"
 static void JNICALL nativeDestoryDID(JNIEnv *env, jobject clazz, jlong jDidMgrProxy, jstring jdidName)
 {
 	bool exception = false;
@@ -121,6 +121,7 @@ class ElaIdManagerCallback: public IIdManagerCallback
 		jobject mObj;
 };
 
+#define SIG_nativeRegisterCallback "(JLjava/lang/String;Lcom/elastos/spvcore/IIdManagerCallback;)Z"
 static std::map<jstring, ElaIdManagerCallback*> sIdCallbackMap;
 static jboolean JNICALL nativeRegisterCallback(JNIEnv *env, jobject clazz, jlong jDidMgrProxy, jstring jdidName, jobject jidCallback)
 {
@@ -150,6 +151,7 @@ static jboolean JNICALL nativeRegisterCallback(JNIEnv *env, jobject clazz, jlong
 	return status;
 }
 
+#define SIG_nativeUnregisterCallback "(JLjava/lang/String;)Z"
 static jboolean JNICALL nativeUnregisterCallback(JNIEnv *env, jobject clazz, jlong jDidMgrProxy, jstring jdidName)
 {
 	bool exception = false;
@@ -185,12 +187,12 @@ static jboolean JNICALL nativeUnregisterCallback(JNIEnv *env, jobject clazz, jlo
 }
 
 static const JNINativeMethod gMethods[] = {
-	{"nativeCreateDID", "(JLjava/lang/String;)J", (void*)nativeCreateDID},
-	{"nativeGetDID", "(JLjava/lang/String;)J", (void*)nativeGetDID},
-	{"nativeGetDIDList", "(J)Ljava/lang/String;", (void*)nativeGetDIDList},
-	{"nativeDestoryDID", "(JLjava/lang/String;)V", (void*)nativeDestoryDID},
-	{"nativeRegisterCallback", "(JLjava/lang/String;Lcom/elastos/spvcore/IIdManagerCallback;)Z", (void*)nativeRegisterCallback},
-	{"nativeUnregisterCallback", "(JLjava/lang/String;)Z", (void*)nativeUnregisterCallback},
+	REGISTER_METHOD(nativeCreateDID),
+	REGISTER_METHOD(nativeGetDID),
+	REGISTER_METHOD(nativeGetDIDList),
+	REGISTER_METHOD(nativeDestoryDID),
+	REGISTER_METHOD(nativeRegisterCallback),
+	REGISTER_METHOD(nativeUnregisterCallback),
 };
 
 jint register_elastos_spv_IDidManager(JNIEnv *env)
@@ -234,7 +236,6 @@ void ElaIdManagerCallback::OnIdStatusChanged(const std::string &id,
 	JNIEnv* env = GetEnv();
 
 	jclass clazz = env->GetObjectClass(mObj);
-	//"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V"
 	jmethodID methodId = env->GetMethodID(clazz, "OnIdStatusChanged","(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 	jstring jid = env->NewStringUTF(id.c_str());
 	jstring jpath = env->NewStringUTF(path.c_str());

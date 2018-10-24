@@ -20,6 +20,8 @@
 # define NELEM(x) ((int) (sizeof(x) / sizeof((x)[0])))
 #endif
 
+#define REGISTER_METHOD(name) { #name, SIG_##name, (void *)name }
+
 int jniRegisterNativeMethods(JNIEnv* env, const char* className, const JNINativeMethod* gMethods, int numMethods);
 
 void CheckErrorAndLog(

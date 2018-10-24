@@ -86,4 +86,11 @@ export class RecordinfoComponent{
    self.location.href=this.blockchain_url + 'tx/' + txId;
   }
 
+  doRefresh(refresher){
+    this.init();
+    setTimeout(() => {
+      refresher.complete();
+    },1000);
+  }
+
 }

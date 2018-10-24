@@ -8,7 +8,7 @@
 
 using namespace Elastos::ElaWallet;
 
-//"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+#define SIG_nativeCreateWithdrawTransaction "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject clazz, jlong jSideSubWalletProxy,
 		jstring jfromAddress,
 		jstring jtoAddress,
@@ -59,7 +59,7 @@ static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject claz
 	return tx;
 }
 
-//"(J)Ljava/lang/String;"
+#define SIG_nativeGetGenesisAddress "(J)Ljava/lang/String;"
 static jstring JNICALL nativeGetGenesisAddress(JNIEnv *env, jobject clazz, jlong jSideSubWalletProxy)
 {
 	bool exception = false;
@@ -85,10 +85,8 @@ static jstring JNICALL nativeGetGenesisAddress(JNIEnv *env, jobject clazz, jlong
 
 
 static const JNINativeMethod gMethods[] = {
-	{"nativeCreateWithdrawTransaction",
-		"(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
-			, (void*)nativeCreateWithdrawTransaction},
-	{"nativeGetGenesisAddress", "(J)Ljava/lang/String;", (void*)nativeGetGenesisAddress},
+	REGISTER_METHOD(nativeCreateWithdrawTransaction),
+	REGISTER_METHOD(nativeGetGenesisAddress),
 };
 
 jint register_elastos_spv_ISidechainSubWallet(JNIEnv *env)
