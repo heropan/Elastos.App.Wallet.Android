@@ -620,7 +620,6 @@ void ElaSubWalletCallback::OnTransactionStatusChanged(const std::string &txid, c
 	JNIEnv* env = GetEnv();
 
 	jclass clazz = env->GetObjectClass(mObj);
-	//"(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V"
 	jmethodID methodId = env->GetMethodID(clazz, "OnTransactionStatusChanged","(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)V");
 	jstring jtxid = env->NewStringUTF(txid.c_str());
 	jstring jstatus = env->NewStringUTF(status.c_str());
