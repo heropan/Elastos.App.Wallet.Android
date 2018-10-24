@@ -24,7 +24,7 @@
                 {{'transaction-id' | translate}}
             </ion-col>
             <ion-col col-8 (click)="tiaozhuan(transactionRecord.txId)">
-                {{transactionRecord.txId}}
+                <a href="#">{{transactionRecord.txId}}</a>
             </ion-col>
         </ion-row>
 
@@ -34,7 +34,7 @@
                 {{'utxo-incoming' | translate}}
             </ion-col>
             <ion-col col-8 class="text-right" (click)="onNext(transactionRecord.incomingAddress)">
-                {{transactionRecord.incomingAmount}}
+                {{transactionRecord.incomingAmount}} {{transactionRecord.name}}
             </ion-col>
         </ion-row>
 
@@ -52,7 +52,7 @@
                 {{'utxo-outcoming' | translate}}
             </ion-col>
             <ion-col col-8 class="text-right" (click)="onNext(transactionRecord.outcomingAddress)">
-                {{transactionRecord.outcomingAmount}}
+                {{transactionRecord.outcomingAmount}} {{transactionRecord.name}}
             </ion-col>
         </ion-row>
 
