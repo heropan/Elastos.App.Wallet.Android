@@ -73,6 +73,6 @@ export class AddressComponent {
       }
       this.getAddressList();
       infiniteScroll.complete();
-    },2000);
+    },500);
   }
 }
