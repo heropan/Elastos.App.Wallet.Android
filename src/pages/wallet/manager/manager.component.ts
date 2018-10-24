@@ -165,8 +165,8 @@ export class ManagerComponent {
       if(data["success"]){
          console.log("===getMasterWalletBasicInfo==="+JSON.stringify(data));
          let item = JSON.parse(data["success"])["Account"];
-         this.masterWalletType = item["Type"];
-         this.readonly = item["Readonly"];
+         this.masterWalletType = item["Type"] ;
+         this.readonly = item["Readonly"] || false;
       }else{
          alert("=======getMasterWalletBasicInfo====error====="+JSON.stringify(data));
       }
