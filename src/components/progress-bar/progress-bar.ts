@@ -33,7 +33,6 @@ export class ProgressBarComponent implements OnInit, OnChanges {
         this.proportion = '0';
       }else{
         this.proportion += '%';
-        console.log("--------Ela------"+this.proportion);
       }
     } else {
       this.proportion = '0';

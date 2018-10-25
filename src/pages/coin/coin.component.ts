@@ -36,6 +36,7 @@ export class CoinComponent{
   idChainPer:any;
   isShowMore = false;
   MaxCount = 0;
+  isNodata:boolean = false;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public events: Events) {
             this.init();
   }
@@ -92,6 +93,11 @@ export class CoinComponent{
       let allTransaction = JSON.parse(data['success']);
       let transactions = allTransaction['Transactions'];
       this.MaxCount = allTransaction['MaxCount'];
+      if(this.MaxCount>0){
+         this.isNodata = false;
+      }else{
+         this.isNodata = true;
+      }
       if(!transactions){
           this.isShowMore = false;
           return;

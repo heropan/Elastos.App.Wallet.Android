@@ -9,6 +9,7 @@ import {Native} from "../../../providers/Native";
   templateUrl: './coin-select.component.html'
 })
 export class CoinSelectComponent{
+  public isNoData:boolean = false;
   coinList = [];
   constructor(public navCtrl: NavController,public navParams: NavParams,public native :Native){
          this.init();
@@ -19,14 +20,17 @@ export class CoinSelectComponent{
     if(subwallet){
       if(Util.isEmptyObject(subwallet)){
         this.coinList = [];
+        this.isNoData = true;
         return;
       }
+      this.isNoData = false;
       for (let coin in subwallet) {
         if (coin != 'ELA') {
           this.coinList.push({name: coin});
         }
       }
     }else{
+      this.isNoData = true;
       this.coinList = [];
     }
   }
