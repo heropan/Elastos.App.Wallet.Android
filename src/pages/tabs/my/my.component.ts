@@ -24,8 +24,13 @@ export class MyComponent{
   public readonly:boolean = false;
   public currentLanguageName:string = "";
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public events :Events,public native :Native,public localStorage:LocalStorage){
-       this.init();
+       //this.init();
   }
+
+  ionViewWillEnter(){
+    this.init();
+  }
+
   init() {
     this.localStorage.getLanguage("wallte-language").then((val)=>{
       this.currentLanguageName = JSON.parse(val)["name"] || "";

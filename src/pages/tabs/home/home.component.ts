@@ -30,12 +30,11 @@ export class HomeComponent {
   }
 
   ionViewWillEnter(){
-    console.log("=======ionViewWillEnter====");
     this.init();
   }
 
   ionViewDidLeave(){
-    console.log("=======ionViewDidLeave====");
+
   }
 
   init() {
