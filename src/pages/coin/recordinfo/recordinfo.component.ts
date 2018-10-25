@@ -12,6 +12,7 @@ export class RecordinfoComponent{
   masterWalletId:string = "1";
   transactionRecord: any = {};
   start = 0;
+  payStatusIcon: string = "";
   blockchain_url = Config.BLOCKCHAIN_URL;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native :Native){
     this.init();
@@ -53,6 +54,13 @@ export class RecordinfoComponent{
           case 'Unconfirmed':
             status = 'Unconfirmed'
             break;
+        }
+        if (balanceResult > 0) {
+          this.payStatusIcon = './assets/images/tx-state/icon-tx-received-outline.svg';
+        } else if(balanceResult < 0) {
+          this.payStatusIcon = './assets/images/tx-state/icon-tx-sent.svg';
+        } else if(balanceResult == 0) {
+          this.payStatusIcon = './assets/images/tx-state/icon-tx-moved.svg';
         }
         this.transactionRecord = {
           name: chainId,
