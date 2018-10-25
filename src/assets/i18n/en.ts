@@ -321,4 +321,7 @@ export const en = {
   'txinfo-send-amount': 'send amount',
   'txinfo-receive-addr': 'receive address',
   'txinfo-send-addr': 'send address',
+  'no-open-side-chain':'no open side chain',
+  'no-tx-record':'no tx record',
+  'no-add-contact':'no add contact'
 };

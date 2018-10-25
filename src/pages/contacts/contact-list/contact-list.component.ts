@@ -6,12 +6,13 @@ import {WalletManager} from '../../../providers/WalletManager';
 import {Native} from "../../../providers/Native";
 import {LocalStorage} from "../../../providers/Localstorage";
 import {Util} from "../../../providers/Util";
+import { SUBSTITUTION_EXPR_END } from '@angular/animations/browser/src/util';
 @Component({
   selector: 'app-contact-list',
   templateUrl: './contact-list.component.html',
 })
 export class ContactListComponent {
-
+  isnodata:boolean = false;
   contactUsers = [];
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage,public events :Events) {
         this.init();
@@ -22,14 +23,28 @@ export class ContactListComponent {
     this.events.subscribe("contanctList:update",()=>{
       this.localStorage.get('contactUsers').then((val)=>{
         if (val) {
+          if(Util.isEmptyObject(JSON.parse(val))){
+                this.isnodata = true;
+                return;
+          }
+          this.isnodata =false;
           this.contactUsers = Util.objtoarr(JSON.parse(val));
+        }else{
+            this.isnodata = true;
         }
       });
     });
 
     this.localStorage.get('contactUsers').then((val)=>{
       if (val) {
+        if(Util.isEmptyObject(JSON.parse(val))){
+          this.isnodata = true;
+          return;
+        }
+        this.isnodata =false;
         this.contactUsers = Util.objtoarr(JSON.parse(val));
+      }else{
+        this.isnodata = true;
       }
     });
   }

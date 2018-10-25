@@ -4,7 +4,8 @@
     </ion-navbar>
 </ion-header>
 <ion-content>
-    <ion-list>
+    <nodata keyText='no-open-side-chain' *ngIf="isNoData"></nodata>
+    <ion-list *ngIf="!isNoData">
         <ion-item *ngFor="let item of coinList" (click)="onItem(item)">
             <ion-icon item-start>
                 <img src="./assets/images/logo-maincolor.svg" width="40">

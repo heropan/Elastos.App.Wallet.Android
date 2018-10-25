@@ -9,7 +9,8 @@
     </ion-navbar>
 </ion-header>
 <ion-content>
-    <ion-list>
+    <nodata keyText='no-add-contact' *ngIf="isnodata"></nodata>
+    <ion-list *ngIf="!isnodata">
         <button ion-item *ngFor="let item of contactUsers" (click)="onclick(item.id)">
           {{ item.name }}
         </button>
