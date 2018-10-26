@@ -324,5 +324,6 @@ export const en = {
   'no-open-side-chain':'no open side chain',
   'no-tx-record':'no tx record',
   'no-add-contact':'no add contact',
-  'suggest-amount':'amount should less than'
+  'suggest-amount':'amount should less than',
+  'text-wallet-name-validator1':'Wallet name with more than 30 characters'
 };

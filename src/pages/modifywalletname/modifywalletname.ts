@@ -25,6 +25,11 @@ export class ModifywalletnamePage {
       return;
     }
 
+    if(Util.isWalletName(this.walletname)){
+      this.native.toast_trans("text-wallet-name-validator1");
+      return;
+   }
+
      this.native.showLoading().then(()=>{
          this.modifyName();
      })

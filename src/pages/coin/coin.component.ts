@@ -89,7 +89,6 @@ export class CoinComponent{
   getAllTx(){
     this.walletManager.getAllTransaction(this.masterWalletId,this.coinName, this.start, '', (data) => {
       if(data["success"]){
-          console.log("====getAllTransaction===="+JSON.stringify(data));
       let allTransaction = JSON.parse(data['success']);
       let transactions = allTransaction['Transactions'];
       this.MaxCount = allTransaction['MaxCount'];
@@ -218,7 +217,7 @@ export class CoinComponent{
 
   doRefresh(refresher){
     this.pageNo = 0;
-    this.clickMore();
+    this.getAllTx();
     setTimeout(() => {
       refresher.complete();
     },1000);

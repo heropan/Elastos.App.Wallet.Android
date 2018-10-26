@@ -158,6 +158,7 @@ export class ManagerComponent {
 
   saveWalletList1(){
         this.native.hideLoading();
+        Config.setMappingList({});
         this.native.setRootRouter(LauncherComponent);
   }
 

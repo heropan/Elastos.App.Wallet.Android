@@ -161,5 +161,16 @@ export class Util {
   }
 
 
+  static isWalletName = function (text) {
+    if(text.length > 30){
+        return true;
+    }
+    return false;
+    //var pPattern = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/;
+    //return pPattern.test(text);
+
+  };
+
+
 
 }

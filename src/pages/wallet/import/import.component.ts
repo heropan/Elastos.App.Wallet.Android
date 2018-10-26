@@ -64,6 +64,13 @@ export class ImportComponent {
       this.native.toast_trans("text-wallet-name-validator");
       return false;
     }
+
+    if(Util.isWalletName(this.importFileObj.name)){
+      this.native.toast_trans("text-wallet-name-validator1");
+      return;
+    }
+
+
     if(Util.isNull(this.importFileObj.backupPassWord)){
       //this.native.hideLoading();
       this.native.toast_trans('text-backup-passworld-input');
@@ -112,6 +119,13 @@ export class ImportComponent {
         this.native.toast_trans("text-wallet-name-validator");
         return false;
     }
+
+    if(Util.isWalletName(this.mnemonicObj.name)){
+      this.native.toast_trans("text-wallet-name-validator1");
+      return;
+    }
+
+
     if(Util.isNull(this.mnemonicObj.mnemonic)){
       //this.native.hideLoading();
         this.native.toast_trans('text-input-mnemonic');

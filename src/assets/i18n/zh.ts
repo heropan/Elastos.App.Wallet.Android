@@ -324,5 +324,6 @@ export const zh = {
   'no-open-side-chain':'没有打开测链',
   'no-tx-record':'没有交易记录',
   'no-add-contact':'没有添加联系人',
-  'suggest-amount':'金额应小于'
+  'suggest-amount':'金额应小于',
+  'text-wallet-name-validator1':'钱包名长度超过30字'
 };
