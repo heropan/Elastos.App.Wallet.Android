@@ -291,6 +291,7 @@ export class HomeComponent {
 
   handleEla(result){
     if(result["Action"] === "OnTransactionStatusChanged"){
+      console.log("=====result['confirms']====="+result['confirms']+"typeof="+typeof(result['confirms']));
       if (result['confirms'] == 1) {
         this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
         });
@@ -299,7 +300,6 @@ export class HomeComponent {
 
     if(result["Action"] === "OnBalanceChanged"){
       if(!Util.isNull(result["Balance"])){
-        console.log("Ela===Balance"+result["Balance"]/Config.SELA);
         this.zone.run(() => {
           this.ElaObj.balance = result["Balance"]/Config.SELA;
         });
