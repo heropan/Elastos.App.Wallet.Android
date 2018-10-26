@@ -121,6 +121,14 @@ export class CoinComponent{
         } else {
           resultAmount = balanceResult - summary['Fee'];
         }
+        let payStatusIcon = "";
+        if (balanceResult > 0) {
+          payStatusIcon = './assets/images/tx-state/icon-tx-received-outline.svg';
+        } else if(balanceResult < 0) {
+          payStatusIcon = './assets/images/tx-state/icon-tx-sent.svg';
+        } else if(balanceResult == 0) {
+          payStatusIcon = './assets/images/tx-state/icon-tx-moved.svg';
+        }
         let status = '';
         switch(summary["Status"])
         {
@@ -143,7 +151,8 @@ export class CoinComponent{
           "datetime": datetime,
           "timestamp": timestamp,
           "payfees": summary['Fee']/Config.SELA,
-          "txId": txId
+          "txId": txId,
+          "payStatusIcon": payStatusIcon
         }
         this.transferList.push(transfer);
       }
