@@ -36,27 +36,8 @@
                 <a href="#">{{transactionRecord.txId}}</a>
             </ion-col>
         </ion-row>
-
-
-        <ion-row *ngIf="transactionRecord.resultAmount > 0" class="font-size-1">
-            <ion-col col-4>
-                {{'txinfo-receive-amount' | translate}}
-            </ion-col>
-            <ion-col col-8 class="text-right" (click)="onNext(transactionRecord.incomingAddress)">
-                {{transactionRecord.incomingAmount}} {{transactionRecord.name}}
-            </ion-col>
-        </ion-row>
-
-        <ion-row *ngIf="transactionRecord.resultAmount > 0" class="font-size-1">
-            <ion-col col-4>
-                {{'txinfo-receive-addr' | translate}}
-            </ion-col>
-            <ion-col col-8 class="text-right huan-hang" (click)="onNext(transactionRecord.incomingAddress)">
-                {{transactionRecord.incomingAddress}}
-            </ion-col>
-        </ion-row>
-
-        <ion-row *ngIf="transactionRecord.resultAmount <= 0" class="font-size-1">
+        
+        <ion-row *ngIf="transactionRecord.balance <= 0" class="font-size-1">
             <ion-col col-4>
                 {{'txinfo-send-amount' | translate}}
             </ion-col>
@@ -65,12 +46,30 @@
             </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="transactionRecord.resultAmount <= 0" class="font-size-1">
+        <ion-row *ngIf="transactionRecord.balance <= 0" class="font-size-1">
             <ion-col col-4>
                 {{'txinfo-send-addr' | translate}}
             </ion-col>
             <ion-col col-8 class="text-right huan-hang" (click)="onNext(transactionRecord.outcomingAddress)">
                 {{transactionRecord.outcomingAddress}}
+            </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="transactionRecord.balance >= 0" class="font-size-1">
+            <ion-col col-4>
+                {{'txinfo-receive-amount' | translate}}
+            </ion-col>
+            <ion-col col-8 class="text-right" (click)="onNext(transactionRecord.incomingAddress)">
+                {{transactionRecord.incomingAmount}} {{transactionRecord.name}}
+            </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="transactionRecord.balance >= 0" class="font-size-1">
+            <ion-col col-4>
+                {{'txinfo-receive-addr' | translate}}
+            </ion-col>
+            <ion-col col-8 class="text-right huan-hang" (click)="onNext(transactionRecord.incomingAddress)">
+                {{transactionRecord.incomingAddress}}
             </ion-col>
         </ion-row>
 
@@ -83,7 +82,7 @@
             </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="transactionRecord.resultAmount > 0" class="row" class="font-size-1">
+        <ion-row *ngIf="transactionRecord.balance <= 0" class="row" class="font-size-1">
             <ion-col col-4>
                 {{'text-fees' | translate}}
             </ion-col>
