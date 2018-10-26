@@ -34,7 +34,7 @@ export class HomeComponent {
   }
 
   ionViewDidLeave(){
-
+    this.events.unsubscribe("register:update");
   }
 
   init() {
@@ -277,7 +277,6 @@ export class HomeComponent {
           this.coinList = [];
           return;
         }
-      console.log("qiehuam========="+JSON.stringify(subwall))
       for(let coin in subwall) {
           //this.sycIdChain(coin);
           this.getSubBalance(coin);
@@ -291,7 +290,7 @@ export class HomeComponent {
 
   handleEla(result){
     if(result["Action"] === "OnTransactionStatusChanged"){
-      console.log("=====result['confirms']====="+result['confirms']+"typeof="+typeof(result['confirms']));
+      console.log("=====result====="+result['confirms']);
       if (result['confirms'] == 1) {
         this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
         });
@@ -384,7 +383,9 @@ export class HomeComponent {
       }
 
       doRefresh(refresher){
-        this.init();
+        //this.init();
+        this.getElaBalance(this.ElaObj);
+        this.handleSubwallet();
         setTimeout(() => {
           refresher.complete();
         },1000);
