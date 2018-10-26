@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Native} from "./Native";
+import {Config} from "./Config";
 import {PopupProvider} from "./popup";
 import { Events } from 'ionic-angular';
 declare var cordova: any;
@@ -492,7 +493,12 @@ export class WalletManager {
       key = "error-"+key;
     }
     this.native.hideLoading();
-    this.popupProvider.ionicAlert('confirmTitle',key);
+    if(error["error"]["code"] === 20013){
+      let amount = error["error"]["Data"]/Config.SELA;
+      this.popupProvider.ionicAlert_data('confirmTitle',key,amount);
+    }else{
+      this.popupProvider.ionicAlert('confirmTitle',key);
+    }
     //alert("错误信息：" + JSON.stringify(error));
     this.event.publish("error:update");
   }

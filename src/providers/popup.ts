@@ -30,6 +30,29 @@ export class PopupProvider {
     });
   };
 
+  public ionicAlert_data(title: string, subTitle?: string,amount?:any,okText?: string): Promise<any> {
+    let suggestAmount = this.translate.instant('suggest-amount');
+    return new Promise((resolve, reject) => {
+      let alert = this.alertCtrl.create({
+        title : this.translate.instant(title),
+        subTitle : this.translate.instant(subTitle)+"("+suggestAmount+amount+")",
+        enableBackdropDismiss: false,
+        buttons: [
+          {
+            text: okText ? okText : this.translate.instant('confirm'),
+            handler: () => {
+              console.log('Ok clicked');
+              resolve();
+            }
+          }
+        ]
+      });
+      alert.present();
+    });
+  };
+
+
+
   public ionicConfirm(title: string, message: string, okText?: string, cancelText?: string): Promise<any> {
     return new Promise((resolve, reject) => {
       let confirm = this.alertCtrl.create({
