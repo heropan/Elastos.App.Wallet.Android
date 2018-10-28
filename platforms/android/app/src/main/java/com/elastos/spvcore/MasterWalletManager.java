@@ -15,6 +15,7 @@ public class MasterWalletManager {
 	}
 
 	public void finalize() {
+		Log.i(TAG, "finalize");
 		nativeDisposeNative(mManagerProxy);
 	}
 

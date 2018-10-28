@@ -71,6 +71,57 @@ public class Wallet extends CordovaPlugin {
 
 	private int errCodeWalletException            = 20000;
 
+
+	/**
+	 * Called when the system is about to start resuming a previous activity.
+	 *
+	 * @param multitasking		Flag indicating if multitasking is turned on for app
+	 */
+	@Override
+	public void onPause(boolean multitasking) {
+		super.onPause(multitasking);
+		Log.i(TAG, "onPause multitasking = " + multitasking);
+	}
+
+	/**
+	 * Called when the activity will start interacting with the user.
+	 *
+	 * @param multitasking		Flag indicating if multitasking is turned on for app
+	 */
+	@Override
+	public void onResume(boolean multitasking) {
+		super.onResume(multitasking);
+		Log.i(TAG, "onResume multitasking = " + multitasking);
+	}
+
+	/**
+	 * Called when the activity is becoming visible to the user.
+	 */
+	@Override
+	public void onStart() {
+		super.onStart();
+		Log.i(TAG, "onStart");
+	}
+
+	/**
+	 * Called when the activity is no longer visible to the user.
+	 */
+	@Override
+	public void onStop() {
+		super.onStop();
+		Log.i(TAG, "onStop");
+	}
+
+	/**
+	 * The final call you receive before your activity is destroyed.
+	 */
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		Log.i(TAG, "onDestroy");
+		mMasterWalletManager.finalize();
+	}
+
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
@@ -2436,9 +2487,5 @@ public class Wallet extends CordovaPlugin {
 		}
 	}
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-	}
 }
 
