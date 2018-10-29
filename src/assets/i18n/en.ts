@@ -61,19 +61,23 @@ export const en = {
   'text-notice': 'Notification',
   'text-remark': 'Comment',
   'text-add': 'Add',
-  'createwallet-walletname-title': 'Wallet Name',
-  'createwallet-walletname-placeholder': 'Set an alias for this wallet',
+
+  // create wallet page
+  'addwallet-walletname-title': 'Wallet Name',
+  'addwallet-walletname-placeholder': 'Set an alias for this wallet',
+  'addwallet-paypassword1-title': 'Pay Password',
+  'addwallet-paypassword1-placeholder': 'Set Pay Password',
+  'addwallet-paypassword2-placeholder': 'Repeat Pay Password',
   'text-wallet-name-validator': 'Alias for this Wallet',
-  'createwallet-paypassword1-title': 'Pay Password',
-  'createwallet-paypassword1-placeholder': 'Set Pay Password',
-  'createwallet-paypassword2-placeholder': 'Repeat Pay Password',
+  'text-pwd-validator': 'the length must be 8 or more characters, a mix of letters and numbers are bettter',
+  'text-repwd-validator': 'password do not match',
+  //
   'text-pwd': 'Input Password',
   'text-wallet-pwd': 'Set SecretKey Password',
   'text-wallet-repwd': 'Repeat SecretKey Password',
   'text-signaddress': 'Single Address Wallet',
   'text-pwd-repeat': 'Repeat Password',
-  'text-pwd-validator': 'password length > 8, include letters and numbers',
-  'text-repwd-validator': 'Password Unconformity',
+  
   'text-old-pay-password': 'Input Original Pay Password',
   'reset-pwd-success': 'Password Updated Successfully',
   'text-keystore-pwd': 'Set KeyStore Password',
@@ -269,6 +273,7 @@ export const en = {
   'text-multi-error':"Number of signatures should less than number of public-keys",
   'text-delete-contact-confirm':"Delete this contact ?",
   'click-to-load-more':"click to load more",
+  //error alert
   'error-10000': '(ERR-10000)Json parse error of action parameters',
   'error-10001': '(ERR-10001)Parameters error of action',
   'error-10002': '(ERR-10002)Invalid master wallet',

@@ -61,19 +61,23 @@ export const zh = {
   'text-notice': '消息通知',
   'text-remark': '备注',
   'text-add': '添加',
-  'createwallet-walletname-title': '钱包名称',
-  'createwallet-walletname-placeholder': '请给钱包起个名',
+
+  //create wallet page
+  'addwallet-walletname-title': '钱包名称',
+  'addwallet-walletname-placeholder': '请给钱包起个名',
   'text-wallet-name-validator': '请给钱包起个名字',
-  'createwallet-paypassword1-title': '支付密码',
-  'createwallet-paypassword1-placeholder': '请设置钱包支付密码',
-  'createwallet-paypassword2-placeholder': '请再次设置钱包支付密码',
+  'addwallet-paypassword1-title': '支付密码',
+  'addwallet-paypassword1-placeholder': '请设置钱包支付密码',
+  'addwallet-paypassword2-placeholder': '请再次设置钱包支付密码',
+  'text-pwd-validator': '密码最少8位，建议数字与字母组合',
+  'text-repwd-validator': '两次密码不一致',
+  //
   'text-pwd': '输入密码',
   'text-wallet-pwd': '请设置私钥文件密码',
   'text-wallet-repwd': '请再次设置私钥文件密码',
   'text-signaddress': '单地址钱包',
   'text-pwd-repeat': '再次输入密码',
-  'text-pwd-validator': '密码最少8位,建议数字与字母组合',
-  'text-repwd-validator': '两次密码不一致',
+  
   'text-old-pay-password': '请输入原支付密码',
   'reset-pwd-success': '修改密码成功',
   'text-keystore-pwd': '请设置私钥文件密码',
@@ -269,6 +273,7 @@ export const zh = {
   'text-multi-error':"签名数不能大于拥有者数量",
   'text-delete-contact-confirm':"确定要删除吗？",
   'click-to-load-more':"点击加载更多",
+  //error alert
   'error-10000': '(ERR-10000)Action参数Json格式错误',
   'error-10001': '(ERR-10001)Action参数错误',
   'error-10002': '(ERR-10002)无效主钱包',
