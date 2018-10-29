@@ -182,7 +182,7 @@ export class CoinComponent{
         //   this.messageBox("text-ela-per-message");
         //   return;
         // }
-        this.native.Go(this.navCtrl,TransferComponent, {id: this.coinId, chianId: this.coinName});
+        this.native.Go(this.navCtrl,TransferComponent, {id: this.coinId, chianId: this.coinName,"walletInfo":this.masterWalletInfo});
       }
 
         break;
@@ -217,6 +217,7 @@ export class CoinComponent{
 
   doRefresh(refresher){
     this.pageNo = 0;
+    this.transferList =[];
     this.getAllTx();
     setTimeout(() => {
       refresher.complete();
