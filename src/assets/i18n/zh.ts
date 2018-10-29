@@ -26,9 +26,11 @@ export const zh = {
   'text-mnemonic-ok': '助记词验证成功',
   'text-mnemonic-prompt3': '助记词错误，请重新录入助记词',
   'text-mnemonic-format': '助记词之间使用空格隔开',
+  // TODO remove unused items
+  // import wallet page
   'text-from-mnemonic': '来自助记词',
-  'text-from-key': '来自私钥',
-  'text-key-file': '私钥文件',
+  'text-from-keystore': '来自Keystore',
+  
   'text-mnemonic-check': '验证助记词',
   'text-mnemonic-label': '添加助记词密码',
   'text-mnemonic-pwd': '请设置助记词密码',
@@ -49,17 +51,20 @@ export const zh = {
   'text-create-address': '我要新地址',
   'text-contacts': '联系人',
   'text-contacts-add': '添加联系人',
-  'text-contacts-name': '姓名',
-  'text-contacts-phone': '手机',
-  'text-contacts-email': '邮箱',
-  'text-contacts-address': '钱包地址',
-  'text-manager-address': '地址管理',
+  // contacts page
+  'contacts-name-title': '姓名',
+  'contacts-phone-title': '手机',
+  'contacts-email-title': '邮箱',
+  'contacts-address-title': '钱包地址',
+  'contacts-remark-title': '备注',
+  
   'text-contacts-info': '联系人详情',
+  'text-manager-address': '地址管理',
   'text-setting': '设置',
   'text-about': '关于我们',
   'text-help': '使用帮助',
   'text-notice': '消息通知',
-  'text-remark': '备注',
+  'text-remark': '备注',  
   'text-add': '添加',
 
   //create wallet page
@@ -75,13 +80,28 @@ export const zh = {
   'showmnes-optionalpassword1-title': '助记词密码（可选）',
   'showmnes-optionalpassword1-placeholder': '请设置助记词密码',
   'showmnes-optionalpassword2-placeholder': '请重复已输入的助记词密码',
-  //
+  // import wallet page - mne
   'importmnes-optionalpassword-title': '助记词密码',
   'importmnes-optionalpassword-placeholder': '请输入当前钱包的助记词密码',
-  //
+  // import wallet page - keystore
   'importkeystore-keystorepassword-title': 'Keystore密码',
   'importkeystore-optionalpassword-placeholder': '请输入Keystore密码',
-  //
+  
+  // 
+  'unlock-paypassword-title': '支付密码',
+  'unlock-paypassword-placeholder': '请输入当前钱包的支付密码',
+
+  // export wallet page
+  'exportwallet-keystorepassword1-title': 'Keystore密码',
+  'exportwallet-keystorepassword1-placeholder': '请设置Keystore密码',
+  'exportwallet-keystorepassword2-placeholder': '请重复已输入的Keystore密码',
+  // change pay passworld
+  'updatepaypassword-origin_paypassword1-title': '原支付密码',
+  'updatepaypassword-origin_paypassword1-placeholder': '请输入原支付密码',
+  'updatepaypassword-paypassword1-title': '新支付密码',
+  'updatepaypassword-paypassword1-placeholder': '请设置新的支付密码',
+  'updatepaypassword-paypassword2-placeholder': '请重复已输入的新的支付密码',
+
   'text-pwd': '输入密码',
   'text-wallet-pwd': '请设置私钥文件密码',
   'text-wallet-repwd': '请再次设置私钥文件密码',
