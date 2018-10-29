@@ -11,13 +11,15 @@
     <div *ngIf="!backupWalletPlainText">
         <ion-list>
             <ion-item>
-                <ion-input type="password" placeholder="{{ 'text-wallet-pwd' | translate }}" [(ngModel)]="exprotObj.backupPassWord"></ion-input>
+                <ion-label stacked>{{'exportwallet-keystorepassword1-title' | translate }}</ion-label>
+                <ion-input type="password" placeholder="{{ 'exportwallet-keystorepassword1-placeholder' | translate }}" [(ngModel)]="exprotObj.backupPassWord"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-input type="password" placeholder="{{ 'text-wallet-repwd' | translate }}" [(ngModel)]="exprotObj.reBackupPassWord"></ion-input>
+                <ion-input type="password" placeholder="{{ 'exportwallet-keystorepassword2-placeholder' | translate }}" [(ngModel)]="exprotObj.reBackupPassWord"></ion-input>
             </ion-item>
             <ion-item>
-                <ion-input type="password" placeholder="{{ 'text-pay-passworld-input' | translate }}" [(ngModel)]="exprotObj.payPassword"></ion-input>
+                <ion-label stacked>{{'unlock-paypassword-title' | translate }}</ion-label>
+                <ion-input type="password" placeholder="{{ 'unlock-paypassword-placeholder' | translate }}" [(ngModel)]="exprotObj.payPassword"></ion-input>
             </ion-item>
         </ion-list>
     </div>
@@ -29,6 +31,6 @@
 
 </ion-content>
 <ion-footer>
-    <button *ngIf="!backupWalletPlainText" ion-button (click)="onDown()" style="width: 100%">{{ 'text-down' | translate }}</button>
-    <button *ngIf="backupWalletPlainText" ion-button (click)="onCopay()" style="width: 100%">{{ 'text-copy-to-clipboard' | translate }}</button>
+    <button *ngIf="!backupWalletPlainText" ion-button (click)="onDown()" full>{{ 'text-down' | translate }}</button>
+    <button *ngIf="backupWalletPlainText" ion-button (click)="onCopay()" full>{{ 'text-copy-to-clipboard' | translate }}</button>
 </ion-footer>

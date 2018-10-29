@@ -6,7 +6,6 @@ import {LocalStorage} from "../../../providers/Localstorage";
 import {TabsComponent} from '../../../pages/tabs/tabs.component';
 import {Util} from "../../../providers/Util";
 import {Config} from '../../../providers/Config';
-import { Chain } from '@angular/compiler';
 
 @Component({
   selector: 'app-import',
