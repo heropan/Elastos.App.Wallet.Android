@@ -65,12 +65,22 @@ export const zh = {
   //create wallet page
   'addwallet-walletname-title': '钱包名称',
   'addwallet-walletname-placeholder': '请给钱包起个名',
-  'text-wallet-name-validator': '请给钱包起个名字',
+  'text-wallet-name-validator': '钱包名不能为空',
   'addwallet-paypassword1-title': '支付密码',
   'addwallet-paypassword1-placeholder': '请设置钱包支付密码',
   'addwallet-paypassword2-placeholder': '请再次设置钱包支付密码',
   'text-pwd-validator': '密码最少8位，建议数字与字母组合',
   'text-repwd-validator': '两次密码不一致',
+  //
+  'showmnes-optionalpassword1-title': '助记词密码（可选）',
+  'showmnes-optionalpassword1-placeholder': '请设置助记词密码',
+  'showmnes-optionalpassword2-placeholder': '请重复已输入的助记词密码',
+  //
+  'importmnes-optionalpassword-title': '助记词密码',
+  'importmnes-optionalpassword-placeholder': '请输入当前钱包的助记词密码',
+  //
+  'importkeystore-keystorepassword-title': 'Keystore密码',
+  'importkeystore-optionalpassword-placeholder': '请输入Keystore密码',
   //
   'text-pwd': '输入密码',
   'text-wallet-pwd': '请设置私钥文件密码',

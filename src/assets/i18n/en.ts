@@ -72,6 +72,16 @@ export const en = {
   'text-pwd-validator': 'the length must be 8 or more characters, a mix of letters and numbers are bettter',
   'text-repwd-validator': 'password do not match',
   //
+  'showmnes-optionalpassword1-title': 'Mnemonic Optional Passphrase',
+  'showmnes-optionalpassword1-placeholder': 'Set an optional passphrase for your mnemonics',
+  'showmnes-optionalpassword2-placeholder': 'Repeat the optional passphrase you set',
+  //
+  'importmnes-optionalpassword-title': 'Mnemonic Optional Passphrase',
+  'importmnes-optionalpassword-placeholder': 'Enter the optional passphrase of your mnemonics',
+  //
+  'importkeystore-keystorepassword-title': 'Keystore Password',
+  'importkeystore-optionalpassword-placeholder': 'Enter the password of the keystore you entered above',
+  //
   'text-pwd': 'Input Password',
   'text-wallet-pwd': 'Set SecretKey Password',
   'text-wallet-repwd': 'Repeat SecretKey Password',
