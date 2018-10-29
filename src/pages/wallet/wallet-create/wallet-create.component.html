@@ -8,15 +8,17 @@
 <ion-content>
     <ion-list>
         <ion-item>
-            <ion-input type="text" placeholder="{{ 'text-wallet-name' | translate }}" [(ngModel)]="wallet.name"></ion-input>
+            <ion-label stacked>{{ 'addwallet-walletname-title' | translate }}</ion-label>
+            <ion-input type="text" placeholder="{{ 'createwallet-walletname-placeholder' | translate }}" [(ngModel)]="wallet.name"></ion-input>
         </ion-item>
 
         <ion-item>
-            <ion-input type="password" placeholder="{{ 'text-pay-password' | translate }}" [(ngModel)]="wallet.payPassword"></ion-input>
+            <ion-label stacked>{{ 'addwallet-paypassword1-title' | translate }}</ion-label>
+            <ion-input type="password" placeholder="{{ 'addwallet-paypassword1-placeholder' | translate }}" [(ngModel)]="wallet.payPassword"></ion-input>
         </ion-item>
 
         <ion-item>
-            <ion-input type="password" placeholder="{{ 'text-pay-repassword' | translate }}" [(ngModel)]="wallet.rePayPassword"></ion-input>
+            <ion-input type="password" placeholder="{{ 'addwallet-paypassword2-placeholder' | translate }}" [(ngModel)]="wallet.rePayPassword"></ion-input>
         </ion-item>
 
         <ion-item>
