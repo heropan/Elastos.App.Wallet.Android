@@ -65,10 +65,10 @@ export const en = {
   // create wallet page
   'addwallet-walletname-title': 'Wallet Name',
   'addwallet-walletname-placeholder': 'Set an alias for this wallet',
+  'text-wallet-name-validator': 'Wallet name can not be empty',
   'addwallet-paypassword1-title': 'Pay Password',
   'addwallet-paypassword1-placeholder': 'Set Pay Password',
   'addwallet-paypassword2-placeholder': 'Repeat Pay Password',
-  'text-wallet-name-validator': 'Alias for this Wallet',
   'text-pwd-validator': 'the length must be 8 or more characters, a mix of letters and numbers are bettter',
   'text-repwd-validator': 'password do not match',
   //
