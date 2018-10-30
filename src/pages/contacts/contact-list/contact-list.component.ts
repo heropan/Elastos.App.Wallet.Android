@@ -6,7 +6,7 @@ import {WalletManager} from '../../../providers/WalletManager';
 import {Native} from "../../../providers/Native";
 import {LocalStorage} from "../../../providers/Localstorage";
 import {Util} from "../../../providers/Util";
-import { SUBSTITUTION_EXPR_END } from '@angular/animations/browser/src/util';
+
 @Component({
   selector: 'app-contact-list',
   templateUrl: './contact-list.component.html',
@@ -14,12 +14,13 @@ import { SUBSTITUTION_EXPR_END } from '@angular/animations/browser/src/util';
 export class ContactListComponent {
   isnodata:boolean = false;
   contactUsers = [];
+  params:any = {};
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage,public events :Events) {
         this.init();
   }
 
   init() {
-
+    this.params = this.navParams.data || {};
     this.events.subscribe("contanctList:update",()=>{
       this.localStorage.get('contactUsers').then((val)=>{
         if (val) {
@@ -54,7 +55,7 @@ export class ContactListComponent {
   }
 
   onclick(id): void {
-    this.native.Go(this.navCtrl,ContactsComponent,{id: id});
+    this.native.Go(this.navCtrl,ContactsComponent,{id: id,"exatOption":this.params});
   }
 
   ionViewDidLeave() {

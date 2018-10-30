@@ -13,9 +13,11 @@ export class ContactsComponent{
   contactUser = {};
   qrcode: string = null;
   masterId:string ="1";
+  isShow:boolean = false;
   constructor(public navCtrl: NavController,public navParams: NavParams,public native: Native,public localStorage:LocalStorage,public events:Events,public popupProvider:PopupProvider) {
+    this.isShow = this.navParams.get("exatOption")["hideButton"] || false;
     this.init();
-}
+  }
   init() {
     this.localStorage.get('contactUsers').then((val)=>{
       if(val){
@@ -40,7 +42,9 @@ export class ContactsComponent{
     });
   }
 
-  pay(): void {
-    this.native.Go(this.navCtrl,TransferComponent,{addr:this.contactUser['address']});
+  pay(address): void {
+    //this.native.Go(this.navCtrl,TransferComponent,{addr:this.contactUser['address']});
+    this.events.publish("address:update",address);
+    this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length()-3));
   }
 }

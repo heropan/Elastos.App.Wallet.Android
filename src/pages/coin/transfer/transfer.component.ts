@@ -48,9 +48,11 @@ export class TransferComponent {
          this.init();
     }
   init() {
+    this.events.subscribe("address:update",(address)=>{
+        this.transfer.toAddress = address;
+    });
     this.masterWalletId = Config.getCurMasterWalletId();
     let transferObj =this.navParams.data;
-    console.log("=====pf==="+JSON.stringify(transferObj));
     this.chianId = transferObj["chianId"];
     this.transfer.toAddress = transferObj["addr"] || "";
     this.transfer.amount = transferObj["money"] || "";
@@ -64,7 +66,6 @@ export class TransferComponent {
     this.parms = transferObj["parms"] || "";
     this.did = transferObj["did"] || "";
     this.walletInfo = transferObj["walletInfo"] || {};
-    console.log("====walletInfo====="+JSON.stringify(this.walletInfo));
     this.initData();
   }
 
@@ -84,7 +85,6 @@ export class TransferComponent {
   initData(){
     this.walletManager.getBalance(this.masterWalletId,this.chianId, (data)=>{
       if(!Util.isNull(data["success"])){
-        console.log("===getBalance==="+JSON.stringify(data));
         this.balance = data["success"];
       }else{
        alert("===getBalance===error"+JSON.stringify(data));
@@ -96,7 +96,7 @@ export class TransferComponent {
   onClick(type) {
     switch (type) {
       case 1:
-        this.native.Go(this.navCtrl,ContactListComponent);
+        this.native.Go(this.navCtrl,ContactListComponent,{"hideButton":true});
         break;
       case 2:   // 转账
         this.checkValue();

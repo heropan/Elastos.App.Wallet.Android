@@ -44,13 +44,22 @@
       </ion-label>
     </button>
 
-        <button ion-item (click)="onItem(2)">
+        <!-- <button ion-item (click)="onItem(2)">
       <ion-icon item-start>
         <img src=" assets/images/icon-del.svg " width="22 ">
       </ion-icon>
       <ion-label>
         <span style="color:#ff0000">{{'wallet-delete' | translate}}</span>
       </ion-label>
-    </button>
+    </button> -->
+
+        <ion-item (click)="onItem(2)">
+            <ion-icon item-start>
+                <img src=" assets/images/icon-del.svg " width="22 ">
+            </ion-icon>
+            <ion-label>
+                <span style="color:#ff0000">{{'wallet-delete' | translate}}</span>
+            </ion-label>
+        </ion-item>
     </ion-list>
 </ion-content>

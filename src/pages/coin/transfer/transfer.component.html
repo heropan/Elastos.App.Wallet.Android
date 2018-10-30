@@ -11,11 +11,12 @@
 <ion-content>
     <ion-grid class="margin-top:10px">
         <ion-row>
-            <ion-col col-12 class="font-size-1" col-auto>
+            <ion-col col-10 class="font-size-1" col-auto align-self-center>
                 <ion-item>
                     <ion-input type="text" placeholder="{{ 'text-receiver-address' | translate}}" [(ngModel)]="transfer.toAddress" [(disabled)]="isInput"></ion-input>
                 </ion-item>
             </ion-col>
+            <ion-col col-2 align-self-center> <img (click)="onClick(1)" src="./assets/images/icon/icon-account.svg"></ion-col>
         </ion-row>
         <ion-row>
             <ion-col col-8 align-self-center class="font-size-1">
@@ -38,5 +39,5 @@
     </ion-grid>
 </ion-content>
 <ion-footer>
-    <button ion-button style="width: 100%" (click)="onClick(2)">{{ 'text-transfer' | translate }}</button>
+    <button ion-button full (click)="onClick(2)">{{ 'text-transfer' | translate }}</button>
 </ion-footer>
