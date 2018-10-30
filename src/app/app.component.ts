@@ -208,20 +208,46 @@ export class AppComponent {
 
   initTranslateConfig() {
     this.translate.addLangs(["zh", "en"]);
-
     this.localStorage.getLanguage("wallte-language").then((val) => {
       if (val == null) {
-        this.localStorage.set("wallte-language", {
-          name: '中文（简体）',
-          isoCode: 'zh'
-        }).then(() => {
+        let lang = navigator.language.substr(0,2);
+        let languageObj = {
+          name: 'English',
+          isoCode: 'en'
+        };
+        if(lang == 'en'){
+          languageObj = {
+            name: 'English',
+            isoCode: 'en'
+          };
+        }else if(lang == 'zh'){
+          languageObj = {
+            name: '中文（简体）',
+            isoCode: 'zh'
+          };
+        }
+        this.localStorage.set("wallte-language", languageObj).then(() => {
           // 设置默认语言
-          this.translate.setDefaultLang('zh');
-          this.translate.use('zh');
+          this.translate.setDefaultLang(lang);
+          this.translate.use(lang);
+          if(lang == 'en'){
+             this.native.setMnemonicLang("english")
+          }else if(lang == "zh"){
+            this.native.setMnemonicLang("chinese");
+          }else{
+            this.native.setMnemonicLang("english");
+          }
         });
       } else {
         let lang = JSON.parse(val)["isoCode"];
         this.translate.use(lang);
+        if(lang == 'en'){
+          this.native.setMnemonicLang("english")
+        }else if(lang == "zh"){
+         this.native.setMnemonicLang("chinese");
+        }else{
+         this.native.setMnemonicLang("english");
+        }
       }
     })
 

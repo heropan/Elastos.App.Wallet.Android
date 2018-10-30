@@ -10,6 +10,7 @@ import {HttpService} from "../providers/HttpService";
  */
 @Injectable()
 export class Native {
+  private mnemonicLang:string="english";
   private loading: Loading;
   private loadingIsOpen: boolean = false;
   constructor(public toastCtrl:ToastController,
@@ -61,10 +62,6 @@ export class Native {
     return this.clipboard.copy(text);
   }
 
-  static getLanguage(){
-    return "english";
-  }
-
   public Go(navCtrl:any,page: any, options: any = {}) {
         navCtrl.push(page, options);
   }
@@ -74,7 +71,11 @@ export class Native {
   }
 
   public getMnemonicLang(): string {
-    return "english";
+    return this.mnemonicLang;
+  }
+
+  public setMnemonicLang(lang){
+        this.mnemonicLang = lang;
   }
 
   public clone(myObj){

@@ -44,7 +44,6 @@ export class WalletCreateComponent {
 
   createWallet(){
     // Master Wallet
-    console.log("===========singleAddress0:"+this.wallet.singleAddress);
     this.native.Go(this.navCtrl,MnemonicComponent, {payPassword: this.wallet.payPassword, name: this.wallet.name, singleAddress: this.wallet.singleAddress,mult:this.MultObj});
   }
 }

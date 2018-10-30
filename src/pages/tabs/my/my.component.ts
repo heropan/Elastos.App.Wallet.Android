@@ -34,10 +34,26 @@ export class MyComponent{
   init() {
     this.localStorage.getLanguage("wallte-language").then((val)=>{
       this.currentLanguageName = JSON.parse(val)["name"] || "";
+      let lang=  JSON.parse(val)["isoCode"] || "";
+      if(lang == 'en'){
+        this.native.setMnemonicLang("english");
+      }else if(lang == "zh"){
+       this.native.setMnemonicLang("chinese");
+      }else{
+       this.native.setMnemonicLang("english");
+      }
     });
 
     this.events.subscribe('language:update', (item) => {
      this.currentLanguageName = item["name"] || "";
+     let lang=  item["isoCode"] || "";
+     if(lang == 'en'){
+       this.native.setMnemonicLang("english");
+     }else if(lang == "zh"){
+      this.native.setMnemonicLang("chinese");
+     }else{
+      this.native.setMnemonicLang("english");
+     }
     });
 
     this.events.subscribe("wallte:update",(item)=>{
