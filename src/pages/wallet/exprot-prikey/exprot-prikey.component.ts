@@ -13,6 +13,9 @@ import {LocalStorage} from "../../../providers/Localstorage";
 })
 export class ExprotPrikeyComponent  {
   masterWalletId:string ="1";
+  public readonly:boolean = false;
+  public masterWalletType:string = "";
+  public singleAddress:boolean = false;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage) {
            this.onWalletDatainit();
   }
@@ -28,6 +31,7 @@ export class ExprotPrikeyComponent  {
   onWalletDatainit(){
     this.masterWalletId = Config.getCurMasterWalletId();
     this.exprotObj.name = Config.getWalletName(this.masterWalletId);
+    this.getMasterWalletBasicInfo();
   }
 
   checkparms(){
@@ -42,9 +46,13 @@ export class ExprotPrikeyComponent  {
        return false;
     }
 
-    if(Util.isNull(this.exprotObj.payPassword)){
+    if(Util.isNull(this.exprotObj.payPassword)&&!this.readonly){
       this.native.toast_trans("text-pay-passworld-input");
       return false;
+    }
+
+    if(this.readonly){
+      this.exprotObj.payPassword ="s12345678";
     }
 
      return true;
@@ -59,12 +67,8 @@ export class ExprotPrikeyComponent  {
   onExport() {
     this.walletManager.exportWalletWithKeystore(this.masterWalletId,this.exprotObj.backupPassWord,this.exprotObj.payPassword,(data) => {
                  if(data["success"]){
-                  console.log("====exportWalletWithKeystore====="+JSON.stringify(data));
                   this.backupWalletPlainText = data["success"];
-                 }else{
-                   alert("===exportWalletWithKeystore==error=="+JSON.stringify(data));
                  }
-
     });
   }
 
@@ -73,6 +77,18 @@ export class ExprotPrikeyComponent  {
       this.native.toast_trans('text-copied-to-clipboard');
     }).catch(()=>{
 
+    });
+  }
+
+  getMasterWalletBasicInfo(){
+    this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
+      if(data["success"]){
+         console.log("===getMasterWalletBasicInfo==="+JSON.stringify(data));
+         let item = JSON.parse(data["success"])["Account"];
+         this.masterWalletType = item["Type"] ;
+         this.singleAddress = item["SingleAddress"];
+         this.readonly = item["Readonly"] || false;
+      }
     });
   }
 

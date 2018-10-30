@@ -30,7 +30,7 @@ export const zh = {
   // import wallet page
   'text-from-mnemonic': '来自助记词',
   'text-from-keystore': '来自Keystore',
-  
+
   'text-mnemonic-check': '验证助记词',
   'text-mnemonic-label': '添加助记词密码',
   'text-mnemonic-pwd': '请设置助记词密码',
@@ -57,14 +57,14 @@ export const zh = {
   'contacts-email-title': '邮箱',
   'contacts-address-title': '钱包地址',
   'contacts-remark-title': '备注',
-  
+
   'text-contacts-info': '联系人详情',
   'text-manager-address': '地址列表',
   'text-setting': '设置',
   'text-about': '关于我们',
   'text-help': '使用帮助',
   'text-notice': '消息通知',
-  'text-remark': '备注',  
+  'text-remark': '备注',
   'text-add': '添加',
 
   //create wallet page
@@ -86,8 +86,8 @@ export const zh = {
   // import wallet page - keystore
   'importkeystore-keystorepassword-title': 'Keystore密码',
   'importkeystore-optionalpassword-placeholder': '请输入Keystore密码',
-  
-  // 
+
+  //
   'unlock-paypassword-title': '支付密码',
   'unlock-paypassword-placeholder': '请输入当前钱包的支付密码',
 
@@ -107,7 +107,7 @@ export const zh = {
   'text-wallet-repwd': '请再次设置私钥文件密码',
   'text-signaddress': '单地址钱包',
   'text-pwd-repeat': '再次输入密码',
-  
+
   'text-old-pay-password': '请输入原支付密码',
   'reset-pwd-success': '修改密码成功',
   'text-keystore-pwd': '请设置私钥文件密码',
@@ -124,7 +124,7 @@ export const zh = {
   'confirm': '确定',
   'confirmTitle': '提示',
   'confirmTransaction': '交易已确认',
-  'confirmSubTitle': '确定要退出钱包吗',
+  'confirmSubTitle': '确定要退出钱包吗？<br/>在退出钱包前，请确认已安全备份助记词及可选加密密码。恢复钱包需要助记词及可选加密密码。任何人无法帮助您恢复钱包',
   'cancel': '取消',
   'copy-ok': '复制成功',
   'correct-amount': '请输入正确的金额',

@@ -17,7 +17,7 @@
             <ion-item>
                 <ion-input type="password" placeholder="{{ 'exportwallet-keystorepassword2-placeholder' | translate }}" [(ngModel)]="exprotObj.reBackupPassWord"></ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item *ngIf="!readonly">
                 <ion-label stacked>{{'unlock-paypassword-title' | translate }}</ion-label>
                 <ion-input type="password" placeholder="{{ 'unlock-paypassword-placeholder' | translate }}" [(ngModel)]="exprotObj.payPassword"></ion-input>
             </ion-item>

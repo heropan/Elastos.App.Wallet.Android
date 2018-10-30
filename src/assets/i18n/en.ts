@@ -30,7 +30,7 @@ export const en = {
   // import wallet page
   'text-from-mnemonic': 'from Mnemonics',
   'text-from-keystore': 'from KeyStore',
-  
+
   'text-mnemonic-check': 'Mnemonics Verification',
   'text-mnemonic-label': 'Add Optional Password',
   'text-mnemonic-pwd': 'Set Mnemonic Password',
@@ -86,8 +86,8 @@ export const en = {
   // import wallet page - keystore
   'importkeystore-keystorepassword-title': 'Keystore Password',
   'importkeystore-optionalpassword-placeholder': 'Enter the password of the keystore you entered above',
-   
-  // 
+
+  //
   'unlock-paypassword-title': 'Pay Password',
   'unlock-paypassword-placeholder': 'Enter the pay password of current wallet',
   // export wallet page
@@ -106,7 +106,7 @@ export const en = {
   'text-wallet-repwd': 'Repeat SecretKey Password',
   'text-signaddress': 'Single Address Wallet',
   'text-pwd-repeat': 'Repeat Password',
-  
+
   'text-old-pay-password': 'Input Original Pay Password',
   'reset-pwd-success': 'Password Updated Successfully',
   'text-keystore-pwd': 'Set KeyStore Password',
@@ -123,7 +123,7 @@ export const en = {
   'confirm': 'Comfirm',
   'confirmTitle': 'confirm_title',
   'confirmTransaction': 'Transaction Comfirmed',
-  'confirmSubTitle': 'Please make sure your wallet are backuped properly before you exit',
+  'confirmSubTitle': 'Are you sure you want to log out this wallet? <br/>Before logging out, confirm that you have recorded your backup phrase and optional passphrase securely.To restore your account, both the backup phrase and optional passphrase will be required.Nobody can assist in restoring your account.',
   'cancel': 'Cancel',
   'copy-ok': 'Copied to Clipboard',
   'correct-amount': 'Wrong Amount',
