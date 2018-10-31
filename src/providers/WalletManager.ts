@@ -486,6 +486,12 @@ export class WalletManager {
     });
    }
 
+   disposeNative(Fun){
+     this.wallet.disposeNative([],Fun,(error)=>{
+        this.errorFun(error);
+     });
+   }
+
   errorFun(error) {
     console.log("error = "+JSON.stringify(error));
     let key = error["error"]["code"];

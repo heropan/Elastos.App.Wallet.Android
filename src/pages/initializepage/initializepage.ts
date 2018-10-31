@@ -32,13 +32,9 @@ export class InitializepagePage {
   registerBackButtonAction(tabRef:Tabs){
     this.platform.registerBackButtonAction(() => {
       let activeNav: NavController = this.appCtrl.getActiveNav();
-      console.log("======activeNav======");
       if(activeNav.canGoBack()){
         activeNav.pop();
       }else{
-        console.log("======tabRef======");
-        //console.log("tabRef._selectHistory"+tabRef._selectHistory[tabRef._selectHistory.length - 1]);
-        //console.log("tabRef.getByIndex(0)"+tabRef.getByIndex(0).id);
         if (tabRef == null || tabRef._selectHistory[tabRef._selectHistory.length - 1] === tabRef.getByIndex(0).id) {
           this.showExit();
         }else{
@@ -53,7 +49,9 @@ export class InitializepagePage {
     //双击退出提示框
     showExit() {
       if (this.backButtonPressed) { //当触发标志为true时，即2秒内双击返回按键则退出APP
-        this.platform.exitApp();
+        this.walletManager.disposeNative((data)=>{
+          this.platform.exitApp();
+        });
       } else {
         let exitmesage = this.translate.instant("text-exit-message");
         this.native.toast(exitmesage);

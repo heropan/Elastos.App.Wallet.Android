@@ -285,6 +285,11 @@ walletFunc.prototype.removeWalletListener = function(arg0, success, error) {
     exec(success, error, "Wallet", "removeWalletListener", arg0);
 };
 
+walletFunc.prototype.disposeNative = function(arg0, success, error) {
+    exec(success, error, "Wallet", "disposeNative", arg0);
+};
+
+
 
 
 

@@ -9,7 +9,8 @@ export class Util {
 
   /*E-mail*/
   static email = function (text) {
-    const email = /[a-z]([a-z0-9]*[-_]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[\\.][a-z]{2,3}([\\.][a-z]{2})?/;
+    const email = /^[a-zA-Z0-9.!#$%&*+=?^_{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
     return email.test(text);
   };
 
@@ -125,7 +126,7 @@ export class Util {
   }
 
   public static checkCellphone(cellphone: string): boolean {
-    if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(cellphone))){
+    if(!(/^1[3|4|5|8|9|7][0-9]\d{4,8}$/.test(cellphone))){
       return true;
     }
     return false;
