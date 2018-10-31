@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams, Events,Platform} from 'ionic-angular';
+import { Component,ViewChild } from '@angular/core';
+import { NavController, NavParams, Events,Platform,App,Tabs} from 'ionic-angular';
 import {LauncherComponent} from "../../pages/launcher/launcher.component";
 import {WalletManager} from "../../providers/WalletManager";
 import {Native} from "../../providers/Native";
@@ -15,22 +15,38 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: 'initializepage.html',
 })
 export class InitializepagePage {
+  @ViewChild('myTabs') tabs:Tabs;
   backButtonPressed: boolean = false;  //用于判断返回键是否触发
-  constructor(private platform: Platform,public navCtrl: NavController, public navParams: NavParams,public walletManager: WalletManager,public native: Native,public localStorage: LocalStorage,public events: Events,private translate: TranslateService) {
+  constructor(public appCtrl: App,private platform: Platform,public navCtrl: NavController, public navParams: NavParams,public walletManager: WalletManager,public native: Native,public localStorage: LocalStorage,public events: Events,private translate: TranslateService) {
 
   }
 
   ionViewDidLoad() {
-    this.registerBackButtonAction();
+    this.registerBackButtonAction(this.tabs);
     this.native.showLoading().then(()=>{
       this.initializeApp();
     });
 
   }
 
-  registerBackButtonAction(){
+  registerBackButtonAction(tabRef:Tabs){
     this.platform.registerBackButtonAction(() => {
-      this.showExit();
+      let activeNav: NavController = this.appCtrl.getActiveNav();
+      console.log("======activeNav======");
+      if(activeNav.canGoBack()){
+        activeNav.pop();
+      }else{
+        console.log("======tabRef======");
+        //console.log("tabRef._selectHistory"+tabRef._selectHistory[tabRef._selectHistory.length - 1]);
+        //console.log("tabRef.getByIndex(0)"+tabRef.getByIndex(0).id);
+        if (tabRef == null || tabRef._selectHistory[tabRef._selectHistory.length - 1] === tabRef.getByIndex(0).id) {
+          this.showExit();
+        }else{
+           //选择首页第一个的标签
+           tabRef.select(0);
+        }
+      }
+
     },1);
   }
 
@@ -161,7 +177,7 @@ export class InitializepagePage {
   registerWalletListener(masterId,coin){
 
     this.walletManager.registerWalletListener(masterId,coin,(data)=>{
-            console.log("==========="+Config.isResregister(masterId,coin))
+            //console.log("==========="+Config.isResregister(masterId,coin))
             if(!Config.isResregister(masterId,coin)){
               //console.log("==========="+Config.isResregister(masterId,coin))
               Config.setResregister(masterId,coin,true);
