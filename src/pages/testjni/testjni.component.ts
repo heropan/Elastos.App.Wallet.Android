@@ -120,13 +120,13 @@ export class TestJniComponent {
        case 1:
          this.recoverSubWallet();
          case 3:
-         this.createMasterWallet(this.masterWalletId,this.mnemonic,this.phrasePassword,this.payPassword,this.language);
+         this.createMasterWallet(this.masterWalletId,this.mnemonic,this.phrasePassword,this.payPassword);
         break;
        case 4:
           this.importWalletWithKeystore(this.masterWalletId,"sssss",this.backupPassword,this.payPassword,this.phrasePassword);
          break;
        case 5:
-          this.importWalletWithMnemonic(this.masterWalletId,this.mnemonic,this.phrasePassword,this.payPassword,this.language);
+          this.importWalletWithMnemonic(this.masterWalletId,this.mnemonic,this.phrasePassword,this.payPassword);
          break;
        case 6:
           this.exportWalletWithKeystore(this.backupPassword,this.payPassword);
@@ -231,8 +231,8 @@ export class TestJniComponent {
    }
 
 
-   createMasterWallet(masterWalletId,mnemonic,phrasePassword,payPassWord,language){
-    this.walletManager.createMasterWallet(masterWalletId,mnemonic,phrasePassword,payPassWord,false,language,(result)=>{
+   createMasterWallet(masterWalletId,mnemonic,phrasePassword,payPassWord){
+    this.walletManager.createMasterWallet(masterWalletId,mnemonic,phrasePassword,payPassWord,false,(result)=>{
                    alert("创建主钱包成功");
      });
    }
@@ -243,8 +243,8 @@ export class TestJniComponent {
          })
    }
 
-   importWalletWithMnemonic(masterWalletId:string,mnemonic:string ,phrasePassword:string ,payPassWord:string,language:string){
-       this.walletManager.importWalletWithMnemonic(masterWalletId,mnemonic,phrasePassword,payPassWord,false,language,()=>{
+   importWalletWithMnemonic(masterWalletId:string,mnemonic:string ,phrasePassword:string ,payPassWord:string){
+       this.walletManager.importWalletWithMnemonic(masterWalletId,mnemonic,phrasePassword,payPassWord,false,()=>{
         alert("导入住记词成功");
        });
    }

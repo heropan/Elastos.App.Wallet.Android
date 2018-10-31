@@ -64,11 +64,10 @@ export class WalletManager {
    * @param {string} phrasePassword
    * @param {string} payPassword
    * @param {boolean} singleAddress
-   * @param {string} language
    * @param Fun
    */
-  createMasterWallet(masterWalletId: string,mnemonic:string,phrasePassword:string,payPassword:string,singleAddress:boolean,language:string, Fun) {
-    this.wallet.createMasterWallet([masterWalletId,mnemonic,phrasePassword,payPassword,singleAddress,language], Fun,(error)=>{
+  createMasterWallet(masterWalletId: string,mnemonic:string,phrasePassword:string,payPassword:string,singleAddress:boolean, Fun) {
+    this.wallet.createMasterWallet([masterWalletId,mnemonic,phrasePassword,payPassword,singleAddress], Fun,(error)=>{
       this.errorFun(error);
     });
   }
@@ -91,11 +90,10 @@ export class WalletManager {
    * @param {string} phrasePassword
    * @param {string} payPassword
    * @param {string} singleAddress
-   * @param {string} language
    * @param Fun
    */
-  importWalletWithMnemonic(masterWalletId:string,mnemonic: string, phrasePassword: string, payPassword,singleAddress:boolean,language:string, Fun) {
-    this.wallet.importWalletWithMnemonic([masterWalletId,mnemonic,phrasePassword, payPassword,singleAddress,language], Fun,(error)=>{
+  importWalletWithMnemonic(masterWalletId:string,mnemonic: string, phrasePassword: string, payPassword,singleAddress:boolean, Fun) {
+    this.wallet.importWalletWithMnemonic([masterWalletId,mnemonic,phrasePassword, payPassword,singleAddress], Fun,(error)=>{
       this.errorFun(error);
     });
   }
@@ -461,8 +459,8 @@ export class WalletManager {
     });
   }
 
-  createMultiSignMasterWalletWithMnemonic(masterWalletId:string,mnemonic:string,phrasePassword:string,payPassword:string,coSignersJson:string,requiredSignCount:string,language:string,Fun){
-     this.wallet.createMultiSignMasterWalletWithMnemonic([masterWalletId,mnemonic,phrasePassword,payPassword,coSignersJson,requiredSignCount,language],Fun,(error)=>{
+  createMultiSignMasterWalletWithMnemonic(masterWalletId:string,mnemonic:string,phrasePassword:string,payPassword:string,coSignersJson:string,requiredSignCount:string,Fun){
+     this.wallet.createMultiSignMasterWalletWithMnemonic([masterWalletId,mnemonic,phrasePassword,payPassword,coSignersJson,requiredSignCount],Fun,(error)=>{
       this.errorFun(error);
     });
   }

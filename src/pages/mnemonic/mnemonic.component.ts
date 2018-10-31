@@ -69,7 +69,7 @@ export class MnemonicComponent {
     }
     this.native.showLoading().then(()=>{
 
-      this.walletManager.createMasterWallet(this.masterWalletId, this.mnemonicStr, this.mnemonicPassword, this.payPassword,this.singleAddress,this.native.getMnemonicLang(),(data) =>{
+      this.walletManager.createMasterWallet(this.masterWalletId, this.mnemonicStr, this.mnemonicPassword, this.payPassword,this.singleAddress,(data) =>{
         if(data["success"]){
          console.log("====createMasterWallet===="+JSON.stringify(data));
          this.createSubWallet('ELA');

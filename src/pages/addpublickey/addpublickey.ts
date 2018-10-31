@@ -107,7 +107,7 @@ export class AddpublickeyPage {
 
   createWalletWithMnemonic(){
       let copayers = this.getTotalCopayers();
-      this.walletManager.createMultiSignMasterWalletWithMnemonic(this.masterWalletId,this.msobj["mnemonicStr"],this.msobj["mnemonicPassword"],this.msobj["payPassword"],copayers,this.msobj["requiredCopayers"],this.native.getMnemonicLang(),(data)=>{
+      this.walletManager.createMultiSignMasterWalletWithMnemonic(this.masterWalletId,this.msobj["mnemonicStr"],this.msobj["mnemonicPassword"],this.msobj["payPassword"],copayers,this.msobj["requiredCopayers"],(data)=>{
           if(data['success']){
             console.log("=====createMultiSignMasterWalletWithMnemonic======"+JSON.stringify(data));
             this.createMnemonicSubWallet("ELA",this.msobj["payPassword"]);

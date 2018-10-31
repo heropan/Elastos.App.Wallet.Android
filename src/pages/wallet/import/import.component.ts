@@ -167,7 +167,7 @@ export class ImportComponent {
 
   importWalletWithMnemonic(){
     let mnemonic = this.normalizeMnemonic(this.mnemonicObj.mnemonic);
-    this.walletManager.importWalletWithMnemonic(this.masterWalletId,mnemonic,this.mnemonicObj.phrasePassword,this.mnemonicObj.payPassword,this.mnemonicObj.singleAddress,this.native.getMnemonicLang(),(data)=>{
+    this.walletManager.importWalletWithMnemonic(this.masterWalletId,mnemonic,this.mnemonicObj.phrasePassword,this.mnemonicObj.payPassword,this.mnemonicObj.singleAddress,(data)=>{
                 if(data["success"]){
 
                        this.walletManager.createSubWallet(this.masterWalletId,"ELA",0, (data)=>{
