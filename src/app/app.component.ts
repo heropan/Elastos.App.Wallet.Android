@@ -73,7 +73,7 @@ export class AppComponent {
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
-      this.registerBackButtonAction(this.nav);
+      //this.registerBackButtonAction(this.nav);
       this.initTranslateConfig();
       this.initJsPush();
       this.getKycIdList();
@@ -161,36 +161,6 @@ export class AppComponent {
   registerBackButtonAction(tabRef: Tabs) {
     this.platform.registerBackButtonAction(() => {
          this.showExit();
-      // let activeNav = this.appCtrl.getActiveNavs()[0];
-      // if(activeNav.canGoBack()){
-      //     activeNav.pop();
-      //  }else{
-      //   if (tabRef == null || tabRef._selectHistory[tabRef._selectHistory.length - 1] === tabRef.getByIndex(0).id) {
-      //     //执行退出
-      //     this.showExit();
-      //   } else {
-      //     //选择首页第一个的标签
-      //     tabRef.select(0);
-      //   }
-      //  }
-      // let activePortal = this.ionicApp._modalPortal.getActive();
-      // console.log("---activePortal---"+JSON.stringify(activePortal));
-      // if (activePortal) {
-      //   activePortal.dismiss().catch(() => {
-      //   });
-      //   activePortal.onDidDismiss(() => {
-      //   });
-      //   return;
-      // }
-      // console.log("---activeVC---"+JSON.stringify(this.nav.getActive()));
-      // let activeVC = this.nav.getActive();
-      // if (Util.isEmptyObject(activeVC.instance.tabs)) {
-      //   this.showExit();
-      // } else {
-      //   let tabs = activeVC.instance.tabs;
-      //   let activeNav = tabs.getSelected();
-      //   return activeNav.canGoBack() ? activeNav.pop() : this.showExit();//另外两种方法在这里将this.showExit()改为其他两种的方法的逻辑就好。
-      // }
     }, 1);
   }
 

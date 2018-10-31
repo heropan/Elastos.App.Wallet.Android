@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Events} from 'ionic-angular';
+import { NavController, NavParams, Events,Platform} from 'ionic-angular';
 import {LauncherComponent} from "../../pages/launcher/launcher.component";
 import {WalletManager} from "../../providers/WalletManager";
 import {Native} from "../../providers/Native";
@@ -9,23 +9,42 @@ import { TabsComponent } from '../../pages/tabs/tabs.component';
 import { LocalStorage } from "../../providers/Localstorage";
 import { PaymentConfirmComponent } from "../../pages/coin/payment-confirm/payment-confirm.component";
 import { DidLoginComponent } from "../../pages/third-party/did-login/did-login.component";
-
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'page-initializepage',
   templateUrl: 'initializepage.html',
 })
 export class InitializepagePage {
-  constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager: WalletManager,public native: Native,public localStorage: LocalStorage,public events: Events) {
+  backButtonPressed: boolean = false;  //用于判断返回键是否触发
+  constructor(private platform: Platform,public navCtrl: NavController, public navParams: NavParams,public walletManager: WalletManager,public native: Native,public localStorage: LocalStorage,public events: Events,private translate: TranslateService) {
 
   }
 
   ionViewDidLoad() {
-
+    this.registerBackButtonAction();
     this.native.showLoading().then(()=>{
       this.initializeApp();
     });
 
   }
+
+  registerBackButtonAction(){
+    this.platform.registerBackButtonAction(() => {
+      this.showExit();
+    },1);
+  }
+
+    //双击退出提示框
+    showExit() {
+      if (this.backButtonPressed) { //当触发标志为true时，即2秒内双击返回按键则退出APP
+        this.platform.exitApp();
+      } else {
+        let exitmesage = this.translate.instant("text-exit-message");
+        this.native.toast(exitmesage);
+        this.backButtonPressed = true;
+        setTimeout(() => this.backButtonPressed = false, 2000);//2秒内没有再次点击返回则将触发标志标记为false
+      }
+    }
 
 
   initializeApp(){
