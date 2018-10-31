@@ -201,14 +201,12 @@ static void JNICALL nativeRemoveCallback(JNIEnv *env, jobject clazz, jlong jSubP
 {
 	try {
 		ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-		std::map<jlong, ElaSubWalletCallback*>::iterator it;
-		for (it = sSubCallbackMap.begin(); it != sSubCallbackMap.end(); it++) {
-			if (jSubProxy == it->first) {
-				subWallet->RemoveCallback(it->second);
-				delete it->second;
-				sSubCallbackMap.erase(it);
-				break;
-			}
+		if (sSubCallbackMap.find(jSubProxy) != sSubCallbackMap.end()) {
+			ElaSubWalletCallback *callback = sSubCallbackMap[jSubProxy];
+			delete callback;
+			sSubCallbackMap.erase(jSubProxy);
+		} else {
+			LOGW("Sub wallet callback already removed");
 		}
 	} catch (std::exception &e) {
 		ThrowWalletException(env, e.what());

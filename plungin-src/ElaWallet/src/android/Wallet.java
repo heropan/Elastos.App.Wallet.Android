@@ -71,57 +71,6 @@ public class Wallet extends CordovaPlugin {
 
 	private int errCodeWalletException            = 20000;
 
-
-	/**
-	 * Called when the system is about to start resuming a previous activity.
-	 *
-	 * @param multitasking		Flag indicating if multitasking is turned on for app
-	 */
-	@Override
-	public void onPause(boolean multitasking) {
-		super.onPause(multitasking);
-		Log.i(TAG, "onPause multitasking = " + multitasking);
-	}
-
-	/**
-	 * Called when the activity will start interacting with the user.
-	 *
-	 * @param multitasking		Flag indicating if multitasking is turned on for app
-	 */
-	@Override
-	public void onResume(boolean multitasking) {
-		super.onResume(multitasking);
-		Log.i(TAG, "onResume multitasking = " + multitasking);
-	}
-
-	/**
-	 * Called when the activity is becoming visible to the user.
-	 */
-	@Override
-	public void onStart() {
-		super.onStart();
-		Log.i(TAG, "onStart");
-	}
-
-	/**
-	 * Called when the activity is no longer visible to the user.
-	 */
-	@Override
-	public void onStop() {
-		super.onStop();
-		Log.i(TAG, "onStop");
-	}
-
-	/**
-	 * The final call you receive before your activity is destroyed.
-	 */
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		Log.i(TAG, "onDestroy");
-		mMasterWalletManager.finalize();
-	}
-
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
@@ -353,6 +302,9 @@ public class Wallet extends CordovaPlugin {
 				case "decodeTransactionFromString":
 					this.decodeTransactionFromString(args, cc);
 					break;
+				case "disposeNative":
+					this.disposeNative(args, cc);
+					break;
 
 					// Master wallet
 				case "getMasterWalletBasicInfo":
@@ -511,6 +463,22 @@ public class Wallet extends CordovaPlugin {
 		}
 
 		return true;
+	}
+
+	public void disposeNative(JSONArray args, CallbackContext cc) throws JSONException {
+		try {
+			ArrayList<IMasterWallet> masterWalletList = mMasterWalletManager.GetAllMasterWallets();
+			for (int i = 0; i < masterWalletList.size(); i++) {
+				ArrayList<ISubWallet> subWalletList = masterWalletList.get(i).GetAllSubWallets();
+				for (int j = 0; j < subWalletList.size(); j++) {
+					subWalletList.get(j).RemoveCallback();
+				}
+			}
+
+			mMasterWalletManager.DisposeNative();
+		} catch (WalletException e) {
+			exceptionProcess(e, cc, "DisposeNative");
+		}
 	}
 
 	// args[0]: String masterWalletID
@@ -763,7 +731,6 @@ public class Wallet extends CordovaPlugin {
 	// args[2]: String phrasePassword
 	// args[3]: String payPassword
 	// args[4]: boolean singleAddress
-	// args[5]: String language
 	public void createMasterWallet(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
@@ -772,7 +739,6 @@ public class Wallet extends CordovaPlugin {
 		String phrasePassword = args.getString(idx++);
 		String payPassword    = args.getString(idx++);
 		boolean singleAddress = args.getBoolean(idx++);
-		String language       = args.getString(idx++);
 
 		if (args.length() != idx) {
 			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
@@ -781,7 +747,7 @@ public class Wallet extends CordovaPlugin {
 
 		try {
 			IMasterWallet masterWallet = mMasterWalletManager.CreateMasterWallet(
-					masterWalletID, mnemonic, phrasePassword, payPassword, singleAddress, language);
+					masterWalletID, mnemonic, phrasePassword, payPassword, singleAddress);
 
 			if (masterWallet == null) {
 				errorProcess(cc, errCodeCreateMasterWallet, "Create " + formatWalletName(masterWalletID));
@@ -867,7 +833,6 @@ public class Wallet extends CordovaPlugin {
 	// args[3]: String payPassword
 	// args[4]: String coSignersJson
 	// args[5]: int requiredSignCount
-	// args[6]: String language
 	public void createMultiSignMasterWalletWithMnemonic(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
@@ -877,7 +842,6 @@ public class Wallet extends CordovaPlugin {
 		String payPassword    = args.getString(idx++);
 		String coSigners      = args.getString(idx++);
 		int requiredSignCount = args.getInt(idx++);
-		String language       = args.getString(idx++);
 
 		if (args.length() != idx) {
 			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
@@ -886,7 +850,7 @@ public class Wallet extends CordovaPlugin {
 
 		try {
 			IMasterWallet masterWallet = mMasterWalletManager.CreateMultiSignMasterWallet(
-						masterWalletID, mnemonic, phrasePassword, payPassword, coSigners, requiredSignCount, language);
+						masterWalletID, mnemonic, phrasePassword, payPassword, coSigners, requiredSignCount);
 
 			if (masterWallet == null) {
 				errorProcess(cc, errCodeCreateMasterWallet, "Create multi sign " + formatWalletName(masterWalletID) + " with mnemonic");
@@ -961,7 +925,6 @@ public class Wallet extends CordovaPlugin {
 	// args[2]: String phrasePassword
 	// args[3]: String payPassword
 	// args[4]: boolean singleAddress
-	// args[5]: String language
 	public void importWalletWithMnemonic(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
@@ -970,7 +933,6 @@ public class Wallet extends CordovaPlugin {
 		String phrasePassword = args.getString(idx++);
 		String payPassword    = args.getString(idx++);
 		boolean singleAddress = args.getBoolean(idx++);
-		String language       = args.getString(idx++);
 
 		if (args.length() != idx) {
 			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
@@ -979,7 +941,7 @@ public class Wallet extends CordovaPlugin {
 
 		try {
 			IMasterWallet masterWallet = mMasterWalletManager.ImportWalletWithMnemonic(
-					masterWalletID, mnemonic, phrasePassword, payPassword, singleAddress, language);
+					masterWalletID, mnemonic, phrasePassword, payPassword, singleAddress);
 			if (masterWallet == null) {
 				errorProcess(cc, errCodeImportFromMnemonic, "Import " + formatWalletName(masterWalletID) + " with mnemonic");
 				return;
