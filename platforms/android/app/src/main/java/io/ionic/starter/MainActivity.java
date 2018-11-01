@@ -26,7 +26,6 @@ import android.util.Log;
 import org.apache.cordova.*;
 
 import cn.jpush.android.api.JPushInterface;
-import com.elastos.spvcore.MasterWalletManager;
 
 import ElaJava2JSBridge.Java2JSBridge;
 
@@ -59,11 +58,6 @@ public class MainActivity extends CordovaActivity
     @Override
     protected void onPause() {
         super.onPause();
-
-        MasterWalletManager walletManager = MyUtil.GetCurrentMasterWalletManager();
-        if (walletManager != null) {
-            walletManager.SaveConfigs();
-        }
     }
 
     private void initJG(){

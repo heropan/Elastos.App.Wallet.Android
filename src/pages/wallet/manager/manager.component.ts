@@ -61,7 +61,8 @@ export class ManagerComponent {
           if (data) {
             //this.destroyWallet(this.masterWalletId);
             this.native.showLoading().then(()=>{
-              this.getAllCreatedSubWallets();
+			 this.destroyWallet(this.masterWalletId);
+			//this.getAllCreatedSubWallets();
             });
           }
         });

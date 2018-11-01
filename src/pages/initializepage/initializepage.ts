@@ -49,9 +49,7 @@ export class InitializepagePage {
     //双击退出提示框
     showExit() {
       if (this.backButtonPressed) { //当触发标志为true时，即2秒内双击返回按键则退出APP
-        this.walletManager.disposeNative((data)=>{
-          this.platform.exitApp();
-        });
+	  this.platform.exitApp();
       } else {
         let exitmesage = this.translate.instant("text-exit-message");
         this.native.toast(exitmesage);

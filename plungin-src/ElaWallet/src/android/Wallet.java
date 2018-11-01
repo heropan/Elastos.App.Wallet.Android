@@ -71,15 +71,78 @@ public class Wallet extends CordovaPlugin {
 
 	private int errCodeWalletException            = 20000;
 
+	/**
+	 * Called when the system is about to start resuming a previous activity.
+	 *
+	 * @param multitasking		Flag indicating if multitasking is turned on for app
+	 */
+	@Override
+	public void onPause(boolean multitasking) {
+		Log.i(TAG, "onPause");
+		if (mMasterWalletManager != null) {
+			mMasterWalletManager.SaveConfigs();
+		}
+		super.onPause(multitasking);
+	}
+
+	/**
+	 * Called when the activity will start interacting with the user.
+	 *
+	 * @param multitasking		Flag indicating if multitasking is turned on for app
+	 */
+	@Override
+	public void onResume(boolean multitasking) {
+		Log.i(TAG, "onResume");
+		super.onResume(multitasking);
+	}
+
+	/**
+	 * Called when the activity is becoming visible to the user.
+	 */
+	@Override
+	public void onStart() {
+		Log.i(TAG, "onStart");
+		super.onStart();
+	}
+
+	/**
+	 * Called when the activity is no longer visible to the user.
+	 */
+	@Override
+	public void onStop() {
+		Log.i(TAG, "onStop");
+		super.onStop();
+	}
+
+	/**
+	 * The final call you receive before your activity is destroyed.
+	 */
+	@Override
+	public void onDestroy() {
+		Log.i(TAG, "onDestroy");
+		if (mMasterWalletManager != null) {
+			ArrayList<IMasterWallet> masterWalletList = mMasterWalletManager.GetAllMasterWallets();
+			for (int i = 0; i < masterWalletList.size(); i++) {
+				ArrayList<ISubWallet> subWalletList = masterWalletList.get(i).GetAllSubWallets();
+				for (int j = 0; j < subWalletList.size(); j++) {
+					subWalletList.get(j).RemoveCallback();
+				}
+			}
+
+			mMasterWalletManager.DisposeNative();
+			mMasterWalletManager = null;
+		}
+
+		super.onDestroy();
+	}
+
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
 
 		mRootPath = MyUtil.getRootPath();
-
 //		mDIDManagerSupervisor = new DIDManagerSupervisor(mRootPath);
 		mMasterWalletManager = new MasterWalletManager(mRootPath);
-		MyUtil.SetCurrentMasterWalletManager(mMasterWalletManager);
 	}
 
 	private boolean createDIDManager(IMasterWallet masterWallet) {
@@ -473,15 +536,20 @@ public class Wallet extends CordovaPlugin {
 
 	public void disposeNative(JSONArray args, CallbackContext cc) throws JSONException {
 		try {
-			ArrayList<IMasterWallet> masterWalletList = mMasterWalletManager.GetAllMasterWallets();
-			for (int i = 0; i < masterWalletList.size(); i++) {
-				ArrayList<ISubWallet> subWalletList = masterWalletList.get(i).GetAllSubWallets();
-				for (int j = 0; j < subWalletList.size(); j++) {
-					subWalletList.get(j).RemoveCallback();
+			if (mMasterWalletManager != null) {
+				ArrayList<IMasterWallet> masterWalletList = mMasterWalletManager.GetAllMasterWallets();
+				for (int i = 0; i < masterWalletList.size(); i++) {
+					ArrayList<ISubWallet> subWalletList = masterWalletList.get(i).GetAllSubWallets();
+					for (int j = 0; j < subWalletList.size(); j++) {
+						subWalletList.get(j).RemoveCallback();
+					}
 				}
+
+				mMasterWalletManager.DisposeNative();
+				mMasterWalletManager = null;
 			}
 
-			mMasterWalletManager.DisposeNative();
+			successProcess(cc, "OK");
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, "DisposeNative");
 		}
