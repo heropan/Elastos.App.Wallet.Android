@@ -108,6 +108,14 @@ public class MasterWalletManager {
 		return nativeGenerateMnemonic(mManagerProxy, language);
 	}
 
+	public String GetMultiSignPubKeyWithMnemonic(String phrase, String phrasePassword) throws WalletException {
+		return nativeGetMultiSignPubKeyWithMnemonic(mManagerProxy, phrase, phrasePassword);
+	}
+
+	public String GetMultiSignPubKeyWithPrivKey(String privKey) throws WalletException {
+		return nativeGetMultiSignPubKeyWithPrivKey(mManagerProxy, privKey);
+	}
+
 	public void SaveConfigs() {
 		nativeSaveConfigs(mManagerProxy);
 	}
@@ -165,6 +173,10 @@ public class MasterWalletManager {
 	private native void nativeSaveConfigs(long proxy);
 
 	private native String nativeGenerateMnemonic(long proxy, String language);
+
+	private native String nativeGetMultiSignPubKeyWithMnemonic(long proxy, String phrase, String phrasePassword);
+
+	private native String nativeGetMultiSignPubKeyWithPrivKey(long proxy, String privKey);
 
 	private native long nativeCreateMasterWallet(long proxy, String masterWalletId, String mnemonic,
 			String phrasePassword, String payPassword, boolean singleAddress);

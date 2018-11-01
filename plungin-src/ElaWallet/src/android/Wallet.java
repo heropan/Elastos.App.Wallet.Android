@@ -263,6 +263,12 @@ public class Wallet extends CordovaPlugin {
 				case "generateMnemonic":
 					this.generateMnemonic(args, cc);
 					break;
+				case "getMultiSignPubKeyWithMnemonic":
+					this.getMultiSignPubKeyWithMnemonic(args, cc);
+					break;
+				case "getMultiSignPubKeyWithPrivKey":
+					this.getMultiSignPubKeyWithPrivKey(args, cc);
+					break;
 				case "createMasterWallet":
 					this.createMasterWallet(args, cc);
 					break;
@@ -696,6 +702,51 @@ public class Wallet extends CordovaPlugin {
 			cc.success(mkJson(keySuccess, mnemonic));
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, "Generate mnemonic in '" + language + "'");
+		}
+	}
+
+	// args[0]: String mnemonic
+	// args[1]: String phrasePassword
+	public void getMultiSignPubKeyWithMnemonic(JSONArray args, CallbackContext cc) throws JSONException {
+		int idx = 0;
+
+		String mnemonic = args.getString(idx++);
+		String phrasePassword = args.getString(idx++);
+
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+
+		if (mMasterWalletManager == null) {
+			errorProcess(cc, errCodeInvalidMasterWalletManager, "Master wallet manager has not initialize");
+			return;
+		}
+
+		try {
+			String pubKey = mMasterWalletManager.GetMultiSignPubKeyWithMnemonic(mnemonic, phrasePassword);
+			successProcess(cc, pubKey);
+		} catch (WalletException e) {
+			exceptionProcess(e, cc, "Get multi sign public key with mnemonic");
+		}
+	}
+
+	// args[0]: String privKey
+	public void getMultiSignPubKeyWithPrivKey(JSONArray args, CallbackContext cc) throws JSONException {
+		int idx = 0;
+
+		String privKey = args.getString(idx++);
+
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+
+		try {
+			String pubKey = mMasterWalletManager.GetMultiSignPubKeyWithPrivKey(privKey);
+			successProcess(cc, pubKey);
+		} catch (WalletException e) {
+			exceptionProcess(e, cc, "Get multi sign public key with private key");
 		}
 	}
 
