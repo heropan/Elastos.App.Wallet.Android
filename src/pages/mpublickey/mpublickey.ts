@@ -16,7 +16,12 @@ export class MpublickeyPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,public native: Native,public walletManager: WalletManager) {
         this.exatParm = this.navParams.data;
         console.log("==========this.exatParm============="+JSON.stringify(this.exatParm));
-        this.getPublicKey();
+        if(this.exatParm["mnemonicStr"]){
+          this.getPublicKey();
+        }else{
+          this.getMultiSignPubKeyWithPrivKey();
+        }
+
   }
 
   ionViewDidLoad() {
@@ -29,16 +34,22 @@ export class MpublickeyPage {
   }
 
   getPublicKey(){
-    this.masterWalletId = Config.getCurMasterWalletId();
-    console.log("======================"+this.exatParm["mnemonicStr"]);
-    console.log("======================"+this.exatParm["mnemonicPassword"]);
+
     this.walletManager.getMultiSignPubKeyWithMnemonic(this.exatParm["mnemonicStr"],this.exatParm["mnemonicPassword"],(data)=>{
-      console.log("======================="+data);
+
       if(data["success"]){
         this.qrcode = data["success"];
-        console.log("==========getPublicKey==============="+JSON.stringify(data));
        }else{
-         alert("==========getPublicKey======error========="+JSON.stringify(data));
+       }
+    });
+  }
+
+  getMultiSignPubKeyWithPrivKey(){
+    console.log("====getMultiSignPubKeyWithPrivKey====");
+    this.walletManager.getMultiSignPubKeyWithPrivKey(this.exatParm["importText"],(data)=>{
+      if(data["success"]){
+        this.qrcode = data["success"];
+       }else{
        }
     });
   }

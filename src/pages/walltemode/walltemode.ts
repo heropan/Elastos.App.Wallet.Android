@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import {ImportprivatekeyPage} from '../../pages/importprivatekey/importprivatekey';
 import {WalletCreateComponent} from '../../pages/wallet/wallet-create/wallet-create.component';
 import {CreatewalletnamePage} from "../../pages/createwalletname/createwalletname";
+import {ImportmnemonicPage} from '../../pages/importmnemonic/importmnemonic';
 import {Native} from "../../providers/Native";
 @Component({
   selector: 'page-walltemode',
@@ -35,6 +36,10 @@ export class WalltemodePage {
   wayThree(){
     //this.navCtrl.push(AddpublickeyPage,this.navObj);
     this.native.Go(this.navCtrl,CreatewalletnamePage,this.navObj);
+  }
+
+  wayFour(){
+    this.native.Go(this.navCtrl,ImportmnemonicPage,this.navObj);
   }
 
 }

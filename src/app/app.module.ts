@@ -96,6 +96,7 @@ import {ImportprivatekeyPage} from '../pages/importprivatekey/importprivatekey';
 import {PaymentboxPage} from '../pages/paymentbox/paymentbox';
 import {ModifywalletnamePage} from '../pages/modifywalletname/modifywalletname';
 import {MpublickeyPage} from '../pages/mpublickey/mpublickey';
+import {ImportmnemonicPage} from '../pages/importmnemonic/importmnemonic';
 
 
 /*id相关页面*/
@@ -183,7 +184,8 @@ export function TranslateLoaderFactory() {
     PaymentboxPage,
     CreatewalletnamePage,
     ModifywalletnamePage,
-    MpublickeyPage
+    MpublickeyPage,
+    ImportmnemonicPage
   ],
   imports: [
     BrowserModule,
@@ -269,7 +271,8 @@ export function TranslateLoaderFactory() {
     PaymentboxPage,
     CreatewalletnamePage,
     ModifywalletnamePage,
-    MpublickeyPage
+    MpublickeyPage,
+    ImportmnemonicPage
   ],
   providers: [
     StatusBar,

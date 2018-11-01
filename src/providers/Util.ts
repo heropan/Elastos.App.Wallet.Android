@@ -2,8 +2,8 @@
  * Created by yanxiaojun617@163.com on 3-12.
  */
 import {Injectable} from '@angular/core';
+import {Config} from "../providers/Config";
 //import {Validators as angularValidators, AbstractControl} from '@angular/forms';
-
 @Injectable()
 export class Util {
 
@@ -171,6 +171,12 @@ export class Util {
     //return pPattern.test(text);
 
   };
+
+  static isWallNameExit(master){
+        let wallet = Config.getMappingList()[master];
+        let str = JSON.stringify(wallet);
+
+  }
 
 
 

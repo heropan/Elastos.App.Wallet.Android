@@ -496,6 +496,12 @@ export class WalletManager {
                 this.errorFun(error);
          });
    }
+   // args[0]: String privKey
+   getMultiSignPubKeyWithPrivKey(privKey,Fun){
+    this.wallet.getMultiSignPubKeyWithPrivKey([privKey],Fun,(error)=>{
+      this.errorFun(error);
+    });
+   }
 
   errorFun(error) {
     console.log("error = "+JSON.stringify(error));
