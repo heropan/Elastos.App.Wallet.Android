@@ -489,6 +489,13 @@ export class WalletManager {
         this.errorFun(error);
      });
    }
+  // args[0]: String mnemonic
+	// args[1]: String phrasePassword
+   getMultiSignPubKeyWithMnemonic(mnemonic,phrasePassword,Fun){
+         this.wallet.getMultiSignPubKeyWithMnemonic([mnemonic,phrasePassword],Fun,(error)=>{
+                this.errorFun(error);
+         });
+   }
 
   errorFun(error) {
     console.log("error = "+JSON.stringify(error));

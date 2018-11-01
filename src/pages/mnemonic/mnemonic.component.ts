@@ -6,7 +6,7 @@ import {Config} from '../../providers/Config';
 import {WriteComponent} from "./write/write.component";
 import {Util} from "../../providers/Util";
 import {LocalStorage} from "../../providers/Localstorage";
-import {AddpublickeyPage} from '../../pages/addpublickey/addpublickey';
+
 
 @Component({
   selector: 'app-mnemonic',
@@ -64,7 +64,8 @@ export class MnemonicComponent {
     }
 
     if(!Util.isEmptyObject(this.multType)){
-        this.native.Go(this.navCtrl,AddpublickeyPage,{"totalCopayers":this.multType["totalCopayers"],"requiredCopayers":this.multType["requiredCopayers"],"mnemonicStr":this.mnemonicStr,"mnemonicPassword":this.mnemonicPassword,"payPassword":this.payPassword,name:this.name})
+        //this.native.Go(this.navCtrl,AddpublickeyPage,{"totalCopayers":this.multType["totalCopayers"],"requiredCopayers":this.multType["requiredCopayers"],"mnemonicStr":this.mnemonicStr,"mnemonicPassword":this.mnemonicPassword,"payPassword":this.payPassword,name:this.name});
+        this.native.Go(this.navCtrl,WriteComponent, {"mult":this.multType,mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList,"totalCopayers":this.multType["totalCopayers"],"requiredCopayers":this.multType["requiredCopayers"],"mnemonicPassword":this.mnemonicPassword,"payPassword":this.payPassword,name:this.name});
         return;
     }
     this.native.showLoading().then(()=>{
