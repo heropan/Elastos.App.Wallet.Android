@@ -142,9 +142,9 @@ export class RechargeComponent{
   }
 
   getGenesisAddress(){
-    // this.walletManager.getGenesisAddress(this.chianId, (data) => {
-      this.transfer.toAddress = 'XKUh4GLhFJiqAMTF6HyWQrV9pK9HcGUdfJ';
-    // });
+    this.walletManager.getGenesisAddress(this.masterWalletId, this.chianId, (data) => {
+      this.transfer.toAddress = data['success'];
+    });
   }
 
   getFee(){
