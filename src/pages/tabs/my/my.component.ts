@@ -28,7 +28,7 @@ export class MyComponent{
   }
 
   ionViewWillEnter(){
-    this.init();
+       this.init();
   }
 
   init() {

@@ -14,7 +14,10 @@
     <div>
         <div class="home-top-box" (click)="onClick(0)">
             <img src="./assets/images/icon/icon-wallet.svg">
-            <div style="font-size: 1.6em;">{{wallet.name}}</div>
+            <div style="font-size: 1.6em;">{{wallet.name}}
+                <span *ngIf="account['Type']==='Standard'" style="font-size: 1.3px">{{'text-standard-wallte' | translate}}</span>
+                <span *ngIf="account['Type']==='Multi-Sign'" style="font-size: 1.3px">{{'text-multi-wallte' | translate}}</span>
+            </div>
         </div>
         <ion-grid>
             <ion-row>

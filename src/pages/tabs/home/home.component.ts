@@ -24,13 +24,13 @@ export class HomeComponent {
   };
   ElaObj ={"name":"ELA","balance":0};
   coinList = [];
-
+  account:any={};
   constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager: WalletManager,public native:Native,public localStorage:LocalStorage,public zone:NgZone,public events:Events,public popupProvider: PopupProvider){
      //this.init();
   }
 
   ionViewWillEnter(){
-    this.init();
+     this.init();
   }
 
   ionViewDidLeave(){
@@ -39,6 +39,7 @@ export class HomeComponent {
 
   init() {
     this.masterWalletId =  Config.getCurMasterWalletId();
+    this.account = Config.getAccountType(this.masterWalletId);
     this.wallet["name"] = Config.getWalletName(this.masterWalletId);
     this.events.subscribe("register:update",(walletId,coin,result)=>{
 

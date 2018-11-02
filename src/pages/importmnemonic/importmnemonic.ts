@@ -15,7 +15,8 @@ import {MpublickeyPage} from '../../pages/mpublickey/mpublickey';
   templateUrl: 'importmnemonic.html',
 })
 export class ImportmnemonicPage {
-  public mnemonicObj:any={mnemonic:"",payPassword: "", rePayPassword: "",phrasePassword:"",name:"",singleAddress:false};
+  public showAdvOpts:boolean;
+  public mnemonicObj:any={mnemonic:"",payPassword: "", rePayPassword: "",phrasePassword:"",name:"",singleAddress:true};
   public exatParm:any;
   constructor(public navCtrl: NavController, public navParams: NavParams,public native:Native) {
          this.exatParm = this.navParams.data;
@@ -91,6 +92,10 @@ export class ImportmnemonicPage {
          this.exatParm["name"] = this.mnemonicObj.name;
          this.native.Go(this.navCtrl,MpublickeyPage,this.exatParm);
      }
+  }
+
+  public toggleShowAdvOpts(): void {
+    this.showAdvOpts = !this.showAdvOpts;
   }
 
 }

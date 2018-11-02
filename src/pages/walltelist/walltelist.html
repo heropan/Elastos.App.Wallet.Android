@@ -18,7 +18,12 @@
         <ion-item *ngFor="let item of items">
             <ion-label>
                 <span style="font-size:16px">{{ item.wallname }}</span>
-                <!-- <br><span style="font-size:12px">(多签)</span> -->
+                <span *ngIf="item['Account']['Type']==='Standard'">
+                    <br><span style="font-size:12px">{{'text-standard-wallte' | translate}}</span>
+                </span>
+                <span *ngIf="item['Account']['Type']==='Multi-Sign'">
+                    <br><span style="font-size:12px">{{'text-multi-wallte' | translate}}</span>
+                </span>
             </ion-label>
             <ion-radio (click)="itemSelected(item)" [value]="item.id"></ion-radio>
         </ion-item>

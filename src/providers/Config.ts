@@ -213,7 +213,7 @@ export class Config {
   }
 
  public static getAccountType(masterWalletId){
-  return this.mappingList[masterWalletId]["Account"] || "";
+  return this.mappingList[masterWalletId]["Account"] || {};
  }
 }
 

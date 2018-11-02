@@ -111,6 +111,7 @@ export class CoinListComponent {
         let walletObj = this.native.clone(Config.masterWallObj);
         walletObj["id"]   = this.masterWalletId;
         walletObj["wallname"] = Config.getWalletName(this.masterWalletId);
+        walletObj["Account"] = Config.getAccountType(this.masterWalletId);
         walletObj["coinListCache"] = coin;
         this.localStorage.saveMappingTable(walletObj).then((data)=>{
           let  mappingList = this.native.clone(Config.getMappingList());
