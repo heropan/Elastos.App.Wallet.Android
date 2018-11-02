@@ -111,11 +111,11 @@ export class WalletManager {
   }
   /**
    * @param {string} masterWalletId
-   * @param {string} backupPassWord
+   * @param {string} payPassWord
    * @param Fun
    */
-  exportWalletWithMnemonic(masterWalletId:string,backupPassWord: string, Fun) {
-    this.wallet.exportWalletWithMnemonic([masterWalletId,backupPassWord], Fun,(error)=>{
+  exportWalletWithMnemonic(masterWalletId:string,payPassWord: string, Fun) {
+    this.wallet.exportWalletWithMnemonic([masterWalletId,payPassWord], Fun,(error)=>{
       this.errorFun(error);
     });
   }
