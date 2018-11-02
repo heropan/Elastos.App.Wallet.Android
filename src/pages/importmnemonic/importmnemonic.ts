@@ -37,6 +37,11 @@ export class ImportmnemonicPage {
       return;
     }
 
+    if(Util.isWallNameExit(this.mnemonicObj.name)){
+      this.native.toast_trans("text-wallet-name-validator2");
+      return;
+    }
+
 
     if(Util.isNull(this.mnemonicObj.mnemonic)){
       //this.native.hideLoading();

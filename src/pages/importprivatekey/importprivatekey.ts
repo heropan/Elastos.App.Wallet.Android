@@ -43,6 +43,11 @@ export class ImportprivatekeyPage {
       return;
    }
 
+   if(Util.isWallNameExit(this.name)){
+    this.native.toast_trans("text-wallet-name-validator2");
+    return;
+  }
+
     if(Util.isNull(this.importText)){
       this.native.toast_trans('text-import-privatekey-placeholder');
       return false;

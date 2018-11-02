@@ -13,6 +13,7 @@ export class ModifywalletnamePage {
   public masterWalletId:string = "1";
   constructor(public navCtrl: NavController, public navParams: NavParams,public native: Native,public localStorage :LocalStorage,public events :Events) {
         this.masterWalletId = Config.getCurMasterWalletId();
+        this.walletname =Config.getWalletName(this.masterWalletId);
   }
 
   ionViewDidLoad() {
@@ -29,6 +30,11 @@ export class ModifywalletnamePage {
       this.native.toast_trans("text-wallet-name-validator1");
       return;
    }
+
+   if(Util.isWallNameExit(this.walletname)){
+    this.native.toast_trans("text-wallet-name-validator2");
+    return;
+  }
 
      this.native.showLoading().then(()=>{
          this.modifyName();

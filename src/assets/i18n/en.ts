@@ -360,5 +360,6 @@ export const en = {
   'no-tx-record':'no tx record',
   'no-add-contact':'no add contact',
   'suggest-amount':'amount should less than',
-  'text-wallet-name-validator1':'Wallet name with more than 30 characters'
+  'text-wallet-name-validator1':'Wallet name with more than 30 characters',
+  'text-wallet-name-validator2': 'Wallet name exit'
 };

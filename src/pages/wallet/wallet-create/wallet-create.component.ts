@@ -31,6 +31,12 @@ export class WalletCreateComponent {
        this.native.toast_trans("text-wallet-name-validator1");
        return;
     }
+
+    if(Util.isWallNameExit(this.wallet.name)){
+      this.native.toast_trans("text-wallet-name-validator2");
+      return;
+    }
+
     if (!Util.password(this.wallet.payPassword)) {
       this.native.toast_trans("text-pwd-validator");
       return;

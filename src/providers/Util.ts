@@ -172,9 +172,24 @@ export class Util {
 
   };
 
-  static isWallNameExit(master){
-        let wallet = Config.getMappingList()[master];
-        let str = JSON.stringify(wallet);
+  static isWallNameExit(name){
+        let data = Config.getMappingList();
+        if(!data){
+          return true;
+        }
+      var isexit = true;
+      for(var key in data){
+         var item = data[key];
+
+         if(item["wallname"] === name){
+              isexit = true;
+              break;
+         }else{
+              isexit =false;
+         }
+      }
+
+      return isexit;
 
   }
 
