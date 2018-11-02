@@ -82,7 +82,7 @@ export class AddprivatekeyPage {
       let walletObj = this.native.clone(Config.masterWallObj);
       walletObj["id"]   = this.masterWalletId;
       walletObj["wallname"] = this.name;
-
+      walletObj["Account"] = {"SingleAddress":true,"Type":"Multi-Sign"};
       this.localStorage.saveMappingTable(walletObj).then((data)=>{
         let mappingList = this.native.clone(Config.getMappingList());
             mappingList[this.masterWalletId] = walletObj;

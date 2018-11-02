@@ -174,8 +174,8 @@ export class Util {
 
   static isWallNameExit(name){
         let data = Config.getMappingList();
-        if(!data){
-          return true;
+        if(this.isEmptyObject(data)){
+          return false;
         }
       var isexit = true;
       for(var key in data){

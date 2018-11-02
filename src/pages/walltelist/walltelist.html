@@ -17,7 +17,8 @@
     <ion-list radio-group [(ngModel)]="masterWalletId">
         <ion-item *ngFor="let item of items">
             <ion-label>
-                {{ item.wallname }}
+                <span style="font-size:16px">{{ item.wallname }}</span>
+                <!-- <br><span style="font-size:12px">(多签)</span> -->
             </ion-label>
             <ion-radio (click)="itemSelected(item)" [value]="item.id"></ion-radio>
         </ion-item>

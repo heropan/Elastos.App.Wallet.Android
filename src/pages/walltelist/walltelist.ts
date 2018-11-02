@@ -25,6 +25,7 @@ export class WalltelistPage {
      //this.items = Config.getMasterWalletIdList();
      this.masterWalletId = Config.getCurMasterWalletId();
      let mappList = Config.getMappingList();
+     //let mappList = {"397AD6":{"id":"397AD6","wallname":"sd2"},"308CA1":{"id":"308CA1","wallname":"sd1"}};
      console.log("=========mappList==========="+JSON.stringify(mappList));
      //let mappList ={"2C66B4":{"id":"2C66B4","wallname":"ss","name":"ss"}};
      this.zone.run(()=>{

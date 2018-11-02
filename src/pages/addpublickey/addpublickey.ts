@@ -14,14 +14,17 @@ export class AddpublickeyPage {
   private msobj:any;
   public  publicKeyArr:any=[];
   public  name:string ="";
+  public isOnly:any;
   constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager:WalletManager,public native :Native,public localStorage:LocalStorage,public events:Events) {
     console.log("=========AddpublickeyPage"+JSON.stringify(this.navParams.data));
     this.msobj = this.navParams.data;
     this.name = this.msobj["name"];
     let totalCopayers = 0;
     if(this.msobj["payPassword"]){
+      this.isOnly = false;
       totalCopayers = this.msobj["totalCopayers"]-1;
     }else{
+      this.isOnly = true;
       totalCopayers = this.msobj["totalCopayers"];
     }
 
@@ -88,6 +91,7 @@ export class AddpublickeyPage {
               let walletObj = this.native.clone(Config.masterWallObj);
               walletObj["id"]   = this.masterWalletId;
               walletObj["wallname"] = this.name;
+              walletObj["Account"] = {"SingleAddress":true,"Type":"Multi-Sign","Readonly":this.isOnly};
               this.localStorage.saveMappingTable(walletObj).then((data)=>{
                 let mappingList = this.native.clone(Config.getMappingList());
                     mappingList[this.masterWalletId] = walletObj;

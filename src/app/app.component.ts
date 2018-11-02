@@ -73,7 +73,6 @@ export class AppComponent {
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
-      //this.registerBackButtonAction(this.nav);
       this.initTranslateConfig();
       this.initJsPush();
       this.getKycIdList();
