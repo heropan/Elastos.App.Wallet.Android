@@ -8,10 +8,9 @@
 
 using namespace Elastos::ElaWallet;
 
-#define SIG_nativeCreateWithdrawTransaction "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+#define SIG_nativeCreateWithdrawTransaction "(JLjava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject clazz, jlong jSideSubWalletProxy,
 		jstring jfromAddress,
-		jstring jtoAddress,
 		jlong amount,
 		jstring jmainchainAccounts,
 		jstring jmainchainAmounts,
@@ -23,7 +22,6 @@ static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject claz
 	std::string msgException;
 
 	const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
-	const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
 	const char* mainchainAccounts = env->GetStringUTFChars(jmainchainAccounts, NULL);
 	const char* mainchainAmounts = env->GetStringUTFChars(jmainchainAmounts, NULL);
 	const char* mainchainIndexs = env->GetStringUTFChars(jmainchainIndexs, NULL);
@@ -34,7 +32,7 @@ static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject claz
 	jstring tx = NULL;
 
 	try {
-		nlohmann::json txJson = wallet->CreateWithdrawTransaction(fromAddress, toAddress, amount,
+		nlohmann::json txJson = wallet->CreateWithdrawTransaction(fromAddress, amount,
 				nlohmann::json::parse(mainchainAccounts), nlohmann::json::parse(mainchainAmounts),
 				nlohmann::json::parse(mainchainIndexs), memo, remark);
 
@@ -45,7 +43,6 @@ static jstring JNICALL nativeCreateWithdrawTransaction(JNIEnv *env, jobject claz
 	}
 
 	env->ReleaseStringUTFChars(jfromAddress, fromAddress);
-	env->ReleaseStringUTFChars(jtoAddress, toAddress);
 	env->ReleaseStringUTFChars(jmainchainAccounts, mainchainAccounts);
 	env->ReleaseStringUTFChars(jmainchainAmounts, mainchainAmounts);
 	env->ReleaseStringUTFChars(jmainchainIndexs, mainchainIndexs);

@@ -57,8 +57,127 @@ static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz
 	return tx;
 }
 
+#define SIG_nativeCreateRegisterProducerTransaction "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;J)Ljava/lang/String;"
+static jstring JNICALL nativeCreateRegisterProducerTransaction(JNIEnv *env, jobject clazz, jlong jMainSubWalletProxy,
+	jstring jfromAddress,
+	jstring jtoAddress,
+	jstring jpublicKey,
+	jstring jnickName,
+	jstring jurl,
+	jlong location)
+{
+	bool exception = false;
+	std::string msgException;
+
+	const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
+	const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
+	const char* publicKey = env->GetStringUTFChars(jpublicKey, NULL);
+	const char* nickName = env->GetStringUTFChars(jnickName, NULL);
+	const char* url = env->GetStringUTFChars(jurl, NULL);
+
+	IMainchainSubWallet* wallet = (IMainchainSubWallet*)jMainSubWalletProxy;
+	jstring tx = NULL;
+
+	try {
+		nlohmann::json txJson = wallet->CreateRegisterProducerTransaction(fromAddress, toAddress, publicKey, nickName, url, location);
+		tx = env->NewStringUTF(txJson.dump().c_str());
+	} catch (std::exception &e) {
+		exception = true;
+		msgException = e.what();
+	}
+
+	env->ReleaseStringUTFChars(jfromAddress, fromAddress);
+	env->ReleaseStringUTFChars(jtoAddress, toAddress);
+	env->ReleaseStringUTFChars(jpublicKey, publicKey);
+	env->ReleaseStringUTFChars(jnickName, nickName);
+	env->ReleaseStringUTFChars(jurl, url);
+
+	if (exception) {
+		ThrowWalletException(env, msgException.c_str());
+	}
+
+	return tx;
+}
+
+#define SIG_nativeCreateCancelProducerTransaction "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+static jstring JNICALL nativeCreateCancelProducerTransaction(JNIEnv *env, jobject clazz, jlong jMainSubWalletProxy,
+	jstring jfromAddress,
+	jstring jtoAddress,
+	jstring jpublicKey)
+{
+
+	bool exception = false;
+	std::string msgException;
+
+	const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
+	const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
+	const char* publicKey = env->GetStringUTFChars(jpublicKey, NULL);
+
+	IMainchainSubWallet* wallet = (IMainchainSubWallet*)jMainSubWalletProxy;
+	jstring tx = NULL;
+
+	try {
+		nlohmann::json txJson = wallet->CreateCancelProducerTransaction(fromAddress, toAddress, publicKey);
+		tx = env->NewStringUTF(txJson.dump().c_str());
+	} catch (std::exception &e) {
+		exception = true;
+		msgException = e.what();
+	}
+
+	env->ReleaseStringUTFChars(jfromAddress, fromAddress);
+	env->ReleaseStringUTFChars(jtoAddress, toAddress);
+	env->ReleaseStringUTFChars(jpublicKey, publicKey);
+
+	if (exception) {
+		ThrowWalletException(env, msgException.c_str());
+	}
+
+	return tx;
+}
+
+#define SIG_nativeCreateVoteProducerTransaction "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;)Ljava/lang/String;"
+static jstring JNICALL nativeCreateVoteProducerTransaction(JNIEnv *env, jobject clazz, jlong jMainSubWalletProxy,
+		jstring jfromAddress,
+		jstring jtoAddress,
+		jlong stake,
+		jstring jpublicKeys)
+{
+
+	bool exception = false;
+	std::string msgException;
+
+	const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
+	const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
+	const char* publicKeys = env->GetStringUTFChars(jpublicKeys, NULL);
+
+	IMainchainSubWallet* wallet = (IMainchainSubWallet*)jMainSubWalletProxy;
+	jstring tx = NULL;
+
+	try {
+		nlohmann::json txJson = wallet->CreateVoteProducerTransaction(fromAddress, toAddress, stake, nlohmann::json::parse(publicKeys));
+		tx = env->NewStringUTF(txJson.dump().c_str());
+	} catch (std::exception &e) {
+		exception = true;
+		msgException = e.what();
+	}
+
+	env->ReleaseStringUTFChars(jfromAddress, fromAddress);
+	env->ReleaseStringUTFChars(jtoAddress, toAddress);
+	env->ReleaseStringUTFChars(jpublicKeys, publicKeys);
+
+	if (exception) {
+		ThrowWalletException(env, msgException.c_str());
+	}
+
+	return tx;
+}
+
+
 static const JNINativeMethod gMethods[] = {
 	REGISTER_METHOD(nativeCreateDepositTransaction),
+	REGISTER_METHOD(nativeCreateRegisterProducerTransaction),
+	REGISTER_METHOD(nativeCreateCancelProducerTransaction),
+	REGISTER_METHOD(nativeCreateVoteProducerTransaction),
 };
 
 jint register_elastos_spv_IMainchainSubWallet(JNIEnv *env)
