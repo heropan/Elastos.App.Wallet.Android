@@ -138,11 +138,11 @@ public class Wallet extends CordovaPlugin {
 
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-		super.initialize(cordova, webView);
-
 		mRootPath = MyUtil.getRootPath();
 //		mDIDManagerSupervisor = new DIDManagerSupervisor(mRootPath);
 		mMasterWalletManager = new MasterWalletManager(mRootPath);
+
+		super.initialize(cordova, webView);
 	}
 
 	private boolean createDIDManager(IMasterWallet masterWallet) {
