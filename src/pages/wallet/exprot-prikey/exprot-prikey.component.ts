@@ -27,10 +27,11 @@ export class ExprotPrikeyComponent  {
     reBackupPassWord: '',
     payPassword: ''
   };
-
+  public account:any={};
   onWalletDatainit(){
     this.masterWalletId = Config.getCurMasterWalletId();
     this.exprotObj.name = Config.getWalletName(this.masterWalletId);
+    this.account = Config.getAccountType(this.masterWalletId);
     this.getMasterWalletBasicInfo();
   }
 

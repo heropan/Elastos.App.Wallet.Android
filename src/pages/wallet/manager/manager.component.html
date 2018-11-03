@@ -35,6 +35,15 @@
       </ion-label>
     </button>
 
+        <button ion-item (click)="onItem(5)">
+        <ion-icon item-start>
+          <img src=" assets/images/icon-export.svg " width="22 ">
+        </ion-icon>
+        <ion-label>
+          <span>{{'text-export-mnemomic' | translate}}</span>
+        </ion-label>
+      </button>
+
         <button ion-item (click)="onItem(1)" *ngIf="!readonly">
       <ion-icon item-start>
         <img src=" assets/images/icon-aletr.svg " width="22 ">

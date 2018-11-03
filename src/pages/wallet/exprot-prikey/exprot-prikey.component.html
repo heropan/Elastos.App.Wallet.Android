@@ -6,7 +6,9 @@
 <ion-content>
     <div class="coin-info-top-box">
         <img src="./assets/images/logo-maincolor.svg">
-        <div style="font-size: 1.6em;">{{exprotObj.name}}</div>
+        <div style="font-size: 1.6em;">{{exprotObj.name}}
+            <span *ngIf="account['Type']==='Standard'" style="font-size: 1.3px">{{'text-standard-wallte' | translate}}</span>
+            <span *ngIf="account['Type']==='Multi-Sign'" style="font-size: 1.3px">{{'text-multi-wallte' | translate}}</span></div>
     </div>
     <div *ngIf="!backupWalletPlainText">
         <ion-list>

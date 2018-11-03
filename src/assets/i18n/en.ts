@@ -363,5 +363,7 @@ export const en = {
   'text-wallet-name-validator1':'Wallet name with more than 30 characters',
   'text-wallet-name-validator2': 'Wallet name exit',
   'text-multi-wallte':'(multi wallt)',
-  'text-standard-wallte':'(standard wallte)'
+  'text-standard-wallte':'(standard wallte)',
+  'text-export-mnemomic':'export mnemomic',
+  'text-export-menmonic-sucess':"check menmonic sucess"
 };

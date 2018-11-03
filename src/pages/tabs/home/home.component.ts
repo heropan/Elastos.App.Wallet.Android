@@ -35,6 +35,8 @@ export class HomeComponent {
 
   ionViewDidLeave(){
     this.events.unsubscribe("register:update");
+    this.events.unsubscribe("walletname:update");
+    this.events.unsubscribe("wallte:update");
   }
 
   init() {
@@ -120,15 +122,8 @@ export class HomeComponent {
   }
 
   getAllSubWallets(){
-    //this.walletManager.getAllSubWallets(this.masterWalletId,(data)=>{
-      //if(data["success"]){
-        //this.sycEla();
         this.getElaBalance(this.ElaObj);
         this.handleSubwallet();
-      //}else{
-      //  alert("getAllSubWallets=error:"+JSON.stringify(data));
-      //}
-    //});
   }
 
   getSubBalance(coin){
@@ -155,7 +150,6 @@ export class HomeComponent {
   }
 
   getCoinIndex(coin){
-
    for(let index = 0; index <this.coinList.length;index++){
              let item = this.coinList[index];
               if(coin === item["name"]){
@@ -165,110 +159,9 @@ export class HomeComponent {
    return -1;
   }
 
-  sycEla(){
-
-    this.walletManager.registerWalletListener(this.masterWalletId,"ELA",(result)=>{
-      if(this.masterWalletId != result["MasterWalletID"] && "ELA" === result["ChaiID"]){
-        return;
-      }
-
-      if(result["Action"] === "OnTransactionStatusChanged"){
-        if (result['confirms'] == 1) {
-          this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
-          });
-         }
-      }
-
-      if(result["Action"] === "OnBalanceChanged"){
-        if(!Util.isNull(result["Balance"])){
-          console.log("Ela===Balance"+result["Balance"]/Config.SELA);
-          this.zone.run(() => {
-            this.ElaObj.balance = result["Balance"]/Config.SELA;
-          });
-         }
-       }
-       if(result["Action"] === "OnBlockSyncStopped"){
-              this.zone.run(() => {
-                this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");
-              });
-           }else if(result["Action"] === "OnBlockSyncStarted"){
-            this.zone.run(() => {
-              this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");
-              });
-           }else if(result["Action"] === "OnBlockHeightIncreased"){
-             if(result["progress"]){
-              this.zone.run(() => {
-                this.elaPer= result["progress"];
-                Config.setMasterPer(this.masterWalletId,"ELA",this.elaPer);
-              });
-             }
-
-           }
-
-           if(this.elaPer === 1){
-              this.zone.run(() => {
-              this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");
-            });
-           }
-    });
-  }
-
-  sycIdChain(coin){
-    this.walletManager.registerWalletListener(this.masterWalletId,coin,(result)=>{
-      if(this.masterWalletId != result["MasterWalletID"] && coin === result["ChaiID"]){
-                   return;
-      }
-      if(result["Action"] === "OnBalanceChanged"){
-        if(!Util.isNull(result["Balance"])){
-          if(this.coinList.length === 0){
-            this.coinList.push({name:coin, balance: result["Balance"]/Config.SELA});
-           }else{
-              let index = this.getCoinIndex(coin);
-              if(index!=-1){
-                 let item = this.coinList[index];
-                     item["balance"] = result["Balance"]/Config.SELA;
-                     this.coinList.splice(index,1,item);
-
-              }else{
-                    this.coinList.push({name: coin, balance: result["Balance"]/Config.SELA});
-              }
-           }
-        }
-      }
-
-      if(result["Action"] === "OnTransactionStatusChanged"){
-        if (result['confirms'] == 1) {
-          this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
-          });
-        }
-       }
-
-        if(result["Action"] === "OnBlockSyncStopped"){
-
-          this.zone.run(() => {
-            this.idChainPer = Config.getMasterPer(this.masterWalletId,coin);
-          });
-
-        }else if(result["Action"] === "OnBlockSyncStarted"){
-          this.zone.run(() => {
-            this.idChainPer = Config.getMasterPer(this.masterWalletId,coin);
-          });
-        }else if(result["Action"] === "OnBlockHeightIncreased"){
-          this.zone.run(() => {
-            this.idChainPer  = result["progress"];
-            Config.setMasterPer(this.masterWalletId,coin,this.idChainPer);
-          });
 
 
-        }
 
-        if(this.idChainPer === 1){
-                this.zone.run(() => {
-                  this.idChainPer = Config.getMasterPer(this.masterWalletId,coin);
-                });
-        }
-    });
-  }
 
   handleSubwallet(){
       let subwall  = Config.getSubWallet(this.masterWalletId);
@@ -288,11 +181,11 @@ export class HomeComponent {
       }
   }
 
-
   handleEla(result){
     if(result["Action"] === "OnTransactionStatusChanged"){
       console.log("=====result====="+result['confirms']);
       if (result['confirms'] == 1) {
+        this.getElaBalance(this.ElaObj);
         this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
         });
        }
@@ -352,6 +245,7 @@ export class HomeComponent {
 
         if(result["Action"] === "OnTransactionStatusChanged"){
           if (result['confirms'] == 1) {
+            this.handleSubwallet();
             this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {
             });
           }

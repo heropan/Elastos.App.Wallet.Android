@@ -54,6 +54,7 @@ import {CompanypathinfoPage} from '../pages/id/companypathinfo/companypathinfo';
 import {IdKycCompanyComponent} from '../pages/id/kyc/company/company';
 import {CompanyWriteChainPage} from '../pages/id/kyc/company-write-chain/company-write-chain';
 import {PersonWriteChainPage} from '../pages/id/kyc/person-write-chain/person-write-chain';
+import {ExportmnemomicPage} from '../pages/exportmnemomic/exportmnemomic';
 //add for plugin
 declare var cordova: any;
 
@@ -121,6 +122,7 @@ export class AppComponent {
       //this.rootPage = IdKycCompanyComponent;
       //this.rootPage = CompanyWriteChainPage;
       //this.rootPage = PersonWriteChainPage;
+      //  this.rootPage = ExportmnemomicPage;
       //init java 2 js plugin
     });
 

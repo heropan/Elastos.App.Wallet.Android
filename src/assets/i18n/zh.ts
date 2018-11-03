@@ -364,5 +364,7 @@ export const zh = {
   'text-wallet-name-validator1': '钱包名长度超过30字',
   'text-wallet-name-validator2': '钱包名已存在',
   'text-multi-wallte':'(多签钱包)',
-  'text-standard-wallte':"(普通钱包)"
+  'text-standard-wallte':"(普通钱包)",
+  'text-export-mnemomic':"导出助记词",
+  'text-export-menmonic-sucess':"助记词验证成功"
 };
