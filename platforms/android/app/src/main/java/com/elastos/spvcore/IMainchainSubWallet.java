@@ -24,12 +24,12 @@ public class IMainchainSubWallet extends ISubWallet {
 		return nativeCreateRegisterProducerTransaction(mMainchainProxy, fromAddress, toAddress, publicKey, nickName, url, location);
 	}
 
-	public String CreateCancelProducerTransaction(String fromAddress, String toAddress, String publicKey) throws WalletException {
-		return nativeCreateCancelProducerTransaction(mMainchainProxy, fromAddress, toAddress, publicKey);
+	public String CreateCancelProducerTransaction(String publicKey) throws WalletException {
+		return nativeCreateCancelProducerTransaction(mMainchainProxy, publicKey);
 	}
 
-	public String CreateVoteProducerTransaction(String fromAddress, String toAddress, long stake, String publicKeys) throws WalletException {
-		return nativeCreateVoteProducerTransaction(mMainchainProxy, fromAddress, toAddress, stake, publicKeys);
+	public String CreateVoteProducerTransaction(long stake, String publicKeys) throws WalletException {
+		return nativeCreateVoteProducerTransaction(mMainchainProxy, stake, publicKeys);
 	}
 
 
@@ -40,7 +40,7 @@ public class IMainchainSubWallet extends ISubWallet {
 	private native String nativeCreateRegisterProducerTransaction(long proxy, String fromAddress, String toAddress,
 			String publicKey, String nickName, String url, long location);
 
-	private native String nativeCreateCancelProducerTransaction(long proxy, String fromAddress, String toAddress, String publicKey);
+	private native String nativeCreateCancelProducerTransaction(long proxy, String publicKey);
 
-	private native String nativeCreateVoteProducerTransaction(long proxy, String fromAddress, String toAddress, long stake, String publicKeys);
+	private native String nativeCreateVoteProducerTransaction(long proxy, long stake, String publicKeys);
 }

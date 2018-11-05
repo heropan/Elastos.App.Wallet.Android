@@ -2053,16 +2053,12 @@ public class Wallet extends CordovaPlugin {
 
 	// args[0]: String masterWalletID
 	// args[1]: String chainID
-	// args[2]: String fromAddress
-	// args[3]: String toAddress
 	// args[4]: String publicKey
 	public void createCancelProducerTransaction(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
 		String masterWalletID = args.getString(idx++);
 		String chainID        = args.getString(idx++);
-		String fromAddress    = args.getString(idx++);
-		String toAddress      = args.getString(idx++);
 		String publicKey      = args.getString(idx++);
 
 		if (args.length() != idx) {
@@ -2084,7 +2080,7 @@ public class Wallet extends CordovaPlugin {
 
 			IMainchainSubWallet mainchainSubWallet = (IMainchainSubWallet)subWallet;
 
-			String txJson = mainchainSubWallet.CreateCancelProducerTransaction(fromAddress, toAddress, publicKey);
+			String txJson = mainchainSubWallet.CreateCancelProducerTransaction(publicKey);
 			successProcess(cc, txJson);
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, formatWalletName(masterWalletID, chainID) + " create cancel producer tx");
@@ -2093,8 +2089,6 @@ public class Wallet extends CordovaPlugin {
 
 	// args[0]: String masterWalletID
 	// args[1]: String chainID
-	// args[2]: String fromAddress
-	// args[3]: String toAddress
 	// args[4]: long   stake
 	// args[5]: String publicKeys JSONArray
 	public void createVoteProducerTransaction(JSONArray args, CallbackContext cc) throws JSONException {
@@ -2102,8 +2096,6 @@ public class Wallet extends CordovaPlugin {
 
 		String masterWalletID = args.getString(idx++);
 		String chainID        = args.getString(idx++);
-		String fromAddress    = args.getString(idx++);
-		String toAddress      = args.getString(idx++);
 		long   stake          = args.getLong(idx++);
 		String publicKeys     = args.getString(idx++);
 
@@ -2126,7 +2118,7 @@ public class Wallet extends CordovaPlugin {
 
 			IMainchainSubWallet mainchainSubWallet = (IMainchainSubWallet)subWallet;
 
-			String txJson = mainchainSubWallet.CreateVoteProducerTransaction(fromAddress, toAddress, stake, publicKeys);
+			String txJson = mainchainSubWallet.CreateVoteProducerTransaction(stake, publicKeys);
 			successProcess(cc, txJson);
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, formatWalletName(masterWalletID, chainID) + " create vote producer tx");

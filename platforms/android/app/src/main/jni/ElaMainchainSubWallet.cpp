@@ -99,33 +99,27 @@ static jstring JNICALL nativeCreateRegisterProducerTransaction(JNIEnv *env, jobj
 	return tx;
 }
 
-#define SIG_nativeCreateCancelProducerTransaction "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+#define SIG_nativeCreateCancelProducerTransaction "(JLjava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeCreateCancelProducerTransaction(JNIEnv *env, jobject clazz, jlong jMainSubWalletProxy,
-	jstring jfromAddress,
-	jstring jtoAddress,
 	jstring jpublicKey)
 {
 
 	bool exception = false;
 	std::string msgException;
 
-	const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
-	const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
 	const char* publicKey = env->GetStringUTFChars(jpublicKey, NULL);
 
 	IMainchainSubWallet* wallet = (IMainchainSubWallet*)jMainSubWalletProxy;
 	jstring tx = NULL;
 
 	try {
-		nlohmann::json txJson = wallet->CreateCancelProducerTransaction(fromAddress, toAddress, publicKey);
+		nlohmann::json txJson = wallet->CreateCancelProducerTransaction(publicKey);
 		tx = env->NewStringUTF(txJson.dump().c_str());
 	} catch (std::exception &e) {
 		exception = true;
 		msgException = e.what();
 	}
 
-	env->ReleaseStringUTFChars(jfromAddress, fromAddress);
-	env->ReleaseStringUTFChars(jtoAddress, toAddress);
 	env->ReleaseStringUTFChars(jpublicKey, publicKey);
 
 	if (exception) {
@@ -135,10 +129,8 @@ static jstring JNICALL nativeCreateCancelProducerTransaction(JNIEnv *env, jobjec
 	return tx;
 }
 
-#define SIG_nativeCreateVoteProducerTransaction "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;)Ljava/lang/String;"
+#define SIG_nativeCreateVoteProducerTransaction "(JJLjava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeCreateVoteProducerTransaction(JNIEnv *env, jobject clazz, jlong jMainSubWalletProxy,
-		jstring jfromAddress,
-		jstring jtoAddress,
 		jlong stake,
 		jstring jpublicKeys)
 {
@@ -146,23 +138,19 @@ static jstring JNICALL nativeCreateVoteProducerTransaction(JNIEnv *env, jobject 
 	bool exception = false;
 	std::string msgException;
 
-	const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
-	const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
 	const char* publicKeys = env->GetStringUTFChars(jpublicKeys, NULL);
 
 	IMainchainSubWallet* wallet = (IMainchainSubWallet*)jMainSubWalletProxy;
 	jstring tx = NULL;
 
 	try {
-		nlohmann::json txJson = wallet->CreateVoteProducerTransaction(fromAddress, toAddress, stake, nlohmann::json::parse(publicKeys));
+		nlohmann::json txJson = wallet->CreateVoteProducerTransaction(stake, nlohmann::json::parse(publicKeys));
 		tx = env->NewStringUTF(txJson.dump().c_str());
 	} catch (std::exception &e) {
 		exception = true;
 		msgException = e.what();
 	}
 
-	env->ReleaseStringUTFChars(jfromAddress, fromAddress);
-	env->ReleaseStringUTFChars(jtoAddress, toAddress);
 	env->ReleaseStringUTFChars(jpublicKeys, publicKeys);
 
 	if (exception) {
