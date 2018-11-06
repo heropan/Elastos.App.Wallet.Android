@@ -33,9 +33,6 @@ walletFunc.prototype.recoverSubWallet = function(arg0, success, error) {
     exec(success, error, "Wallet", "createSubWallet", arg0);
 };
 
-walletFunc.prototype.getPublicKey = function(arg0, success, error) {
-    exec(success, error, "Wallet", "getPublicKey", arg0);
-};
 
 walletFunc.prototype.createMasterWallet = function(arg0, success, error) {
     exec(success, error, "Wallet", "createMasterWallet", arg0);
@@ -105,14 +102,11 @@ walletFunc.prototype.getBalanceInfo = function(arg0, success, error) {
 
 };
 
+
 walletFunc.prototype.registerWalletListener = function(arg0, success, error) {
     exec(success, error, "Wallet", "registerWalletListener", arg0);
 
 };
-
-
-//
-
 
 
 walletFunc.prototype.isAddressValid = function(arg0, success, error) {
@@ -232,11 +226,78 @@ walletFunc.prototype.getAllCreatedSubWallets = function(arg0, sucess, error) {
 };
 
 walletFunc.prototype.registerIdListener = function(arg0, success, error) {
-  exec(success, error, "Wallet", "registerIdListener", arg0);
+    exec(success, error, "Wallet", "registerIdListener", arg0);
 
+};
+
+walletFunc.prototype.createMultiSignMasterWalletWithPrivKey = function(arg0, success, error) {
+    exec(success, error, "Wallet", "createMultiSignMasterWalletWithPrivKey", arg0);
+
+};
+
+walletFunc.prototype.createMultiSignMasterWallet = function(arg0, success, error) {
+    exec(success, error, "Wallet", "createMultiSignMasterWallet", arg0);
+
+};
+
+
+walletFunc.prototype.getMasterWalletBasicInfo = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getMasterWalletBasicInfo", arg0);
+};
+
+walletFunc.prototype.createMultiSignTransaction = function(arg0, success, error) {
+    exec(success, error, "Wallet", "createMultiSignTransaction", arg0);
+};
+
+walletFunc.prototype.updateTransactionFee = function(arg0, success, error) {
+    exec(success, error, "Wallet", "updateTransactionFee", arg0);
+};
+
+walletFunc.prototype.signTransaction = function(arg0, success, error) {
+    exec(success, error, "Wallet", "signTransaction", arg0);
+};
+
+walletFunc.prototype.publishTransaction = function(arg0, success, error) {
+    exec(success, error, "Wallet", "publishTransaction", arg0);
+};
+
+walletFunc.prototype.getMasterWalletPublicKey = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getMasterWalletPublicKey", arg0);
+};
+
+walletFunc.prototype.getSubWalletPublicKey = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getSubWalletPublicKey", arg0);
+};
+
+walletFunc.prototype.createMultiSignMasterWalletWithMnemonic = function(arg0, success, error) {
+    exec(success, error, "Wallet", "createMultiSignMasterWalletWithMnemonic", arg0);
+};
+
+
+walletFunc.prototype.encodeTransactionToString = function(arg0, success, error) {
+    exec(success, error, "Wallet", "encodeTransactionToString", arg0);
+};
+
+walletFunc.prototype.decodeTransactionFromString = function(arg0, success, error) {
+    exec(success, error, "Wallet", "decodeTransactionFromString", arg0);
+};
+
+walletFunc.prototype.removeWalletListener = function(arg0, success, error) {
+    exec(success, error, "Wallet", "removeWalletListener", arg0);
+};
+
+walletFunc.prototype.disposeNative = function(arg0, success, error) {
+    exec(success, error, "Wallet", "disposeNative", arg0);
+};
+
+walletFunc.prototype.getMultiSignPubKeyWithMnemonic = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getMultiSignPubKeyWithMnemonic", arg0);
+};
+
+walletFunc.prototype.getMultiSignPubKeyWithPrivKey = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getMultiSignPubKeyWithPrivKey", arg0);
 };
 
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;
-
 });

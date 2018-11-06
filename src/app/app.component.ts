@@ -55,6 +55,7 @@ import {IdKycCompanyComponent} from '../pages/id/kyc/company/company';
 import {CompanyWriteChainPage} from '../pages/id/kyc/company-write-chain/company-write-chain';
 import {PersonWriteChainPage} from '../pages/id/kyc/person-write-chain/person-write-chain';
 import {ExportmnemomicPage} from '../pages/exportmnemomic/exportmnemomic';
+import {ScanPage} from '../pages/scan/scan';
 //add for plugin
 declare var cordova: any;
 
@@ -85,7 +86,7 @@ export class AppComponent {
           }
           this.rootPage = InitializepagePage;
       });
-
+      //this.rootPage = ScanPage;
       //this.rootPage = PaymentboxPage;
       //this.initializeApp();
       //this.rootPage =  WalltelistPage;

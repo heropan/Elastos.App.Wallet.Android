@@ -47,14 +47,6 @@
     "is_top_level": true,
     "variables": {}
   },
-  "phonegap-plugin-barcodescanner": {
-    "source": {
-      "type": "registry",
-      "id": "phonegap-plugin-barcodescanner@7.1.2"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-filechooser": {
     "source": {
       "type": "registry",
@@ -71,10 +63,10 @@
     "is_top_level": true,
     "variables": {}
   },
-  "ElaWallet": {
+  "cordova-plugin-qrscanner": {
     "source": {
-      "type": "local",
-      "path": "/Users/baidu/Documents/elastos_git/mobile/Elastos.ORG.Wallet.Mobile/node_modules/ElaWallet"
+      "type": "registry",
+      "id": "cordova-plugin-qrscanner"
     },
     "is_top_level": true,
     "variables": {}
@@ -82,7 +74,15 @@
   "ElaJava2JSBridge": {
     "source": {
       "type": "local",
-      "path": "/Users/xuxinlai/blockchain/cmt/Elastos.ORG.Wallet.Mobile/node_modules/ElaJava2JSBridge"
+      "path": "/home/songjiazhun/Downloads/Elastos.ORG.Wallet.Mobile/node_modules/ElaJava2JSBridge"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "ElaWallet": {
+    "source": {
+      "type": "local",
+      "path": "/home/songjiazhun/Downloads/Elastos.ORG.Wallet.Mobile/node_modules/ElaWallet"
     },
     "is_top_level": true,
     "variables": {}

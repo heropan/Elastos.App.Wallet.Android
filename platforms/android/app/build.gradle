@@ -92,7 +92,7 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
-apply from: "../phonegap-plugin-barcodescanner/starter-barcodescanner.gradle"
+apply from: "../cordova-plugin-qrscanner/starter-qrscanner.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras = file('build-extras.gradle').exists()
@@ -286,7 +286,7 @@ dependencies {
   implementation fileTree(include: '*.jar', dir: 'libs')
   // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
-    compile "com.android.support:support-v4:27.+"
+    compile "com.android.support:support-v4:21.+"
     // SUB-PROJECT DEPENDENCIES END
   implementation 'com.google.code.gson:gson:2.8.4'
   implementation files('src/main/jniLibs/jcore-android-1.2.1.jar')

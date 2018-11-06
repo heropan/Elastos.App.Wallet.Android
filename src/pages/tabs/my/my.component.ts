@@ -12,7 +12,7 @@ import {Native} from "../../../providers/Native";
 import {LocalStorage} from "../../../providers/Localstorage";
 import { Util } from '../../../providers/Util';
 import {LanguagePage} from '../../../pages/wallet/language/language';
-
+import {ScanPage} from '../../../pages/scan/scan';
 @Component({
   selector: 'app-my',
   templateUrl: 'my.component.html',
@@ -114,21 +114,23 @@ export class MyComponent{
    }
 
    singTx(){
-    this.native.scan().then((data)=>{
-      let senddata = {"content":data["text"],type:4};
-      this.native.Go(this.navCtrl,TxdetailsPage,senddata);
-    }).catch((err)=>{
-      console.log("=======scan()===error====");
-    });
+    // this.native.scan().then((data)=>{
+    //   let senddata = {"content":data["text"],type:4};
+    //   this.native.Go(this.navCtrl,TxdetailsPage,senddata);
+    // }).catch((err)=>{
+    //   console.log("=======scan()===error====");
+    // });
+    this.native.Go(this.navCtrl,ScanPage,{"pageType":"3"});
    }
 
    sendTX(){
-      this.native.scan().then((data)=>{
-        let senddata = {"content":data["text"],type:3};
-        this.native.Go(this.navCtrl,TxdetailsPage,senddata);
-      }).catch((err)=>{
-        console.log("=======scan()===error====");
-      });
+      // this.native.scan().then((data)=>{
+      //   let senddata = {"content":data["text"],type:3};
+      //   this.native.Go(this.navCtrl,TxdetailsPage,senddata);
+      // }).catch((err)=>{
+      //   console.log("=======scan()===error====");
+      // });
+      this.native.Go(this.navCtrl,ScanPage,{"pageType":"4"});
    }
 
    ionViewDidLeave() {

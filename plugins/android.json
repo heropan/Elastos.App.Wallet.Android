@@ -25,20 +25,19 @@
     "cordova-sqlite-storage": {
       "PACKAGE_NAME": "io.ionic.starter"
     },
-    "phonegap-plugin-barcodescanner": {
-      "ANDROID_SUPPORT_V4_VERSION": "27.+",
-      "PACKAGE_NAME": "io.ionic.starter"
-    },
     "cordova-plugin-filechooser": {
       "PACKAGE_NAME": "io.ionic.starter"
     },
     "cordova-clipboard": {
       "PACKAGE_NAME": "io.ionic.starter"
     },
-    "ElaWallet": {
+    "cordova-plugin-qrscanner": {
       "PACKAGE_NAME": "io.ionic.starter"
     },
     "ElaJava2JSBridge": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "ElaWallet": {
       "PACKAGE_NAME": "io.ionic.starter"
     }
   },

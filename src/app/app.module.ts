@@ -27,6 +27,7 @@ import { BackupProvider } from '../providers/backup';
 import { HttpService } from '../providers/HttpService';
 import { PopupProvider } from '../providers/popup';
 import { DataManager } from '../providers/DataManager';
+import { QRScanner } from '@ionic-native/qr-scanner';
 
 /**pages*/
 import {AppComponent} from './app.component';
@@ -62,7 +63,6 @@ import {Native} from '../providers/Native';
 import {Logger} from '../providers/Logger';
 import {RecordinfoComponent} from '../pages/coin/recordinfo/recordinfo.component';
 import {WalletManager} from "../providers/WalletManager";
-import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 import {FileChooser} from "@ionic-native/file-chooser";
 
 import {TestJniComponent} from '../pages/testjni/testjni.component';
@@ -99,6 +99,8 @@ import {MpublickeyPage} from '../pages/mpublickey/mpublickey';
 import {ImportmnemonicPage} from '../pages/importmnemonic/importmnemonic';
 import {ExportmnemomicPage} from '../pages/exportmnemomic/exportmnemomic';
 import {CheckmnemomicPage} from '../pages/checkmnemomic/checkmnemomic';
+import {ScanPage} from '../pages/scan/scan';
+
 
 
 /*id相关页面*/
@@ -189,7 +191,8 @@ export function TranslateLoaderFactory() {
     MpublickeyPage,
     ImportmnemonicPage,
     ExportmnemomicPage,
-    CheckmnemomicPage
+    CheckmnemomicPage,
+    ScanPage
   ],
   imports: [
     BrowserModule,
@@ -278,12 +281,12 @@ export function TranslateLoaderFactory() {
     MpublickeyPage,
     ImportmnemonicPage,
     ExportmnemomicPage,
-    CheckmnemomicPage
+    CheckmnemomicPage,
+    ScanPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    BarcodeScanner,
     FileChooser,
     Clipboard,
     Config,
@@ -295,6 +298,7 @@ export function TranslateLoaderFactory() {
     HttpService,
     PopupProvider,
     DataManager,
+    QRScanner,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

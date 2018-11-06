@@ -1,7 +1,6 @@
 
 import {Injectable} from '@angular/core';
 import { ToastController,LoadingController,App, Loading} from 'ionic-angular';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Clipboard } from '@ionic-native/clipboard';
 import {TranslateService} from '@ngx-translate/core';
 import {HttpService} from "../providers/HttpService";
@@ -14,7 +13,6 @@ export class Native {
   private loading: Loading;
   private loadingIsOpen: boolean = false;
   constructor(public toastCtrl:ToastController,
-              private barcodeScanner: BarcodeScanner,
               private clipboard: Clipboard,
               public translate: TranslateService,
               public app:App,
@@ -44,14 +42,6 @@ export class Native {
     }).present();
   }
 
-
-  /***
-   * 调用二维码扫描
-   * @returns {{codeData: string}}
-   */
-  public scan() {
-    return this.barcodeScanner.scan();
-  }
 
   /**
    * 复制到剪贴板

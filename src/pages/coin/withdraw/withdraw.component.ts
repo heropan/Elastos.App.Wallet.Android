@@ -7,6 +7,7 @@ import {PaymentboxPage} from '../../../pages/paymentbox/paymentbox';
 import {WalletManager} from '../../../providers/WalletManager';
 import {Native} from "../../../providers/Native";
 import {LocalStorage} from "../../../providers/Localstorage";
+import {ScanPage} from '../../../pages/scan/scan';
 @Component({
   selector: 'app-withdraw',
   templateUrl: './withdraw.component.html'})
@@ -43,6 +44,9 @@ export class WithdrawComponent{
          this.init();
     }
    init() {
+    this.events.subscribe("address:update",(address)=>{
+      this.mainchain.accounts = address;
+    });
     this.masterWalletId = Config.getCurMasterWalletId();
     let transferObj =this. navParams.data;
     this.chianId = transferObj["chianId"];
@@ -50,16 +54,7 @@ export class WithdrawComponent{
   }
 
   rightHeader(){
-    this.native.scan().then((q)=>{
-      let result = q.text;
-      if (result.indexOf('elastos') != -1) {
-        this.mainchain.accounts = result.split(":")[1];
-      } else {
-        this.mainchain.accounts = result.split(":")[0];
-      }
-    }).catch(err=>{
-        this.native.toast('error-address');
-    });
+    this.native.Go(this.navCtrl,ScanPage,{"pageType":"1"});
   }
 
   initData(){
