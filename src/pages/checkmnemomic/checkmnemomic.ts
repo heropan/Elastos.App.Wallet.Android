@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams} from 'ionic-angular';
 import {Native} from "../../providers/Native";
+import {Util} from "../../providers/Util";
+
 /**
  * Generated class for the CheckmnemomicPage page.
  *
@@ -50,9 +52,20 @@ export class CheckmnemomicPage {
   private shouldContinue(): void {
     this.selectComplete = this.selectList.length === this.mnemonicList.length ? true : false;
     if(this.selectComplete){
+
+      let mn = "";
+      for(let i =0;i<this.selectList.length;i++){
+        mn += this.selectList[i].text;
+      }
+      if(!Util.isNull(mn) && mn == this.mnemonicStr.replace(/\s+/g,"")){
         this.native.toast_trans('text-export-menmonic-sucess');
         this.navCtrl.popTo(this.navCtrl.getByIndex(this.navCtrl.length()-3));
+      }else{
+        this.native.toast_trans('text-mnemonic-prompt3');
+      }
+
     }
+
   }
 
 }
