@@ -28,37 +28,32 @@ export class ScanPage {
         // start scanning
         let scanSub = this.qrScanner.scan().subscribe((text: string) =>
            {
-             console.log("======text======="+text);
-             alert("=====text====="+text);
-             this.hideCamera();
+             switch(this.pageType){
+                case "1":
+                   let toaddress = "";
+                  if(text.indexOf('elastos') != -1) {
+                    toaddress = text.split(":")[1];
+                   }else{
+                    toaddress = text.split(":")[0];
+                   }
+                  this.events.publish("address:update",toaddress);
+                  this.hideCamera();
                   // stop scanning
-              this.navCtrl.pop();
-            //  switch(this.pageType){
-            //     case "1":
-            //        let toaddress = "";
-            //       if(text.indexOf('elastos') != -1) {
-            //         toaddress = text.split(":")[1];
-            //        }else{
-            //         toaddress = text.split(":")[0];
-            //        }
-            //       this.events.publish("address:update",toaddress);
-            //       this.hideCamera();
-            //       // stop scanning
-            //       this.navCtrl.pop();
-            //       break;
-            //    case "3":
-            //      this.hideCamera();
-            //      this.navCtrl.pop();
-            //      let senddata = {"content":text,type:4};
-            //      this.native.Go(this.navCtrl,TxdetailsPage,senddata);
-            //        break;
-            //    case "4":
-            //     this.hideCamera();
-            //     this.navCtrl.pop();
-            //     let senddata1 = {"content":text,type:3};
-            //     this.native.Go(this.navCtrl,TxdetailsPage,senddata1);
-            //        break;
-            //  }
+                  this.navCtrl.pop();
+                  break;
+               case "3":
+                 this.hideCamera();
+                 this.navCtrl.pop();
+                 let senddata = {"content":text,type:4};
+                 this.native.Go(this.navCtrl,TxdetailsPage,senddata);
+                   break;
+               case "4":
+                this.hideCamera();
+                this.navCtrl.pop();
+                let senddata1 = {"content":text,type:3};
+                this.native.Go(this.navCtrl,TxdetailsPage,senddata1);
+                   break;
+             }
 
             });
              // show camera preview
