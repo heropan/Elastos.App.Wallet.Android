@@ -19,7 +19,7 @@ export class ImportComponent {
   public importFileObj:any={payPassword: "",rePayPassword: "", backupPassWord: "",name:""};
   public mnemonicObj:any={mnemonic:"",payPassword: "", rePayPassword: "",phrasePassword:"",name:"",singleAddress:false};
   public walletType:string;
-  public accontObj:any;
+  public accontObj:any ={};
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage,public events:Events) {
          this.masterWalletId = Config.uuid(6,16);
   }
@@ -101,8 +101,7 @@ export class ImportComponent {
                       this.importFileObj.payPassword,
                       (data)=>{
                         if(data["success"]){
-                               console.log("======importWalletWithKeystore====="+JSON.stringify(data["success"]));
-                               this.accontObj = data["success"];
+                               this.accontObj = JSON.parse(data["success"])["Account"];
                                this.walletManager.createSubWallet(this.masterWalletId,"ELA",0, (data)=>{
                                 if(data["success"]){
                                    this.registerWalletListener(this.masterWalletId,"ELA");
@@ -182,8 +181,7 @@ export class ImportComponent {
     let mnemonic = this.normalizeMnemonic(this.mnemonicObj.mnemonic);
     this.walletManager.importWalletWithMnemonic(this.masterWalletId,mnemonic,this.mnemonicObj.phrasePassword,this.mnemonicObj.payPassword,this.mnemonicObj.singleAddress,(data)=>{
                 if(data["success"]){
-                       console.log("======importWalletWithMnemonic====="+JSON.stringify(data["success"]));
-                       this.accontObj = data["success"];
+                       this.accontObj = JSON.parse(data["success"])["Account"];
                        this.walletManager.createSubWallet(this.masterWalletId,"ELA",0, (data)=>{
                         if(data["success"]){
                           this.native.toast_trans('import-text-world-sucess');
@@ -240,6 +238,8 @@ export class ImportComponent {
               }else if(this.selectedTab === "file"){
                     name = this.importFileObj.name;
               }
+
+              console.log("=====mappingList====3333");
               let walletObj = this.native.clone(Config.masterWallObj);
               walletObj["id"]   = this.masterWalletId;
               walletObj["wallname"] = name;
