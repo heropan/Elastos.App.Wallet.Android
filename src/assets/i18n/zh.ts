@@ -366,5 +366,7 @@ export const zh = {
   'text-multi-wallte':'(多签钱包)',
   'text-standard-wallte':"(普通钱包)",
   'text-export-mnemomic':"导出助记词",
-  'text-export-menmonic-sucess':"助记词验证成功"
+  'text-export-menmonic-sucess':"助记词验证成功",
+
+  'create-multi-by-mnes': '导入助记词',
 };
