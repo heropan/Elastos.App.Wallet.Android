@@ -199,7 +199,7 @@ export class TransferComponent {
             this.walletManager.encodeTransactionToString(data["success"],(raw)=>{
                      if(raw["success"]){
                       this.native.hideLoading();
-                      this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":this.chianId,"fee":this.transfer.fee/Config.SELA, "rawTransaction":raw["success"]}});
+                      this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":this.chianId,"fee":this.transfer.fee/Config.SELA, "raw":raw["success"]}});
                      }else{
                       alert("=====encodeTransactionToString===error==="+JSON.stringify(raw));
                      }
