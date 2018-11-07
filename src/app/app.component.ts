@@ -92,7 +92,7 @@ export class AppComponent {
       //this.rootPage =  WalltelistPage;
       //this.rootPage = ImportprivatekeyPage;
       //  this.rootPage =  TabsComponent;
-      //this.rootPage =  LauncherComponent;
+       //this.rootPage =  LauncherComponent;
       //this.rootPage =  ManagerComponent;
       //this.rootPage = ExprotPrikeyComponent;
       //this.rootPage = MyComponent;
