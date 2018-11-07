@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {Util} from "../../providers/Util";
 import {Native} from "../../providers/Native";
-import {AddprivatekeyPage} from '../../pages/addprivatekey/addprivatekey';
 import {MpublickeyPage} from '../../pages/mpublickey/mpublickey';
 @Component({
   selector: 'page-importprivatekey',

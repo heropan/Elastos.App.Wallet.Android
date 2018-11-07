@@ -4,6 +4,7 @@ import {Native} from "../../providers/Native";
 import {WalletManager} from '../../providers/WalletManager';
 import {Config} from '../../providers/Config';
 import {AddpublickeyPage} from '../../pages/addpublickey/addpublickey';
+import {AddprivatekeyPage} from '../../pages/addprivatekey/addprivatekey';
 @Component({
   selector: 'page-mpublickey',
   templateUrl: 'mpublickey.html',
@@ -18,7 +19,7 @@ export class MpublickeyPage {
         console.log("==========this.exatParm============="+JSON.stringify(this.exatParm));
         if(this.exatParm["mnemonicStr"]){
           this.getPublicKey();
-        }else{
+        }else if(this.exatParm["importText"]){
           this.getMultiSignPubKeyWithPrivKey();
         }
 
@@ -55,7 +56,12 @@ export class MpublickeyPage {
   }
 
   nextPage(){
-    this.native.Go(this.navCtrl,AddpublickeyPage,this.exatParm);
+    if(this.exatParm["mnemonicStr"]){
+      this.native.Go(this.navCtrl,AddpublickeyPage,this.exatParm);
+    }else if(this.exatParm["importText"]){
+      this.native.Go(this.navCtrl,AddprivatekeyPage,this.exatParm);
+    }
+
   }
 
 }
