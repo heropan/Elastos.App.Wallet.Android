@@ -287,7 +287,7 @@ export const en = {
   'text-publickey-placeholder':"input pubkey of participant",
   'text-add-publickey-title':"add pubkey",
   'text-add-private-title':"add prikey",
-  
+
   'text-create-privatekey':"Create a new seed",
   'text-observe-wallte':"Observer wallet (Public Key Only)",
 
@@ -365,10 +365,10 @@ export const en = {
   'suggest-amount':'amount should less than',
   'text-wallet-name-validator1':'Wallet name with more than 30 characters',
   'text-wallet-name-validator2': 'Wallet name exit',
-  'text-multi-wallte':'(multi wallt)',
-  'text-standard-wallte':'(standard wallte)',
+  'text-multi-wallte':'(multi wallet)',
+  'text-standard-wallte':'(standard wallet)',
   'text-export-mnemomic':'Backup Mnemomics',
   'text-export-menmonic-sucess':"check menmonics success",
-  
+
   'create-multi-by-mnes': 'Use Existing Seed (Import Mnemonics) ',
 };
