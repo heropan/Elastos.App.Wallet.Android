@@ -1,9 +1,8 @@
-import { Component,ViewChild } from '@angular/core';
-import {Platform, IonicApp, Nav, App,Tabs} from 'ionic-angular';
+import { Component} from '@angular/core';
+import {Platform, IonicApp,App} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LauncherComponent } from "../pages/launcher/launcher.component";
-//import {Utils} from "../providers/Utils";
 import { MnemonicComponent } from "../pages/mnemonic/mnemonic.component";
 //import {WriteComponent} from "../pages/mnemonic/write/write.component";
 import { ImportComponent } from "../pages/wallet/import/import.component";
@@ -66,7 +65,6 @@ declare var cordova: any;
 
 
 export class AppComponent {
-  @ViewChild('myNav') nav:Tabs;
   rootPage: any;
   backButtonPressed: boolean = false;  //用于判断返回键是否触发
   constructor(public onicApp:IonicApp,public appCtrl: App, private platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public localStorage: LocalStorage, private translate: TranslateService, private native: Native) {
@@ -76,16 +74,7 @@ export class AppComponent {
       statusBar.styleDefault();
       splashScreen.hide();
       this.initTranslateConfig();
-      this.initJsPush();
-      this.getKycIdList();
-
-      this.localStorage.getMappingTable().then((data)=>{
-         console.log("===getMappingTable===="+data);
-         if(data){
-           Config.setMappingList(JSON.parse(data));
-          }
-          this.rootPage = InitializepagePage;
-      });
+      this.init();
       //this.rootPage = ScanPage;
       //this.rootPage = PaymentboxPage;
       //this.initializeApp();
@@ -130,11 +119,20 @@ export class AppComponent {
 
   }
 
-  GetQueryString(name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-    var r = window.location.search.substr(1).match(reg);
-    if (r != null) return decodeURI(r[2]); return null;
+
+  init(){
+    this.initJsPush();
+    this.getKycIdList();
+
+    this.localStorage.getMappingTable().then((data)=>{
+       this.native.info(data);
+       if(data){
+         Config.setMappingList(JSON.parse(data));
+        }
+        this.rootPage = InitializepagePage;
+    });
   }
+
   //
   onReceiveJG(param) {
     let serialNum = JSON.parse(param)["serialNum"];
@@ -158,24 +156,6 @@ export class AppComponent {
 
     //   });
     //  });
-  }
-
-  registerBackButtonAction(tabRef: Tabs) {
-    this.platform.registerBackButtonAction(() => {
-         this.showExit();
-    }, 1);
-  }
-
-  //双击退出提示框
-  showExit() {
-    if (this.backButtonPressed) { //当触发标志为true时，即2秒内双击返回按键则退出APP
-      this.platform.exitApp();
-    } else {
-      let exitmesage = this.translate.instant("text-exit-message");
-      this.native.toast(exitmesage);
-      this.backButtonPressed = true;
-      setTimeout(() => this.backButtonPressed = false, 2000);//2秒内没有再次点击返回则将触发标志标记为false
-    }
   }
 
   initTranslateConfig() {

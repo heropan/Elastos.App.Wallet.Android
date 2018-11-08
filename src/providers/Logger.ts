@@ -1,6 +1,8 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable} from '@angular/core';
 
 import * as _ from 'lodash';
+
+import {Config} from "../providers/Config"
 
 /**
  * 日志控制
@@ -12,23 +14,11 @@ export class Logger {
 
   }
 
-  public static error(message?: any,...optionalParams: any[]): void {
-    let msg = '[error] ' + (_.isString(message) ? message : JSON.stringify(message));
-    console.log(msg,optionalParams);
-  }
 
-  public static debug(message?: any, ...optionalParams: any[]): void {
-    let msg = '[debug] ' + (_.isString(message) ? message : JSON.stringify(message));
-    if (isDevMode()) console.log(msg,optionalParams);
-  }
-
-  public static info(message?: any, ...optionalParams: any[]): void {
-    let msg = '[info] ' + (_.isString(message) ? message : JSON.stringify(message));
-    if (isDevMode()) console.log(msg, ...optionalParams);
-  }
-
-  public static warn(message?: any, ...optionalParams: any[]): void {
-    let msg = '[warn] ' + (_.isString(message) ? message : JSON.stringify(message));
-    if (isDevMode()) console.log(msg, ...optionalParams);
+  public static info(message): void {
+    if(Config.isDebug){
+      let msg = "elastos=="+ (_.isString(message) ? message : JSON.stringify(message));
+      console.log(msg,'color:#e8c406');
+    }
   }
 }

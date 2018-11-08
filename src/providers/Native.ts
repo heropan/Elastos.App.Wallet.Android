@@ -4,6 +4,7 @@ import { ToastController,LoadingController,App, Loading} from 'ionic-angular';
 import { Clipboard } from '@ionic-native/clipboard';
 import {TranslateService} from '@ngx-translate/core';
 import {HttpService} from "../providers/HttpService";
+import {Logger} from "../providers/Logger";
 /***
  * APP底层交互
  */
@@ -21,7 +22,9 @@ export class Native {
 
   }
 
-
+  public info(message){
+     Logger.info(message);
+  }
 
   public toast(_message: string = '操作完成', duration: number = 2000): void {
     //this.toast.show(message, String(duration), 'bottom').subscribe();

@@ -100,10 +100,9 @@ export class InitializepagePage {
 
   public errorHandle(data){
        let error = data["error"];
-       console.log("====error ====="+JSON.stringify(error));
-
+       this.native.info(error["code"]);
        if(error["code"] === 10002){
-        console.log("====code ====="+error["code"]);
+        this.native.info(error["code"]);
         let type = Util.GetQueryString("type");
          this.handleNull(type);
        }else{
@@ -141,7 +140,7 @@ export class InitializepagePage {
         list[id] = mappList[id];
     }
     Config.setMappingList(list);
-    console.log("===setMappingList===="+JSON.stringify(Config.getMappingList()));
+    this.native.info(Config.getMappingList());
   }
 
   getAllsubWallet(masterId,type){
@@ -173,9 +172,7 @@ export class InitializepagePage {
   registerWalletListener(masterId,coin){
 
     this.walletManager.registerWalletListener(masterId,coin,(data)=>{
-            //console.log("==========="+Config.isResregister(masterId,coin))
             if(!Config.isResregister(masterId,coin)){
-              //console.log("==========="+Config.isResregister(masterId,coin))
               Config.setResregister(masterId,coin,true);
             }
             this.events.publish("register:update",masterId,coin,data);
