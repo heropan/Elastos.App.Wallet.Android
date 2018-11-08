@@ -35,7 +35,7 @@
       </ion-label>
     </button>
 
-        <button ion-item (click)="onItem(5)">
+        <button ion-item (click)="onItem(5)" *ngIf="!readonly">
         <ion-icon item-start>
           <img src=" assets/images/icon-export.svg " width="22 ">
         </ion-icon>

@@ -26,22 +26,7 @@ export class ManagerComponent {
   public singleAddress:boolean = false;
   constructor(public navCtrl: NavController, public navParams: NavParams,public events: Events,public localStorage:LocalStorage,public popupProvider: PopupProvider, public walletManager: WalletManager,private app: App,public native:Native) {
     this.masterWalletId = Config.getCurMasterWalletId();
-    // this.localStorage.getWallet().then((val) => {
-    //   if (val) {
-    //     this.walletName = JSON.parse(val).name;
-    //   }
-    // });
-
     this.walletName = Config.getWalletName(this.masterWalletId);
-
-    // this.localStorage.getLanguage("wallte-language").then((val)=>{
-    //      this.currentLanguageName = JSON.parse(val)["name"] || "";
-    // });
-
-    // this.events.subscribe('language:update', (item) => {
-    //     this.currentLanguageName = item["name"] || "";
-    // });
-
     this.events.subscribe("walletname:update",()=>{
       this.walletName = Config.getWalletName(this.masterWalletId);
     });
@@ -60,20 +45,13 @@ export class ManagerComponent {
       case 2:
         this.popupProvider.ionicConfirm('confirmTitle', 'confirmSubTitle').then((data) => {
           if (data) {
-            //this.destroyWallet(this.masterWalletId);
             this.native.showLoading().then(()=>{
-			 this.destroyWallet(this.masterWalletId);
-			//this.getAllCreatedSubWallets();
+			      this.destroyWallet(this.masterWalletId);
             });
           }
         });
         break;
       case 3:
-      // this.localStorage.getLanguage("wallte-language").then((val)=>{
-      //        let item =JSON.parse(val);
-      //        this.native.Go(this.navCtrl,LanguagePage,item);
-      // })
-
         this.native.Go(this.navCtrl,PublickeyPage);
          break;
       case 4:
