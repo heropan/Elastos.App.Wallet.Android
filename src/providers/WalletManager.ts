@@ -503,6 +503,12 @@ export class WalletManager {
     });
    }
 
+   getTransactionSignedSigners(masterWalletId:string,chainId:string,txJson:string,Fun){
+    this.wallet.getTransactionSignedSigners([masterWalletId,chainId,txJson],Fun,(error)=>{
+       this.errorFun(error);
+    });
+   }
+
   errorFun(error) {
     console.log("error = "+JSON.stringify(error));
     let key = error["error"]["code"];

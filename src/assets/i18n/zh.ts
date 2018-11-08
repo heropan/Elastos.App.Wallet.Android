@@ -369,4 +369,5 @@ export const zh = {
   'text-export-menmonic-sucess':"助记词验证成功",
 
   'create-multi-by-mnes': '导入助记词',
+  'already-signed-publickey':'已签过的公钥'
 };

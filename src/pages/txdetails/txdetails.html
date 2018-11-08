@@ -16,6 +16,13 @@
 <ion-content padding>
     <ul>
         <li>
+            {{'transaction-id' | translate}}
+        </li>
+        <li class="bottom-border">
+            {{txHash}}
+        </li>
+
+        <li>
             {{'transfer-address' | translate}}
         </li>
         <li class="bottom-border">
@@ -33,6 +40,14 @@
         <li class="bottom-border">
             {{txDetails['fee']}}
         </li>
+
+        <li *ngIf="singPublickey.length > 0">
+            {{'already-signed-publickey' | translate}}
+        </li>
+        <li *ngFor="let item of singPublickey; let i = index" [ngClass]="{'bottom-border': i==singPublickey.length-1}">
+            {{i+1}}.{{item}}
+        </li>
+
     </ul>
 </ion-content>
 <ion-footer>

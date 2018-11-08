@@ -9,6 +9,7 @@ import {Native} from "../../providers/Native";
 export class PaymentboxPage {
   public SELA = Config.SELA;
   public toAddress = "";
+  public walltype:boolean = false;
   public transfer: any = {
     toAddress: '',
     amount: '',
@@ -19,6 +20,13 @@ export class PaymentboxPage {
     rate:''
   };
   constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl: ViewController,public native:Native) {
+    let masterId = Config.getCurMasterWalletId();
+    let accountObj = Config.getAccountType(masterId);
+    if(accountObj["Type"] === "Multi-Sign" && accountObj["Readonly"]){
+             this.walltype = false;
+    }else{
+             this.walltype = true;
+    }
             this.transfer = this.navParams.data;
             if(this.transfer["rate"]){
                this.toAddress = this.transfer["accounts"];
@@ -37,6 +45,10 @@ export class PaymentboxPage {
 
   click_button(){
     //this.viewCtrl.dismiss(this.transfer);
+    if(!this.walltype){
+      this.viewCtrl.dismiss(this.transfer);
+        return;
+    }
     if(this.transfer.payPassword){
       this.viewCtrl.dismiss(this.transfer);
     }else{

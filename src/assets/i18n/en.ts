@@ -371,4 +371,5 @@ export const en = {
   'text-export-menmonic-sucess':"check menmonics success",
 
   'create-multi-by-mnes': 'Use Existing Seed (Import Mnemonics) ',
+  'already-signed-publickey':'already singed publickey'
 };

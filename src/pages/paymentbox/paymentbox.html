@@ -26,7 +26,7 @@
                 <td class="right">1 : {{transfer.rate}}</td>
             </tr>
 
-            <tr class="item" class="font-size-1">
+            <tr class="item" class="font-size-1" *ngIf="walltype">
                 <ion-item>
                     <ion-input type="password" placeholder="{{ 'text-pay-passworld-input' | translate }}" [(ngModel)]="transfer.payPassword"></ion-input>
                 </ion-item>

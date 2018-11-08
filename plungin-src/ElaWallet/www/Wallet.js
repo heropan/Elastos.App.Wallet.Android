@@ -297,5 +297,11 @@ walletFunc.prototype.getMultiSignPubKeyWithPrivKey = function(arg0, success, err
     exec(success, error, "Wallet", "getMultiSignPubKeyWithPrivKey", arg0);
 };
 
+walletFunc.prototype.getTransactionSignedSigners = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getTransactionSignedSigners", arg0);
+};
+
+
+
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;
