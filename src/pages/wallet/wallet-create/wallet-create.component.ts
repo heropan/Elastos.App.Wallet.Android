@@ -12,7 +12,7 @@ export class WalletCreateComponent {
  isShow:any = false;
  constructor(public navCtrl: NavController,public navParams:NavParams,public native:Native){
       this.MultObj = this.navParams.data;
-      console.log("====WalletCreateComponent====="+JSON.stringify(this.MultObj));
+      this.native.info(this.MultObj);
       if(!Util.isEmptyObject(this.MultObj)){
           this.wallet.singleAddress = true;
           this.isShow = true;

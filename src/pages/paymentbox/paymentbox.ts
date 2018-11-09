@@ -36,7 +36,7 @@ export class PaymentboxPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PaymentboxPage');
+
   }
 
   click_close(){

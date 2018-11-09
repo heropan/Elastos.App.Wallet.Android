@@ -28,7 +28,6 @@ export class LanguagePage {
 
       this.currentLanguage = this.navParams.data["isoCode"] || 'en';
       this.translate.use(this.currentLanguage);
-      console.log("this.currentLanguage="+this.currentLanguage);
   }
 
 

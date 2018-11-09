@@ -61,7 +61,7 @@ export class ExportmnemomicPage {
   onExport(){
     if(this.checkparms()){
       this.walletManager.exportWalletWithMnemonic(this.masterWalletId,this.payPassword,(data)=>{
-               console.log("====exportWalletWithMnemonic======"+JSON.stringify(data));
+               this.native.info(data);
                if(data["success"]){
                  this.mnemonicStr = data["success"].toString();
                  let mnemonicArr = this.mnemonicStr.split(/[\u3000\s]+/);

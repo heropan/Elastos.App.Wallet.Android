@@ -22,7 +22,7 @@ export class CompanypathinfoPage{
      }
        init(){
         this.parmar = this.navParams.data;
-        console.log("---path---"+JSON.stringify(this.parmar));
+        this.native.info(this.parmar);
         this.localStorage.get("kycId").then((val)=>{
           if(val == null || val === undefined || val === {} || val === ''){
             return;
@@ -81,8 +81,9 @@ export class CompanypathinfoPage{
       getAppAuth(item){
         let serialNum = item["serialNum"];
         let txHash =  item["txHash"];
-        console.log("getAppAuth======= txHash type "+typeof(txHash));
-        console.log('ElastosJs companypathinfo.ts----getAppAuth----'+"---serialNum---"+serialNum+"---txHash---"+txHash);
+        this.native.info(typeof(txHash));
+        this.native.info(serialNum);
+        this.native.info(txHash);
         let timestamp = this.native.getTimestamp();
         let parms ={"serialNum":serialNum,
                     "txHash":txHash,
@@ -92,11 +93,9 @@ export class CompanypathinfoPage{
         parms["checksum"] = checksum;
         this.native.getHttp().postByAuth(ApiUrl.APP_AUTH,parms).toPromise().then().then(data => {
           if(data["status"] === 200){
-            console.log("ElastosJs companypathinfo.ts data ======="+JSON.stringify(data));
+            this.native.info(data);
             let authResult = JSON.parse(data["_body"]);
-
-            console.log("ElastosJs companypathinfo.ts authResult ======="+JSON.stringify(authResult));
-
+            this.native.info(authResult);
             if(authResult["errorCode"] === "1"){
               this.native.toast_trans("text-id-kyc-auth-fee-fail");
               return;
@@ -113,10 +112,7 @@ export class CompanypathinfoPage{
                 //this.params["adata"] = authResult["data"];
                 item["adata"] = authResult["data"];
                 this.saveSerialNumParm(serialNum,item);
-
-
-              console.log("ElastosJs companypathinfo.ts length ======="+authResult["data"].length);
-
+              this.native.info(authResult["data"].length);
               if (authResult["data"].length > 0){
                 var signCont = JSON.parse(JSON.stringify(authResult["data"][0]));
                  let resultSign = signCont["resultSign"];

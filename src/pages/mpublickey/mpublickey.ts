@@ -16,7 +16,7 @@ export class MpublickeyPage {
   exatParm:any;
   constructor(public navCtrl: NavController, public navParams: NavParams,public native: Native,public walletManager: WalletManager) {
         this.exatParm = this.navParams.data;
-        console.log("==========this.exatParm============="+JSON.stringify(this.exatParm));
+        this.native.info(this.exatParm);
         if(this.exatParm["mnemonicStr"]){
           this.getPublicKey();
         }else if(this.exatParm["importText"]){
@@ -46,7 +46,6 @@ export class MpublickeyPage {
   }
 
   getMultiSignPubKeyWithPrivKey(){
-    console.log("====getMultiSignPubKeyWithPrivKey====");
     this.walletManager.getMultiSignPubKeyWithPrivKey(this.exatParm["importText"],(data)=>{
       if(data["success"]){
         this.qrcode = data["success"];

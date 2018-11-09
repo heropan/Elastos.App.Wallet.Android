@@ -23,7 +23,7 @@ export class RecordinfoComponent{
     let chainId = this.navParams.get("chainId");
     this.walletManager.getAllTransaction(this.masterWalletId,chainId, this.start, txId, (data) => {
       if(data["success"]){
-        console.log("====getAllTransaction====="+JSON.stringify(data));
+        this.native.info(data);
         let allTransaction = JSON.parse(data['success']);
         let transactions = allTransaction['Transactions'];
         let transaction = transactions[0];

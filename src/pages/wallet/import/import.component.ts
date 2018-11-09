@@ -238,8 +238,6 @@ export class ImportComponent {
               }else if(this.selectedTab === "file"){
                     name = this.importFileObj.name;
               }
-
-              console.log("=====mappingList====3333");
               let walletObj = this.native.clone(Config.masterWallObj);
               walletObj["id"]   = this.masterWalletId;
               walletObj["wallname"] = name;
@@ -251,7 +249,7 @@ export class ImportComponent {
               this.localStorage.saveMappingTable(walletObj).then((data)=>{
               let  mappingList = this.native.clone(Config.getMappingList());
             mappingList[this.masterWalletId] = walletObj;
-           console.log("=====mappingList===="+JSON.stringify(mappingList));
+            this.native.info(mappingList);
             Config.setMappingList(mappingList);
                     this.native.hideLoading();
                     Config.setCurMasterWalletId(this.masterWalletId);

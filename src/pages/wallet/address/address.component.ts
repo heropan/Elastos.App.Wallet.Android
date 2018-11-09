@@ -28,7 +28,7 @@ export class AddressComponent {
   getAddressList(){
     this.walletManager.getAllAddress(this.masterWalletId,this.chinaId,this.start, (data) => {
       if(data["success"]){
-        console.log("===getAllAddress==="+JSON.stringify(data));
+        this.native.info(data);
         let address = JSON.parse(data["success"])['Addresses'];
         this.MaxCount = JSON.parse(data["success"])['MaxCount'];
         if(!address){

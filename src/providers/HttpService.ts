@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {Http, Response, Headers, RequestOptions, URLSearchParams} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import {Util} from "./Util";
+//import {Native} from "./Native"
 //import {ApiUrl} from "./ApiUrl";
 
 
@@ -29,7 +30,7 @@ export class HttpService {
   }
 
   public getByAuth(url: string, paramMap?: any): Observable<Response> {
-    console.log("======parms======"+JSON.stringify(paramMap));
+    //this.native.info(paramMap);
     let headers = new Headers({
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
     });
@@ -49,7 +50,7 @@ export class HttpService {
     }
 
   public postByAuth(url: string, paramMap?: any): Observable<Response> {
-    console.log("======parms======"+JSON.stringify(paramMap));
+    //this.native.info(paramMap);
     let headers = new Headers({
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
       'Accept': 'application/json;charset=utf-8',

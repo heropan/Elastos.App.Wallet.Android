@@ -25,12 +25,6 @@ export class IDManager {
 
     const sigObj = this.sign(msg, privKey);
 
-    console.log("privKey:" + privKey);
-    console.log("pubKey:" + pubKey);
-    console.log("sign:" + sigObj);
-    console.log("verify:" + this.verify(msg, sigObj.signature, pubKey));
-
-
   }
 
 
@@ -49,7 +43,6 @@ export class IDManager {
     let message =  this.hash(msg);
     //let key = ec.keyFromPrivate(privKey, 'hex'); // 导入私钥
     let sign = ec.sign(message,privKey,16).toDER('hex'); // 生成签名
-    //console.log("=====ssssss====="+sign);
     return sign;
   }
 

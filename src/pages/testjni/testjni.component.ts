@@ -205,7 +205,7 @@ export class TestJniComponent {
 
    generateMnemonic(){
      this.walletManager.generateMnemonic(this.language,(result)=>{
-          console.log("=====generateMnemonic====="+JSON.stringify(result));
+          alert("=====generateMnemonic====="+JSON.stringify(result));
           //this.mnemonic = result.mnemonic.toString();
           //alert("住记词"+JSON.stringify(result));
      });

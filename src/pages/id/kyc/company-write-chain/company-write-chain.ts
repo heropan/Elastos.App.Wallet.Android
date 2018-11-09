@@ -51,13 +51,9 @@ export class CompanyWriteChainPage{
     });
 
     this.idObj = this.navParams.data;
-
-
-    console.info("ElastJs ngOnInit this.idObj " + JSON.stringify(this.idObj));
-
     this.orderStatus = this.idObj["pathStatus"];
     this.serialNum = this.idObj["serialNum"];
-    console.log("ngOnInit ====="+JSON.stringify(this.idObj));
+    this.native.info(this.idObj);
     this.did = this.idObj["payObj"]["did"];
     this.getCompany();
     if(Util.isNull(status)){
@@ -100,16 +96,11 @@ export class CompanyWriteChainPage{
   }
 
   didGenerateProgram(){
-
-    console.log("---didGenerateProgram----"+"message="+JSON.stringify(this.message)+"passworld"+this.passworld);
-    //console.log("---didGenerateProgram DataHash.length----"+ this.message.DataHash.length);
-    //console.log("---didGenerateProgram----Sign.length"+ this.message.Sign.length);
-    //console.log("---didGenerateProgram----Proof"+  this.message.Proof);
-    //console.log("---didGenerateProgram----Proof"+ JSON.stringify(this.message.Proof) );
-
+    this.native.info(this.message);
+    this.native.info(this.passworld);
     this.walletManager.didGenerateProgram(this.did,JSON.stringify(this.message),this.passworld,(result)=>{
                    this.programJson  = result.value;
-                   console.log("ElastosJs didGenerateProgram programJson "+JSON.stringify(this.programJson));
+                   this.native.info(this.programJson);
                    this.createfromAddress();
     });
   }
@@ -123,11 +114,12 @@ export class CompanyWriteChainPage{
 
   cauFee(){
 
-    //alert("createIdTransaction before" + this.fromAddress);
     this.walletManager.createIdTransaction(this.masterWalletId,"IdChain","",this.message,this.programJson,"","",(result)=>{
-            console.log("---createIdTransaction---"+"fromAddress="+this.fromAddress+"message="+JSON.stringify(this.message)+"programJson="+this.programJson);
+            this.native.info(this.fromAddress);
+            this.native.info(this.message);
+            this.native.info(this.programJson);
              let rawTransaction = result['json'].toString();
-             console.log("createIdTransaction rawTransaction =="+rawTransaction);
+             this.native.info(rawTransaction);
              this.calculateTransactionFee(rawTransaction);
      });
   }
@@ -136,9 +128,8 @@ export class CompanyWriteChainPage{
      this.walletManager.calculateTransactionFee(this.masterWalletId,"IdChain", rawTransaction,10000, (data) => {
 
       this.fee = data['fee'];
-      //console.log("Elastos 111111111111111");
-      console.log("rawTransaction" + JSON.stringify(rawTransaction));
-      console.log("calculateTransactionFee fee=="+JSON.stringify(this.fee));
+      this.native.info(rawTransaction);
+      this.native.info(this.fee);
       this.popupProvider.presentConfirm(this.fee/Config.SELA).then(()=>{
             this.sendRawTransaction(rawTransaction);
       });
@@ -275,8 +266,7 @@ export class CompanyWriteChainPage{
       signMessage["Contents"].push(content);
     }
 
-    console.log("caulmessageNew "+JSON.stringify(signMessage));
-    //alert("caulmessageNew "+JSON.stringify(signMessage));
+    this.native.info(signMessage);
 
     this.walletManager.didSign(this.did,JSON.stringify(signMessage),this.passworld,(result)=>{
       this.message = {
@@ -301,33 +291,23 @@ export class CompanyWriteChainPage{
                      signature:this.signature,
                      notary:"COOIX"
                     }
-    console.log("caulmessage this.signature " +this.signature);
-    console.log("caulmessage this.signature " +this.signature);
-
+    this.native.info(this.signature);
     let authDataHash = IDManager.hash(JSON.stringify(kycContent)+JSON.stringify(authSign));
-
-    //console.log("caulmessage 2"+ authDataHash);
 
 
     let kycChainDataHash = IDManager.hash(authDataHash+JSON.stringify(authSign));
 
-    console.log("caulmessage kycChainDataHash.length " +kycChainDataHash.length);
+    this.native.info(kycChainDataHash.length);
 
-    //console.log("caulmessage 3"+ kycChainDataHash);
 
     let singObj = {Id:this.did,Path:this.message["Path"],Proof:authSign,DataHash:kycChainDataHash};
 
      this.walletManager.didSign(this.did,JSON.stringify(singObj),this.passworld,(result)=>{
-      console.log("didSign 4"+ JSON.stringify(result));
+      this.native.info(result);
+      let proofString = JSON.stringify(authSign);
 
-       let proofString = JSON.stringify(authSign);
-       //console.log("didSign proofString"+ proofString);
-
-       this.message = {Id:this.did,Path:this.message["Path"],Proof: proofString,DataHash:kycChainDataHash,Sign:result.value};
+      this.message = {Id:this.did,Path:this.message["Path"],Proof: proofString,DataHash:kycChainDataHash,Sign:result.value};
        this.didGenerateProgram();
-       //console.log("caulmessage Sign " +result.value + " result.value length "+ result.value.length);
-       //console.log("didSign 5"+ JSON.stringify(this.message));
-
      });
  }
 

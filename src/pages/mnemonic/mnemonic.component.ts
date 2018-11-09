@@ -36,14 +36,14 @@ export class MnemonicComponent {
 
       if(data["success"]){
         this.native.hideLoading();
-        console.log("====generateMnemonic===="+JSON.stringify(data));
+        this.native.info(data);
         this.mnemonicStr = data["success"].toString();
         let mnemonicArr = this.mnemonicStr.split(/[\u3000\s]+/);
         for (var i = 0; i < mnemonicArr.length; i++) {
           this.mnemonicList.push({text: mnemonicArr[i], selected: false});
         }
       }else{
-            alert("generateMnemonic=error:"+JSON.stringify(data));
+            this.native.info(data);
       }
     });
     this.payPassword = this.navParams.get("payPassword");
@@ -69,7 +69,6 @@ export class MnemonicComponent {
     }
 
     if(!Util.isEmptyObject(this.multType)){
-        //this.native.Go(this.navCtrl,AddpublickeyPage,{"totalCopayers":this.multType["totalCopayers"],"requiredCopayers":this.multType["requiredCopayers"],"mnemonicStr":this.mnemonicStr,"mnemonicPassword":this.mnemonicPassword,"payPassword":this.payPassword,name:this.name});
         this.native.Go(this.navCtrl,WriteComponent, {"mult":this.multType,mnemonicStr: this.mnemonicStr, mnemonicList: this.mnemonicList,"totalCopayers":this.multType["totalCopayers"],"requiredCopayers":this.multType["requiredCopayers"],"mnemonicPassword":this.mnemonicPassword,"payPassword":this.payPassword,name:this.name});
         return;
     }
@@ -77,10 +76,10 @@ export class MnemonicComponent {
 
       this.walletManager.createMasterWallet(this.masterWalletId, this.mnemonicStr, this.mnemonicPassword, this.payPassword,this.singleAddress,(data) =>{
         if(data["success"]){
-         console.log("====createMasterWallet===="+JSON.stringify(data));
+         this.native.info(data);
          this.createSubWallet('ELA');
         }else{
-          alert("createMasterWallet=error:"+JSON.stringify(data));
+          this.native.info(data);
         }
      });
 
@@ -99,7 +98,7 @@ export class MnemonicComponent {
               this.localStorage.saveMappingTable(walletObj).then((data)=>{
                 let mappingList = this.native.clone(Config.getMappingList());
                 mappingList[this.masterWalletId] = walletObj;
-               console.log("=====mappingList===="+JSON.stringify(mappingList));
+               this.native.info(mappingList);
                 Config.setMappingList(mappingList);
                   this.saveWalletList();
                   this.registerWalletListener(this.masterWalletId,chainId);

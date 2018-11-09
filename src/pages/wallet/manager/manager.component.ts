@@ -99,20 +99,20 @@ export class ManagerComponent {
     //this.localStorage.remove('coinListCache').then(()=>{
         this.walletManager.destroyWallet(masterWalletId, (data)=>{
           if(data["success"]){
-            console.log("===destroyWallet===="+JSON.stringify(data));
+            this.native.info(data);
             this.delWalletListOne(masterWalletId);
           }else{
-            alert("====destroyWallet==error=="+JSON.stringify(data));
+            this.native.info(data);
           }
         });
     //});
   }
 
   delWalletListOne(masterWalletId){
-    console.log("===delWalletListOne===="+masterWalletId);
+    this.native.info(masterWalletId);
     let arr = Config.getMasterWalletIdList();
      let index = arr.indexOf(masterWalletId);
-     console.log("===index===="+index);
+     this.native.info(index);
      if (index > -1) {
          arr.splice(index, 1);
      }
@@ -121,12 +121,12 @@ export class ManagerComponent {
       this.saveWalletList1();
       return;
      }
-     console.log("===index===="+JSON.stringify(arr));
+     this.native.info(arr);
      Config.setCurMasterWalletId(arr[0]);
      //Config.setMasterWalletIdList(arr);
      let allmastwalle = this.native.clone(Config.getMappingList());
      delete(allmastwalle[this.masterWalletId]);
-     console.log("=====allmastwalle===="+JSON.stringify[allmastwalle]);
+     this.native.info(allmastwalle);
      Config.setMappingList(allmastwalle);
      this.saveWalletList(arr[0]);
   }
@@ -148,13 +148,13 @@ export class ManagerComponent {
   getMasterWalletBasicInfo(){
     this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
       if(data["success"]){
-         console.log("===getMasterWalletBasicInfo==="+JSON.stringify(data));
+         this.native.info(data);
          let item = JSON.parse(data["success"])["Account"];
          this.masterWalletType = item["Type"] ;
          this.singleAddress = item["SingleAddress"];
          this.readonly = item["Readonly"] || false;
       }else{
-         alert("=======getMasterWalletBasicInfo====error====="+JSON.stringify(data));
+         this.native.info(data);
       }
     });
   }

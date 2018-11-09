@@ -128,7 +128,7 @@ export class HomeComponent {
 
   getSubBalance(coin){
     this.walletManager.getBalance(this.masterWalletId,coin, (data)=>{
-      console.log("getSubBalance="+JSON.stringify(data));
+      this.native.info(data);
       if(!Util.isNull(data["success"])){
          if(this.coinList.length === 0){
           this.coinList.push({name: coin, balance: data["success"]/Config.SELA});
@@ -183,7 +183,7 @@ export class HomeComponent {
 
   handleEla(result){
     if(result["Action"] === "OnTransactionStatusChanged"){
-      console.log("=====result====="+result['confirms']);
+      this.native.info(result['confirms']);
       if (result['confirms'] == 1) {
         this.getElaBalance(this.ElaObj);
         this.popupProvider.ionicAlert('confirmTitle', 'confirmTransaction').then((data) => {

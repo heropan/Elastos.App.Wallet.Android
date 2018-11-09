@@ -15,7 +15,7 @@ export class PublickeyPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PublickeyPage');
+
   }
 
   copy(){
@@ -28,9 +28,9 @@ export class PublickeyPage {
     this.walletManager.getMasterWalletPublicKey(this.masterWalletId,(data)=>{
       if(data["success"]){
         this.qrcode = data["success"];
-        console.log("==========getPublicKey==============="+JSON.stringify(data));
+        this.native.info(data);
        }else{
-         alert("==========getPublicKey======error========="+JSON.stringify(data));
+        this.native.info(data);
        }
     });
   }

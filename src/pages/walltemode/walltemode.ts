@@ -13,13 +13,13 @@ export class WalltemodePage {
   public navObj:any;
   public totalCopayers:number;
   constructor(public navCtrl: NavController, public navParams: NavParams,public native: Native) {
-    console.log("========="+JSON.stringify(this.navParams.data));
+     this.native.info(this.navParams.data);
      this.navObj = this.navParams.data;
      this.totalCopayers = this.navParams.data["totalCopayers"];
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad WalltemodePage');
+
   }
 
   wayOne(){

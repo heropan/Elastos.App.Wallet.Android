@@ -84,7 +84,7 @@ export class ExprotPrikeyComponent  {
   getMasterWalletBasicInfo(){
     this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
       if(data["success"]){
-         console.log("===getMasterWalletBasicInfo==="+JSON.stringify(data));
+         this.native.info(data);
          let item = JSON.parse(data["success"])["Account"];
          this.masterWalletType = item["Type"] ;
          this.singleAddress = item["SingleAddress"];

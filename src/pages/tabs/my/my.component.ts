@@ -67,12 +67,12 @@ export class MyComponent{
   getMasterWalletBasicInfo(){
     this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
       if(data["success"]){
-         console.log("===getMasterWalletBasicInfo==="+JSON.stringify(data));
+         this.native.info(data);
          let item = JSON.parse(data["success"])["Account"];
          this.masterWalletType = item["Type"];
          this.readonly = item["Readonly"];
       }else{
-         alert("=======getMasterWalletBasicInfo====error====="+JSON.stringify(data));
+         this.native.info(data);
       }
     });
   }
@@ -114,22 +114,10 @@ export class MyComponent{
    }
 
    singTx(){
-    // this.native.scan().then((data)=>{
-    //   let senddata = {"content":data["text"],type:4};
-    //   this.native.Go(this.navCtrl,TxdetailsPage,senddata);
-    // }).catch((err)=>{
-    //   console.log("=======scan()===error====");
-    // });
     this.native.Go(this.navCtrl,ScanPage,{"pageType":"3"});
    }
 
    sendTX(){
-      // this.native.scan().then((data)=>{
-      //   let senddata = {"content":data["text"],type:3};
-      //   this.native.Go(this.navCtrl,TxdetailsPage,senddata);
-      // }).catch((err)=>{
-      //   console.log("=======scan()===error====");
-      // });
       this.native.Go(this.navCtrl,ScanPage,{"pageType":"4"});
    }
 

@@ -119,13 +119,10 @@ export class TransferComponent {
         this.native.toast_trans("contact-address-digits");
         return;
       }
-
-      console.log("====this.walletInfoType======"+this.walletInfo["Type"]);
       this.native.showLoading().then(()=>{
         if(this.walletInfo["Type"] === "Standard"){
           this.createTransaction();
       }else if(this.walletInfo["Type"] === "Multi-Sign"){
-        console.log("====this.walletInfoType======"+this.walletInfo["Type"]);
           this.createMultTx();
       }
       });
@@ -140,11 +137,11 @@ export class TransferComponent {
       this.transfer.remark,
       (data)=>{
         if(data['success']){
-          console.log("=======createTransaction======"+JSON.stringify(data));
+          this.native.info(data);
           this.rawTransaction = data['success'];
           this.getFee();
         }else{
-          alert("====createTransaction====error"+JSON.stringify(data));
+          this.native.info(data);
         }
       });
   }
@@ -153,11 +150,11 @@ export class TransferComponent {
     this.walletManager.calculateTransactionFee(this.masterWalletId,this.chianId,this.rawTransaction, this.feePerKb, (data) => {
       if(data['success']){
         this.native.hideLoading();
-        console.log("=======calculateTransactionFee======"+JSON.stringify(data));
+        this.native.info(data);
         this.transfer.fee = data['success'];
         this.openPayModal(this.transfer);
       }else{
-        alert("====calculateTransactionFee====error"+JSON.stringify(data));
+        this.native.info(data);
       }
     });
   }
@@ -167,24 +164,20 @@ export class TransferComponent {
         this.updateTxFee();
         return;
     }
-    // if (!Util.password(this.transfer.payPassword)) {
-    //   this.native.toast_trans("text-pwd-validator");
-    //   return;
-    // }
     this.updateTxFee();
   }
 
   updateTxFee(){
     this.walletManager.updateTransactionFee(this.masterWalletId,this.chianId,this.rawTransaction, this.transfer.fee,(data)=>{
                        if(data["success"]){
-                        console.log("===updateTransactionFee===="+JSON.stringify(data));
+                        this.native.info(data);
                         if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["Readonly"]){
                                  this.readWallet(data["success"]);
                                  return;
                         }
                         this.singTx(data["success"]);
                        }else{
-                         alert("=====updateTransactionFee=error==="+JSON.stringify(data));
+                        this.native.info(data);
                        }
     });
   }
@@ -192,7 +185,7 @@ export class TransferComponent {
   singTx(rawTransaction){
     this.walletManager.signTransaction(this.masterWalletId,this.chianId,rawTransaction,this.transfer.payPassword,(data)=>{
       if(data["success"]){
-        console.log("===signTransaction===="+JSON.stringify(data));
+        this.native.info(data);
         if(this.walletInfo["Type"] === "Standard"){
              this.sendTx(data["success"]);
         }else if(this.walletInfo["Type"] === "Multi-Sign"){
@@ -201,27 +194,24 @@ export class TransferComponent {
                       this.native.hideLoading();
                       this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":this.chianId,"fee":this.transfer.fee/Config.SELA, "raw":raw["success"]}});
                      }else{
-                      alert("=====encodeTransactionToString===error==="+JSON.stringify(raw));
+                      this.native.info(raw);
                      }
             });
         }
        }else{
-         alert("=====signTransaction=error==="+JSON.stringify(data));
+           this.native.info(data);
        }
     });
   }
 
   sendTx(rawTransaction){
-    console.log("===publishTransaction====rawTransaction"+rawTransaction);
+    this.native.info(rawTransaction);
      this.walletManager.publishTransaction(this.masterWalletId,this.chianId,rawTransaction,(data)=>{
       if(data["success"]){
         this.native.hideLoading();
-        console.log("===publishTransaction===="+JSON.stringify(data));
+        this.native.info(data);
         this.txId = JSON.parse(data['success'])["TxHash"];
-        console.log("=======sendRawTransaction======"+JSON.stringify(data));
-        console.log("=======this.appType======"+JSON.stringify(data));
         if(Util.isNull(this.appType)){
-          console.log("===TabsComponent====");
           this.native.toast_trans('send-raw-transaction');
           this.native.setRootRouter(TabsComponent);
         }else if(this.appType === "kyc"){
@@ -232,7 +222,7 @@ export class TransferComponent {
              }
         }
        }else{
-         alert("=====signTransaction=error==="+JSON.stringify(data));
+           this.native.info(data);
        }
      })
   }
@@ -287,8 +277,7 @@ sendPersonAuth(parms){
       parms["deviceID"] = Config.getdeviceID();
       let checksum = IDManager.getCheckSum(parms,"asc");
       parms["checksum"] = checksum;
-      console.log("---pesonParm---"+JSON.stringify(parms));
-      console.info("ElastJs sendPersonAuth params "+ JSON.stringify(parms));
+      this.native.info(parms);
 
   this.native.getHttp().postByAuth(ApiUrl.AUTH,parms).toPromise().then(data=>{
         if(data["status"] === 200){
@@ -340,11 +329,11 @@ createMultTx(){
   this.transfer.memo,
   (data)=>{
     if(data["success"]){
-      console.log("====createMultiSignTransaction======"+JSON.stringify(data));
+      this.native.info(data);
       this.rawTransaction = data['success'];
       this.getFee();
     }else{
-      alert("====createMultiSignTransaction==error===="+JSON.stringify(data));
+      this.native.info(data);
     }
   }
 )

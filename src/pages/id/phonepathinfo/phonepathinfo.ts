@@ -22,7 +22,7 @@ export class PhonepathinfoPage{
 }
   init(){
    this.parmar = this.navParams.data;
-   console.log("---path---"+JSON.stringify(this.parmar));
+   this.native.info(this.parmar);
    this.localStorage.get("kycId").then((val)=>{
     if(val == null || val === undefined || val === {} || val === ''){
       return;
@@ -64,8 +64,9 @@ export class PhonepathinfoPage{
 getAppAuth(item){
   let serialNum = item["serialNum"];
   let txHash =  item["txHash"];
-  console.log("getAppAuth======= txHash type "+typeof(txHash));
-  console.log('ElastosJs--phonepathinfo.tx--getAppAuth----'+"---serialNum---"+serialNum+"---txHash---"+txHash);
+  this.native.info(typeof(txHash));
+  this.native.info(serialNum);
+  this.native.info(txHash);
   let timestamp = this.native.getTimestamp();
   let parms ={"serialNum":serialNum,
               "txHash":txHash,
@@ -75,7 +76,7 @@ getAppAuth(item){
   parms["checksum"] = checksum;
   this.native.getHttp().postByAuth(ApiUrl.APP_AUTH,parms).toPromise().then().then(data => {
     if(data["status"] === 200){
-      console.log("sssss======="+JSON.stringify(data));
+      this.native.info(data);
       let authResult = JSON.parse(data["_body"]);
       if(authResult["errorCode"] === "1"){
         this.native.toast_trans("text-id-kyc-auth-fee-fail");

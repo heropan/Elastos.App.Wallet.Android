@@ -29,11 +29,11 @@ export class PaypasswordResetComponent {
     // reset pay password
     this.walletManager.changePassword(this.masterWalletId,this.oldPayPassword, this.payPassword, (data)=>{
       if(data["success"]){
-        console.log("=====changePassword======"+JSON.stringify(data));
+        this.native.info(data);
         this.native.toast_trans("reset-pwd-success");
         this.navCtrl.pop();
       }else{
-        console.log("=====changePassword===error==="+JSON.stringify(data));
+        this.native.info(data);
       }
 
     });

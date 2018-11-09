@@ -44,7 +44,7 @@ export class CoinComponent{
     this.masterWalletId = Config.getCurMasterWalletId();
     this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
                  if(data["success"]){
-                    console.log("===getMasterWalletBasicInfo==="+JSON.stringify(data));
+                    this.native.info(data);
                     let item = JSON.parse(data["success"])["Account"];
                     this.masterWalletInfo = item;
                  }else{
@@ -68,7 +68,6 @@ export class CoinComponent{
 
   ionViewDidLoad() {
     this.navBar.backButtonClick = (e)=>{
-      console.log("========back=======");
       this.events.publish("home:update");
       this.navCtrl.pop();
     };
@@ -77,10 +76,10 @@ export class CoinComponent{
   initData(){
     this.walletManager.getBalance(this.masterWalletId,this.coinName, (data)=>{
       if(!Util.isNull(data["success"])){
-        console.log("====getBalance=="+JSON.stringify(data));
+        this.native.info(data);
         this.coinCount = data["success"]/Config.SELA;
       }else{
-         alert("====getBalance==error="+JSON.stringify(data));
+        this.native.info(data);
       }
     });
     this.getAllTx();

@@ -16,7 +16,7 @@ export class AddpublickeyPage {
   public  name:string ="";
   public isOnly:any;
   constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager:WalletManager,public native :Native,public localStorage:LocalStorage,public events:Events) {
-    console.log("=========AddpublickeyPage"+JSON.stringify(this.navParams.data));
+    this.native.info(this.navParams.data);
     this.msobj = this.navParams.data;
     this.name = this.msobj["name"];
     let totalCopayers = 0;
@@ -75,12 +75,11 @@ export class AddpublickeyPage {
     // Sub Wallet
     this.walletManager.createSubWallet(this.masterWalletId,chainId,0, (data)=>{
           if(data["success"]){
-               console.log("====createSubWallet===="+JSON.stringify(data));
+               this.native.info(data);
                this.registerWalletListener(this.masterWalletId,chainId);
                this.saveWalletList();
           }else{
                 this.native.hideLoading();
-                alert("createSubWallet=error:"+JSON.stringify(data));
           }
     });
   }
@@ -95,7 +94,7 @@ export class AddpublickeyPage {
               this.localStorage.saveMappingTable(walletObj).then((data)=>{
                 let mappingList = this.native.clone(Config.getMappingList());
                     mappingList[this.masterWalletId] = walletObj;
-                    console.log("=====mappingList===="+JSON.stringify(mappingList));
+                    this.native.info(mappingList);
                     Config.setMappingList(mappingList);
                     this.native.hideLoading();
                     Config.setCurMasterWalletId(this.masterWalletId);
@@ -113,11 +112,10 @@ export class AddpublickeyPage {
       let copayers = this.getTotalCopayers();
       this.walletManager.createMultiSignMasterWalletWithMnemonic(this.masterWalletId,this.msobj["mnemonicStr"],this.msobj["mnemonicPassword"],this.msobj["payPassword"],copayers,this.msobj["requiredCopayers"],(data)=>{
           if(data['success']){
-            console.log("=====createMultiSignMasterWalletWithMnemonic======"+JSON.stringify(data));
+            this.native.info(data);
             this.createMnemonicSubWallet("ELA",this.msobj["payPassword"]);
           }else{
             this.native.hideLoading();
-            alert("=====createMultiSignMasterWalletWithMnemonic=======error"+JSON.stringify(data));
           }
       });
   }
@@ -127,7 +125,7 @@ export class AddpublickeyPage {
     this.walletManager.createSubWallet(this.masterWalletId,chainId,0, (data)=>{
           if(data["success"]){
                this.native.hideLoading();
-               console.log("====createSubWallet===="+JSON.stringify(data));
+               this.native.info(data);
                this.registerWalletListener(this.masterWalletId,chainId);
                this.saveWalletList();
           }else{

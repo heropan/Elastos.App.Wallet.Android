@@ -18,24 +18,22 @@ export class WalltelistPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad WalltelistPage');
+
   }
 
   init(){
      //this.items = Config.getMasterWalletIdList();
      this.masterWalletId = Config.getCurMasterWalletId();
      let mappList = Config.getMappingList();
-     //let mappList = {"F89126":{"id":"F89126","wallname":"sd","Account":{"SingleAddress":false,"Type":"Standard"}}};
-     console.log("=========mappList==========="+JSON.stringify(mappList));
-     //let mappList ={"2C66B4":{"id":"2C66B4","wallname":"ss","name":"ss"}};
+     this.native.info(mappList);
      this.zone.run(()=>{
       this.items = Config.objtoarr(mappList);
      })
-     console.log("=========this.items==========="+JSON.stringify(this.items));
+     this.native.info(this.items);
   }
 
   itemSelected(item: string) {
-    console.log("Selected Item", item);
+    this.native.info(item);
     let id = item["id"];
     this.getAllsubWallet(id);
 
@@ -43,7 +41,7 @@ export class WalltelistPage {
 
   saveId(id){
     this.localStorage.saveCurMasterId({masterId:id}).then((data)=>{
-      console.log("qiehuam========="+id);
+      this.native.info(id);
       Config.setCurMasterWalletId(id);
       this.masterWalletId = Config.getCurMasterWalletId();
       this.navCtrl.pop();

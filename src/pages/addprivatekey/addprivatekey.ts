@@ -16,7 +16,7 @@ export class AddprivatekeyPage {
   public  publicKeyArr:any=[];
   public  name:string = "";
   constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager: WalletManager,public native:Native,public localStorage:LocalStorage,public events:Events) {
-    console.log("=========AddpublickeyPage"+JSON.stringify(this.navParams.data));
+    this.native.info(this.navParams.data);
     this.msobj = this.navParams.data;
     this.name = this.msobj["name"];
     let totalCopayers = this.msobj["totalCopayers"];
@@ -65,12 +65,11 @@ export class AddprivatekeyPage {
     // Sub Wallet
     this.walletManager.createSubWallet(this.masterWalletId,chainId,0, (data)=>{
           if(data["success"]){
-               console.log("====createSubWallet===="+JSON.stringify(data));
+               this.native.info(data)
                this.registerWalletListener(this.masterWalletId,chainId);
                this.saveWalletList();
           }else{
                 this.native.hideLoading();
-                alert("createSubWallet=error:"+JSON.stringify(data));
           }
     });
   }
@@ -86,7 +85,7 @@ export class AddprivatekeyPage {
       this.localStorage.saveMappingTable(walletObj).then((data)=>{
         let mappingList = this.native.clone(Config.getMappingList());
             mappingList[this.masterWalletId] = walletObj;
-           console.log("=====mappingList===="+JSON.stringify(mappingList));
+            this.native.info(mappingList);
             Config.setMappingList(mappingList);
             this.native.hideLoading();
             Config.setCurMasterWalletId(this.masterWalletId);

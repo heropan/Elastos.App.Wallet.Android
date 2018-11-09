@@ -59,21 +59,18 @@ export class PersonWriteChainPage{
  init(){
 
    this.events.subscribe("order:update",(orderStatus,appr)=>{
-     console.log("ElastJs ngOnInit  orderStatus "+orderStatus + " appr " + appr);
-
+     this.native.info(orderStatus);
+     this.native.info(appr);
      if(appr != "enterprise"){
        this.ngzone.run(()=>{
         this.orderStatus = orderStatus;
        });
-       console.log("ElastJs ngOnInit 111 appr !=orderStatus "+orderStatus + " appr " + appr);
-
      }
    });
     this.idObj = this.navParams.data;
-    console.log("ElastJs ngOnInit idObj"+JSON.stringify(this.idObj));
+    this.native.info(this.idObj);
    this.did = this.idObj["payObj"]["did"];
-
-   console.info("ElastJs ngOnInit pathStatus " +this.idObj["pathStatus"])
+    this.native.info(this.idObj["pathStatus"]);
     this.orderStatus = this.idObj["pathStatus"];
     this.serialNum = this.idObj["serialNum"];
     this.getPerson();
@@ -82,9 +79,6 @@ export class PersonWriteChainPage{
     }else{
       this.type = status;
     }
-
-   console.info("ElastJs ngOnInit end " )
-
  }
 
  ionViewDidLoad() {
@@ -132,20 +126,14 @@ export class PersonWriteChainPage{
     }).catch(()=>{
 
     });
-    //this.didGenerateProgram();
   }
 
   didGenerateProgram(){
-
-    console.log("---didGenerateProgram----"+"message="+JSON.stringify(this.message)+"passworld"+this.passworld);
-    //console.log("---didGenerateProgram DataHash.length----"+ this.message.DataHash.length);
-    //console.log("---didGenerateProgram----Sign.length"+ this.message.Sign.length);
-    //console.log("---didGenerateProgram----Proof"+  this.message.Proof);
-    //console.log("---didGenerateProgram----Proof"+ JSON.stringify(this.message.Proof) );
-
+    this.native.info(this.message);
+    this.native.info(this.passworld);
     this.walletManager.didGenerateProgram(this.did,JSON.stringify(this.message),this.passworld,(result)=>{
                    this.programJson  = result.value;
-                   console.log("ElastosJs didGenerateProgram programJson "+JSON.stringify(this.programJson));
+                   this.native.info(this.didGenerateProgram);
                    this.createfromAddress();
     });
   }
@@ -161,9 +149,11 @@ export class PersonWriteChainPage{
 
     //alert("createIdTransaction before" + this.fromAddress);
     this.walletManager.createIdTransaction(this.masterWalletId,"IdChain","",this.message,this.programJson,"","",(result)=>{
-            console.log("---createIdTransaction---"+"fromAddress="+this.fromAddress+"message="+JSON.stringify(this.message)+"programJson="+this.programJson);
+             this.native.info(this.fromAddress);
+             this.native.info(this.message);
+             this.native.info(this.programJson);
              let rawTransaction = result['json'].toString();
-             console.log("createIdTransaction rawTransaction =="+rawTransaction);
+             this.native.info(rawTransaction);
              this.calculateTransactionFee(rawTransaction);
      });
   }
@@ -172,9 +162,8 @@ export class PersonWriteChainPage{
      this.walletManager.calculateTransactionFee(this.masterWalletId,"IdChain", rawTransaction,10000, (data) => {
 
       this.fee = data['fee'];
-      //console.log("Elastos 111111111111111");
-      console.log("rawTransaction" + JSON.stringify(rawTransaction));
-      console.log("calculateTransactionFee fee=="+JSON.stringify(this.fee));
+      this.native.info(rawTransaction);
+      this.native.info(this.fee);
       this.popupProvider.presentConfirm(this.fee/Config.SELA).then(()=>{
             this.sendRawTransaction(rawTransaction);
       });
@@ -283,10 +272,7 @@ export class PersonWriteChainPage{
       content = this.getcontent(params.type , ele);
       signMessage["Contents"].push(content);
     }
-
-    console.log("caulmessageNew "+JSON.stringify(signMessage));
-    //alert("caulmessageNew "+JSON.stringify(signMessage));
-
+    this.native.info(signMessage);
     this.walletManager.didSign(this.did,JSON.stringify(signMessage),this.passworld,(result)=>{
       this.message = {
         Id : this.did,

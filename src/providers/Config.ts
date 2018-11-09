@@ -95,12 +95,10 @@ export class Config {
 
 
   public static getCurMasterWalletId(){
-            Logger.info("===getCurMasterWalletId===="+this.masterWalletId);
             return this.masterWalletId;
   }
 
   public static setCurMasterWalletId(masterWalletId){
-       console.log("===setCurMasterWalletId===="+masterWalletId);
        this.masterWalletId = masterWalletId;
   }
 

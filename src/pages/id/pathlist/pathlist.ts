@@ -28,7 +28,7 @@ export class PathlistPage{
             }
            onNext(item){
                 this.parmar["path"] = item["path"];
-                console.log("---path---"+JSON.stringify(this.parmar));
+                this.native.info(this.parmar);
                 this.nextPage();
            }
 

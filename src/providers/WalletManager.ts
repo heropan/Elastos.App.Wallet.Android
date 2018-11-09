@@ -510,7 +510,7 @@ export class WalletManager {
    }
 
   errorFun(error) {
-    console.log("error = "+JSON.stringify(error));
+    this.native.info(error);
     let key = error["error"]["code"];
     if(key){
       key = "error-"+key;

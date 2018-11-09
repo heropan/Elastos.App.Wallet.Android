@@ -56,9 +56,9 @@ export class PaymentConfirmComponent {
   getAllSubWallets(){
     this.walletManager.getAllSubWallets(this.masterWalletId,(data)=>{
       if(data["success"]){
-        console.log("getAllSubWallets="+JSON.stringify(data));
+        this.native.info(data);
       }else{
-        alert("====getAllSubWallets=error==="+JSON.stringify(data));
+        this.native.info(data);
       }
     })
   }
@@ -116,11 +116,11 @@ export class PaymentConfirmComponent {
       this.transfer.remark,
       (data)=>{
         if(data['success']){
-          console.log("=======createTransaction======"+JSON.stringify(data));
+          this.native.info(data);
           this.rawTransaction = data['success'];
           this.getFee();
         }else{
-          alert("====createTransaction====error"+JSON.stringify(data));
+          this.native.info(data);
         }
       });
   }
@@ -128,12 +128,12 @@ export class PaymentConfirmComponent {
   getFee(){
     this.walletManager.calculateTransactionFee(this.masterWalletId,this.chianId, this.rawTransaction, this.feePerKb, (data) => {
       if(data['success']){
-        console.log("=======calculateTransactionFee======"+JSON.stringify(data));
+        this.native.info(data);
         this.native.hideLoading();
         this.transfer.fee = data['success'];
         this.openPayModal(this.transfer);
       }else{
-        alert("====calculateTransactionFee====error"+JSON.stringify(data));
+        this.native.info(data);
       }
     });
   }
@@ -147,10 +147,10 @@ export class PaymentConfirmComponent {
   updateTxFee(){
     this.walletManager.updateTransactionFee(this.masterWalletId,this.chianId,this.rawTransaction, this.transfer.fee,(data)=>{
                        if(data["success"]){
-                        console.log("===updateTransactionFee===="+JSON.stringify(data));
+                        this.native.info(data);
                         this.singTx(data["success"]);
                        }else{
-                         alert("=====updateTransactionFee=error==="+JSON.stringify(data));
+                         this.native.info(data);
                        }
     });
   }
@@ -158,27 +158,27 @@ export class PaymentConfirmComponent {
   singTx(rawTransaction){
     this.walletManager.signTransaction(this.masterWalletId,this.chianId,rawTransaction,this.transfer.payPassword,(data)=>{
       if(data["success"]){
-        console.log("===signTransaction===="+JSON.stringify(data));
+        this.native.info(data);
         this.sendTx(data["success"]);
        }else{
-         alert("=====signTransaction=error==="+JSON.stringify(data));
+         this.native.info(data);
        }
     });
   }
 
   sendTx(rawTransaction){
-    console.log("====publishTransaction===="+"rawTransaction="+rawTransaction);
+    this.native.info(rawTransaction);
     this.walletManager.publishTransaction(this.masterWalletId,this.chianId,rawTransaction,(data)=>{
      if(data["success"]){
        this.native.hideLoading();
-       console.log("======publishTransaction========"+JSON.stringify(data));
+       this.native.info(data);
        this.txId = JSON.parse(data['success'])["TxHash"];
        let result = {
          txId: this.txId
        }
        return result;
       }else{
-        alert("========publishTransaction=====error==="+JSON.stringify(data));
+        this.native.info(data);
       }
       this.native.setRootRouter(TabsComponent);
     })
