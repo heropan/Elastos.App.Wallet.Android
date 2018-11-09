@@ -21,7 +21,7 @@ export class MyComponent{
   @ViewChild(Navbar) navBar: Navbar;
   public masterWalletId:string = "1";
   public masterWalletType:string = "";
-  public readonly:boolean = false;
+  public readonly:string="";
   public currentLanguageName:string = "";
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public events :Events,public native :Native,public localStorage:LocalStorage){
        //this.init();
@@ -70,7 +70,7 @@ export class MyComponent{
          this.native.info(data);
          let item = JSON.parse(data["success"])["Account"];
          this.masterWalletType = item["Type"];
-         this.readonly = item["Readonly"];
+         this.readonly = item["InnerType"] || "";
       }else{
          this.native.info(data);
       }

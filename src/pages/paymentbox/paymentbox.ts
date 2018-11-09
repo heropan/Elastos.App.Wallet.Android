@@ -22,7 +22,7 @@ export class PaymentboxPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl: ViewController,public native:Native) {
     let masterId = Config.getCurMasterWalletId();
     let accountObj = Config.getAccountType(masterId);
-    if(accountObj["Type"] === "Multi-Sign" && accountObj["Readonly"]){
+    if(accountObj["Type"] === "Multi-Sign" && accountObj["InnerType"] === "Readonly"){
              this.walltype = false;
     }else{
              this.walltype = true;

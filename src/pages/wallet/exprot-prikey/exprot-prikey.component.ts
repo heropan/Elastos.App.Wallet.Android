@@ -13,7 +13,7 @@ import {LocalStorage} from "../../../providers/Localstorage";
 })
 export class ExprotPrikeyComponent  {
   masterWalletId:string ="1";
-  public readonly:boolean = false;
+  public readonly:string="";
   public masterWalletType:string = "";
   public singleAddress:boolean = false;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage) {
@@ -47,12 +47,12 @@ export class ExprotPrikeyComponent  {
        return false;
     }
 
-    if(Util.isNull(this.exprotObj.payPassword)&&!this.readonly){
+    if(Util.isNull(this.exprotObj.payPassword)&&(this.readonly!="Readonly")){
       this.native.toast_trans("text-pay-passworld-input");
       return false;
     }
 
-    if(this.readonly){
+    if(this.readonly==="Readonly"){
       this.exprotObj.payPassword ="s12345678";
     }
 
@@ -88,7 +88,7 @@ export class ExprotPrikeyComponent  {
          let item = JSON.parse(data["success"])["Account"];
          this.masterWalletType = item["Type"] ;
          this.singleAddress = item["SingleAddress"];
-         this.readonly = item["Readonly"] || false;
+         this.readonly = item["InnerType"] || "";
       }
     });
   }

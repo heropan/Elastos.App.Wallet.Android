@@ -21,7 +21,7 @@ export class ManagerComponent {
   walletName = "";
   masterWalletId:string = "1";
   public currentLanguageName:string = "";
-  public readonly:boolean = false;
+  public readonly:string = "";
   public masterWalletType:string = "";
   public singleAddress:boolean = false;
   constructor(public navCtrl: NavController, public navParams: NavParams,public events: Events,public localStorage:LocalStorage,public popupProvider: PopupProvider, public walletManager: WalletManager,private app: App,public native:Native) {
@@ -152,7 +152,7 @@ export class ManagerComponent {
          let item = JSON.parse(data["success"])["Account"];
          this.masterWalletType = item["Type"] ;
          this.singleAddress = item["SingleAddress"];
-         this.readonly = item["Readonly"] || false;
+         this.readonly = item["InnerType"] || "";
       }else{
          this.native.info(data);
       }

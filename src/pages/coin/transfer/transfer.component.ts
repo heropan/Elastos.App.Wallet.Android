@@ -160,7 +160,7 @@ export class TransferComponent {
   }
 
   sendRawTransaction(){
-    if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["Readonly"]){
+    if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["InnerType"] === "Readonly"){
         this.updateTxFee();
         return;
     }
@@ -171,7 +171,7 @@ export class TransferComponent {
     this.walletManager.updateTransactionFee(this.masterWalletId,this.chianId,this.rawTransaction, this.transfer.fee,(data)=>{
                        if(data["success"]){
                         this.native.info(data);
-                        if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["Readonly"]){
+                        if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["InnerType"] === "Readonly"){
                                  this.readWallet(data["success"]);
                                  return;
                         }

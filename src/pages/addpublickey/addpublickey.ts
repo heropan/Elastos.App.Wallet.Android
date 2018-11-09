@@ -15,6 +15,7 @@ export class AddpublickeyPage {
   public  publicKeyArr:any=[];
   public  name:string ="";
   public isOnly:any;
+  public innerType:any;
   constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager:WalletManager,public native :Native,public localStorage:LocalStorage,public events:Events) {
     this.native.info(this.navParams.data);
     this.msobj = this.navParams.data;
@@ -22,9 +23,11 @@ export class AddpublickeyPage {
     let totalCopayers = 0;
     if(this.msobj["payPassword"]){
       this.isOnly = false;
+      this.innerType ="Standard";
       totalCopayers = this.msobj["totalCopayers"]-1;
     }else{
       this.isOnly = true;
+      this.innerType ="Readonly";
       totalCopayers = this.msobj["totalCopayers"];
     }
 
@@ -90,7 +93,7 @@ export class AddpublickeyPage {
               let walletObj = this.native.clone(Config.masterWallObj);
               walletObj["id"]   = this.masterWalletId;
               walletObj["wallname"] = this.name;
-              walletObj["Account"] = {"SingleAddress":true,"Type":"Multi-Sign","Readonly":this.isOnly};
+              walletObj["Account"] = {"SingleAddress":true,"Type":"Multi-Sign","InnerType":this.innerType};
               this.localStorage.saveMappingTable(walletObj).then((data)=>{
                 let mappingList = this.native.clone(Config.getMappingList());
                     mappingList[this.masterWalletId] = walletObj;
