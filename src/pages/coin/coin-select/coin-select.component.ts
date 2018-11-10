@@ -11,10 +11,12 @@ import {Native} from "../../../providers/Native";
 export class CoinSelectComponent{
   public isNoData:boolean = false;
   coinList = [];
+  masterWalletInfo = {};
   constructor(public navCtrl: NavController,public navParams: NavParams,public native :Native){
          this.init();
   }
   init() {
+    this.masterWalletInfo = this.navParams.get("walletInfo");
     let mastId = Config.getCurMasterWalletId();
     let subwallet = Config.getSubWallet(mastId);
     if(subwallet){
@@ -36,7 +38,7 @@ export class CoinSelectComponent{
   }
 
   onItem(item) {
-    this.native.Go(this.navCtrl,RechargeComponent, {chianId: item.name});
+    this.native.Go(this.navCtrl,RechargeComponent, {chianId: item.name,"walletInfo":this.masterWalletInfo});
   }
 
 }

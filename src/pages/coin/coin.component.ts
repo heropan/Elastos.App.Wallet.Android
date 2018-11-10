@@ -191,13 +191,13 @@ export class CoinComponent{
           //   this.messageBox("text-ela-per-message");
           //   return;
           // }
-          this.native.Go(this.navCtrl,CoinSelectComponent, {chianId: this.coinName});
+          this.native.Go(this.navCtrl,CoinSelectComponent, {chianId: this.coinName,"walletInfo":this.masterWalletInfo});
         }else{
           // if(this.idChainPer != 1){
           //   this.messageBox("text-ela-per-message");
           //   return;
           // }
-          this.native.Go(this.navCtrl,WithdrawComponent, {chianId: this.coinName});
+          this.native.Go(this.navCtrl,WithdrawComponent, {chianId: this.coinName,"walletInfo":this.masterWalletInfo});
         }
         break;
     }

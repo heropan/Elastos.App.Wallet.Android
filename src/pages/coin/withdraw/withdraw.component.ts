@@ -8,6 +8,7 @@ import {WalletManager} from '../../../providers/WalletManager';
 import {Native} from "../../../providers/Native";
 import {LocalStorage} from "../../../providers/Localstorage";
 import {ScanPage} from '../../../pages/scan/scan';
+import {ScancodePage} from '../../../pages/scancode/scancode';
 @Component({
   selector: 'app-withdraw',
   templateUrl: './withdraw.component.html'})
@@ -39,6 +40,7 @@ export class WithdrawComponent{
   rawTransaction: '';
 
   SELA = Config.SELA;
+  walletInfo = {};
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,
     public native: Native,public localStorage:LocalStorage,public modalCtrl: ModalController,public events :Events ){
          this.init();
@@ -50,6 +52,7 @@ export class WithdrawComponent{
     this.masterWalletId = Config.getCurMasterWalletId();
     let transferObj =this. navParams.data;
     this.chianId = transferObj["chianId"];
+    this.walletInfo = transferObj["walletInfo"];
     this.initData();
   }
 
@@ -157,6 +160,10 @@ export class WithdrawComponent{
     this.walletManager.updateTransactionFee(this.masterWalletId,this.chianId,this.rawTransaction, this.transfer.fee,(data)=>{
                        if(data["success"]){
                         this.native.info(data);
+                        if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["InnerType"] === "Readonly"){
+                          this.readWallet(data["success"]);
+                          return;
+                        }
                         this.singTx(data["success"]);
                        }else{
                          this.native.info(data);
@@ -168,7 +175,18 @@ export class WithdrawComponent{
     this.walletManager.signTransaction(this.masterWalletId,this.chianId,rawTransaction,this.transfer.payPassword,(data)=>{
       if(data["success"]){
         this.native.info(data);
-        this.sendTx(data["success"]);
+        if(this.walletInfo["Type"] === "Standard"){
+          this.sendTx(data["success"]);
+        }else if(this.walletInfo["Type"] === "Multi-Sign"){
+          this.walletManager.encodeTransactionToString(data["success"],(raw)=>{
+            if(raw["success"]){
+             this.native.hideLoading();
+             this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":this.chianId,"fee":this.transfer.fee/Config.SELA, "raw":raw["success"]}});
+            }else{
+             this.native.info(raw);
+            }
+        });
+        }
        }else{
          this.native.info(data);
        }
@@ -203,6 +221,16 @@ export class WithdrawComponent{
   modal.present();
 }
 
+readWallet(raws){
+  this.walletManager.encodeTransactionToString(raws,(raw)=>{
+    if(raw["success"]){
+      this.native.hideLoading();
+      this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":this.chianId,"fee":this.transfer.fee/Config.SELA, "raw":raw["success"]}});
+    }else{
+     alert("=====encodeTransactionToString===error==="+JSON.stringify(raw));
+    }
+});
+}
 
 
 }

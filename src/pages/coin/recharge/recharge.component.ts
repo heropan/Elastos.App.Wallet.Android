@@ -8,6 +8,7 @@ import {WalletManager} from '../../../providers/WalletManager';
 import {Native} from "../../../providers/Native";
 import {LocalStorage} from "../../../providers/Localstorage";
 import {ScanPage} from '../../../pages/scan/scan';
+import {ScancodePage} from '../../../pages/scancode/scancode';
 @Component({
   selector: 'app-recharge',
   templateUrl: './recharge.component.html'})
@@ -41,6 +42,7 @@ export class RechargeComponent{
   rawTransaction: '';
 
   SELA = Config.SELA;
+  walletInfo = {};
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,
     public native: Native,public localStorage:LocalStorage,public modalCtrl: ModalController,public events :Events ){
          this.init();
@@ -51,6 +53,7 @@ export class RechargeComponent{
     });
     this.masterWalletId = Config.getCurMasterWalletId();
     let transferObj =this.navParams.data;
+    this.walletInfo = transferObj["walletInfo"] || {};
     this.chianId = transferObj["chianId"];
     this.getGenesisAddress();
     this.initData();
@@ -156,15 +159,7 @@ export class RechargeComponent{
     });
   }
 
-  // getRate(){
-  //   this.sidechain.rate = 1;
-  // }
-
   sendRawTransaction(){
-    // if (!Util.password(this.transfer.payPassword)) {
-    //   this.native.toast_trans("text-pwd-validator");
-    //   return;
-    // }
     this.updateTxFee();
   }
 
@@ -172,6 +167,10 @@ export class RechargeComponent{
     this.walletManager.updateTransactionFee(this.masterWalletId,'ELA',this.rawTransaction, this.transfer.fee,(data)=>{
                        if(data["success"]){
                         this.native.info(data);
+                        if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["InnerType"] === "Readonly"){
+                              this.readWallet(data["success"]);
+                                return;
+                        }
                         this.singTx(data["success"]);
                        }else{
                          this.native.info(data);
@@ -183,7 +182,18 @@ export class RechargeComponent{
     this.walletManager.signTransaction(this.masterWalletId,'ELA',rawTransaction,this.transfer.payPassword,(data)=>{
       if(data["success"]){
         this.native.info(data);
-        this.sendTx(data["success"]);
+        if(this.walletInfo["Type"] === "Standard"){
+          this.sendTx(data["success"]);
+        }else if(this.walletInfo["Type"] === "Multi-Sign"){
+          this.walletManager.encodeTransactionToString(data["success"],(raw)=>{
+            if(raw["success"]){
+             this.native.hideLoading();
+             this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":this.chianId,"fee":this.transfer.fee/Config.SELA, "raw":raw["success"]}});
+            }else{
+             this.native.info(raw);
+            }
+        });
+        }
        }else{
          this.native.info(data);
        }
@@ -216,6 +226,17 @@ export class RechargeComponent{
     }
   });
   modal.present();
+}
+
+readWallet(raws){
+  this.walletManager.encodeTransactionToString(raws,(raw)=>{
+    if(raw["success"]){
+      this.native.hideLoading();
+      this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":this.chianId,"fee":this.transfer.fee/Config.SELA, "raw":raw["success"]}});
+    }else{
+     alert("=====encodeTransactionToString===error==="+JSON.stringify(raw));
+    }
+});
 }
 
 
