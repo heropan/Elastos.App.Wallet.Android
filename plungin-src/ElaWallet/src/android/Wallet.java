@@ -121,15 +121,22 @@ public class Wallet extends CordovaPlugin {
 	public void onDestroy() {
 		Log.i(TAG, "onDestroy");
 		if (mMasterWalletManager != null) {
+			Map<String, ArrayList<ISubWallet>> subWalletMap = new HashMap<String, ArrayList<ISubWallet>>();
 			ArrayList<IMasterWallet> masterWalletList = mMasterWalletManager.GetAllMasterWallets();
 			for (int i = 0; i < masterWalletList.size(); i++) {
-				ArrayList<ISubWallet> subWalletList = masterWalletList.get(i).GetAllSubWallets();
-				for (int j = 0; j < subWalletList.size(); j++) {
-					subWalletList.get(j).RemoveCallback();
-				}
+				IMasterWallet masterWallet = masterWalletList.get(i);
+				subWalletMap.put(masterWallet.GetId(), masterWallet.GetAllSubWallets());
 			}
 
 			mMasterWalletManager.DisposeNative();
+
+			for (Map.Entry<String, ArrayList<ISubWallet>> entry : subWalletMap.entrySet()) {
+				Log.i(TAG, "Removing masterWallet[" + entry.getKey() + "]'s callback");
+				ArrayList<ISubWallet> subWallets = entry.getValue();
+				for (int i = 0; i < subWallets.size(); i++) {
+					subWallets.get(i).RemoveCallback();
+				}
+			}
 			mMasterWalletManager = null;
 		}
 
@@ -371,9 +378,6 @@ public class Wallet extends CordovaPlugin {
 				case "decodeTransactionFromString":
 					this.decodeTransactionFromString(args, cc);
 					break;
-				case "disposeNative":
-					this.disposeNative(args, cc);
-					break;
 
 					// Master wallet
 				case "getMasterWalletBasicInfo":
@@ -541,27 +545,6 @@ public class Wallet extends CordovaPlugin {
 		}
 
 		return true;
-	}
-
-	public void disposeNative(JSONArray args, CallbackContext cc) throws JSONException {
-		try {
-			if (mMasterWalletManager != null) {
-				ArrayList<IMasterWallet> masterWalletList = mMasterWalletManager.GetAllMasterWallets();
-				for (int i = 0; i < masterWalletList.size(); i++) {
-					ArrayList<ISubWallet> subWalletList = masterWalletList.get(i).GetAllSubWallets();
-					for (int j = 0; j < subWalletList.size(); j++) {
-						subWalletList.get(j).RemoveCallback();
-					}
-				}
-
-				mMasterWalletManager.DisposeNative();
-				mMasterWalletManager = null;
-			}
-
-			successProcess(cc, "OK");
-		} catch (WalletException e) {
-			exceptionProcess(e, cc, "DisposeNative");
-		}
 	}
 
 	// args[0]: String masterWalletID
@@ -1004,11 +987,27 @@ public class Wallet extends CordovaPlugin {
 		}
 
 		try {
+			Map<String, ArrayList<ISubWallet>> subWalletMap = new HashMap<String, ArrayList<ISubWallet>>();
+			ArrayList<IMasterWallet> masterWalletList = mMasterWalletManager.GetAllMasterWallets();
+			for (int i = 0; i < masterWalletList.size(); i++) {
+				IMasterWallet masterWallet = masterWalletList.get(i);
+				subWalletMap.put(masterWallet.GetId(), masterWallet.GetAllSubWallets());
+			}
+
 			IDidManager DIDManager = getDIDManager(masterWalletID);
 			if (DIDManager != null) {
 				// TODO destroy did manager
 			}
 			mMasterWalletManager.DestroyWallet(masterWalletID);
+
+			for (Map.Entry<String, ArrayList<ISubWallet>> entry : subWalletMap.entrySet()) {
+				Log.i(TAG, "Removing masterWallet[" + entry.getKey() + "]'s callback");
+				ArrayList<ISubWallet> subWallets = entry.getValue();
+				for (int i = 0; i < subWallets.size(); i++) {
+					subWallets.get(i).RemoveCallback();
+				}
+			}
+
 			successProcess(cc, "Destroy " + formatWalletName(masterWalletID) + " OK");
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, "Destroy " + formatWalletName(masterWalletID));

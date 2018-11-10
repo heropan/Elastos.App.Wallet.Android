@@ -188,8 +188,9 @@ static void JNICALL nativeAddCallback(JNIEnv *env, jobject clazz, jlong jSubProx
 			ISubWallet *subWallet = (ISubWallet *)jSubProxy;
 			subWallet->AddCallback(subCallback);
 			sSubCallbackMap[jSubProxy] = subCallback;
+			LOGI("Subwallet add callback %lld", jSubProxy);
 		} else {
-			LOGE("Sub wallet callback already exist");
+			LOGE("Sub wallet callback %lld already exist", jSubProxy);
 		}
 	} catch (std::exception &e) {
 		ThrowWalletException(env, e.what());
@@ -202,6 +203,7 @@ static void JNICALL nativeRemoveCallback(JNIEnv *env, jobject clazz, jlong jSubP
 	try {
 		ISubWallet* subWallet = (ISubWallet*)jSubProxy;
 		if (sSubCallbackMap.find(jSubProxy) != sSubCallbackMap.end()) {
+			LOGI("Subwallet remove callback %lld", jSubProxy);
 			ElaSubWalletCallback *callback = sSubCallbackMap[jSubProxy];
 			delete callback;
 			sSubCallbackMap.erase(jSubProxy);
