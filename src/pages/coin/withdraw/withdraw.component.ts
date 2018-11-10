@@ -115,7 +115,6 @@ export class WithdrawComponent{
     let mainchainAmounts = JSON.stringify([this.transfer.amount*Config.SELA - this.transfer.fee]);
     let mainchainIndex = JSON.stringify([this.mainchain.index]);
     this.walletManager.createWithdrawTransaction(this.masterWalletId,this.chianId, "",
-      this.transfer.toAddress, // 销毁地址 34*0 ''
       this.transfer.amount*Config.SELA, // user input amount
       mainchainAddress, // user input address
       mainchainAmounts, // TODO default:0
@@ -131,12 +130,6 @@ export class WithdrawComponent{
           this.native.info(data);
         }
       });
-  }
-
-  getDestroyAddress(){
-    // this.walletManager.getGenesisAddress(this.chianId, (data) => {
-      this.transfer.toAddress = '1111111111111111111114oLvT2';
-    // });
   }
 
   getFee(){

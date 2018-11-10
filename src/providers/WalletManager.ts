@@ -389,9 +389,9 @@ export class WalletManager {
     });
   }
 
-  createWithdrawTransaction(masterWalletId:string,chainId:string,fromAddress:string,toAddress:string,amount:number
+  createWithdrawTransaction(masterWalletId:string,chainId:string,fromAddress:string,amount:number
                            ,mainchainAccounts:string,mainchainAmounts:string,mainchainIndexs:string,memo:string,remark:string,Fun){
-    this.wallet.createWithdrawTransaction([masterWalletId,chainId,fromAddress,toAddress,amount,mainchainAccounts,mainchainAmounts,mainchainIndexs,memo,remark],Fun,(error)=>{
+    this.wallet.createWithdrawTransaction([masterWalletId,chainId,fromAddress,amount,mainchainAccounts,mainchainAmounts,mainchainIndexs,memo,remark],Fun,(error)=>{
       this.errorFun(error);
     });
   }
