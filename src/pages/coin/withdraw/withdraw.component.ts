@@ -110,7 +110,6 @@ export class WithdrawComponent{
   }
 
   createWithdrawTransaction(){
-    this.getDestroyAddress();
     let mainchainAddress = JSON.stringify([this.mainchain.accounts]);
     let mainchainAmounts = JSON.stringify([this.transfer.amount*Config.SELA - this.transfer.fee]);
     let mainchainIndex = JSON.stringify([this.mainchain.index]);
