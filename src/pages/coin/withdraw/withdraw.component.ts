@@ -140,8 +140,9 @@ export class WithdrawComponent{
         this.native.hideLoading();
         this.native.info(data);
         this.transfer.fee = data['success'];
-        let transfer = this.native.clone(this.transfer);
-        this.openPayModal(transfer);
+        this.transfer.rate = this.mainchain.rate;
+        //let transfer = this.native.clone(this.transfer);
+        this.openPayModal(this.transfer);
       }else{
         this.native.info(data);
       }
@@ -209,6 +210,7 @@ export class WithdrawComponent{
  openPayModal(data){
   let transfer = this.native.clone(data);
       transfer["accounts"] = this.mainchain.accounts;
+      //this.transfer["rate"] = this.mainchain.rate;
   const modal = this.modalCtrl.create(PaymentboxPage,transfer);
   modal.onDidDismiss(data => {
     if(data){
