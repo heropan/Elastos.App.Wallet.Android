@@ -22,6 +22,7 @@ package io.ionic.starter;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 
 import org.apache.cordova.*;
 
@@ -48,6 +49,9 @@ public class MainActivity extends CordovaActivity
         if (extras != null && extras.getBoolean("cdvStartInBackground", false)) {
             moveTaskToBack(true);
         }
+
+        //xxl 防止截屏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         // Set by <content src="index.html" /> in config.xml
         loadUrl(launchUrl);
