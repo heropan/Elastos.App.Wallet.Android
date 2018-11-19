@@ -20,7 +20,7 @@ export class RechargeComponent{
     toAddress: '',
     amount: '',
     memo: '',
-    fee: 20000,
+    fee: 10000,
     payPassword:'',
     remark:'',
   };
