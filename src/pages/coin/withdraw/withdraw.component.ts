@@ -19,7 +19,7 @@ export class WithdrawComponent{
     toAddress: '',
     amount: '',
     memo: '',
-    fee: 20000,
+    fee: 10000,
     payPassword:'',
     remark:'',
   };
