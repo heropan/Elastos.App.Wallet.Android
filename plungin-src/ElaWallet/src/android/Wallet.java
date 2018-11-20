@@ -1858,7 +1858,7 @@ public class Wallet extends CordovaPlugin {
 				@Override
 				public void OnBalanceChanged(long balance) {
 					JSONObject jsonObject = new JSONObject();
-					Log.i(TAG, "balance change: " + balance);
+					Log.i(TAG, "OnBalanceChanged: " + balance);
 					try {
 						jsonObject.put("Balance", balance);
 						jsonObject.put("MasterWalletID", masterWalletID);
