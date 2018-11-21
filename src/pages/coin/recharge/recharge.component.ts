@@ -188,7 +188,7 @@ export class RechargeComponent{
           this.walletManager.encodeTransactionToString(data["success"],(raw)=>{
             if(raw["success"]){
              this.native.hideLoading();
-             this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":this.chianId,"fee":this.transfer.fee/Config.SELA, "raw":raw["success"]}});
+             this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":'ELA',"fee":this.transfer.fee/Config.SELA, "raw":raw["success"]}});
             }else{
              this.native.info(raw);
             }
@@ -232,7 +232,7 @@ readWallet(raws){
   this.walletManager.encodeTransactionToString(raws,(raw)=>{
     if(raw["success"]){
       this.native.hideLoading();
-      this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":this.chianId,"fee":this.transfer.fee/Config.SELA, "raw":raw["success"]}});
+      this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":'ELA',"fee":this.transfer.fee/Config.SELA, "raw":raw["success"]}});
     }else{
      alert("=====encodeTransactionToString===error==="+JSON.stringify(raw));
     }
