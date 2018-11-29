@@ -149,6 +149,8 @@ export class Config {
          this.perObj[masterId] = {};
          this.perObj[masterId][coin] = per;
       }
+
+
   }
 
   public static getMasterPer(masterId,coin){

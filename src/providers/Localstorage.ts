@@ -148,6 +148,17 @@ export class LocalStorage {
     return this.storage.get(key);
   }
 
+
+  public setProgress(obj){
+      let key = "map-Progress";
+      this.storage.set(key,JSON.stringify(obj));
+  }
+
+  public getProgress(){
+    let key = "map-Progress";
+    return this.storage.get(key);
+  }
+
 }
 
 
