@@ -1,0 +1,59 @@
+<!--
+  Generated template for the PointvotePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>{{'super-point'|translate}}</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+    <ion-row align-items-center padding-bottom>
+        <ion-col col-4>
+            全网投票比例：
+        </ion-col>
+
+        <ion-col col-8>
+            <progress-bar proportion="{{idChainPer}}"></progress-bar>
+        </ion-col>
+    </ion-row>
+    <ion-row class="vote_data" align-items-center *ngFor="let item of voteList">
+        <ion-col col-2 class=" text-center ">
+            <div class="duigou">
+                <ion-checkbox [(ngModel)]="selectVoteObj[item.id]" (ionChange)="setSelect(selectVoteObj[item.id],item.id)"></ion-checkbox>
+            </div>
+        </ion-col>
+        <ion-col col-2>
+            <div class="logo "><img src="./assets/images/vote/logo_yuan.png "></div>
+        </ion-col>
+        <ion-col col-4 class="text-center ">
+            <div class="address ">UlimitedELA</div>
+            <div class="fu "><span><img src="./assets/images/vote/location.png "></span>埃塞俄比亚</div>
+        </ion-col>
+
+        <ion-col col-3 class="text-center ">
+            <div class="rank ">NO.12</div>
+            <div class="rate "><span><img src="./assets/images/vote/rate.png "></span>3.20%</div>
+        </ion-col>
+
+        <ion-col col-1>
+            <div class="del">
+                <img src="./assets/images/vote/delete.png ">
+            </div>
+        </ion-col>
+
+    </ion-row>
+</ion-content>
+<ion-footer>
+    <ion-row class="border-top ">
+        <ion-col col-4 class="rule-vote ">
+            <ion-checkbox [(ngModel)]="isAllchecked" class="vertical-align" (click)="setSelectAll()"></ion-checkbox>全选(<span class="thirty ">30</span>/<span class="all ">{{selectNum}}</span>)</ion-col>
+        <ion-col col-4 class="rule-vote " align-self-center><span class="chose ">{{selectNum}}</span>已选择</ion-col>
+        <ion-col col-4 class="rule-vote2 " [ngClass]="{ 'bule':selectNum> 0}" (click)="vote()">立即投票</ion-col>
+    </ion-row>
+</ion-footer>

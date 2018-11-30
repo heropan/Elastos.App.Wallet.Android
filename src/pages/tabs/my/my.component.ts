@@ -100,6 +100,9 @@ export class MyComponent{
         case 5:
          this.setLanguage();
          break;
+        case 7:
+           this.getVoteNode();
+           break;
      }
    }
 
@@ -130,5 +133,9 @@ export class MyComponent{
       let item =JSON.parse(val);
       this.native.Go(this.navCtrl,LanguagePage,item);
      });
+   }
+
+   getVoteNode(){
+      this.native.Go(this.navCtrl,'SuperpointPage');
    }
 }
