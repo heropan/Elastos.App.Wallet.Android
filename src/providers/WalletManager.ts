@@ -518,7 +518,7 @@ export class WalletManager {
    * @param Fun
    */
   importWalletWithOldKeystore(masterWalletId:string,keystoreContent: string, backupPassword: string, payPassword: string,phrasePassword:string,Fun) {
-    this.wallet.importWalletWithKeystore([masterWalletId,keystoreContent, backupPassword, payPassword,phrasePassword], Fun,(error)=>{
+    this.wallet.importWalletWithOldKeystore([masterWalletId,keystoreContent, backupPassword, payPassword,phrasePassword], Fun,(error)=>{
       this.errorFun(error);
     });
   }
