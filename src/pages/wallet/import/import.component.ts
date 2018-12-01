@@ -28,7 +28,7 @@ export class ImportComponent {
                    if(item["error"]["code"] === 20036){
                     this.popupProvider.webKeyPrompt().then((val)=>{
                       console.log("========webKeyStore"+val);
-                      if(Util.isNull(val)){
+                      if(val === null){
                           return;
                       }
                       this.webKeyStore(val.toString());
