@@ -189,7 +189,7 @@ export class PopupProvider {
         inputs: [
           {
             name: 'password',
-            placeholder: this.translate.instant("text-id-kyc-prompt-password"),
+            placeholder: this.translate.instant("importmnes-optionalpassword-placeholder"),
             type: 'password'
           }
         ],
