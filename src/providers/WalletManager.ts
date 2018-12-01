@@ -509,6 +509,20 @@ export class WalletManager {
     });
    }
 
+    /**
+   * @param {string} masterWalletId
+   * @param {string} keystoreContent
+   * @param {string} backupPassword
+   * @param {string} payPassword
+   * @param {string} phrasePassword
+   * @param Fun
+   */
+  importWalletWithOldKeystore(masterWalletId:string,keystoreContent: string, backupPassword: string, payPassword: string,phrasePassword:string,Fun) {
+    this.wallet.importWalletWithKeystore([masterWalletId,keystoreContent, backupPassword, payPassword,phrasePassword], Fun,(error)=>{
+      this.errorFun(error);
+    });
+  }
+
   errorFun(error) {
     this.native.info(error);
     let key = error["error"]["code"];
@@ -519,11 +533,18 @@ export class WalletManager {
     if(error["error"]["code"] === 20013){
       let amount = error["error"]["Data"]/Config.SELA;
       this.popupProvider.ionicAlert_data('confirmTitle',key,amount);
+    }else if(error["error"]["code"] === 20036){
+        //this.event.publish("error:update");
     }else{
       this.popupProvider.ionicAlert('confirmTitle',key);
     }
     //alert("错误信息：" + JSON.stringify(error));
-    this.event.publish("error:update");
+    if(error["error"]["code"] === 20036){
+      this.event.publish("error:update",error);
+    }else{
+      this.event.publish("error:update");
+    }
+
   }
 
 

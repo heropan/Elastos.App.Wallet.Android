@@ -301,6 +301,10 @@ walletFunc.prototype.getTransactionSignedSigners = function(arg0, success, error
     exec(success, error, "Wallet", "getTransactionSignedSigners", arg0);
 };
 
+walletFunc.prototype.importWalletWithOldKeystore = function(arg0, success, error) {
+    exec(success, error, "Wallet", "importWalletWithOldKeystore", arg0);
+};
+
 
 
 var WALLETFUNC = new walletFunc();

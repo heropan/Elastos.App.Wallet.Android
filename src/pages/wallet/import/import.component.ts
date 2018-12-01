@@ -6,6 +6,7 @@ import {LocalStorage} from "../../../providers/Localstorage";
 import {TabsComponent} from '../../../pages/tabs/tabs.component';
 import {Util} from "../../../providers/Util";
 import {Config} from '../../../providers/Config';
+import {PopupProvider} from '../../../providers/popup';
 
 @Component({
   selector: 'app-import',
@@ -20,8 +21,22 @@ export class ImportComponent {
   public mnemonicObj:any={mnemonic:"",payPassword: "", rePayPassword: "",phrasePassword:"",name:"",singleAddress:false};
   public walletType:string;
   public accontObj:any ={};
-  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage,public events:Events) {
+  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage,public events:Events,public popupProvider:PopupProvider) {
          this.masterWalletId = Config.uuid(6,16);
+         this.events.subscribe("error:update",(item)=>{
+              if(item["error"]){
+                   if(item["error"]["code"] === 20036){
+                    this.popupProvider.webKeyPrompt().then((val)=>{
+                      console.log("========webKeyStore"+val);
+                      if(Util.isNull(val)){
+                          return;
+                      }
+                      this.webKeyStore(val.toString());
+                    });
+                   }
+               }
+
+         });
   }
   public toggleShowAdvOpts(): void {
     this.showAdvOpts = !this.showAdvOpts;
@@ -274,4 +289,35 @@ export class ImportComponent {
           this.registerWalletListener(masterId,chain);
         }
   }
+
+  ionViewDidLeave(){
+    this.events.unsubscribe("error:update");
+  }
+
+  webKeyStore(webKeyStore){
+     console.log("========webKeyStore"+webKeyStore);
+     this.native.showLoading().then(()=>{
+        this.walletManager.importWalletWithOldKeystore(this.masterWalletId,
+          this.keyStoreContent,this.importFileObj.backupPassWord,
+          this.importFileObj.payPassword,webKeyStore,(data)=>{
+            if(data["success"]){
+              this.accontObj = JSON.parse(data["success"])["Account"];
+              this.walletManager.createSubWallet(this.masterWalletId,"ELA",0, (data)=>{
+               if(data["success"]){
+                 this.native.toast_trans('import-text-world-sucess');
+                 this.registerWalletListener(this.masterWalletId,"ELA");
+                 this.saveWalletList(null);
+               }else{
+                    this.native.hideLoading();
+                    alert("createSubWallet==error"+JSON.stringify(data));
+               }
+                });
+       }else{
+           this.native.hideLoading();
+           alert("importWalletWithOldKeystore==error"+JSON.stringify(data));
+       }
+          });
+     });
+  }
+
 }
