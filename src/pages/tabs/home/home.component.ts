@@ -211,7 +211,7 @@ export class HomeComponent {
             this.zone.run(() => {
               this.elaPer= result["progress"];
               Config.setMasterPer(this.masterWalletId,"ELA",this.elaPer);
-              this.localStorage.setProgress(Config.perObj);
+              //this.localStorage.setProgress(Config.perObj);
             });
            }
 
@@ -266,7 +266,7 @@ export class HomeComponent {
             this.zone.run(() => {
               this.idChainPer  = result["progress"];
               Config.setMasterPer(this.masterWalletId,coin,this.idChainPer);
-              this.localStorage.setProgress(Config.perObj);
+              //this.localStorage.setProgress(Config.perObj);
             });
 
 
