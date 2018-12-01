@@ -363,6 +363,9 @@ public class Wallet extends CordovaPlugin {
 				case "importWalletWithKeystore":
 					this.importWalletWithKeystore(args, cc);
 					break;
+				case "importWalletWithOldKeystore":
+					this.importWalletWithOldKeystore(args, cc);
+					break;
 				case "importWalletWithMnemonic":
 					this.importWalletWithMnemonic(args, cc);
 					break;
@@ -1011,6 +1014,41 @@ public class Wallet extends CordovaPlugin {
 			successProcess(cc, "Destroy " + formatWalletName(masterWalletID) + " OK");
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, "Destroy " + formatWalletName(masterWalletID));
+		}
+	}
+
+	// args[0]: String masterWalletID
+	// args[1]: String keystoreContent
+	// args[2]: String backupPassword
+	// args[3]: String payPassword
+	// args[4]: String phrasePassword
+	public void importWalletWithOldKeystore(JSONArray args, CallbackContext cc) throws JSONException {
+		int idx = 0;
+
+		String masterWalletID  = args.getString(idx++);
+		String keystoreContent = args.getString(idx++);
+		String backupPassword  = args.getString(idx++);
+		String payPassword     = args.getString(idx++);
+		String phrasePassword  = args.getString(idx++);
+
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+
+		try {
+			IMasterWallet masterWallet = mMasterWalletManager.ImportWalletWithOldKeystore(
+					masterWalletID, keystoreContent, backupPassword, payPassword, phrasePassword);
+			if (masterWallet == null) {
+				errorProcess(cc, errCodeImportFromKeyStore, "Import " + formatWalletName(masterWalletID) + " with keystore");
+				return;
+			}
+
+			createDIDManager(masterWallet);
+
+			successProcess(cc, masterWallet.GetBasicInfo());
+		} catch (WalletException e) {
+			exceptionProcess(e, cc, "Import " + formatWalletName(masterWalletID) + " with keystore");
 		}
 	}
 

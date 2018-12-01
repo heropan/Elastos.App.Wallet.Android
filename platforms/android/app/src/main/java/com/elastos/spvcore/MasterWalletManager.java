@@ -64,6 +64,20 @@ public class MasterWalletManager {
 		nativeDestroyWallet(mManagerProxy, masterWalletId);
 	}
 
+	public IMasterWallet ImportWalletWithOldKeystore(String masterWalletId, String keystoreContent,
+			String backupPassWord, String payPassWord, String phrasePassword) throws WalletException {
+
+		long masterProxy = nativeImportWalletWithOldKeystore(mManagerProxy, masterWalletId,
+				keystoreContent, backupPassWord, payPassWord, phrasePassword);
+
+		if (masterProxy == 0) {
+			Log.e(TAG, "Import master wallet with key store fail");
+			return null;
+		}
+
+		return new IMasterWallet(masterProxy);
+	}
+
 	public IMasterWallet ImportWalletWithKeystore(String masterWalletId, String keystoreContent,
 			String backupPassWord, String payPassWord) throws WalletException {
 
@@ -189,6 +203,9 @@ public class MasterWalletManager {
 
 	private native long nativeCreateMultiSignMasterWalletWithMnemonic(long proxy, String masterWalletId, String mnemonic,
 			String phrasePassword, String payPassword, String coSigners, int requiredSignCount);
+
+	private native long nativeImportWalletWithOldKeystore(long proxy, String masterWalletId,
+			String keystoreContent, String backupPassword, String payPassword, String phrasePassword);
 
 	private native long nativeImportWalletWithKeystore(long proxy, String masterWalletId,
 			String keystoreContent, String backupPassWord ,String payPassWord);

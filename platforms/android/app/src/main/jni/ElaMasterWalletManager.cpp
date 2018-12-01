@@ -276,6 +276,47 @@ static void JNICALL nativeDestroyWallet(JNIEnv *env, jobject clazz, jlong jWalle
 	}
 }
 
+#define SIG_nativeImportWalletWithOldKeystore "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)J"
+static jlong JNICALL nativeImportWalletWithOldKeystore(JNIEnv *env, jobject clazz, jlong jWalletMgr,
+		jstring jmasterWalletId,
+		jstring jkeystoreContent,
+		jstring jbackupPassword,
+		jstring jpayPassword,
+		jstring jphrasePassword)
+{
+	bool exception = false;
+	std::string msgException;
+
+	const char* masterWalletId = env->GetStringUTFChars(jmasterWalletId, NULL);
+	const char* keystoreContent = env->GetStringUTFChars(jkeystoreContent, NULL);
+	const char* backupPassword = env->GetStringUTFChars(jbackupPassword, NULL);
+	const char* payPassword = env->GetStringUTFChars(jpayPassword, NULL);
+	const char* phrasePassword = env->GetStringUTFChars(jphrasePassword, NULL);
+
+	MasterWalletManager* walletManager = (MasterWalletManager*)jWalletMgr;
+	IMasterWallet* masterWallet = NULL;
+
+	try {
+		masterWallet = walletManager->ImportWalletWithKeystore(masterWalletId,
+				nlohmann::json::parse(keystoreContent), backupPassword, payPassword, phrasePassword);
+	} catch (std::exception &e) {
+		exception = true;
+		msgException = e.what();
+	}
+
+	env->ReleaseStringUTFChars(jmasterWalletId, masterWalletId);
+	env->ReleaseStringUTFChars(jkeystoreContent, keystoreContent);
+	env->ReleaseStringUTFChars(jbackupPassword, backupPassword);
+	env->ReleaseStringUTFChars(jpayPassword, payPassword);
+	env->ReleaseStringUTFChars(jphrasePassword, phrasePassword);
+
+	if (exception) {
+		ThrowWalletException(env, msgException.c_str());
+	}
+
+	return (jlong)masterWallet;
+}
+
 #define SIG_nativeImportWalletWithKeystore "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)J"
 static jlong JNICALL nativeImportWalletWithKeystore(JNIEnv *env, jobject clazz, jlong jWalletMgr,
 		jstring jmasterWalletId,
@@ -615,6 +656,7 @@ static const JNINativeMethod gMethods[] = {
 	REGISTER_METHOD(nativeGetWallet),
 	REGISTER_METHOD(nativeDestroyWallet),
 	REGISTER_METHOD(nativeImportWalletWithKeystore),
+	REGISTER_METHOD(nativeImportWalletWithOldKeystore),
 	REGISTER_METHOD(nativeImportWalletWithMnemonic),
 	REGISTER_METHOD(nativeExportWalletWithKeystore),
 	REGISTER_METHOD(nativeExportWalletWithMnemonic),
