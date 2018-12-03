@@ -35,6 +35,7 @@ export class WalltelistPage {
   itemSelected(item: string) {
     this.native.info(item);
     let id = item["id"];
+    Config.setCurMasterWalletId(id);
     this.getAllsubWallet(id);
 
   }
@@ -55,21 +56,18 @@ export class WalltelistPage {
 
   registerWalletListener(masterId,coin){
     this.walletManager.registerWalletListener(masterId,coin,(data)=>{
-          if(!Config.isResregister(masterId,coin)){
             Config.setResregister(masterId,coin,true);
-          }
            this.events.publish("register:update",masterId,coin,data);
-           //this.saveWalletList();
     });
   }
 
   getAllsubWallet(masterId){
 
-        let chinas = Config.getSubWallet(masterId);
+      this.registerWalletListener(masterId,"ELA");
+       let chinas = Config.getSubWallet(masterId);
+        console.log("=========="+JSON.stringify(chinas));
         for (let chain in chinas) {
-          if(Config.isResregister(masterId,chain)){
             this.registerWalletListener(masterId,chain);
-          }
         }
         this.saveId(masterId);
     }
