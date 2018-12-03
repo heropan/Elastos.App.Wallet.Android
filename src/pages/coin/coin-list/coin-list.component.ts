@@ -120,9 +120,9 @@ export class CoinListComponent {
 
   registerWalletListener(masterId,coin){
     this.walletManager.registerWalletListener(masterId,coin,(data)=>{
-          if(!Config.isResregister){
+          //if(!Config.isResregister){
             Config.setResregister(masterId,coin,true);
-          }
+          //}
            this.events.publish("register:update",masterId,coin,data);
     });
   }
