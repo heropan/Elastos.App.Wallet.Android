@@ -220,10 +220,10 @@ public class Wallet extends CordovaPlugin {
 	}
 
 	private boolean parametersCheck(JSONArray args) throws JSONException {
-		Log.i(TAG, "args = " + args);
+		//Log.i(TAG, "args = " + args);
 		for (int i = 0; i < args.length(); i++) {
 			if (args.isNull(i)) {
-				Log.e(TAG, "arg[" + i + "] = " + args.get(i));
+				Log.e(TAG, "arg[" + i + "] = " + args.get(i) + " should not be null");
 				return false;
 			}
 		}
@@ -278,7 +278,8 @@ public class Wallet extends CordovaPlugin {
 	}
 
 	private void successProcess(CallbackContext cc, Object msg) throws JSONException {
-		Log.i(TAG, "result -> " + msg);
+		//Log.i(TAG, "result -> " + msg);
+		Log.d(TAG, "action success");
 		cc.success(mkJson(keySuccess, msg));
 	}
 
@@ -311,7 +312,7 @@ public class Wallet extends CordovaPlugin {
 
 	@Override
 	public boolean execute(String action, JSONArray args, CallbackContext cc) {
-		Log.i(TAG, "execute action -> '" + action + "'");
+		Log.d(TAG, "action -> '" + action + "'");
 		try {
 			if (false == parametersCheck(args)) {
 				errorProcess(cc, errCodeInvalidArg, "Parameters contain 'null' value in action '" + action + "'");
