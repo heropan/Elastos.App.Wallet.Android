@@ -103,6 +103,9 @@ export class MyComponent{
         case 7:
            this.getVoteNode();
            break;
+        case 8:
+           this.native.Go(this.navCtrl,'AboutPage');
+          break;
      }
    }
 
