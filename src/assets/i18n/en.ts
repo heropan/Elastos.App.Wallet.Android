@@ -416,4 +416,6 @@ export const en = {
   'proportion-of-voting':'Proportion of voting',
   'present-quorum-votes':'present quorum votes',
   'number-of-voting-addresses':'number of voting addresses',
+  'about':'about',
+  'Version':'Version'
 };

@@ -412,5 +412,7 @@ export const zh = {
   'please-wallet-address':'请输入钱包地址',
   'proportion-of-voting':'全网投票占比',
   'present-quorum-votes':'当前票数',
-  'number-of-voting-addresses':'投票地址数量'
+  'number-of-voting-addresses':'投票地址数量',
+  'about':'关于',
+  'Version':'版本号'
 };
