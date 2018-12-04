@@ -10,6 +10,7 @@ import { LocalStorage } from "../../providers/Localstorage";
 import { PaymentConfirmComponent } from "../../pages/coin/payment-confirm/payment-confirm.component";
 import { DidLoginComponent } from "../../pages/third-party/did-login/did-login.component";
 import { TranslateService } from '@ngx-translate/core';
+import { isArray } from 'ionic-angular/umd/util/util';
 @Component({
   selector: 'page-initializepage',
   templateUrl: 'initializepage.html',
@@ -87,12 +88,23 @@ export class InitializepagePage {
          Config.setMappingList({});
          this.handleNull(type);
        }else{
+         console.log("mm========="+JSON.stringify(idList));
          this.localStorage.getCurMasterId().then((data) => {
           let item = JSON.parse(data);
-          Config.setCurMasterWalletId(item["masterId"]);
-          Config.setMasterWalletIdList(idList);
-          this.handleMappingdata(idList);
-          this.getAllsubWallet(item["masterId"],type);
+          console.log("mm========="+item["masterId"]);
+          if(this.isInArray(idList,item["masterId"])){
+            Config.setCurMasterWalletId(item["masterId"]);
+            Config.setMasterWalletIdList(idList);
+            this.handleMappingdata(idList);
+            this.getAllsubWallet(item["masterId"],type);
+          }else{
+              let id = idList[0];
+              Config.setCurMasterWalletId(id);
+              Config.setMasterWalletIdList(idList);
+              this.handleMappingdata(idList);
+              this.getAllsubWallet(id,type);
+          }
+
         });
 
        }
@@ -178,5 +190,14 @@ export class InitializepagePage {
             this.events.publish("register:update",masterId,coin,data);
     });
   }
+
+  isInArray(arr,value){
+    for(var i = 0; i < arr.length; i++){
+        if(value === arr[i]){
+            return true;
+        }
+    }
+    return false;
+ }
 
 }
