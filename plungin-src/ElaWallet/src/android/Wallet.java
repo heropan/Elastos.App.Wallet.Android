@@ -312,7 +312,7 @@ public class Wallet extends CordovaPlugin {
 
 	@Override
 	public boolean execute(String action, JSONArray args, CallbackContext cc) {
-		Log.d(TAG, "action -> '" + action + "'");
+		Log.i(TAG, "action -> '" + action + "'");
 		try {
 			if (false == parametersCheck(args)) {
 				errorProcess(cc, errCodeInvalidArg, "Parameters contain 'null' value in action '" + action + "'");
