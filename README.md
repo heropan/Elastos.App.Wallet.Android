@@ -63,5 +63,4 @@
 * android-ndk-r16b
 
 ### 打正式包指令
-ionic cordova build android --release --prod
-
+ionic cordova plugin remove ElaJava2JSBridge && cd plungin-src && ionic cordova plugin add  ElaJava2JSBridge && cd .. && ionic cordova plugin remove ElaWallet && cd plungin-src && ionic cordova plugin add  ElaWallet && cd ..  &&ionic cordova build android --release --prod
