@@ -10,7 +10,7 @@ import { LocalStorage } from "../../providers/Localstorage";
 import { PaymentConfirmComponent } from "../../pages/coin/payment-confirm/payment-confirm.component";
 import { DidLoginComponent } from "../../pages/third-party/did-login/did-login.component";
 import { TranslateService } from '@ngx-translate/core';
-import { isArray } from 'ionic-angular/umd/util/util';
+
 @Component({
   selector: 'page-initializepage',
   templateUrl: 'initializepage.html',
@@ -88,10 +88,10 @@ export class InitializepagePage {
          Config.setMappingList({});
          this.handleNull(type);
        }else{
-         console.log("mm========="+JSON.stringify(idList));
+         this.native.info(idList);
          this.localStorage.getCurMasterId().then((data) => {
           let item = JSON.parse(data);
-          console.log("mm========="+item["masterId"]);
+          this.native.info(item["masterId"]);
           if(this.isInArray(idList,item["masterId"])){
             Config.setCurMasterWalletId(item["masterId"]);
             Config.setMasterWalletIdList(idList);
