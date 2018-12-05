@@ -288,7 +288,6 @@ export const en = {
   'text-publickey-placeholder':"Input Public Key of Participants",
   'text-add-publickey-title':"Add Public Key",
   'text-add-private-title':"Add Private Key",
-
   'text-create-privatekey':"Create a new seed",
   'text-observe-wallte':"Observer wallet (Public Key Only)",
 
