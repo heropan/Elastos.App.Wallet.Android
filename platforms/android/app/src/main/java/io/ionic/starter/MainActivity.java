@@ -51,7 +51,7 @@ public class MainActivity extends CordovaActivity
         }
 
         //xxl 防止截屏
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         // Set by <content src="index.html" /> in config.xml
         loadUrl(launchUrl);
