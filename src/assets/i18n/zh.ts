@@ -69,7 +69,7 @@ export const zh = {
 
   //create wallet page
   'addwallet-walletname-title': '钱包名称',
-  'addwallet-walletname-placeholder': '请给钱包起个名',
+  'addwallet-walletname-placeholder': '设置钱包名称',
   'text-wallet-name-validator': '钱包名不能为空',
   'addwallet-paypassword1-title': '支付密码',
   'addwallet-paypassword1-placeholder': '请设置钱包支付密码',
