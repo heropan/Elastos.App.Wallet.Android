@@ -5,6 +5,7 @@ import {TabsComponent} from "../tabs/tabs.component";
 import {Native} from "../../providers/Native";
 import {Config} from "../../providers/Config";
 import {LocalStorage} from "../../providers/Localstorage";
+import {ScanPage} from '../../pages/scan/scan';
 @Component({
   selector: 'page-addpublickey',
   templateUrl: 'addpublickey.html',
@@ -16,6 +17,7 @@ export class AddpublickeyPage {
   public  name:string ="";
   public isOnly:any;
   public innerType:any;
+  public curIndex = 0;
   constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager:WalletManager,public native :Native,public localStorage:LocalStorage,public events:Events) {
     this.native.info(this.navParams.data);
     this.msobj = this.navParams.data;
@@ -35,11 +37,22 @@ export class AddpublickeyPage {
           let item = {index:index,publicKey:""};
           this.publicKeyArr.push(item);
     }
+
     this.masterWalletId = Config.uuid(6,16);
+
+    this.events.subscribe("publickey:update",(val)=>{
+         this.publicKeyArr[this.curIndex]['publicKey'] = val;
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddpublickeyPage');
+  }
+
+  saomiao(index){
+    this.curIndex = index;
+    console.log("saomiao="+index);
+    this.native.Go(this.navCtrl,ScanPage,{"pageType":"5"});
   }
 
   nextPage(){
