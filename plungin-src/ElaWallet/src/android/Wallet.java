@@ -991,12 +991,14 @@ public class Wallet extends CordovaPlugin {
 		}
 
 		try {
-			Map<String, ArrayList<ISubWallet>> subWalletMap = new HashMap<String, ArrayList<ISubWallet>>();
-			ArrayList<IMasterWallet> masterWalletList = mMasterWalletManager.GetAllMasterWallets();
-			for (int i = 0; i < masterWalletList.size(); i++) {
-				IMasterWallet masterWallet = masterWalletList.get(i);
-				subWalletMap.put(masterWallet.GetId(), masterWallet.GetAllSubWallets());
+			IMasterWallet masterWallet = getIMasterWallet(masterWalletID);
+			if (masterWallet == null) {
+				errorProcess(cc, errCodeInvalidMasterWallet, "Get " + formatWalletName(masterWalletID));
+				return;
 			}
+
+			Log.i(TAG, "Removing masterWallet[" + masterWalletID + "]'s callback");
+			ArrayList<ISubWallet> subWallets = masterWallet.GetAllSubWallets();
 
 			IDidManager DIDManager = getDIDManager(masterWalletID);
 			if (DIDManager != null) {
@@ -1004,12 +1006,8 @@ public class Wallet extends CordovaPlugin {
 			}
 			mMasterWalletManager.DestroyWallet(masterWalletID);
 
-			for (Map.Entry<String, ArrayList<ISubWallet>> entry : subWalletMap.entrySet()) {
-				Log.i(TAG, "Removing masterWallet[" + entry.getKey() + "]'s callback");
-				ArrayList<ISubWallet> subWallets = entry.getValue();
-				for (int i = 0; i < subWallets.size(); i++) {
-					subWallets.get(i).RemoveCallback();
-				}
+			for (int i = 0; subwallets != null && i < subWallets.size(); i++) {
+				subWallets.get(i).RemoveCallback();
 			}
 
 			successProcess(cc, "Destroy " + formatWalletName(masterWalletID) + " OK");
