@@ -46,6 +46,7 @@ export class ModifywalletnamePage {
 
     let walletObj = this.native.clone(Config.masterWallObj);
     walletObj["id"]   = this.masterWalletId;
+    walletObj["Account"] = Config.getAccountType(this.masterWalletId);
     walletObj["wallname"] = this.walletname;
     let subWallte = Config.getSubWallet(this.masterWalletId);
     if(subWallte){
