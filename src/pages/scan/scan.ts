@@ -53,6 +53,18 @@ export class ScanPage {
                 let senddata1 = {"content":text,type:3};
                 this.native.Go(this.navCtrl,TxdetailsPage,senddata1);
                    break;
+               case "5":
+               this.events.publish("publickey:update",text);
+               this.hideCamera();
+               // stop scanning
+               this.navCtrl.pop();
+                  break;
+               case "6":
+                  this.events.publish("privatekey:update",text);
+                  this.hideCamera();
+                  // stop scanning
+                  this.navCtrl.pop();
+                     break;
              }
 
             });

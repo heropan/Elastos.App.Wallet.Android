@@ -15,11 +15,21 @@
 
 
 <ion-content>
-    <ion-list>
+    <!-- <ion-list>
         <ion-item *ngFor="let copayer of publicKeyArr">
             <ion-input type="text" placeholder="{{'text-publickey-placeholder'|translate}}" [(ngModel)]="copayer['publicKey']"></ion-input>
         </ion-item>
-    </ion-list>
+    </ion-list> -->
+    <ion-row *ngFor="let copayer of publicKeyArr">
+        <ion-col align-self-center col-10>
+            <ion-item>
+                <ion-input type="text" placeholder="{{'text-publickey-placeholder'|translate}}" [(ngModel)]="copayer['publicKey']"></ion-input>
+            </ion-item>
+        </ion-col>
+        <ion-col align-self-center col-2 (click)="saomiao(copayer['index'])">
+            <img src="assets/images/icon/ico-scan.svg" style="width: 40px;height:30px">
+        </ion-col>
+    </ion-row>
 </ion-content>
 <ion-footer>
     <button ion-button full (click)="nextPage()">{{'text-next-step' | translate}}</button>
