@@ -1006,7 +1006,7 @@ public class Wallet extends CordovaPlugin {
 			}
 			mMasterWalletManager.DestroyWallet(masterWalletID);
 
-			for (int i = 0; subwallets != null && i < subWallets.size(); i++) {
+			for (int i = 0; subWallets != null && i < subWallets.size(); i++) {
 				subWallets.get(i).RemoveCallback();
 			}
 
