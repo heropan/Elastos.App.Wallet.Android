@@ -37,6 +37,7 @@ export class HomeComponent {
     this.events.unsubscribe("register:update");
     this.events.unsubscribe("walletname:update");
     this.events.unsubscribe("wallte:update");
+    this.events.unsubscribe("home:update");
   }
 
   init() {
