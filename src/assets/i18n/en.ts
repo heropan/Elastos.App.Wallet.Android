@@ -353,6 +353,7 @@ export const en = {
   'error-20030': '(ERR-20030)Sign type error',
   'error-20031': '(ERR-20031)Address error',
   'error-20032': '(ERR-20032)Sign error',
+  'error-20035': '(ERR-20035)Balance is not enough',
   'modify-wallet-name':'Editt Wallet Name',
   'load-more':'Load More',
   'txinfo-receive-amount': 'Receive Amount',
