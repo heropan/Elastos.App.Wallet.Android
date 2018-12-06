@@ -130,9 +130,10 @@ export class TransferComponent {
   }
 
   createTransaction(){
+    let toAmount = parseInt((this.transfer.amount*Config.SELA).toPrecision(8));
     this.walletManager.createTransaction(this.masterWalletId,this.chianId, "",
       this.transfer.toAddress,
-      this.transfer.amount*Config.SELA,
+      toAmount,
       this.transfer.memo,
       this.transfer.remark,
       (data)=>{

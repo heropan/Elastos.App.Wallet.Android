@@ -117,12 +117,13 @@ export class RechargeComponent{
 
 
   createDepositTransaction(){
+    let toAmount = parseInt((this.transfer.amount*Config.SELA).toPrecision(8));
     let sidechainAddress = JSON.stringify([this.sidechain.accounts]);
-    let sidechainAmounts = JSON.stringify([this.transfer.amount*Config.SELA - this.transfer.fee]);
+    let sidechainAmounts = JSON.stringify([parseInt((this.transfer.amount*Config.SELA).toPrecision(8)) - this.transfer.fee]);
     let sidechainIndex = JSON.stringify([this.sidechain.index]);
     this.walletManager.createDepositTransaction(this.masterWalletId,'ELA', "",
       this.transfer.toAddress, // genesisAddress
-      this.transfer.amount*Config.SELA, // user input amount
+      toAmount, // user input amount
       sidechainAddress, // user input address
       sidechainAmounts, // TODO default:0
       sidechainIndex, // TODO default:0
