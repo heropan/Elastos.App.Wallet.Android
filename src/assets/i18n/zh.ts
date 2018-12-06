@@ -351,6 +351,7 @@ export const zh = {
   'error-20030': '(ERR-20030)签名类型错误',
   'error-20031': '(ERR-20031)地址错误',
   'error-20032': '(ERR-20032)签名错误',
+  'error-20035': '(ERR-20035)余额不足',
   'modify-wallet-name': '修改钱包名字',
   'load-more': '加载更多',
   'txinfo-receive-amount': '接收金额',
