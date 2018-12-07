@@ -68,7 +68,6 @@ export class CoinComponent{
 
   ionViewDidLoad() {
     this.navBar.backButtonClick = (e)=>{
-      this.events.publish("home:update");
       this.navCtrl.pop();
     };
   }
