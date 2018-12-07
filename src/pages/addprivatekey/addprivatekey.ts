@@ -17,6 +17,7 @@ export class AddprivatekeyPage {
   public  publicKeyArr:any=[];
   public  name:string = "";
   public curIndex = 0;
+  public qrcode: string=null;
   constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager: WalletManager,public native:Native,public localStorage:LocalStorage,public events:Events) {
     this.native.info(this.navParams.data);
     this.msobj = this.navParams.data;
@@ -28,14 +29,19 @@ export class AddprivatekeyPage {
     }
 
     this.masterWalletId = Config.uuid(6,16);
-
+    this.getMultiSignPubKeyWithPrivKey();
     this.events.subscribe("privatekey:update",(val)=>{
       this.publicKeyArr[this.curIndex]['publicKey'] = val;
- });
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddprivatekeyPage');
+  }
+
+  copy(){
+    this.native.copyClipboard(this.qrcode);
+    this.native.toast_trans('copy-ok');
   }
 
   saomiao(index){
@@ -113,6 +119,15 @@ export class AddprivatekeyPage {
             Config.setResregister(masterId,coin,true);
           }
            this.events.publish("register:update",masterId,coin,data);
+    });
+  }
+
+  getMultiSignPubKeyWithPrivKey(){
+    this.walletManager.getMultiSignPubKeyWithPrivKey(this.msobj["importText"],(data)=>{
+      if(data["success"]){
+        this.qrcode = data["success"];
+       }else{
+       }
     });
   }
 

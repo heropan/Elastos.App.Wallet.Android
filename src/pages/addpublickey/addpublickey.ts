@@ -18,6 +18,7 @@ export class AddpublickeyPage {
   public isOnly:any;
   public innerType:any;
   public curIndex = 0;
+  public qrcode: string=null;
   constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager:WalletManager,public native :Native,public localStorage:LocalStorage,public events:Events) {
     this.native.info(this.navParams.data);
     this.msobj = this.navParams.data;
@@ -27,6 +28,7 @@ export class AddpublickeyPage {
       this.isOnly = false;
       this.innerType ="Standard";
       totalCopayers = this.msobj["totalCopayers"]-1;
+      this.getPublicKey();
     }else{
       this.isOnly = true;
       this.innerType ="Readonly";
@@ -47,6 +49,11 @@ export class AddpublickeyPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddpublickeyPage');
+  }
+
+  copy(){
+    this.native.copyClipboard(this.qrcode);
+    this.native.toast_trans('copy-ok');
   }
 
   saomiao(index){
@@ -157,6 +164,17 @@ export class AddpublickeyPage {
             Config.setResregister(masterId,coin,true);
           }
            this.events.publish("register:update",masterId,coin,data);
+    });
+  }
+
+  getPublicKey(){
+
+    this.walletManager.getMultiSignPubKeyWithMnemonic(this.msobj["mnemonicStr"],this.msobj["mnemonicPassword"],(data)=>{
+
+      if(data["success"]){
+        this.qrcode = data["success"];
+       }else{
+       }
     });
   }
 

@@ -420,5 +420,6 @@ export const en = {
   'present-quorum-votes':'present quorum votes',
   'number-of-voting-addresses':'number of voting addresses',
   'about':'About',
-  'Version':'Version'
+  'Version':'Version',
+  'my-publickey':'my publickey'
 };

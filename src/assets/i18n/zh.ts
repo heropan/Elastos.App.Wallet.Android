@@ -415,5 +415,6 @@ export const zh = {
   'present-quorum-votes':'当前票数',
   'number-of-voting-addresses':'投票地址数量',
   'about':'关于',
-  'Version':'版本号'
+  'Version':'版本号',
+  'my-publickey':'我的公钥'
 };

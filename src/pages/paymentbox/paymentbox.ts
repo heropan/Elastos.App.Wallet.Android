@@ -39,6 +39,10 @@ export class PaymentboxPage {
 
   }
 
+  ionViewWillEnter(){
+    this.transfer.payPassword = '';
+ }
+
   click_close(){
     this.viewCtrl.dismiss(null);
   }
