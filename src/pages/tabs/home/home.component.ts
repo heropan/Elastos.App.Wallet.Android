@@ -35,7 +35,6 @@ export class HomeComponent {
 
   ionViewDidLeave(){
     this.events.unsubscribe("register:update");
-    this.events.unsubscribe("walletname:update");
     this.events.unsubscribe("wallte:update");
   }
 
@@ -59,9 +58,6 @@ export class HomeComponent {
       this.idChainPer = Config.getMasterPer(this.masterWalletId,"IdChain");
     });
     this.getAllSubWallets();
-    this.events.subscribe("walletname:update",()=>{
-      this.wallet["name"] = Config.getWalletName(this.masterWalletId);
-    });
     this.events.subscribe("wallte:update",(item)=>{
       this.masterWalletId = item;
       Config.setCurMasterWalletId(this.masterWalletId);

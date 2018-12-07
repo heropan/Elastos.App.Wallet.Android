@@ -27,11 +27,15 @@ export class ManagerComponent {
   constructor(public navCtrl: NavController, public navParams: NavParams,public events: Events,public localStorage:LocalStorage,public popupProvider: PopupProvider, public walletManager: WalletManager,private app: App,public native:Native) {
     this.masterWalletId = Config.getCurMasterWalletId();
     this.walletName = Config.getWalletName(this.masterWalletId);
-    this.events.subscribe("walletname:update",()=>{
-      this.walletName = Config.getWalletName(this.masterWalletId);
-    });
-
     this.getMasterWalletBasicInfo();
+  }
+
+  ionViewWillEnter(){
+    this.walletName = Config.getWalletName(this.masterWalletId);
+  }
+
+  ionViewDidLeave(){
+      //this.walletName = Config.getWalletName(this.masterWalletId);
   }
 
   onItem(i) {

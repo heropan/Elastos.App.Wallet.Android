@@ -58,7 +58,6 @@ export class ModifywalletnamePage {
       mappingList[this.masterWalletId] = walletObj;
       Config.setWalletName(this.masterWalletId,this.walletname);
       Config.setMappingList(mappingList);
-      this.events.publish("walletname:update");
       this.native.hideLoading();
       this.navCtrl.pop();
     });
