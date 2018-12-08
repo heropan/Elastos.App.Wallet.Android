@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package org.elastos.wallet;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

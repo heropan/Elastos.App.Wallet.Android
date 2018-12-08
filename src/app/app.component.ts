@@ -121,7 +121,7 @@ export class AppComponent {
 
 
   init(){
-    this.initJsPush();
+    //this.initJsPush();
     this.getKycIdList();
 
             this.localStorage.getMappingTable().then((data)=>{

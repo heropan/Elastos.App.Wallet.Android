@@ -34,7 +34,7 @@ import java.util.Set;
 import java.util.Iterator;
 import android.util.Log;
 
-import io.ionic.starter.MyUtil;
+import org.elastos.wallet.MyUtil;
 
 /**
  * wallet webview jni
