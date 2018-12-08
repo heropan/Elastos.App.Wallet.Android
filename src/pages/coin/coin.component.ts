@@ -38,8 +38,15 @@ export class CoinComponent{
   MaxCount = 0;
   isNodata:boolean = false;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public events: Events) {
-            this.init();
+            //this.init();
   }
+  ionViewWillEnter(){
+    this.init();
+ }
+
+ ionViewDidLeave(){
+
+ }
   init() {
     this.masterWalletId = Config.getCurMasterWalletId();
     this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{

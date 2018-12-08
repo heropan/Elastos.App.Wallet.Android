@@ -114,6 +114,13 @@ export class TransferComponent {
       this.native.toast_trans('error-amount');
       return;
     }
+
+    if(!(this.transfer.amount*Config.SELA>=1)){
+      this.native.toast_trans('error-amount');
+      return;
+    }
+
+
     this.walletManager.isAddressValid(this.masterWalletId,this.transfer.toAddress, (data) => {
       if (!data['success']) {
         this.native.toast_trans("contact-address-digits");

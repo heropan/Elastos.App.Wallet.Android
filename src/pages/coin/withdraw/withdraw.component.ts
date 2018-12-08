@@ -100,6 +100,12 @@ export class WithdrawComponent{
       this.native.toast_trans('error-amount');
       return;
     }
+
+    if(!(this.transfer.amount*Config.SELA>=1)){
+      this.native.toast_trans('error-amount');
+      return;
+    }
+
     this.walletManager.isAddressValid(this.masterWalletId,this.mainchain.accounts, (data) => {
       if (!data['success']) {
         this.native.toast_trans("contact-address-digits");

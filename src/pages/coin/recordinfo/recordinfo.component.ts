@@ -15,8 +15,15 @@ export class RecordinfoComponent{
   payStatusIcon: string = "";
   blockchain_url = Config.BLOCKCHAIN_URL;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native :Native){
-    this.init();
+    //this.init();
   }
+  ionViewWillEnter(){
+    this.init();
+ }
+
+ ionViewDidLeave(){
+
+ }
   init() {
     this.masterWalletId = Config.getCurMasterWalletId();
     let txId = this.navParams.get("txId");
@@ -62,19 +69,20 @@ export class RecordinfoComponent{
         } else if(balanceResult == 0) {
           this.payStatusIcon = './assets/images/tx-state/icon-tx-moved.svg';
         }
+
         this.transactionRecord = {
           name: chainId,
           status: status,
-          balance: balanceResult/Config.SELA,
-          incomingAmount: incomingAmount/Config.SELA,
-          outcomingAmount: outcomingAmount/Config.SELA,
-          resultAmount: resultAmount/Config.SELA,
+          balance: Util.scientificToNumber(balanceResult/Config.SELA),
+          incomingAmount: Util.scientificToNumber(incomingAmount/Config.SELA),
+          outcomingAmount:Util.scientificToNumber(outcomingAmount/Config.SELA),
+          resultAmount: Util.scientificToNumber(resultAmount/Config.SELA),
           incomingAddress: incomingAddress,
           outcomingAddress: outcomingAddress,
           txId: txId,
           transactionTime: datetime,
           timestamp: timestamp,
-          payfees: summary['Fee']/Config.SELA,
+          payfees: Util.scientificToNumber(summary['Fee']/Config.SELA),
           confirmCount: summary["ConfirmStatus"],
           remark: summary["Remark"]
         }

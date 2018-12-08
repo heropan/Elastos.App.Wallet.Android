@@ -46,7 +46,7 @@ export class WalltelistPage {
       Config.setCurMasterWalletId(id);
       this.masterWalletId = Config.getCurMasterWalletId();
       this.navCtrl.pop();
-      this.events.publish("wallte:update",id);
+      //this.events.publish("wallte:update",id);
     });
   }
 

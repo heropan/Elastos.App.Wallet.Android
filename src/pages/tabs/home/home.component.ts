@@ -35,7 +35,6 @@ export class HomeComponent {
 
   ionViewDidLeave(){
     this.events.unsubscribe("register:update");
-    this.events.unsubscribe("wallte:update");
   }
 
   init() {
@@ -58,17 +57,6 @@ export class HomeComponent {
       this.idChainPer = Config.getMasterPer(this.masterWalletId,"IdChain");
     });
     this.getAllSubWallets();
-    this.events.subscribe("wallte:update",(item)=>{
-      this.masterWalletId = item;
-      Config.setCurMasterWalletId(this.masterWalletId);
-
-      this.zone.run(()=>{
-        this.wallet["name"] = Config.getWalletName(this.masterWalletId);
-        this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");
-        this.idChainPer =Config.getMasterPer(this.masterWalletId,"IdChain");
-      });
-      this.getAllSubWallets();
-    });
    }
 
   onOpen() {
@@ -103,7 +91,7 @@ export class HomeComponent {
     this.walletManager.getBalance(this.masterWalletId,item.name,(data)=>{
       if(!Util.isNull(data["success"])){
         this.zone.run(()=>{
-          this.ElaObj.balance = data["success"]/Config.SELA;
+          this.ElaObj.balance = Util.scientificToNumber(data["success"]/Config.SELA);
         });
       }else{
         alert("getElaBalance=error:"+JSON.stringify(data));
@@ -184,7 +172,7 @@ export class HomeComponent {
     if(result["Action"] === "OnBalanceChanged"){
       if(!Util.isNull(result["Balance"])){
         this.zone.run(() => {
-          this.ElaObj.balance = result["Balance"]/Config.SELA;
+          this.ElaObj.balance = Util.scientificToNumber(result["Balance"]/Config.SELA);
         });
        }
      }
@@ -219,16 +207,16 @@ export class HomeComponent {
         if(result["Action"] === "OnBalanceChanged"){
           if(!Util.isNull(result["Balance"])){
             if(this.coinList.length === 0){
-              this.coinList.push({name:coin, balance: result["Balance"]/Config.SELA});
+              this.coinList.push({name:coin, balance: Util.scientificToNumber(result["Balance"]/Config.SELA)});
              }else{
                 let index = this.getCoinIndex(coin);
                 if(index!=-1){
                    let item = this.coinList[index];
-                       item["balance"] = result["Balance"]/Config.SELA;
+                       item["balance"] = Util.scientificToNumber(result["Balance"]/Config.SELA);
                        this.coinList.splice(index,1,item);
 
                 }else{
-                      this.coinList.push({name: coin, balance: result["Balance"]/Config.SELA});
+                      this.coinList.push({name: coin, balance: Util.scientificToNumber(result["Balance"]/Config.SELA)});
                 }
              }
           }
