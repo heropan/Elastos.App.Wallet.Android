@@ -127,7 +127,7 @@ export class WithdrawComponent{
       toAmount =this.transfer.amount*Config.SELA;
     }
     let mainchainAddress = JSON.stringify([this.mainchain.accounts]);
-    let mainchainAmounts = JSON.stringify([parseInt((this.transfer.amount*Config.SELA).toPrecision(8)) - this.transfer.fee]);
+    let mainchainAmounts = JSON.stringify([ toAmount - this.transfer.fee]);
     let mainchainIndex = JSON.stringify([this.mainchain.index]);
     this.walletManager.createWithdrawTransaction(this.masterWalletId,this.chianId, "",
       toAmount, // user input amount
