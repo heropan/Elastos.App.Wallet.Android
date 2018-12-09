@@ -119,7 +119,13 @@ export class WithdrawComponent{
   }
 
   createWithdrawTransaction(){
-    let toAmount = parseInt((this.transfer.amount*Config.SELA).toPrecision(8));
+
+    let toAmount = 0;
+    if(this.transfer.amount<1){
+      toAmount = parseInt((this.transfer.amount*Config.SELA).toPrecision(8));
+    }else{
+      toAmount =this.transfer.amount*Config.SELA;
+    }
     let mainchainAddress = JSON.stringify([this.mainchain.accounts]);
     let mainchainAmounts = JSON.stringify([parseInt((this.transfer.amount*Config.SELA).toPrecision(8)) - this.transfer.fee]);
     let mainchainIndex = JSON.stringify([this.mainchain.index]);
