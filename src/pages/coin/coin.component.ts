@@ -37,15 +37,17 @@ export class CoinComponent{
   isShowMore = false;
   MaxCount = 0;
   isNodata:boolean = false;
+  public myInterval:any;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public events: Events) {
             //this.init();
   }
   ionViewWillEnter(){
+
     this.init();
  }
 
  ionViewDidLeave(){
-
+  clearInterval(this.myInterval);
  }
   init() {
     this.masterWalletId = Config.getCurMasterWalletId();
@@ -89,6 +91,22 @@ export class CoinComponent{
       }
     });
     this.getAllTx();
+
+    this.myInterval = setInterval(()=>{
+
+      this.walletManager.getBalance(this.masterWalletId,this.coinName, (data)=>{
+        if(!Util.isNull(data["success"])){
+          this.native.info(data);
+          this.coinCount = data["success"]/Config.SELA;
+        }else{
+          this.native.info(data);
+        }
+       });
+
+          this.pageNo = 0;
+          this.transferList =[];
+          this.getAllTx();
+    },1000);
   }
 
   getAllTx(){
@@ -221,6 +239,14 @@ export class CoinComponent{
   }
 
   doRefresh(refresher){
+    this.walletManager.getBalance(this.masterWalletId,this.coinName, (data)=>{
+      if(!Util.isNull(data["success"])){
+        this.native.info(data);
+        this.coinCount = data["success"]/Config.SELA;
+      }else{
+        this.native.info(data);
+      }
+     });
     this.pageNo = 0;
     this.transferList =[];
     this.getAllTx();

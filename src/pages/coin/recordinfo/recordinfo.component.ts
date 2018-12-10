@@ -14,15 +14,19 @@ export class RecordinfoComponent{
   start = 0;
   payStatusIcon: string = "";
   blockchain_url = Config.BLOCKCHAIN_URL;
+  public myInterval:any;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native :Native){
     //this.init();
   }
   ionViewWillEnter(){
     this.init();
+    this.myInterval = setInterval(()=>{
+        this.init();
+    },1000);
  }
 
  ionViewDidLeave(){
-
+  clearInterval(this.myInterval);
  }
   init() {
     this.masterWalletId = Config.getCurMasterWalletId();
