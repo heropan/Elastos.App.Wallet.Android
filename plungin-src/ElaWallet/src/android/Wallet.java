@@ -328,6 +328,9 @@ public class Wallet extends CordovaPlugin {
 					break;
 
 					// Master wallet manager
+				case "getVersion":
+					this.getVersion(args, cc);
+					break;
 				case "saveConfigs":
 					this.saveConfigs(args, cc);
 					break;
@@ -398,6 +401,9 @@ public class Wallet extends CordovaPlugin {
 					break;
 				case "destroyWallet":
 					this.destroyWallet(args, cc);
+					break;
+				case "destroySubWallet":
+					this.destroySubWallet(args, cc);
 					break;
 				case "getMasterWalletPublicKey":
 					this.getMasterWalletPublicKey(args, cc);
@@ -730,6 +736,16 @@ public class Wallet extends CordovaPlugin {
 		}
 	}
 
+	public void getVersion(JSONArray args, CallbackContext cc) throws JSONException {
+		if (mMasterWalletManager == null) {
+			errorProcess(cc, errCodeInvalidMasterWalletManager, "Master wallet manager has not initialize");
+			return;
+		}
+
+		String version = mMasterWalletManager.GetVersion();
+		successProcess(cc, version);
+	}
+
 	public void saveConfigs(JSONArray args, CallbackContext cc) throws JSONException {
 		if (mMasterWalletManager == null) {
 			errorProcess(cc, errCodeInvalidMasterWalletManager, "Master wallet manager has not initialize");
@@ -976,6 +992,43 @@ public class Wallet extends CordovaPlugin {
 			successProcess(cc, masterWallet.GetBasicInfo());
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, "Create multi sign " + formatWalletName(masterWalletID) + " with mnemonic");
+		}
+	}
+
+	// args[0]: String masterWalletID
+	// args[1]: String chainID
+	public void destroySubWallet(JSONArray args, CallbackContext cc) throws JSONException {
+		int idx = 0;
+
+		String masterWalletID = args.getString(idx++);
+		String chainID = args.getString(idx++);
+
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+
+		try {
+			IMasterWallet masterWallet = getIMasterWallet(masterWalletID);
+			if (masterWallet == null) {
+				errorProcess(cc, errCodeInvalidMasterWallet, "Get " + formatWalletName(masterWalletID));
+				return;
+			}
+			ISubWallet subWallet = masterWallet.GetSubWallet(chainID);
+			if (subWallet == null) {
+				errorProcess(cc, errCodeInvalidSubWallet, "Get " + formatWalletName(masterWalletID, chainID));
+				return;
+			}
+
+			Log.i(TAG, "Removing subWallet " + formatWalletName(masterWalletID, chainID) + "'s callback");
+
+			masterWallet.DestroyWallet(subWallet);
+
+			subWallet.RemoveCallback();
+
+			successProcess(cc, "Destroy " + formatWalletName(masterWalletID, chainID) + " OK");
+		} catch (WalletException e) {
+			exceptionProcess(e, cc, "Destroy " + formatWalletName(masterWalletID, chainID));
 		}
 	}
 
@@ -1806,7 +1859,7 @@ public class Wallet extends CordovaPlugin {
 				@Override
 				public void OnTransactionStatusChanged(String txId, String status, String desc, int confirms) {
 					JSONObject jsonObject = new JSONObject();
-					Log.i(TAG, "OnTransactionStatusChanged");
+					Log.i(TAG, formatWalletName(masterWalletID, chainID) + " OnTxStatusChanged => tx: " + txId + ", status: " + status + ", confirms: " + confirms);
 					try {
 						jsonObject.put("txId", txId);
 						jsonObject.put("status", status);
@@ -1831,7 +1884,7 @@ public class Wallet extends CordovaPlugin {
 				@Override
 				public void OnBlockSyncStarted() {
 					JSONObject jsonObject = new JSONObject();
-					Log.i(TAG, "OnBlockSyncStarted");
+					Log.i(TAG, formatWalletName(masterWalletID, chainID) + " OnBlockSyncStarted");
 					try {
 						jsonObject.put("MasterWalletID", masterWalletID);
 						jsonObject.put("ChaiID", chainID);
@@ -1850,11 +1903,12 @@ public class Wallet extends CordovaPlugin {
 				}
 
 				@Override
-				public void OnBlockHeightIncreased(int currentBlockHeight, int progress) {
+				public void OnBlockSyncProgress(int currentBlockHeight, int estimatedHeight) {
 					JSONObject jsonObject = new JSONObject();
+					Log.i(TAG, formatWalletName(masterWalletID, chainID) + " OnBlockSyncProgress => [" + currentBlockHeight + " / " + estimatedHeight + "]");
 					try {
 						jsonObject.put("currentBlockHeight", currentBlockHeight);
-						jsonObject.put("progress", progress);
+						jsonObject.put("estimatedHeight", estimatedHeight);
 						jsonObject.put("MasterWalletID", masterWalletID);
 						jsonObject.put("ChaiID", chainID);
 						jsonObject.put("Action", "OnBlockHeightIncreased");
@@ -1874,7 +1928,7 @@ public class Wallet extends CordovaPlugin {
 				@Override
 				public void OnBlockSyncStopped() {
 					JSONObject jsonObject = new JSONObject();
-					Log.i(TAG, "OnBlockSyncStopped");
+					Log.i(TAG, formatWalletName(masterWalletID, chainID) + " OnBlockSyncStopped");
 					try {
 						jsonObject.put("MasterWalletID", masterWalletID);
 						jsonObject.put("ChaiID", chainID);
@@ -1895,7 +1949,7 @@ public class Wallet extends CordovaPlugin {
 				@Override
 				public void OnBalanceChanged(long balance) {
 					JSONObject jsonObject = new JSONObject();
-					Log.i(TAG, "OnBalanceChanged: " + balance);
+					Log.i(TAG, formatWalletName(masterWalletID, chainID) + " OnBalanceChanged => " + balance);
 					try {
 						jsonObject.put("Balance", balance);
 						jsonObject.put("MasterWalletID", masterWalletID);
@@ -1913,6 +1967,57 @@ public class Wallet extends CordovaPlugin {
 						cc.sendPluginResult(pluginResult);
 					}
 				}
+
+				/**
+				 * @param result is json result
+				 */
+				@Override
+				public void OnTxPublished(String hash, String result) {
+					JSONObject jsonObject = new JSONObject();
+					Log.i(TAG, formatWalletName(masterWalletID, chainID) + " OnTxPublished => " + hash + ", result: " + result);
+					try {
+						jsonObject.put("hash", hash);
+						jsonObject.put("result", result);
+						jsonObject.put("MasterWalletID", masterWalletID);
+						jsonObject.put("ChaiID", chainID);
+						jsonObject.put("Action", "OnTxPublished");
+
+						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
+						pluginResult.setKeepCallback(true);
+						cc.sendPluginResult(pluginResult);
+					} catch (JSONException e) {
+						e.printStackTrace();
+
+						PluginResult pluginResult = new PluginResult(PluginResult.Status.JSON_EXCEPTION, e.toString());
+						pluginResult.setKeepCallback(true);
+						cc.sendPluginResult(pluginResult);
+					}
+				}
+
+				@Override
+				public void OnTxDeleted(String hash, boolean notifyUser, boolean recommendRescan) {
+					JSONObject jsonObject = new JSONObject();
+					Log.i(TAG, formatWalletName(masterWalletID, chainID) + " OnTxDeleted => " + hash + ", notifyUser: " + notifyUser + ", recommendRescan: " + recommendRescan);
+					try {
+						jsonObject.put("hash", hash);
+						jsonObject.put("notifyUser", notifyUser);
+						jsonObject.put("recommendRescan", recommendRescan);
+						jsonObject.put("MasterWalletID", masterWalletID);
+						jsonObject.put("ChaiID", chainID);
+						jsonObject.put("Action", "OnTxDeleted");
+
+						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, jsonObject);
+						pluginResult.setKeepCallback(true);
+						cc.sendPluginResult(pluginResult);
+					} catch (JSONException e) {
+						e.printStackTrace();
+
+						PluginResult pluginResult = new PluginResult(PluginResult.Status.JSON_EXCEPTION, e.toString());
+						pluginResult.setKeepCallback(true);
+						cc.sendPluginResult(pluginResult);
+					}
+				}
+
 			});
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, formatWalletName(masterWalletID, chainID) + " add callback");

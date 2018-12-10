@@ -184,6 +184,10 @@ public class MasterWalletManager {
 		return nativeDecodeTransactionFromString(mManagerProxy, cipher);
 	}
 
+	public String GetVersion() {
+		return nativeGetVersion(mManagerProxy);
+	}
+
 	private native void nativeSaveConfigs(long proxy);
 
 	private native String nativeGenerateMnemonic(long proxy, String language);
@@ -233,4 +237,6 @@ public class MasterWalletManager {
 	private native long nativeInitMasterWalletManager(String rootPath);
 
 	private native void nativeDisposeNative(long proxy);
+
+	private native String nativeGetVersion(long proxy);
 }
