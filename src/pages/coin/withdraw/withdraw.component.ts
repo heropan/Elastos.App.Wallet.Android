@@ -100,6 +100,10 @@ export class WithdrawComponent{
       this.native.toast_trans('error-amount');
       return;
     }
+    if(!(this.transfer.amount*Config.SELA>=1)){
+      this.native.toast_trans('error-amount');
+      return;
+    }
     this.walletManager.isAddressValid(this.masterWalletId,this.mainchain.accounts, (data) => {
       if (!data['success']) {
         this.native.toast_trans("contact-address-digits");
@@ -113,9 +117,14 @@ export class WithdrawComponent{
   }
 
   createWithdrawTransaction(){
-    let toAmount = parseInt((this.transfer.amount*Config.SELA).toPrecision(8));
+    let toAmount = 0;
+    if(this.transfer.amount<1){
+      toAmount = parseInt((this.transfer.amount*Config.SELA).toPrecision(8));
+    }else{
+      toAmount =this.transfer.amount*Config.SELA;
+    }
     let mainchainAddress = JSON.stringify([this.mainchain.accounts]);
-    let mainchainAmounts = JSON.stringify([parseInt((this.transfer.amount*Config.SELA).toPrecision(8)) - this.transfer.fee]);
+    let mainchainAmounts = JSON.stringify([toAmount - this.transfer.fee]);
     let mainchainIndex = JSON.stringify([this.mainchain.index]);
     this.walletManager.createWithdrawTransaction(this.masterWalletId,this.chianId, "",
       toAmount, // user input amount

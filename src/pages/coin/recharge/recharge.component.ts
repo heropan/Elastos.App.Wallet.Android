@@ -103,6 +103,10 @@ export class RechargeComponent{
       this.native.toast_trans('error-amount');
       return;
     }
+    if(!(this.transfer.amount*Config.SELA>=1)){
+      this.native.toast_trans('error-amount');
+      return;
+    }
     this.walletManager.isAddressValid(this.masterWalletId,this.sidechain.accounts, (data) => {
       if (!data['success']) {
         this.native.toast_trans("contact-address-digits");
@@ -117,9 +121,14 @@ export class RechargeComponent{
 
 
   createDepositTransaction(){
-    let toAmount = parseInt((this.transfer.amount*Config.SELA).toPrecision(8));
+    let toAmount = 0;
+    if(this.transfer.amount<1){
+      toAmount = parseInt((this.transfer.amount*Config.SELA).toPrecision(8));
+    }else{
+      toAmount =this.transfer.amount*Config.SELA;
+    }
     let sidechainAddress = JSON.stringify([this.sidechain.accounts]);
-    let sidechainAmounts = JSON.stringify([parseInt((this.transfer.amount*Config.SELA).toPrecision(8)) - this.transfer.fee]);
+    let sidechainAmounts = JSON.stringify([toAmount - this.transfer.fee]);
     let sidechainIndex = JSON.stringify([this.sidechain.index]);
     this.walletManager.createDepositTransaction(this.masterWalletId,'ELA', "",
       this.transfer.toAddress, // genesisAddress
