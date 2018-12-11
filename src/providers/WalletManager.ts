@@ -22,8 +22,8 @@ export class WalletManager {
   public static PAGECOUNT = 20;
 
   constructor(public native: Native,public event: Events,public popupProvider :PopupProvider) {
-                this.wallet = cordova.plugins.Wallet;
-                //this.wallet = {};
+                  this.wallet = cordova.plugins.Wallet;
+                  //this.wallet = {};
   }
 
   //--------------------------------------------------------------------------------子钱包操作
@@ -521,6 +521,22 @@ export class WalletManager {
     this.wallet.importWalletWithOldKeystore([masterWalletId,keystoreContent, backupPassword, payPassword,phrasePassword], Fun,(error)=>{
       this.errorFun(error);
     });
+  }
+
+  getVersion(Fun){
+    this.wallet.getVersion([],Fun,(error)=>{
+       this.errorFun(error);
+    })
+  }
+   /**
+   * @param {string} masterWalletId
+   * @param {string} chainId
+   * @param Fun
+   */
+  destroySubWallet(masterWalletId:string,chainId:string,Fun){
+       this.wallet.destroySubWallet(masterWalletId,chainId,Fun,(error)=>{
+           this.errorFun(error);
+       });
   }
 
   errorFun(error) {

@@ -41,8 +41,9 @@
                 </ion-col>
             </ion-row>
             <ion-row>
-                <ion-col col-12>
-                    <progress-bar proportion="{{elaPer}}"></progress-bar>
+                <ion-col col-12 class="text-right">
+                    <!-- <progress-bar proportion="{{elaPer}}"></progress-bar> -->
+                    <span [ngClass]="{'red':elaCurHeight!=elaMaxHeight,'green':elaCurHeight==elaMaxHeight}">{{elaCurHeight}}</span>/<span [ngClass]="{'red':elaCurHeight!=elaMaxHeight,'green':elaCurHeight==elaMaxHeight}">{{elaMaxHeight}}</span>
                 </ion-col>
             </ion-row>
 
@@ -59,10 +60,14 @@
                     </ion-col>
                 </ion-row>
                 <ion-row>
-                    <ion-col col-12>
-                        <progress-bar proportion="{{idChainPer}}"></progress-bar>
+                    <ion-col col-12 class="text-right">
+                        <!-- <progress-bar proportion="{{idChainPer}}"></progress-bar> -->
+                        <span [ngClass]="{'red':idChainCurHeight!=idChainMaxHeight,'green':idChainCurHeight==idChainMaxHeight}">{{idChainCurHeight}}</span>/<span [ngClass]="{'red':idChainCurHeight!=idChainMaxHeight,'green':idChainCurHeight==idChainMaxHeight}">{{idChainMaxHeight}}</span>
                     </ion-col>
                 </ion-row>
+            </div>
+            <div class="bottom-broder">
+
             </div>
         </ion-grid>
     </div>

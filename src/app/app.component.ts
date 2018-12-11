@@ -75,6 +75,7 @@ export class AppComponent {
       splashScreen.hide();
       this.initTranslateConfig();
       this.init();
+      //this.rootPage = "AboutPage";
       //this.rootPage = ScanPage;
       //this.rootPage = PaymentboxPage;
       //this.initializeApp();
@@ -123,14 +124,20 @@ export class AppComponent {
   init(){
     this.initJsPush();
     this.getKycIdList();
+            this.localStorage.getProgress().then((pdata)=>{
+                    if(pdata){
+                      Config.perObj = JSON.parse(pdata);
+                    }
 
-            this.localStorage.getMappingTable().then((data)=>{
-              this.native.info(data);
-              if(data){
-                Config.setMappingList(JSON.parse(data));
-               }
-               this.rootPage = InitializepagePage;
-           });
+                    this.localStorage.getMappingTable().then((data)=>{
+                      this.native.info(data);
+                      if(data){
+                        Config.setMappingList(JSON.parse(data));
+                       }
+                       this.rootPage = InitializepagePage;
+                    });
+            });
+
   }
 
   //
