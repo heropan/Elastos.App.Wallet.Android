@@ -25,6 +25,10 @@ export class HomeComponent {
   ElaObj ={"name":"ELA","balance":0};
   coinList = [];
   account:any={};
+  elaMaxHeight:any;
+  elaCurHeight:any;
+  idChainMaxHeight:any;
+  idChainCurHeight:any;
   constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager: WalletManager,public native:Native,public localStorage:LocalStorage,public zone:NgZone,public events:Events,public popupProvider: PopupProvider){
      //this.init();
   }
@@ -53,8 +57,12 @@ export class HomeComponent {
     });
     this.goPayment();
     this.zone.run(()=>{
-      this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");;
-      this.idChainPer = Config.getMasterPer(this.masterWalletId,"IdChain");
+      //this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");;
+      this.elaMaxHeight = Config.getEstimatedHeight(this.masterWalletId,"ELA");
+      this.elaCurHeight = Config.getCurrentHeight(this.masterWalletId,"ELA");
+      this.idChainMaxHeight = Config.getEstimatedHeight(this.masterWalletId,"IdChain");
+      this.idChainCurHeight = Config.getCurrentHeight(this.masterWalletId,"IdChain");
+      //this.idChainPer = Config.getMasterPer(this.masterWalletId,"IdChain");
     });
     this.getAllSubWallets();
    }
@@ -178,28 +186,31 @@ export class HomeComponent {
      }
      if(result["Action"] === "OnBlockSyncStopped"){
             this.zone.run(() => {
-              this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");
+              //this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");
+              this.elaMaxHeight = Config.getEstimatedHeight(this.masterWalletId,"ELA");
+              this.elaCurHeight = Config.getCurrentHeight(this.masterWalletId,"ELA");
             });
          }else if(result["Action"] === "OnBlockSyncStarted"){
           this.zone.run(() => {
-            this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");
+            //this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");
+            this.elaMaxHeight = Config.getEstimatedHeight(this.masterWalletId,"ELA");
+            this.elaCurHeight = Config.getCurrentHeight(this.masterWalletId,"ELA");
             });
          }else if(result["Action"] === "OnBlockHeightIncreased"){
-           if(result["progress"]){
-            this.zone.run(() => {
-              this.elaPer= result["progress"];
-              Config.setMasterPer(this.masterWalletId,"ELA",this.elaPer);
-              //this.localStorage.setProgress(Config.perObj);
-            });
-           }
-
+            //this.elaPer= result["progress"];
+            this.elaMaxHeight = result["estimatedHeight"];
+            this.elaCurHeight = result["currentBlockHeight"];
+            //Config.setMasterPer(this.masterWalletId,"ELA",this.elaPer);
+            Config.setCureentHeight(this.masterWalletId,"ELA",this.elaCurHeight);
+            Config.setEstimatedHeight(this.masterWalletId,"ELA",this.elaMaxHeight);
+            this.localStorage.setProgress(Config.perObj);
          }
 
-         if(this.elaPer === 1){
-            this.zone.run(() => {
-            this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");
-          });
-         }
+        //  if(this.elaPer === 1){
+        //     this.zone.run(() => {
+        //     this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");
+        //   });
+        //  }
       }
 
 
@@ -233,28 +244,36 @@ export class HomeComponent {
           if(result["Action"] === "OnBlockSyncStopped"){
 
             this.zone.run(() => {
-              this.idChainPer = Config.getMasterPer(this.masterWalletId,coin);
+              //this.idChainPer = Config.getMasterPer(this.masterWalletId,coin);
+              this.idChainMaxHeight = Config.getEstimatedHeight(this.masterWalletId,"IdChain");
+              this.idChainCurHeight = Config.getCurrentHeight(this.masterWalletId,"IdChain");
             });
 
           }else if(result["Action"] === "OnBlockSyncStarted"){
             this.zone.run(() => {
-              this.idChainPer = Config.getMasterPer(this.masterWalletId,coin);
+              //this.idChainPer = Config.getMasterPer(this.masterWalletId,coin);
+              this.idChainMaxHeight = Config.getEstimatedHeight(this.masterWalletId,"IdChain");
+              this.idChainCurHeight = Config.getCurrentHeight(this.masterWalletId,"IdChain");
             });
           }else if(result["Action"] === "OnBlockHeightIncreased"){
             this.zone.run(() => {
-              this.idChainPer  = result["progress"];
-              Config.setMasterPer(this.masterWalletId,coin,this.idChainPer);
-              //this.localStorage.setProgress(Config.perObj);
+                //this.idChainPer  = result["progress"];
+                this.idChainMaxHeight = result["estimatedHeight"];
+                this.idChainCurHeight = result["currentBlockHeight"];
+                //Config.setMasterPer(this.masterWalletId,coin,this.idChainPer);
+                Config.setCureentHeight(this.masterWalletId,coin,this.idChainCurHeight);
+                Config.setEstimatedHeight(this.masterWalletId,coin,this.idChainMaxHeight);
+                this.localStorage.setProgress(Config.perObj);
             });
 
 
           }
 
-          if(this.idChainPer === 1){
-                  this.zone.run(() => {
-                    this.idChainPer = Config.getMasterPer(this.masterWalletId,coin);
-                  });
-          }
+          // if(this.idChainPer === 1){
+          //         this.zone.run(() => {
+          //           this.idChainPer = Config.getMasterPer(this.masterWalletId,coin);
+          //         });
+          // }
       }
 
       doRefresh(refresher){

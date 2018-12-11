@@ -216,6 +216,79 @@ export class Config {
  public static getAccountType(masterWalletId){
   return this.mappingList[masterWalletId]["Account"] || {};
  }
+
+
+ public static getEstimatedHeight(masterId,coin){
+  if(this.perObj[masterId]){
+    if(this.perObj[masterId][coin]){
+          if(this.perObj[masterId][coin]["maxHeight"]){
+                   return this.perObj[masterId][coin]["maxHeight"];
+          }else{
+            return 0;
+          }
+    }else{
+       return 0;
+    }
+
+  }else{
+       return 0;
+  }
+ }
+
+ public static setEstimatedHeight(masterId,coin,estimatedHeight){
+  if(this.perObj[masterId]){
+      if(this.perObj[masterId][coin]){
+        this.perObj[masterId][coin]["maxHeight"] = estimatedHeight;
+      }else{
+        this.perObj[masterId][coin] = {};
+        this.perObj[masterId][coin]["maxHeight"] = estimatedHeight;
+      }
+  }else{
+     this.perObj[masterId] = {};
+     if(this.perObj[masterId][coin]){
+       this.perObj[masterId][coin]["maxHeight"] = estimatedHeight;
+     }else{
+        this.perObj[masterId][coin] = {};
+        this.perObj[masterId][coin]["maxHeight"] = estimatedHeight;
+     }
+  }
+}
+
+public static getCurrentHeight(masterId,coin){
+  if(this.perObj[masterId]){
+    if(this.perObj[masterId][coin]){
+          if(this.perObj[masterId][coin]["maxHeight"]){
+                   return this.perObj[masterId][coin]["maxHeight"];
+          }else{
+            return 0;
+          }
+    }else{
+       return 0;
+    }
+
+  }else{
+       return 0;
+  }
+}
+
+public static setCureentHeight(masterId,coin,currentHeight){
+  if(this.perObj[masterId]){
+    if(this.perObj[masterId][coin]){
+      this.perObj[masterId][coin]["curHeight"] = currentHeight;
+    }else{
+      this.perObj[masterId][coin] = {};
+      this.perObj[masterId][coin]["curHeight"] = currentHeight;
+    }
+}else{
+   this.perObj[masterId] = {};
+   if(this.perObj[masterId][coin]){
+     this.perObj[masterId][coin]["curHeight"] = currentHeight;
+   }else{
+      this.perObj[masterId][coin] = {};
+      this.perObj[masterId][coin]["curHeight"] = currentHeight;
+   }
+}
+}
 }
 
 

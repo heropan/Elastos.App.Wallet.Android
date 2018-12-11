@@ -421,5 +421,7 @@ export const en = {
   'number-of-voting-addresses':'number of voting addresses',
   'about':'About',
   'Version':'Version',
-  'my-publickey':'my publickey'
+  'my-publickey':'my publickey',
+  'Inputs':"Inputs",
+  "Outputs":"Outputs"
 };

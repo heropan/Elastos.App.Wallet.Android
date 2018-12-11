@@ -38,6 +38,7 @@ export class CoinComponent{
   MaxCount = 0;
   isNodata:boolean = false;
   public myInterval:any;
+  public jiajian:any="";
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public events: Events) {
             //this.init();
   }
@@ -60,10 +61,7 @@ export class CoinComponent{
                     alert("=======getMasterWalletBasicInfo====error====="+JSON.stringify(data));
                  }
     });
-    // this.setLeftIcon("",()=>{
-    //   this.events.publish("home:update");
-    //   this.Back();
-    // });
+
     this.coinName = this.navParams.get("name");
     this.elaPer = this.navParams.get("elaPer") || 0;
     this.idChainPer = this.navParams.get("idChainPer") || 0;
@@ -126,33 +124,23 @@ export class CoinComponent{
       }
       for (let key in transactions) {
         let transaction = transactions[key];
-        // let timestamp = transaction['Timestamp']*1000;
-
-        // let txId = transaction['TxHash'];
-        let summary = transaction['Summary'];
-        let timestamp = summary['Timestamp']*1000;
+        let timestamp = transaction['Timestamp']*1000;
         let datetime = Util.dateFormat(new Date(timestamp));
-        let txId = summary['TxHash'];
-        let incomingAmount = summary["Incoming"]['Amount'];
-        let outcomingAmount = summary["Outcoming"]['Amount'];
-        let outcomingAddress = summary["Outcoming"]['ToAddress'];
-        let balanceResult = incomingAmount - outcomingAmount;
-        let resultAmount = 0;
-        if (outcomingAmount === 0 && outcomingAddress === "") {
-          resultAmount = balanceResult;
-        } else {
-          resultAmount = balanceResult - summary['Fee'];
-        }
-        let payStatusIcon = "";
-        if (balanceResult > 0) {
+        let txId = transaction['TxHash'];
+        let payStatusIcon = transaction["Direction"];
+        let jiajian ="";
+        if (payStatusIcon === "Received") {
           payStatusIcon = './assets/images/tx-state/icon-tx-received-outline.svg';
-        } else if(balanceResult < 0) {
+          jiajian = "+";
+        } else if(payStatusIcon === "Sent") {
           payStatusIcon = './assets/images/tx-state/icon-tx-sent.svg';
-        } else if(balanceResult == 0) {
+          jiajian = "-";
+        } else if(payStatusIcon === "Moved") {
           payStatusIcon = './assets/images/tx-state/icon-tx-moved.svg';
+          jiajian = "";
         }
         let status = '';
-        switch(summary["Status"])
+        switch(transaction["Status"])
         {
           case 'Confirmed':
             status = 'Confirmed'
@@ -165,16 +153,13 @@ export class CoinComponent{
             break;
         }
         let transfer = {
-          "name": this.coinName,
           "status": status,
-          "type": summary["Type"],
-          "balance": balanceResult/Config.SELA,
-          "resultAmount": resultAmount/Config.SELA,
+          "resultAmount":transaction["Amount"]/Config.SELA,
           "datetime": datetime,
           "timestamp": timestamp,
-          "payfees": summary['Fee']/Config.SELA,
           "txId": txId,
-          "payStatusIcon": payStatusIcon
+          "payStatusIcon": payStatusIcon,
+          "fuhao":jiajian
         }
         this.transferList.push(transfer);
       }

@@ -416,5 +416,7 @@ export const zh = {
   'number-of-voting-addresses':'投票地址数量',
   'about':'关于',
   'Version':'版本号',
-  'my-publickey':'我的公钥'
+  'my-publickey':'我的公钥',
+  'Inputs':"输入",
+  "Outputs":"输出"
 };

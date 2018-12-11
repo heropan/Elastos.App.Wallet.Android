@@ -124,13 +124,19 @@ export class AppComponent {
     //this.initJsPush();
     this.getKycIdList();
 
-            this.localStorage.getMappingTable().then((data)=>{
-              this.native.info(data);
-              if(data){
-                Config.setMappingList(JSON.parse(data));
-               }
-               this.rootPage = InitializepagePage;
-           });
+    this.localStorage.getProgress().then((pdata)=>{
+      if(pdata){
+        Config.perObj = JSON.parse(pdata);
+      }
+
+      this.localStorage.getMappingTable().then((data)=>{
+        this.native.info(data);
+        if(data){
+          Config.setMappingList(JSON.parse(data));
+         }
+         this.rootPage = InitializepagePage;
+      });
+    });
   }
 
   //

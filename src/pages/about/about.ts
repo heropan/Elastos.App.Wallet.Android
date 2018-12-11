@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import {WalletManager} from '../../providers/WalletManager';
 /**
  * Generated class for the AboutPage page.
  *
@@ -14,12 +14,21 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'about.html',
 })
 export class AboutPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  public spvVersion = "0";
+  constructor(public navCtrl: NavController, public navParams: NavParams,public walletManager:WalletManager) {
+        this.init();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AboutPage');
   }
+
+  init(){
+    this.walletManager.getVersion((data)=>{
+      if(data['success']){
+          this.spvVersion = data['success'];
+      }
+    });
+ }
 
 }

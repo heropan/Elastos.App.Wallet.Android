@@ -305,6 +305,13 @@ walletFunc.prototype.importWalletWithOldKeystore = function(arg0, success, error
     exec(success, error, "Wallet", "importWalletWithOldKeystore", arg0);
 };
 
+walletFunc.prototype.getVersion = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getVersion", arg0);
+};
+
+walletFunc.prototype.destroySubWallet = function(arg0, success, error) {
+    exec(success, error, "Wallet", "destroySubWallet", arg0);
+};
 
 
 var WALLETFUNC = new walletFunc();
