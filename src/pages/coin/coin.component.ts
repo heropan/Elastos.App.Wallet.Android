@@ -97,9 +97,18 @@ export class CoinComponent{
       }else{
          this.isNodata = true;
       }
+      if(this.start >= this.MaxCount){
+        this.isShowMore = false;
+        return;
+      }else{
+        this.isShowMore = true;
+      }
       if(!transactions){
           this.isShowMore = false;
           return;
+      }
+      if(this.MaxCount<=20){
+        this.isShowMore = false;
       }
       for (let key in transactions) {
         let transaction = transactions[key];

@@ -534,7 +534,7 @@ export class WalletManager {
    * @param Fun
    */
   destroySubWallet(masterWalletId:string,chainId:string,Fun){
-       this.wallet.destroySubWallet(masterWalletId,chainId,Fun,(error)=>{
+       this.wallet.destroySubWallet([masterWalletId,chainId],Fun,(error)=>{
            this.errorFun(error);
        });
   }
