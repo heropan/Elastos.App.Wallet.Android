@@ -534,7 +534,7 @@ export class WalletManager {
    * @param Fun
    */
   destroySubWallet(masterWalletId:string,chainId:string,Fun){
-       this.wallet.destroySubWallet(masterWalletId,chainId,Fun,(error)=>{
+       this.wallet.destroySubWallet([masterWalletId,chainId],Fun,(error)=>{
            this.errorFun(error);
        });
   }
@@ -557,6 +557,8 @@ export class WalletManager {
     //alert("错误信息：" + JSON.stringify(error));
     if(error["error"]["code"] === 20036){
       this.event.publish("error:update",error);
+    }else if(error["error"]["code"] === 20028){
+      this.event.publish("error:destroySubWallet");
     }else{
       this.event.publish("error:update");
     }

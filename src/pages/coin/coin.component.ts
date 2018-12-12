@@ -48,7 +48,7 @@ export class CoinComponent{
  }
 
  ionViewDidLeave(){
-  clearInterval(this.myInterval);
+  //clearInterval(this.myInterval);
  }
   init() {
     this.masterWalletId = Config.getCurMasterWalletId();
@@ -90,21 +90,21 @@ export class CoinComponent{
     });
     this.getAllTx();
 
-    this.myInterval = setInterval(()=>{
+    // this.myInterval = setInterval(()=>{
 
-      this.walletManager.getBalance(this.masterWalletId,this.coinName, (data)=>{
-        if(!Util.isNull(data["success"])){
-          this.native.info(data);
-          this.coinCount = data["success"]/Config.SELA;
-        }else{
-          this.native.info(data);
-        }
-       });
+    //   this.walletManager.getBalance(this.masterWalletId,this.coinName, (data)=>{
+    //     if(!Util.isNull(data["success"])){
+    //       this.native.info(data);
+    //       this.coinCount = data["success"]/Config.SELA;
+    //     }else{
+    //       this.native.info(data);
+    //     }
+    //    });
 
-          this.pageNo = 0;
-          this.transferList =[];
-          this.getAllTx();
-    },1000);
+    //       this.pageNo = 0;
+    //       this.transferList =[];
+    //       this.getAllTx();
+    // },1000);
   }
 
   getAllTx(){
@@ -118,9 +118,20 @@ export class CoinComponent{
       }else{
          this.isNodata = true;
       }
+
+      if(this.start >= this.MaxCount){
+        this.isShowMore = false;
+        return;
+      }else{
+        this.isShowMore = true;
+      }
       if(!transactions){
           this.isShowMore = false;
           return;
+      }
+
+      if(this.MaxCount<=20){
+        this.isShowMore = false;
       }
       for (let key in transactions) {
         let transaction = transactions[key];
