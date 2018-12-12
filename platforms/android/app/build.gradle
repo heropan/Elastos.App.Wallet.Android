@@ -186,6 +186,11 @@ android {
           }
       }
   }
+  sourceSets {
+	main {
+		jniLibs.srcDirs 'libs', 'src/main/jniLibs'
+	}
+  }
 
   externalNativeBuild {
     cmake {
