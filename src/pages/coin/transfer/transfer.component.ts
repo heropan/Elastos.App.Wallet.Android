@@ -334,9 +334,15 @@ saveKycSerialNum(serialNum){
 }
 
 createMultTx(){
+  let toAmount = 0;
+  if(this.transfer.amount<1){
+    toAmount = parseInt((this.transfer.amount*Config.SELA).toPrecision(8));
+  }else{
+    toAmount =this.transfer.amount*Config.SELA;
+  }
   this.walletManager.createMultiSignTransaction(this.masterWalletId,this.chianId,"",
   this.transfer.toAddress,
-  this.transfer.amount*Config.SELA,
+  toAmount,
   this.transfer.memo,
   (data)=>{
     if(data["success"]){
