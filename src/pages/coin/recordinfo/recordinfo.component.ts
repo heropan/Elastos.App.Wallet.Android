@@ -14,6 +14,9 @@ export class RecordinfoComponent{
   start = 0;
   payStatusIcon: string = "";
   blockchain_url = Config.BLOCKCHAIN_URL;
+  public jiajian:any="";
+  public inputs:any = [];
+  public outputs:any = [];
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native :Native){
     this.init();
   }
@@ -27,23 +30,12 @@ export class RecordinfoComponent{
         let allTransaction = JSON.parse(data['success']);
         let transactions = allTransaction['Transactions'];
         let transaction = transactions[0];
-        // let timestamp = transaction['Timestamp']*1000;
-        let summary = transaction['Summary'];
-        let timestamp = summary['Timestamp']*1000;
+        this.inputs = this.objtoarr(transaction["Inputs"]);
+        this.outputs = this.objtoarr(transaction["Outputs"]);
+        let timestamp = transaction['Timestamp']*1000;
         let datetime = Util.dateFormat(new Date(timestamp), 'yyyy-MM-dd HH:mm:ss');
-        let incomingAmount = summary["Incoming"]['Amount'];
-        let outcomingAmount = summary["Outcoming"]['Amount'];
-        let incomingAddress = summary["Incoming"]['ToAddress'];
-        let outcomingAddress = summary["Outcoming"]['ToAddress'];
-        let balanceResult = incomingAmount - outcomingAmount;
-        let resultAmount = 0;
-        if (outcomingAmount === 0 && outcomingAddress === "") {
-          resultAmount = balanceResult;
-        } else {
-          resultAmount = balanceResult - summary['Fee'];
-        }
         let status = '';
-        switch(summary["Status"])
+        switch(transaction["Status"])
         {
           case 'Confirmed':
             status = 'Confirmed'
@@ -55,29 +47,29 @@ export class RecordinfoComponent{
             status = 'Unconfirmed'
             break;
         }
-        if (balanceResult > 0) {
+        let payStatusIcon = transaction["Direction"];
+        if (payStatusIcon === "Received") {
           this.payStatusIcon = './assets/images/tx-state/icon-tx-received-outline.svg';
-        } else if(balanceResult < 0) {
+          this.jiajian = "+";
+        } else if(payStatusIcon === "Sent") {
           this.payStatusIcon = './assets/images/tx-state/icon-tx-sent.svg';
-        } else if(balanceResult == 0) {
+          this.jiajian = "-";
+        } else if(payStatusIcon === "Moved") {
           this.payStatusIcon = './assets/images/tx-state/icon-tx-moved.svg';
+          this.jiajian = "";
         }
+
         this.transactionRecord = {
           name: chainId,
           status: status,
-          balance: balanceResult/Config.SELA,
-          incomingAmount: incomingAmount/Config.SELA,
-          outcomingAmount: outcomingAmount/Config.SELA,
-          resultAmount: resultAmount/Config.SELA,
-          incomingAddress: incomingAddress,
-          outcomingAddress: outcomingAddress,
+          resultAmount: Util.scientificToNumber(transaction["Amount"]/Config.SELA),
           txId: txId,
           transactionTime: datetime,
           timestamp: timestamp,
-          payfees: summary['Fee']/Config.SELA,
-          confirmCount: summary["ConfirmStatus"],
-          remark: summary["Remark"]
-        }
+          payfees: Util.scientificToNumber(transaction['Fee']/Config.SELA),
+          confirmCount: transaction["ConfirmStatus"],
+          remark: transaction["Remark"]
+         }
       }else{
           alert("======getAllTransaction====error"+JSON.stringify(data));
       }
@@ -100,5 +92,21 @@ export class RecordinfoComponent{
       refresher.complete();
     },1000);
   }
+
+  objtoarr(obj){
+    let arr = []
+    if(obj){
+       for(let i in obj) {
+         if(arr.length<3)
+         arr.push({"address":i,"balance":Util.scientificToNumber(obj[i]/Config.SELA)});
+         }
+
+         if(arr.length>2){
+          arr.push({"address":"...........","balance":"............."});
+          return arr;
+         }
+    }
+      return arr;
+}
 
 }
