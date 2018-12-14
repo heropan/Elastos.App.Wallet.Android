@@ -34,7 +34,7 @@
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="io.ionic.starter" />
+                <category android:name="org.elastos.wallet" />
             </intent-filter>
         </activity>
         <service android:exported="false" android:name="cn.jpush.android.service.PushService" android:process=":mult">
@@ -49,14 +49,14 @@
         <service android:enabled="true" android:exported="true" android:name="cn.jpush.android.service.DaemonService">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.DaemonService" />
-                <category android:name="io.ionic.starter" />
+                <category android:name="org.elastos.wallet" />
             </intent-filter>
         </service>
         <provider android:authorities="io.ionic.starter.DownloadProvider" android:exported="true" android:name="cn.jpush.android.service.DownloadProvider" />
         <receiver android:enabled="true" android:exported="false" android:name="cn.jpush.android.service.PushReceiver">
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
-                <category android:name="io.ionic.starter" />
+                <category android:name="org.elastos.wallet" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -76,13 +76,13 @@
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
                 <action android:name="cn.jpush.android.intent.CONNECTION" />
-                <category android:name="io.ionic.starter" />
+                <category android:name="org.elastos.wallet" />
             </intent-filter>
         </receiver>
         <receiver android:name="org.elastos.wallet.MyJPushMessageReceiver">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
-                <category android:name="io.ionic.starter" />
+                <category android:name="org.elastos.wallet" />
             </intent-filter>
         </receiver>
         <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default" />
