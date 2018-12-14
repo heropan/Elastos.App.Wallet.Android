@@ -43,7 +43,10 @@ export class CoinComponent{
             //this.init();
   }
   ionViewWillEnter(){
-
+    this.pageNo =0;
+    this.start = 0;
+    this.MaxCount =0;
+    this.transferList = [];
     this.init();
  }
 
@@ -244,7 +247,9 @@ export class CoinComponent{
       }
      });
     this.pageNo = 0;
+    this.start = 0;
     this.transferList =[];
+    this.MaxCount = 0;
     this.getAllTx();
     setTimeout(() => {
       refresher.complete();

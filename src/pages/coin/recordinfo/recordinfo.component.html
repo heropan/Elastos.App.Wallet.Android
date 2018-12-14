@@ -105,6 +105,15 @@
 
         <ion-row class="row" class="font-size-1">
             <ion-col col-4>
+                {{'transaction-type' | translate}}
+            </ion-col>
+            <ion-col col-8 class="text-right">
+                {{transactionRecord.payType|translate}}
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="row" class="font-size-1">
+            <ion-col col-4>
                 {{'text-remark' | translate}}
             </ion-col>
             <ion-col col-8 class="text-right">

@@ -423,5 +423,18 @@ export const en = {
   'Version':'Version',
   'my-publickey':'my publickey',
   'Inputs':"Inputs",
-  "Outputs":"Outputs"
+  "Outputs":"Outputs",
+  "transaction-type-0":"CoinBase",
+  "transaction-type-1":"RegisterAsse",
+  "transaction-type-2":"TransferAsset",
+  "transaction-type-3":"Record",
+  "transaction-type-4":"Deploy",
+  "transaction-type-5":"SideChainPow",
+  "transaction-type-6":"RechargeToSideChain",
+  "transaction-type-7":"WithdrawFromSideChain",
+  "transaction-type-8":"TransferCrossChainAsset",
+  "transaction-type-9":"Unknown Type",
+  "transaction-type":"Transaction Type"
 };
+
+
