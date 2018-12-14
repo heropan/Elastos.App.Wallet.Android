@@ -168,6 +168,12 @@ export class HomeComponent {
   }
 
   handleEla(result){
+    if(result["Action"] === "OnTxDeleted"){
+
+    }
+    if(result["Action"] === "OnTxPublished"){
+
+    }
     if(result["Action"] === "OnTransactionStatusChanged"){
       this.native.info(result['confirms']);
       if (result['confirms'] == 1) {
@@ -215,6 +221,15 @@ export class HomeComponent {
 
 
       handleIdchain(coin,result){
+
+        if(result["Action"] === "OnTxDeleted"){
+
+        }
+
+        if(result["Action"] === "OnTxPublished"){
+
+        }
+
         if(result["Action"] === "OnBalanceChanged"){
           if(!Util.isNull(result["Balance"])){
             if(this.coinList.length === 0){
