@@ -59,6 +59,41 @@ export class RecordinfoComponent{
           this.jiajian = "";
         }
 
+
+        let vtype ="";
+          switch(transaction["Type"])
+          {
+        case 0:
+          vtype = "transaction-type-0";
+          break;
+        case 1:
+          vtype = "transaction-type-1";
+          break;
+        case 2:
+        vtype  = "transaction-type-2";
+          break;
+        case 3:
+          vtype = "transaction-type-3";
+          break;
+        case 4:
+        vtype  = "transaction-type-4";
+          break;
+        case 5:
+        vtype = "transaction-type-5";
+          break;
+        case 6:
+        vtype = "transaction-type-6";
+          break;
+        case 7:
+        vtype = "transaction-type-7";
+          break;
+        case 8:
+        vtype = "transaction-type-8";
+          break;
+        default:
+          vtype = "transaction-type-9";
+}
+
         this.transactionRecord = {
           name: chainId,
           status: status,
@@ -68,7 +103,8 @@ export class RecordinfoComponent{
           timestamp: timestamp,
           payfees: Util.scientificToNumber(transaction['Fee']/Config.SELA),
           confirmCount: transaction["ConfirmStatus"],
-          remark: transaction["Remark"]
+          remark: transaction["Remark"],
+          payType:vtype
          }
       }else{
           alert("======getAllTransaction====error"+JSON.stringify(data));

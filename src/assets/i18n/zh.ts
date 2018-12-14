@@ -417,5 +417,16 @@ export const zh = {
   'about':'关于',
   'Version':'版本号',
   'Inputs':"输入",
-  "Outputs":"输出"
+  "Outputs":"输出",
+  "transaction-type-0":"创币交易",
+  "transaction-type-1":"注册资产",
+  "transaction-type-2":"普通转账",
+  "transaction-type-3":"记录",
+  "transaction-type-4":"部署",
+  "transaction-type-5":"侧链挖矿",
+  "transaction-type-6":"侧链充值",
+  "transaction-type-7":"侧链提现",
+  "transaction-type-8":"跨链转账",
+  "transaction-type-9":"未知交易类型",
+  "transaction-type":"交易类型"
 };

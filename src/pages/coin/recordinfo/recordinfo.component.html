@@ -29,7 +29,7 @@
         </ion-row>
 
         <ion-row>
-            <ion-col col col-4>
+            <ion-col col col-4 *ngIf="inputs.length>0">
                 {{"Inputs"|translate}}
             </ion-col>
         </ion-row>
@@ -100,6 +100,15 @@
             </ion-col>
             <ion-col col-8 class="text-right">
                 {{transactionRecord.confirmCount}}
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="row" class="font-size-1">
+            <ion-col col-4>
+                {{'transaction-type' | translate}}
+            </ion-col>
+            <ion-col col-8 class="text-right">
+                {{transactionRecord.payType|translate}}
             </ion-col>
         </ion-row>
 
