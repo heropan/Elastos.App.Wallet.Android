@@ -167,12 +167,36 @@ export class HomeComponent {
       }
   }
 
+  OnTxPublished(data){
+      let hash = data["hash"];
+      let result = data["result"];
+      let code = result["Code"];
+      let tx = "txPublished-"
+      switch(code){
+        case 0:
+        case 18:
+            this.popupProvider.ionicAlert_PublishedTx_sucess('confirmTitle',tx+code,hash);
+           break;
+       case 1:
+       case 16:
+       case 17:
+       case 22:
+       case 64:
+       case 65:
+       case 66:
+       case 67:
+       this.popupProvider.ionicAlert_PublishedTx_fail('confirmTitle',tx+code,hash);
+       break;
+      }
+  }
+
   handleEla(result){
     if(result["Action"] === "OnTxDeleted"){
-
+       let txHash = result["hash"];
+       this.popupProvider.ionicAlert_delTx('confirmTitle','transaction-deleted',txHash);
     }
     if(result["Action"] === "OnTxPublished"){
-
+           this.OnTxPublished(result);
     }
     if(result["Action"] === "OnTransactionStatusChanged"){
       this.native.info(result['confirms']);
@@ -223,11 +247,12 @@ export class HomeComponent {
       handleIdchain(coin,result){
 
         if(result["Action"] === "OnTxDeleted"){
-
+          let txHash = result["hash"];
+          this.popupProvider.ionicAlert_delTx('confirmTitle','transaction-deleted',txHash);
         }
 
         if(result["Action"] === "OnTxPublished"){
-
+             this.OnTxPublished(result);
         }
 
         if(result["Action"] === "OnBalanceChanged"){

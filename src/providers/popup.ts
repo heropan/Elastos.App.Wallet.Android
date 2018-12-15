@@ -51,6 +51,71 @@ export class PopupProvider {
     });
   };
 
+  public ionicAlert_delTx(title: string, subTitle?: string,hash?:any,okText?: string): Promise<any> {
+    let transactionDeleted = this.translate.instant('transaction-deleted');
+    return new Promise((resolve, reject) => {
+      let alert = this.alertCtrl.create({
+        title : this.translate.instant(title),
+        subTitle :"txHash:"+"("+hash+")"+":"+transactionDeleted,
+        enableBackdropDismiss: false,
+        buttons: [
+          {
+            text: okText ? okText : this.translate.instant('confirm'),
+            handler: () => {
+              console.log('Ok clicked');
+              resolve();
+            }
+          }
+        ]
+      });
+      alert.present();
+    });
+  };
+
+
+  public ionicAlert_PublishedTx_fail(title: string, subTitle?: string,hash?:any,okText?: string): Promise<any> {
+    let sub= this.translate.instant(subTitle);
+    let reason = this.translate.instant('reasons-failure');
+    return new Promise((resolve, reject) => {
+      let alert = this.alertCtrl.create({
+        title : this.translate.instant(title),
+        subTitle :reason+":"+sub+"<br/>"+"("+"txHash:"+hash+")",
+        enableBackdropDismiss: false,
+        buttons: [
+          {
+            text: okText ? okText : this.translate.instant('confirm'),
+            handler: () => {
+              console.log('Ok clicked');
+              resolve();
+            }
+          }
+        ]
+      });
+      alert.present();
+    });
+  };
+
+  public ionicAlert_PublishedTx_sucess(title: string, subTitle?: string,hash?:any,okText?: string): Promise<any> {
+    let sub= this.translate.instant(subTitle);
+    return new Promise((resolve, reject) => {
+      let alert = this.alertCtrl.create({
+        title : this.translate.instant(title),
+        subTitle :sub+"<br/>"+"("+"txHash:"+hash+")",
+        enableBackdropDismiss: false,
+        buttons: [
+          {
+            text: okText ? okText : this.translate.instant('confirm'),
+            handler: () => {
+              console.log('Ok clicked');
+              resolve();
+            }
+          }
+        ]
+      });
+      alert.present();
+    });
+  };
+
 
 
   public ionicConfirm(title: string, message: string, okText?: string, cancelText?: string): Promise<any> {
