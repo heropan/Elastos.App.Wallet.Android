@@ -169,7 +169,7 @@ export class HomeComponent {
 
   OnTxPublished(data){
       let hash = data["hash"];
-      let result = data["result"];
+      let result = JSON.parse(data["result"]);
       let code = result["Code"];
       let tx = "txPublished-"
       switch(code){
