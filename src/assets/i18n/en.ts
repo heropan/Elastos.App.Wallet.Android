@@ -432,5 +432,17 @@ export const en = {
   "transaction-type-7":"WithdrawFromSideChain",
   "transaction-type-8":"TransferCrossChainAsset",
   "transaction-type-9":"Unknown Type",
-  "transaction-type":"Transaction Type"
+  "transaction-type":"Transaction Type",
+  'transaction-deleted':"Deleted",
+  'txPublished-0':"Successful Trade",
+  'txPublished-1':"Malformed",
+  'txPublished-16':"Invalid",
+  'txPublished-17':"Obsolete",
+  'txPublished-18':"Successful Trade",
+  'txPublished-22':"Transaction Not Signed",
+  'txPublished-64':"Nonstandard",
+  'txPublished-65':"Dust",
+  'txPublished-66':"InsufficientFee",
+  'txPublished-67':"Checkpoint",
+  'reasons-failure':"Reasons failure"
 };

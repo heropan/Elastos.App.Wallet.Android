@@ -428,5 +428,17 @@ export const zh = {
   "transaction-type-7":"侧链提现",
   "transaction-type-8":"跨链转账",
   "transaction-type-9":"未知交易类型",
-  "transaction-type":"交易类型"
+  "transaction-type":"交易类型",
+  'transaction-deleted':"已删除",
+  'txPublished-0':"交易成功",
+  'txPublished-1':"交易格式错误",
+  'txPublished-16':"无效交易",
+  'txPublished-17':"过时的交易",
+  'txPublished-18':"交易成功",
+  'txPublished-22':"交易未签名",
+  'txPublished-64':"非标准交易",
+  'txPublished-65':"粉尘交易",
+  'txPublished-66':"交易费不足",
+  'txPublished-67':"检查点错误",
+  'reasons-failure':"失败原因"
 };
