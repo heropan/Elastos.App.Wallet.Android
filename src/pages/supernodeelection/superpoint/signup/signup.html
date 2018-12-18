@@ -20,7 +20,7 @@
                 <img src="./assets/images/vote/point_name.png">
             </ion-col>
             <ion-col col-10 align-self-center class="border-bottom">
-                <ion-input placeholder="{{'please-enter-node-name'|translate}}"></ion-input>
+                <ion-input placeholder="{{'please-enter-node-name'|translate}}" [(ngModel)]="nodeName"></ion-input>
             </ion-col>
         </ion-row>
 
@@ -29,18 +29,18 @@
                 <img src="./assets/images/vote/point_position.png">
             </ion-col>
             <ion-col col-10 align-self-center class="border-bottom">
-                <ion-input placeholder="{{'please-wallet-address'|translate}}"></ion-input>
+                <ion-input placeholder="{{'please-wallet-publickey'|translate}}" [(ngModel)]="publickey"></ion-input>
             </ion-col>
         </ion-row>
 
-        <ion-row class="padding-top padding-left padding-right">
+        <!-- <ion-row class="padding-top padding-left padding-right">
             <ion-col col-2 align-self-center>
                 <img src="./assets/images/vote/point_appeal.png">
             </ion-col>
             <ion-col col-10 align-self-center>
                 <textarea rows="10" class="backupWalletTextArea" placeholder="{{'please-enter-node-declaration'|translate}}"></textarea>
             </ion-col>
-        </ion-row>
+        </ion-row> -->
 
         <ion-row class="padding-top padding-left padding-right">
             <ion-col col-2 align-self-center>
@@ -48,11 +48,8 @@
             </ion-col>
             <ion-col col-10 align-self-center>
                 <!-- <ion-input placeholder="请输入节点名称"></ion-input> -->
-                <select class="select">
-                  <option value ="volvo">中国</option>
-                  <option value ="saab">美国</option>
-                  <option value="opel">英国</option>
-                  <option value="audi">加拿大</option>
+                <select class="select" [(ngModel)]="address">
+                  <option *ngFor="let item of countrys"   value ="{{item['code']}}">{{ item["c-key"] |translate}}</option>
                 </select>
             </ion-col>
         </ion-row>
@@ -62,7 +59,7 @@
                 <img src="./assets/images/vote/point_url.png">
             </ion-col>
             <ion-col col-10 align-self-center class="border-bottom">
-                <ion-input placeholder="{{'please-enter-node-url'|translate}}"></ion-input>
+                <ion-input placeholder="{{'please-enter-node-url'|translate}}" [(ngModel)]="url"></ion-input>
             </ion-col>
         </ion-row>
 

@@ -54,12 +54,17 @@
 </ion-content>
 <ion-footer>
     <ion-row padding-left padding-right>
-        <ion-col col-6>
+        <ion-col col-6 *ngIf="!isStatus" (click)="addList('')">
             <button ion-button>
                 <img src="./assets/images/vote/add_in_list.png" alt="" class="add_in_list">{{'add-in-list'|translate}}
           </button>
         </ion-col>
-        <ion-col col-6>
+        <ion-col col-6 *ngIf="isStatus" (click)="delList('')">
+            <button ion-button>
+              <img src="./assets/images/vote/move_out.png"  alt="" class="add_in_list" >{{'del-in-list'|translate}}
+            </button>
+        </ion-col>
+        <ion-col col-6 (click)="lookOver()">
             <button ion-button>
                 <img src="./assets/images/vote/look_over.png"  alt="" class="add_in_list" >{{'look-over-list'|translate}}
               </button>

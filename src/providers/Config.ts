@@ -30,6 +30,10 @@ export class Config {
 
   private static walletResregister:any ={};
 
+  private static countrys = [{"code":0,"c-key":"china-key"},
+                             {"code":1,"c-key":"usa-key"}
+                            ];
+
   public static getKycObj(){
        return this.kycObj;
   }
@@ -288,6 +292,22 @@ public static setCureentHeight(masterId,coin,currentHeight){
       this.perObj[masterId][coin]["curHeight"] = currentHeight;
    }
 }
+}
+
+
+public static getAllCountry(){
+       return this.countrys;
+}
+
+public static getCountryByCode(code){
+
+  for(let index in this.countrys){
+      let item = this.countrys[index];
+      if(code === item["code"]){
+        return item["c-key"];
+      }
+     return -1;
+    }
 }
 }
 

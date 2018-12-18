@@ -415,7 +415,7 @@ export const en = {
   'change-vote':'change vote',
   'last-voting-record':'last voting record',
   'this-vote':'this vote',
-  'please-wallet-address':'please enter the wallet address',
+  'please-wallet-publickey':'please enter the wallet publickey',
   'proportion-of-voting':'Proportion of voting',
   'present-quorum-votes':'present quorum votes',
   'number-of-voting-addresses':'number of voting addresses',
@@ -446,7 +446,12 @@ export const en = {
   'txPublished-65':"Dust",
   'txPublished-66':"InsufficientFee",
   'txPublished-67':"Checkpoint",
-  'reasons-failure':"Reasons failure"
+  'reasons-failure':"Reasons failure",
+  'text-node-name-validator1': 'Node Name with more than 30 characters',
+  'enter-node-url-validator':'Url Wrongful',
+  'china-key':'China',
+  'usa-key':'U.S.A',
+  'del-in-list':'del in list'
 };
 
 

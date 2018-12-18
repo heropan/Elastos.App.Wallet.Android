@@ -43,4 +43,9 @@ export class JoinvotelistPage {
     modal.present();
   }
 
+  jumpNodeInformation(status){
+    console.log("===jumpNodeInformation==="+status);
+    this.native.Go(this.navCtrl,'NodeinformationPage',{"status":status});
+  }
+
 }

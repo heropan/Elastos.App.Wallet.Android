@@ -214,6 +214,22 @@ export class Util {
     }
 }
 
+static isNodeName = function (text) {
+  if(text.length > 30){
+      return true;
+  }
+  return false;
+}
 
-
+static isURL(domain) {
+  var name = /[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+\.?/;
+  if( !(name.test(domain)))
+  {
+    return false;
+  }
+  else
+  {
+    return true;
+  }
+ }
 }

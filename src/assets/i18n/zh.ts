@@ -410,7 +410,7 @@ export const zh = {
   'change-vote':'变更投票',
   'last-voting-record':'上次投票纪录',
   'this-vote':'本次投票',
-  'please-wallet-address':'请输入钱包地址',
+  'please-wallet-publickey':'请输入钱包公钥',
   'proportion-of-voting':'全网投票占比',
   'present-quorum-votes':'当前票数',
   'number-of-voting-addresses':'投票地址数量',
@@ -441,5 +441,10 @@ export const zh = {
   'txPublished-65':"粉尘交易",
   'txPublished-66':"交易费不足",
   'txPublished-67':"检查点错误",
-  'reasons-failure':"失败原因"
+  'reasons-failure':"失败原因",
+  'text-node-name-validator1': '节点名字长度超过30字',
+  'enter-node-url-validator':'url不合法',
+  'china-key':'中国',
+  'usa-key':'美国',
+  'del-in-list':'移出候选列表'
 };
