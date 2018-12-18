@@ -29,16 +29,16 @@
         </ion-row>
 
         <ion-row>
-            <ion-col col col-4>
+            <ion-col col col-4 *ngIf="inputs.length>0">
                 {{"Inputs"|translate}}
             </ion-col>
         </ion-row>
 
         <ion-row *ngFor="let item of inputs; let i = index">
-            <ion-col col col-8 *ngIf="i<3" (click)="onNext(item['address'])">
+            <ion-col col col-12 *ngIf="i<3" (click)="onNext(item['address'])">
                 {{item["address"]}}
             </ion-col>
-            <ion-col col col-4 class="text-right" *ngIf="i<3">
+            <ion-col col col-12 class="text-right" *ngIf="i<3">
                 {{item["balance"]}}{{transactionRecord.name}}
             </ion-col>
 
@@ -54,10 +54,10 @@
         </ion-row>
 
         <ion-row *ngFor="let item of outputs; let i = index">
-            <ion-col col col-8 *ngIf="i<3" (click)="onNext(item['address'])">
+            <ion-col col col-12 *ngIf="i<3" (click)="onNext(item['address'])">
                 {{item["address"]}}
             </ion-col>
-            <ion-col col col-4 class="text-right" *ngIf="i<3">
+            <ion-col col col-12 class="text-right" *ngIf="i<3">
                 {{item["balance"]}}{{transactionRecord.name}}
             </ion-col>
 
