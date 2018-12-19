@@ -77,8 +77,10 @@ export class HomeComponent {
 
       this.zone.run(()=>{
         this.wallet["name"] = Config.getWalletName(this.masterWalletId);
-        this.elaPer = Config.getMasterPer(this.masterWalletId,"ELA");
-        this.idChainPer =Config.getMasterPer(this.masterWalletId,"IdChain");
+        this.elaMaxHeight = Config.getEstimatedHeight(this.masterWalletId,"ELA");
+        this.elaCurHeight = Config.getCurrentHeight(this.masterWalletId,"ELA");
+        this.idChainMaxHeight = Config.getEstimatedHeight(this.masterWalletId,"IdChain");
+        this.idChainCurHeight = Config.getCurrentHeight(this.masterWalletId,"IdChain");
       });
       this.getAllSubWallets();
     });
@@ -261,6 +263,7 @@ export class HomeComponent {
               //Config.setMasterPer(this.masterWalletId,"ELA",this.elaPer);
               Config.setCureentHeight(this.masterWalletId,"ELA",this.elaCurHeight);
               Config.setEstimatedHeight(this.masterWalletId,"ELA",this.elaMaxHeight);
+              console.log("=================ELA");
               this.localStorage.setProgress(Config.perObj);
             });
            //}
@@ -334,6 +337,7 @@ export class HomeComponent {
               //Config.setMasterPer(this.masterWalletId,coin,this.idChainPer);
               Config.setCureentHeight(this.masterWalletId,coin,this.idChainCurHeight);
               Config.setEstimatedHeight(this.masterWalletId,coin,this.idChainMaxHeight);
+              console.log("=================Idchain");
               this.localStorage.setProgress(Config.perObj);
             });
 
