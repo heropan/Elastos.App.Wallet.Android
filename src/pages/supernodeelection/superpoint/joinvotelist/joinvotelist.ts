@@ -15,11 +15,15 @@ import {Native} from "../../../../providers/Native";
 })
 export class JoinvotelistPage {
 
+  public nodelist = ["0","1","2","4","5","7","8","9"];
+
+
   constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl: ModalController,public native: Native) {
+
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad JoinvotelistPage');
+
   }
 
   votingRules(){
