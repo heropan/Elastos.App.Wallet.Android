@@ -446,5 +446,10 @@ export const zh = {
   'enter-node-url-validator':'url不合法',
   'china-key':'中国',
   'usa-key':'美国',
-  'del-in-list':'移出候选列表'
+  'del-in-list':'移出候选列表',
+  'no-voting-records':'暂无投票记录',
+  'voting-ratio':'全网投票比例',
+  'vote-immediately':'立即投票',
+  'have-chosen':'已选择',
+  'all-election':'全选'
 };

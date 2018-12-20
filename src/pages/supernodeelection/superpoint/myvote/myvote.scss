@@ -71,4 +71,11 @@ page-myvote {
     .border-radius {
         border-radius: 4px;
     }
+    .no-data img {
+        width: 80px;
+        height: 80px;
+    }
+    .no-data .empty_history {
+        margin-top: 25px;
+    }
 }

@@ -451,7 +451,12 @@ export const en = {
   'enter-node-url-validator':'Url Wrongful',
   'china-key':'China',
   'usa-key':'U.S.A',
-  'del-in-list':'del in list'
+  'del-in-list':'del in list',
+  'no-voting-records':'No Voting Records',
+  'voting-ratio':'Whole Network Voting Ratio',
+  'vote-immediately':'Vote Immediately',
+  'have-chosen':'Have Chosen',
+  'all-election':'All'
 };
 
 

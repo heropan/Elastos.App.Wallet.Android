@@ -21,7 +21,7 @@ import {WalletManager} from '../../../../providers/WalletManager';
 export class SignupPage {
   public passworld:string;
   public nodeName:string = "ssss";
-  public publickey:string ="";
+  public publickey:string ="xxxxxxxx111111";
   public address:number = 0;
   public url:string ="https://www.baidu.com";
   public countrys = [];
@@ -30,7 +30,7 @@ export class SignupPage {
     Native,public walletManager:WalletManager) {
        this.countrys = Config.getAllCountry();
        this.masterId = Config.getCurMasterWalletId();
-       this.getPublicKey();
+       //this.getPublicKey();
   }
 
   ionViewDidLoad() {

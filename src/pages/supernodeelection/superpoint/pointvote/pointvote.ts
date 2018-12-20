@@ -21,7 +21,10 @@ export class PointvotePage {
   public idChainPer = "100";
   public selectVoteObj = {};
   public isAllchecked = false;
+  public selectNode = [];
   constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl: ModalController) {
+              this.selectNode = this.navParams.data["selectNode"] || [];
+              this.setSelectArr(this.selectNode);
   }
 
   ionViewDidLoad() {
@@ -75,6 +78,13 @@ export class PointvotePage {
       }
     });
     modal.present();
+  }
+
+  setSelectArr(arr){
+     for(let index = 0;index<arr.length;index++){
+      let id = arr[index];
+      this.selectVoteObj[id] = true;
+     }
   }
 
 }

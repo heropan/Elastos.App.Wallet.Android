@@ -28,7 +28,14 @@
             </div>
         </div>
     </div>
-    <ion-row align-items-center padding-top>
+    <ion-row align-items-center padding-top *ngIf="voteList.length === 0" class="text-center no-data">
+        <ion-col>
+            <img src="./assets/images/vote/empty_page.png">
+            <div class="empty_history">{{'no-voting-records'|translate}}</div>
+        </ion-col>
+    </ion-row>
+
+    <ion-row align-items-center padding-top *ngIf="voteList.length > 0">
         <ion-col col-4 class="text-left title">
             {{'last-voting-record'|translate}}
         </ion-col>
@@ -37,17 +44,17 @@
         </ion-col>
     </ion-row>
 
-    <ion-row align-items-center class="border-bottom" padding-top padding-bottom>
+    <ion-row align-items-center class="border-bottom" padding-top padding-bottom *ngFor="let item of voteList; let i = index">
         <ion-col col-4 class="text-left list">
-            UnlimitedCOX
+            {{item.name}}
         </ion-col>
         <ion-col col-8 class="text-right rank">
-            NO.5
+            {{item.votes}}
         </ion-col>
     </ion-row>
 </ion-content>
 <ion-footer>
-    <ion-row padding-left padding-right>
+    <ion-row padding-left padding-right (click)="changevote()">
         <ion-col col-12 class="text-center">
             <button ion-button full class="border-radius">{{'change-vote'|translate}}</button>
         </ion-col>

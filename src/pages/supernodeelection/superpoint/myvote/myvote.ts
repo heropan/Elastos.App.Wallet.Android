@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Native } from '../../../../providers/Native';
 
 /**
  * Generated class for the MyvotePage page.
@@ -15,11 +16,17 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class MyvotePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    public voteList = [{"name":"xxxxxxx","votes":"No5"},{"name":"xxxxxxx1111","votes":"No6"}];
+    //public voteList = [];
+  constructor(public navCtrl: NavController, public navParams: NavParams,public native: Native) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MyvotePage');
+  }
+
+  changevote(){
+      this.native.Go(this.navCtrl,"PointvotePage",{"selectNode":["4","5"]});
   }
 
 }

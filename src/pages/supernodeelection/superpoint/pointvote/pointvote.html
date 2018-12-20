@@ -15,7 +15,7 @@
 <ion-content padding>
     <ion-row align-items-center padding-bottom>
         <ion-col col-4>
-            全网投票比例：
+            {{'voting-ratio'|translate}}：
         </ion-col>
 
         <ion-col col-8>
@@ -51,9 +51,9 @@
 </ion-content>
 <ion-footer>
     <ion-row class="border-top ">
-        <ion-col col-4 class="rule-vote ">
-            <ion-checkbox [(ngModel)]="isAllchecked" class="vertical-align" (click)="setSelectAll()"></ion-checkbox>全选(<span class="thirty ">30</span>/<span class="all ">{{selectNum}}</span>)</ion-col>
-        <ion-col col-4 class="rule-vote " align-self-center><span class="chose ">{{selectNum}}</span>已选择</ion-col>
-        <ion-col col-4 class="rule-vote2 " [ngClass]="{ 'bule':selectNum> 0}" (click)="vote()">立即投票</ion-col>
+        <ion-col col class="rule-vote ">
+            <ion-checkbox [(ngModel)]="isAllchecked" class="vertical-align" (click)="setSelectAll()"></ion-checkbox>{{'all-election'|translate}}(<span class="thirty ">30</span>/<span class="all ">{{selectNum}}</span>)</ion-col>
+        <ion-col col class="rule-vote " align-self-center><span class="chose ">{{selectNum}}</span>{{'have-chosen'|translate}}</ion-col>
+        <ion-col col class="rule-vote2 " [ngClass]="{ 'bule':selectNum> 0}" (click)="vote()">{{'vote-immediately'|translate}}</ion-col>
     </ion-row>
 </ion-footer>
