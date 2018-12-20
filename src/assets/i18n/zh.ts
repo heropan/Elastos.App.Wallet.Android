@@ -451,5 +451,6 @@ export const zh = {
   'voting-ratio':'全网投票比例',
   'vote-immediately':'立即投票',
   'have-chosen':'已选择',
-  'all-election':'全选'
+  'all-election':'全选',
+  'please-select-voting-node':'请选择投票节点'
 };

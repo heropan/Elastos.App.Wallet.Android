@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController,ModalController, NavParams } from 'ionic-angular';
 import {Native} from "../../../../providers/Native";
-import {Util} from '../../../../providers/Util'
+import {Util} from '../../../../providers/Util';
+import { PopupProvider } from '../../../../providers/popup';
 
 /**
  * Generated class for the PointvotePage page.
@@ -22,7 +23,9 @@ export class PointvotePage {
   public selectVoteObj = {};
   public isAllchecked = false;
   public selectNode = [];
-  constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl: ModalController) {
+  public passworld:string = "";
+  constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl: ModalController,public native: Native,public popupProvider
+    :PopupProvider) {
               this.selectNode = this.navParams.data["selectNode"] || [];
               this.setSelectArr(this.selectNode);
   }
@@ -34,6 +37,8 @@ export class PointvotePage {
   vote(){
      if(this.selectNum>0){
       this.openPayModal();
+     }else{
+       this.native.toast_trans("please-select-voting-node");
      }
   }
 
@@ -75,6 +80,16 @@ export class PointvotePage {
     modal.onDidDismiss(data => {
       if(data){
          console.log("sssss"+JSON.stringify(data));
+         this.popupProvider.presentPrompt().then((val)=>{
+          if(Util.isNull(val)){
+            this.native.toast_trans("text-id-kyc-prompt-password");
+            return;
+          }
+          this.passworld = val.toString();
+          //this.native.Go(this.navCtrl,'JoinvotelistPage');
+}).catch(()=>{
+
+});
       }
     });
     modal.present();

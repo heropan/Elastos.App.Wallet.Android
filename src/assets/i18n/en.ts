@@ -456,7 +456,8 @@ export const en = {
   'voting-ratio':'Whole Network Voting Ratio',
   'vote-immediately':'Vote Immediately',
   'have-chosen':'Have Chosen',
-  'all-election':'All'
+  'all-election':'All',
+  'please-select-voting-node':'Please select the voting node'
 };
 
 
