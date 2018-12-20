@@ -35,7 +35,7 @@
         - jniLibs | 存放so动态库
         - com.elastos.spvcore.WalletManager | java->c++ jni 调用
         - ElaWallet.Wallet | java-js jni 调用
-        - io.ionic.starter.MainActivity | 挂载webview的程序入口
+        - org.elastos.wallet.MainActivity | 挂载webview的程序入口
 - plungin-src | 钱包插件源码，通过命令自动添加到主项目中
     - plugin.xml |配置文件
     - www |  js代码 插件js接口
