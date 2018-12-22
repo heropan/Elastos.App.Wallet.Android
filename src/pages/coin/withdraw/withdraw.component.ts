@@ -96,13 +96,19 @@ export class WithdrawComponent{
       this.native.toast_trans('correct-amount');
       return;
     }
+
+    if(this.transfer.amount <= 0){
+      this.native.toast_trans('correct-amount');
+      return;
+    }
+
     if(this.transfer.amount > this.balance){
       this.native.toast_trans('error-amount');
       return;
     }
 
-    if(!(this.transfer.amount*Config.SELA>=1)){
-      this.native.toast_trans('error-amount');
+    if(this.transfer.amount.toString().indexOf(".") >-1 && this.transfer.amount.toString().split(".")[1].length>8){
+      this.native.toast_trans('correct-amount');
       return;
     }
 
@@ -121,11 +127,7 @@ export class WithdrawComponent{
   createWithdrawTransaction(){
 
     let toAmount = 0;
-    if(this.transfer.amount<1){
-      toAmount = parseInt((this.transfer.amount*Config.SELA).toPrecision(8));
-    }else{
-      toAmount =this.transfer.amount*Config.SELA;
-    }
+    toAmount = parseFloat((this.transfer.amount*Config.SELA).toPrecision(16));
     let mainchainAddress = JSON.stringify([this.mainchain.accounts]);
     let mainchainAmounts = JSON.stringify([ toAmount - this.transfer.fee]);
     let mainchainIndex = JSON.stringify([this.mainchain.index]);
