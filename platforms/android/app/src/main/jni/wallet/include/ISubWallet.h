@@ -14,6 +14,12 @@
 namespace Elastos {
 	namespace ElaWallet {
 
+		typedef enum {
+			Ordinary,
+			Voted,
+			Full,
+		} BalanceType;
+
 		class ISubWallet {
 		public:
 			/**
@@ -60,10 +66,9 @@ namespace Elastos {
 			virtual nlohmann::json GetBalanceInfo() = 0;
 
 			/**
-			 * Get sum of balances of all addresses.
-			 * @return sum of balances.
+			 * Get sum of balances according to balance type.
 			 */
-			virtual uint64_t GetBalance() = 0;
+			virtual uint64_t GetBalance(BalanceType type = Ordinary) = 0;
 
 			/**
 			 * Create a new address or return existing unused address. Note that if create the sub wallet by setting the singleAddress to true, will always return the single address.
@@ -107,6 +112,7 @@ namespace Elastos {
 			 * @param amount specify amount we want to send.
 			 * @param memo input memo attribute for describing.
 			 * @param remark is used to record message of local wallet.
+			 * @param useVotedUTXO indicate whether use voted UTXO.
 			 * @return If success return the content of transaction in json format.
 			 */
 			virtual nlohmann::json CreateTransaction(
@@ -114,7 +120,8 @@ namespace Elastos {
 					const std::string &toAddress,
 					uint64_t amount,
 					const std::string &memo,
-					const std::string &remark) = 0;
+					const std::string &remark,
+					bool useVotedUTXO = false) = 0;
 
 			/**
 			 * Create a multi-sign transaction and return the content of transaction in json format.
@@ -122,13 +129,15 @@ namespace Elastos {
 			 * @param toAddress specify which address we want to send.
 			 * @param amount specify amount we want to send.
 			 * @param memo input memo attribute for describing.
+			 * @param useVotedUTXO indicate whether use voted UTXO.
 			 * @return If success return the content of transaction in json format.
 			 */
 			virtual nlohmann::json CreateMultiSignTransaction(
 					const std::string &fromAddress,
 					const std::string &toAddress,
 					uint64_t amount,
-					const std::string &memo) = 0;
+					const std::string &memo,
+					bool useVotedUTXO = false) = 0;
 
 			/**
 			 * Calculate transaction fee by content of transaction.

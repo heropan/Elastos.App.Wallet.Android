@@ -60,14 +60,14 @@ static jstring JNICALL nativeGetBalanceInfo(JNIEnv *env, jobject clazz, jlong jS
 	return info;
 }
 
-#define SIG_nativeGetBalance "(J)J"
-static jlong JNICALL nativeGetBalance(JNIEnv *env, jobject clazz, jlong jSubProxy)
+#define SIG_nativeGetBalance "(JI)J"
+static jlong JNICALL nativeGetBalance(JNIEnv *env, jobject clazz, jlong jSubProxy, jint balanceType)
 {
 	jlong balance = 0;
 
 	try {
 		ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-		balance = (jlong)subWallet->GetBalance();
+		balance = (jlong)subWallet->GetBalance(BalanceType(balanceType));
 	} catch (std::exception &e) {
 		ThrowWalletException(env, e.what());
 	}
@@ -219,13 +219,14 @@ static void JNICALL nativeRemoveCallback(JNIEnv *env, jobject clazz, jlong jSubP
 	}
 }
 
-#define SIG_nativeCreateTransaction "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+#define SIG_nativeCreateTransaction "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Z)Ljava/lang/String;"
 static jstring JNICALL nativeCreateTransaction(JNIEnv *env, jobject clazz, jlong jSubProxy,
 		jstring jfromAddress,
 		jstring jtoAddress,
 		jlong amount,
 		jstring jmemo,
-		jstring jremark)
+		jstring jremark,
+		jboolean useVotedUTXO)
 {
 	bool exception = false;
 	std::string msgException;
@@ -239,7 +240,7 @@ static jstring JNICALL nativeCreateTransaction(JNIEnv *env, jobject clazz, jlong
 
 	jstring tx = NULL;
 	try {
-		nlohmann::json result = subWallet->CreateTransaction(fromAddress, toAddress, amount, memo, remark);
+		nlohmann::json result = subWallet->CreateTransaction(fromAddress, toAddress, amount, memo, remark, useVotedUTXO);
 		tx = env->NewStringUTF(result.dump().c_str());
 	} catch (std::exception& e) {
 		exception = true;
@@ -258,12 +259,13 @@ static jstring JNICALL nativeCreateTransaction(JNIEnv *env, jobject clazz, jlong
 	return tx;
 }
 
-#define SIG_nativeCreateMultiSignTransaction "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;)Ljava/lang/String;"
+#define SIG_nativeCreateMultiSignTransaction "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Z)Ljava/lang/String;"
 static jstring JNICALL nativeCreateMultiSignTransaction(JNIEnv *env, jobject clazz, jlong jSubProxy,
 		jstring jfromAddress,
 		jstring jtoAddress,
 		jlong amount,
-		jstring jmemo)
+		jstring jmemo,
+		jboolean useVotedUTXO)
 {
 	bool exception = false;
 	std::string msgException;
@@ -276,7 +278,7 @@ static jstring JNICALL nativeCreateMultiSignTransaction(JNIEnv *env, jobject cla
 	jstring tx = NULL;
 
 	try {
-		nlohmann::json result = subWallet->CreateMultiSignTransaction(fromAddress, toAddress, amount, memo);
+		nlohmann::json result = subWallet->CreateMultiSignTransaction(fromAddress, toAddress, amount, memo, useVotedUTXO);
 		tx = env->NewStringUTF(result.dump().c_str());
 	} catch (std::exception &e) {
 		exception = true;

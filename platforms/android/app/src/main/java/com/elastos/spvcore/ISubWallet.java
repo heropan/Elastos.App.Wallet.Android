@@ -19,8 +19,8 @@ public class ISubWallet {
         return nativeGetBalanceInfo(mSubProxy);
     }
 
-    public long GetBalance() throws WalletException {
-        return nativeGetBalance(mSubProxy);
+    public long GetBalance(int balanceType) throws WalletException {
+        return nativeGetBalance(mSubProxy, balanceType);
     }
 
     public String CreateAddress() throws WalletException {
@@ -43,12 +43,12 @@ public class ISubWallet {
         nativeRemoveCallback(mSubProxy);
     }
 
-    public String CreateTransaction(String fromAddress, String toAddress, long amount, String memo, String remark) throws WalletException {
-        return nativeCreateTransaction(mSubProxy, fromAddress, toAddress, amount, memo, remark);
+    public String CreateTransaction(String fromAddress, String toAddress, long amount, String memo, String remark, boolean useVotedUTXO) throws WalletException {
+        return nativeCreateTransaction(mSubProxy, fromAddress, toAddress, amount, memo, remark, useVotedUTXO);
     }
 
-    public String CreateMultiSignTransaction(String fromAddress, String toAddress, long amount, String memo) throws WalletException {
-        return nativeCreateMultiSignTransaction(mSubProxy, fromAddress, toAddress, amount, memo);
+    public String CreateMultiSignTransaction(String fromAddress, String toAddress, long amount, String memo, boolean useVotedUTXO) throws WalletException {
+        return nativeCreateMultiSignTransaction(mSubProxy, fromAddress, toAddress, amount, memo, useVotedUTXO);
     }
 
     public long CalculateTransactionFee(String rawTransaction, long feePerKb) throws WalletException {
@@ -98,14 +98,14 @@ public class ISubWallet {
     private native String nativeGetChainId(long subProxy);
     private native String nativeGetBasicInfo(long subProxy);
     private native String nativeGetBalanceInfo(long subProxy);
-    private native long nativeGetBalance(long subProxy);
+    private native long nativeGetBalance(long subProxy, int balanceType);
     private native String nativeCreateAddress(long subProxy);
     private native String nativeGetAllAddress(long subProxy, int start,int count);
     private native long nativeGetBalanceWithAddress(long subProxy, String address);
     private native void nativeAddCallback(long subProxy, ISubWalletCallback subCallback);
     private native void nativeRemoveCallback(long subProxy);
-    private native String nativeCreateTransaction(long subProxy, String fromAddress, String toAddress, long amount, String memo, String remark);
-    private native String nativeCreateMultiSignTransaction(long subProxy, String fromAddress, String toAddress, long amount, String memo);
+    private native String nativeCreateTransaction(long subProxy, String fromAddress, String toAddress, long amount, String memo, String remark, boolean useVotedUTXO);
+    private native String nativeCreateMultiSignTransaction(long subProxy, String fromAddress, String toAddress, long amount, String memo, boolean useVotedUTXO);
     private native long nativeCalculateTransactionFee(long subProxy, String rawTransaction, long feePerKb);
 	private native String nativeUpdateTransactionFee(long subProxy, String rawTransaction, long fee);
 	private native String nativeSignTransaction(long subProxy, String rawTransaction, String payPassword);

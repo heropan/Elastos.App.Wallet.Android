@@ -12,35 +12,26 @@ public class IMainchainSubWallet extends ISubWallet {
 	}
 
 
-
 	public String CreateDepositTransaction(String fromAddress, String toAddress, long amount, String sidechainAccounts,
-			String sidechainAmounts, String sidechainIndexs, String memo, String remark) throws WalletException {
+			String sidechainAmounts, String sidechainIndexs, String memo, String remark, boolean useVotedUTXO) throws WalletException {
 		return nativeCreateDepositTransaction(mMainchainProxy, fromAddress, toAddress, amount, sidechainAccounts,
-				sidechainAmounts, sidechainIndexs, memo, remark);
-	}
-
-	public String CreateRegisterProducerTransaction(String fromAddress, String toAddress,
-			String publicKey, String nickName, String url, long location) throws WalletException {
-		return nativeCreateRegisterProducerTransaction(mMainchainProxy, fromAddress, toAddress, publicKey, nickName, url, location);
-	}
-
-	public String CreateCancelProducerTransaction(String publicKey) throws WalletException {
-		return nativeCreateCancelProducerTransaction(mMainchainProxy, publicKey);
+				sidechainAmounts, sidechainIndexs, memo, remark, useVotedUTXO);
 	}
 
 	public String CreateVoteProducerTransaction(long stake, String publicKeys) throws WalletException {
 		return nativeCreateVoteProducerTransaction(mMainchainProxy, stake, publicKeys);
 	}
 
+	public String GetVotedProducerList() throws WalletException {
+		return nativeGetVotedProducerList();
+	}
 
 
 	private native String nativeCreateDepositTransaction(long proxy, String fromAddress, String toAddress, long amount,
-			String sidechainAccounts, String sidechainAmounts, String sidechainIndexs, String memo, String remark);
-
-	private native String nativeCreateRegisterProducerTransaction(long proxy, String fromAddress, String toAddress,
-			String publicKey, String nickName, String url, long location);
-
-	private native String nativeCreateCancelProducerTransaction(long proxy, String publicKey);
+			String sidechainAccounts, String sidechainAmounts, String sidechainIndexs, String memo, String remark, boolean useVotedUTXO);
 
 	private native String nativeCreateVoteProducerTransaction(long proxy, long stake, String publicKeys);
+
+	private native String nativeGetVotedProducerList();
+
 }
