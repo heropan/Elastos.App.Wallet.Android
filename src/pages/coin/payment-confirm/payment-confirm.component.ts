@@ -114,6 +114,7 @@ export class PaymentConfirmComponent {
       this.transfer.amount,
       this.transfer.memo,
       this.transfer.remark,
+      false,
       (data)=>{
         if(data['success']){
           this.native.info(data);

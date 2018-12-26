@@ -83,7 +83,7 @@ export class CoinComponent{
   }
 
   initData(){
-    this.walletManager.getBalance(this.masterWalletId,this.coinName, (data)=>{
+    this.walletManager.getBalance(this.masterWalletId,this.coinName,0,(data)=>{
       if(!Util.isNull(data["success"])){
         this.native.info(data);
         this.coinCount = data["success"]/Config.SELA;
@@ -95,7 +95,7 @@ export class CoinComponent{
 
     // this.myInterval = setInterval(()=>{
 
-    //   this.walletManager.getBalance(this.masterWalletId,this.coinName, (data)=>{
+    //   this.walletManager.getBalance(this.masterWalletId,this.coinName,0, (data)=>{
     //     if(!Util.isNull(data["success"])){
     //       this.native.info(data);
     //       this.coinCount = data["success"]/Config.SELA;
@@ -238,7 +238,7 @@ export class CoinComponent{
   }
 
   doRefresh(refresher){
-    this.walletManager.getBalance(this.masterWalletId,this.coinName, (data)=>{
+    this.walletManager.getBalance(this.masterWalletId,this.coinName,0,(data)=>{
       if(!Util.isNull(data["success"])){
         this.native.info(data);
         this.coinCount = data["success"]/Config.SELA;

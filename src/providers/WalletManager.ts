@@ -122,10 +122,11 @@ export class WalletManager {
    /**
    * @param {string} masterWalletId
    * @param {string} chainId
+   * @param {number} BalanceType
    * @param Fun
    */
-  getBalance(masterWalletId:string,chainId:string,Fun) {
-    this.wallet.getBalance([masterWalletId,chainId], Fun,(error)=>{
+  getBalance(masterWalletId:string,chainId:string,balanceType:number,Fun) {
+    this.wallet.getBalance([masterWalletId,chainId,balanceType], Fun,(error)=>{
       this.errorFun(error);
     });
   }
@@ -164,8 +165,8 @@ export class WalletManager {
     });
   }
 
-  createMultiSignTransaction(masterWalletId:string,chainId:string,fromAddress:string,toAddress:string,amount,memo:string,Fun){
-    this.wallet.createMultiSignTransaction([masterWalletId,chainId,fromAddress,toAddress,amount,memo],Fun,(error)=>{
+  createMultiSignTransaction(masterWalletId:string,chainId:string,fromAddress:string,toAddress:string,amount,memo:string,useVotedUTXO:boolean,Fun){
+    this.wallet.createMultiSignTransaction([masterWalletId,chainId,fromAddress,toAddress,amount,memo,useVotedUTXO],Fun,(error)=>{
       this.errorFun(error);
     });
   }
@@ -304,8 +305,8 @@ export class WalletManager {
     });
   }
 
-  createTransaction(masterWalletId:string,chainId:string,fromAddress:string , toAddress:string ,amount:number, memo:string, remark: string,Fun){
-    this.wallet.createTransaction([masterWalletId,chainId,fromAddress,toAddress,amount,memo, remark],Fun,(error)=>{
+  createTransaction(masterWalletId:string,chainId:string,fromAddress:string , toAddress:string ,amount:number, memo:string, remark: string,useVotedUTXO: boolean,Fun){
+    this.wallet.createTransaction([masterWalletId,chainId,fromAddress,toAddress,amount,memo, remark,useVotedUTXO],Fun,(error)=>{
       this.errorFun(error);
     });
   }
@@ -383,8 +384,8 @@ export class WalletManager {
   }
 
   createDepositTransaction(masterWalletId:string,chainId:string,fromAddress:string,toAddress:string,amount:number
-                           ,sidechainAccounts:string,sidechainAmounts:string,sidechainIndex:string,memo:string,remark:string,Fun){
-    this.wallet.createDepositTransaction([masterWalletId,chainId,fromAddress,toAddress,amount,sidechainAccounts,sidechainAmounts,sidechainIndex,memo,remark],Fun,(error)=>{
+                           ,sidechainAccounts:string,sidechainAmounts:string,sidechainIndex:string,memo:string,remark:string,useVotedUTXO:boolean,Fun){
+    this.wallet.createDepositTransaction([masterWalletId,chainId,fromAddress,toAddress,amount,sidechainAccounts,sidechainAmounts,sidechainIndex,memo,remark,useVotedUTXO],Fun,(error)=>{
       this.errorFun(error);
     });
   }

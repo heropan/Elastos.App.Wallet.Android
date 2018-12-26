@@ -64,7 +64,7 @@ export class RechargeComponent{
   }
 
   initData(){
-    this.walletManager.getBalance(this.masterWalletId,'ELA', (data)=>{
+    this.walletManager.getBalance(this.masterWalletId,'ELA',0,(data)=>{
       if(!Util.isNull(data["success"])){
         this.native.info(data);
         this.balance = data["success"];
@@ -138,6 +138,7 @@ export class RechargeComponent{
       sidechainIndex, // TODO default:0
       this.transfer.memo,
       this.transfer.remark,
+      false,
       (data)=>{
         if(data['success']){
           this.native.info(data);

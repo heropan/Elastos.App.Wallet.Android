@@ -313,6 +313,13 @@ walletFunc.prototype.destroySubWallet = function(arg0, success, error) {
     exec(success, error, "Wallet", "destroySubWallet", arg0);
 };
 
+walletFunc.prototype.getVotedProducerList = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getVotedProducerList", arg0);
+};
+
+walletFunc.prototype.createVoteProducerTransaction = function(arg0, success, error) {
+    exec(success, error, "Wallet", "createVoteProducerTransaction", arg0);
+};
 
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;

@@ -96,7 +96,7 @@ export class HomeComponent {
   }
 
   getElaBalance(item){
-    this.walletManager.getBalance(this.masterWalletId,item.name,(data)=>{
+    this.walletManager.getBalance(this.masterWalletId,item.name,0,(data)=>{
       if(!Util.isNull(data["success"])){
         this.zone.run(()=>{
           this.ElaObj.balance = Util.scientificToNumber(data["success"]/Config.SELA);
@@ -113,7 +113,7 @@ export class HomeComponent {
   }
 
   getSubBalance(coin){
-    this.walletManager.getBalance(this.masterWalletId,coin, (data)=>{
+    this.walletManager.getBalance(this.masterWalletId,coin,0,(data)=>{
       this.native.info(data);
       if(!Util.isNull(data["success"])){
          if(this.coinList.length === 0){

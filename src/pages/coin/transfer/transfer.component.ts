@@ -75,7 +75,7 @@ export class TransferComponent {
   }
 
   initData(){
-    this.walletManager.getBalance(this.masterWalletId,this.chianId, (data)=>{
+    this.walletManager.getBalance(this.masterWalletId,this.chianId,0,(data)=>{
       if(!Util.isNull(data["success"])){
         this.balance = data["success"];
       }else{
@@ -152,6 +152,7 @@ export class TransferComponent {
       toAmount,
       this.transfer.memo,
       this.transfer.remark,
+      false,
       (data)=>{
         if(data['success']){
           this.native.info(data);
@@ -348,6 +349,7 @@ createMultTx(){
   this.transfer.toAddress,
   toAmount,
   this.transfer.memo,
+  false,
   (data)=>{
     if(data["success"]){
       this.native.info(data);

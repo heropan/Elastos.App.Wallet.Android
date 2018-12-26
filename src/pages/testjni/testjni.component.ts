@@ -311,7 +311,7 @@ export class TestJniComponent {
    }
 
    getBalance(){
-     this.walletManager.getBalance(this.masterWalletId,this.chinaId,(result)=>{
+     this.walletManager.getBalance(this.masterWalletId,this.chinaId,0,(result)=>{
       alert("获取余额"+JSON.stringify(result));
      })
    }
@@ -446,7 +446,7 @@ export class TestJniComponent {
    }
 
    createTransaction(){
-      this.walletManager.createTransaction(this.masterWalletId,this.chinaId,"",this.toAddress,1*this.unit,"sssssss", "ssss",(result)=>{
+      this.walletManager.createTransaction(this.masterWalletId,this.chinaId,"",this.toAddress,1*this.unit,"sssssss", "ssss",false,(result)=>{
                       alert("=====createTransaction======"+JSON.stringify(result));
       });
    }
