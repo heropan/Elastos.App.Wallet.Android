@@ -23,7 +23,7 @@ public class IMainchainSubWallet extends ISubWallet {
 	}
 
 	public String GetVotedProducerList() throws WalletException {
-		return nativeGetVotedProducerList();
+		return nativeGetVotedProducerList(mMainchainProxy);
 	}
 
 
@@ -32,6 +32,6 @@ public class IMainchainSubWallet extends ISubWallet {
 
 	private native String nativeCreateVoteProducerTransaction(long proxy, long stake, String publicKeys);
 
-	private native String nativeGetVotedProducerList();
+	private native String nativeGetVotedProducerList(long proxy);
 
 }
