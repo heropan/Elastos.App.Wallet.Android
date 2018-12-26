@@ -144,8 +144,8 @@ export class TransferComponent {
 
   createTransaction(){
     let toAmount = 0;
-    toAmount = parseFloat((this.transfer.amount*Config.SELA).toPrecision(16));
-
+    //toAmount = parseFloat((this.transfer.amount*Config.SELA).toPrecision(16));
+    toAmount = this.accMul(this.transfer.amount,Config.SELA);
 
     this.walletManager.createTransaction(this.masterWalletId,this.chianId, "",
       this.transfer.toAddress,
@@ -343,8 +343,8 @@ saveKycSerialNum(serialNum){
 createMultTx(){
 
   let toAmount = 0;
-  toAmount = parseFloat((this.transfer.amount*Config.SELA).toPrecision(16));
-
+  //toAmount = parseFloat((this.transfer.amount*Config.SELA).toPrecision(16));
+  toAmount = this.accMul(this.transfer.amount,Config.SELA);
   this.walletManager.createMultiSignTransaction(this.masterWalletId,this.chianId,"",
   this.transfer.toAddress,
   toAmount,
@@ -388,6 +388,15 @@ readWallet(raws){
       }
     });
     modal.present();
+  }
+
+
+  accMul(arg1,arg2)
+  {
+  let m=0,s1=arg1.toString(),s2=arg2.toString();
+  try{m+=s1.split(".")[1].length}catch(e){}
+  try{m+=s2.split(".")[1].length}catch(e){}
+  return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)
   }
 
 }
