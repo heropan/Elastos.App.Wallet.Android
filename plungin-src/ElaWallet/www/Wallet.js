@@ -321,5 +321,8 @@ walletFunc.prototype.createVoteProducerTransaction = function(arg0, success, err
     exec(success, error, "Wallet", "createVoteProducerTransaction", arg0);
 };
 
+walletFunc.prototype.createCancelProducerTransaction = function(arg0, success, error) {
+    exec(success, error, "Wallet", "createCancelProducerTransaction", arg0);
+};
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;

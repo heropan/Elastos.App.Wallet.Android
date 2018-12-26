@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {PopupProvider} from "../../../../providers/popup";
+import {WalletManager} from "../../../../providers/WalletManager";
 import {Native} from "../../../../providers/Native";
 import {Util} from '../../../../providers/Util';
 
@@ -18,7 +19,9 @@ import {Util} from '../../../../providers/Util';
 })
 export class VotemanagePage {
   public passworld:string = "";
-  constructor(public navCtrl: NavController, public navParams: NavParams,public popupProvider: PopupProvider,public native :Native) {
+  public masterWalletId:string ="1";
+  public publicKey:string = "qwerttttt";
+  constructor(public navCtrl: NavController, public navParams: NavParams,public popupProvider: PopupProvider,public native :Native,public walletManager :WalletManager) {
   }
 
   ionViewDidLoad() {
@@ -40,5 +43,12 @@ export class VotemanagePage {
 });
       }
     });
+  }
+
+
+  sendCancelProducer(){
+      this.walletManager.createCancelProducerTransaction(this.masterWalletId,"ELA",this.publicKey,(data)=>{
+
+      });
   }
 }

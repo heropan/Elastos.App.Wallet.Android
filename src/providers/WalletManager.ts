@@ -540,6 +540,12 @@ export class WalletManager {
        });
   }
 
+  createCancelProducerTransaction(masterWalletId:string, chainId:string, publicKey:string, Fun){
+    this.wallet.createCancelProducerTransaction([masterWalletId, chainId, publicKey], Fun, (error)=>{
+      this.errorFun(error);
+    });
+ }
+
   errorFun(error) {
     this.native.info(error);
     let key = error["error"]["code"];

@@ -228,12 +228,14 @@ export class HomeComponent {
             });
          }else if(result["Action"] === "OnBlockHeightIncreased"){
             //this.elaPer= result["progress"];
+            this.zone.run(()=>{
             this.elaMaxHeight = result["estimatedHeight"];
             this.elaCurHeight = result["currentBlockHeight"];
             //Config.setMasterPer(this.masterWalletId,"ELA",this.elaPer);
             Config.setCureentHeight(this.masterWalletId,"ELA",this.elaCurHeight);
             Config.setEstimatedHeight(this.masterWalletId,"ELA",this.elaMaxHeight);
             this.localStorage.setProgress(Config.perObj);
+          });
          }
 
         //  if(this.elaPer === 1){
