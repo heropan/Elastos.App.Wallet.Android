@@ -84,7 +84,7 @@
             </ion-col>
         </ion-row>
 
-        <ion-row class="row" class="font-size-1">
+        <ion-row class="row" class="font-size-1" *ngIf="transactionRecord.payfees > 0">
             <ion-col col-4>
                 {{'text-fees' | translate}}
             </ion-col>

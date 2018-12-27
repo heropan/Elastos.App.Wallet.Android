@@ -126,7 +126,8 @@ export class RechargeComponent{
 
   createDepositTransaction(){
     let toAmount = 0;
-    toAmount = parseFloat((this.transfer.amount*Config.SELA).toPrecision(16));
+    //toAmount = parseFloat((this.transfer.amount*Config.SELA).toPrecision(16));
+    toAmount = this.accMul(this.transfer.amount,Config.SELA);
     let sidechainAddress = JSON.stringify([this.sidechain.accounts]);
     let sidechainAmounts = JSON.stringify([toAmount - this.transfer.fee]);
     let sidechainIndex = JSON.stringify([this.sidechain.index]);
@@ -250,5 +251,12 @@ readWallet(raws){
 });
 }
 
+accMul(arg1,arg2)
+{
+let m=0,s1=arg1.toString(),s2=arg2.toString();
+try{m+=s1.split(".")[1].length}catch(e){}
+try{m+=s2.split(".")[1].length}catch(e){}
+return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)
+}
 
 }
