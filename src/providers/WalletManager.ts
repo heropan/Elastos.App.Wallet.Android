@@ -546,6 +546,18 @@ export class WalletManager {
     });
  }
 
+ createVoteProducerTransaction(masterWalletId:string, chainId:string,stake:number,publicKey:string, Fun){
+  this.wallet.createVoteProducerTransaction([masterWalletId, chainId,stake,publicKey], Fun, (error)=>{
+    this.errorFun(error);
+  });
+ }
+
+ getVotedProducerList(masterWalletId:string, chainId:string, Fun){
+   this.wallet.getVotedProducerList([masterWalletId,chainId],Fun,(error)=>{
+           this.errorFun(error);
+   });
+ }
+
   errorFun(error) {
     this.native.info(error);
     let key = error["error"]["code"];
