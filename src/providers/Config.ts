@@ -261,8 +261,8 @@ export class Config {
 public static getCurrentHeight(masterId,coin){
   if(this.perObj[masterId]){
     if(this.perObj[masterId][coin]){
-          if(this.perObj[masterId][coin]["maxHeight"]){
-                   return this.perObj[masterId][coin]["maxHeight"];
+          if(this.perObj[masterId][coin]["curHeight"]){
+                   return this.perObj[masterId][coin]["curHeight"];
           }else{
             return 0;
           }
