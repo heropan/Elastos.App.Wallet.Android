@@ -3,6 +3,9 @@ import { IonicPage, NavController,ModalController, NavParams } from 'ionic-angul
 import {Native} from "../../../../providers/Native";
 import {Util} from '../../../../providers/Util';
 import { PopupProvider } from '../../../../providers/popup';
+import { WalletManager } from '../../../../providers/WalletManager';
+import { Config } from '../../../../providers/Config';
+import {ScancodePage} from '../../../../pages/scancode/scancode';
 
 /**
  * Generated class for the PointvotePage page.
@@ -24,10 +27,34 @@ export class PointvotePage {
   public isAllchecked = false;
   public selectNode = [];
   public passworld:string = "";
-  constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl: ModalController,public native: Native,public popupProvider
-    :PopupProvider) {
+  public masterId:string = "";
+  public curChain:string = "ELA";
+  public stake:number = 0;
+  public publickeys = [];
+  public rawTransaction:string = "";
+  public fee:number = 0;
+  public feePerKb:number = 10000;
+  public walletInfo = {};
+  constructor( public navCtrl: NavController,
+               public navParams: NavParams,
+               public modalCtrl: ModalController,
+               public native: Native,
+               public popupProvider:PopupProvider,
+               public walletManager:WalletManager,
+             ) {
               this.selectNode = this.navParams.data["selectNode"] || [];
               this.setSelectArr(this.selectNode);
+  }
+
+  init(){
+    this.masterId = Config.getCurMasterWalletId();
+    this.walletManager.getMasterWalletBasicInfo(this.masterId,(data)=>{
+                 if(data["success"]){
+                    this.native.info(data);
+                    let item = JSON.parse(data["success"])["Account"];
+                    this.walletInfo = item;
+                 }
+    });
   }
 
   ionViewDidLoad() {
@@ -101,5 +128,88 @@ export class PointvotePage {
       this.selectVoteObj[id] = true;
      }
   }
+  //创建交易
+  createTx(){
+     this.walletManager.createVoteProducerTransaction(this.masterId,this.curChain,this.stake,JSON.stringify(this.publickeys),(data)=>{
+      if(data['success']){
+
+      }else{
+
+      }
+     });
+  }
+
+ //计算手续费
+ getFee(){
+  this.walletManager.calculateTransactionFee(this.masterId,this.curChain,this.rawTransaction, this.feePerKb, (data) => {
+    if(data['success']){
+      this.native.hideLoading();
+      this.native.info(data);
+      this.fee = data['success'];
+    }else{
+      this.native.info(data);
+    }
+  });
+ }
+
+
+ updateTxFee(){
+
+  this.walletManager.updateTransactionFee(this.masterId,this.curChain,this.rawTransaction, this.fee,(data)=>{
+    if(data["success"]){
+     this.native.info(data);
+     if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["InnerType"] === "Readonly"){
+              this.readWallet(data["success"]);
+              return;
+     }
+     this.singTx(data["success"]);
+    }else{
+     this.native.info(data);
+    }
+});
+ }
+
+
+ singTx(rawTransaction){
+  this.walletManager.signTransaction(this.masterId,this.curChain,rawTransaction,this.passworld,(data)=>{
+    if(data["success"]){
+      this.native.info(data);
+      if(this.walletInfo["Type"] === "Standard"){
+           this.sendTx(data["success"]);
+      }else if(this.walletInfo["Type"] === "Multi-Sign"){
+          this.walletManager.encodeTransactionToString(data["success"],(raw)=>{
+                   if(raw["success"]){
+                    this.native.hideLoading();
+                    this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":this.curChain,"fee":this.fee/Config.SELA, "raw":raw["success"]}});
+                   }else{
+                    this.native.info(raw);
+                   }
+          });
+      }
+     }else{
+         this.native.info(data);
+     }
+  });
+ }
+
+ sendTx(rawTransaction){
+  this.native.info(rawTransaction);
+  this.walletManager.publishTransaction(this.masterId,this.curChain,rawTransaction,(data)=>{
+    if(data['success']){
+      this.native.hideLoading();
+    }else{
+      this.native.info(data);
+    }
+  });
+ }
+
+ readWallet(raws){
+  this.walletManager.encodeTransactionToString(raws,(raw)=>{
+    if(raw["success"]){
+      this.native.hideLoading();
+      this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":this.curChain,"fee":this.fee/Config.SELA, "raw":raw["success"]}});
+    }
+});
+}
 
 }
