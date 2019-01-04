@@ -457,7 +457,8 @@ export const en = {
   'vote-immediately':'Vote Immediately',
   'have-chosen':'Have Chosen',
   'all-election':'All',
-  'please-select-voting-node':'Please select the voting node'
+  'please-select-voting-node':'Please select the voting node',
+  'ticket':'Ticket'
 };
 
 

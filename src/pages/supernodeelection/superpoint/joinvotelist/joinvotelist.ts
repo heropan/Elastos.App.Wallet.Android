@@ -15,13 +15,17 @@ import {Native} from "../../../../providers/Native";
 })
 export class JoinvotelistPage {
 
-  public nodelist = ["0","1","2","4","5","7","8","9"];
+  public nodelist = [];
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl: ModalController,public native: Native) {
-
+      this.init();
   }
 
+
+  init(){
+    this.getVoteList();
+  }
   ionViewDidLoad() {
 
   }
@@ -50,6 +54,17 @@ export class JoinvotelistPage {
   jumpNodeInformation(status){
     console.log("===jumpNodeInformation==="+status);
     this.native.Go(this.navCtrl,'NodeinformationPage',{"status":status});
+  }
+
+
+  getVoteList(){
+    this.native.getHttp().postByAuth("http://123.206.52.29/api/arbiterrpc/check/listproducer").toPromise().then(data=>{
+           if(data["status"] === 200){
+               console.log("========parm"+JSON.stringify(data));
+               let votesResult = JSON.parse(data["_body"]);
+               this.nodelist = votesResult["data"]["result"]["producers"] || [];
+             }
+    });
   }
 
 }

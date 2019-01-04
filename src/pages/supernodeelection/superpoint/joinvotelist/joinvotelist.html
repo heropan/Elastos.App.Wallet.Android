@@ -13,7 +13,7 @@
 
 
 <ion-content padding>
-    <div class="top">
+    <!-- <div class="top">
         <ion-row padding-left padding-right padding-top>
             <ion-col col-4 class="text-center title">{{'proportion-of-voting'|translate}}</ion-col>
             <ion-col col-4 class="text-center title">{{'present-quorum-votes'|translate}}</ion-col>
@@ -25,7 +25,7 @@
             <ion-col col-4 class="text-center border-right number">1635458</ion-col>
             <ion-col col-4 class="text-center number">14452</ion-col>
         </ion-row>
-    </div>
+    </div> -->
 
 
     <ion-grid>
@@ -35,11 +35,11 @@
                 <div class="pic">
                     <img src="./assets/images/vote/ticket.png" alt="">
                 </div>
-                <div class="title">UnlimitedELA</div>
-                <div class="value">345,678 ELA</div>
-                <div class="ticket_num">203486票</div>
+                <div class="title">{{item.nickname}}</div>
+                <div class="value">{{item.votes}} ELA</div>
+                <div class="ticket_num">{{item.votes}} {{'ticket'|translate}}</div>
                 <div class="rank_img"><img src="./assets/images/vote/rank_img.png" alt=""></div>
-                <div class="rank_num">NO.236</div>
+                <div class="rank_num">No.{{i}}</div>
             </ion-col>
         </ion-row>
     </ion-grid>

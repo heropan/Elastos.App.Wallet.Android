@@ -452,5 +452,6 @@ export const zh = {
   'vote-immediately':'立即投票',
   'have-chosen':'已选择',
   'all-election':'全选',
-  'please-select-voting-node':'请选择投票节点'
+  'please-select-voting-node':'请选择投票节点',
+  'ticket':'票'
 };
