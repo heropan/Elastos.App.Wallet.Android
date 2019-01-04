@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ModalController} from 'ionic-angular';
 import {Native} from "../../../../providers/Native";
+import {ApiUrl} from "../../../../providers/ApiUrl";
 /**
  * Generated class for the JoinvotelistPage page.
  *
@@ -58,7 +59,7 @@ export class JoinvotelistPage {
 
 
   getVoteList(){
-    this.native.getHttp().postByAuth("http://123.206.52.29/api/arbiterrpc/check/listproducer").toPromise().then(data=>{
+    this.native.getHttp().postByAuth(ApiUrl.listproducer).toPromise().then(data=>{
            if(data["status"] === 200){
                console.log("========parm"+JSON.stringify(data));
                let votesResult = JSON.parse(data["_body"]);
