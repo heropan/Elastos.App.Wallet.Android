@@ -22,7 +22,7 @@ export class SignupPage {
   public passworld:string;
   public nodeName:string = "ssss";
   public publickey:string ="xxxxxxxx111111";
-  public address:number = 0;
+  public address:number = 1;
   public url:string ="https://www.baidu.com";
   public countrys = [];
   public masterId:string = "";
@@ -80,10 +80,6 @@ export class SignupPage {
       return false;
     }
 
-    if(!Util.isURL(this.url)){
-      this.native.toast_trans('enter-node-url-validator');
-      return false;
-    }
     return true;
   }
 
