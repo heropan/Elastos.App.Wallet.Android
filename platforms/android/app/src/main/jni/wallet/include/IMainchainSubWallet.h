@@ -27,7 +27,6 @@ namespace Elastos {
 			 * @param sidechainIndices a list of sidechain indices in json format, each index should correspond to \p sidechainAccounts by order.
 			 * @param memo input memo attribute for describing.
 			 * @param remark is used to record message of local wallet.
-			 * @param useVotedUTXO indicate whether use voted UTXO.
 			 * @return　If success return the content of transaction in json format.
 			 */
 			virtual nlohmann::json CreateDepositTransaction(
@@ -44,7 +43,12 @@ namespace Elastos {
 			virtual nlohmann::json CreateVoteProducerTransaction(
 					uint64_t stake, const nlohmann::json &pubicKeys) = 0;
 
-			virtual nlohmann::json GetVotedProducerList() const = 0;
+			virtual	nlohmann::json GetVotedProducerList() const = 0;
+
+			virtual nlohmann::json ExportProducerKeystore(const std::string &backupPasswd,
+														  const std::string &payPasswd) const = 0;
+
+			virtual nlohmann::json GetRegisteredProducerInfo() const = 0;
 
 		};
 

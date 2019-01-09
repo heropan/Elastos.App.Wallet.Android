@@ -100,7 +100,7 @@ static jstring JNICALL nativeGetVotedProducerList(JNIEnv *env, jobject clazz, jl
 	try {
 		nlohmann::json listJson = subWallet->GetVotedProducerList();
 		list = env->NewStringUTF(listJson.dump().c_str());
-	} catch (std::exception &e) {
+	} catch (const std::exception &e) {
 		exception = true;
 		msgException = e.what();
 	}
@@ -112,10 +112,65 @@ static jstring JNICALL nativeGetVotedProducerList(JNIEnv *env, jobject clazz, jl
 	return list;
 }
 
+#define SIG_nativeExportProducerKeystore "(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+static jstring JNICALL nativeExportProducerKeystore(JNIEnv *env, jobject clazz, jlong jSubWalletProxy,
+		jstring jBackupPasswd,
+		jstring jPayPasswd) {
+	bool exception = false;
+	jstring keystore = NULL;
+	std::string msgException;
+
+	const char *backupPasswd = env->GetStringUTFChars(jBackupPasswd, NULL);
+	const char *payPasswd = env->GetStringUTFChars(jPayPasswd, NULL);
+	IMainchainSubWallet *subWallet = (IMainchainSubWallet *) jSubWalletProxy;
+
+	try {
+		nlohmann::json keystoreJson = subWallet->ExportProducerKeystore(backupPasswd, payPasswd);
+		keystore = env->NewStringUTF(keystoreJson.dump().c_str());
+	} catch (const std::exception &e) {
+		exception = true;
+		msgException = e.what();
+	}
+
+	env->ReleaseStringUTFChars(jBackupPasswd, backupPasswd);
+	env->ReleaseStringUTFChars(jPayPasswd, payPasswd);
+
+	if (exception) {
+		ThrowWalletException(env, msgException.c_str());
+	}
+
+	return keystore;
+}
+
+#define SIG_nativeGetRegisteredProducerInfo "(J)Ljava/lang/String;"
+static jstring JNICALL nativeGetRegisteredProducerInfo(JNIEnv *env, jobject clazz, jlong jSubWalletProxy) {
+	bool exception = false;
+	jstring info = NULL;
+	std::string msgException;
+
+	IMainchainSubWallet *subWallet = (IMainchainSubWallet *) jSubWalletProxy;
+
+	try {
+		nlohmann::json infoJson = subWallet->GetRegisteredProducerInfo();
+		info = env->NewStringUTF(infoJson.dump().c_str());
+	} catch(const std::exception &e) {
+		exception = true;
+		msgException = e.what();
+	}
+
+	if (exception) {
+		ThrowWalletException(env, msgException.c_str());
+	}
+
+	return info;
+}
+
 static const JNINativeMethod gMethods[] = {
 	REGISTER_METHOD(nativeCreateDepositTransaction),
 	REGISTER_METHOD(nativeCreateVoteProducerTransaction),
 	REGISTER_METHOD(nativeGetVotedProducerList),
+	REGISTER_METHOD(nativeExportProducerKeystore),
+	REGISTER_METHOD(nativeGetRegisteredProducerInfo),
 };
 
 jint register_elastos_spv_IMainchainSubWallet(JNIEnv *env)

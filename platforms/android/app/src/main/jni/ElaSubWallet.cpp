@@ -109,9 +109,10 @@ static jstring JNICALL nativeGetAllAddress(JNIEnv *env, jobject clazz, jlong jSu
 	return addresses;
 }
 
-#define SIG_nativeGetBalanceWithAddress "(JLjava/lang/String;)J"
+#define SIG_nativeGetBalanceWithAddress "(JLjava/lang/String;I)J"
 static jlong JNICALL nativeGetBalanceWithAddress(JNIEnv *env, jobject clazz, jlong jSubProxy,
-		jstring jaddress)
+		jstring jaddress,
+		jint balanceType)
 {
 	bool exception = false;
 	std::string msgException;
@@ -121,7 +122,7 @@ static jlong JNICALL nativeGetBalanceWithAddress(JNIEnv *env, jobject clazz, jlo
 
 	try {
 		ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-		result = (jlong)subWallet->GetBalanceWithAddress(address);
+		result = (jlong)subWallet->GetBalanceWithAddress(address, BalanceType(balanceType));
 	} catch (std::exception &e) {
 		exception = true;
 		msgException = e.what();
@@ -326,21 +327,24 @@ static jlong JNICALL nativeCalculateTransactionFee(JNIEnv *env, jobject clazz, j
 	return fee;
 }
 
-#define SIG_nativeUpdateTransactionFee "(JLjava/lang/String;J)Ljava/lang/String;"
+#define SIG_nativeUpdateTransactionFee "(JLjava/lang/String;JLjava/lang/String;Z)Ljava/lang/String;"
 static jstring JNICALL nativeUpdateTransactionFee(JNIEnv *env, jobject clazz, jlong jSubProxy,
 		jstring jrawTransaction,
-		jlong fee)
+		jlong fee,
+		jstring jFromAddress,
+		jboolean useVotedUTXO)
 {
 	bool exception = false;
 	std::string msgException;
 
-	const char* rawTransaction = env->GetStringUTFChars(jrawTransaction, NULL);
+	const char *rawTransaction = env->GetStringUTFChars(jrawTransaction, NULL);
+	const char *fromAddress = env->GetStringUTFChars(jFromAddress, NULL);
 
 	ISubWallet* subWallet = (ISubWallet*)jSubProxy;
 	jstring tx = NULL;
 
 	try {
-		nlohmann::json txJson = subWallet->UpdateTransactionFee(nlohmann::json::parse(rawTransaction), fee);
+		nlohmann::json txJson = subWallet->UpdateTransactionFee(nlohmann::json::parse(rawTransaction), fee, fromAddress, useVotedUTXO);
 		tx = env->NewStringUTF(txJson.dump().c_str());
 	} catch (std::exception &e) {
 		exception = true;
@@ -348,6 +352,7 @@ static jstring JNICALL nativeUpdateTransactionFee(JNIEnv *env, jobject clazz, jl
 	}
 
 	env->ReleaseStringUTFChars(jrawTransaction, rawTransaction);
+	env->ReleaseStringUTFChars(jFromAddress, fromAddress);
 
 	if (exception) {
 		ThrowWalletException(env, msgException.c_str());

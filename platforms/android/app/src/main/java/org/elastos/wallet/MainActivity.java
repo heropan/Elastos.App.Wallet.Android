@@ -34,7 +34,7 @@ public class MainActivity extends CordovaActivity
 
     static {
         System.loadLibrary("spvsdk");
-        System.loadLibrary("idchain");
+        //System.loadLibrary("idchain");
         System.loadLibrary("elastoswallet");
     }
 

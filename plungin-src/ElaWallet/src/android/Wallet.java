@@ -495,6 +495,12 @@ public class Wallet extends CordovaPlugin {
 				case "getVotedProducerList":
 					this.getVotedProducerList(args, cc);
 					break;
+				case "exportProducerKeystore":
+					this.exportProducerKeystore(args, cc);
+					break;
+				case "getRegisteredProducerInfo":
+					this.getRegisteredProducerInfo(args, cc);
+					break;
 
 					// Side chain subwallet
 				case "createWithdrawTransaction":
@@ -1338,7 +1344,7 @@ public class Wallet extends CordovaPlugin {
 
 	// args[0]: String masterWalletID
 	// args[1]: String chainID
-	// args[2]: int BalanceType => 0: Ordinary, 1: Voted, 2: Full
+	// args[2]: int BalanceType (0: Default, 1: Voted, 2: Total)
 	public void getBalance(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
@@ -1430,12 +1436,14 @@ public class Wallet extends CordovaPlugin {
 	// args[0]: String masterWalletID
 	// args[1]: String chainID
 	// args[2]: String address
+	// args[3]: int balanceType (0: Default, 1: Voted, 2: Total)
 	public void getBalanceWithAddress(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
 		String masterWalletID = args.getString(idx++);
 		String chainID        = args.getString(idx++);
 		String address        = args.getString(idx++);
+		int balanceType       = args.getInt(idx++);
 
 		if (args.length() != idx) {
 			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
@@ -1449,9 +1457,10 @@ public class Wallet extends CordovaPlugin {
 				return;
 			}
 
-			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " getBalanceWithAddress [" + address + "] => " + subWallet.GetBalanceWithAddress(address));
+			long balance = subWallet.GetBalanceWithAddress(address, balanceType);
+			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " getBalanceWithAddress [" + address + "] => " + balance);
 
-			successProcess(cc, subWallet.GetBalanceWithAddress(address));
+			successProcess(cc, balance);
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, "Get " + formatWalletName(masterWalletID, chainID) + " balance with address");
 		}
@@ -1578,6 +1587,8 @@ public class Wallet extends CordovaPlugin {
 	// args[1]: String chainID
 	// args[2]: String rawTransaction
 	// args[3]: long fee
+	// args[4]: String fromAddress
+	// args[5]: boolean useVotedUTXO
 	// return:  String txJson
 	public void updateTransactionFee(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
@@ -1586,6 +1597,8 @@ public class Wallet extends CordovaPlugin {
 		String chainID        = args.getString(idx++);
 		String rawTransaction = args.getString(idx++);
 		long   fee            = args.getLong(idx++);
+		String fromAddress    = args.getString(idx++);
+		boolean useVotedUTXO  = args.getBoolean(idx++);
 
 		if (args.length() != idx) {
 			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
@@ -1599,7 +1612,7 @@ public class Wallet extends CordovaPlugin {
 				return;
 			}
 
-			String result = subWallet.UpdateTransactionFee(rawTransaction, fee);
+			String result = subWallet.UpdateTransactionFee(rawTransaction, fee, fromAddress, useVotedUTXO);
 			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " updateTransactionFee [... ," + fee + "]=> ...");
 
 			successProcess(cc, result);
@@ -2290,7 +2303,7 @@ public class Wallet extends CordovaPlugin {
 	}
 
 	// args[0]: String masterWalletID
-	// args[1]: String chainID
+	// args[1]: String chainID (only main chain ID 'ELA')
 	public void getVotedProducerList(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 		String masterWalletID = args.getString(idx++);
@@ -2321,6 +2334,77 @@ public class Wallet extends CordovaPlugin {
 			successProcess(cc, list);
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, formatWalletName(masterWalletID, chainID) + " get voted producer list");
+		}
+	}
+
+	// args[0]: String masterWalletID
+	// args[1]: String chainID (only main chain ID 'ELA')
+	// args[2]: String backupPasswd
+	// args[3]: String payPasswd
+	public void exportProducerKeystore(JSONArray args, CallbackContext cc) throws JSONException {
+		int idx = 0;
+		String masterWalletID = args.getString(idx++);
+		String chainID        = args.getString(idx++);
+		String backupPasswd   = args.getString(idx++);
+		String payPasswd      = args.getString(idx++);
+
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+
+		try {
+			ISubWallet subWallet = getSubWallet(masterWalletID, chainID);
+			if (subWallet == null) {
+				errorProcess(cc, errCodeInvalidSubWallet, "Get " + formatWalletName(masterWalletID, chainID));
+				return ;
+			}
+
+			if (! (subWallet instanceof IMainchainSubWallet)) {
+				errorProcess(cc, errCodeSubWalletInstance, formatWalletName(masterWalletID, chainID) + " is not instance of IMainchainSubWallet");
+				return;
+			}
+
+			IMainchainSubWallet mainchainSubWallet = (IMainchainSubWallet) subWallet;
+			String keystore = mainchainSubWallet.ExportProducerKeystore(backupPasswd, payPasswd);
+			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " exportProducerKeystore [...] => ...");
+
+			successProcess(cc, keystore);
+		} catch (WalletException e) {
+			exceptionProcess(e, cc, formatWalletName(masterWalletID, chainID) + " export producer keystore");
+		}
+	}
+
+	// args[0]: String masterWalletID
+	// args[1]: String chainID (only main chain ID 'ELA')
+	public void getRegisteredProducerInfo(JSONArray args, CallbackContext cc) throws JSONException {
+		int idx = 0;
+		String masterWalletID = args.getString(idx++);
+		String chainID        = args.getString(idx++);
+
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+
+		try {
+			ISubWallet subWallet = getSubWallet(masterWalletID, chainID);
+			if (subWallet == null) {
+				errorProcess(cc, errCodeInvalidSubWallet, "Get " + formatWalletName(masterWalletID, chainID));
+				return;
+			}
+
+			if (! (subWallet instanceof IMainchainSubWallet)) {
+				errorProcess(cc, errCodeSubWalletInstance, formatWalletName(masterWalletID, chainID) + " is not instance of IMainchainSubWallet");
+				return;
+			}
+
+			IMainchainSubWallet mainchainSubWallet = (IMainchainSubWallet) subWallet;
+			String info = mainchainSubWallet.GetRegisteredProducerInfo();
+
+			successProcess(cc, info);
+		} catch (WalletException e) {
+			exceptionProcess(e, cc, formatWalletName(masterWalletID, chainID) + " get registerd producer info");
 		}
 	}
 
