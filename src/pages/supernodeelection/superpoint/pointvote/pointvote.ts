@@ -155,7 +155,7 @@ export class PointvotePage {
 
  updateTxFee(){
 
-  this.walletManager.updateTransactionFee(this.masterId,this.curChain,this.rawTransaction, this.fee,(data)=>{
+  this.walletManager.updateTransactionFee(this.masterId,this.curChain,this.rawTransaction, this.fee,"",false,(data)=>{
     if(data["success"]){
      this.native.info(data);
      if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["InnerType"] === "Readonly"){

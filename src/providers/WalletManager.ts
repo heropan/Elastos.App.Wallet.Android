@@ -430,8 +430,8 @@ export class WalletManager {
       });
   }
 
-  updateTransactionFee(masterWalletId:string,chainId:string,rawTransaction:string,fee:number,Fun){
-      this.wallet.updateTransactionFee([masterWalletId,chainId,rawTransaction,fee],Fun,(error)=>{
+  updateTransactionFee(masterWalletId:string,chainId:string,rawTransaction:string,fee:number,fromAddress:string,useVotedUTXO:boolean,Fun){
+      this.wallet.updateTransactionFee([masterWalletId,chainId,rawTransaction,fee,fromAddress,useVotedUTXO],Fun,(error)=>{
         this.errorFun(error);
       });
   }

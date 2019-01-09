@@ -186,7 +186,7 @@ export class TransferComponent {
   }
 
   updateTxFee(){
-    this.walletManager.updateTransactionFee(this.masterWalletId,this.chianId,this.rawTransaction, this.transfer.fee,(data)=>{
+    this.walletManager.updateTransactionFee(this.masterWalletId,this.chianId,this.rawTransaction, this.transfer.fee,"",false,(data)=>{
                        if(data["success"]){
                         this.native.info(data);
                         if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["InnerType"] === "Readonly"){
