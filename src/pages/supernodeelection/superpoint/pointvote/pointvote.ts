@@ -113,6 +113,7 @@ export class PointvotePage {
             return;
           }
           this.passworld = val.toString();
+          this.createTx();
           //this.native.Go(this.navCtrl,'JoinvotelistPage');
 }).catch(()=>{
 
@@ -131,6 +132,7 @@ export class PointvotePage {
   //创建交易
   createTx(){
      this.walletManager.createVoteProducerTransaction(this.masterId,this.curChain,this.stake,JSON.stringify(this.publickeys),(data)=>{
+      this.native.info(data);
       if(data['success']){
 
       }else{

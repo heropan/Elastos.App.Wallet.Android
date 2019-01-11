@@ -324,5 +324,10 @@ walletFunc.prototype.createVoteProducerTransaction = function(arg0, success, err
 walletFunc.prototype.createCancelProducerTransaction = function(arg0, success, error) {
     exec(success, error, "Wallet", "createCancelProducerTransaction", arg0);
 };
+
+walletFunc.prototype.getRegisteredProducerInfo = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getRegisteredProducerInfo", arg0);
+};
+
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;

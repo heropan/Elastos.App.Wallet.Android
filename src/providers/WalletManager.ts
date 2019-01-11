@@ -558,6 +558,13 @@ export class WalletManager {
    });
  }
 
+
+ getRegisteredProducerInfo(masterWalletId:string, chainId:string,Fun){
+     this.wallet.getRegisteredProducerInfo([masterWalletId,chainId],Fun,(error)=>{
+            this.errorFun(error);
+     });
+ }
+
   errorFun(error) {
     this.native.info(error);
     let key = error["error"]["code"];
