@@ -10,7 +10,10 @@ import { Config } from '../../../providers/Config';
 })
 export class SuperpointPage {
   public isExitNode:boolean = false;
+  public info;
   constructor(public navCtrl: NavController, public navParams: NavParams,public native :Native) {
+         this.isExitNode  = this.navParams.data["Registered"] || false;
+         this.info = this.navParams.data["Info"];
   }
 
   ionViewDidLoad() {
@@ -28,6 +31,6 @@ export class SuperpointPage {
   }
 
   emanagement(){
-    this.native.Go(this.navCtrl,'VotemanagePage');
+    this.native.Go(this.navCtrl,'VotemanagePage',this.info);
   }
 }

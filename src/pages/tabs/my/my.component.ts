@@ -139,6 +139,17 @@ export class MyComponent{
    }
 
    getVoteNode(){
-      this.native.Go(this.navCtrl,'SuperpointPage');
+      this.getRegisteredProducerInfo();
+   }
+
+   getRegisteredProducerInfo(){
+      this.walletManager.getRegisteredProducerInfo(this.masterWalletId,"ELA",(data)=>{
+                  this.native.info(data);
+                  if(data["success"]){
+                    this.native.info(data);
+                    let parms= JSON.parse((data["success"]));
+                    this.native.Go(this.navCtrl,'SuperpointPage',parms);
+                  }
+      });
    }
 }

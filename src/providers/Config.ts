@@ -9,7 +9,7 @@ import {Logger} from "../providers/Logger";
  */
 @Injectable()
 export class Config {
-  public static isDebug = false;
+  public static isDebug = true;
   public static masterWallObj={id:"",wallname:""};
   public static perObj = {};
   public static masterWalletId:string = "1";
