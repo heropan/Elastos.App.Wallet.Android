@@ -55,8 +55,8 @@ public class ISubWallet {
         return nativeCalculateTransactionFee(mSubProxy, rawTransaction, feePerKb);
     }
 
-	public String UpdateTransactionFee(String rawTransaction, long fee, String fromAddress, boolean useVotedUTXO) throws WalletException {
-		return nativeUpdateTransactionFee(mSubProxy, rawTransaction, fee, fromAddress, useVotedUTXO);
+	public String UpdateTransactionFee(String rawTransaction, long fee, String fromAddress) throws WalletException {
+		return nativeUpdateTransactionFee(mSubProxy, rawTransaction, fee, fromAddress);
 	}
 
 	public String SignTransaction(String rawTransaction, String payPassword) throws WalletException {
@@ -107,7 +107,7 @@ public class ISubWallet {
     private native String nativeCreateTransaction(long subProxy, String fromAddress, String toAddress, long amount, String memo, String remark, boolean useVotedUTXO);
     private native String nativeCreateMultiSignTransaction(long subProxy, String fromAddress, String toAddress, long amount, String memo, boolean useVotedUTXO);
     private native long nativeCalculateTransactionFee(long subProxy, String rawTransaction, long feePerKb);
-	private native String nativeUpdateTransactionFee(long subProxy, String rawTransaction, long fee, String fromAddress, boolean useVotedUTXO);
+	private native String nativeUpdateTransactionFee(long subProxy, String rawTransaction, long fee, String fromAddress);
 	private native String nativeSignTransaction(long subProxy, String rawTransaction, String payPassword);
 	private native String nativeGetTransactionSignedSigners(long subProxy, String rawTransaction);
 	private native String nativePublishTransaction(long subProxy, String rawTransaction);

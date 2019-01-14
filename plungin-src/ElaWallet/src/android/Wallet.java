@@ -1588,7 +1588,6 @@ public class Wallet extends CordovaPlugin {
 	// args[2]: String rawTransaction
 	// args[3]: long fee
 	// args[4]: String fromAddress
-	// args[5]: boolean useVotedUTXO
 	// return:  String txJson
 	public void updateTransactionFee(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
@@ -1598,7 +1597,6 @@ public class Wallet extends CordovaPlugin {
 		String rawTransaction = args.getString(idx++);
 		long   fee            = args.getLong(idx++);
 		String fromAddress    = args.getString(idx++);
-		boolean useVotedUTXO  = args.getBoolean(idx++);
 
 		if (args.length() != idx) {
 			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
@@ -1612,7 +1610,7 @@ public class Wallet extends CordovaPlugin {
 				return;
 			}
 
-			String result = subWallet.UpdateTransactionFee(rawTransaction, fee, fromAddress, useVotedUTXO);
+			String result = subWallet.UpdateTransactionFee(rawTransaction, fee, fromAddress);
 			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " updateTransactionFee [... ," + fee + "]=> ...");
 
 			successProcess(cc, result);
@@ -2264,15 +2262,23 @@ public class Wallet extends CordovaPlugin {
 
 	// args[0]: String masterWalletID
 	// args[1]: String chainID
-	// args[2]: long   stake
-	// args[3]: String publicKeys JSONArray
-	public void createVoteProducerTransaction(JSONArray args, CallbackContext cc) throws JSONException {
+	// args[2]: String publicKey
+	// args[3]: String nickName
+	// args[4]: String url
+	// args[5]: String IPAddress
+	// args[6]: long location
+	// args[7]: String payPasswd
+	public void generateProducerPayload(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
 		String masterWalletID = args.getString(idx++);
 		String chainID        = args.getString(idx++);
-		long   stake          = args.getLong(idx++);
-		String publicKeys     = args.getString(idx++);
+		String publicKey      = args.getString(idx++);
+		String nickName       = args.getString(idx++);
+		String url            = args.getString(idx++);
+		String IPAddress      = args.getString(idx++);
+		long   location       = args.getLong(idx++);
+		String payPasswd      = args.getString(idx++);
 
 		if (args.length() != idx) {
 			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
@@ -2293,9 +2299,296 @@ public class Wallet extends CordovaPlugin {
 
 			IMainchainSubWallet mainchainSubWallet = (IMainchainSubWallet)subWallet;
 
-			String txJson = mainchainSubWallet.CreateVoteProducerTransaction(stake, publicKeys);
+			String payloadJson = mainchainSubWallet.GenerateProducerPayload(publicKey, nickName, url, IPAddress, location, payPasswd);
+			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " generateProducerPayload[" + publicKey + "," + nickName + "," +
+					url + "," + IPAddress + "," + location + ",...] => " + payloadJson);
+			successProcess(cc, payloadJson);
+		} catch (WalletException e) {
+			exceptionProcess(e, cc, formatWalletName(masterWalletID, chainID) + " generate producer payload");
+		}
+	}
 
-			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " createVoteProducerTransaction [" + stake + "," + publicKeys + "] => " + txJson);
+	// args[0]: String masterWalletID
+	// args[1]: String chainID
+	// args[2]: String publicKey
+	// args[3]: String payPasswd
+	public void generateCancelProducerPayload(JSONArray args, CallbackContext cc) throws JSONException {
+		int idx = 0;
+
+		String masterWalletID = args.getString(idx++);
+		String chainID        = args.getString(idx++);
+		String publicKey      = args.getString(idx++);
+		String payPasswd      = args.getString(idx++);
+
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+
+		try {
+			ISubWallet subWallet = getSubWallet(masterWalletID, chainID);
+			if (subWallet == null) {
+				errorProcess(cc, errCodeInvalidSubWallet, "Get " + formatWalletName(masterWalletID, chainID));
+				return;
+			}
+
+			if (! (subWallet instanceof IMainchainSubWallet)) {
+				errorProcess(cc, errCodeSubWalletInstance, formatWalletName(masterWalletID, chainID) + " is not instance of IMainchainSubWallet");
+				return;
+			}
+
+			IMainchainSubWallet mainchainSubWallet = (IMainchainSubWallet)subWallet;
+
+			String payloadJson = mainchainSubWallet.GenerateCancelProducerPayload(publicKey, payPasswd);
+			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " generateCancelProducerPayload[" + publicKey + ",...] => " + payloadJson);
+			successProcess(cc, payloadJson);
+		} catch (WalletException e) {
+			exceptionProcess(e, cc, formatWalletName(masterWalletID, chainID) + " generate cancel producer payload");
+		}
+	}
+
+	// args[0]: String masterWalletID
+	// args[1]: String chainID
+	// args[2]: String fromAddress
+	// args[3]: String payloadJson
+	// args[4]: long amount
+	// args[5]: String memo
+	// args[6]: boolean useVotedUTXO
+	public void createRegisterProducerTransaction(JSONArray args, CallbackContext cc) throws JSONException {
+		int idx = 0;
+
+		String masterWalletID = args.getString(idx++);
+		String chainID        = args.getString(idx++);
+		String fromAddress    = args.getString(idx++);
+		String payloadJson    = args.getString(idx++);
+		long amount           = args.getLong(idx++);
+		String memo           = args.getString(idx++);
+		boolean useVotedUTXO  = args.getBoolean(idx++);
+
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+
+		try {
+			ISubWallet subWallet = getSubWallet(masterWalletID, chainID);
+			if (subWallet == null) {
+				errorProcess(cc, errCodeInvalidSubWallet, "Get " + formatWalletName(masterWalletID, chainID));
+				return;
+			}
+
+			if (! (subWallet instanceof IMainchainSubWallet)) {
+				errorProcess(cc, errCodeSubWalletInstance, formatWalletName(masterWalletID, chainID) + " is not instance of IMainchainSubWallet");
+				return;
+			}
+
+			IMainchainSubWallet mainchainSubWallet = (IMainchainSubWallet)subWallet;
+
+			String txJson = mainchainSubWallet.CreateRegisterProducerTransaction(fromAddress, payloadJson, amount, memo, useVotedUTXO);
+			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " CreateRegisterProducerTransaction[" + fromAddress + "," + payloadJson + "," + amount + "," + memo + "," + useVotedUTXO + "] => " + txJson);
+			successProcess(cc, txJson);
+		} catch (WalletException e) {
+			exceptionProcess(e, cc, formatWalletName(masterWalletID, chainID) + " create register producer tx");
+		}
+	}
+
+	// args[0]: String masterWalletID
+	// args[1]: String chainID
+	// args[2]: String fromAddress
+	// args[3]: String payloadJson
+	// args[4]: String memo
+	// args[5]: boolean useVotedUTXO
+	public void createUpdateProducerTransaction(JSONArray args, CallbackContext cc) throws JSONException {
+		int idx = 0;
+
+		String masterWalletID = args.getString(idx++);
+		String chainID        = args.getString(idx++);
+		String fromAddress    = args.getString(idx++);
+		String payloadJson    = args.getString(idx++);
+		String memo           = args.getString(idx++);
+		boolean useVotedUTXO  = args.getBoolean(idx++);
+
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+
+		try {
+			ISubWallet subWallet = getSubWallet(masterWalletID, chainID);
+			if (subWallet == null) {
+				errorProcess(cc, errCodeInvalidSubWallet, "Get " + formatWalletName(masterWalletID, chainID));
+				return;
+			}
+
+			if (! (subWallet instanceof IMainchainSubWallet)) {
+				errorProcess(cc, errCodeSubWalletInstance, formatWalletName(masterWalletID, chainID) + " is not instance of IMainchainSubWallet");
+				return;
+			}
+
+			IMainchainSubWallet mainchainSubWallet = (IMainchainSubWallet)subWallet;
+
+			String txJson = mainchainSubWallet.CreateUpdateProducerTransaction(fromAddress, payloadJson, memo, useVotedUTXO);
+			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " CreateUpdateProducerTransaction[" + fromAddress + "," + payloadJson + "," + memo + "," + useVotedUTXO + "] => " + txJson);
+			successProcess(cc, txJson);
+		} catch (WalletException e) {
+			exceptionProcess(e, cc, formatWalletName(masterWalletID, chainID) + " create update producer tx");
+		}
+	}
+
+	// args[0]: String masterWalletID
+	// args[1]: String chainID
+	// args[2]: String fromAddress
+	// args[3]: String payloadJson
+	// args[4]: String memo
+	// args[5]: boolean useVotedUTXO
+	public void createCancelProducerTransaction(JSONArray args, CallbackContext cc) throws JSONException {
+		int idx = 0;
+
+		String masterWalletID = args.getString(idx++);
+		String chainID        = args.getString(idx++);
+		String fromAddress    = args.getString(idx++);
+		String payloadJson    = args.getString(idx++);
+		String memo           = args.getString(idx++);
+		boolean useVotedUTXO  = args.getBoolean(idx++);
+
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+
+		try {
+			ISubWallet subWallet = getSubWallet(masterWalletID, chainID);
+			if (subWallet == null) {
+				errorProcess(cc, errCodeInvalidSubWallet, "Get " + formatWalletName(masterWalletID, chainID));
+				return;
+			}
+
+			if (! (subWallet instanceof IMainchainSubWallet)) {
+				errorProcess(cc, errCodeSubWalletInstance, formatWalletName(masterWalletID, chainID) + " is not instance of IMainchainSubWallet");
+				return;
+			}
+
+			IMainchainSubWallet mainchainSubWallet = (IMainchainSubWallet)subWallet;
+
+			String txJson = mainchainSubWallet.CreateCancelProducerTransaction(fromAddress, payloadJson, memo, useVotedUTXO);
+			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " CreateCancelProducerTransaction[" + fromAddress + "," + payloadJson + "," + memo + "," + useVotedUTXO + "] => " + txJson);
+			successProcess(cc, txJson);
+		} catch (WalletException e) {
+			exceptionProcess(e, cc, formatWalletName(masterWalletID, chainID) + " create cancel producer tx");
+		}
+	}
+
+	// args[0]: String masterWalletID
+	// args[1]: String chainID
+	// args[2]: String memo
+	public void createRetrieveDepositTransaction(JSONArray args, CallbackContext cc) throws JSONException {
+		int idx = 0;
+
+		String masterWalletID = args.getString(idx++);
+		String chainID        = args.getString(idx++);
+		String memo           = args.getString(idx++);
+
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+
+		try {
+			ISubWallet subWallet = getSubWallet(masterWalletID, chainID);
+			if (subWallet == null) {
+				errorProcess(cc, errCodeInvalidSubWallet, "Get " + formatWalletName(masterWalletID, chainID));
+				return;
+			}
+
+			if (! (subWallet instanceof IMainchainSubWallet)) {
+				errorProcess(cc, errCodeSubWalletInstance, formatWalletName(masterWalletID, chainID) + " is not instance of IMainchainSubWallet");
+				return;
+			}
+
+			IMainchainSubWallet mainchainSubWallet = (IMainchainSubWallet)subWallet;
+
+			String txJson = mainchainSubWallet.CreateRetrieveDepositTransaction(memo);
+			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " CreateRetrieveDepositTransaction[" + memo + "] => " + txJson);
+			successProcess(cc, txJson);
+		} catch (WalletException e) {
+			exceptionProcess(e, cc, formatWalletName(masterWalletID, chainID) + " create retrieve deposit tx");
+		}
+	}
+
+	// args[0]: String masterWalletID
+	// args[1]: String chainID
+	public void getPublicKeyForVote(JSONArray args, CallbackContext cc) throws JSONException {
+		int idx = 0;
+
+		String masterWalletID = args.getString(idx++);
+		String chainID        = args.getString(idx++);
+
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+
+		try {
+			ISubWallet subWallet = getSubWallet(masterWalletID, chainID);
+			if (subWallet == null) {
+				errorProcess(cc, errCodeInvalidSubWallet, "Get " + formatWalletName(masterWalletID, chainID));
+				return;
+			}
+
+			if (! (subWallet instanceof IMainchainSubWallet)) {
+				errorProcess(cc, errCodeSubWalletInstance, formatWalletName(masterWalletID, chainID) + " is not instance of IMainchainSubWallet");
+				return;
+			}
+
+			IMainchainSubWallet mainchainSubWallet = (IMainchainSubWallet)subWallet;
+
+			String publicKey = mainchainSubWallet.GetPublicKeyForVote();
+			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " GetPublicKeyForVote[] => " + publicKey);
+			successProcess(cc, publicKey);
+		} catch (WalletException e) {
+			exceptionProcess(e, cc, formatWalletName(masterWalletID, chainID) + " get public key for vote");
+		}
+	}
+
+
+	// args[0]: String masterWalletID
+	// args[1]: String chainID
+	// args[2]: long   stake
+	// args[3]: String publicKeys JSONArray
+	// args[4]: String memo
+	// args[5]: boolean useVotedUTXO
+	public void createVoteProducerTransaction(JSONArray args, CallbackContext cc) throws JSONException {
+		int idx = 0;
+
+		String masterWalletID = args.getString(idx++);
+		String chainID        = args.getString(idx++);
+		long   stake          = args.getLong(idx++);
+		String publicKeys     = args.getString(idx++);
+		String memo           = args.getString(idx++);
+		boolean useVotedUTXO  = args.getBoolean(idx++);
+
+		if (args.length() != idx) {
+			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+			return;
+		}
+
+		try {
+			ISubWallet subWallet = getSubWallet(masterWalletID, chainID);
+			if (subWallet == null) {
+				errorProcess(cc, errCodeInvalidSubWallet, "Get " + formatWalletName(masterWalletID, chainID));
+				return;
+			}
+
+			if (! (subWallet instanceof IMainchainSubWallet)) {
+				errorProcess(cc, errCodeSubWalletInstance, formatWalletName(masterWalletID, chainID) + " is not instance of IMainchainSubWallet");
+				return;
+			}
+
+			IMainchainSubWallet mainchainSubWallet = (IMainchainSubWallet)subWallet;
+
+			String txJson = mainchainSubWallet.CreateVoteProducerTransaction(stake, publicKeys, memo, useVotedUTXO);
+
+			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " createVoteProducerTransaction [" + stake + "," + publicKeys + "," + memo + "," + useVotedUTXO + "] => " + txJson);
 			successProcess(cc, txJson);
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, formatWalletName(masterWalletID, chainID) + " create vote producer tx");

@@ -327,12 +327,11 @@ static jlong JNICALL nativeCalculateTransactionFee(JNIEnv *env, jobject clazz, j
 	return fee;
 }
 
-#define SIG_nativeUpdateTransactionFee "(JLjava/lang/String;JLjava/lang/String;Z)Ljava/lang/String;"
+#define SIG_nativeUpdateTransactionFee "(JLjava/lang/String;JLjava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeUpdateTransactionFee(JNIEnv *env, jobject clazz, jlong jSubProxy,
 		jstring jrawTransaction,
 		jlong fee,
-		jstring jFromAddress,
-		jboolean useVotedUTXO)
+		jstring jFromAddress)
 {
 	bool exception = false;
 	std::string msgException;
@@ -344,7 +343,7 @@ static jstring JNICALL nativeUpdateTransactionFee(JNIEnv *env, jobject clazz, jl
 	jstring tx = NULL;
 
 	try {
-		nlohmann::json txJson = subWallet->UpdateTransactionFee(nlohmann::json::parse(rawTransaction), fee, fromAddress, useVotedUTXO);
+		nlohmann::json txJson = subWallet->UpdateTransactionFee(nlohmann::json::parse(rawTransaction), fee, fromAddress);
 		tx = env->NewStringUTF(txJson.dump().c_str());
 	} catch (std::exception &e) {
 		exception = true;
