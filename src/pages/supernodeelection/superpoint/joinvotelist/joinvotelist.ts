@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ModalController} from 'ionic-angular';
 import {Native} from "../../../../providers/Native";
 import {ApiUrl} from "../../../../providers/ApiUrl";
+import {Config} from "../../../../providers/Config";
 /**
  * Generated class for the JoinvotelistPage page.
  *
@@ -17,10 +18,10 @@ import {ApiUrl} from "../../../../providers/ApiUrl";
 export class JoinvotelistPage {
 
   public nodelist = [];
-
+  public myInterval:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl: ModalController,public native: Native) {
-      this.init();
+      //this.init();
   }
 
 
@@ -30,6 +31,17 @@ export class JoinvotelistPage {
   ionViewDidLoad() {
 
   }
+
+  ionViewWillEnter(){
+    this.init();
+    this.myInterval = setInterval(()=>{
+        this.init();
+    },60000);
+  }
+
+ ionViewDidLeave(){
+  clearInterval(this.myInterval);
+ }
 
   votingRules(){
       this.openPayModal();
@@ -53,17 +65,20 @@ export class JoinvotelistPage {
   }
 
   jumpNodeInformation(status){
-    console.log("===jumpNodeInformation==="+status);
-    this.native.Go(this.navCtrl,'NodeinformationPage',{"status":status});
+    this.native.info(status);
+    //this.native.Go(this.navCtrl,'NodeinformationPage',{"status":status});
   }
 
 
   getVoteList(){
     this.native.getHttp().postByAuth(ApiUrl.listproducer).toPromise().then(data=>{
            if(data["status"] === 200){
-               console.log("========parm"+JSON.stringify(data));
+               this.native.info(data);
                let votesResult = JSON.parse(data["_body"]);
-               this.nodelist = votesResult["data"]["result"]["producers"] || [];
+               if(votesResult["code"] === "0"){
+                this.native.info(votesResult);
+                this.nodelist = votesResult["data"]["result"]["producers"] || [];
+               }
              }
     });
   }

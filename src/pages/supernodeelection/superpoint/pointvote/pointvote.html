@@ -13,7 +13,7 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-row align-items-center padding-bottom>
+    <!-- <ion-row align-items-center padding-bottom>
         <ion-col col-4>
             {{'voting-ratio'|translate}}：
         </ion-col>
@@ -21,31 +21,31 @@
         <ion-col col-8>
             <progress-bar proportion="{{idChainPer}}"></progress-bar>
         </ion-col>
-    </ion-row>
+    </ion-row> -->
     <ion-row class="vote_data" align-items-center *ngFor="let item of voteList">
         <ion-col col-2 class=" text-center ">
             <div class="duigou">
-                <ion-checkbox [(ngModel)]="selectVoteObj[item.id]" (ionChange)="setSelect(selectVoteObj[item.id],item.id)"></ion-checkbox>
+                <ion-checkbox [(ngModel)]="selectVoteObj[item.id]" (ionChange)="setSelect(selectVoteObj[item.publickey],item.publickey)"></ion-checkbox>
             </div>
         </ion-col>
         <ion-col col-2>
             <div class="logo "><img src="./assets/images/vote/logo_yuan.png "></div>
         </ion-col>
         <ion-col col-4 class="text-center ">
-            <div class="address ">UlimitedELA</div>
-            <div class="fu "><span><img src="./assets/images/vote/location.png "></span>埃塞俄比亚</div>
+            <div class="address ">{{item.nickname}}</div>
+            <div class="fu "><span><img src="./assets/images/vote/location.png "></span>{{getCountryByCode(item.location)|translate}}</div>
         </ion-col>
 
-        <ion-col col-3 class="text-center ">
-            <div class="rank ">NO.12</div>
-            <div class="rate "><span><img src="./assets/images/vote/rate.png "></span>3.20%</div>
+        <ion-col col-4 class="text-center">
+            <div class="rank ">NO.{{(item.index+1)}}</div>
+            <div class="rate "><span><img src="./assets/images/vote/rate.png "></span>{{item.votes}} {{'ticket'|translate}}</div>
         </ion-col>
 
-        <ion-col col-1>
+        <!-- <ion-col col-1>
             <div class="del">
                 <img src="./assets/images/vote/delete.png ">
             </div>
-        </ion-col>
+        </ion-col> -->
 
     </ion-row>
 </ion-content>

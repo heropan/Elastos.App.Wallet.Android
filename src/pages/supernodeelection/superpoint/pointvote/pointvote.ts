@@ -6,6 +6,7 @@ import { PopupProvider } from '../../../../providers/popup';
 import { WalletManager } from '../../../../providers/WalletManager';
 import { Config } from '../../../../providers/Config';
 import {ScancodePage} from '../../../../pages/scancode/scancode';
+import {ApiUrl} from "../../../../providers/ApiUrl";
 
 /**
  * Generated class for the PointvotePage page.
@@ -20,7 +21,7 @@ import {ScancodePage} from '../../../../pages/scancode/scancode';
   templateUrl: 'pointvote.html',
 })
 export class PointvotePage {
-  public voteList = [{"id":"1"},{"id":"2"},{"id":"3"},{"id":"4"},{"id":"5"},{"id":"6"},{"id":"7"}];
+  public voteList = [];
   public selectNum:number = 0;
   public idChainPer = "100";
   public selectVoteObj = {};
@@ -35,6 +36,8 @@ export class PointvotePage {
   public fee:number = 0;
   public feePerKb:number = 10000;
   public walletInfo = {};
+  public myInterval:any;
+  public countrys=[];
   constructor( public navCtrl: NavController,
                public navParams: NavParams,
                public modalCtrl: ModalController,
@@ -42,6 +45,8 @@ export class PointvotePage {
                public popupProvider:PopupProvider,
                public walletManager:WalletManager,
              ) {
+              this.countrys = Config.getAllCountry();
+              this.getVoteList();
               this.selectNode = this.navParams.data["selectNode"] || [];
               this.setSelectArr(this.selectNode);
   }
@@ -60,6 +65,16 @@ export class PointvotePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad PointvotePage');
   }
+
+  ionViewWillEnter(){
+    this.myInterval = setInterval(()=>{
+        this.getVoteList();
+    },60000);
+  }
+
+ ionViewDidLeave(){
+  clearInterval(this.myInterval);
+ }
 
   vote(){
      if(this.selectNum>0){
@@ -212,6 +227,32 @@ export class PointvotePage {
       this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":this.curChain,"fee":this.fee/Config.SELA, "raw":raw["success"]}});
     }
 });
+}
+
+
+getVoteList(){
+  this.native.getHttp().postByAuth(ApiUrl.listproducer).toPromise().then(data=>{
+         if(data["status"] === 200){
+             this.native.info(data);
+             let votesResult = JSON.parse(data["_body"]);
+             if(votesResult["code"] === "0"){
+              this.native.info(votesResult);
+              this.voteList = votesResult["data"]["result"]["producers"] || [];
+             }
+           }
+  });
+}
+
+
+public getCountryByCode(code){
+
+  for(let index in this.countrys){
+      let item = this.countrys[index];
+      if(code === item["code"]){
+        return item["key"];
+      }
+     return "Unknown";
+    }
 }
 
 }
