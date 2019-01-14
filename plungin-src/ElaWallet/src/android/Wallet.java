@@ -489,6 +489,27 @@ public class Wallet extends CordovaPlugin {
 				case "createDepositTransaction":
 					this.createDepositTransaction(args, cc);
 					break;
+				case "generateProducerPayload":
+					this.generateProducerPayload(args, cc);
+					break;
+				case "generateCancelProducerPayload":
+					this.generateCancelProducerPayload(args, cc);
+					break;
+				case "createRegisterProducerTransaction":
+					this.createRegisterProducerTransaction(args, cc);
+					break;
+				case "createUpdateProducerTransaction":
+					this.createUpdateProducerTransaction(args, cc);
+					break;
+				case "createCancelProducerTransaction":
+					this.createCancelProducerTransaction(args, cc);
+					break;
+				case "createRetrieveDepositTransaction":
+					this.createRetrieveDepositTransaction(args, cc);
+					break;
+				case "getPublicKeyForVote":
+					this.getPublicKeyForVote(args, cc);
+					break;
 				case "createVoteProducerTransaction":
 					this.createVoteProducerTransaction(args, cc);
 					break;
