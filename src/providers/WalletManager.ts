@@ -585,7 +585,7 @@ export class WalletManager {
  }
 
  getPublicKeyForVote(masterWalletId:string, chainId:string,Fun){
-  this.wallet.generateCancelProducerPayload([masterWalletId,chainId],Fun,(error)=>{
+  this.wallet.getPublicKeyForVote([masterWalletId,chainId],Fun,(error)=>{
     this.errorFun(error);
    });
  }
