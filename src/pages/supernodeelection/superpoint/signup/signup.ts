@@ -26,11 +26,12 @@ export class SignupPage {
   public url:string ="https://www.baidu.com";
   public countrys = [];
   public masterId:string = "";
+  public curChain = "ELA";
   constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl: ModalController,public popupProvider:PopupProvider,public native:
     Native,public walletManager:WalletManager) {
        this.countrys = Config.getAllCountry();
        this.masterId = Config.getCurMasterWalletId();
-       //this.getPublicKey();
+       this.getPublicKeyForVote();
   }
 
   ionViewDidLoad() {
@@ -83,16 +84,22 @@ export class SignupPage {
     return true;
   }
 
-  getPublicKey(){
-    //this.publickey = "x1111111111122222";
-    //getSubWalletPublicKey
-    this.walletManager.getSubWalletPublicKey(this.masterId,"ELA",(data)=>{
-              console.log("===getSubWalletPublicKey==="+JSON.stringify(data));
+  getPublicKeyForVote(){
+    this.walletManager.getPublicKeyForVote(this.masterId,this.curChain,(data)=>{
+              this.native.info(data);
               if(data["success"]){
                 this.publickey = data["success"];
               }
     });
-    //return this.publickey;
+  }
+
+  generateProducerPayload(){
+     this.walletManager.generateProducerPayload(this.masterId,this.curChain,this.publickey,this.nodeName,this.url,"",this.address,this.passworld,(data)=>{
+      this.native.info(data);
+      if(data["success"]){
+
+      }
+    });
   }
 
 }

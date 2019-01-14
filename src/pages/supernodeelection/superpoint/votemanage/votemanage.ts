@@ -47,8 +47,8 @@ export class VotemanagePage {
 
 
   sendCancelProducer(){
-      this.walletManager.createCancelProducerTransaction(this.masterWalletId,"ELA",this.publicKey,(data)=>{
+      // this.walletManager.createCancelProducerTransaction(this.masterWalletId,"ELA",this.publicKey,(data)=>{
 
-      });
+      // });
   }
 }
