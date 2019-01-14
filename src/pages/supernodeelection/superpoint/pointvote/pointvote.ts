@@ -30,7 +30,7 @@ export class PointvotePage {
   public passworld:string = "";
   public masterId:string = "";
   public curChain:string = "ELA";
-  public stake:number = 0;
+  public stake:number = 10;
   public publickeys = [];
   public rawTransaction:string = "";
   public fee:number = 0;
@@ -49,6 +49,8 @@ export class PointvotePage {
               this.getVoteList();
               this.selectNode = this.navParams.data["selectNode"] || [];
               this.setSelectArr(this.selectNode);
+              //this.init();
+
   }
 
   init(){
@@ -68,7 +70,7 @@ export class PointvotePage {
 
   ionViewWillEnter(){
     this.myInterval = setInterval(()=>{
-        this.getVoteList();
+         this.getVoteList();
     },60000);
   }
 
@@ -87,7 +89,7 @@ export class PointvotePage {
   setSelectAll(){
     console.log('================='+this.isAllchecked);
     for(let index in this.voteList){
-         let id = this.voteList[index]["id"];
+         let id = this.voteList[index]["publickey"];
          this.selectVoteObj[id] = this.isAllchecked;
     }
 
@@ -98,7 +100,7 @@ export class PointvotePage {
   getSelectNum(){
      let index = 0;
      for(let key in this.selectVoteObj){
-        console.log("=========="+key);
+        this.native.info(key);
         if(this.selectVoteObj[key]){
           index++;
         }
@@ -146,6 +148,8 @@ export class PointvotePage {
   }
   //创建交易
   createTx(){
+     this.publickeys = this.getSelectPublics();
+     this.native.info(this.publickeys);
      this.walletManager.createVoteProducerTransaction(this.masterId,this.curChain,this.stake,JSON.stringify(this.publickeys),(data)=>{
       this.native.info(data);
       if(data['success']){
@@ -253,6 +257,17 @@ public getCountryByCode(code){
       }
      return "Unknown";
     }
+}
+
+public getSelectPublics(){
+  let arr = [];
+  for(let key in this.selectVoteObj){
+     this.native.info(key);
+     if(this.selectVoteObj[key]){
+       arr.push(key);
+     }
+  }
+  return arr;
 }
 
 }

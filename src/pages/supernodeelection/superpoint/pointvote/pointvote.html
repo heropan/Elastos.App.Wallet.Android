@@ -25,7 +25,7 @@
     <ion-row class="vote_data" align-items-center *ngFor="let item of voteList">
         <ion-col col-2 class=" text-center ">
             <div class="duigou">
-                <ion-checkbox [(ngModel)]="selectVoteObj[item.id]" (ionChange)="setSelect(selectVoteObj[item.publickey],item.publickey)"></ion-checkbox>
+                <ion-checkbox [(ngModel)]="selectVoteObj[item.publickey]" (ionChange)="setSelect(selectVoteObj[item.publickey],item.publickey)"></ion-checkbox>
             </div>
         </ion-col>
         <ion-col col-2>
