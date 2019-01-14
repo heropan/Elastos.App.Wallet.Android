@@ -157,7 +157,7 @@ static jstring JNICALL nativeCreateRegisterProducerTransaction(JNIEnv *env, jobj
 	}
 
 	env->ReleaseStringUTFChars(jFromAddress, fromAddress);
-	env->ReleaseStringUTFChars(jPayloadJson, payload);
+	env->ReleaseStringUTFChars(jPayloadJson, payloadJson);
 	env->ReleaseStringUTFChars(jMemo, memo);
 
 	if (exception) {
@@ -193,7 +193,7 @@ static jstring JNICALL nativeCreateUpdateProducerTransaction(JNIEnv *env, jobjec
 	}
 
 	env->ReleaseStringUTFChars(jFromAddress, fromAddress);
-	env->ReleaseStringUTFChars(jPayloadJson, payload);
+	env->ReleaseStringUTFChars(jPayloadJson, payloadJson);
 	env->ReleaseStringUTFChars(jMemo, memo);
 
 	if (exception) {
@@ -229,7 +229,7 @@ static jstring JNICALL nativeCreateCancelProducerTransaction(JNIEnv *env, jobjec
 	}
 
 	env->ReleaseStringUTFChars(jFromAddress, fromAddress);
-	env->ReleaseStringUTFChars(jPayloadJson, payload);
+	env->ReleaseStringUTFChars(jPayloadJson, payloadJson);
 	env->ReleaseStringUTFChars(jMemo, memo);
 
 	if (exception) {
