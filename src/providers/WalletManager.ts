@@ -540,8 +540,8 @@ export class WalletManager {
        });
   }
 
-  createCancelProducerTransaction(masterWalletId:string, chainId:string, publicKey:string, Fun){
-    this.wallet.createCancelProducerTransaction([masterWalletId, chainId, publicKey], Fun, (error)=>{
+  createCancelProducerTransaction(masterWalletId:string, chainId:string, fromAddress:string,payloadJson:string,memo:string,useVotedUTXO:boolean, Fun){
+    this.wallet.createCancelProducerTransaction([masterWalletId, chainId,fromAddress,payloadJson,memo,useVotedUTXO], Fun, (error)=>{
       this.errorFun(error);
     });
  }
@@ -563,6 +563,31 @@ export class WalletManager {
      this.wallet.getRegisteredProducerInfo([masterWalletId,chainId],Fun,(error)=>{
             this.errorFun(error);
      });
+ }
+
+
+ createRegisterProducerTransaction(masterWalletId:string, chainId:string,fromAddress:string,payloadJson:string,amount:number,memo:string,useVotedUTXO:boolean,Fun){
+  this.wallet.createRegisterProducerTransaction([masterWalletId,chainId,fromAddress,payloadJson,amount,memo,useVotedUTXO],Fun,(error)=>{
+    this.errorFun(error);
+   });
+ }
+
+ generateProducerPayload(masterWalletId:string, chainId:string,publicKey:string,nickName:string,url:string,IPAddress:string,location:number,payPasswd:string,Fun){
+  this.wallet.generateProducerPayload([masterWalletId,chainId,publicKey,nickName,url,IPAddress,location,payPasswd],Fun,(error)=>{
+    this.errorFun(error);
+   });
+ }
+
+ generateCancelProducerPayload(masterWalletId:string, chainId:string,publicKey:string,payPasswd:string,Fun){
+  this.wallet.generateCancelProducerPayload([masterWalletId,chainId,publicKey,payPasswd],Fun,(error)=>{
+    this.errorFun(error);
+   });
+ }
+
+ getPublicKeyForVote(masterWalletId:string, chainId:string,Fun){
+  this.wallet.generateCancelProducerPayload([masterWalletId,chainId],Fun,(error)=>{
+    this.errorFun(error);
+   });
  }
 
   errorFun(error) {

@@ -329,5 +329,22 @@ walletFunc.prototype.getRegisteredProducerInfo = function(arg0, success, error) 
     exec(success, error, "Wallet", "getRegisteredProducerInfo", arg0);
 };
 
+walletFunc.prototype.createRegisterProducerTransaction = function(arg0, success, error) {
+    exec(success, error, "Wallet", "createRegisterProducerTransaction", arg0);
+};
+
+
+walletFunc.prototype.generateProducerPayload = function(arg0, success, error) {
+    exec(success, error, "Wallet", "generateProducerPayload", arg0);
+};
+
+walletFunc.prototype.generateCancelProducerPayload = function(arg0, success, error) {
+    exec(success, error, "Wallet", "generateCancelProducerPayload", arg0);
+};
+
+walletFunc.prototype.getPublicKeyForVote = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getPublicKeyForVote", arg0);
+};
+
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;
