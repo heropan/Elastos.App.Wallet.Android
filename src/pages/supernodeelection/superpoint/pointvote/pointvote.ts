@@ -38,6 +38,7 @@ export class PointvotePage {
   public walletInfo = {};
   public myInterval:any;
   public countrys=[];
+  public useVotedUTXO:boolean = false;
   constructor( public navCtrl: NavController,
                public navParams: NavParams,
                public modalCtrl: ModalController,
@@ -151,7 +152,7 @@ export class PointvotePage {
      this.publickeys = this.getSelectPublics();
      let votes = Config.accMul(this.stake,Config.SELA);
      this.native.info(this.publickeys);
-     this.walletManager.createVoteProducerTransaction(this.masterId,this.curChain,votes,JSON.stringify(this.publickeys),(data)=>{
+     this.walletManager.createVoteProducerTransaction(this.masterId,this.curChain,votes,JSON.stringify(this.publickeys),"",this.useVotedUTXO,(data)=>{
       this.native.info(data);
       if(data['success']){
 
