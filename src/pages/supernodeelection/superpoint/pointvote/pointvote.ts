@@ -45,16 +45,16 @@ export class PointvotePage {
                public popupProvider:PopupProvider,
                public walletManager:WalletManager,
              ) {
+              this.masterId = Config.getCurMasterWalletId();
               this.countrys = Config.getAllCountry();
               this.getVoteList();
               this.selectNode = this.navParams.data["selectNode"] || [];
               this.setSelectArr(this.selectNode);
-              //this.init();
+              this.init();
 
   }
 
   init(){
-    this.masterId = Config.getCurMasterWalletId();
     this.walletManager.getMasterWalletBasicInfo(this.masterId,(data)=>{
                  if(data["success"]){
                     this.native.info(data);
@@ -149,8 +149,9 @@ export class PointvotePage {
   //创建交易
   createTx(){
      this.publickeys = this.getSelectPublics();
+     let votes = Config.accMul(this.stake,Config.SELA);
      this.native.info(this.publickeys);
-     this.walletManager.createVoteProducerTransaction(this.masterId,this.curChain,this.stake,JSON.stringify(this.publickeys),(data)=>{
+     this.walletManager.createVoteProducerTransaction(this.masterId,this.curChain,votes,JSON.stringify(this.publickeys),(data)=>{
       this.native.info(data);
       if(data['success']){
 
