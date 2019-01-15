@@ -7,7 +7,6 @@ import { WalletManager } from '../../../../providers/WalletManager';
 import { Config } from '../../../../providers/Config';
 import {ScancodePage} from '../../../../pages/scancode/scancode';
 import {ApiUrl} from "../../../../providers/ApiUrl";
-
 /**
  * Generated class for the PointvotePage page.
  *
@@ -124,14 +123,17 @@ export class PointvotePage {
     const modal = this.modalCtrl.create("InputticketsPage",{});
     modal.onDidDismiss(data => {
       if(data){
-         console.log("sssss"+JSON.stringify(data));
+         this.native.info(data);
          this.popupProvider.presentPrompt().then((val)=>{
           if(Util.isNull(val)){
             this.native.toast_trans("text-id-kyc-prompt-password");
             return;
           }
           this.passworld = val.toString();
-          this.createTx();
+          this.native.showLoading().then(()=>{
+                this.createTx();
+          });
+
           //this.native.Go(this.navCtrl,'JoinvotelistPage');
 }).catch(()=>{
 
@@ -155,30 +157,33 @@ export class PointvotePage {
      this.walletManager.createVoteProducerTransaction(this.masterId,this.curChain,votes,JSON.stringify(this.publickeys),"",this.useVotedUTXO,(data)=>{
       this.native.info(data);
       if(data['success']){
-
-      }else{
-
+          let raw = data['success'];
+          this.getFee(raw);
       }
      });
   }
 
  //计算手续费
- getFee(){
-  this.walletManager.calculateTransactionFee(this.masterId,this.curChain,this.rawTransaction, this.feePerKb, (data) => {
+ getFee(rawTransaction){
+  this.walletManager.calculateTransactionFee(this.masterId,this.curChain,rawTransaction, this.feePerKb, (data) => {
     if(data['success']){
       this.native.hideLoading();
       this.native.info(data);
       this.fee = data['success'];
-    }else{
-      this.native.info(data);
+      this.popupProvider.presentConfirm(this.fee/Config.SELA).then(()=>{
+              this.native.showLoading().then(()=>{
+                this.updateTxFee(rawTransaction);
+              });
+
+      });
     }
   });
  }
 
 
- updateTxFee(){
+ updateTxFee(rawTransaction){
 
-  this.walletManager.updateTransactionFee(this.masterId,this.curChain,this.rawTransaction, this.fee,"",false,(data)=>{
+  this.walletManager.updateTransactionFee(this.masterId,this.curChain,rawTransaction, this.fee,"",false,(data)=>{
     if(data["success"]){
      this.native.info(data);
      if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["InnerType"] === "Readonly"){
