@@ -55,6 +55,7 @@ export class PointvotePage {
                       this.useVotedUTXO = false;
               }
               this.setSelectArr(this.selectNode);
+              this.selectNum = this.getSelectNum();
               this.init();
 
   }

@@ -17,10 +17,13 @@ import { Config } from '../../../../providers/Config';
 })
 export class MyvotePage {
     public masterWalletId:string = "1";
+    public walletName:string ="";
+    public totalNum = 1100;
     public voteList = [{"name":"xxxxxxx","votes":"No5"},{"name":"xxxxxxx1111","votes":"No6"}];
     //public voteList = [];
   constructor(public navCtrl: NavController, public navParams: NavParams,public native: Native,public walletManager: WalletManager) {
     this.masterWalletId = Config.getCurMasterWalletId();
+    this.walletName = Config.getWalletName(this.masterWalletId);
     this.getVotedProducerList();
   }
 
@@ -29,7 +32,7 @@ export class MyvotePage {
   }
 
   changevote(){
-      this.native.Go(this.navCtrl,"PointvotePage",{"selectNode":["4","5"]});
+      this.native.Go(this.navCtrl,"PointvotePage",{"selectNode":["0312cd36dda4202f2a705ba6583eede20c879f2969a81d64232eb398e2e10dfcde","03336e36b8642235f658465bf65032ba83c2aea29b945c2dd0dfa771ce0a9aca14"]});
   }
 
   getVotedProducerList(){
