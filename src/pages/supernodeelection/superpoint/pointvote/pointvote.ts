@@ -49,6 +49,11 @@ export class PointvotePage {
               this.countrys = Config.getAllCountry();
               this.getVoteList();
               this.selectNode = this.navParams.data["selectNode"] || [];
+              if(this.selectNode.length >0){
+                      this.useVotedUTXO = true;
+              }else{
+                      this.useVotedUTXO = false;
+              }
               this.setSelectArr(this.selectNode);
               this.init();
 
@@ -183,7 +188,7 @@ export class PointvotePage {
 
  updateTxFee(rawTransaction){
 
-  this.walletManager.updateTransactionFee(this.masterId,this.curChain,rawTransaction, this.fee,"",false,(data)=>{
+  this.walletManager.updateTransactionFee(this.masterId,this.curChain,rawTransaction, this.fee,"",this.useVotedUTXO,(data)=>{
     if(data["success"]){
      this.native.info(data);
      if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["InnerType"] === "Readonly"){

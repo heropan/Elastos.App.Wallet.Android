@@ -30,8 +30,10 @@ export class SignupPage {
   public fee:number = 0;
   public feePerKb:number = 10000;
   public walletInfo = {};
+  public deposit;
   constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl: ModalController,public popupProvider:PopupProvider,public native:
     Native,public walletManager:WalletManager) {
+       this.deposit = Config.deposit;
        this.countrys = Config.getAllCountry();
        this.masterId = Config.getCurMasterWalletId();
        this.getPublicKeyForVote();
@@ -110,10 +112,11 @@ export class SignupPage {
   }
 
   createRegisterProducerTransaction(payloadJson){
-      this.walletManager.createRegisterProducerTransaction(this.masterId,this.curChain,"",payloadJson,10*Config.SELA,"",false,(data)=>{
+      let deposit = Config.accMul(this.deposit,Config.SELA);
+      this.walletManager.createRegisterProducerTransaction(this.masterId,this.curChain,"",payloadJson,deposit,"",false,(data)=>{
         this.native.info(data);
         if(data["success"]){
-
+          this.getFee(data["success"]);
         }
       });
   }

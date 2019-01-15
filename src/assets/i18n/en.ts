@@ -696,6 +696,7 @@ export const en = {
 'Sao Tome and Principe':'Sao Tome and Principe',
 'Saint-Martin':'Saint-Martin',
 'The Republic of South Sudan':'The Republic of South Sudan',
+'Input value is incorrect':'Input value is incorrect'
 };
 
 

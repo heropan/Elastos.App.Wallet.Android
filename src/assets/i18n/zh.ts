@@ -691,4 +691,5 @@ export const zh = {
 'Sao Tome and Principe':'圣多美和普林西比',
 'Saint-Martin':'圣马丁岛',
 'The Republic of South Sudan':'南苏丹共和国',
+'Input value is incorrect':'输入的数值不对'
 };

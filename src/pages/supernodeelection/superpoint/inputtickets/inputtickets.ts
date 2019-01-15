@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ViewController} from 'ionic-angular';
 import {Util} from "../../../../providers/Util";
 import {Native} from "../../../../providers/Native";
+import { Config } from '../../../../providers/Config';
+import { WalletManager } from '../../../../providers/WalletManager';
+
 /**
  * Generated class for the InputticketsPage page.
  *
@@ -16,7 +19,9 @@ import {Native} from "../../../../providers/Native";
 })
 export class InputticketsPage {
   public votes;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public  viewCtrl: ViewController,public native :Native) {
+  public masterWalletId;
+  public balance;
+  constructor(public navCtrl: NavController, public navParams: NavParams,public  viewCtrl: ViewController,public native :Native,public walletManager:WalletManager) {
   }
 
   ionViewDidLoad() {
@@ -34,11 +39,34 @@ export class InputticketsPage {
         return;
     }
 
-    if(parseInt(this.votes) <= 0){
-      this.native.toast_trans("please-input-votes");
-       return;
+    if(!Util.number(this.votes)){
+      this.native.toast_trans('Input value is incorrect');
+      return;
     }
+
+    if(this.votes.toString().indexOf(".") >-1 && this.votes.toString().split(".")[1].length>8){
+      this.native.toast_trans('Input value is incorrect');
+      return;
+    }
+
+
+    // if(parseFloat(this.votes) > this.balance){
+    //   this.native.toast_trans("Input value is incorrect");
+    //    return;
+    // }
     this.viewCtrl.dismiss({"votes":this.votes});
+  }
+
+  getBalance(){
+    this.masterWalletId = Config.getCurMasterWalletId();
+    this.walletManager.getBalance(this.masterWalletId,'ELA',0,(data)=>{
+      if(!Util.isNull(data["success"])){
+        this.native.info(data);
+        this.balance = data["success"];
+      }else{
+       this.native.info(data);
+      }
+    });
   }
 
 }

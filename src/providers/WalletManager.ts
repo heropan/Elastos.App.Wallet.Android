@@ -547,7 +547,7 @@ export class WalletManager {
  }
 
  createVoteProducerTransaction(masterWalletId:string, chainId:string,stake:number,publicKey:string,memo:string,useVotedUTXO:boolean, Fun){
-  this.wallet.createVoteProducerTransaction([masterWalletId, chainId,stake,publicKey], Fun, (error)=>{
+  this.wallet.createVoteProducerTransaction([masterWalletId, chainId,stake,publicKey,memo,useVotedUTXO], Fun, (error)=>{
     this.errorFun(error);
   });
  }
