@@ -572,8 +572,8 @@ export class WalletManager {
    });
  }
 
- generateProducerPayload(masterWalletId:string, chainId:string,publicKey:string,nickName:string,url:string,IPAddress:string,location:number,payPasswd:string,Fun){
-  this.wallet.generateProducerPayload([masterWalletId,chainId,publicKey,nickName,url,IPAddress,location,payPasswd],Fun,(error)=>{
+ generateProducerPayload(masterWalletId:string, chainId:string,publicKey:string,nodePublicKey:string,nickName:string,url:string,IPAddress:string,location:number,payPasswd:string,Fun){
+  this.wallet.generateProducerPayload([masterWalletId,chainId,publicKey,nodePublicKey,nickName,url,IPAddress,location,payPasswd],Fun,(error)=>{
     this.errorFun(error);
    });
  }

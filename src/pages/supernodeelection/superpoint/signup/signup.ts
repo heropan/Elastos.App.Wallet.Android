@@ -22,6 +22,7 @@ export class SignupPage {
   public passworld:string;
   public nodeName:string = "ssss";
   public publickey:string ="xxxxxxxx111111";
+  public nodePublicKey:string;
   public location:number = 1;
   public url:string ="https://www.baidu.com";
   public countrys = [];
@@ -84,10 +85,16 @@ export class SignupPage {
        return false;
     }
 
-    if(Util.isNull(this.url)){
-      this.native.toast_trans('please-enter-node-url');
+
+    if(Util.isNull(this.nodePublicKey)){
+      this.native.toast_trans('please-wallet-publickey');
       return false;
-    }
+   }
+
+    // if(Util.isNull(this.url)){
+    //   this.native.toast_trans('please-enter-node-url');
+    //   return false;
+    // }
 
     return true;
   }
@@ -102,7 +109,7 @@ export class SignupPage {
   }
 
   generateProducerPayload(){
-     this.walletManager.generateProducerPayload(this.masterId,this.curChain,this.publickey,this.nodeName,this.url,"",this.location,this.passworld,(data)=>{
+     this.walletManager.generateProducerPayload(this.masterId,this.curChain,this.publickey,this.nodePublicKey,this.nodeName,this.url,"",this.location,this.passworld,(data)=>{
       this.native.info(data);
       if(data["success"]){
          let payLoad = data["success"];
