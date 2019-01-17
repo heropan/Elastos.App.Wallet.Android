@@ -95,7 +95,7 @@ export class PointvotePage {
   setSelectAll(){
     console.log('================='+this.isAllchecked);
     for(let index in this.voteList){
-         let id = this.voteList[index]["publickey"];
+         let id = this.voteList[index]["ownerpublickey"];
          this.selectVoteObj[id] = this.isAllchecked;
     }
 
