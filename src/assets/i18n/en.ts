@@ -697,7 +697,7 @@ export const en = {
 'Saint-Martin':'Saint-Martin',
 'The Republic of South Sudan':'The Republic of South Sudan',
 'Input value is incorrect':'Input value is incorrect',
-'please-wallet-nodePublicKey':'Please wallet nodePublicKey'
+'please-node-PublicKey':'Please Node PublicKey'
 };
 
 
