@@ -38,10 +38,21 @@ export class SignupPage {
        this.countrys = Config.getAllCountry();
        this.masterId = Config.getCurMasterWalletId();
        this.getPublicKeyForVote();
+       this.init();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SignupPage');
+  }
+
+  init(){
+    this.walletManager.getMasterWalletBasicInfo(this.masterId,(data)=>{
+                 if(data["success"]){
+                    this.native.info(data);
+                    let item = JSON.parse(data["success"])["Account"];
+                    this.walletInfo = item;
+                 }
+    });
   }
 
   election(){
