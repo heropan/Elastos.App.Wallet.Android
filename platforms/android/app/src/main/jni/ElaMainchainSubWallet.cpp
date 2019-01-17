@@ -58,9 +58,10 @@ static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz
 	return tx;
 }
 
-#define SIG_nativeGenerateProducerPayload "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;)Ljava/lang/String;"
+#define SIG_nativeGenerateProducerPayload "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeGenerateProducerPayload(JNIEnv *env, jobject clazz, jlong jProxy,
 		jstring jPublicKey,
+		jstring jNodePublicKey,
 		jstring jNickName,
 		jstring jURL,
 		jstring jIPAddress,
@@ -71,15 +72,16 @@ static jstring JNICALL nativeGenerateProducerPayload(JNIEnv *env, jobject clazz,
 	std::string msgException;
 	jstring payload = NULL;
 
-	const char *publicKey = env->GetStringUTFChars(jPublicKey, NULL);
-	const char *nickName  = env->GetStringUTFChars(jNickName, NULL);
-	const char *url       = env->GetStringUTFChars(jURL, NULL);
-	const char *ipAddress = env->GetStringUTFChars(jIPAddress, NULL);
-	const char *payPasswd = env->GetStringUTFChars(jPayPasswd, NULL);
+	const char *publicKey     = env->GetStringUTFChars(jPublicKey, NULL);
+	const char *nodePublicKey = env->GetStringUTFChars(jNodePublicKey, NULL);
+	const char *nickName      = env->GetStringUTFChars(jNickName, NULL);
+	const char *url           = env->GetStringUTFChars(jURL, NULL);
+	const char *ipAddress     = env->GetStringUTFChars(jIPAddress, NULL);
+	const char *payPasswd     = env->GetStringUTFChars(jPayPasswd, NULL);
 
 	try {
 		IMainchainSubWallet *wallet = (IMainchainSubWallet *)jProxy;
-		nlohmann::json payloadJson = wallet->GenerateProducerPayload(publicKey, nickName, url, ipAddress, location, payPasswd);
+		nlohmann::json payloadJson = wallet->GenerateProducerPayload(publicKey, nodePublicKey, nickName, url, ipAddress, location, payPasswd);
 		payload = env->NewStringUTF(payloadJson.dump().c_str());
 	} catch (const std::exception &e) {
 		exception = true;
@@ -87,6 +89,7 @@ static jstring JNICALL nativeGenerateProducerPayload(JNIEnv *env, jobject clazz,
 	}
 
 	env->ReleaseStringUTFChars(jPublicKey, publicKey);
+	env->ReleaseStringUTFChars(jNodePublicKey, nodePublicKey);
 	env->ReleaseStringUTFChars(jNickName, nickName);
 	env->ReleaseStringUTFChars(jURL, url);
 	env->ReleaseStringUTFChars(jIPAddress, ipAddress);
@@ -348,36 +351,6 @@ static jstring JNICALL nativeGetVotedProducerList(JNIEnv *env, jobject clazz, jl
 	return list;
 }
 
-#define SIG_nativeExportProducerKeystore "(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
-static jstring JNICALL nativeExportProducerKeystore(JNIEnv *env, jobject clazz, jlong jSubWalletProxy,
-		jstring jBackupPasswd,
-		jstring jPayPasswd) {
-	bool exception = false;
-	jstring keystore = NULL;
-	std::string msgException;
-
-	const char *backupPasswd = env->GetStringUTFChars(jBackupPasswd, NULL);
-	const char *payPasswd = env->GetStringUTFChars(jPayPasswd, NULL);
-	IMainchainSubWallet *subWallet = (IMainchainSubWallet *) jSubWalletProxy;
-
-	try {
-		nlohmann::json keystoreJson = subWallet->ExportProducerKeystore(backupPasswd, payPasswd);
-		keystore = env->NewStringUTF(keystoreJson.dump().c_str());
-	} catch (const std::exception &e) {
-		exception = true;
-		msgException = e.what();
-	}
-
-	env->ReleaseStringUTFChars(jBackupPasswd, backupPasswd);
-	env->ReleaseStringUTFChars(jPayPasswd, payPasswd);
-
-	if (exception) {
-		ThrowWalletException(env, msgException.c_str());
-	}
-
-	return keystore;
-}
-
 #define SIG_nativeGetRegisteredProducerInfo "(J)Ljava/lang/String;"
 static jstring JNICALL nativeGetRegisteredProducerInfo(JNIEnv *env, jobject clazz, jlong jSubWalletProxy) {
 	bool exception = false;
@@ -412,7 +385,6 @@ static const JNINativeMethod gMethods[] = {
 	REGISTER_METHOD(nativeGetPublicKeyForVote),
 	REGISTER_METHOD(nativeCreateVoteProducerTransaction),
 	REGISTER_METHOD(nativeGetVotedProducerList),
-	REGISTER_METHOD(nativeExportProducerKeystore),
 	REGISTER_METHOD(nativeGetRegisteredProducerInfo),
 };
 

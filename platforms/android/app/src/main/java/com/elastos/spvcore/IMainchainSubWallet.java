@@ -18,8 +18,8 @@ public class IMainchainSubWallet extends ISubWallet {
 				sidechainAmounts, sidechainIndexs, memo, remark, useVotedUTXO);
 	}
 
-	public String GenerateProducerPayload(String publicKey, String nickName, String url, String IPAddress, long location, String payPasswd) throws WalletException {
-		return nativeGenerateProducerPayload(mMainchainProxy, publicKey, nickName, url, IPAddress, location, payPasswd);
+	public String GenerateProducerPayload(String publicKey, String nodePublicKey, String nickName, String url, String IPAddress, long location, String payPasswd) throws WalletException {
+		return nativeGenerateProducerPayload(mMainchainProxy, publicKey, nodePublicKey, nickName, url, IPAddress, location, payPasswd);
 	}
 
 	public String GenerateCancelProducerPayload(String publicKey, String payPasswd) throws WalletException {
@@ -54,10 +54,6 @@ public class IMainchainSubWallet extends ISubWallet {
 		return nativeGetVotedProducerList(mMainchainProxy);
 	}
 
-	public String ExportProducerKeystore(String backupPasswd, String payPasswd) throws WalletException {
-		return nativeExportProducerKeystore(mMainchainProxy, backupPasswd, payPasswd);
-	}
-
 	public String GetRegisteredProducerInfo() throws WalletException {
 		return nativeGetRegisteredProducerInfo(mMainchainProxy);
 	}
@@ -66,7 +62,7 @@ public class IMainchainSubWallet extends ISubWallet {
 	private native String nativeCreateDepositTransaction(long proxy, String fromAddress, String toAddress, long amount,
 			String sidechainAccounts, String sidechainAmounts, String sidechainIndexs, String memo, String remark, boolean useVotedUTXO);
 
-	private native String nativeGenerateProducerPayload(long proxy, String publicKey, String nickName, String url, String IPAddress, long location, String payPasswd);
+	private native String nativeGenerateProducerPayload(long proxy, String publicKey, String nodePublicKey, String nickName, String url, String IPAddress, long location, String payPasswd);
 
 	private native String nativeGenerateCancelProducerPayload(long proxy, String publicKey, String payPasswd);
 
@@ -83,8 +79,6 @@ public class IMainchainSubWallet extends ISubWallet {
 	private native String nativeCreateVoteProducerTransaction(long proxy, long stake, String publicKeys, String memo, boolean useVotedUTXO);
 
 	private native String nativeGetVotedProducerList(long proxy);
-
-	private native String nativeExportProducerKeystore(long proxy, String backupPasswd, String payPasswd);
 
 	private native String nativeGetRegisteredProducerInfo(long proxy);
 

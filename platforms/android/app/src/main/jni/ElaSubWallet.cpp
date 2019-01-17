@@ -160,7 +160,7 @@ class ElaSubWalletCallback: public ISubWalletCallback
 		 */
 		virtual void OnBlockSyncStopped();
 
-		virtual void OnBalanceChanged(uint64_t balance);
+		virtual void OnBalanceChanged(const std::string &asset, uint64_t balance);
 
 		virtual void OnTxPublished(const std::string &hash, const nlohmann::json &result);
 
@@ -673,13 +673,14 @@ void ElaSubWalletCallback::OnBlockSyncStopped()
 	Detach();
 }
 
-void ElaSubWalletCallback::OnBalanceChanged(uint64_t balance)
+void ElaSubWalletCallback::OnBalanceChanged(const std::string &asset, uint64_t balance)
 {
 	JNIEnv *env = GetEnv();
 
 	jclass clazz = env->GetObjectClass(mObj);
-	jmethodID methodId = env->GetMethodID(clazz, "OnBalanceChanged", "(J)V");
-	env->CallVoidMethod(mObj, methodId, balance);
+	jmethodID methodId = env->GetMethodID(clazz, "OnBalanceChanged", "(Ljava/lang/String;J)V");
+	jstring jasset = env->NewStringUTF(asset.c_str());
+	env->CallVoidMethod(mObj, methodId, jasset, balance);
 
 	Detach();
 }

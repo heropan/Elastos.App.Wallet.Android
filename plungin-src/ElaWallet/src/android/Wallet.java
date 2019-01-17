@@ -220,7 +220,7 @@ public class Wallet extends CordovaPlugin {
 	}
 
 	private boolean parametersCheck(JSONArray args) throws JSONException {
-		Log.i(TAG, "args = " + args);
+		//Log.i(TAG, "args = " + args);
 		for (int i = 0; i < args.length(); i++) {
 			if (args.isNull(i)) {
 				Log.e(TAG, "arg[" + i + "] = " + args.get(i) + " should not be null");
@@ -515,9 +515,6 @@ public class Wallet extends CordovaPlugin {
 					break;
 				case "getVotedProducerList":
 					this.getVotedProducerList(args, cc);
-					break;
-				case "exportProducerKeystore":
-					this.exportProducerKeystore(args, cc);
 					break;
 				case "getRegisteredProducerInfo":
 					this.getRegisteredProducerInfo(args, cc);
@@ -2074,10 +2071,11 @@ public class Wallet extends CordovaPlugin {
 				}
 
 				@Override
-				public void OnBalanceChanged(long balance) {
+				public void OnBalanceChanged(String asset, long balance) {
 					JSONObject jsonObject = new JSONObject();
 					Log.i(TAG, formatWalletName(masterWalletID, chainID) + " OnBalanceChanged => " + balance);
 					try {
+						jsonObject.put("Asset", asset);
 						jsonObject.put("Balance", balance);
 						jsonObject.put("MasterWalletID", masterWalletID);
 						jsonObject.put("ChaiID", chainID);
@@ -2284,17 +2282,19 @@ public class Wallet extends CordovaPlugin {
 	// args[0]: String masterWalletID
 	// args[1]: String chainID
 	// args[2]: String publicKey
-	// args[3]: String nickName
-	// args[4]: String url
-	// args[5]: String IPAddress
-	// args[6]: long location
-	// args[7]: String payPasswd
+	// args[3]: String nodePublicKey
+	// args[4]: String nickName
+	// args[5]: String url
+	// args[6]: String IPAddress
+	// args[7]: long location
+	// args[8]: String payPasswd
 	public void generateProducerPayload(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
 		String masterWalletID = args.getString(idx++);
 		String chainID        = args.getString(idx++);
 		String publicKey      = args.getString(idx++);
+		String nodePublicKey  = args.getString(idx++);
 		String nickName       = args.getString(idx++);
 		String url            = args.getString(idx++);
 		String IPAddress      = args.getString(idx++);
@@ -2320,8 +2320,8 @@ public class Wallet extends CordovaPlugin {
 
 			IMainchainSubWallet mainchainSubWallet = (IMainchainSubWallet)subWallet;
 
-			String payloadJson = mainchainSubWallet.GenerateProducerPayload(publicKey, nickName, url, IPAddress, location, payPasswd);
-			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " generateProducerPayload[" + publicKey + "," + nickName + "," +
+			String payloadJson = mainchainSubWallet.GenerateProducerPayload(publicKey, nodePublicKey, nickName, url, IPAddress, location, payPasswd);
+			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " generateProducerPayload[" + publicKey + "," + nodePublicKey + "," + nickName + "," +
 					url + "," + IPAddress + "," + location + ",...] => " + payloadJson);
 			successProcess(cc, payloadJson);
 		} catch (WalletException e) {
@@ -2648,44 +2648,6 @@ public class Wallet extends CordovaPlugin {
 			successProcess(cc, list);
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, formatWalletName(masterWalletID, chainID) + " get voted producer list");
-		}
-	}
-
-	// args[0]: String masterWalletID
-	// args[1]: String chainID (only main chain ID 'ELA')
-	// args[2]: String backupPasswd
-	// args[3]: String payPasswd
-	public void exportProducerKeystore(JSONArray args, CallbackContext cc) throws JSONException {
-		int idx = 0;
-		String masterWalletID = args.getString(idx++);
-		String chainID        = args.getString(idx++);
-		String backupPasswd   = args.getString(idx++);
-		String payPasswd      = args.getString(idx++);
-
-		if (args.length() != idx) {
-			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
-			return;
-		}
-
-		try {
-			ISubWallet subWallet = getSubWallet(masterWalletID, chainID);
-			if (subWallet == null) {
-				errorProcess(cc, errCodeInvalidSubWallet, "Get " + formatWalletName(masterWalletID, chainID));
-				return ;
-			}
-
-			if (! (subWallet instanceof IMainchainSubWallet)) {
-				errorProcess(cc, errCodeSubWalletInstance, formatWalletName(masterWalletID, chainID) + " is not instance of IMainchainSubWallet");
-				return;
-			}
-
-			IMainchainSubWallet mainchainSubWallet = (IMainchainSubWallet) subWallet;
-			String keystore = mainchainSubWallet.ExportProducerKeystore(backupPasswd, payPasswd);
-			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " exportProducerKeystore [...] => ...");
-
-			successProcess(cc, keystore);
-		} catch (WalletException e) {
-			exceptionProcess(e, cc, formatWalletName(masterWalletID, chainID) + " export producer keystore");
 		}
 	}
 
