@@ -51,10 +51,10 @@ export class InputticketsPage {
     }
 
 
-    if(parseFloat(this.votes) > this.balance){
-      this.native.toast_trans("Input value is incorrect");
-       return;
-    }
+    // if(parseFloat(this.votes) > this.balance){
+    //   this.native.toast_trans("Input value is incorrect");
+    //    return;
+    // }
     this.viewCtrl.dismiss({"votes":this.votes});
   }
 
