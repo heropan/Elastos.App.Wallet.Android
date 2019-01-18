@@ -63,7 +63,6 @@ export class PointvotePage {
   init(){
     this.walletManager.getMasterWalletBasicInfo(this.masterId,(data)=>{
                  if(data["success"]){
-                    this.native.info(data);
                     let item = JSON.parse(data["success"])["Account"];
                     this.walletInfo = item;
                  }
@@ -93,7 +92,7 @@ export class PointvotePage {
   }
 
   setSelectAll(){
-    console.log('================='+this.isAllchecked);
+    this.native.info(this.isAllchecked);
     for(let index in this.voteList){
          let id = this.voteList[index]["ownerpublickey"];
          this.selectVoteObj[id] = this.isAllchecked;
@@ -159,7 +158,8 @@ export class PointvotePage {
   createTx(){
      this.publickeys = this.getSelectPublics();
      let votes = Config.accMul(this.stake,Config.SELA);
-     this.native.info(this.publickeys);
+     let parms = {"1":this.masterId,"2":this.curChain,"3":votes,"4":JSON.stringify(this.publickeys),"5":"","6":this.useVotedUTXO};
+     this.native.info(parms);
      this.walletManager.createVoteProducerTransaction(this.masterId,this.curChain,votes,JSON.stringify(this.publickeys),"",this.useVotedUTXO,(data)=>{
       this.native.info(data);
       if(data['success']){
@@ -250,10 +250,10 @@ export class PointvotePage {
 getVoteList(){
   this.native.getHttp().postByAuth(ApiUrl.listproducer).toPromise().then(data=>{
          if(data["status"] === 200){
-             this.native.info(data);
+             //this.native.info(data);
              let votesResult = JSON.parse(data["_body"]);
              if(votesResult["code"] === "0"){
-              this.native.info(votesResult);
+              //this.native.info(votesResult);
               this.voteList = votesResult["data"]["result"]["producers"] || [];
              }
            }

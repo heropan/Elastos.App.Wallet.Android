@@ -22,6 +22,7 @@ export class InputticketsPage {
   public masterWalletId;
   public balance;
   constructor(public navCtrl: NavController, public navParams: NavParams,public  viewCtrl: ViewController,public native :Native,public walletManager:WalletManager) {
+
   }
 
   ionViewDidLoad() {
@@ -50,10 +51,10 @@ export class InputticketsPage {
     }
 
 
-    // if(parseFloat(this.votes) > this.balance){
-    //   this.native.toast_trans("Input value is incorrect");
-    //    return;
-    // }
+    if(parseFloat(this.votes) > this.balance){
+      this.native.toast_trans("Input value is incorrect");
+       return;
+    }
     this.viewCtrl.dismiss({"votes":this.votes});
   }
 
@@ -62,11 +63,15 @@ export class InputticketsPage {
     this.walletManager.getBalance(this.masterWalletId,'ELA',0,(data)=>{
       if(!Util.isNull(data["success"])){
         this.native.info(data);
-        this.balance = data["success"];
+        this.balance = data["success"]/Config.SELA;
       }else{
        this.native.info(data);
       }
     });
+  }
+
+  ionViewWillEnter(){
+    this.getBalance();
   }
 
 }
