@@ -46,8 +46,8 @@ public class IMainchainSubWallet extends ISubWallet {
 		return nativeGetPublicKeyForVote(mMainchainProxy);
 	}
 
-	public String CreateVoteProducerTransaction(long stake, String publicKeys, String memo, boolean useVotedUTXO) throws WalletException {
-		return nativeCreateVoteProducerTransaction(mMainchainProxy, stake, publicKeys, memo, useVotedUTXO);
+	public String CreateVoteProducerTransaction(String fromAddress, long stake, String publicKeys, String memo, boolean useVotedUTXO) throws WalletException {
+		return nativeCreateVoteProducerTransaction(mMainchainProxy, fromAddress, stake, publicKeys, memo, useVotedUTXO);
 	}
 
 	public String GetVotedProducerList() throws WalletException {
@@ -76,7 +76,7 @@ public class IMainchainSubWallet extends ISubWallet {
 
 	private native String nativeGetPublicKeyForVote(long proxy);
 
-	private native String nativeCreateVoteProducerTransaction(long proxy, long stake, String publicKeys, String memo, boolean useVotedUTXO);
+	private native String nativeCreateVoteProducerTransaction(long proxy, String fromAddress, long stake, String publicKeys, String memo, boolean useVotedUTXO);
 
 	private native String nativeGetVotedProducerList(long proxy);
 

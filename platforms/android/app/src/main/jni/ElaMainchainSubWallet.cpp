@@ -293,8 +293,9 @@ static jstring JNICALL nativeGetPublicKeyForVote(JNIEnv *env, jobject clazz, jlo
 	return publicKey;
 }
 
-#define SIG_nativeCreateVoteProducerTransaction "(JJLjava/lang/String;Ljava/lang/String;Z)Ljava/lang/String;"
+#define SIG_nativeCreateVoteProducerTransaction "(JLjava/lang/String;JLjava/lang/String;Ljava/lang/String;Z)Ljava/lang/String;"
 static jstring JNICALL nativeCreateVoteProducerTransaction(JNIEnv *env, jobject clazz, jlong jProxy,
+		jstring jfromAddress,
 		jlong stake,
 		jstring jPublicKeys,
 		jstring jMemo,
@@ -304,6 +305,7 @@ static jstring JNICALL nativeCreateVoteProducerTransaction(JNIEnv *env, jobject 
 	bool exception = false;
 	std::string msgException;
 
+	const char *fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
 	const char *publicKeys = env->GetStringUTFChars(jPublicKeys, NULL);
 	const char *memo       = env->GetStringUTFChars(jMemo, NULL);
 
@@ -311,13 +313,14 @@ static jstring JNICALL nativeCreateVoteProducerTransaction(JNIEnv *env, jobject 
 
 	try {
 		IMainchainSubWallet *wallet = (IMainchainSubWallet*)jProxy;
-		nlohmann::json txJson = wallet->CreateVoteProducerTransaction(stake, nlohmann::json::parse(publicKeys), memo, useVotedUTXO);
+		nlohmann::json txJson = wallet->CreateVoteProducerTransaction(fromAddress, stake, nlohmann::json::parse(publicKeys), memo, useVotedUTXO);
 		tx = env->NewStringUTF(txJson.dump().c_str());
 	} catch (std::exception &e) {
 		exception = true;
 		msgException = e.what();
 	}
 
+	env->ReleaseStringUTFChars(jfromAddress, fromAddress);
 	env->ReleaseStringUTFChars(jPublicKeys, publicKeys);
 	env->ReleaseStringUTFChars(jMemo, memo);
 
