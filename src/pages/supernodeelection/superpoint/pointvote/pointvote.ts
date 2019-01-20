@@ -129,6 +129,7 @@ export class PointvotePage {
     modal.onDidDismiss(data => {
       if(data){
          this.native.info(data);
+         this.stake = data["votes"];
          this.popupProvider.presentPrompt().then((val)=>{
           if(Util.isNull(val)){
             this.native.toast_trans("text-id-kyc-prompt-password");
@@ -189,7 +190,7 @@ export class PointvotePage {
 
  updateTxFee(rawTransaction){
 
-  this.walletManager.updateTransactionFee(this.masterId,this.curChain,rawTransaction, this.fee,"",this.useVotedUTXO,(data)=>{
+  this.walletManager.updateTransactionFee(this.masterId,this.curChain,rawTransaction, this.fee,"",(data)=>{
     if(data["success"]){
      this.native.info(data);
      if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["InnerType"] === "Readonly"){

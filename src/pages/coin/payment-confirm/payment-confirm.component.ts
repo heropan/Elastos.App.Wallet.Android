@@ -146,7 +146,7 @@ export class PaymentConfirmComponent {
 
 
   updateTxFee(){
-    this.walletManager.updateTransactionFee(this.masterWalletId,this.chianId,this.rawTransaction, this.transfer.fee,"",false,(data)=>{
+    this.walletManager.updateTransactionFee(this.masterWalletId,this.chianId,this.rawTransaction, this.transfer.fee,"",(data)=>{
                        if(data["success"]){
                         this.native.info(data);
                         this.singTx(data["success"]);

@@ -160,7 +160,7 @@ export class SignupPage {
 
  updateTxFee(rawTransaction){
 
-  this.walletManager.updateTransactionFee(this.masterId,this.curChain,rawTransaction, this.fee,"",false,(data)=>{
+  this.walletManager.updateTransactionFee(this.masterId,this.curChain,rawTransaction, this.fee,"",(data)=>{
     if(data["success"]){
      this.native.info(data);
      if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["InnerType"] === "Readonly"){

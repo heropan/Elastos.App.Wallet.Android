@@ -176,7 +176,7 @@ export class RechargeComponent{
   }
 
   updateTxFee(){
-    this.walletManager.updateTransactionFee(this.masterWalletId,'ELA',this.rawTransaction, this.transfer.fee,"",false,(data)=>{
+    this.walletManager.updateTransactionFee(this.masterWalletId,'ELA',this.rawTransaction, this.transfer.fee,"",(data)=>{
                        if(data["success"]){
                         this.native.info(data);
                         if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["InnerType"] === "Readonly"){
