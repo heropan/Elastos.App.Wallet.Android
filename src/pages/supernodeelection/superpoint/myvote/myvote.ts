@@ -25,7 +25,6 @@ export class MyvotePage {
   constructor(public navCtrl: NavController, public navParams: NavParams,public native: Native,public walletManager: WalletManager) {
     this.masterWalletId = Config.getCurMasterWalletId();
     this.walletName = Config.getWalletName(this.masterWalletId);
-    //this.getVotedProducerList();
     this.init();
   }
 
@@ -34,7 +33,8 @@ export class MyvotePage {
   }
 
   changevote(){
-      this.native.Go(this.navCtrl,"PointvotePage",{"selectNode":["0312cd36dda4202f2a705ba6583eede20c879f2969a81d64232eb398e2e10dfcde","03336e36b8642235f658465bf65032ba83c2aea29b945c2dd0dfa771ce0a9aca14"]});
+      console.log("============="+JSON.stringify(this.selectNode));
+      this.native.Go(this.navCtrl,"PointvotePage",{"selectNode":this.selectNode});
   }
 
   getVotedProducerList(list){
@@ -71,8 +71,7 @@ export class MyvotePage {
  objtoArr(obj){
 	  let arr = [];
 	  for(let key in obj){
-          console.log(JSON.stringify(obj[key]));
-          arr.push(obj[key]);
+          arr.push(key);
 	  }
     return arr;
   }
