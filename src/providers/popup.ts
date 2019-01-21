@@ -280,5 +280,36 @@ export class PopupProvider {
   }
 
 
+  presentConfirm1(price){
+
+    return new Promise((resolve, reject) => {
+
+      let alert = this.alertCtrl.create({
+        title: this.translate.instant("text-id-kyc-prompt-title"),
+        message: this.translate.instant('text-id-kyc-cochain1')+price+"ELA",
+        buttons: [
+          {
+            text: this.translate.instant('cancel'),
+            role: 'cancel',
+            handler: () => {
+              reject();
+            }
+          },
+          {
+            text: this.translate.instant('Ok'),
+            handler: () => {
+              resolve();
+            }
+          }
+        ]
+      });
+      alert.present();
+
+
+    });
+
+  }
+
+
 
 }

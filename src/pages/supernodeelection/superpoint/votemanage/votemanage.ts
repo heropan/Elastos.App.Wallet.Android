@@ -105,7 +105,7 @@ export class VotemanagePage {
       this.native.hideLoading();
       this.native.info(data);
       this.fee = data['success'];
-      this.popupProvider.presentConfirm(this.fee/Config.SELA).then(()=>{
+      this.popupProvider.presentConfirm1(this.fee/Config.SELA).then(()=>{
               this.native.showLoading().then(()=>{
                 this.updateTxFee(rawTransaction);
               });

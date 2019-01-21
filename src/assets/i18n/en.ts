@@ -697,7 +697,8 @@ export const en = {
 'Saint-Martin':'Saint-Martin',
 'The Republic of South Sudan':'The Republic of South Sudan',
 'Input value is incorrect':'Input value is incorrect',
-'please-node-PublicKey':'Please Node PublicKey'
+'please-node-PublicKey':'Please Node PublicKey',
+'text-id-kyc-cochain1':'need service fee'
 };
 
 
