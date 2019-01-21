@@ -1029,6 +1029,17 @@ try{m+=s2.split(".")[1].length}catch(e){}
 return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)
 }
 
+public static getNickname(ownerpublickey,voteList){
+	for(let index = 0;index<voteList.length;index++){
+		     let item = voteList[index];
+		     if(ownerpublickey === item["ownerpublickey"]){
+		     	return item["nickname"];
+		     }
+	}
+
+	return "";
+}
+
 }
 
 
