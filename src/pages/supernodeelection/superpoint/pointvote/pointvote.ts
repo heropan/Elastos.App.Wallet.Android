@@ -232,6 +232,7 @@ export class PointvotePage {
   this.walletManager.publishTransaction(this.masterId,this.curChain,rawTransaction,(data)=>{
     if(data['success']){
       this.native.hideLoading();
+      this.native.toast_trans('send-raw-transaction');
     }else{
       this.native.info(data);
     }
