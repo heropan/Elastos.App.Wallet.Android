@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,NgZone} from '@angular/core';
 import { NavController, NavParams} from 'ionic-angular';
 import {Native} from "../../providers/Native";
 import {Util} from "../../providers/Util";
@@ -18,7 +18,7 @@ export class CheckmnemomicPage {
   selectList: Array<any> = [];
   mnemonicStr: string;
   selectComplete = false;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public native: Native) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public native: Native,public zone:NgZone) {
         this.init();
   }
 
@@ -36,17 +36,21 @@ export class CheckmnemomicPage {
       text: item.text,
       prevIndex: index
     };
-    this.selectList.push(newWord);
-    this.mnemonicList[index].selected = true;
-    this.shouldContinue();
+    this.zone.run(()=>{
+      this.selectList.push(newWord);
+      this.mnemonicList[index].selected = true;
+      this.shouldContinue();
+    });
   }
 
 
 
   public removeButton(index: number, item: any): void {
-    this.selectList.splice(index, 1);
-    this.mnemonicList[item.prevIndex].selected = false;
-    this.shouldContinue();
+    this.zone.run(()=>{
+      this.selectList.splice(index, 1);
+      this.mnemonicList[item.prevIndex].selected = false;
+      this.shouldContinue();
+    });
   }
 
   private shouldContinue(): void {

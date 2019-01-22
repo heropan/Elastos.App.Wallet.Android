@@ -59,7 +59,7 @@
 
             <ion-item>
                 <ion-label>{{'text-signaddress' | translate }}</ion-label>
-                <ion-checkbox [(ngModel)]="mnemonicObj.singleAddress"></ion-checkbox>
+                <ion-checkbox [(ngModel)]="mnemonicObj.singleAddress" (ionChange)="updateSingleAddress(mnemonicObj.singleAddress)"></ion-checkbox>
             </ion-item>
         </ion-list>
 

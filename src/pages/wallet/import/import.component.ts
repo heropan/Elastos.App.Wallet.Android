@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component,NgZone} from '@angular/core';
 import { NavController, NavParams,Events} from 'ionic-angular';
 import {WalletManager} from '../../../providers/WalletManager';
 import {Native} from "../../../providers/Native";
@@ -21,7 +21,7 @@ export class ImportComponent {
   public mnemonicObj:any={mnemonic:"",payPassword: "", rePayPassword: "",phrasePassword:"",name:"",singleAddress:false};
   public walletType:string;
   public accontObj:any ={};
-  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage,public events:Events,public popupProvider:PopupProvider) {
+  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage,public events:Events,public popupProvider:PopupProvider,public zone:NgZone) {
          this.masterWalletId = Config.uuid(6,16);
          this.events.subscribe("error:update",(item)=>{
               if(item["error"]){
@@ -42,7 +42,15 @@ export class ImportComponent {
     this.showAdvOpts = !this.showAdvOpts;
   }
   selectTab(tab: string) {
-     this.selectedTab = tab;
+     this.zone.run(()=>{
+      this.selectedTab = tab;
+     });
+  }
+
+  updateSingleAddress(isShow){
+    this.zone.run(()=>{
+      this.mnemonicObj.singleAddress = isShow;
+    });
   }
 
 

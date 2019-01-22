@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component,NgZone} from '@angular/core';
 import { NavController,NavParams} from 'ionic-angular';
 import {Native} from "../../../providers/Native";
 import {TabsComponent} from "../../tabs/tabs.component";
@@ -18,7 +18,7 @@ export class WriteComponent {
   selectComplete = false;
   multType:any;
   exatParm:any;
-  constructor(public navCtrl: NavController,public navParams: NavParams,public native: Native){
+  constructor(public navCtrl: NavController,public navParams: NavParams,public native: Native,public zone:NgZone){
     this.init();
 }
   init() {
@@ -53,17 +53,21 @@ export class WriteComponent {
       text: item.text,
       prevIndex: index
     };
-    this.selectList.push(newWord);
-    this.mnemonicList[index].selected = true;
-    this.shouldContinue();
+    this.zone.run(()=>{
+      this.selectList.push(newWord);
+      this.mnemonicList[index].selected = true;
+      this.shouldContinue();
+    });
   }
 
 
 
   public removeButton(index: number, item: any): void {
+    this.zone.run(()=>{
     this.selectList.splice(index, 1);
     this.mnemonicList[item.prevIndex].selected = false;
     this.shouldContinue();
+    });
   }
 
   private shouldContinue(): void {
