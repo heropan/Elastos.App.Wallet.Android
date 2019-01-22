@@ -31,9 +31,10 @@
     <ion-grid>
         <ion-row padding-top>
 
-            <ion-col col col-4 col-auto class="col-bottom" *ngFor="let item of nodelist; let i = index" (click)="jumpNodeInformation(0)" [ngClass]="{'ticket': (i+1)%3===1,'ticket_second left-right-border':(i+1)%3===2,'ticket_first':(i+1)%3===0}">
-                <div class="pic">
-                    <img src="./assets/images/vote/ticket.png" alt="">
+            <!-- <ion-col col col-4 col-auto class="col-bottom" *ngFor="let item of nodelist; let i = index" (click)="jumpNodeInformation(0)" [ngClass]="{'ticket': (i+1)%3===1,'ticket_second left-right-border':(i+1)%3===2,'ticket_first':(i+1)%3===0}"> -->
+            <ion-col col col-4 col-auto class="col-bottom ticket_first" *ngFor="let item of nodelist; let i = index" (click)="jumpNodeInformation(0)" [ngClass]="{'left-right-border':(i+1)%3===2}">
+                <div class="pic" style="margin-top:40px">
+                    <!-- <img src="./assets/images/vote/ticket.png" alt=""> -->
                 </div>
                 <div class="title">{{item.nickname}}</div>
                 <div class="value">{{item.votes}} ELA</div>

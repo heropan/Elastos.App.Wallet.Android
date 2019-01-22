@@ -56,6 +56,11 @@ export class PointvotePage {
               }
               this.setSelectArr(this.selectNode);
               this.selectNum = this.getSelectNum();
+              if(this.selectNum>0){
+                this.isAllchecked = true;
+              }else{
+                 this.isAllchecked = false;
+              }
               this.init();
 
   }
