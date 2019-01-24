@@ -146,7 +146,7 @@ export class VotemanagePage {
     if(data["success"]){
       this.native.info(data);
       if(this.walletInfo["Type"] === "Standard"){
-           this.sendTx(data["success"]);
+            this.sendTx(data["success"]);
       }else if(this.walletInfo["Type"] === "Multi-Sign"){
           this.walletManager.encodeTransactionToString(data["success"],(raw)=>{
                    if(raw["success"]){
@@ -195,8 +195,9 @@ getRegisteredProducerInfo(){
     this.native.info(data);
     if(data["success"]){
         let item = JSON.parse(data["success"]);
-        let publicKey = item["PublicKey"];
-        this.publickey = item["PublicKey"];
+        let publicKey = item["Info"]["PublicKey"];
+        this.publickey = item["Info"]["PublicKey"];
+        this.native.info(this.publickey);
         this.info = this.getCurProducerInfo(publicKey);
 
         this.native.info(this.info);
@@ -210,11 +211,11 @@ getCurProducerInfo(publicKey){
     if(publicKey === item["ownerpublickey"]){
           return item;
     }
-
-    return {};
   }
-}
 
+  return {};
+}
+0
 getVoteList(){
   this.native.getHttp().postByAuth(ApiUrl.listproducer).toPromise().then(data=>{
          if(data["status"] === 200){
@@ -223,7 +224,8 @@ getVoteList(){
              if(votesResult["code"] === "0"){
               //this.native.info(votesResult);
               this.voteList = votesResult["data"]["result"]["producers"] || [];
-              console.log(JSON.stringify(this.voteList));
+              //console.log(JSON.stringify(this.voteList));
+              this.native.info(this.voteList);
               this.getRegisteredProducerInfo();
              }
            }
