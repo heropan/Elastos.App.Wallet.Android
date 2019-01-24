@@ -6,6 +6,7 @@
 #define __ELASTOS_SDK_IMASTERWALLET_H__
 
 #include "ISubWallet.h"
+#include "IIdAgent.h"
 
 namespace Elastos {
 	namespace ElaWallet {
@@ -132,6 +133,8 @@ namespace Elastos {
 			 * @param newPassword new pay password.
 			 */
 			virtual void ChangePassword(const std::string &oldPassword, const std::string &newPassword) = 0;
+
+			virtual IIdAgent *GetIIdAgent() = 0;
 		};
 
 	}
