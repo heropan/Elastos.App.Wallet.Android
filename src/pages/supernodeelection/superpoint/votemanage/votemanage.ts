@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,NgZone } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {PopupProvider} from "../../../../providers/popup";
 import {WalletManager} from "../../../../providers/WalletManager";
@@ -6,6 +6,7 @@ import {Native} from "../../../../providers/Native";
 import {Util} from '../../../../providers/Util';
 import {  Config } from '../../../../providers/Config';
 import {ScancodePage} from '../../../../pages/scancode/scancode';
+import {ApiUrl} from "../../../../providers/ApiUrl";
 
 /**
  * Generated class for the VotemanagePage page.
@@ -26,15 +27,22 @@ export class VotemanagePage {
   public curChain = "ELA";
   public fee:number = 0;
   public feePerKb:number = 10000;
+  public info = {};
   public walletInfo = {};
-  constructor(public navCtrl: NavController, public navParams: NavParams,public popupProvider: PopupProvider,public native :Native,public walletManager :WalletManager) {
+  public voteList = [];
+  public countrys=[];
+  constructor(public navCtrl: NavController, public navParams: NavParams,public popupProvider: PopupProvider,public native :Native,public walletManager :WalletManager,public zone :NgZone) {
     this.masterId = Config.getCurMasterWalletId();
-    this.getPublicKeyForVote();
-    this.init();
+    this.countrys = Config.getAllCountry();
+    this.getVoteList();
+    //this.getRegisteredProducerInfo();
+    //this.getPublicKeyForVote();
+    //this.init();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad VotemanagePage');
+
   }
 
   init(){
@@ -175,6 +183,64 @@ export class VotemanagePage {
     }
 });
 }
+
+getRegisteredProducerInfo(){
+  // this.zone.run(()=>{
+  //   this.info = this.getCurProducerInfo("0341315fe4e1f26ba09c5c56bf76e1e97aaee992f59407b33c4fc9d42e11634bdc");
+  // });
+
+  // console.log(JSON.stringify(this.info));
+  //this.native.info(this.info);
+  this.walletManager.getRegisteredProducerInfo(this.masterId,"ELA",(data)=>{
+    this.native.info(data);
+    if(data["success"]){
+        let item = JSON.parse(data["success"]);
+        let publicKey = item["PublicKey"];
+        this.publickey = item["PublicKey"];
+        this.info = this.getCurProducerInfo(publicKey);
+
+        this.native.info(this.info);
+    }
+  });
+}
+
+getCurProducerInfo(publicKey){
+  for(let index = 0;index<this.voteList.length;index++){
+    let item = this.voteList[index];
+    if(publicKey === item["ownerpublickey"]){
+          return item;
+    }
+
+    return {};
+  }
+}
+
+getVoteList(){
+  this.native.getHttp().postByAuth(ApiUrl.listproducer).toPromise().then(data=>{
+         if(data["status"] === 200){
+             //this.native.info(data);
+             let votesResult = JSON.parse(data["_body"]);
+             if(votesResult["code"] === "0"){
+              //this.native.info(votesResult);
+              this.voteList = votesResult["data"]["result"]["producers"] || [];
+              console.log(JSON.stringify(this.voteList));
+              this.getRegisteredProducerInfo();
+             }
+           }
+  });
+}
+
+public getCountryByCode(code){
+
+  for(let index in this.countrys){
+      let item = this.countrys[index];
+      if(code === item["code"]){
+        return item["key"];
+      }
+     return "Unknown";
+    }
+}
+
 
 
 }

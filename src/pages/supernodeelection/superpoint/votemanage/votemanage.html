@@ -23,7 +23,7 @@
             </ion-col>
 
             <ion-col col-10>
-                <div class="pargaph">亦来云ELA</div>
+                <div class="pargaph">{{info.nickname}}</div>
             </ion-col>
         </ion-row>
 
@@ -35,19 +35,7 @@
             </ion-col>
 
             <ion-col col-10>
-                <div class="pargaph">0x373b3550fa1f3cfd285e48a057d382e1 b6d5bcb0</div>
-            </ion-col>
-        </ion-row>
-
-        <ion-row padding-left padding-right align-items-center>
-            <ion-col col-2>
-                <div class="general">
-                    <img src="./assets/images/vote/point_appeal.png" alt="">
-                </div>
-            </ion-col>
-
-            <ion-col col-10>
-                <div class="pargaph">公平公正公开的全民节点</div>
+                <div class="pargaph">{{info.ownerpublickey}}</div>
             </ion-col>
         </ion-row>
 
@@ -59,7 +47,7 @@
             </ion-col>
 
             <ion-col col-10>
-                <div class="pargaph">中国 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;北京</div>
+                <div class="pargaph">{{getCountryByCode(info.location)|translate}}</div>
             </ion-col>
         </ion-row>
 
@@ -71,7 +59,7 @@
             </ion-col>
 
             <ion-col col-10>
-                <div class="pargaph">http://dict.youdao.com/</div>
+                <div class="pargaph">{{info.url}}</div>
             </ion-col>
         </ion-row>
 
@@ -83,7 +71,7 @@
             </ion-col>
 
             <ion-col col-10>
-                <div class="pargaph">22005票</div>
+                <div class="pargaph">{{info.votes}} {{'ticket'|translate}}</div>
             </ion-col>
         </ion-row>
 
@@ -95,7 +83,7 @@
             </ion-col>
 
             <ion-col col-10>
-                <div class="pargaph">第135名</div>
+                <div class="pargaph">NO.{{(info.index+1)}}</div>
             </ion-col>
         </ion-row>
 
