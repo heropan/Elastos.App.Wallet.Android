@@ -411,7 +411,7 @@ export const en = {
   'I-want-to-vote':'I want to vote',
   'voting-rules':'voting rules',
   'voting-rules-text-1':'To participate in ELA super node voting, we need to lock ELA. Voting does not consume ELA;',
-  'voting-rules-text-2':'Up to 30 super nodes can be selected for each vote, and there is a certain delay in voting for revocation or change. ;',
+  'voting-rules-text-2':'Up to 36 super nodes can be selected for each vote, and there is a certain delay in voting for revocation or change. ;',
   'change-vote':'change vote',
   'current-voting-record':'current voting record',
   'this-vote':'this vote',
@@ -698,7 +698,8 @@ export const en = {
 'The Republic of South Sudan':'The Republic of South Sudan',
 'Input value is incorrect':'Input value is incorrect',
 'please-node-PublicKey':'Please Node PublicKey',
-'text-id-kyc-cochain1':'need service fee'
+'text-id-kyc-cochain1':'need service fee',
+'candidate-nodes-error':'Choose up to 36 candidate nodes'
 };
 
 

@@ -406,7 +406,7 @@ export const zh = {
   'I-want-to-vote':'我要投票',
   'voting-rules':'投票规则',
   'voting-rules-text-1':'参与ELA超级节点投票，需锁仓ELA。投票不消耗ELA数量;',
-  'voting-rules-text-2':'每次投票最多可选择 30 个超级节点，撤销或更改再次投票生效有一定的延迟。;',
+  'voting-rules-text-2':'每次投票最多可选择 36 个超级节点，撤销或更改再次投票生效有一定的延迟。;',
   'change-vote':'变更投票',
   'current-voting-record':'当前投票纪录',
   'this-vote':'本次投票',
@@ -693,5 +693,6 @@ export const zh = {
 'The Republic of South Sudan':'南苏丹共和国',
 'Input value is incorrect':'输入的数值不对',
 'please-node-PublicKey':'请输入节点公钥',
-'text-id-kyc-cochain1':'需要花费'
+'text-id-kyc-cochain1':'需要花费',
+'candidate-nodes-error':'最多选择36个候选人节点'
 };

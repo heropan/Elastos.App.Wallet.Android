@@ -89,6 +89,10 @@ export class PointvotePage {
  }
 
   vote(){
+     if(this.selectNum >36){
+      this.native.toast_trans("candidate-nodes-error");
+          return;
+     }
      if(this.selectNum>0){
       this.openPayModal();
      }else{
