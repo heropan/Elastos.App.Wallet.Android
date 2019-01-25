@@ -12,10 +12,8 @@ public class IMainchainSubWallet extends ISubWallet {
 	}
 
 
-	public String CreateDepositTransaction(String fromAddress, String toAddress, long amount, String sidechainAccounts,
-			String sidechainAmounts, String sidechainIndexs, String memo, String remark, boolean useVotedUTXO) throws WalletException {
-		return nativeCreateDepositTransaction(mMainchainProxy, fromAddress, toAddress, amount, sidechainAccounts,
-				sidechainAmounts, sidechainIndexs, memo, remark, useVotedUTXO);
+	public String CreateDepositTransaction(String fromAddress, String lockedAddress, long amount, String sideChainAddress, String memo, boolean useVotedUTXO) throws WalletException {
+		return nativeCreateDepositTransaction(mMainchainProxy, fromAddress, lockedAddress, amount, sideChainAddress, memo, useVotedUTXO);
 	}
 
 	public String GenerateProducerPayload(String publicKey, String nodePublicKey, String nickName, String url, String IPAddress, long location, String payPasswd) throws WalletException {
@@ -59,8 +57,7 @@ public class IMainchainSubWallet extends ISubWallet {
 	}
 
 
-	private native String nativeCreateDepositTransaction(long proxy, String fromAddress, String toAddress, long amount,
-			String sidechainAccounts, String sidechainAmounts, String sidechainIndexs, String memo, String remark, boolean useVotedUTXO);
+	private native String nativeCreateDepositTransaction(long proxy, String fromAddress, String lockedAddress, long amount, String sideChainAddress, String memo, boolean useVotedUTXO);
 
 	private native String nativeGenerateProducerPayload(long proxy, String publicKey, String nodePublicKey, String nickName, String url, String IPAddress, long location, String payPasswd);
 

@@ -8,35 +8,28 @@
 
 using namespace Elastos::ElaWallet;
 
-#define SIG_nativeCreateDepositTransaction "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)Ljava/lang/String;"
+#define SIG_nativeCreateDepositTransaction "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Z)Ljava/lang/String;"
 static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz, jlong jMainSubWalletProxy,
 		jstring jfromAddress,
-		jstring jtoAddress,
+		jstring jlockedAddress,
 		jlong amount,
-		jstring jsidechainAccounts,
-		jstring jsidechainAmounts,
-		jstring jsidechainIndexs,
+		jstring jsideChainAddress,
 		jstring jmemo,
-		jstring jremark,
 		jboolean useVotedUTXO)
 {
 	bool exception = false;
 	std::string msgException;
 
 	const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
-	const char* toAddress = env->GetStringUTFChars(jtoAddress, NULL);
-	const char* sidechainAccounts = env->GetStringUTFChars(jsidechainAccounts, NULL);
-	const char* sidechainAmounts = env->GetStringUTFChars(jsidechainAmounts, NULL);
-	const char* sidechainIndexs = env->GetStringUTFChars(jsidechainIndexs, NULL);
+	const char* lockedAddress = env->GetStringUTFChars(jlockedAddress, NULL);
+	const char* sideChainAddress = env->GetStringUTFChars(jsideChainAddress, NULL);
 	const char* memo = env->GetStringUTFChars(jmemo, NULL);
-	const char* remark = env->GetStringUTFChars(jremark, NULL);
 
 	IMainchainSubWallet* wallet = (IMainchainSubWallet*)jMainSubWalletProxy;
 	jstring tx = NULL;
 
 	try {
-		nlohmann::json txJson = wallet->CreateDepositTransaction(fromAddress, toAddress, amount, nlohmann::json::parse(sidechainAccounts),
-				nlohmann::json::parse(sidechainAmounts), nlohmann::json::parse(sidechainIndexs), memo, remark, useVotedUTXO);
+		nlohmann::json txJson = wallet->CreateDepositTransaction(fromAddress, lockedAddress, amount, sideChainAddress, memo, useVotedUTXO);
 		tx = env->NewStringUTF(txJson.dump().c_str());
 	} catch (std::exception &e) {
 		exception = true;
@@ -44,12 +37,9 @@ static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz
 	}
 
 	env->ReleaseStringUTFChars(jfromAddress, fromAddress);
-	env->ReleaseStringUTFChars(jtoAddress, toAddress);
-	env->ReleaseStringUTFChars(jsidechainAccounts, sidechainAccounts);
-	env->ReleaseStringUTFChars(jsidechainAmounts, sidechainAmounts);
-	env->ReleaseStringUTFChars(jsidechainIndexs, sidechainIndexs);
+	env->ReleaseStringUTFChars(jlockedAddress, lockedAddress);
+	env->ReleaseStringUTFChars(jsideChainAddress, sideChainAddress);
 	env->ReleaseStringUTFChars(jmemo, memo);
-	env->ReleaseStringUTFChars(jremark, remark);
 
 	if (exception) {
 		ThrowWalletException(env, msgException.c_str());

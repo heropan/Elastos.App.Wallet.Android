@@ -606,8 +606,6 @@ public class Wallet extends CordovaPlugin {
 				return;
 			}
 
-			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " createSubWallet [" + feePerKb + "] => " + subWallet.GetBasicInfo());
-
 			successProcess(cc, subWallet.GetBasicInfo());
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, "Create " + formatWalletName(masterWalletID, chainID));
@@ -644,8 +642,6 @@ public class Wallet extends CordovaPlugin {
 				return;
 			}
 
-			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " recoverSubWallet [" + limitGap + "," + feePerKb + "] => " + subWallet.GetBasicInfo());
-
 			successProcess(cc, subWallet.GetBasicInfo());
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, "Recover " + formatWalletName(masterWalletID, chainID));
@@ -661,7 +657,6 @@ public class Wallet extends CordovaPlugin {
 			for (int i = 0; i < masterWalletList.size(); i++) {
 				masterWalletListJson.put(masterWalletList.get(i).GetId());
 			}
-			Log.i(TAG, "getAllMasterWallets => " + masterWalletListJson.toString());
 			successProcess(cc, masterWalletListJson.toString());
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, "Get all master wallets");
@@ -681,7 +676,6 @@ public class Wallet extends CordovaPlugin {
 			for (int i = 0; i < allMasterWalletIds.length; i++) {
 				allIdJson.put(allMasterWalletIds[i]);
 			}
-			Log.i(TAG, " getAllMasterWalletIds => " + allIdJson.toString());
 			successProcess(cc, allIdJson.toString());
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, "Get all master wallet ID");
@@ -706,8 +700,6 @@ public class Wallet extends CordovaPlugin {
 				return;
 			}
 
-			Log.i(TAG, formatWalletName(masterWalletID) + " getMasterWallet => " + masterWallet.GetBasicInfo());
-
 			successProcess(cc, masterWallet.GetBasicInfo());
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, "Get " + formatWalletName(masterWalletID));
@@ -731,8 +723,6 @@ public class Wallet extends CordovaPlugin {
 				errorProcess(cc, errCodeInvalidMasterWallet, "Get " + formatWalletName(masterWalletID));
 				return;
 			}
-
-			Log.i(TAG, formatWalletName(masterWalletID) + " getMasterWalletBasicInfo => " + masterWallet.GetBasicInfo());
 
 			successProcess(cc, masterWallet.GetBasicInfo());
 		} catch (WalletException e) {
@@ -764,8 +754,6 @@ public class Wallet extends CordovaPlugin {
 			for (int i = 0; i < subWalletList.size(); i++) {
 				subWalletJsonArray.put(subWalletList.get(i).GetChainId());
 			}
-
-			Log.i(TAG, formatWalletName(masterWalletID) + " getAllSubWallets => " + subWalletJsonArray.toString());
 
 			successProcess(cc, subWalletJsonArray.toString());
 		} catch (WalletException e) {
@@ -2161,27 +2149,21 @@ public class Wallet extends CordovaPlugin {
 	// args[0]: String masterWalletID
 	// args[1]: String chainID
 	// args[2]: String fromAddress
-	// args[3]: String toAddress
+	// args[3]: String lockedAddress
 	// args[4]: long amount
-	// args[5]: String sideAccountJson
-	// args[6]: String sideAmountJson
-	// args[7]: String sideIndicesJson
-	// args[8]: String memo
-	// args[9]: String remark
-	// args[10]: boolean useVotedUTXO
+	// args[5]: String sideChainAddress
+	// args[6]: String memo
+	// args[7]: boolean useVotedUTXO
 	public void createDepositTransaction(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
 		String masterWalletID = args.getString(idx++);
 		String chainID        = args.getString(idx++);
 		String fromAddress    = args.getString(idx++);
-		String toAddress      = args.getString(idx++);
+		String lockedAddress  = args.getString(idx++);
 		long   amount         = args.getLong(idx++);
-		String sideAccountJson = args.getString(idx++);
-		String sideAmountJson  = args.getString(idx++);
-		String sideIndicesJson = args.getString(idx++);
+		String sideChainAddress = args.getString(idx++);
 		String memo            = args.getString(idx++);
-		String remark          = args.getString(idx++);
 		boolean useVotedUTXO   = args.getBoolean(idx++);
 
 		if (args.length() != idx) {
@@ -2203,8 +2185,7 @@ public class Wallet extends CordovaPlugin {
 
 			IMainchainSubWallet mainchainSubWallet = (IMainchainSubWallet)subWallet;
 
-			String txJson = mainchainSubWallet.CreateDepositTransaction(fromAddress, toAddress, amount,
-					sideAccountJson, sideAmountJson, sideIndicesJson, memo, remark, useVotedUTXO);
+			String txJson = mainchainSubWallet.CreateDepositTransaction(fromAddress, lockedAddress, amount, sideChainAddress, memo, useVotedUTXO);
 
 			successProcess(cc, txJson);
 		} catch (WalletException e) {
@@ -3103,12 +3084,9 @@ public class Wallet extends CordovaPlugin {
 	// args[0]: String masterWalletID
 	// args[1]: String chainID
 	// args[2]: String fromAddress
-	// args[4]: long amount
-	// args[5]: String mainchainAccountsJson
-	// args[6]: String mainchainAmountsJson
-	// args[7]: String mainchainIndexsJson
-	// args[8]: String memo
-	// args[9]: String remark
+	// args[3]: long amount
+	// args[4]: String mainchainAdress
+	// args[5]: String memo
 	public void createWithdrawTransaction(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
@@ -3116,11 +3094,8 @@ public class Wallet extends CordovaPlugin {
 		String chainID               = args.getString(idx++);
 		String fromAddress           = args.getString(idx++);
 		long   amount                = args.getLong(idx++);
-		String mainchainAccountsJson = args.getString(idx++);
-		String mainchainAmountsJson  = args.getString(idx++);
-		String mainchainIndexsJson   = args.getString(idx++);
+		String mainchainAddress      = args.getString(idx++);
 		String memo                  = args.getString(idx++);
-		String remark                = args.getString(idx++);
 
 		if (args.length() != idx) {
 			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
@@ -3140,11 +3115,8 @@ public class Wallet extends CordovaPlugin {
 			}
 
 			ISidechainSubWallet sidechainSubWallet = (ISidechainSubWallet)subWallet;
-			String tx = sidechainSubWallet.CreateWithdrawTransaction(fromAddress, amount,
-					mainchainAccountsJson, mainchainAmountsJson, mainchainIndexsJson, memo, remark);
+			String tx = sidechainSubWallet.CreateWithdrawTransaction(fromAddress, amount, mainchainAddress, memo);
 
-			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " createWithdrawTransaction [" + fromAddress + "," + amount + "," +
-					mainchainAmountsJson + "," + mainchainAmountsJson + "," + mainchainIndexsJson + "] => " + tx);
 			successProcess(cc, tx);
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, formatWalletName(masterWalletID, chainID) + " create withdraw tx");
@@ -3179,8 +3151,6 @@ public class Wallet extends CordovaPlugin {
 			ISidechainSubWallet sidechainSubWallet = (ISidechainSubWallet)subWallet;
 
 			String address = sidechainSubWallet.GetGenesisAddress();
-
-			Log.i(TAG, formatWalletName(masterWalletID, chainID) + " getGenesisAddress => " + address);
 
 			successProcess(cc, address);
 		} catch (WalletException e) {
