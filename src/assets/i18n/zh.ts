@@ -694,5 +694,6 @@ export const zh = {
 'Input value is incorrect':'输入的数值不对',
 'please-node-PublicKey':'请输入节点公钥',
 'text-id-kyc-cochain1':'需要花费',
-'candidate-nodes-error':'最多选择36个候选人节点'
+'candidate-nodes-error':'最多选择36个候选人节点',
+'please-enter-node-iPAddress':'请输入网络地址'
 };

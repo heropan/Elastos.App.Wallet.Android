@@ -32,6 +32,7 @@ export class SignupPage {
   public feePerKb:number = 10000;
   public walletInfo = {};
   public deposit;
+  public iPAddress:string = "";
   constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl: ModalController,public popupProvider:PopupProvider,public native:
     Native,public walletManager:WalletManager) {
        this.deposit = Config.deposit;
@@ -102,10 +103,10 @@ export class SignupPage {
       return false;
    }
 
-    // if(Util.isNull(this.url)){
-    //   this.native.toast_trans('please-enter-node-url');
-    //   return false;
-    // }
+    if(Util.isNull(this.iPAddress)){
+      this.native.toast_trans('please-enter-node-iPAddress');
+      return false;
+    }
 
     return true;
   }
@@ -120,7 +121,7 @@ export class SignupPage {
   }
 
   generateProducerPayload(){
-     this.walletManager.generateProducerPayload(this.masterId,this.curChain,this.publickey,this.nodePublicKey,this.nodeName,this.url,"",this.location,this.passworld,(data)=>{
+     this.walletManager.generateProducerPayload(this.masterId,this.curChain,this.publickey,this.nodePublicKey,this.nodeName,this.url,this.iPAddress,this.location,this.passworld,(data)=>{
       this.native.info(data);
       if(data["success"]){
          let payLoad = data["success"];

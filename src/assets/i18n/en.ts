@@ -699,7 +699,8 @@ export const en = {
 'Input value is incorrect':'Input value is incorrect',
 'please-node-PublicKey':'Please Node PublicKey',
 'text-id-kyc-cochain1':'need service fee',
-'candidate-nodes-error':'Choose up to 36 candidate nodes'
+'candidate-nodes-error':'Choose up to 36 candidate nodes',
+'please-enter-node-iPAddress':'please enter node network address'
 };
 
 
