@@ -384,15 +384,15 @@ export class WalletManager {
   }
 
   createDepositTransaction(masterWalletId:string,chainId:string,fromAddress:string,toAddress:string,amount:number
-                           ,sidechainAccounts:string,sidechainAmounts:string,sidechainIndex:string,memo:string,remark:string,useVotedUTXO:boolean,Fun){
-    this.wallet.createDepositTransaction([masterWalletId,chainId,fromAddress,toAddress,amount,sidechainAccounts,sidechainAmounts,sidechainIndex,memo,remark,useVotedUTXO],Fun,(error)=>{
+                           ,sidechainAccounts:string,memo:string,useVotedUTXO:boolean,Fun){
+    this.wallet.createDepositTransaction([masterWalletId,chainId,fromAddress,toAddress,amount,sidechainAccounts,memo,useVotedUTXO],Fun,(error)=>{
       this.errorFun(error);
     });
   }
 
   createWithdrawTransaction(masterWalletId:string,chainId:string,fromAddress:string,amount:number
-                           ,mainchainAccounts:string,mainchainAmounts:string,mainchainIndexs:string,memo:string,remark:string,Fun){
-    this.wallet.createWithdrawTransaction([masterWalletId,chainId,fromAddress,amount,mainchainAccounts,mainchainAmounts,mainchainIndexs,memo,remark],Fun,(error)=>{
+                           ,mainchainAccounts:string,memo:string,Fun){
+    this.wallet.createWithdrawTransaction([masterWalletId,chainId,fromAddress,amount,mainchainAccounts,memo],Fun,(error)=>{
       this.errorFun(error);
     });
   }

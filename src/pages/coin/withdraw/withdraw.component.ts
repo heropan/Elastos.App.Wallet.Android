@@ -129,16 +129,11 @@ export class WithdrawComponent{
     let toAmount = 0;
     //toAmount = parseFloat((this.transfer.amount*Config.SELA).toPrecision(16));
     toAmount = this.accMul(this.transfer.amount,Config.SELA);
-    let mainchainAddress = JSON.stringify([this.mainchain.accounts]);
-    let mainchainAmounts = JSON.stringify([ toAmount - this.transfer.fee]);
-    let mainchainIndex = JSON.stringify([this.mainchain.index]);
+    let mainchainAddress = this.mainchain.accounts;
     this.walletManager.createWithdrawTransaction(this.masterWalletId,this.chianId, "",
       toAmount, // user input amount
       mainchainAddress, // user input address
-      mainchainAmounts, // TODO default:0
-      mainchainIndex, // TODO default:0
       this.transfer.memo,
-      this.transfer.remark,
       (data)=>{
         if(data['success']){
           this.native.info(data);
