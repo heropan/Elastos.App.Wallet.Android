@@ -195,8 +195,8 @@ getRegisteredProducerInfo(){
     this.native.info(data);
     if(data["success"]){
         let item = JSON.parse(data["success"]);
-        let publicKey = item["Info"]["PublicKey"];
-        this.publickey = item["Info"]["PublicKey"];
+        let publicKey = item["Info"]["OwnerPublicKey"];
+        this.publickey = item["Info"]["OwnerPublicKey"];
         this.native.info(this.publickey);
         this.info = this.getCurProducerInfo(publicKey);
 
