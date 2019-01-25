@@ -22,7 +22,7 @@ export class SignupPage {
   public passworld:string;
   public nodeName:string = "ssss";
   public publickey:string ="xxxxxxxx111111";
-  public nodePublicKey:string="0296e28b9bced49e175de2d2ae0e6a03724da9d00241213c988eeb65583a14f0c9";
+  public nodePublicKey:string="";
   public location:number = 1;
   public url:string ="https://www.baidu.com";
   public countrys = [];
