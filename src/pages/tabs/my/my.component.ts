@@ -158,7 +158,7 @@ export class MyComponent{
    }
 
    createRetrieveDepositTransaction(){
-     this.walletManager.createRetrieveDepositTransaction(this.masterWalletId,"ELA","",(data)=>{
+     this.walletManager.createRetrieveDepositTransaction(this.masterWalletId,"ELA","","",(data)=>{
             this.native.info(data);
      });
    }

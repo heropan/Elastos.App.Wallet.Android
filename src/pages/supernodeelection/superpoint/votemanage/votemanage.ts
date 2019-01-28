@@ -96,7 +96,7 @@ export class VotemanagePage {
 
 
   createCancelProducerTransaction(payloadJson){
-       this.walletManager.createCancelProducerTransaction(this.masterId,this.curChain,"",payloadJson,"",false,(data)=>{
+       this.walletManager.createCancelProducerTransaction(this.masterId,this.curChain,"",payloadJson,"","",false,(data)=>{
         this.native.info(data);
         if(data["success"]){
             this.getFee(data["success"]);

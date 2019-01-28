@@ -165,8 +165,8 @@ export class WalletManager {
     });
   }
 
-  createMultiSignTransaction(masterWalletId:string,chainId:string,fromAddress:string,toAddress:string,amount,memo:string,useVotedUTXO:boolean,Fun){
-    this.wallet.createMultiSignTransaction([masterWalletId,chainId,fromAddress,toAddress,amount,memo,useVotedUTXO],Fun,(error)=>{
+  createMultiSignTransaction(masterWalletId:string,chainId:string,fromAddress:string,toAddress:string,amount,memo:string,remark:string,useVotedUTXO:boolean,Fun){
+    this.wallet.createMultiSignTransaction([masterWalletId,chainId,fromAddress,toAddress,amount,memo,remark,useVotedUTXO],Fun,(error)=>{
       this.errorFun(error);
     });
   }
@@ -384,15 +384,15 @@ export class WalletManager {
   }
 
   createDepositTransaction(masterWalletId:string,chainId:string,fromAddress:string,toAddress:string,amount:number
-                           ,sidechainAccounts:string,memo:string,useVotedUTXO:boolean,Fun){
-    this.wallet.createDepositTransaction([masterWalletId,chainId,fromAddress,toAddress,amount,sidechainAccounts,memo,useVotedUTXO],Fun,(error)=>{
+                           ,sidechainAccounts:string,memo:string,remark:string,useVotedUTXO:boolean,Fun){
+    this.wallet.createDepositTransaction([masterWalletId,chainId,fromAddress,toAddress,amount,sidechainAccounts,memo,remark,useVotedUTXO],Fun,(error)=>{
       this.errorFun(error);
     });
   }
 
   createWithdrawTransaction(masterWalletId:string,chainId:string,fromAddress:string,amount:number
-                           ,mainchainAccounts:string,memo:string,Fun){
-    this.wallet.createWithdrawTransaction([masterWalletId,chainId,fromAddress,amount,mainchainAccounts,memo],Fun,(error)=>{
+                           ,mainchainAccounts:string,memo:string,remark:string,Fun){
+    this.wallet.createWithdrawTransaction([masterWalletId,chainId,fromAddress,amount,mainchainAccounts,memo,remark],Fun,(error)=>{
       this.errorFun(error);
     });
   }
@@ -540,14 +540,14 @@ export class WalletManager {
        });
   }
 
-  createCancelProducerTransaction(masterWalletId:string, chainId:string, fromAddress:string,payloadJson:string,memo:string,useVotedUTXO:boolean, Fun){
-    this.wallet.createCancelProducerTransaction([masterWalletId, chainId,fromAddress,payloadJson,memo,useVotedUTXO], Fun, (error)=>{
+  createCancelProducerTransaction(masterWalletId:string, chainId:string, fromAddress:string,payloadJson:string,memo:string,remark:string,useVotedUTXO:boolean, Fun){
+    this.wallet.createCancelProducerTransaction([masterWalletId, chainId,fromAddress,payloadJson,memo,remark,useVotedUTXO], Fun, (error)=>{
       this.errorFun(error);
     });
  }
 
- createVoteProducerTransaction(masterWalletId:string, chainId:string,fromAddress:string,stake:number,publicKey:string,memo:string,useVotedUTXO:boolean, Fun){
-  this.wallet.createVoteProducerTransaction([masterWalletId, chainId,fromAddress,stake,publicKey,memo,useVotedUTXO], Fun, (error)=>{
+ createVoteProducerTransaction(masterWalletId:string, chainId:string,fromAddress:string,stake:number,publicKey:string,memo:string,remark:string,useVotedUTXO:boolean, Fun){
+  this.wallet.createVoteProducerTransaction([masterWalletId, chainId,fromAddress,stake,publicKey,memo,remark,useVotedUTXO], Fun, (error)=>{
     this.errorFun(error);
   });
  }
@@ -566,8 +566,8 @@ export class WalletManager {
  }
 
 
- createRegisterProducerTransaction(masterWalletId:string, chainId:string,fromAddress:string,payloadJson:string,amount:number,memo:string,useVotedUTXO:boolean,Fun){
-  this.wallet.createRegisterProducerTransaction([masterWalletId,chainId,fromAddress,payloadJson,amount,memo,useVotedUTXO],Fun,(error)=>{
+ createRegisterProducerTransaction(masterWalletId:string, chainId:string,fromAddress:string,payloadJson:string,amount:number,memo:string,remark:string,useVotedUTXO:boolean,Fun){
+  this.wallet.createRegisterProducerTransaction([masterWalletId,chainId,fromAddress,payloadJson,amount,memo,remark,useVotedUTXO],Fun,(error)=>{
     this.errorFun(error);
    });
  }
@@ -591,8 +591,8 @@ export class WalletManager {
  }
 
 
- createRetrieveDepositTransaction(masterWalletId:string, chainId:string,memo:string,Fun){
-       this.wallet.createRetrieveDepositTransaction([masterWalletId,chainId,memo],Fun,(error)=>{
+ createRetrieveDepositTransaction(masterWalletId:string, chainId:string,memo:string,remark:string,Fun){
+       this.wallet.createRetrieveDepositTransaction([masterWalletId,chainId,memo,remark],Fun,(error)=>{
                 this.errorFun(error);
        });
  }

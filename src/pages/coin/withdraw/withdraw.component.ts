@@ -134,6 +134,7 @@ export class WithdrawComponent{
       toAmount, // user input amount
       mainchainAddress, // user input address
       this.transfer.memo,
+      this.transfer.remark,
       (data)=>{
         if(data['success']){
           this.native.info(data);

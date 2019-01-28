@@ -170,7 +170,7 @@ export class PointvotePage {
      let votes = Config.accMul(this.stake,Config.SELA);
      let parms = {"1":this.masterId,"2":this.curChain,"3":votes,"4":JSON.stringify(this.publickeys),"5":"","6":this.useVotedUTXO};
      this.native.info(parms);
-     this.walletManager.createVoteProducerTransaction(this.masterId,this.curChain,"",votes,JSON.stringify(this.publickeys),"",this.useVotedUTXO,(data)=>{
+     this.walletManager.createVoteProducerTransaction(this.masterId,this.curChain,"",votes,JSON.stringify(this.publickeys),"","",this.useVotedUTXO,(data)=>{
       this.native.info(data);
       if(data['success']){
           let raw = data['success'];

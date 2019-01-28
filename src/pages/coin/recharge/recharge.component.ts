@@ -134,6 +134,7 @@ export class RechargeComponent{
       toAmount, // user input amount
       sidechainAddress, // user input address
       this.transfer.memo,
+      this.transfer.remark,
       false,
       (data)=>{
         if(data['success']){

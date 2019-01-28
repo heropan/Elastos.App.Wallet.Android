@@ -349,6 +349,7 @@ createMultTx(){
   this.transfer.toAddress,
   toAmount,
   this.transfer.memo,
+  this.transfer.remark,
   false,
   (data)=>{
     if(data["success"]){

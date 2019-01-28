@@ -132,7 +132,7 @@ export class SignupPage {
 
   createRegisterProducerTransaction(payloadJson){
       let deposit = Config.accMul(this.deposit,Config.SELA);
-      this.walletManager.createRegisterProducerTransaction(this.masterId,this.curChain,"",payloadJson,deposit,"",false,(data)=>{
+      this.walletManager.createRegisterProducerTransaction(this.masterId,this.curChain,"",payloadJson,deposit,"","",false,(data)=>{
         this.native.info(data);
         if(data["success"]){
           this.getFee(data["success"]);
