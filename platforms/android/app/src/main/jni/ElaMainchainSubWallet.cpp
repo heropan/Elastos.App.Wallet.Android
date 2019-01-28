@@ -8,28 +8,30 @@
 
 using namespace Elastos::ElaWallet;
 
-#define SIG_nativeCreateDepositTransaction "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Z)Ljava/lang/String;"
+#define SIG_nativeCreateDepositTransaction "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)Ljava/lang/String;"
 static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz, jlong jMainSubWalletProxy,
 		jstring jfromAddress,
 		jstring jlockedAddress,
 		jlong amount,
 		jstring jsideChainAddress,
 		jstring jmemo,
+		jstring jremark,
 		jboolean useVotedUTXO)
 {
 	bool exception = false;
 	std::string msgException;
 
-	const char* fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
-	const char* lockedAddress = env->GetStringUTFChars(jlockedAddress, NULL);
-	const char* sideChainAddress = env->GetStringUTFChars(jsideChainAddress, NULL);
-	const char* memo = env->GetStringUTFChars(jmemo, NULL);
+	const char *fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
+	const char *lockedAddress = env->GetStringUTFChars(jlockedAddress, NULL);
+	const char *sideChainAddress = env->GetStringUTFChars(jsideChainAddress, NULL);
+	const char *memo = env->GetStringUTFChars(jmemo, NULL);
+	const char *remark = env->GetStringUTFChars(jremark, NULL);
 
 	IMainchainSubWallet* wallet = (IMainchainSubWallet*)jMainSubWalletProxy;
 	jstring tx = NULL;
 
 	try {
-		nlohmann::json txJson = wallet->CreateDepositTransaction(fromAddress, lockedAddress, amount, sideChainAddress, memo, useVotedUTXO);
+		nlohmann::json txJson = wallet->CreateDepositTransaction(fromAddress, lockedAddress, amount, sideChainAddress, memo, remark, useVotedUTXO);
 		tx = env->NewStringUTF(txJson.dump().c_str());
 	} catch (std::exception &e) {
 		exception = true;
@@ -40,6 +42,7 @@ static jstring JNICALL nativeCreateDepositTransaction(JNIEnv *env, jobject clazz
 	env->ReleaseStringUTFChars(jlockedAddress, lockedAddress);
 	env->ReleaseStringUTFChars(jsideChainAddress, sideChainAddress);
 	env->ReleaseStringUTFChars(jmemo, memo);
+	env->ReleaseStringUTFChars(jremark, remark);
 
 	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
@@ -123,12 +126,13 @@ static jstring JNICALL nativeGenerateCancelProducerPayload(JNIEnv *env, jobject 
 	return payload;
 }
 
-#define SIG_nativeCreateRegisterProducerTransaction "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Z)Ljava/lang/String;"
+#define SIG_nativeCreateRegisterProducerTransaction "(JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Z)Ljava/lang/String;"
 static jstring JNICALL nativeCreateRegisterProducerTransaction(JNIEnv *env, jobject clazz, jlong jProxy,
 		jstring jFromAddress,
 		jstring jPayloadJson,
 		jlong amount,
 		jstring jMemo,
+		jstring jremark,
 		jboolean useVotedUTXO)
 {
 	bool exception = false;
@@ -138,11 +142,12 @@ static jstring JNICALL nativeCreateRegisterProducerTransaction(JNIEnv *env, jobj
 	const char *fromAddress = env->GetStringUTFChars(jFromAddress, NULL);
 	const char *payloadJson = env->GetStringUTFChars(jPayloadJson, NULL);
 	const char *memo        = env->GetStringUTFChars(jMemo, NULL);
+	const char *remark      = env->GetStringUTFChars(jremark, NULL);
 
 	try {
 		IMainchainSubWallet *wallet = (IMainchainSubWallet *)jProxy;
 		nlohmann::json payload = nlohmann::json::parse(payloadJson);
-		nlohmann::json txJson = wallet->CreateRegisterProducerTransaction(fromAddress, payload, amount, memo, useVotedUTXO);
+		nlohmann::json txJson = wallet->CreateRegisterProducerTransaction(fromAddress, payload, amount, memo, remark, useVotedUTXO);
 		tx = env->NewStringUTF(txJson.dump().c_str());
 	} catch (const std::exception &e) {
 		exception = true;
@@ -152,6 +157,7 @@ static jstring JNICALL nativeCreateRegisterProducerTransaction(JNIEnv *env, jobj
 	env->ReleaseStringUTFChars(jFromAddress, fromAddress);
 	env->ReleaseStringUTFChars(jPayloadJson, payloadJson);
 	env->ReleaseStringUTFChars(jMemo, memo);
+	env->ReleaseStringUTFChars(jremark, remark);
 
 	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
@@ -160,11 +166,12 @@ static jstring JNICALL nativeCreateRegisterProducerTransaction(JNIEnv *env, jobj
 	return tx;
 }
 
-#define SIG_nativeCreateUpdateProducerTransaction "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)Ljava/lang/String;"
+#define SIG_nativeCreateUpdateProducerTransaction "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)Ljava/lang/String;"
 static jstring JNICALL nativeCreateUpdateProducerTransaction(JNIEnv *env, jobject clazz, jlong jProxy,
 		jstring jFromAddress,
 		jstring jPayloadJson,
 		jstring jMemo,
+		jstring jremark,
 		jboolean useVotedUTXO)
 {
 	bool exception = false;
@@ -174,11 +181,12 @@ static jstring JNICALL nativeCreateUpdateProducerTransaction(JNIEnv *env, jobjec
 	const char *fromAddress = env->GetStringUTFChars(jFromAddress, NULL);
 	const char *payloadJson = env->GetStringUTFChars(jPayloadJson, NULL);
 	const char *memo        = env->GetStringUTFChars(jMemo, NULL);
+	const char *remark      = env->GetStringUTFChars(jremark, NULL);
 
 	try {
 		IMainchainSubWallet *wallet = (IMainchainSubWallet *)jProxy;
 		nlohmann::json payload = nlohmann::json::parse(payloadJson);
-		nlohmann::json txJson = wallet->CreateUpdateProducerTransaction(fromAddress, payload, memo, useVotedUTXO);
+		nlohmann::json txJson = wallet->CreateUpdateProducerTransaction(fromAddress, payload, memo, remark, useVotedUTXO);
 		tx = env->NewStringUTF(txJson.dump().c_str());
 	} catch (const std::exception &e) {
 		exception = true;
@@ -188,6 +196,7 @@ static jstring JNICALL nativeCreateUpdateProducerTransaction(JNIEnv *env, jobjec
 	env->ReleaseStringUTFChars(jFromAddress, fromAddress);
 	env->ReleaseStringUTFChars(jPayloadJson, payloadJson);
 	env->ReleaseStringUTFChars(jMemo, memo);
+	env->ReleaseStringUTFChars(jremark, remark);
 
 	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
@@ -196,11 +205,12 @@ static jstring JNICALL nativeCreateUpdateProducerTransaction(JNIEnv *env, jobjec
 	return tx;
 }
 
-#define SIG_nativeCreateCancelProducerTransaction "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)Ljava/lang/String;"
+#define SIG_nativeCreateCancelProducerTransaction "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)Ljava/lang/String;"
 static jstring JNICALL nativeCreateCancelProducerTransaction(JNIEnv *env, jobject clazz, jlong jProxy,
 		jstring jFromAddress,
 		jstring jPayloadJson,
 		jstring jMemo,
+		jstring jremark,
 		jboolean useVotedUTXO)
 {
 	bool exception = false;
@@ -210,11 +220,12 @@ static jstring JNICALL nativeCreateCancelProducerTransaction(JNIEnv *env, jobjec
 	const char *fromAddress = env->GetStringUTFChars(jFromAddress, NULL);
 	const char *payloadJson = env->GetStringUTFChars(jPayloadJson, NULL);
 	const char *memo        = env->GetStringUTFChars(jMemo, NULL);
+	const char *remark      = env->GetStringUTFChars(jremark, NULL);
 
 	try {
 		IMainchainSubWallet *wallet = (IMainchainSubWallet *)jProxy;
 		nlohmann::json payload = nlohmann::json::parse(payloadJson);
-		nlohmann::json txJson = wallet->CreateCancelProducerTransaction(fromAddress, payload, memo, useVotedUTXO);
+		nlohmann::json txJson = wallet->CreateCancelProducerTransaction(fromAddress, payload, memo, remark, useVotedUTXO);
 		tx = env->NewStringUTF(txJson.dump().c_str());
 	} catch (const std::exception &e) {
 		exception = true;
@@ -224,6 +235,7 @@ static jstring JNICALL nativeCreateCancelProducerTransaction(JNIEnv *env, jobjec
 	env->ReleaseStringUTFChars(jFromAddress, fromAddress);
 	env->ReleaseStringUTFChars(jPayloadJson, payloadJson);
 	env->ReleaseStringUTFChars(jMemo, memo);
+	env->ReleaseStringUTFChars(jremark, remark);
 
 	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
@@ -232,19 +244,21 @@ static jstring JNICALL nativeCreateCancelProducerTransaction(JNIEnv *env, jobjec
 	return tx;
 }
 
-#define SIG_nativeCreateRetrieveDepositTransaction "(JLjava/lang/String;)Ljava/lang/String;"
+#define SIG_nativeCreateRetrieveDepositTransaction "(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeCreateRetrieveDepositTransaction(JNIEnv *env, jobject clazz, jlong jProxy,
-		jstring jMemo)
+		jstring jMemo,
+		jstring jremark)
 {
 	bool exception = false;
 	std::string msgException;
 	jstring tx = NULL;
 
-	const char *memo = env->GetStringUTFChars(jMemo, NULL);
+	const char *memo   = env->GetStringUTFChars(jMemo, NULL);
+	const char *remark = env->GetStringUTFChars(jremark, NULL);
 
 	try {
 		IMainchainSubWallet *wallet = (IMainchainSubWallet *)jProxy;
-		nlohmann::json txJson = wallet->CreateRetrieveDepositTransaction(memo);
+		nlohmann::json txJson = wallet->CreateRetrieveDepositTransaction(memo, remark);
 		tx = env->NewStringUTF(txJson.dump().c_str());
 	} catch (const std::exception &e) {
 		exception = true;
@@ -252,6 +266,7 @@ static jstring JNICALL nativeCreateRetrieveDepositTransaction(JNIEnv *env, jobje
 	}
 
 	env->ReleaseStringUTFChars(jMemo, memo);
+	env->ReleaseStringUTFChars(jremark, remark);
 
 	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
@@ -283,12 +298,13 @@ static jstring JNICALL nativeGetPublicKeyForVote(JNIEnv *env, jobject clazz, jlo
 	return publicKey;
 }
 
-#define SIG_nativeCreateVoteProducerTransaction "(JLjava/lang/String;JLjava/lang/String;Ljava/lang/String;Z)Ljava/lang/String;"
+#define SIG_nativeCreateVoteProducerTransaction "(JLjava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)Ljava/lang/String;"
 static jstring JNICALL nativeCreateVoteProducerTransaction(JNIEnv *env, jobject clazz, jlong jProxy,
 		jstring jfromAddress,
 		jlong stake,
 		jstring jPublicKeys,
 		jstring jMemo,
+		jstring jremark,
 		jboolean useVotedUTXO)
 {
 
@@ -296,14 +312,15 @@ static jstring JNICALL nativeCreateVoteProducerTransaction(JNIEnv *env, jobject 
 	std::string msgException;
 
 	const char *fromAddress = env->GetStringUTFChars(jfromAddress, NULL);
-	const char *publicKeys = env->GetStringUTFChars(jPublicKeys, NULL);
-	const char *memo       = env->GetStringUTFChars(jMemo, NULL);
+	const char *publicKeys  = env->GetStringUTFChars(jPublicKeys, NULL);
+	const char *memo        = env->GetStringUTFChars(jMemo, NULL);
+	const char *remark      = env->GetStringUTFChars(jremark, NULL);
 
 	jstring tx = NULL;
 
 	try {
 		IMainchainSubWallet *wallet = (IMainchainSubWallet*)jProxy;
-		nlohmann::json txJson = wallet->CreateVoteProducerTransaction(fromAddress, stake, nlohmann::json::parse(publicKeys), memo, useVotedUTXO);
+		nlohmann::json txJson = wallet->CreateVoteProducerTransaction(fromAddress, stake, nlohmann::json::parse(publicKeys), memo, remark, useVotedUTXO);
 		tx = env->NewStringUTF(txJson.dump().c_str());
 	} catch (std::exception &e) {
 		exception = true;
@@ -313,6 +330,7 @@ static jstring JNICALL nativeCreateVoteProducerTransaction(JNIEnv *env, jobject 
 	env->ReleaseStringUTFChars(jfromAddress, fromAddress);
 	env->ReleaseStringUTFChars(jPublicKeys, publicKeys);
 	env->ReleaseStringUTFChars(jMemo, memo);
+	env->ReleaseStringUTFChars(jremark, remark);
 
 	if (exception) {
 		ThrowWalletException(env, msgException.c_str());
