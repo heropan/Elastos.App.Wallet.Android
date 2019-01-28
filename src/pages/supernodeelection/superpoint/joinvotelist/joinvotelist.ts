@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams,ModalController} from 'ionic-angula
 import {Native} from "../../../../providers/Native";
 import {ApiUrl} from "../../../../providers/ApiUrl";
 import {Config} from "../../../../providers/Config";
+import { instantiateDefaultStyleNormalizer } from '@angular/platform-browser/animations/src/providers';
 /**
  * Generated class for the JoinvotelistPage page.
  *
@@ -64,9 +65,9 @@ export class JoinvotelistPage {
     modal.present();
   }
 
-  jumpNodeInformation(status){
-    this.native.info(status);
-    //this.native.Go(this.navCtrl,'NodeinformationPage',{"status":status});
+  jumpNodeInformation(item){
+    this.native.info(item);
+    this.native.Go(this.navCtrl,'NodeinformationPage',{"info":item});
   }
 
 

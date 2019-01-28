@@ -597,6 +597,19 @@ export class WalletManager {
        });
  }
 
+  /**
+   * @param {string} masterWalletId
+   * @param {string} chainId
+   * @param {string} start
+   * @param {string} addressOrTxId
+   * @param Fun
+   */
+  getAllMyTransaction(masterWalletId:string,chainId:string,start,addressOrTxId, Fun) {
+    this.wallet.getAllTransaction([masterWalletId,chainId,start,-1, addressOrTxId], Fun,(error)=>{
+      this.errorFun(error);
+    });
+  }
+
   errorFun(error) {
     this.native.info(error);
     let key = error["error"]["code"];

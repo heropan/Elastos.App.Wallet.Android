@@ -61,6 +61,7 @@ export class MyComponent{
           this.getMasterWalletBasicInfo();
     });
     this.masterWalletId = Config.getCurMasterWalletId();
+    this.getAllMyTransaction();
     this.getMasterWalletBasicInfo();
   }
 
@@ -159,6 +160,16 @@ export class MyComponent{
    createRetrieveDepositTransaction(){
      this.walletManager.createRetrieveDepositTransaction(this.masterWalletId,"ELA","",(data)=>{
             this.native.info(data);
+     });
+   }
+
+
+   getAllMyTransaction(){
+     this.walletManager.getAllMyTransaction(this.masterWalletId,"ELA",0,"",(data)=>{
+               this.native.info(data);
+               if(data["success"]){
+
+               }
      });
    }
 }

@@ -19,40 +19,40 @@
     </div>
     <ion-row padding-left padding-right>
         <ion-col col-12 class="row-title">{{'node-name'|translate}}</ion-col>
-        <ion-col col-12 class="row-content">UnlimitedCOX</ion-col>
+        <ion-col col-12 class="row-content">{{info.nickname}}</ion-col>
     </ion-row>
 
     <ion-row padding-left padding-right>
         <ion-col col-12 class="row-title">{{'node-address'|translate}}</ion-col>
-        <ion-col col-12 class="row-content">0x373b3550fa1f3cfd285e48a057d382e1b6d5bcb0</ion-col>
+        <ion-col col-12 class="row-content">{{info.ownerpublickey}}</ion-col>
     </ion-row>
 
-    <ion-row padding-left padding-right>
+    <!-- <ion-row padding-left padding-right>
         <ion-col col-12 class="row-title">{{'node-declaration'|translate}}</ion-col>
         <ion-col col-12 class="row-content">做公平公开公正的全民节点</ion-col>
-    </ion-row>
+    </ion-row> -->
 
     <ion-row padding-left padding-right>
         <ion-col col-12 class="row-title">{{'current-votes'|translate}}</ion-col>
-        <ion-col col-12 class="row-content green">2034866票</ion-col>
+        <ion-col col-12 class="row-content green">{{info.votes}} {{'ticket'|translate}}</ion-col>
     </ion-row>
 
-    <ion-row padding-left padding-right>
+    <!-- <ion-row padding-left padding-right>
         <ion-col col-12 class="row-title">{{'share-voting'|translate}}</ion-col>
         <ion-col col-12 class="row-content green">3.20%</ion-col>
-    </ion-row>
+    </ion-row> -->
 
     <ion-row padding-left padding-right>
         <ion-col col-12 class="row-title">{{'country-region'|translate}}</ion-col>
-        <ion-col col-12 class="row-content">埃塞俄比亚 亚的斯亚贝巴</ion-col>
+        <ion-col col-12 class="row-content">{{getCountryByCode(info.location)|translate}}</ion-col>
     </ion-row>
 
     <ion-row padding-left padding-right>
         <ion-col col-12 class="row-title">URL</ion-col>
-        <ion-col col-12 class="row-content blue">http://dict.youdao.com/<span><img src="./assets/images/vote/copy_url.png"></span></ion-col>
+        <ion-col col-12 class="row-content blue">{{info.url}}<span><img src="./assets/images/vote/copy_url.png"></span></ion-col>
     </ion-row>
 </ion-content>
-<ion-footer>
+<!-- <ion-footer>
     <ion-row padding-left padding-right>
         <ion-col col-6 *ngIf="!isStatus" (click)="addList('')">
             <button ion-button>
@@ -70,4 +70,4 @@
               </button>
         </ion-col>
     </ion-row>
-</ion-footer>
+</ion-footer> -->
