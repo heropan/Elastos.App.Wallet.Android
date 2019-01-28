@@ -590,6 +590,13 @@ export class WalletManager {
    });
  }
 
+
+ createRetrieveDepositTransaction(masterWalletId:string, chainId:string,memo:string,Fun){
+       this.wallet.createRetrieveDepositTransaction([masterWalletId,chainId,memo],Fun,(error)=>{
+                this.errorFun(error);
+       });
+ }
+
   errorFun(error) {
     this.native.info(error);
     let key = error["error"]["code"];

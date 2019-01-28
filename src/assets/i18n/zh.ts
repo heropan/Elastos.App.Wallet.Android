@@ -695,5 +695,6 @@ export const zh = {
 'please-node-PublicKey':'请输入节点公钥',
 'text-id-kyc-cochain1':'需要花费',
 'candidate-nodes-error':'最多选择36个候选人节点',
-'please-enter-node-iPAddress':'请输入网络地址'
+'please-enter-node-iPAddress':'请输入网络地址',
+'take-back-deposit':"取回质押金"
 };

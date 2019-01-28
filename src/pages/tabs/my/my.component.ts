@@ -106,6 +106,9 @@ export class MyComponent{
         case 8:
            this.native.Go(this.navCtrl,'AboutPage');
           break;
+        case 9:
+           this.createRetrieveDepositTransaction();
+         break;
      }
    }
 
@@ -151,5 +154,11 @@ export class MyComponent{
                     this.native.Go(this.navCtrl,'SuperpointPage',parms);
                   }
       });
+   }
+
+   createRetrieveDepositTransaction(){
+     this.walletManager.createRetrieveDepositTransaction(this.masterWalletId,"ELA","",(data)=>{
+            this.native.info(data);
+     });
    }
 }

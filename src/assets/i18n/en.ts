@@ -700,7 +700,8 @@ export const en = {
 'please-node-PublicKey':'Please Node PublicKey',
 'text-id-kyc-cochain1':'need service fee',
 'candidate-nodes-error':'Choose up to 36 candidate nodes',
-'please-enter-node-iPAddress':'please enter node network address'
+'please-enter-node-iPAddress':'please enter node network address',
+'take-back-deposit':'Take back deposit'
 };
 
 

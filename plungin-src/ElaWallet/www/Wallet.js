@@ -346,5 +346,10 @@ walletFunc.prototype.getPublicKeyForVote = function(arg0, success, error) {
     exec(success, error, "Wallet", "getPublicKeyForVote", arg0);
 };
 
+walletFunc.prototype.createRetrieveDepositTransaction = function(arg0, success, error) {
+    exec(success, error, "Wallet", "createRetrieveDepositTransaction", arg0);
+};
+
+
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;
