@@ -61,7 +61,7 @@
           </ion-label>
         </button>
 
-        <ion-item (click)="onNext(9)">
+        <ion-item *ngIf="isShowDeposit" (click)="onNext(9)">
             <ion-label>
                 <span>{{'take-back-deposit' | translate }}</span>
             </ion-label>

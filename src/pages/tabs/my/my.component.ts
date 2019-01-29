@@ -4,7 +4,6 @@ import {ContactListComponent} from "../../contacts/contact-list/contact-list.com
 import {IdLauncherComponent} from "../../id/launcher/launcher";
 import {IdHomeComponent} from "../../id/home/home";
 import {PublickeyPage} from '../../../pages/publickey/publickey';
-import {TxdetailsPage} from '../../../pages/txdetails/txdetails';
 import { Config } from '../../../providers/Config';
 import { NavController, NavParams,Events,Navbar } from 'ionic-angular';
 import {WalletManager} from '../../../providers/WalletManager';
@@ -13,6 +12,8 @@ import {LocalStorage} from "../../../providers/Localstorage";
 import { Util } from '../../../providers/Util';
 import {LanguagePage} from '../../../pages/wallet/language/language';
 import {ScanPage} from '../../../pages/scan/scan';
+import { PopupProvider } from '../../../providers/popup';
+import {ScancodePage} from '../../../pages/scancode/scancode';
 @Component({
   selector: 'app-my',
   templateUrl: 'my.component.html',
@@ -23,7 +24,12 @@ export class MyComponent{
   public masterWalletType:string = "";
   public readonly:string="";
   public currentLanguageName:string = "";
-  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public events :Events,public native :Native,public localStorage:LocalStorage){
+  public isShowDeposit:boolean = false;
+  public fee:number = 0;
+  public feePerKb:number = 10000;
+  public walletInfo = {};
+  public passworld:string = "";
+  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public events :Events,public native :Native,public localStorage:LocalStorage,public popupProvider:PopupProvider){
        //this.init();
   }
 
@@ -70,6 +76,7 @@ export class MyComponent{
       if(data["success"]){
          this.native.info(data);
          let item = JSON.parse(data["success"])["Account"];
+         this.walletInfo = item;
          this.masterWalletType = item["Type"];
          this.readonly = item["InnerType"] || "";
       }else{
@@ -90,10 +97,10 @@ export class MyComponent{
         this.native.Go(this.navCtrl,ContactListComponent);
          break;
        case 3:
-         this.sendTX();
+         this.sendTX1();
          break;
        case 4:
-         this.singTx();
+         this.singTx1();
          break;
        case 6:
           this.getDIDList();
@@ -108,7 +115,21 @@ export class MyComponent{
            this.native.Go(this.navCtrl,'AboutPage');
           break;
         case 9:
-           this.createRetrieveDepositTransaction();
+        this.popupProvider.presentPrompt().then((val)=>{
+          if(Util.isNull(val)){
+            this.native.toast_trans("text-id-kyc-prompt-password");
+            return;
+          }
+          this.passworld = val.toString();
+          this.native.showLoading().then(()=>{
+             this.createRetrieveDepositTransaction();
+          });
+
+          //this.native.Go(this.navCtrl,'JoinvotelistPage');
+}).catch(()=>{
+
+});
+
          break;
      }
    }
@@ -123,11 +144,11 @@ export class MyComponent{
     });
    }
 
-   singTx(){
+   singTx1(){
     this.native.Go(this.navCtrl,ScanPage,{"pageType":"3"});
    }
 
-   sendTX(){
+   sendTX1(){
       this.native.Go(this.navCtrl,ScanPage,{"pageType":"4"});
    }
 
@@ -160,6 +181,8 @@ export class MyComponent{
    createRetrieveDepositTransaction(){
      this.walletManager.createRetrieveDepositTransaction(this.masterWalletId,"ELA","","",(data)=>{
             this.native.info(data);
+            let raw = data['success'];
+            this.getFee(raw);
      });
    }
 
@@ -168,8 +191,124 @@ export class MyComponent{
      this.walletManager.getAllMyTransaction(this.masterWalletId,"ELA",0,"",(data)=>{
                this.native.info(data);
                if(data["success"]){
-
+                let transactions = JSON.parse(data["success"])["Transactions"] || [];
+                let item = this.getBackDeposit(transactions);
+                if(item != -1){
+                   let type = item['Type'];
+                   let height = item['Height'];
+                   let confirms = parseInt(item['ConfirmStatus'].substring(0,1));
+                   this.native.info(confirms);
+                   let jianju = Config.getEstimatedHeight(this.masterWalletId,"ELA") - height;
+                   this.native.info(jianju);
+                   if(type === 10 && confirms>1 && jianju>=2160){
+                           this.isShowDeposit = true;
+                   }else{
+                           this.isShowDeposit = false;
+                   }
+                }else{
+                  this.isShowDeposit = false;
+                }
                }
      });
    }
+
+
+getBackDeposit(list){
+       for(let index = 0; index<list.length;index++){
+             let item = list[index];
+               if(item["Type"] === 12){
+                  return item;
+               }
+               if(item["Type"] === 10){
+                  return item;
+               }
+        }
+
+        return -1;
+ }
+
+
+
+ //计算手续费
+ getFee(rawTransaction){
+  this.walletManager.calculateTransactionFee(this.masterWalletId,"ELA",rawTransaction, this.feePerKb, (data) => {
+    if(data['success']){
+      this.native.hideLoading();
+      this.native.info(data);
+      this.fee = data['success'];
+      this.popupProvider.presentConfirm1(this.fee/Config.SELA).then(()=>{
+              this.native.showLoading().then(()=>{
+                this.updateTxFee(rawTransaction);
+              });
+
+      });
+    }
+  });
+ }
+
+
+ updateTxFee(rawTransaction){
+
+  this.walletManager.updateTransactionFee(this.masterWalletId,"ELA",rawTransaction, this.fee,"",(data)=>{
+    if(data["success"]){
+     this.native.info(data);
+     if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["InnerType"] === "Readonly"){
+              this.readWallet(data["success"]);
+              return;
+     }
+     this.singTx(data["success"]);
+    }else{
+     this.native.info(data);
+    }
+});
+ }
+
+
+ singTx(rawTransaction){
+  this.walletManager.signTransaction(this.masterWalletId,"ELA",rawTransaction,this.passworld,(data)=>{
+    if(data["success"]){
+      this.native.info(data);
+      if(this.walletInfo["Type"] === "Standard"){
+           this.sendTx(data["success"]);
+      }else if(this.walletInfo["Type"] === "Multi-Sign"){
+          this.walletManager.encodeTransactionToString(data["success"],(raw)=>{
+                   if(raw["success"]){
+                    this.native.hideLoading();
+                    this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":"ELA","fee":this.fee/Config.SELA, "raw":raw["success"]}});
+                   }else{
+                    this.native.info(raw);
+                   }
+          });
+      }
+     }else{
+         this.native.info(data);
+     }
+  });
+ }
+
+ sendTx(rawTransaction){
+  this.native.info(rawTransaction);
+  this.walletManager.publishTransaction(this.masterWalletId,"ELA",rawTransaction,(data)=>{
+    if(data['success']){
+      this.native.hideLoading();
+      this.native.toast_trans('send-raw-transaction');
+    }else{
+      this.native.info(data);
+    }
+  });
+ }
+
+ readWallet(raws){
+  this.walletManager.encodeTransactionToString(raws,(raw)=>{
+    if(raw["success"]){
+      this.native.hideLoading();
+      this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":"ELA","fee":this.fee/Config.SELA, "raw":raw["success"]}});
+    }
+});
+}
+
+
+
+
+
 }

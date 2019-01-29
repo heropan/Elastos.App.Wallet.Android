@@ -13,13 +13,13 @@
 </ion-header>
 
 <ion-content padding>
-    <div class="wallet">
+    <!-- <div class="wallet">
         <div class="name">
             <div class="big">{{walletName}}</div>
-            <!-- <div class="small">A6ESh9uaN...wnxzYKuKPjX</div> -->
+             <div class="small">A6ESh9uaN...wnxzYKuKPjX</div>
             <div class="data">
                 <img src="./assets/images/vote/going_on.png">
-                <!-- <div class="power">{{'this-vote'|translate}}：<span>{{totalNum}}</span></div> -->
+                 <div class="power">{{'this-vote'|translate}}：<span>{{totalNum}}</span></div>
             </div>
         </div>
         <div class="logo">
@@ -27,7 +27,7 @@
                 <img src="./assets/images/vote/waiting_img.png">
             </div>
         </div>
-    </div>
+    </div> -->
     <ion-row align-items-center padding-top *ngIf="voteList.length === 0" class="text-center no-data">
         <ion-col>
             <img src="./assets/images/vote/empty_page.png">
@@ -35,14 +35,14 @@
         </ion-col>
     </ion-row>
 
-    <ion-row align-items-center padding-top *ngIf="voteList.length > 0">
+    <!-- <ion-row align-items-center padding-top *ngIf="voteList.length > 0">
         <ion-col col-4 class="text-left title">
             {{'current voting record'|translate}}
         </ion-col>
         <ion-col col-8 class="text-right title-number">
 
         </ion-col>
-    </ion-row>
+    </ion-row> -->
 
     <ion-row align-items-center class="border-bottom" padding-top padding-bottom *ngFor="let item of voteList; let i = index">
         <ion-col col-4 class="text-left list">
