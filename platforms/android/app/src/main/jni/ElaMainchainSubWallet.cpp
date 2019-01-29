@@ -246,7 +246,7 @@ static jstring JNICALL nativeCreateCancelProducerTransaction(JNIEnv *env, jobjec
 
 #define SIG_nativeCreateRetrieveDepositTransaction "(JJLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeCreateRetrieveDepositTransaction(JNIEnv *env, jobject clazz, jlong jProxy,
-		jlong amount
+		jlong amount,
 		jstring jMemo,
 		jstring jremark)
 {
