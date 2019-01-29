@@ -179,7 +179,8 @@ export class MyComponent{
    }
 
    createRetrieveDepositTransaction(){
-     this.walletManager.createRetrieveDepositTransaction(this.masterWalletId,"ELA","","",(data)=>{
+     let amount = Config.accMul(Config.deposit,Config.SELA) - 10000;
+     this.walletManager.createRetrieveDepositTransaction(this.masterWalletId,"ELA",amount,"","",(data)=>{
             this.native.info(data);
             let raw = data['success'];
             this.getFee(raw);

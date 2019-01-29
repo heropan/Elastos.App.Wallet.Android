@@ -591,8 +591,8 @@ export class WalletManager {
  }
 
 
- createRetrieveDepositTransaction(masterWalletId:string, chainId:string,memo:string,remark:string,Fun){
-       this.wallet.createRetrieveDepositTransaction([masterWalletId,chainId,memo,remark],Fun,(error)=>{
+ createRetrieveDepositTransaction(masterWalletId:string, chainId:string,amount,memo:string,remark:string,Fun){
+       this.wallet.createRetrieveDepositTransaction([masterWalletId,chainId,amount,memo,remark],Fun,(error)=>{
                 this.errorFun(error);
        });
  }
