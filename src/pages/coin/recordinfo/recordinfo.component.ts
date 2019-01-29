@@ -92,8 +92,20 @@ export class RecordinfoComponent{
         case 8:
         vtype = "transaction-type-8";
           break;
-        default:
+        case 9:
           vtype = "transaction-type-9";
+        break;
+        case 10:
+        vtype = "transaction-type-10";
+        break;
+        case 11:
+        vtype = "transaction-type-11";
+        break;
+        case 12:
+        vtype = "transaction-type-12";
+        break;
+        default:
+          vtype = "transaction-type-13";
         }
         let payStatusIcon = transaction["Direction"];
         if (payStatusIcon === "Received") {
