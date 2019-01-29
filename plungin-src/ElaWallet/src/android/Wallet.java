@@ -2419,13 +2419,15 @@ public class Wallet extends CordovaPlugin {
 
 	// args[0]: String masterWalletID
 	// args[1]: String chainID
-	// args[2]: String memo
-	// args[3]: String remark
+	// args[2]: long amount
+	// args[3]: String memo
+	// args[4]: String remark
 	public void createRetrieveDepositTransaction(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
 		String masterWalletID = args.getString(idx++);
 		String chainID        = args.getString(idx++);
+		long amount           = args.getLong(idx++);
 		String memo           = args.getString(idx++);
 		String remark         = args.getString(idx++);
 
@@ -2448,7 +2450,7 @@ public class Wallet extends CordovaPlugin {
 
 			IMainchainSubWallet mainchainSubWallet = (IMainchainSubWallet)subWallet;
 
-			String txJson = mainchainSubWallet.CreateRetrieveDepositTransaction(memo, remark);
+			String txJson = mainchainSubWallet.CreateRetrieveDepositTransaction(amount, memo, remark);
 			successProcess(cc, txJson);
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, formatWalletName(masterWalletID, chainID) + " create retrieve deposit tx");

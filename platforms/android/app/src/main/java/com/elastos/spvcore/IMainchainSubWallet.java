@@ -36,8 +36,8 @@ public class IMainchainSubWallet extends ISubWallet {
 		return nativeCreateCancelProducerTransaction(mMainchainProxy, fromAddress, payloadJson, memo, remark, useVotedUTXO);
 	}
 
-	public String CreateRetrieveDepositTransaction(String memo, String remark) throws WalletException {
-		return nativeCreateRetrieveDepositTransaction(mMainchainProxy, memo, remark);
+	public String CreateRetrieveDepositTransaction(long amount, String memo, String remark) throws WalletException {
+		return nativeCreateRetrieveDepositTransaction(mMainchainProxy, amount, memo, remark);
 	}
 
 	public String GetPublicKeyForVote() throws WalletException {
@@ -72,7 +72,7 @@ public class IMainchainSubWallet extends ISubWallet {
 
 	private native String nativeCreateCancelProducerTransaction(long proxy, String fromAddress, String payloadJson, String memo, String remark, boolean useVotedUTXO);
 
-	private native String nativeCreateRetrieveDepositTransaction(long proxy, String memo, String remark);
+	private native String nativeCreateRetrieveDepositTransaction(long proxy, long amount, String memo, String remark);
 
 	private native String nativeGetPublicKeyForVote(long proxy);
 

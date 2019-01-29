@@ -244,8 +244,9 @@ static jstring JNICALL nativeCreateCancelProducerTransaction(JNIEnv *env, jobjec
 	return tx;
 }
 
-#define SIG_nativeCreateRetrieveDepositTransaction "(JLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
+#define SIG_nativeCreateRetrieveDepositTransaction "(JJLjava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
 static jstring JNICALL nativeCreateRetrieveDepositTransaction(JNIEnv *env, jobject clazz, jlong jProxy,
+		jlong amount
 		jstring jMemo,
 		jstring jremark)
 {
@@ -258,7 +259,7 @@ static jstring JNICALL nativeCreateRetrieveDepositTransaction(JNIEnv *env, jobje
 
 	try {
 		IMainchainSubWallet *wallet = (IMainchainSubWallet *)jProxy;
-		nlohmann::json txJson = wallet->CreateRetrieveDepositTransaction(memo, remark);
+		nlohmann::json txJson = wallet->CreateRetrieveDepositTransaction(amount, memo, remark);
 		tx = env->NewStringUTF(txJson.dump().c_str());
 	} catch (const std::exception &e) {
 		exception = true;
