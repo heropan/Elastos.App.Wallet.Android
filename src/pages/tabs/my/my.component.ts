@@ -14,6 +14,7 @@ import {LanguagePage} from '../../../pages/wallet/language/language';
 import {ScanPage} from '../../../pages/scan/scan';
 import { PopupProvider } from '../../../providers/popup';
 import {ScancodePage} from '../../../pages/scancode/scancode';
+import {ApiUrl} from "../../../providers/ApiUrl";
 @Component({
   selector: 'app-my',
   templateUrl: 'my.component.html',
@@ -29,6 +30,7 @@ export class MyComponent{
   public feePerKb:number = 10000;
   public walletInfo = {};
   public passworld:string = "";
+  public available = 0;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public events :Events,public native :Native,public localStorage:LocalStorage,public popupProvider:PopupProvider){
        //this.init();
   }
@@ -115,21 +117,7 @@ export class MyComponent{
            this.native.Go(this.navCtrl,'AboutPage');
           break;
         case 9:
-        this.popupProvider.presentPrompt().then((val)=>{
-          if(Util.isNull(val)){
-            this.native.toast_trans("text-id-kyc-prompt-password");
-            return;
-          }
-          this.passworld = val.toString();
-          this.native.showLoading().then(()=>{
-             this.createRetrieveDepositTransaction();
-          });
-
-          //this.native.Go(this.navCtrl,'JoinvotelistPage');
-}).catch(()=>{
-
-});
-
+           this.getPublicKeyForVote();
          break;
      }
    }
@@ -179,7 +167,7 @@ export class MyComponent{
    }
 
    createRetrieveDepositTransaction(){
-     let amount = Config.accMul(Config.deposit,Config.SELA) - 10000;
+     let amount = Config.accMul(this.available,Config.SELA) - 10000;
      this.walletManager.createRetrieveDepositTransaction(this.masterWalletId,"ELA",amount,"","",(data)=>{
             this.native.info(data);
             let raw = data['success'];
@@ -308,7 +296,51 @@ getBackDeposit(list){
 });
 }
 
+getdepositcoin(ownerpublickey){
+  let parms ={"ownerpublickey":ownerpublickey};
+  this.native.getHttp().postByAuth(ApiUrl.getdepositcoin,parms).toPromise().then(data=>{
+         if(data["status"] === 200){
+             //this.native.info(data);
+             let votesResult = JSON.parse(data["_body"]);
+             this.native.info(votesResult);
+             if(votesResult["code"] === "0"){
+              //this.native.info(votesResult);
+              this.available = votesResult["data"]["result"]["available"];
+              //this.native.info(this.available);
+              this.getBackDepositcoin();
+             }
+           }
+  });
+}
 
+getPublicKeyForVote(){
+  this.walletManager.getPublicKeyForVote(this.masterWalletId,"ELA",(data)=>{
+            this.native.info(data);
+            if(data["success"]){
+              let publickey = data["success"];
+              this.native.info(publickey);
+              this.getdepositcoin(publickey);
+            }
+  });
+}
+
+
+getBackDepositcoin(){
+  this.popupProvider.presentPrompt().then((val)=>{
+    if(Util.isNull(val)){
+      this.native.toast_trans("text-id-kyc-prompt-password");
+      return;
+    }
+    this.passworld = val.toString();
+    this.native.showLoading().then(()=>{
+       this.createRetrieveDepositTransaction();
+    });
+
+    //this.native.Go(this.navCtrl,'JoinvotelistPage');
+}).catch(()=>{
+
+});
+}
 
 
 
