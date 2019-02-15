@@ -81,10 +81,11 @@ export class MyvotePage {
     let arr = [];
     for(let key in obj){
       let name = Config.getNickname(key,list);
-      let item ={"name":name,"votes":obj[key]/Config.SELA};
-      arr.push(item);
+      if(name != ""){
+        let item ={"name":name,"votes":obj[key]/Config.SELA};
+        arr.push(item);
+      }
     }
-
     return arr;
   }
 }
