@@ -1,6 +1,4 @@
-<ion-content>
-    <ion-tabs #myTabs>
-        <ion-tab [root]="homeRoot" tabTitle="{{ 'tab-home' | translate }}" tabIcon="tab-home"></ion-tab>
-        <ion-tab [root]="settingsRoot" tabTitle="{{ 'tab-setting' | translate }}" tabIcon="tab-settings"></ion-tab>
-    </ion-tabs>
-</ion-content>
+<ion-tabs #myTabs (ionChange)="changeTabs()">
+    <ion-tab [root]="homeRoot" tabTitle="{{ 'tab-home' | translate }}" tabIcon="tab-home"></ion-tab>
+    <ion-tab [root]="settingsRoot" tabTitle="{{ 'tab-setting' | translate }}" tabIcon="tab-settings"></ion-tab>
+</ion-tabs>
