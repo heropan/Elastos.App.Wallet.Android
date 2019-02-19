@@ -62,7 +62,27 @@ export class AddpublickeyPage {
     this.native.Go(this.navCtrl,ScanPage,{"pageType":"5"});
   }
 
+  isRepeat(arr) {
+    var hash = {};
+    for(var i in arr) {
+      if(hash[arr[i]])
+      {
+        return true;
+      }
+  // 不存在该元素，则赋值为true，可以赋任意值，相应的修改if判断条件即可
+        hash[arr[i]] = true;
+        }
+        return false;
+    }
+
   nextPage(){
+    let copayers = this.getTotalCopayers();
+    //this.native.info(copayers);
+    //this.native.info(this.isRepeat(copayers));
+    if(this.isRepeat(JSON.parse(copayers))){
+        this.native.toast_trans("publickey-repeat");
+        return;
+    }
     this.native.showLoading().then(()=>{
       if(this.msobj["payPassword"]){
         this.createWalletWithMnemonic();

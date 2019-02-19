@@ -706,7 +706,8 @@ export const en = {
 'text-id-kyc-cochain1':'need service fee',
 'candidate-nodes-error':'Choose up to 36 candidate nodes',
 'please-enter-node-iPAddress':'please enter node network address',
-'take-back-deposit':'Take back deposit'
+'take-back-deposit':'Take back deposit',
+'publickey-repeat':'publicKey Repeat'
 };
 
 
