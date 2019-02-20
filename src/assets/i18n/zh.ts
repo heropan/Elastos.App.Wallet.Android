@@ -702,5 +702,6 @@ export const zh = {
 'candidate-nodes-error':'最多选择36个候选人节点',
 'please-enter-node-iPAddress':'请输入网络地址',
 'take-back-deposit':"取回质押金",
-'publickey-repeat':'公钥重复'
+'publickey-repeat':'公钥重复',
+'use-utxo':'是否使用投票utxo'
 };

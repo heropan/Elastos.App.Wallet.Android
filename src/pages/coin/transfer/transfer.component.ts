@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component,NgZone} from '@angular/core';
 import {WalletManager} from '../../../providers/WalletManager';
 import {Native} from "../../../providers/Native";
 import {LocalStorage} from "../../../providers/Localstorage";
@@ -44,9 +44,10 @@ export class TransferComponent {
   did:string;
   isInput = false;
   walletInfo = {};
+  useVotedUTXO:boolean = false;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,
-    public native: Native,public localStorage:LocalStorage,public modalCtrl: ModalController,public events :Events ){
-         this.init();
+    public native: Native,public localStorage:LocalStorage,public modalCtrl: ModalController,public events :Events,public zone:NgZone){
+          this.init();
     }
   init() {
     this.events.subscribe("address:update",(address)=>{
@@ -68,6 +69,12 @@ export class TransferComponent {
     this.did = transferObj["did"] || "";
     this.walletInfo = transferObj["walletInfo"] || {};
     this.initData();
+  }
+
+  updateUseVotedUTXO(useVotedUTXO){
+    this.zone.run(()=>{
+      this.useVotedUTXO = useVotedUTXO;
+    });
   }
 
   rightHeader(){
@@ -152,7 +159,7 @@ export class TransferComponent {
       toAmount,
       this.transfer.memo,
       this.transfer.remark,
-      false,
+      this.useVotedUTXO,
       (data)=>{
         if(data['success']){
           this.native.info(data);
@@ -350,7 +357,7 @@ createMultTx(){
   toAmount,
   this.transfer.memo,
   this.transfer.remark,
-  false,
+  this.useVotedUTXO,
   (data)=>{
     if(data["success"]){
       this.native.info(data);

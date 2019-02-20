@@ -707,7 +707,8 @@ export const en = {
 'candidate-nodes-error':'Choose up to 36 candidate nodes',
 'please-enter-node-iPAddress':'please enter node network address',
 'take-back-deposit':'Take back deposit',
-'publickey-repeat':'publicKey Repeat'
+'publickey-repeat':'publicKey Repeat',
+'use-utxo':'Whether to use voting utxo'
 };
 
 
