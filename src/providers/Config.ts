@@ -1013,11 +1013,11 @@ public static getCountryByCode(code){
 
   for(let index in this.countrys){
       let item = this.countrys[index];
-      if(code === item["code"]){
+      if(code === parseInt(item["code"])){
         return item["key"];
       }
-     return "Unknown";
     }
+    return "Unknown";
 }
 
 

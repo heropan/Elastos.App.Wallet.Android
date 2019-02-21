@@ -22,7 +22,7 @@ export class NodeinformationPage {
          this.info = this.navParams.data["info"];
          this.masterId = Config.getCurMasterWalletId();
          this.countrys = Config.getAllCountry();
-         console.log("==========NodeinformationPage"+this.info);
+         console.log("==========NodeinformationPage"+JSON.stringify(this.info));
         //  if(this.navParams.data["status"] === 0){
         //           this.isStatus = false;
         //  }else if(this.navParams.data["status"] === 1){
@@ -47,14 +47,16 @@ export class NodeinformationPage {
   }
 
   public getCountryByCode(code){
-
+    console.log("==========NodeinformationPage1111"+code);
+    console.log("==========NodeinformationPage1111"+typeof(code));
     for(let index in this.countrys){
         let item = this.countrys[index];
-        if(code === item["code"]){
+        console.log("==========NodeinformationPage1111"+typeof(code));
+        if(code === parseInt(item["code"])){
           return item["key"];
         }
-       return "Unknown";
       }
+      return "Unknown";
   }
 
 }
