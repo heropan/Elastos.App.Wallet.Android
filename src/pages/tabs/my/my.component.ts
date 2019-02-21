@@ -1,4 +1,4 @@
-import { Component,ViewChild} from '@angular/core';
+import { Component,ViewChild,NgZone} from '@angular/core';
 import {ManagerComponent} from "../../wallet/manager/manager.component";
 import {ContactListComponent} from "../../contacts/contact-list/contact-list.component";
 import {IdLauncherComponent} from "../../id/launcher/launcher";
@@ -31,7 +31,7 @@ export class MyComponent{
   public walletInfo = {};
   public passworld:string = "";
   public available = 0;
-  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public events :Events,public native :Native,public localStorage:LocalStorage,public popupProvider:PopupProvider){
+  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public events :Events,public native :Native,public localStorage:LocalStorage,public popupProvider:PopupProvider,public zone :NgZone){
        //this.init();
   }
 
@@ -79,8 +79,11 @@ export class MyComponent{
          this.native.info(data);
          let item = JSON.parse(data["success"])["Account"];
          this.walletInfo = item;
-         this.masterWalletType = item["Type"];
-         this.readonly = item["InnerType"] || "";
+         this.zone.run(()=>{
+          this.masterWalletType = item["Type"];
+          this.readonly = item["InnerType"] || "";
+         });
+
       }else{
          this.native.info(data);
       }
@@ -190,12 +193,18 @@ export class MyComponent{
                    let jianju = Config.getEstimatedHeight(this.masterWalletId,"ELA") - height;
                    this.native.info(jianju);
                    if(type === 10 && confirms>1 && jianju>=2160){
-                           this.isShowDeposit = true;
+                    this.zone.run(()=>{
+                      this.isShowDeposit = true;
+                    });
                    }else{
+                    this.zone.run(()=>{
                            this.isShowDeposit = false;
+                          });
                    }
                 }else{
+                  this.zone.run(()=>{
                   this.isShowDeposit = false;
+                  });
                 }
                }
      });
