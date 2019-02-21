@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,NgZone} from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {Native} from "../../providers/Native";
 import {WalletManager} from '../../providers/WalletManager'
@@ -14,7 +14,7 @@ export class ScancodePage {
   public toAddress:string="";
   public fee:any;
   public amount:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public native: Native,public walletManager: WalletManager) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public native: Native,public walletManager: WalletManager,public zone:NgZone) {
            let params = this.navParams.data;
            this.fee = params["tx"]["fee"];
           let  txObj  = params["tx"]["raw"];
@@ -26,7 +26,9 @@ export class ScancodePage {
                 this.amount = JSON.parse(raw["success"])["Outputs"][0]["Amount"]/Config.SELA;
             }
          });
-           this.qrcode = JSON.stringify(params);
+           this.zone.run(()=>{
+            this.qrcode = JSON.stringify(params);
+           });
            this.native.info(this.navParams.data);
   }
 
