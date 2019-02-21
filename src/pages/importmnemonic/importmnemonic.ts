@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,NgZone} from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {Util} from "../../providers/Util";
 import {Native} from "../../providers/Native";
@@ -18,7 +18,7 @@ export class ImportmnemonicPage {
   public showAdvOpts:boolean;
   public mnemonicObj:any={mnemonic:"",payPassword: "", rePayPassword: "",phrasePassword:"",name:"",singleAddress:true};
   public exatParm:any;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public native:Native) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public native:Native,public zone:NgZone) {
          this.exatParm = this.navParams.data;
   }
 
@@ -95,7 +95,9 @@ export class ImportmnemonicPage {
   }
 
   public toggleShowAdvOpts(): void {
-    this.showAdvOpts = !this.showAdvOpts;
+    this.zone.run(()=>{
+      this.showAdvOpts = !this.showAdvOpts;
+    });
   }
 
 }

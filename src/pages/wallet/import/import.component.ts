@@ -39,7 +39,9 @@ export class ImportComponent {
          });
   }
   public toggleShowAdvOpts(): void {
-    this.showAdvOpts = !this.showAdvOpts;
+    this.zone.run(()=>{
+      this.showAdvOpts = !this.showAdvOpts;
+    });
   }
   selectTab(tab: string) {
      this.zone.run(()=>{
