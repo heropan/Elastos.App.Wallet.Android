@@ -20,11 +20,11 @@ import {ScancodePage} from '../../../../pages/scancode/scancode';
 })
 export class SignupPage {
   public passworld:string;
-  public nodeName:string = "ssss";
-  public publickey:string ="xxxxxxxx111111";
+  public nodeName:string = "";
+  public publickey:string ="";
   public nodePublicKey:string="";
   public location:number = 1;
-  public url:string ="https://www.baidu.com";
+  public url:string ="";
   public countrys = [];
   public masterId:string = "";
   public curChain = "ELA";
