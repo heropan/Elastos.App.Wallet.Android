@@ -14,7 +14,8 @@
     <div class='address-whole' *ngIf="!isNodata">
         <div class="coin-info-top-box">
             <img src="./assets/images/logo-maincolor.svg">
-            <div style="font-size: 1.6em;">{{coinCount}} {{coinName}}</div>
+            <div style="font-size: 1.6em;">{{'total-balance' | translate}}: {{coinCount}} {{coinName}}</div>
+            <div style="font-size: 1.6em;" *ngIf="coinName==='ELA'">{{"vote-balance" | translate}}: {{votedCount}} {{coinName}}</div>
         </div>
 
         <ion-grid style="margin-bottom: 60px">

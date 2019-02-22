@@ -61,7 +61,7 @@ export class WithdrawComponent{
   }
 
   initData(){
-    this.walletManager.getBalance(this.masterWalletId,this.chianId,0,(data)=>{
+    this.walletManager.getBalance(this.masterWalletId,this.chianId,Config.total,(data)=>{
       if(!Util.isNull(data["success"])){
         this.native.info(data);
         this.balance = data["success"];

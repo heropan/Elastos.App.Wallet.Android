@@ -39,6 +39,7 @@ export class CoinComponent{
   isNodata:boolean = false;
   public myInterval:any;
   public jiajian:any="";
+  public votedCount = 0;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public events: Events) {
             //this.init();
   }
@@ -83,7 +84,7 @@ export class CoinComponent{
   }
 
   initData(){
-    this.walletManager.getBalance(this.masterWalletId,this.coinName,0,(data)=>{
+    this.walletManager.getBalance(this.masterWalletId,this.coinName,Config.total,(data)=>{
       if(!Util.isNull(data["success"])){
         this.native.info(data);
         this.coinCount = data["success"]/Config.SELA;
@@ -91,6 +92,17 @@ export class CoinComponent{
         this.native.info(data);
       }
     });
+
+    if(this.coinName === "ELA"){
+      this.walletManager.getBalance(this.masterWalletId,this.coinName,Config.voted,(data)=>{
+        if(!Util.isNull(data["success"])){
+          this.native.info(data);
+          this.votedCount = data["success"]/Config.SELA;
+        }else{
+          this.native.info(data);
+        }
+      });
+    }
     this.getAllTx();
 
     // this.myInterval = setInterval(()=>{

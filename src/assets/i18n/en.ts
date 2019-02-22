@@ -708,7 +708,9 @@ export const en = {
 'please-enter-node-iPAddress':'please enter node network address',
 'take-back-deposit':'Take back deposit',
 'publickey-repeat':'publicKey Repeat',
-'use-utxo':'Whether to use voting utxo'
+'use-utxo':'Whether to use voting utxo',
+'total-balance':'Total Balance',
+'vote-balance':'Vote Balance'
 };
 
 

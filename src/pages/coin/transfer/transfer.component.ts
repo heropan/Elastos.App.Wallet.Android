@@ -82,7 +82,7 @@ export class TransferComponent {
   }
 
   initData(){
-    this.walletManager.getBalance(this.masterWalletId,this.chianId,0,(data)=>{
+    this.walletManager.getBalance(this.masterWalletId,this.chianId,Config.total,(data)=>{
       if(!Util.isNull(data["success"])){
         this.balance = data["success"];
       }else{

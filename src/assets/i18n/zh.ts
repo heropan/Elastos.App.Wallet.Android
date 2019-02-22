@@ -703,5 +703,7 @@ export const zh = {
 'please-enter-node-iPAddress':'请输入网络地址',
 'take-back-deposit':"取回质押金",
 'publickey-repeat':'公钥重复',
-'use-utxo':'是否使用投票utxo'
+'use-utxo':'是否使用投票utxo',
+'total-balance':'总额',
+'vote-balance':'投票占用'
 };

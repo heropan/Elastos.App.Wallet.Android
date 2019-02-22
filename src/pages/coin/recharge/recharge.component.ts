@@ -64,7 +64,7 @@ export class RechargeComponent{
   }
 
   initData(){
-    this.walletManager.getBalance(this.masterWalletId,'ELA',0,(data)=>{
+    this.walletManager.getBalance(this.masterWalletId,'ELA',Config.total,(data)=>{
       if(!Util.isNull(data["success"])){
         this.native.info(data);
         this.balance = data["success"];

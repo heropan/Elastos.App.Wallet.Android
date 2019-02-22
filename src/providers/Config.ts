@@ -9,6 +9,8 @@ import {Logger} from "../providers/Logger";
  */
 @Injectable()
 export class Config {
+  public static total = 2;
+  public static voted = 1;
   public static deposit = 5000;
   public static isDebug = true;
   public static masterWallObj={id:"",wallname:""};
