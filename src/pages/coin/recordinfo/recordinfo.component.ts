@@ -117,6 +117,13 @@ export class RecordinfoComponent{
         } else if(payStatusIcon === "Moved") {
           this.payStatusIcon = './assets/images/tx-state/icon-tx-moved.svg';
           this.jiajian = "";
+        } else if(payStatusIcon === "Deposit") {
+          this.payStatusIcon = './assets/images/tx-state/icon-tx-moved.svg';
+          if(transaction["Amount"]>0){
+            this.jiajian = "-";
+          }else{
+            this.jiajian = "";
+          }
         }
 
         this.transactionRecord = {

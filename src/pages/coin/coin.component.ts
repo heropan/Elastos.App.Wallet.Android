@@ -152,6 +152,13 @@ export class CoinComponent{
         } else if(payStatusIcon === "Moved") {
           payStatusIcon = './assets/images/tx-state/icon-tx-moved.svg';
           jiajian = "";
+        } else if(payStatusIcon === "Deposit") {
+          payStatusIcon = './assets/images/tx-state/icon-tx-moved.svg';
+          if(transaction["Amount"]>0){
+            jiajian = "-";
+          }else{
+            jiajian = "";
+          }
         }
         let status = '';
         switch(transaction["Status"])
