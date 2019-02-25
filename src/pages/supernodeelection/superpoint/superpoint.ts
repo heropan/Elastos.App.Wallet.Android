@@ -9,10 +9,10 @@ import { Config } from '../../../providers/Config';
   templateUrl: 'superpoint.html',
 })
 export class SuperpointPage {
-  public isExitNode:boolean = false;
+  public isExitNode;
   public info;
   constructor(public navCtrl: NavController, public navParams: NavParams,public native :Native) {
-         this.isExitNode  = this.navParams.data["Registered"] || false;
+         this.isExitNode  = this.navParams.data["Status"];
          this.info = this.navParams.data["Info"];
   }
 

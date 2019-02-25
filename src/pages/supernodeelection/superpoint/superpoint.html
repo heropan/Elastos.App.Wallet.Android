@@ -20,7 +20,7 @@
 </ion-content>
 
 <ion-footer padding>
-    <button ion-button round block (click)="singup()" *ngIf="!isExitNode">{{'sign-up-for-election' | translate}}</button>
-    <button ion-button round block (click)="emanagement()" *ngIf="isExitNode">{{'electoral-management' | translate}}</button>
+    <button ion-button round block (click)="singup()" *ngIf="isExitNode ==='Unregistered'">{{'sign-up-for-election' | translate}}</button>
+    <button ion-button round block (click)="emanagement()" *ngIf="isExitNode==='Registered'">{{'electoral-management' | translate}}</button>
     <button ion-button round block (click)="vote()">{{'i-want-to-vote'|translate}}</button>
 </ion-footer>
