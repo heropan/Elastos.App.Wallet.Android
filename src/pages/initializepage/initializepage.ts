@@ -1,5 +1,5 @@
 import { Component,ViewChild } from '@angular/core';
-import { NavController, NavParams, Events,Platform,App,Tabs} from 'ionic-angular';
+import { NavController, NavParams, Events,Platform,App,Tabs,Keyboard,IonicApp} from 'ionic-angular';
 import {LauncherComponent} from "../../pages/launcher/launcher.component";
 import {WalletManager} from "../../providers/WalletManager";
 import {Native} from "../../providers/Native";
@@ -18,7 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class InitializepagePage {
   @ViewChild('myTabs') tabs:Tabs;
   backButtonPressed: boolean = false;  //用于判断返回键是否触发
-  constructor(public appCtrl: App,private platform: Platform,public navCtrl: NavController, public navParams: NavParams,public walletManager: WalletManager,public native: Native,public localStorage: LocalStorage,public events: Events,private translate: TranslateService) {
+  constructor(public appCtrl: App,private platform: Platform,public navCtrl: NavController, public navParams: NavParams,public walletManager: WalletManager,public native: Native,public localStorage: LocalStorage,public events: Events,private translate: TranslateService, public keyboard: Keyboard, public ionicApp: IonicApp) {
 
   }
 
@@ -32,6 +32,25 @@ export class InitializepagePage {
 
   registerBackButtonAction(tabRef:Tabs){
     this.platform.registerBackButtonAction(() => {
+       //按下返回键时，先关闭键盘
+       if (this.keyboard.isOpen()) { //按下返回键时，先关闭键盘
+        this.keyboard.close();
+        return;
+       };
+
+      let activePortal = this.ionicApp._modalPortal.getActive() ||this.ionicApp._overlayPortal.getActive();
+      if (activePortal) { //其他的关闭
+        activePortal.dismiss().catch(() => { });
+        activePortal.onDidDismiss(() => { });
+        return;
+      }
+
+      let loadingPortal = this.ionicApp._loadingPortal.getActive();
+      if (loadingPortal) {
+        //loading的话，返回键无效
+        return;
+      }
+
       let activeNav: NavController = this.appCtrl.getActiveNav();
       if(activeNav.canGoBack()){
         activeNav.pop();
