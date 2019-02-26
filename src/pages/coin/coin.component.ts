@@ -257,7 +257,7 @@ export class CoinComponent{
   }
 
   doRefresh(refresher){
-    this.walletManager.getBalance(this.masterWalletId,this.coinName,0,(data)=>{
+    this.walletManager.getBalance(this.masterWalletId,this.coinName,Config.total,(data)=>{
       if(!Util.isNull(data["success"])){
         this.native.info(data);
         this.coinCount = data["success"]/Config.SELA;
