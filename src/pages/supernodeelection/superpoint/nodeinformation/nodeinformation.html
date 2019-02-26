@@ -49,7 +49,7 @@
 
     <ion-row padding-left padding-right>
         <ion-col col-12 class="row-title">URL</ion-col>
-        <ion-col col-12 class="row-content blue">{{info.url}}<span><img src="./assets/images/vote/copy_url.png"></span></ion-col>
+        <ion-col col-12 class="row-content blue" (click)="copy(info.url)">{{info.url}}<span><img src="./assets/images/vote/copy_url.png"></span></ion-col>
     </ion-row>
 </ion-content>
 <!-- <ion-footer>
