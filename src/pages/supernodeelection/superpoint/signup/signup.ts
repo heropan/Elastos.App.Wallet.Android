@@ -99,7 +99,7 @@ export class SignupPage {
 
 
     if(Util.isNull(this.nodePublicKey)){
-      this.native.toast_trans('please-wallet-publickey');
+      this.native.toast_trans('please-node-PublicKey');
       return false;
    }
 
