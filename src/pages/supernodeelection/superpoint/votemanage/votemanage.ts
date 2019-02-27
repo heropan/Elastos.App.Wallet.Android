@@ -35,9 +35,10 @@ export class VotemanagePage {
     this.masterId = Config.getCurMasterWalletId();
     this.countrys = Config.getAllCountry();
     this.getVoteList();
+    this.init();
     //this.getRegisteredProducerInfo();
     //this.getPublicKeyForVote();
-    //this.init();
+
   }
 
   ionViewDidLoad() {
