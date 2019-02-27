@@ -384,7 +384,7 @@ export const en = {
   'text-export-menmonic-sucess':"Check Mnemonics Success",
 
   'create-multi-by-mnes': 'Use Existing Seed (Import Mnemonics) ',
-  'already-signed-publickey':'already singed publickey',
+  'already-signed-publickey':'already signed publickey',
 
 
   'super-point':'super node election',
