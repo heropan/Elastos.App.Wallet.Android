@@ -159,8 +159,8 @@ export class WalletManager {
    * @param {string} address
    * @param Fun
    */
-  getBalanceWithAddress(masterWalletId:string,chainId:string,address:string, Fun) {
-    this.wallet.getBalanceWithAddress([masterWalletId,chainId,address], Fun,(error)=>{
+  getBalanceWithAddress(masterWalletId:string,chainId:string,address:string,balanceType, Fun) {
+    this.wallet.getBalanceWithAddress([masterWalletId,chainId,address,balanceType], Fun,(error)=>{
       this.errorFun(error);
     });
   }
@@ -610,7 +610,7 @@ export class WalletManager {
     });
   }
 
-  createUpdateProducerTransaction(masterWalletId:string,chainId:string,fromAddress:string,payloadJson:string,memo:string,remark:string,useVotedUTXO:string,Fun){
+  createUpdateProducerTransaction(masterWalletId:string,chainId:string,fromAddress:string,payloadJson:string,memo:string,remark:string,useVotedUTXO:boolean,Fun){
     this.wallet.createUpdateProducerTransaction([masterWalletId,chainId,fromAddress,payloadJson,memo,remark,useVotedUTXO],Fun,(error)=>{
         this.errorFun(error);
     });

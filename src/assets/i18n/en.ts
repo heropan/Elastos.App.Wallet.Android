@@ -401,7 +401,7 @@ export const en = {
   'node-declaration':'node declaration',
   'current-votes':'current votes',
   'share-voting':'share voting',
-  'country-region':'country / region',
+  'country-region':'country',
   'add-in-list':'add in list',
   'look-over-list':'look over list',
   'please-input-votes':'please input votes',
@@ -719,7 +719,8 @@ export const en = {
 'publickey-repeat':'publicKey Repeat',
 'use-utxo':'Whether to use voting utxo',
 'total-balance':'Total Balance',
-'vote-balance':'Vote Balance'
+'vote-balance':'Vote Balance',
+'update-info':'Update Info'
 };
 
 

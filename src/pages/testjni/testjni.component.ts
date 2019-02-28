@@ -276,7 +276,7 @@ export class TestJniComponent {
    }
 
    getBalanceWithAddress(chinaId:string){
-        this.walletManager.getBalanceWithAddress(this.masterWalletId,chinaId,"eeeeeeee",(result)=>{
+        this.walletManager.getBalanceWithAddress(this.masterWalletId,chinaId,"eeeeeeee",2,(result)=>{
             alert(JSON.stringify(result));
         });
    }

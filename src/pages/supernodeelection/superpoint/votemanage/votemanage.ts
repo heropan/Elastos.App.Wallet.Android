@@ -244,6 +244,8 @@ public getCountryByCode(code){
     return "Unknown";
 }
 
-
+updateInfo(){
+  this.native.Go(this.navCtrl,'UpdateproducerPage',this.info);
+}
 
 }

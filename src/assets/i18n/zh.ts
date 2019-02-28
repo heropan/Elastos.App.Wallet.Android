@@ -396,7 +396,7 @@ export const zh = {
   'node-declaration':'节点宣言',
   'current-votes':'当前票数',
   'share-voting':'投票占比',
-  'country-region':'国家/地区',
+  'country-region':'国家',
   'add-in-list':'加入候选列表',
   'look-over-list':'查看候选列表',
   'please-input-votes':'请输入票数',
@@ -714,5 +714,6 @@ export const zh = {
 'publickey-repeat':'公钥重复',
 'use-utxo':'是否使用投票utxo',
 'total-balance':'总额',
-'vote-balance':'投票占用'
+'vote-balance':'投票占用',
+'update-info':'更新信息'
 };
