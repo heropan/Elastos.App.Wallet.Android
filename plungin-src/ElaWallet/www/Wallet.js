@@ -351,5 +351,9 @@ walletFunc.prototype.createRetrieveDepositTransaction = function(arg0, success, 
 };
 
 
+walletFunc.prototype.createUpdateProducerTransaction = function(arg0, success, error) {
+    exec(success, error, "Wallet", "createUpdateProducerTransaction", arg0);
+};
+
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;

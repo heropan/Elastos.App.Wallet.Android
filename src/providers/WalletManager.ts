@@ -610,6 +610,12 @@ export class WalletManager {
     });
   }
 
+  createUpdateProducerTransaction(masterWalletId:string,chainId:string,fromAddress:string,payloadJson:string,memo:string,remark:string,useVotedUTXO:string,Fun){
+    this.wallet.createUpdateProducerTransaction([masterWalletId,chainId,fromAddress,payloadJson,memo,remark,useVotedUTXO],Fun,(error)=>{
+        this.errorFun(error);
+    });
+  }
+
   errorFun(error) {
     this.native.info(error);
     let key = error["error"]["code"];
