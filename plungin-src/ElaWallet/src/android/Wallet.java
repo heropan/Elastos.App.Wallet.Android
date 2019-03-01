@@ -197,11 +197,11 @@ public class Wallet extends CordovaPlugin {
 	}
 
 	private String formatWalletName(String masterWalletID) {
-		return "(" + masterWalletID + ")";
+		return masterWalletID;
 	}
 
 	private String formatWalletName(String masterWalletID, String chainID) {
-		return "(" + masterWalletID + ":" + chainID + ")";
+		return masterWalletID + ":" + chainID;
 	}
 
 	private IDidManager getDIDManager(String masterWalletID) {

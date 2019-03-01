@@ -210,6 +210,7 @@ static void JNICALL nativeRemoveCallback(JNIEnv *env, jobject clazz, jlong jSubP
 		if (sSubCallbackMap.find(jSubProxy) != sSubCallbackMap.end()) {
 			LOGI("Subwallet remove callback %lld", jSubProxy);
 			ElaSubWalletCallback *callback = sSubCallbackMap[jSubProxy];
+			subWallet->RemoveCallback(callback);
 			delete callback;
 			sSubCallbackMap.erase(jSubProxy);
 		} else {
