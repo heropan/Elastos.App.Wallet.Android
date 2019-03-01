@@ -720,7 +720,8 @@ export const en = {
 'use-utxo':'Whether to use voting utxo',
 'total-balance':'Total Balance',
 'vote-balance':'Vote Balance',
-'update-info':'Update Info'
+'update-info':'Update Info',
+'node-iPAddress':'Net Address'
 };
 
 

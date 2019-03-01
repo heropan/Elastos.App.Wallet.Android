@@ -22,32 +22,34 @@
             <progress-bar proportion="{{idChainPer}}"></progress-bar>
         </ion-col>
     </ion-row> -->
-    <ion-row class="vote_data" align-items-center *ngFor="let item of voteList">
-        <ion-col col-2 class=" text-center ">
-            <div class="duigou">
-                <ion-checkbox [(ngModel)]="selectVoteObj[item.ownerpublickey]" (ionChange)="setSelect(selectVoteObj[item.ownerpublickey],item.ownerpublickey)"></ion-checkbox>
-            </div>
-        </ion-col>
-        <!-- <ion-col col-2>
+    <div *ngFor="let item of voteList">
+        <ion-row class="vote_data" align-items-center *ngIf="item['active']">
+            <ion-col col-2 class=" text-center ">
+                <div class="duigou">
+                    <ion-checkbox [(ngModel)]="selectVoteObj[item.ownerpublickey]" (ionChange)="setSelect(selectVoteObj[item.ownerpublickey],item.ownerpublickey)"></ion-checkbox>
+                </div>
+            </ion-col>
+            <!-- <ion-col col-2>
             <div class="logo "><img src="./assets/images/vote/logo_yuan.png "></div>
         </ion-col> -->
-        <ion-col col-4 class="text-center ">
-            <div class="address ">{{item.nickname}}</div>
-            <div class="fu "><span><img src="./assets/images/vote/location.png "></span>{{getCountryByCode(item.location)|translate}}</div>
-        </ion-col>
+            <ion-col col-4 class="text-center ">
+                <div class="address ">{{item.nickname}}</div>
+                <div class="fu "><span><img src="./assets/images/vote/location.png "></span>{{getCountryByCode(item.location)|translate}}</div>
+            </ion-col>
 
-        <ion-col col-6 class="text-center">
-            <div class="rank ">NO.{{(item.index+1)}}</div>
-            <div class="rate "><span><img src="./assets/images/vote/rate.png "></span>{{item.votes}} {{'ticket'|translate}}</div>
-        </ion-col>
+            <ion-col col-6 class="text-center">
+                <div class="rank ">NO.{{(item.index+1)}}</div>
+                <div class="rate "><span><img src="./assets/images/vote/rate.png "></span>{{item.votes}} {{'ticket'|translate}}</div>
+            </ion-col>
 
-        <!-- <ion-col col-1>
+            <!-- <ion-col col-1>
             <div class="del">
                 <img src="./assets/images/vote/delete.png ">
             </div>
         </ion-col> -->
 
-    </ion-row>
+        </ion-row>
+    </div>
 </ion-content>
 <ion-footer>
     <ion-row class="border-top ">

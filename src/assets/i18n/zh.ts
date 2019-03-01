@@ -715,5 +715,6 @@ export const zh = {
 'use-utxo':'是否使用投票utxo',
 'total-balance':'总额',
 'vote-balance':'投票占用',
-'update-info':'更新信息'
+'update-info':'更新信息',
+'node-iPAddress':'网络地址'
 };
