@@ -37,7 +37,7 @@ export class PointvotePage {
   public walletInfo = {};
   public myInterval:any;
   public countrys=[];
-  public useVotedUTXO:boolean = false;
+  public useVotedUTXO:boolean = true;
   constructor( public navCtrl: NavController,
                public navParams: NavParams,
                public modalCtrl: ModalController,
@@ -52,7 +52,7 @@ export class PointvotePage {
               if(this.selectNode.length >0){
                       this.useVotedUTXO = true;
               }else{
-                      this.useVotedUTXO = false;
+                      this.useVotedUTXO = true;
               }
               this.setSelectArr(this.selectNode);
               this.selectNum = this.getSelectNum();
