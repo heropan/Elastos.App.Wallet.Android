@@ -28,7 +28,9 @@ export class UpdateproducerPage {
   public feePerKb:number = 10000;
   public walletInfo = {};
   public deposit;
+  public countrys = [];
   constructor(public navCtrl: NavController, public navParams: NavParams,public native :Native,public popupProvider: PopupProvider,public walletManager:WalletManager) {
+          this.countrys = Config.getAllCountry();
           this.info = this.native.clone(this.navParams.data);
           this.masterId = Config.getCurMasterWalletId();
           this.init();
@@ -49,19 +51,22 @@ export class UpdateproducerPage {
   }
 
   updateInfo(){
-    this.popupProvider.presentPrompt().then((val)=>{
-      if(Util.isNull(val)){
-        this.native.toast_trans("text-id-kyc-prompt-password");
-        return;
-      }
-      this.passworld = val.toString();
-      this.native.showLoading().then(()=>{
-            this.generateProducerPayload();
-      });
-      //this.native.Go(this.navCtrl,'JoinvotelistPage');
-}).catch(()=>{
+    if(this.checkParms()){
+      this.popupProvider.presentPrompt().then((val)=>{
+        if(Util.isNull(val)){
+          this.native.toast_trans("text-id-kyc-prompt-password");
+          return;
+        }
+        this.passworld = val.toString();
+        this.native.showLoading().then(()=>{
+              this.generateProducerPayload();
+        });
+        //this.native.Go(this.navCtrl,'JoinvotelistPage');
+  }).catch(()=>{
 
-});
+  });
+    }
+
   }
 
 
@@ -164,6 +169,21 @@ export class UpdateproducerPage {
       this.native.Go(this.navCtrl,ScancodePage,{"tx":{"chianId":this.curChain,"fee":this.fee/Config.SELA, "raw":raw["success"]}});
     }
 });
+}
+
+checkParms(){
+
+  if(Util.isNull(this.info['nodepublickey'])){
+    this.native.toast_trans('please-node-PublicKey');
+    return false;
+ }
+
+  if(Util.isNull(this.info['netaddress'])){
+    this.native.toast_trans('please-enter-node-iPAddress');
+    return false;
+  }
+
+  return true;
 }
 
 

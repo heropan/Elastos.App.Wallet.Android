@@ -15,6 +15,44 @@
 
 <ion-content padding>
     <div class="border">
+
+        <ion-row class="padding-top padding-left padding-right">
+            <ion-col col-2 align-self-center>
+                <img src="./assets/images/vote/point_position.png">
+            </ion-col>
+            <ion-col col-10 align-self-center class="border-bottom">
+                <ion-item>
+                    <ion-input placeholder="{{'please-node-PublicKey'|translate}}" [(ngModel)]="info['nodepublickey']"></ion-input>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+
+
+        <ion-row class="padding-top padding-left padding-right">
+            <ion-col col-2 align-self-center>
+                <img src="./assets/images/vote/point_address.png">
+            </ion-col>
+            <ion-col col-10 align-self-center>
+                <!-- <ion-input placeholder="请输入节点名称"></ion-input> -->
+                <select class="select" [(ngModel)]="info['location']">
+                  <option *ngFor="let item of countrys"   value ="{{item['code']}}">{{ item["key"] |translate}}</option>
+                </select>
+            </ion-col>
+        </ion-row>
+
+
+
+        <ion-row class="padding-top padding-left padding-right padding-bottom">
+            <ion-col col-2 align-self-center>
+                <img src="./assets/images/vote/point_url.png">
+            </ion-col>
+            <ion-col col-10 align-self-center class="border-bottom">
+                <ion-item>
+                    <ion-input placeholder="{{'please-enter-node-url'|translate}}" [(ngModel)]="info['url']"></ion-input>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+
         <ion-row class="padding-top padding-left padding-right padding-bottom">
             <ion-col col-2 align-self-center>
                 <img src="./assets/images/vote/point_url.png">
