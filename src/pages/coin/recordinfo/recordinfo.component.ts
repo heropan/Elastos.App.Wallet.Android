@@ -23,13 +23,13 @@ export class RecordinfoComponent{
   }
   ionViewWillEnter(){
     this.init();
-    this.myInterval = setInterval(()=>{
-        this.init();
-    },1000);
+    // this.myInterval = setInterval(()=>{
+    //     this.init();
+    // },1000);
  }
 
  ionViewDidLeave(){
-  clearInterval(this.myInterval);
+  // clearInterval(this.myInterval);
  }
   init() {
     this.masterWalletId = Config.getCurMasterWalletId();
