@@ -417,7 +417,7 @@ export const zh = {
   'voting-rules':'投票规则',
   'voting-rules-text-1':'参与ELA超级节点投票，需锁仓ELA。投票不消耗ELA数量;',
   'voting-rules-text-2':'每次投票最多可选择 36 个超级节点，撤销或更改再次投票生效有一定的延迟。;',
-  'change-vote':'变更投票',
+  'change-vote':'重新投票',
   'current-voting-record':'当前投票纪录',
   'this-vote':'本次投票',
   'please-wallet-publickey':'请输入钱包公钥',

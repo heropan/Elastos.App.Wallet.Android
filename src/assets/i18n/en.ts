@@ -422,7 +422,7 @@ export const en = {
   'voting-rules':'voting rules',
   'voting-rules-text-1':'To participate in ELA super node voting, we need to lock ELA. Voting does not consume ELA;',
   'voting-rules-text-2':'Up to 36 super nodes can be selected for each vote, and there is a certain delay in voting for revocation or change. ;',
-  'change-vote':'change vote',
+  'change-vote':'again vote',
   'current-voting-record':'current voting record',
   'this-vote':'this vote',
   'please-wallet-publickey':'please enter the wallet publickey',
