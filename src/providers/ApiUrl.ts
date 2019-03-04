@@ -15,7 +15,7 @@ export  class ApiUrl {
   /**APP认证结果请求接口 */
   public static APP_AUTH:string = ApiUrl.SERVER +'/app/auth';
   /**获取投票列表 */
-  public static listproducer:string = ApiUrl.SERVER1 +'/dposnoderpc/check/listproducer';
+  public static listproducer:string = ApiUrl.SERVER2 +'/dposnoderpc/check/listproducer';
 
-  public static getdepositcoin:string =ApiUrl.SERVER1+'/dposnoderpc/check/getdepositcoin';
+  public static getdepositcoin:string =ApiUrl.SERVER2+'/dposnoderpc/check/getdepositcoin';
 }
