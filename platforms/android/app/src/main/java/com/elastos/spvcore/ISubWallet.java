@@ -79,7 +79,7 @@ public class ISubWallet {
         return nativeSign(mSubProxy, message, payPassword);
     }
 
-    public String CheckSign(String publicKey, String message, String signature) throws WalletException {
+    public boolean CheckSign(String publicKey, String message, String signature) throws WalletException {
         return nativeCheckSign(mSubProxy, publicKey, message, signature);
     }
 
@@ -113,6 +113,6 @@ public class ISubWallet {
 	private native String nativePublishTransaction(long subProxy, String rawTransaction);
     private native String nativeGetAllTransaction(long subProxy, int start, int count, String addressOrTxId);
     private native String nativeSign(long subProxy, String message, String payPassword);
-    private native String nativeCheckSign(long subProxy, String publicKey, String message, String signature);
+    private native boolean nativeCheckSign(long subProxy, String publicKey, String message, String signature);
 	private native String nativeGetPublicKey(long jSubProxy);
 }

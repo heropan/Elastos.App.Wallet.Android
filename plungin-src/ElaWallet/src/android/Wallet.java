@@ -60,7 +60,6 @@ public class Wallet extends CordovaPlugin {
 	private int errCodeInvalidSubWallet           = 10003;
 	private int errCodeCreateMasterWallet         = 10004;
 	private int errCodeCreateSubWallet            = 10005;
-	private int errCodeRecoverSubWallet           = 10006;
 	private int errCodeInvalidMasterWalletManager = 10007;
 	private int errCodeImportFromKeyStore         = 10008;
 	private int errCodeImportFromMnemonic         = 10009;
@@ -396,9 +395,6 @@ public class Wallet extends CordovaPlugin {
 				case "createSubWallet":
 					this.createSubWallet(args, cc);
 					break;
-				case "recoverSubWallet":
-					this.recoverSubWallet(args, cc);
-					break;
 				case "destroyWallet":
 					this.destroyWallet(args, cc);
 					break;
@@ -609,42 +605,6 @@ public class Wallet extends CordovaPlugin {
 			successProcess(cc, subWallet.GetBasicInfo());
 		} catch (WalletException e) {
 			exceptionProcess(e, cc, "Create " + formatWalletName(masterWalletID, chainID));
-		}
-	}
-
-	// args[0]: String masterWalletID
-	// args[1]: String chainID
-	// args[2]: int limitGap
-	// args[3]: long feePerKb
-	public void recoverSubWallet(JSONArray args, CallbackContext cc) throws JSONException {
-		int idx = 0;
-
-		String masterWalletID = args.getString(idx++);
-		String chainID        = args.getString(idx++);
-		int limitGap          = args.getInt(idx++);
-		long feePerKb         = args.getLong(idx++);
-
-		if (args.length() != idx) {
-			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
-			return;
-		}
-
-		try {
-			IMasterWallet masterWallet = getIMasterWallet(masterWalletID);
-			if (masterWallet == null) {
-				errorProcess(cc, errCodeInvalidMasterWallet, "Get " + formatWalletName(masterWalletID));
-				return;
-			}
-
-			ISubWallet subWallet = masterWallet.RecoverSubWallet(chainID, limitGap, feePerKb);
-			if (subWallet == null) {
-				errorProcess(cc, errCodeRecoverSubWallet, "Recover " + formatWalletName(masterWalletID, chainID));
-				return;
-			}
-
-			successProcess(cc, subWallet.GetBasicInfo());
-		} catch (WalletException e) {
-			exceptionProcess(e, cc, "Recover " + formatWalletName(masterWalletID, chainID));
 		}
 	}
 
@@ -1766,7 +1726,7 @@ public class Wallet extends CordovaPlugin {
 				return;
 			}
 
-			String result = subWallet.CheckSign(publicKey, message, signature);
+			boolean result = subWallet.CheckSign(publicKey, message, signature);
 
 			successProcess(cc, result);
 		} catch (WalletException e) {

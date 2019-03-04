@@ -210,7 +210,7 @@ static void JNICALL nativeRemoveCallback(JNIEnv *env, jobject clazz, jlong jSubP
 		if (sSubCallbackMap.find(jSubProxy) != sSubCallbackMap.end()) {
 			LOGI("Subwallet remove callback %lld", jSubProxy);
 			ElaSubWalletCallback *callback = sSubCallbackMap[jSubProxy];
-			subWallet->RemoveCallback(callback);
+			//subWallet->RemoveCallback(callback);
 			delete callback;
 			sSubCallbackMap.erase(jSubProxy);
 		} else {
@@ -516,8 +516,8 @@ static jstring JNICALL nativeSign(JNIEnv *env, jobject clazz, jlong jSubProxy,
 	return result;
 }
 
-#define SIG_nativeCheckSign "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;"
-static jstring JNICALL nativeCheckSign(JNIEnv *env, jobject clazz, jlong jSubProxy,
+#define SIG_nativeCheckSign "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z"
+static jboolean JNICALL nativeCheckSign(JNIEnv *env, jobject clazz, jlong jSubProxy,
 		jstring jPublicKey,
 		jstring jMessage,
 		jstring jSignature)
@@ -529,12 +529,11 @@ static jstring JNICALL nativeCheckSign(JNIEnv *env, jobject clazz, jlong jSubPro
 	const char* message = env->GetStringUTFChars(jMessage, NULL);
 	const char* signature = env->GetStringUTFChars(jSignature, NULL);
 
-	jstring result = NULL;
+	jboolean result = false;
 
 	try {
 		ISubWallet* subWallet = (ISubWallet*)jSubProxy;
-		nlohmann::json r = subWallet->CheckSign(publicKey, message, signature);
-		result = env->NewStringUTF(r.dump().c_str());
+		result = subWallet->CheckSign(publicKey, message, signature);
 	} catch (std::exception& e) {
 		exception = true;
 		msgException = e.what();
