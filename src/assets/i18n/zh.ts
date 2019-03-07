@@ -1,7 +1,5 @@
 export const zh = {
   'welcome': '欢迎使用本应用',
-  'hello': '你好',
-  'get-lang': '获取语言类型',
   'tab-home': '首页',
   'tab-setting': '设置',
   'launcher-create-wallet': '创建钱包',

@@ -1,7 +1,4 @@
 export const en = {
-  'welcome': 'Welcome!',
-  'hello': 'Hello!',
-  'get-lang': 's_get_Lang',
   'tab-home': 'Home',
   'tab-setting': 'Settings',
   'launcher-create-wallet': 'Create Wallet',
