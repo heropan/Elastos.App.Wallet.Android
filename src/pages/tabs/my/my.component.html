@@ -31,13 +31,13 @@
           </ion-label>
         </button> -->
 
-        <button *ngIf="masterWalletType === 'Multi-Sign' && readonly!='Readonly' || singleAddress" ion-item (click)="onNext(4)">
+        <button *ngIf="readonly!='Readonly'" ion-item (click)="onNext(4)">
           <ion-label>
             <span>{{'text-sing-tx' | translate }}</span>
           </ion-label>
         </button>
 
-        <button *ngIf="masterWalletType === 'Multi-Sign' || singleAddress" ion-item (click)="onNext(3)">
+        <button ion-item (click)="onNext(3)">
           <ion-label>
             <span>{{'text-send-tx' | translate }}</span>
           </ion-label>
