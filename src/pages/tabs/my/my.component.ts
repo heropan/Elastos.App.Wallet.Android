@@ -31,6 +31,7 @@ export class MyComponent{
   public walletInfo = {};
   public passworld:string = "";
   public available = 0;
+  public singleAddress:boolean =false;
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public events :Events,public native :Native,public localStorage:LocalStorage,public popupProvider:PopupProvider,public zone :NgZone){
        //this.init();
   }
@@ -82,6 +83,7 @@ export class MyComponent{
          this.zone.run(()=>{
           this.masterWalletType = item["Type"];
           this.readonly = item["InnerType"] || "";
+          this.singleAddress = item["SingleAddress"] || false;
          });
 
       }else{
