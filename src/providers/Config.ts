@@ -9,6 +9,8 @@ import {Logger} from "../providers/Logger";
  */
 @Injectable()
 export class Config {
+  public static singTxCount = 0;
+  public static singTxText = "";
   public static total = 2;
   public static voted = 1;
   public static deposit = 5000;

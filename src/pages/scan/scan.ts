@@ -3,6 +3,7 @@ import { NavController, NavParams , ViewController,Events} from 'ionic-angular';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import {TxdetailsPage} from '../../pages/txdetails/txdetails';
 import {Native} from "../../providers/Native";
+import {Config} from "../../providers/Config";
 
 @Component({
   selector: 'page-scan',
@@ -44,14 +45,22 @@ export class ScanPage {
                case "3":
                  this.hideCamera();
                  this.navCtrl.pop();
+                //  let MaxNumber = 2;
+                //  Config.singTxCount++;
+                //  Config.singTxText = Config.singTxText+text;
+                //  if(Config.singTxCount==MaxNumber){
+                //         Config.singTxCount = 0;
+                //   console.log("================text"+Config.singTxText);
+                //   Config.singTxText = "";
+                //  }
                  let senddata = {"content":text,type:4};
-                 this.native.Go(this.navCtrl,TxdetailsPage,senddata);
+                 this.native.Go(this.navCtrl,TxdetailsPage,senddata);//singTx
                    break;
                case "4":
                 this.hideCamera();
                 this.navCtrl.pop();
                 let senddata1 = {"content":text,type:3};
-                this.native.Go(this.navCtrl,TxdetailsPage,senddata1);
+                this.native.Go(this.navCtrl,TxdetailsPage,senddata1);//sendTx
                    break;
                case "5":
                this.events.publish("publickey:update",text);
