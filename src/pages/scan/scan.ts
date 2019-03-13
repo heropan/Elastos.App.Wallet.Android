@@ -45,22 +45,30 @@ export class ScanPage {
                case "3":
                  this.hideCamera();
                  this.navCtrl.pop();
-                //  let MaxNumber = 2;
-                //  Config.singTxCount++;
-                //  Config.singTxText = Config.singTxText+text;
-                //  if(Config.singTxCount==MaxNumber){
-                //         Config.singTxCount = 0;
-                //   console.log("================text"+Config.singTxText);
-                //   Config.singTxText = "";
-                //  }
-                 let senddata = {"content":text,type:4};
-                 this.native.Go(this.navCtrl,TxdetailsPage,senddata);//singTx
+                 text =JSON.parse(text);
+                 let MaxNumber = text["totalNum"];
+                 Config.singTxCount++;
+                 Config.singTxText = Config.singTxText+text["text"];
+                 if(Config.singTxCount==MaxNumber){
+                        Config.singTxCount = 0;
+                  let senddata = {"content":Config.singTxText,type:4};
+                  Config.singTxText = "";
+                  this.native.Go(this.navCtrl,TxdetailsPage,senddata);//singTx
+                 }
                    break;
                case "4":
                 this.hideCamera();
                 this.navCtrl.pop();
-                let senddata1 = {"content":text,type:3};
-                this.native.Go(this.navCtrl,TxdetailsPage,senddata1);//sendTx
+                text =JSON.parse(text);
+                let MaxNum = text["totalNum"];
+                Config.sendTxCount++;
+                Config.sendTxText = Config.sendTxText+text["text"];
+                if(Config.sendTxCount == MaxNum){
+                  Config.sendTxCount = 0;
+                  let senddata1 = {"content":Config.sendTxText,type:3};
+                  Config.sendTxText = "";
+                  this.native.Go(this.navCtrl,TxdetailsPage,senddata1);//sendTx
+                }
                    break;
                case "5":
                this.events.publish("publickey:update",text);

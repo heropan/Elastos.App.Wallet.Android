@@ -15,9 +15,12 @@ export class ScancodePage {
   public fee:any;
   public amount:any;
   public iwidth:string=null;
+  public qrcodeArr = [];
   constructor(public navCtrl: NavController, public navParams: NavParams,public native: Native,public walletManager: WalletManager,public zone:NgZone,public plt:Platform) {
            this.iwidth = (this.plt.width()-10).toString();
            let params = this.navParams.data;
+          this.qrcodeArr = this.fixedLengthFormatString(JSON.stringify(params),1000);
+           this.native.info(this.qrcodeArr);
            this.fee = params["tx"]["fee"];
           let  txObj  = params["tx"]["raw"];
            this.walletManager.decodeTransactionFromString(txObj,(raw)=>{
@@ -37,5 +40,30 @@ export class ScancodePage {
   ionViewDidLoad() {
 
   }
+
+
+  fixedLengthFormatString(str,num){
+    if(str == null || str == undefined) return null;
+    if(!(/^[0-9]*[1-9][0-9]*$/.test(num))) return null;
+    var array = new Array();
+    let len = str.length;
+    for(var i=0;i<(len/num);i++){
+    	if((i+1)*num > len){
+    	let totalNum = parseInt((len/num).toString())+1;
+    	let curNum = i+1;
+	    array.push({"totalNum":totalNum,"curNum":curNum,"text":str.substring(i*num,len)});
+	}else{
+	  let totalNum = parseInt((len/num).toString())+1;
+		let curNum = i+1;
+	    array.push({"totalNum":totalNum,"curNum":curNum,"text":str.substring(i*num,(i+1)*num)});
+	}
+    }
+    return array;
+}
+
+
+    objtoString(item){
+        return JSON.stringify(item);
+    }
 
 }

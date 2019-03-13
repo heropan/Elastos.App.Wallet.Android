@@ -92,7 +92,7 @@ export class TxdetailsPage {
                            this.native.info(data);
                            if(data["success"]){
                              this.native.info(data["success"]);
-                             this.singPublickey = JSON.parse(data["success"])["Signers"];
+                             this.singPublickey = JSON.parse(data["success"])["Signers"] || [];
                              this.native.info(this.singPublickey);
                            }
         });

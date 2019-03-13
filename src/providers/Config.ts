@@ -11,6 +11,8 @@ import {Logger} from "../providers/Logger";
 export class Config {
   public static singTxCount = 0;
   public static singTxText = "";
+  public static sendTxCount = 0;
+  public static sendTxText = "";
   public static total = 2;
   public static voted = 1;
   public static deposit = 5000;

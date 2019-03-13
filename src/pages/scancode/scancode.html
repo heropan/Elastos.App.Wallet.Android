@@ -14,8 +14,8 @@
 
 
 <ion-content>
-    <div style="padding-bottom:10px">
-        <qrcode class="receive-qrocde" [qrdata]="qrcode" [size]="iwidth" [level]="'M'"></qrcode>
+    <div style="padding-bottom:10px" *ngFor="let item of qrcodeArr;">
+        <qrcode class="receive-qrocde" [qrdata]="objtoString(item)" [size]="iwidth" [level]="'M'"></qrcode>
     </div>
     <ul>
         <li>
