@@ -15,9 +15,11 @@ export class ScancodePage {
   public fee:any;
   public amount:any;
   public iwidth:string=null;
+  public sHeight:string = null;
   public qrcodeArr = [];
   constructor(public navCtrl: NavController, public navParams: NavParams,public native: Native,public walletManager: WalletManager,public zone:NgZone,public plt:Platform) {
            this.iwidth = (this.plt.width()-10).toString();
+           this.sHeight = (this.plt.width()+30).toString();
            let params = this.navParams.data;
           this.qrcodeArr = this.fixedLengthFormatString(JSON.stringify(params),1000);
            this.native.info(this.qrcodeArr);

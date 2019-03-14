@@ -14,10 +14,16 @@
 
 
 <ion-content>
-    <div style="padding-bottom:10px" *ngFor="let item of qrcodeArr;">
+    <!-- <div style="padding-bottom:10px" *ngFor="let item of qrcodeArr;">
         <qrcode class="receive-qrocde" [qrdata]="objtoString(item)" [size]="iwidth" [level]="'M'"></qrcode>
-    </div>
-    <ul>
+    </div> -->
+
+    <ion-slides [ngStyle]="{ 'height': (sHeight + 'px') }" pager>
+        <ion-slide *ngFor="let item of qrcodeArr;">
+            <qrcode class="receive-qrocde" [qrdata]="objtoString(item)" [size]="iwidth" [level]="'M'"></qrcode>
+        </ion-slide>
+    </ion-slides>
+    <ul style="padding: 10px">
         <li>
             {{'transaction-id' | translate}}
         </li>

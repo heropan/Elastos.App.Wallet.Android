@@ -3,13 +3,20 @@ page-scancode {
         border-bottom: 1px solid #ddd;
     }
     .receive-qrocde {
-        margin: 0px auto;
+        margin: 0px 10px;
         display: block;
-        padding-top: 20px;
+        //padding-top: 20px;
         text-align: center;
         img {
             //不好用
             margin: 0px auto;
         }
+    }
+    .swiper-pagination-fraction,
+    .swiper-pagination-custom,
+    .swiper-container-horizontal>.swiper-pagination-bullets {
+        left: 0;
+        bottom: -2px;
+        width: 100%;
     }
 }

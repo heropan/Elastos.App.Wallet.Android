@@ -95,33 +95,69 @@ export class MyComponent{
   onNext(type): void {
      switch (type){
        case 0:
+       Config.singTxCount = 0;
+       Config.singTxText = "";
+       Config.sendTxCount = 0;
+       Config.sendTxText = "";
          this.native.Go(this.navCtrl,ManagerComponent);
          break;
        case 1:
+       Config.singTxCount = 0;
+       Config.singTxText = "";
+       Config.sendTxCount = 0;
+       Config.sendTxText = "";
        this.native.Go(this.navCtrl,PublickeyPage);
          break;
        case 2:
+       Config.singTxCount = 0;
+       Config.singTxText = "";
+       Config.sendTxCount = 0;
+       Config.sendTxText = "";
         this.native.Go(this.navCtrl,ContactListComponent);
          break;
        case 3:
+       Config.singTxCount = 0;
+       Config.singTxText = "";
          this.sendTX1();
          break;
        case 4:
+       Config.sendTxCount = 0;
+       Config.sendTxText = "";
          this.singTx1();
          break;
        case 6:
+       Config.singTxCount = 0;
+       Config.singTxText = "";
+       Config.sendTxCount = 0;
+       Config.sendTxText = "";
           this.getDIDList();
          break;
         case 5:
+        Config.singTxCount = 0;
+        Config.singTxText = "";
+        Config.sendTxCount = 0;
+        Config.sendTxText = "";
          this.setLanguage();
          break;
         case 7:
+        Config.singTxCount = 0;
+        Config.singTxText = "";
+        Config.sendTxCount = 0;
+        Config.sendTxText = "";
            this.getVoteNode();
            break;
         case 8:
+        Config.singTxCount = 0;
+        Config.singTxText = "";
+        Config.sendTxCount = 0;
+        Config.sendTxText = "";
            this.native.Go(this.navCtrl,'AboutPage');
           break;
         case 9:
+        Config.singTxCount = 0;
+        Config.singTxText = "";
+        Config.sendTxCount = 0;
+        Config.sendTxText = "";
            this.getPublicKeyForVote();
          break;
      }
