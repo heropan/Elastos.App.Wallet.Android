@@ -35,9 +35,9 @@ export class HomeComponent {
 
   ionViewWillEnter(){
     Config.singTxCount = 0;
-    Config.singTxText = "";
+    Config.singTxText = {};
     Config.sendTxCount = 0;
-    Config.sendTxText = "";
+    Config.sendTxText = {};
      this.init();
   }
 

@@ -47,12 +47,15 @@ export class ScanPage {
                  this.navCtrl.pop();
                  text =JSON.parse(text);
                  let MaxNumber = text["totalNum"];
-                 Config.singTxCount++;
-                 Config.singTxText = Config.singTxText+text["text"];
+                 let curNumber = text["curNum"];
+                 if(!Config.singTxText[curNumber]){
+                  Config.singTxCount++;
+                  Config.singTxText[curNumber] = text["text"];
+                 }
                  if(Config.singTxCount==MaxNumber){
                         Config.singTxCount = 0;
-                  let senddata = {"content":Config.singTxText,type:4};
-                  Config.singTxText = "";
+                  let senddata = {"content":this.autoSplicing(Config.singTxText),type:4};
+                  Config.singTxText = {};
                   this.native.Go(this.navCtrl,TxdetailsPage,senddata);//singTx
                  }
                    break;
@@ -61,12 +64,15 @@ export class ScanPage {
                 this.navCtrl.pop();
                 text =JSON.parse(text);
                 let MaxNum = text["totalNum"];
-                Config.sendTxCount++;
-                Config.sendTxText = Config.sendTxText+text["text"];
+                let curNum = text["curNum"];
+                if(!Config.sendTxText[curNum]){
+                  Config.sendTxCount++;
+                 Config.sendTxText[curNum] = text["text"];
+                }
                 if(Config.sendTxCount == MaxNum){
                   Config.sendTxCount = 0;
-                  let senddata1 = {"content":Config.sendTxText,type:3};
-                  Config.sendTxText = "";
+                  let senddata1 = {"content":this.autoSplicing(Config.sendTxText),type:3};
+                  Config.sendTxText = {};
                   this.native.Go(this.navCtrl,TxdetailsPage,senddata1);//sendTx
                 }
                    break;
@@ -134,6 +140,15 @@ export class ScanPage {
 
               ionViewWillLeave() {
                 this.hideCamera();
+              }
+
+
+              autoSplicing(obj){
+                let text ="";
+                for(var key in obj){
+                  text = text+obj[key];
+                }
+                return text;
               }
 
 
