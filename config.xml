@@ -94,4 +94,5 @@
     <plugin name="ElaJava2JSBridge" spec="ElaJava2JSBridge" />
     <plugin name="ElaWallet" spec="ElaWallet" />
     <engine name="android" spec="^7.0.0" />
+    <engine name="ios" spec="~4.5.5" />
 </widget>

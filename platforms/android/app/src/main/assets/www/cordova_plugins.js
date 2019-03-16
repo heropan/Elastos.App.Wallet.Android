@@ -86,7 +86,8 @@ module.exports.metadata =
   "cordova-clipboard": "1.2.1",
   "cordova-plugin-qrscanner": "2.6.0",
   "ElaJava2JSBridge": "1",
-  "ElaWallet": "1.0.0"
+  "ElaWallet": "1.0.0",
+  "cordova-plugin-console": "1.1.0"
 };
 // BOTTOM OF METADATA
 });

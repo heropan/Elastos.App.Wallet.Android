@@ -1,0 +1,49 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "ElaJava2JSBridge": {
+      "PACKAGE_NAME": "org.elastos.wallet"
+    },
+    "ElaWallet": {
+      "PACKAGE_NAME": "org.elastos.wallet"
+    },
+    "cordova-clipboard": {
+      "PACKAGE_NAME": "org.elastos.wallet"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "org.elastos.wallet"
+    },
+    "cordova-plugin-filechooser": {
+      "PACKAGE_NAME": "org.elastos.wallet"
+    },
+    "cordova-plugin-ionic-keyboard": {
+      "PACKAGE_NAME": "org.elastos.wallet"
+    },
+    "cordova-plugin-ionic-webview": {
+      "PACKAGE_NAME": "org.elastos.wallet"
+    },
+    "cordova-plugin-qrscanner": {
+      "PACKAGE_NAME": "org.elastos.wallet"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "org.elastos.wallet"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "org.elastos.wallet"
+    },
+    "cordova-sqlite-storage": {
+      "PACKAGE_NAME": "org.elastos.wallet"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-add-swift-support": {
+      "PACKAGE_NAME": "org.elastos.wallet"
+    }
+  }
+}
