@@ -41,6 +41,7 @@
         "cordova-android": "^7.0.0",
         "cordova-clipboard": "^1.2.1",
         "cordova-common": "^2.2.1",
+        "cordova-plugin-console": "^1.1.0",
         "cordova-plugin-device": "^2.0.2",
         "cordova-plugin-filechooser": "^1.0.1",
         "cordova-plugin-ionic-keyboard": "^2.0.5",
@@ -82,6 +83,7 @@
             "cordova-plugin-filechooser": {},
             "cordova-clipboard": {},
             "cordova-plugin-qrscanner": {},
+            "cordova-plugin-console": {},
             "ElaJava2JSBridge": {},
             "ElaWallet": {}
         },

@@ -90,6 +90,7 @@
     <plugin name="cordova-plugin-filechooser" spec="^1.0.1" />
     <plugin name="cordova-clipboard" spec="^1.2.1" />
     <plugin name="cordova-plugin-qrscanner" spec="^2.6.0" />
+    <plugin name="cordova-plugin-console" spec="^1.1.0" />
     <plugin name="ElaJava2JSBridge" spec="ElaJava2JSBridge" />
     <plugin name="ElaWallet" spec="ElaWallet" />
     <engine name="android" spec="^7.0.0" />
