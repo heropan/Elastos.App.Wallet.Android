@@ -135,6 +135,7 @@ export class TransferComponent {
 
 
     this.walletManager.isAddressValid(this.masterWalletId,this.transfer.toAddress, (data) => {
+      this.native.info(data);
       if (!data['success']) {
         this.native.toast_trans("contact-address-digits");
         return;
