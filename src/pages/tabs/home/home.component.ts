@@ -72,7 +72,9 @@ export class HomeComponent {
    }
 
   onOpen() {
-    this.wallet.showBalance = !this.wallet.showBalance;
+    this.zone.run(()=>{
+      this.wallet.showBalance = !this.wallet.showBalance;
+    });
   }
 
   goPayment() {
