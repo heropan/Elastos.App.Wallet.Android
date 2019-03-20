@@ -54,7 +54,7 @@
 <ion-footer>
     <ion-row class="border-top ">
         <ion-col col class="rule-vote ">
-            <ion-checkbox [(ngModel)]="isAllchecked" class="vertical-align" (click)="setSelectAll()"></ion-checkbox>{{'all-election'|translate}}(<span class="thirty ">30</span>/<span class="all ">{{selectNum}}</span>)</ion-col>
+            <ion-checkbox [(ngModel)]="isAllchecked" (ionChange)="updateAllchecked(isAllchecked)" class="vertical-align" (click)="setSelectAll()"></ion-checkbox>{{'all-election'|translate}}(<span class="thirty ">30</span>/<span class="all ">{{selectNum}}</span>)</ion-col>
         <ion-col col class="rule-vote " align-self-center><span class="chose ">{{selectNum}}</span>{{'have-chosen'|translate}}</ion-col>
         <ion-col col class="rule-vote2 " [ngClass]="{ 'bule':selectNum> 0}" (click)="vote()">{{'vote-immediately'|translate}}</ion-col>
     </ion-row>

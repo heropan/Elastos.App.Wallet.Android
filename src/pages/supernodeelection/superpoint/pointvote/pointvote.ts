@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,NgZone } from '@angular/core';
 import { IonicPage, NavController,ModalController, NavParams } from 'ionic-angular';
 import {Native} from "../../../../providers/Native";
 import {Util} from '../../../../providers/Util';
@@ -44,6 +44,7 @@ export class PointvotePage {
                public native: Native,
                public popupProvider:PopupProvider,
                public walletManager:WalletManager,
+               public zone:NgZone
              ) {
               this.masterId = Config.getCurMasterWalletId();
               this.countrys = Config.getAllCountry();
@@ -292,6 +293,13 @@ public getSelectPublics(){
      }
   }
   return arr;
+}
+
+
+updateAllchecked(isAllchecked){
+    this.zone.run(()=>{
+      this.isAllchecked = isAllchecked;
+    });
 }
 
 }
