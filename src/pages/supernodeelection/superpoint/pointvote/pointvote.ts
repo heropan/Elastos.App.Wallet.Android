@@ -103,12 +103,14 @@ export class PointvotePage {
 
   setSelectAll(){
     this.native.info(this.isAllchecked);
-    for(let index in this.voteList){
-         let id = this.voteList[index]["ownerpublickey"];
-         this.selectVoteObj[id] = this.isAllchecked;
+    this.zone.run(()=>{
+      for(let index in this.voteList){
+        let id = this.voteList[index]["ownerpublickey"];
+        this.selectVoteObj[id] = this.isAllchecked;
     }
+   this.selectNum = this.getSelectNum();
+    });
 
-    this.selectNum = this.getSelectNum();
     console.log(JSON.stringify(this.selectVoteObj));
   }
 
