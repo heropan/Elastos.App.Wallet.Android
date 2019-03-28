@@ -714,5 +714,8 @@ export const zh = {
 'total-balance':'总额',
 'vote-balance':'投票占用',
 'update-info':'更新信息',
-'node-iPAddress':'网络地址'
+'node-iPAddress':'网络地址',
+'text-send-tx1':"文本发送交易",
+'text-sing-tx1':"文本签名交易",
+'import-text-keystroe-message1': '将文本复制到文本框',
 };

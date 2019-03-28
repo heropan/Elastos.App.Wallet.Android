@@ -718,7 +718,10 @@ export const en = {
 'total-balance':'Total Balance',
 'vote-balance':'Vote Balance',
 'update-info':'Update Info',
-'node-iPAddress':'Net Address'
+'node-iPAddress':'Net Address',
+'text-send-tx1':"Text Send transaction",
+'text-sing-tx1':"Text Sign transaction",
+'import-text-keystroe-message1': 'Paste text in',
 };
 
 

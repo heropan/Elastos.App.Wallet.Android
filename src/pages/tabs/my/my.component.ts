@@ -160,6 +160,20 @@ export class MyComponent{
         Config.sendTxText = {};
            this.getPublicKeyForVote();
          break;
+        case 10://文本签名交易
+         Config.singTxCount = 0;
+         Config.singTxText = {};
+         Config.sendTxCount = 0;
+         Config.sendTxText = {};
+         this.native.Go(this.navCtrl,"TxtextPage",{"selectTab":4});
+          break;
+        case 11://文本发送交易
+        Config.singTxCount = 0;
+        Config.singTxText = {};
+        Config.sendTxCount = 0;
+        Config.sendTxText = {};
+        this.native.Go(this.navCtrl,"TxtextPage",{"selectTab":3});
+         break;
      }
    }
 

@@ -66,5 +66,17 @@
                 <span>{{'take-back-deposit' | translate }}</span>
             </ion-label>
         </ion-item>
+
+        <button ion-item (click)="onNext(10)" *ngIf="readonly!='Readonly'">
+          <ion-label>
+            <span>{{'text-sing-tx1' | translate }}</span>
+          </ion-label>
+        </button>
+
+        <button ion-item (click)="onNext(11)">
+          <ion-label>
+            <span>{{'text-send-tx1' | translate }}</span>
+          </ion-label>
+        </button>
     </ion-list>
 </ion-content>
