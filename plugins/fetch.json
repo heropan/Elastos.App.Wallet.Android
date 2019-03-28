@@ -74,7 +74,7 @@
   "ElaJava2JSBridge": {
     "source": {
       "type": "local",
-      "path": "/home/songjiazhun/Downloads/Elastos.ORG.Wallet.Mobile/node_modules/ElaJava2JSBridge"
+      "path": "/home/songjiazhun/Elastos.App.Wallet.Android/node_modules/ElaJava2JSBridge"
     },
     "is_top_level": true,
     "variables": {}
@@ -82,7 +82,7 @@
   "ElaWallet": {
     "source": {
       "type": "local",
-      "path": "/home/songjiazhun/Downloads/Elastos.ORG.Wallet.Mobile/node_modules/ElaWallet"
+      "path": "/home/songjiazhun/Elastos.App.Wallet.Android/node_modules/ElaWallet"
     },
     "is_top_level": true,
     "variables": {}

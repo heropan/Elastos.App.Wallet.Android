@@ -34,13 +34,13 @@
     "cordova-plugin-qrscanner": {
       "PACKAGE_NAME": "io.ionic.starter"
     },
+    "cordova-plugin-console": {
+      "PACKAGE_NAME": "org.elastos.wallet"
+    },
     "ElaJava2JSBridge": {
-      "PACKAGE_NAME": "io.ionic.starter"
+      "PACKAGE_NAME": "org.elastos.wallet"
     },
     "ElaWallet": {
-      "PACKAGE_NAME": "io.ionic.starter"
-    },
-    "cordova-plugin-console": {
       "PACKAGE_NAME": "org.elastos.wallet"
     }
   },

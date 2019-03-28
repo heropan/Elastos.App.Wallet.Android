@@ -297,5 +297,63 @@ walletFunc.prototype.getMultiSignPubKeyWithPrivKey = function(arg0, success, err
     exec(success, error, "Wallet", "getMultiSignPubKeyWithPrivKey", arg0);
 };
 
+walletFunc.prototype.getTransactionSignedSigners = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getTransactionSignedSigners", arg0);
+};
+
+walletFunc.prototype.importWalletWithOldKeystore = function(arg0, success, error) {
+    exec(success, error, "Wallet", "importWalletWithOldKeystore", arg0);
+};
+
+walletFunc.prototype.getVersion = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getVersion", arg0);
+};
+
+walletFunc.prototype.destroySubWallet = function(arg0, success, error) {
+    exec(success, error, "Wallet", "destroySubWallet", arg0);
+};
+
+walletFunc.prototype.getVotedProducerList = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getVotedProducerList", arg0);
+};
+
+walletFunc.prototype.createVoteProducerTransaction = function(arg0, success, error) {
+    exec(success, error, "Wallet", "createVoteProducerTransaction", arg0);
+};
+
+walletFunc.prototype.createCancelProducerTransaction = function(arg0, success, error) {
+    exec(success, error, "Wallet", "createCancelProducerTransaction", arg0);
+};
+
+walletFunc.prototype.getRegisteredProducerInfo = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getRegisteredProducerInfo", arg0);
+};
+
+walletFunc.prototype.createRegisterProducerTransaction = function(arg0, success, error) {
+    exec(success, error, "Wallet", "createRegisterProducerTransaction", arg0);
+};
+
+
+walletFunc.prototype.generateProducerPayload = function(arg0, success, error) {
+    exec(success, error, "Wallet", "generateProducerPayload", arg0);
+};
+
+walletFunc.prototype.generateCancelProducerPayload = function(arg0, success, error) {
+    exec(success, error, "Wallet", "generateCancelProducerPayload", arg0);
+};
+
+walletFunc.prototype.getPublicKeyForVote = function(arg0, success, error) {
+    exec(success, error, "Wallet", "getPublicKeyForVote", arg0);
+};
+
+walletFunc.prototype.createRetrieveDepositTransaction = function(arg0, success, error) {
+    exec(success, error, "Wallet", "createRetrieveDepositTransaction", arg0);
+};
+
+
+walletFunc.prototype.createUpdateProducerTransaction = function(arg0, success, error) {
+    exec(success, error, "Wallet", "createUpdateProducerTransaction", arg0);
+};
+
 var WALLETFUNC = new walletFunc();
 module.exports = WALLETFUNC;
