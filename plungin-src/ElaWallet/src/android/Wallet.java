@@ -366,9 +366,6 @@ public class Wallet extends CordovaPlugin {
 				case "importWalletWithKeystore":
 					this.importWalletWithKeystore(args, cc);
 					break;
-				case "importWalletWithOldKeystore":
-					this.importWalletWithOldKeystore(args, cc);
-					break;
 				case "importWalletWithMnemonic":
 					this.importWalletWithMnemonic(args, cc);
 					break;
@@ -1059,41 +1056,6 @@ public class Wallet extends CordovaPlugin {
 	// args[1]: String keystoreContent
 	// args[2]: String backupPassword
 	// args[3]: String payPassword
-	// args[4]: String phrasePassword
-	public void importWalletWithOldKeystore(JSONArray args, CallbackContext cc) throws JSONException {
-		int idx = 0;
-
-		String masterWalletID  = args.getString(idx++);
-		String keystoreContent = args.getString(idx++);
-		String backupPassword  = args.getString(idx++);
-		String payPassword     = args.getString(idx++);
-		String phrasePassword  = args.getString(idx++);
-
-		if (args.length() != idx) {
-			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
-			return;
-		}
-
-		try {
-			IMasterWallet masterWallet = mMasterWalletManager.ImportWalletWithOldKeystore(
-					masterWalletID, keystoreContent, backupPassword, payPassword, phrasePassword);
-			if (masterWallet == null) {
-				errorProcess(cc, errCodeImportFromKeyStore, "Import " + formatWalletName(masterWalletID) + " with keystore");
-				return;
-			}
-
-			createDIDManager(masterWallet);
-
-			successProcess(cc, masterWallet.GetBasicInfo());
-		} catch (WalletException e) {
-			exceptionProcess(e, cc, "Import " + formatWalletName(masterWalletID) + " with keystore");
-		}
-	}
-
-	// args[0]: String masterWalletID
-	// args[1]: String keystoreContent
-	// args[2]: String backupPassword
-	// args[3]: String payPassword
 	public void importWalletWithKeystore(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
 
@@ -1161,17 +1123,24 @@ public class Wallet extends CordovaPlugin {
 	// args[0]: String masterWalletID
 	// args[1]: String backupPassword
 	// args[2]: String payPassword
+	// args[3]: boolean withPrivKey
 	public void exportWalletWithKeystore(JSONArray args, CallbackContext cc) throws JSONException {
 		int idx = 0;
+		String masterWalletID;
+		String backupPassword;
+		String payPassword;
+		boolean withPrivKey = true;
 
-		String masterWalletID = args.getString(idx++);
-		String backupPassword = args.getString(idx++);
-		String payPassword    = args.getString(idx++);
-
-		if (args.length() != idx) {
-			errorProcess(cc, errCodeInvalidArg, idx + " parameters are expected");
+		if (args.length() < 3) {
+			errorProcess(cc, errCodeInvalidArg, "at least " + 3 + " parameters are expected");
 			return;
 		}
+
+		masterWalletID = args.getString(idx++);
+		backupPassword = args.getString(idx++);
+		payPassword    = args.getString(idx++);
+		if (args.length() > 3)
+			withPrivKey = args.getBoolean(idx++);
 
 		try {
 			IMasterWallet masterWallet = getIMasterWallet(masterWalletID);
@@ -1180,7 +1149,7 @@ public class Wallet extends CordovaPlugin {
 				return;
 			}
 
-			String keystore = mMasterWalletManager.ExportWalletWithKeystore(masterWallet, backupPassword, payPassword);
+			String keystore = mMasterWalletManager.ExportWalletWithKeystore(masterWallet, backupPassword, payPassword, withPrivKey);
 
 			successProcess(cc, keystore);
 		} catch (WalletException e) {
