@@ -44,7 +44,7 @@ export class UpdateproducerPage {
     this.walletManager.getMasterWalletBasicInfo(this.masterId,(data)=>{
                  if(data["success"]){
                     this.native.info(data);
-                    let item = JSON.parse(data["success"])["Account"];
+                    let item = JSON.parse(data["success"]);
                     this.walletInfo = item;
                  }
     });
@@ -116,7 +116,7 @@ export class UpdateproducerPage {
   this.walletManager.updateTransactionFee(this.masterId,this.curChain,rawTransaction, this.fee,"",(data)=>{
     if(data["success"]){
      this.native.info(data);
-     if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["InnerType"] === "Readonly"){
+     if(this.walletInfo["Type"] === "MultiSign" && this.walletInfo["Readonly"]){
               this.readWallet(data["success"]);
               return;
      }
@@ -134,7 +134,7 @@ export class UpdateproducerPage {
       this.native.info(data);
       if(this.walletInfo["Type"] === "Standard"){
            this.sendTx(data["success"]);
-      }else if(this.walletInfo["Type"] === "Multi-Sign"){
+      }else if(this.walletInfo["Type"] === "MultiSign"){
           this.walletManager.encodeTransactionToString(data["success"],(raw)=>{
                    if(raw["success"]){
                     this.native.hideLoading();

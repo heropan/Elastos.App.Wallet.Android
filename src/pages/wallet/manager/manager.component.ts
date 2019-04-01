@@ -153,10 +153,10 @@ export class ManagerComponent {
     this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
       if(data["success"]){
          this.native.info(data);
-         let item = JSON.parse(data["success"])["Account"];
+         let item = JSON.parse(data["success"]);
          this.masterWalletType = item["Type"] ;
          this.singleAddress = item["SingleAddress"];
-         this.readonly = item["InnerType"] || "";
+         this.readonly = item["Readonly"] || "";
       }else{
          this.native.info(data);
       }

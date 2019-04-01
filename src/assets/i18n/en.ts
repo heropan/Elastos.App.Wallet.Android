@@ -722,6 +722,7 @@ export const en = {
 'text-send-tx1':"Text Send transaction",
 'text-sing-tx1':"Text Sign transaction",
 'import-text-keystroe-message1': 'Paste text in',
+'do-not-include-private-key':'Do-not-include-private-key'
 };
 
 

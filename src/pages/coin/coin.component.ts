@@ -59,10 +59,8 @@ export class CoinComponent{
     this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
                  if(data["success"]){
                     this.native.info(data);
-                    let item = JSON.parse(data["success"])["Account"];
+                    let item = JSON.parse(data["success"]);
                     this.masterWalletInfo = item;
-                 }else{
-                    alert("=======getMasterWalletBasicInfo====error====="+JSON.stringify(data));
                  }
     });
 

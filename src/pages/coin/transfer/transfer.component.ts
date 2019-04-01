@@ -143,7 +143,7 @@ export class TransferComponent {
       this.native.showLoading().then(()=>{
         if(this.walletInfo["Type"] === "Standard"){
           this.createTransaction();
-      }else if(this.walletInfo["Type"] === "Multi-Sign"){
+      }else if(this.walletInfo["Type"] === "MultiSign"){
           this.createMultTx();
       }
       });
@@ -186,7 +186,7 @@ export class TransferComponent {
   }
 
   sendRawTransaction(){
-    if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["InnerType"] === "Readonly"){
+    if(this.walletInfo["Type"] === "MultiSign" && this.walletInfo["Readonly"]){
         this.updateTxFee();
         return;
     }
@@ -197,7 +197,10 @@ export class TransferComponent {
     this.walletManager.updateTransactionFee(this.masterWalletId,this.chianId,this.rawTransaction, this.transfer.fee,"",(data)=>{
                        if(data["success"]){
                         this.native.info(data);
-                        if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["InnerType"] === "Readonly"){
+                        console.log("=========11111"+(this.walletInfo["Type"] === "MultiSign"));
+                        console.log("=========22222"+this.walletInfo["Readonly"]);
+                        console.log("=========33333"+(this.walletInfo["Type"] === "MultiSign" && this.walletInfo["Readonly"]));
+                        if(this.walletInfo["Type"] === "MultiSign" && this.walletInfo["Readonly"]){
                                  this.readWallet(data["success"]);
                                  return;
                         }
@@ -214,7 +217,7 @@ export class TransferComponent {
         this.native.info(data);
         if(this.walletInfo["Type"] === "Standard"){
              this.sendTx(data["success"]);
-        }else if(this.walletInfo["Type"] === "Multi-Sign"){
+        }else if(this.walletInfo["Type"] === "MultiSign"){
             this.walletManager.encodeTransactionToString(data["success"],(raw)=>{
                      if(raw["success"]){
                       this.native.hideLoading();

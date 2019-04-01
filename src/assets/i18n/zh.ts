@@ -718,4 +718,5 @@ export const zh = {
 'text-send-tx1':"文本发送交易",
 'text-sing-tx1':"文本签名交易",
 'import-text-keystroe-message1': '将文本复制到文本框',
+'do-not-include-private-key':'不包含私钥'
 };

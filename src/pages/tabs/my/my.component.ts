@@ -75,21 +75,28 @@ export class MyComponent{
   }
 
   getMasterWalletBasicInfo(){
-    this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
-      if(data["success"]){
-         this.native.info(data);
-         let item = JSON.parse(data["success"])["Account"];
-         this.walletInfo = item;
-         this.zone.run(()=>{
-          this.masterWalletType = item["Type"];
-          this.readonly = item["InnerType"] || "";
-          this.singleAddress = item["SingleAddress"] || false;
-         });
-
-      }else{
-         this.native.info(data);
-      }
+    let  item = Config.getMappingList()[this.masterWalletId]["Account"];
+    this.walletInfo = item;
+    this.zone.run(()=>{
+           this.masterWalletType = item["Type"];
+          this.readonly = item["Readonly"] || false;
+           this.singleAddress = item["SingleAddress"] || false;
     });
+    // this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
+    //   if(data["success"]){
+    //      this.native.info(data);
+    //      let item = JSON.parse(data["success"]);
+    //      this.walletInfo = item;
+    //      this.zone.run(()=>{
+    //       this.masterWalletType = item["Type"];
+    //       this.readonly = item["Readonly"] || false;
+    //       this.singleAddress = item["SingleAddress"] || false;
+    //      });
+
+    //   }else{
+    //      this.native.info(data);
+    //   }
+    // });
   }
 
   onNext(type): void {
@@ -302,7 +309,7 @@ getBackDeposit(list){
   this.walletManager.updateTransactionFee(this.masterWalletId,"ELA",rawTransaction, this.fee,"",(data)=>{
     if(data["success"]){
      this.native.info(data);
-     if(this.walletInfo["Type"] === "Multi-Sign" && this.walletInfo["InnerType"] === "Readonly"){
+     if(this.walletInfo["Type"] === "MultiSign" && this.walletInfo["Readonly"]){
               this.readWallet(data["success"]);
               return;
      }
@@ -320,7 +327,7 @@ getBackDeposit(list){
       this.native.info(data);
       if(this.walletInfo["Type"] === "Standard"){
            this.sendTx(data["success"]);
-      }else if(this.walletInfo["Type"] === "Multi-Sign"){
+      }else if(this.walletInfo["Type"] === "MultiSign"){
           this.walletManager.encodeTransactionToString(data["success"],(raw)=>{
                    if(raw["success"]){
                     this.native.hideLoading();

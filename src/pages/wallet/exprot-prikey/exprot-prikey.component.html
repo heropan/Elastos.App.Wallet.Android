@@ -8,7 +8,7 @@
         <img src="./assets/images/logo-maincolor.svg">
         <div style="font-size: 1.6em;">{{exprotObj.name}}
             <span *ngIf="account['Type']==='Standard'" style="font-size: 1.3px">{{'text-standard-wallte' | translate}}</span>
-            <span *ngIf="account['Type']==='Multi-Sign'" style="font-size: 1.3px">{{'text-multi-wallte' | translate}}</span></div>
+            <span *ngIf="account['Type']==='MultiSign'" style="font-size: 1.3px">{{'text-multi-wallte' | translate}}</span></div>
     </div>
     <div *ngIf="!backupWalletPlainText">
         <ion-list>
@@ -22,6 +22,11 @@
             <ion-item *ngIf="readonly!='Readonly'">
                 <ion-label stacked>{{'unlock-paypassword-title' | translate }}</ion-label>
                 <ion-input type="password" placeholder="{{ 'unlock-paypassword-placeholder' | translate }}" [(ngModel)]="exprotObj.payPassword"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>{{'do-not-include-private-key' | translate }}</ion-label>
+                <ion-checkbox [(ngModel)]="withPrivKey" (ionChange)="updateSingleAddress(withPrivKey)"></ion-checkbox>
             </ion-item>
         </ion-list>
     </div>

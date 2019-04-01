@@ -36,8 +36,14 @@ export class WalltelistPage {
     this.native.info(item);
     let id = item["id"];
     Config.setCurMasterWalletId(id);
-    this.getAllsubWallet(id);
-
+    this.walletManager.getMasterWalletBasicInfo(id,(data)=>{
+      if(data["success"]){
+        this.native.info(data);
+        Config.getMappingList()[id]["Account"] = JSON.parse(data["success"]);
+        this.native.info(Config.getMappingList());
+        this.getAllsubWallet(id);
+      }
+    });
   }
 
   saveId(id){

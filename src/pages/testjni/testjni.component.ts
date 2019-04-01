@@ -250,7 +250,7 @@ export class TestJniComponent {
    }
 
    exportWalletWithKeystore(backupPassword: string,payPassWord:string){
-       this.walletManager.exportWalletWithKeystore(this.masterWalletId,backupPassword,payPassWord,(result)=>{
+       this.walletManager.exportWalletWithKeystore(this.masterWalletId,backupPassword,payPassWord,true,(result)=>{
         alert("导出keystore成功"+JSON.stringify(result));
        });
    }

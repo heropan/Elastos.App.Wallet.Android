@@ -115,13 +115,14 @@ export class InitializepagePage {
             Config.setCurMasterWalletId(item["masterId"]);
             Config.setMasterWalletIdList(idList);
             this.handleMappingdata(idList);
-            this.getAllsubWallet(item["masterId"],type);
+            this.getBaseInfo(item["masterId"],type);
+
           }else{
               let id = idList[0];
               Config.setCurMasterWalletId(id);
               Config.setMasterWalletIdList(idList);
               this.handleMappingdata(idList);
-              this.getAllsubWallet(id,type);
+              this.getBaseInfo(id,type);
           }
 
         });
@@ -217,6 +218,17 @@ export class InitializepagePage {
         }
     }
     return false;
+ }
+
+ public getBaseInfo(masterWalletId,type){
+      this.walletManager.getMasterWalletBasicInfo(masterWalletId,(data)=>{
+        if(data["success"]){
+          this.native.info(data);
+          Config.getMappingList()[masterWalletId]["Account"] = JSON.parse(data["success"]);
+          this.native.info(Config.getMappingList());
+          this.getAllsubWallet(masterWalletId,type);
+        }
+      });
  }
 
 }

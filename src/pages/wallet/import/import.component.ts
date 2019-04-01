@@ -126,7 +126,7 @@ export class ImportComponent {
                       this.importFileObj.payPassword,
                       (data)=>{
                         if(data["success"]){
-                               this.accontObj = JSON.parse(data["success"])["Account"];
+                               this.accontObj = JSON.parse(data["success"]);
                                this.walletManager.createSubWallet(this.masterWalletId,"ELA",0, (data)=>{
                                 if(data["success"]){
                                    this.registerWalletListener(this.masterWalletId,"ELA");
@@ -206,7 +206,7 @@ export class ImportComponent {
     let mnemonic = this.normalizeMnemonic(this.mnemonicObj.mnemonic);
     this.walletManager.importWalletWithMnemonic(this.masterWalletId,mnemonic,this.mnemonicObj.phrasePassword,this.mnemonicObj.payPassword,this.mnemonicObj.singleAddress,(data)=>{
                 if(data["success"]){
-                       this.accontObj = JSON.parse(data["success"])["Account"];
+                       this.accontObj = JSON.parse(data["success"]);
                        this.walletManager.createSubWallet(this.masterWalletId,"ELA",0, (data)=>{
                         if(data["success"]){
                           this.native.toast_trans('import-text-world-sucess');
@@ -311,7 +311,7 @@ export class ImportComponent {
           this.keyStoreContent,this.importFileObj.backupPassWord,
           this.importFileObj.payPassword,webKeyStore,(data)=>{
             if(data["success"]){
-              this.accontObj = JSON.parse(data["success"])["Account"];
+              this.accontObj = JSON.parse(data["success"]);
               this.walletManager.createSubWallet(this.masterWalletId,"ELA",0, (data)=>{
                if(data["success"]){
                  this.native.toast_trans('import-text-world-sucess');

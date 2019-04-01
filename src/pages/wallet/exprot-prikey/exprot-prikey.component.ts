@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component,NgZone} from '@angular/core';
 import { NavController, NavParams} from 'ionic-angular';
 import {WalletManager} from '../../../providers/WalletManager';
 import {Config} from '../../../providers/Config';
@@ -16,7 +16,8 @@ export class ExprotPrikeyComponent  {
   public readonly:string="";
   public masterWalletType:string = "";
   public singleAddress:boolean = false;
-  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage) {
+  public withPrivKey:boolean = false;
+  constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage,public zone:NgZone) {
            this.onWalletDatainit();
   }
 
@@ -33,6 +34,12 @@ export class ExprotPrikeyComponent  {
     this.exprotObj.name = Config.getWalletName(this.masterWalletId);
     this.account = Config.getAccountType(this.masterWalletId);
     this.getMasterWalletBasicInfo();
+  }
+
+  updateSingleAddress(isShow){
+    this.zone.run(()=>{
+      this.withPrivKey = isShow;
+    });
   }
 
   checkparms(){
@@ -66,7 +73,7 @@ export class ExprotPrikeyComponent  {
   }
 
   onExport() {
-    this.walletManager.exportWalletWithKeystore(this.masterWalletId,this.exprotObj.backupPassWord,this.exprotObj.payPassword,(data) => {
+    this.walletManager.exportWalletWithKeystore(this.masterWalletId,this.exprotObj.backupPassWord,this.exprotObj.payPassword,this.withPrivKey,(data) => {
                  if(data["success"]){
                   this.backupWalletPlainText = data["success"];
                  }
@@ -85,10 +92,10 @@ export class ExprotPrikeyComponent  {
     this.walletManager.getMasterWalletBasicInfo(this.masterWalletId,(data)=>{
       if(data["success"]){
          this.native.info(data);
-         let item = JSON.parse(data["success"])["Account"];
+         let item = JSON.parse(data["success"]);
          this.masterWalletType = item["Type"] ;
          this.singleAddress = item["SingleAddress"];
-         this.readonly = item["InnerType"] || "";
+         this.readonly = item["Readonly"] || "";
       }
     });
   }

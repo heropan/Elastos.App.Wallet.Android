@@ -26,12 +26,12 @@ export class AddpublickeyPage {
     let totalCopayers = 0;
     if(this.msobj["payPassword"]){
       this.isOnly = false;
-      this.innerType ="Standard";
+      this.innerType =false;
       totalCopayers = this.msobj["totalCopayers"]-1;
       this.getPublicKey();
     }else{
       this.isOnly = true;
-      this.innerType ="Readonly";
+      this.innerType =true;
       totalCopayers = this.msobj["totalCopayers"];
     }
 
@@ -133,7 +133,7 @@ export class AddpublickeyPage {
               let walletObj = this.native.clone(Config.masterWallObj);
               walletObj["id"]   = this.masterWalletId;
               walletObj["wallname"] = this.name;
-              walletObj["Account"] = {"SingleAddress":true,"Type":"Multi-Sign","InnerType":this.innerType};
+              walletObj["Account"] = {"SingleAddress":true,"Type":"MultiSign","Readonly":this.innerType};
               this.localStorage.saveMappingTable(walletObj).then((data)=>{
                 let mappingList = this.native.clone(Config.getMappingList());
                     mappingList[this.masterWalletId] = walletObj;

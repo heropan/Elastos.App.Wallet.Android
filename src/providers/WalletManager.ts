@@ -104,8 +104,8 @@ export class WalletManager {
    * @param {string} payPassword
    * @param Fun
    */
-  exportWalletWithKeystore(masterWalletId:string,backupPassWord:string, payPassword: string,Fun) {
-    this.wallet.exportWalletWithKeystore([masterWalletId,backupPassWord,payPassword], Fun,(error)=>{
+  exportWalletWithKeystore(masterWalletId:string,backupPassWord:string, payPassword: string,withPrivKey: boolean,Fun) {
+    this.wallet.exportWalletWithKeystore([masterWalletId,backupPassWord,payPassword,withPrivKey], Fun,(error)=>{
       this.errorFun(error);
     });
   }
