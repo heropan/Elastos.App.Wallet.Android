@@ -359,6 +359,11 @@ export const zh = {
   'error-20041':'(ERR-20041)账户不支持投票',
   'error-20042':'(ERR-20042)本地交易不属于钱包',
   'error-20043':'(ERR-20043)参选质押金不足',
+  'error-20044':'(ERR-20044)找不到私钥',
+  'error-20045':'(ERR-20045)无效赎回脚本',
+  'error-20046':'(ERR-20046)此钱包已签名',
+  'error-20047':'(ERR-20047)AES加密错误',
+  'error-20048':'(ERR-20048)验签失败',
   'error-29999':'(ERR-29999)其它错误',
   'modify-wallet-name': '修改钱包名字',
   'load-more': '加载更多',
@@ -714,5 +719,9 @@ export const zh = {
 'total-balance':'总额',
 'vote-balance':'投票占用',
 'update-info':'更新信息',
-'node-iPAddress':'网络地址'
+'node-iPAddress':'网络地址',
+'text-send-tx1':"文本发送交易",
+'text-sing-tx1':"文本签名交易",
+'import-text-keystroe-message1': '将文本复制到文本框',
+'do-not-include-private-key':'不包含私钥'
 };

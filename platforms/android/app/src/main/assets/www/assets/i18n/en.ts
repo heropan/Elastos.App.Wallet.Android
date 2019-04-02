@@ -361,6 +361,11 @@ export const en = {
   'error-20041':'(ERR-20041)Account not support vote',
   'error-20042':'(ERR-20042)Local tx do not belong to wallet',
   'error-20043':'(ERR-20043)Deposit amount is insufficient',
+  'error-20044':'(ERR-20044)Private key not found',
+  'error-20045':'(ERR-20045)Invalid redeem script',
+  'error-20046':'(ERR-20046)Already signed',
+  'error-20047':'(ERR-20047)Already signed',
+  'error-20048':'(ERR-20048)Verify signature fail',
   'error-29999':'(ERR-29999)Other error',
   'modify-wallet-name':'Editt Wallet Name',
   'load-more':'Load More',
@@ -718,7 +723,11 @@ export const en = {
 'total-balance':'Total Balance',
 'vote-balance':'Vote Balance',
 'update-info':'Update Info',
-'node-iPAddress':'Net Address'
+'node-iPAddress':'Net Address',
+'text-send-tx1':"Text Send transaction",
+'text-sing-tx1':"Text Sign transaction",
+'import-text-keystroe-message1': 'Paste text in',
+'do-not-include-private-key':'Do-not-include-private-key'
 };
 
 

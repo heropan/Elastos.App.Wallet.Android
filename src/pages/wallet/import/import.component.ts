@@ -23,20 +23,20 @@ export class ImportComponent {
   public accontObj:any ={};
   constructor(public navCtrl: NavController,public navParams: NavParams, public walletManager: WalletManager,public native: Native,public localStorage:LocalStorage,public events:Events,public popupProvider:PopupProvider,public zone:NgZone) {
          this.masterWalletId = Config.uuid(6,16);
-         this.events.subscribe("error:update",(item)=>{
-              if(item["error"]){
-                   if(item["error"]["code"] === 20036){
-                    this.popupProvider.webKeyPrompt().then((val)=>{
-                      console.log("========webKeyStore"+val);
-                      if(val === null){
-                          return;
-                      }
-                      this.webKeyStore(val.toString());
-                    });
-                   }
-               }
+        //  this.events.subscribe("error:update",(item)=>{
+        //       if(item["error"]){
+        //            if(item["error"]["code"] === 20036){
+        //             this.popupProvider.webKeyPrompt().then((val)=>{
+        //               console.log("========webKeyStore"+val);
+        //               if(val === null){
+        //                   return;
+        //               }
+        //               this.webKeyStore(val.toString());
+        //             });
+        //            }
+        //        }
 
-         });
+        //  });
   }
   public toggleShowAdvOpts(): void {
     this.zone.run(()=>{
@@ -301,7 +301,7 @@ export class ImportComponent {
   }
 
   ionViewDidLeave(){
-    this.events.unsubscribe("error:update");
+    //this.events.unsubscribe("error:update");
   }
 
   webKeyStore(webKeyStore){
