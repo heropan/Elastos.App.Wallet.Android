@@ -380,7 +380,7 @@ export const en = {
   'suggest-amount':'amount should less than',
   'text-wallet-name-validator1':'Wallet Name with more than 30 characters',
   'text-wallet-name-validator2': 'Wallet Name exist',
-  'text-multi-wallte':'(Multi-Sign Wallet)',
+  'text-multi-wallte':'Multi-Sign Wallet',
   'text-standard-wallte':'(Standard Wallet)',
   'text-export-mnemomic':'Backup Mnemomics',
   'text-export-menmonic-sucess':"Check Mnemonics Success",

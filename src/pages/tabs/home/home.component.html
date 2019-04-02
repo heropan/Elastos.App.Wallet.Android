@@ -16,7 +16,7 @@
             <img src="./assets/images/icon/icon-wallet.svg">
             <div style="font-size: 1.6em;">{{wallet.name}}
                 <span *ngIf="account['Type']==='Standard'" style="font-size: 0.6em;">{{'text-standard-wallte' | translate}}</span>
-                <span *ngIf="account['Type']==='MultiSign'" style="font-size: 0.6em;">{{'text-multi-wallte' | translate}}</span>
+                <span *ngIf="account['Type']==='MultiSign'" style="font-size: 0.6em;">（{{account["M"]}}/{{account["N"]}}{{'text-multi-wallte' | translate}}）</span>
             </div>
         </div>
         <ion-grid>
