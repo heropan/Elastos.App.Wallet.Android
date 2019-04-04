@@ -366,6 +366,7 @@ export const en = {
   'error-20046':'(ERR-20046)Already signed',
   'error-20047':'(ERR-20047)Already signed',
   'error-20048':'(ERR-20048)Verify signature fail',
+  'error-20049':'(ERR-20049)The last transaction is pending',
   'error-29999':'(ERR-29999)Other error',
   'modify-wallet-name':'Editt Wallet Name',
   'load-more':'Load More',
