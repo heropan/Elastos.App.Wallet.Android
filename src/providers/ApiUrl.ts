@@ -7,6 +7,7 @@ export  class ApiUrl {
    /**后台服务*/
   public static SERVER1:string = 'https://123.206.52.29/api';
   public static SERVER2:string = 'https://52.81.8.194:442/api';
+  public static SERVER3:string = 'https://unionsquare.elastos.org/api';
   /**获取认证费用定价 */
   public static GET_PRICE:string = ApiUrl.SERVER +'/getPrice';
   public static SEND_CODE:string = ApiUrl.SERVER +'/sendCode';
@@ -15,7 +16,7 @@ export  class ApiUrl {
   /**APP认证结果请求接口 */
   public static APP_AUTH:string = ApiUrl.SERVER +'/app/auth';
   /**获取投票列表 */
-  public static listproducer:string = ApiUrl.SERVER2 +'/dposnoderpc/check/listproducer';
+  public static listproducer:string = ApiUrl.SERVER3 +'/dposnoderpc/check/listproducer';
 
-  public static getdepositcoin:string =ApiUrl.SERVER2+'/dposnoderpc/check/getdepositcoin';
+  public static getdepositcoin:string =ApiUrl.SERVER3+'/dposnoderpc/check/getdepositcoin';
 }
