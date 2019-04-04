@@ -364,6 +364,7 @@ export const zh = {
   'error-20046':'(ERR-20046)此钱包已签名',
   'error-20047':'(ERR-20047)AES加密错误',
   'error-20048':'(ERR-20048)验签失败',
+  'error-20049':'(ERR-20049)交易确认中',
   'error-29999':'(ERR-29999)其它错误',
   'modify-wallet-name': '修改钱包名字',
   'load-more': '加载更多',
