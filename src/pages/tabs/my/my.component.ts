@@ -70,7 +70,7 @@ export class MyComponent{
           this.getMasterWalletBasicInfo();
     });
     this.masterWalletId = Config.getCurMasterWalletId();
-    this.getAllMyTransaction();
+    //this.getAllMyTransaction();
     this.getMasterWalletBasicInfo();
   }
 
