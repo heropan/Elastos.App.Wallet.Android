@@ -17,6 +17,8 @@ export class TxdetailsPage {
   public raw:string;
   public txHash:string;
   public singPublickey = [];
+  public M;
+  public N;
   constructor(public navCtrl: NavController, public navParams: NavParams,public popupProvider:PopupProvider,public native:Native,public walletManager:WalletManager) {
     this.type = this.navParams.data["type"];
     this.txDetails = JSON.parse(this.navParams.data['content'])['tx'];
@@ -93,6 +95,8 @@ export class TxdetailsPage {
                            if(data["success"]){
                              this.native.info(data["success"]);
                              this.singPublickey = JSON.parse(data["success"])[0]["Signers"] || [];
+                             this.M = JSON.parse(data["success"])[0]["M"];
+                             this.N = JSON.parse(data["success"])[0]["N"];
                              this.native.info(this.singPublickey);
                            }
         });

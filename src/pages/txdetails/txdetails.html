@@ -40,7 +40,12 @@
         <li class="bottom-border">
             {{txDetails['fee']}}
         </li>
-
+        <li>
+            M/N
+        </li>
+        <li class="bottom-border">
+            {{M}}/{{N}}
+        </li>
         <li *ngIf="singPublickey.length > 0">
             {{'already-signed-publickey' | translate}}
         </li>
